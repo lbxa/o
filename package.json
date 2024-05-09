@@ -1,6 +1,9 @@
 {
   "name": "native-app",
   "version": "1.0.0",
+  "engines": {
+    "node": "^20.12.2"
+  },
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
