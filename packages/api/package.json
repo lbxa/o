@@ -1,0 +1,13 @@
+{
+  "name": "@o/api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@o/tsconfig": "workspace:*",
+    "@o/eslint": "workspace:*"
+  }
+}
