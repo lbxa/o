@@ -13,7 +13,9 @@ export default function SignIn() {
           <PrimaryTextInput placeholder="name@email.com" inputMode="email"/>
           <PrimaryPasswordInput placeholder="Password"/>
           <PrimaryPasswordInput placeholder="Repeat password"/>
+
           <PrimaryButton title="Join the community"></PrimaryButton>
+
         </View>
       </ScrollView>
     </SafeAreaView>
