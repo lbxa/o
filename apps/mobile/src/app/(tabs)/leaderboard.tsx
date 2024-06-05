@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
-import { LeaderboardCard } from '../universe/molecules';
-import { Card } from '../universe/atoms';
+import { Card } from '@universe/atoms';
+import { LeaderboardCard } from '@universe/molecules';
 
 export default function Leaderboard() {
   interface Person {rank: number, name: string; time: string; icon: string}
@@ -17,7 +17,7 @@ export default function Leaderboard() {
   
   return (
     <ScrollView>
-      <View className="flex px-4 w-full justify-center shadow-lg mt-5">
+      <View className="flex px-4 w-full justify-center mt-5">
         <Card>
           <Text className='text-xl font-bold mb-2'>Welcome to GymX's weekly challenge</Text>
           <Text>
