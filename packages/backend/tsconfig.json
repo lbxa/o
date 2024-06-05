@@ -1,0 +1,9 @@
+{
+  "extends": "@o/tsconfig/base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {},
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  },
+}

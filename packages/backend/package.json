@@ -1,0 +1,23 @@
+{
+  "name": "@o/backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "type-check": "tsc",
+    "lint": "eslint ."
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^10.3.9",
+    "@nestjs/core": "^10.3.9",
+    "@nestjs/testing": "^10.3.9",
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.4.0",
+    "typescript": "~5.3.3"
+  }
+}
