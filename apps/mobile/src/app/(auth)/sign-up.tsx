@@ -1,4 +1,5 @@
-import { Card, PrimaryButton, PrimaryTextInput } from "@universe/atoms";
+import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
+import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import React from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 
@@ -7,14 +8,12 @@ export default function SignIn() {
     <SafeAreaView>
       <ScrollView className="h-full"> 
         <View className="px-md">
-          <Card>
-            <Text className="font-mono text-center text-3xl font-light">Welcome to CHAMP</Text>
-          </Card>
+          <Text className="text-3xl font-black mb-sm">Sign Up</Text>
           <PrimaryTextInput placeholder="Username" inputMode="text"/>
           <PrimaryTextInput placeholder="name@email.com" inputMode="email"/>
-          <PrimaryTextInput placeholder="Password" secureTextEntry/>
-          <PrimaryTextInput placeholder="Repeat password" secureTextEntry/>
-          <PrimaryButton title="Join the journey"></PrimaryButton>
+          <PrimaryPasswordInput placeholder="Password"/>
+          <PrimaryPasswordInput placeholder="Repeat password"/>
+          <PrimaryButton title="Join the community"></PrimaryButton>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -12,7 +12,7 @@ export default function RootLayout() {
           statusBarTranslucent: true,
           headerShown: false,
         }}>
-          <Stack.Screen name="(auth)"/>
+          {/* <Stack.Screen name="(auth)"/> */}
         </Stack>
       </SafeAreaProvider>
     </ThemeProvider>
