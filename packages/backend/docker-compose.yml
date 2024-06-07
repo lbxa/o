@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-dev
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ilovewinning
+      MYSQL_DATABASE: champ
+      MYSQL_USER: champ_server
+      MYSQL_PASSWORD: ilovewinning
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql-data:
+    driver: local

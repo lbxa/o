@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint --fix .",
+    "type-check": "tsc",
+    "dev": "gql-gen --config codegen.ts --watch"
   },
   "license": "ISC",
   "dependencies": {
-    "@o/tsconfig": "workspace:*",
-    "@o/eslint": "workspace:*"
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@parcel/watcher": "^2.4.1",
+    "graphql-codegen-typescript-common": "0.18.2"
   }
 }

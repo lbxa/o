@@ -5,5 +5,10 @@ export default [
   {
     ignores: ["dist/**", "node_modules"]
   },
-  ...baseConfig
+  ...baseConfig,
+  {
+    rules: {
+      '@typescript-eslint/interface-name-prefix': 'off',
+    }
+  }
 ]

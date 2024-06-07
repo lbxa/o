@@ -1,5 +1,5 @@
 {
-  "name": "native-app",
+  "name": "@o/mobile",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "type": "module",
@@ -16,6 +16,7 @@
     "@o/eslint": "workspace:*",
     "@o/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
+    "@o/api": "workspace:*",
     "@react-navigation/native": "^6.1.17",
     "expo": "^51.0.1",
     "expo-constants": "~16.0.1",

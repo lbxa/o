@@ -28,7 +28,7 @@ export default function Leaderboard() {
         </Card>
 
         <Text className="text-3xl font-black mb-4">Position</Text>
-        <LeaderboardCard {...leaderboardData[0]}/>
+        <LeaderboardCard {...leaderboardData[0]!}/>
 
         <Text className="text-3xl font-black my-5">Leaderboard</Text>
         

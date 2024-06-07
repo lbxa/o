@@ -1,0 +1,7 @@
+type Post {
+  id: Int!
+}
+
+type Query {
+  health: String! 
+}

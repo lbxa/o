@@ -1,29 +1,10 @@
 {
-  "monorepo": true,
-  "root": "apps/o-backend",
-  "sourceRoot": "apps/o-backend/src",
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
   "compilerOptions": {
-    "webpack": true,
-    "tsConfigPath": "apps/o-backend/tsconfig.app.json"
-  },
-  "projects": {
-    "o-backend": {
-      "type": "application",
-      "root": "apps/o-backend",
-      "entryFile": "main",
-      "sourceRoot": "apps/o-backend/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/o-backend/tsconfig.app.json"
-      }
-    },
-    "backend": {
-      "type": "application",
-      "root": "apps/backend",
-      "entryFile": "main",
-      "sourceRoot": "apps/backend/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/backend/tsconfig.app.json"
-      }
-    }
+    "deleteOutDir": true,
+    "builder": "swc",
+    "typeCheck": true
   }
 }
