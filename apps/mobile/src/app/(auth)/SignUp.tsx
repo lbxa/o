@@ -2,9 +2,8 @@ import React from "react";
 import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
-import { useLazyLoadQuery } from "react-relay";
-import { graphql } from "relay-runtime";
-import type { signUpQuery } from "./__generated__/signUpQuery.graphql";
+import { graphql, useLazyLoadQuery } from "react-relay";
+import type { SignUpUserQuery } from "./__generated__/SignUpUserQuery.graphql";
 
 // const UserProfileFragment = graphql`
 //   fragment signUpUserFragment on User {
@@ -16,7 +15,7 @@ import type { signUpQuery } from "./__generated__/signUpQuery.graphql";
 // `;
 
 const UserProfileQuery = graphql`
-  query signUpQuery($id: Int!) {
+  query SignUpUserQuery($id: Int!) {
     user(id: $id) {
        _id: id
         firstName
@@ -26,8 +25,8 @@ const UserProfileQuery = graphql`
   }
 `;
 
-export default function SignIn() {
-  const { user } = useLazyLoadQuery<signUpQuery>(UserProfileQuery, { id: 1 });
+export default function SignUp() {
+  const { user } = useLazyLoadQuery<SignUpUserQuery>(UserProfileQuery, { id: 1 });
 
   return (
     <SafeAreaView>

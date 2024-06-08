@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<80fed8e8aec515b6b695e2db87d177bc>>
+ * @generated SignedSource<<cfb045267c9c327918301a9f61c61e0b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,10 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type signUpQuery$variables = {
+export type SignUpUserQuery$variables = {
   id: number;
 };
-export type signUpQuery$data = {
+export type SignUpUserQuery$data = {
   readonly user: {
     readonly _id: number | null | undefined;
     readonly email: string | null | undefined;
@@ -20,9 +20,9 @@ export type signUpQuery$data = {
     readonly lastName: string | null | undefined;
   } | null | undefined;
 };
-export type signUpQuery = {
-  response: signUpQuery$data;
-  variables: signUpQuery$variables;
+export type SignUpUserQuery = {
+  response: SignUpUserQuery$data;
+  variables: SignUpUserQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -85,7 +85,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "signUpQuery",
+    "name": "SignUpUserQuery",
     "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -94,20 +94,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "signUpQuery",
+    "name": "SignUpUserQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "27aebf01800bf6fcf3e534e40b6cca09",
+    "cacheID": "da1c778b6588e6df9fa28e12563761ea",
     "id": null,
     "metadata": {},
-    "name": "signUpQuery",
+    "name": "SignUpUserQuery",
     "operationKind": "query",
-    "text": "query signUpQuery(\n  $id: Int!\n) {\n  user(id: $id) {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n}\n"
+    "text": "query SignUpUserQuery(\n  $id: Int!\n) {\n  user(id: $id) {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c4df7ff6900765b9edfc93ea9c39ad3d";
+(node as any).hash = "92e41a0eb55fc7fa148b8a4521cf8780";
 
 export default node;
