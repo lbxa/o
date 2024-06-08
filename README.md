@@ -1,5 +1,5 @@
-<center><h1>O</h1></center>
+<div align="center"><h1>O</h1></div>
 
-<center>
+<div align="center">
 `pnpm install` then `pnpm dev`, welcome.
-</center>
+</div>
