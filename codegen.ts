@@ -2,11 +2,14 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
  
 const config: CodegenConfig = {
   overwrite: true,
-  // schema: 'http://localhost:6969/graphql',
-  schema: '../backend/**/*.graphql',
-  emitLegacyCommonJSImports: false,
+  schema: 'http://localhost:6969/graphql',
+  ignoreNoDocuments: true,
+  documents: [
+    'packages/*/src/**/*.graphql',
+    'apps/*/src/**/*.{ts,tsx}',
+  ],
   generates: {
-    './src/gql/': {
+    './packages/api/gql/': {
       preset: 'client'
     }
   },

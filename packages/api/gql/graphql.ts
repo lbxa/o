@@ -38,6 +38,7 @@ export type MutationUpdateUserArgs = {
 
 export type Post = {
   __typename?: 'Post';
+  content: Scalars['String']['output'];
   id: Scalars['Int']['output'];
 };
 

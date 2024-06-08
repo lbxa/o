@@ -17,6 +17,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "//#gql": {
+      "cache": false,
+      "persistent": true
     }
   }
 }

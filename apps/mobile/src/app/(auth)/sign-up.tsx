@@ -1,7 +1,11 @@
+import type { User, Post } from "@o/api";
 import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import React from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
+
+const p: Post = {};
+const u: User = {};
 
 export default function SignIn() {
   return (

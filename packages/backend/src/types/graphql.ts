@@ -22,6 +22,7 @@ export interface UpdateUserInput {
 export interface Post {
     __typename?: 'Post';
     id: number;
+    content: string;
 }
 
 export interface IQuery {
