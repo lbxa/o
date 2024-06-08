@@ -16,8 +16,6 @@
     "src",
     "*.ts",
     "*.js",
-    "metro.config.cjs", 
-    "babel.config.cjs", 
   ],
   "exclude": [
     "node_modules"

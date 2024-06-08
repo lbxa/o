@@ -9,8 +9,14 @@ const config: CodegenConfig = {
     'apps/*/src/**/*.{ts,tsx}',
   ],
   generates: {
-    './packages/api/gql/': {
-      preset: 'client'
+    // './packages/api/gql/': {
+    //   preset: 'client'
+    // },
+    './packages/api/schema.graphql': {
+      plugins: ['schema-ast'],
+      config: {
+        includeDirectives: true
+      }
     }
   },
   watch: true

@@ -1,13 +1,34 @@
-import type { User, Post } from "@o/api";
+import React from "react";
 import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
-import React from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { useLazyLoadQuery } from "react-relay";
+import { graphql } from "relay-runtime";
+import type { signUpQuery } from "./__generated__/signUpQuery.graphql";
 
-const p: Post = {};
-const u: User = {};
+// const UserProfileFragment = graphql`
+//   fragment signUpUserFragment on User {
+//     _id: id
+//     firstName
+//     lastName 
+//     email
+//   }
+// `;
+
+const UserProfileQuery = graphql`
+  query signUpQuery($id: Int!) {
+    user(id: $id) {
+       _id: id
+        firstName
+        lastName 
+        email
+    }
+  }
+`;
 
 export default function SignIn() {
+  const { user } = useLazyLoadQuery<signUpQuery>(UserProfileQuery, { id: 1 });
+
   return (
     <SafeAreaView>
       <ScrollView className="h-full"> 
@@ -19,6 +40,8 @@ export default function SignIn() {
           <PrimaryPasswordInput placeholder="Repeat password"/>
 
           <PrimaryButton title="Join the community"></PrimaryButton>
+
+          <Text>{user?._id + ': ' + user?.firstName + ' ' + user?.lastName}</Text>
 
         </View>
       </ScrollView>

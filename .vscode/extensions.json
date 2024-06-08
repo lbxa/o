@@ -3,6 +3,7 @@
     "dbaeumer.vscode-eslint",
     "expo.vscode-expo-tools",
     "yoavbls.pretty-ts-errors",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "meta.relay"
   ]
 }

@@ -7,13 +7,14 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev gql",
+    "dev": "turbo dev gql relay",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "gql": "gql-gen --config codegen.ts"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/schema-ast": "^4.0.2",
     "@parcel/watcher": "^2.4.1",
     "turbo": "latest"
   },

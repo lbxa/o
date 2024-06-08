@@ -18,9 +18,15 @@
       "cache": false,
       "persistent": true
     },
+    "relay": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    },
     "//#gql": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": ["^dev"]
     }
   }
 }
