@@ -9,7 +9,7 @@ const config: CodegenConfig = {
     'apps/*/src/**/*.{ts,tsx}',
   ],
   generates: {
-    // './packages/api/gql/': {
+    // './packages/api/gql/': { UNCOMMENT LATER WHEN ADDING NEW FRONTENDS
     //   preset: 'client'
     // },
     './packages/api/schema.graphql': {
