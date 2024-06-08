@@ -1,0 +1,38 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Post {
+  content: String!
+  id: Int!
+}
+
+type Query {
+  health: String!
+  user(id: Int!): User
+}
+
+input UpdateUserInput {
+  firstName: String!
+  id: Int!
+  lastName: String!
+}
+
+type User {
+  email: String
+  firstName: String
+  id: Int
+  lastName: String
+  verified: String
+}

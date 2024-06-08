@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "cache": true,
+      "dependsOn": ["^lint"]
+    },
+    "type-check": {
+      "cache": true,
+      "dependsOn": ["^type-check"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "relay": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    },
+    "//#gql": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    }
+  }
+}

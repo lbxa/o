@@ -1,0 +1,15 @@
+{
+  "name": "@o/api",
+  "version": "1.0.0",
+  "type": "module",
+  "types": "./index.d.ts",
+  "scripts": {
+    "lint": "eslint --fix .",
+    "type-check": "tsc"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*"
+  }
+}

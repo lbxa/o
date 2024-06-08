@@ -1,0 +1,23 @@
+{
+  "extends": "@o/tsconfig/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@universe/*": ["src/universe/*"],
+    },
+    "jsx": "react-native",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "types": [
+      "nativewind/types"
+    ],
+    "checkJs": false
+  },
+  "include": [
+    "src",
+    "*.ts",
+    "*.js",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
