@@ -33,11 +33,9 @@ input UpdateUserInput {
 }
 
 type User {
-  anotherRandomFieldForTest: Int
   email: String
   firstName: String
   handle: String
   id: Int
   lastName: String
-  randomFieldForTest: Int
 }

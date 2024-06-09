@@ -11,8 +11,6 @@ input CreateUserInput {
   lastName: String!
   handle: String
   email: String!
-  superQuickChanges: String
-  wellThatWasQuick: String
 }
 
 input UpdateUserInput {

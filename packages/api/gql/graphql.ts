@@ -65,13 +65,11 @@ export type UpdateUserInput = {
 
 export type User = {
   __typename?: 'User';
-  anotherRandomFieldForTest?: Maybe<Scalars['Int']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
   handle?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
-  randomFieldForTest?: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserCreateMutationMutationVariables = Exact<{

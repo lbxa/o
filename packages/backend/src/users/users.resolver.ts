@@ -11,7 +11,6 @@ export class UsersResolver {
   @Mutation('createUser')
   @UseFilters(HttpExceptionFilter)
   create(@Args('createUserInput') createUserInput: CreateUserInput) {
-    console.log("TRYING TO CREATE A USER");
     return this.usersService.create(createUserInput);
   }
 

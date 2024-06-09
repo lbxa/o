@@ -13,8 +13,6 @@ export interface CreateUserInput {
     lastName: string;
     handle?: Nullable<string>;
     email: string;
-    superQuickChanges?: Nullable<string>;
-    wellThatWasQuick?: Nullable<string>;
 }
 
 export interface UpdateUserInput {
