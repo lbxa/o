@@ -4,8 +4,10 @@ schema {
 }
 
 input CreateUserInput {
+  email: String!
   firstName: String!
   lastName: String!
+  verified: Boolean!
 }
 
 type Mutation {
@@ -24,6 +26,7 @@ type Query {
 }
 
 input UpdateUserInput {
+  email: String!
   firstName: String!
   id: Int!
   lastName: String!
@@ -34,5 +37,5 @@ type User {
   firstName: String
   id: Int
   lastName: String
-  verified: String
+  verified: Boolean
 }

@@ -3,18 +3,21 @@ type User {
   firstName: String
   lastName: String 
   email: String
-  verified: String
+  verified: Boolean
 }
 
 input CreateUserInput {
   firstName: String!
   lastName: String!
+  email: String!
+  verified: Boolean!
 }
 
 input UpdateUserInput {
   id: Int!
   firstName: String!
   lastName: String!
+  email: String!
 }
 
 type Query {
