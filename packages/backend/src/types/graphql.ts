@@ -11,12 +11,15 @@
 export interface CreateUserInput {
     firstName: string;
     lastName: string;
+    handle?: Nullable<string>;
+    email: string;
 }
 
 export interface UpdateUserInput {
     id: number;
     firstName: string;
     lastName: string;
+    email: string;
 }
 
 export interface Post {
@@ -34,10 +37,10 @@ export interface IQuery {
 export interface User {
     __typename?: 'User';
     id?: Nullable<number>;
+    handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     email?: Nullable<string>;
-    verified?: Nullable<string>;
 }
 
 export interface IMutation {

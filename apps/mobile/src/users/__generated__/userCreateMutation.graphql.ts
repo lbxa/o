@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cfb045267c9c327918301a9f61c61e0b>>
+ * @generated SignedSource<<96117c36e6ca368de5f3ef31dd622a1c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,21 +8,27 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type SignUpUserQuery$variables = {
-  id: number;
+import { ConcreteRequest, Mutation } from 'relay-runtime';
+export type CreateUserInput = {
+  email: string;
+  firstName: string;
+  handle?: string | null | undefined;
+  lastName: string;
 };
-export type SignUpUserQuery$data = {
-  readonly user: {
+export type userCreateMutation$variables = {
+  userInput: CreateUserInput;
+};
+export type userCreateMutation$data = {
+  readonly createUser: {
     readonly _id: number | null | undefined;
     readonly email: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly lastName: string | null | undefined;
-  } | null | undefined;
+  };
 };
-export type SignUpUserQuery = {
-  response: SignUpUserQuery$data;
-  variables: SignUpUserQuery$variables;
+export type userCreateMutation = {
+  response: userCreateMutation$data;
+  variables: userCreateMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -30,7 +36,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "id"
+    "name": "userInput"
   }
 ],
 v1 = [
@@ -39,13 +45,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "id",
-        "variableName": "id"
+        "name": "createUserInput",
+        "variableName": "userInput"
       }
     ],
     "concreteType": "User",
     "kind": "LinkedField",
-    "name": "user",
+    "name": "createUser",
     "plural": false,
     "selections": [
       {
@@ -85,29 +91,29 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "SignUpUserQuery",
+    "name": "userCreateMutation",
     "selections": (v1/*: any*/),
-    "type": "Query",
+    "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "SignUpUserQuery",
+    "name": "userCreateMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "da1c778b6588e6df9fa28e12563761ea",
+    "cacheID": "51e87d877ac39ced6998742deabff3b4",
     "id": null,
     "metadata": {},
-    "name": "SignUpUserQuery",
-    "operationKind": "query",
-    "text": "query SignUpUserQuery(\n  $id: Int!\n) {\n  user(id: $id) {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n}\n"
+    "name": "userCreateMutation",
+    "operationKind": "mutation",
+    "text": "mutation userCreateMutation(\n  $userInput: CreateUserInput!\n) {\n  createUser(createUserInput: $userInput) {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "92e41a0eb55fc7fa148b8a4521cf8780";
+(node as any).hash = "e98a618484ec71e0e99a9299c8e230c0";
 
 export default node;

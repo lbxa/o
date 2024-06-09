@@ -1,20 +1,23 @@
 type User {
   id: Int
+  handle: String
   firstName: String
   lastName: String 
   email: String
-  verified: String
 }
 
 input CreateUserInput {
   firstName: String!
   lastName: String!
+  handle: String
+  email: String!
 }
 
 input UpdateUserInput {
   id: Int!
   firstName: String!
   lastName: String!
+  email: String!
 }
 
 type Query {

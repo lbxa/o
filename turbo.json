@@ -23,7 +23,12 @@
       "persistent": true,
       "dependsOn": ["^dev"]
     },
-    "//#gql": {
+    "gen": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    },
+    "//#gen": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^dev"]
