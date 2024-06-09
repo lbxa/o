@@ -1,16 +1,19 @@
 type User {
   id: Int
+  handle: String
+  randomFieldForTest: Int 
+  anotherRandomFieldForTest: Int
+  yetAnotherRandomFieldForTest: Int
   firstName: String
   lastName: String 
   email: String
-  verified: Boolean
 }
 
 input CreateUserInput {
   firstName: String!
   lastName: String!
+  handle: String
   email: String!
-  verified: Boolean!
 }
 
 input UpdateUserInput {

@@ -19,8 +19,8 @@ export type Scalars = {
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
+  handle?: InputMaybe<Scalars['String']['input']>;
   lastName: Scalars['String']['input'];
-  verified: Scalars['Boolean']['input'];
 };
 
 export type Mutation = {
@@ -65,19 +65,21 @@ export type UpdateUserInput = {
 
 export type User = {
   __typename?: 'User';
+  anotherRandomFieldForTest?: Maybe<Scalars['Int']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
+  handle?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
-  verified?: Maybe<Scalars['Boolean']['output']>;
+  randomFieldForTest?: Maybe<Scalars['Int']['output']>;
 };
 
-export type SignUpUserQueryQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+export type UserCreateMutationMutationVariables = Exact<{
+  userInput: CreateUserInput;
 }>;
 
 
-export type SignUpUserQueryQuery = { __typename?: 'Query', user?: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, _id?: number | null } | null };
+export type UserCreateMutationMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, _id?: number | null } };
 
 
-export const SignUpUserQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignUpUserQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<SignUpUserQueryQuery, SignUpUserQueryQueryVariables>;
+export const UserCreateMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"userCreateMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<UserCreateMutationMutation, UserCreateMutationMutationVariables>;

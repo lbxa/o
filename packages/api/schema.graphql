@@ -6,8 +6,8 @@ schema {
 input CreateUserInput {
   email: String!
   firstName: String!
+  handle: String
   lastName: String!
-  verified: Boolean!
 }
 
 type Mutation {
@@ -33,9 +33,11 @@ input UpdateUserInput {
 }
 
 type User {
+  anotherRandomFieldForTest: Int
   email: String
   firstName: String
+  handle: String
   id: Int
   lastName: String
-  verified: Boolean
+  randomFieldForTest: Int
 }
