@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { db } from '../db/conn';
 import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
-import { CreateUserInput, UpdateUserInput } from '@o/api';
+import { CreateUserInput, UpdateUserInput } from '../types/graphql';
 
 @Injectable()
 export class UsersService {

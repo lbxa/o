@@ -1,9 +1,6 @@
 type User {
   id: Int
   handle: String
-  randomFieldForTest: Int 
-  anotherRandomFieldForTest: Int
-  yetAnotherRandomFieldForTest: Int
   firstName: String
   lastName: String 
   email: String
@@ -14,6 +11,8 @@ input CreateUserInput {
   lastName: String!
   handle: String
   email: String!
+  superQuickChanges: String
+  wellThatWasQuick: String
 }
 
 input UpdateUserInput {

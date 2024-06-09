@@ -18,6 +18,11 @@
       "cache": false,
       "persistent": true
     },
+    "gen": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    },
     "relay": {
       "cache": false,
       "persistent": true,
