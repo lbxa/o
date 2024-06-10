@@ -4,6 +4,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: 'http://localhost:6969/graphql',
   ignoreNoDocuments: true,
+  watch: true,
   documents: [
     'packages/*/src/**/*.graphql',
     'apps/*/src/**/*.{ts,tsx}',
@@ -19,7 +20,6 @@ const config: CodegenConfig = {
       }
     }
   },
-  watch: true
 };
  
 export default config;
