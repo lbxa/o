@@ -4,13 +4,14 @@ type User {
   firstName: String
   lastName: String 
   email: String
+  password: String
 }
 
 input CreateUserInput {
   firstName: String!
   lastName: String!
-  handle: String
   email: String!
+  password: String!
 }
 
 input UpdateUserInput {
