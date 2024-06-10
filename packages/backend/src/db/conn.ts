@@ -13,7 +13,7 @@ void (async () => {
     database: "champ",
     port: 3306,
     password: "ilovewinning",
-    multipleStatements: true
+    multipleStatements: true,
   });
 
   db = drizzle(connection, { schema, mode: "default" });

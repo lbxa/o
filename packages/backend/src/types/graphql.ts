@@ -1,18 +1,21 @@
-
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
+export interface UserLoginInput {
+    email: string;
+    password: string;
+}
 
 export interface CreateUserInput {
     firstName: string;
     lastName: string;
-    handle?: Nullable<string>;
     email: string;
+    password: string;
 }
 
 export interface UpdateUserInput {
@@ -20,6 +23,13 @@ export interface UpdateUserInput {
     firstName: string;
     lastName: string;
     email: string;
+}
+
+export interface IMutation {
+    __typename?: 'IMutation';
+    login(userLoginInput: UserLoginInput): Nullable<User> | Promise<Nullable<User>>;
+    createUser(createUserInput: CreateUserInput): User | Promise<User>;
+    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
 }
 
 export interface Post {
@@ -41,12 +51,7 @@ export interface User {
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     email?: Nullable<string>;
-}
-
-export interface IMutation {
-    __typename?: 'IMutation';
-    createUser(createUserInput: CreateUserInput): User | Promise<User>;
-    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
+    password?: Nullable<string>;
 }
 
 type Nullable<T> = T | null;
