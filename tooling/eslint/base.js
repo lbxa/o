@@ -3,6 +3,9 @@
 import eslint from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
+import stylisticTs from '@stylistic/eslint-plugin-ts'
+import stylisticJs from '@stylistic/eslint-plugin-js'
+import prettierPlugin from "eslint-plugin-prettier";
 
 export default tseslint.config(
   {
@@ -13,6 +16,9 @@ export default tseslint.config(
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
     plugins: {
       import: importPlugin,
+      '@stylistic/ts': stylisticTs,
+      '@stylistic/js': stylisticJs,
+      prettier: prettierPlugin
     },
     extends: [
       eslint.configs.recommended,
@@ -21,7 +27,16 @@ export default tseslint.config(
       ...tseslint.configs.stylisticTypeChecked,
     ],
     rules: {
-      "semi": ["error", "always"],
+      "prettier/prettier": ["error", {
+        singleQuote: false,
+        trailingComma: "es5",
+        bracketSpacing: true,
+        jsxBracketSameLine: false,
+        tabWidth: 2,
+        semi: true,
+        useTabs: false
+      }],
+      "@stylistic/js/max-len": ["error", { "code": 80 } ],
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
