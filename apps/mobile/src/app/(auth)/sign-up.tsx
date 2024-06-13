@@ -1,34 +1,12 @@
 import React, { useRef } from "react";
-import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
+import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
-import type { GestureResponderEvent } from "react-native";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useMutation } from "react-relay";
-import { UserCreateMutation } from "../../users";
-import type { userCreateMutation } from "../../users/__generated__/userCreateMutation.graphql";
+import { UserSignupMutation } from "../../users";
 import { Controller, useForm } from "react-hook-form";
 import type { CreateUserInput } from "@o/api";
-import { graphql } from "react-relay";
-
-// const UserProfileFragment = graphql`
-//   fragment signUpUserFragment on User {
-//     _id: id
-//     firstName
-//     lastName
-//     email
-//   }
-// `;
-
-// const UserProfileQuery = graphql`
-//   query signUpUserQuery($id: Int!) {
-//     user(id: $id) {
-//        _id: id
-//         firstName
-//         lastName
-//         email
-//     }
-//   }
-// `;
+import type { userSignupMutation } from "../../__generated__/userSignupMutation.graphql";
 
 type UserSignUpFormFields = {
   passwordRepeat: string;
@@ -36,7 +14,7 @@ type UserSignUpFormFields = {
 
 export default function SignUp() {
   const [commitMutation, isMutationInFlight] =
-    useMutation<userCreateMutation>(UserCreateMutation);
+    useMutation<userSignupMutation>(UserSignupMutation);
 
   const {
     control,
@@ -74,9 +52,9 @@ export default function SignUp() {
             <Controller
               name="firstName"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: { value: true, message: "Required field" } }}
               render={({ field: { onBlur, onChange, value } }) => (
-                <PrimaryTextInput
+                <PrimaryTextInputControl
                   className="flex-1"
                   placeholder="First Name"
                   inputMode="text"
@@ -84,15 +62,16 @@ export default function SignUp() {
                   onChangeText={onChange}
                   value={value}
                   error={!!errors.firstName}
+                  errorMessage={errors.firstName?.message}
                 />
               )}
             />
             <Controller
               name="lastName"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: { value: true, message: "Required field" } }}
               render={({ field: { onBlur, onChange, value } }) => (
-                <PrimaryTextInput
+                <PrimaryTextInputControl
                   className="flex-1"
                   placeholder="Last Name"
                   inputMode="text"
@@ -100,6 +79,7 @@ export default function SignUp() {
                   onChangeText={onChange}
                   value={value}
                   error={!!errors.lastName}
+                  errorMessage={errors.lastName?.message}
                 />
               )}
             />
@@ -109,14 +89,14 @@ export default function SignUp() {
             name="email"
             control={control}
             rules={{
-              required: true,
+              required: { value: true, message: "Required field" },
               pattern: {
                 value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
                 message: "Invalid email",
               },
             }}
             render={({ field: { onBlur, onChange, value } }) => (
-              <PrimaryTextInput
+              <PrimaryTextInputControl
                 className="mb-md"
                 placeholder="email@address.com"
                 inputMode="email"
@@ -124,6 +104,7 @@ export default function SignUp() {
                 onChangeText={onChange}
                 value={value}
                 error={!!errors.email}
+                errorMessage={errors.email?.message}
               />
             )}
           />
@@ -132,7 +113,7 @@ export default function SignUp() {
             name="password"
             control={control}
             rules={{
-              required: true,
+              required: { value: true, message: "Required field" },
               minLength: {
                 value: 8,
                 message: "Password must be > 8 characters",
@@ -145,6 +126,7 @@ export default function SignUp() {
                 onChangeText={onChange}
                 value={value}
                 error={!!errors.password}
+                errorMessage={errors.password?.message}
               />
             )}
           />
@@ -153,7 +135,7 @@ export default function SignUp() {
             name="passwordRepeat"
             control={control}
             rules={{
-              required: true,
+              required: { value: true, message: "Required field" },
               minLength: {
                 value: 8,
                 message: "Password must be > 8 characters",
@@ -169,18 +151,20 @@ export default function SignUp() {
                 onChangeText={onChange}
                 value={value}
                 error={!!errors.passwordRepeat}
+                errorMessage={errors.passwordRepeat?.message}
               />
             )}
           />
 
           <PrimaryButton
-            title="Join the community"
+            title={isMutationInFlight ? "Loading..." : "Join the community"}
             disabled={isMutationInFlight}
-            onPress={(e) => {
+            onPress={async (e) => {
+              e.persist();
+              e.preventDefault();
               // Read more about event pooling
               // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-              e.persist();
-              handleSubmit(onSubmit);
+              await handleSubmit(onSubmit)(e);
             }}
           ></PrimaryButton>
         </View>

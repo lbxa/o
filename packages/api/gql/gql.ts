@@ -13,7 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation userCreateMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      _id: id\n      firstName\n      lastName\n      email\n    }\n  }\n": types.UserCreateMutationDocument,
+    "\n  fragment userSignupFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n": types.UserSignupFragmentFragmentDoc,
+    "\n  mutation userSignupMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      ...userSignupFragment\n    }\n  }\n": types.UserSignupMutationDocument,
 };
 
 /**
@@ -33,7 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation userCreateMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      _id: id\n      firstName\n      lastName\n      email\n    }\n  }\n"): (typeof documents)["\n  mutation userCreateMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      _id: id\n      firstName\n      lastName\n      email\n    }\n  }\n"];
+export function graphql(source: "\n  fragment userSignupFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n"): (typeof documents)["\n  fragment userSignupFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation userSignupMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      ...userSignupFragment\n    }\n  }\n"): (typeof documents)["\n  mutation userSignupMutation($userInput: CreateUserInput!) {\n    createUser(createUserInput: $userInput) {\n      ...userSignupFragment\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
