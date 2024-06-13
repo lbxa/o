@@ -33,6 +33,7 @@
     "@o/api": "workspace:*",
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
+    "argon2": "^0.40.3",
     "drizzle-orm": "^0.31.1",
     "graphql": "^16.8.1",
     "mysql2": "^3.10.0",

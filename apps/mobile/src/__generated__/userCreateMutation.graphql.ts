@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<96117c36e6ca368de5f3ef31dd622a1c>>
+ * @generated SignedSource<<5abbfc02a7e3a280513f2f37a98a893e>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -12,8 +11,8 @@ import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type CreateUserInput = {
   email: string;
   firstName: string;
-  handle?: string | null | undefined;
   lastName: string;
+  password: string;
 };
 export type userCreateMutation$variables = {
   userInput: CreateUserInput;

@@ -1,28 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { db } from '../db/conn';
-import { users } from '../db/schema';
-import { eq } from 'drizzle-orm';
-import { CreateUserInput, UpdateUserInput } from '../types/graphql';
+import { Injectable } from "@nestjs/common";
+import { db } from "../db/conn";
+import { users } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { CreateUserInput, UpdateUserInput, User } from "../types/graphql";
+import { PasswordService } from "../utils";
 
 @Injectable()
 export class UsersService {
+  constructor(private passwordService: PasswordService) {}
+
   async create(createUserInput: CreateUserInput) {
-    await db.insert(users).values(createUserInput);
-    return createUserInput;
+    const { password, ...restOfUser } = createUserInput;
+    const passwordHash =
+      await this.passwordService.generatePasswordHash(password);
+
+    await db.insert(users).values({ password: passwordHash, ...restOfUser });
+    return { password: passwordHash, ...restOfUser };
   }
 
   findAll() {
     return `This action returns all users`;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User | undefined> {
     const user = await db.select().from(users).where(eq(users.id, id));
     return user[0];
   }
 
   update(updateUserInput: UpdateUserInput) {
     return {
-      ...updateUserInput
+      ...updateUserInput,
     };
   }
 

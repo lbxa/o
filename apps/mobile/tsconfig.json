@@ -15,7 +15,7 @@
   "include": [
     "src",
     "*.ts",
-    "*.js",
+    "*.js", 
   ],
   "exclude": [
     "node_modules"
