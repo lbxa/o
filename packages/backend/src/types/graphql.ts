@@ -1,9 +1,11 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
  */
 
+/* tslint:disable */
 /* eslint-disable */
 
 export interface UserLoginInput {
@@ -20,9 +22,10 @@ export interface CreateUserInput {
 
 export interface UpdateUserInput {
     id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    handle?: Nullable<string>;
+    email?: Nullable<string>;
 }
 
 export interface IMutation {

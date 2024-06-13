@@ -19,19 +19,25 @@ export type Scalars = {
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
-  handle?: InputMaybe<Scalars['String']['input']>;
   lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
+  login?: Maybe<User>;
   updateUser: User;
 };
 
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
+};
+
+
+export type MutationLoginArgs = {
+  userLoginInput: UserLoginInput;
 };
 
 
@@ -57,10 +63,11 @@ export type QueryUserArgs = {
 };
 
 export type UpdateUserInput = {
-  email: Scalars['String']['input'];
-  firstName: Scalars['String']['input'];
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  handle?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
-  lastName: Scalars['String']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -70,6 +77,12 @@ export type User = {
   handle?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+};
+
+export type UserLoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type UserCreateMutationMutationVariables = Exact<{

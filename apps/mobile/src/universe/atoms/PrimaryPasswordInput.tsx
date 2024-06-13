@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { PrimaryTextInput } from "./PrimaryTextInput";
-import type { TextInputProps} from "react-native";
+import type { TextInputProps } from "react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 // import FontAwesome from '@expo/vector-icons/FontAwesome';
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 
-{/* <FontAwesome name="eye-slash" size={24} color="black" />; */}
+{
+  /* <FontAwesome name="eye-slash" size={24} color="black" />; */
+}
 
 export const PrimaryPasswordInput = (props: TextInputProps) => {
   const [visible, setVisible] = useState(false);
@@ -17,9 +19,9 @@ export const PrimaryPasswordInput = (props: TextInputProps) => {
 
   return (
     <View className="bg-white px-2 py-3 rounded-lg mb-md flex flex-row">
-      <PrimaryTextInput className="grow" secureTextEntry={visible} {...props}/>
+      <PrimaryTextInput className="grow" secureTextEntry={visible} {...props} />
       <TouchableOpacity className="pr-sm" onPress={onPress}>
-        <Text>{visible ? 'S' : 'H'}</Text>
+        <Text>{visible ? "S" : "H"}</Text>
       </TouchableOpacity>
     </View>
   );

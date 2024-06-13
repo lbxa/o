@@ -16,9 +16,10 @@ input CreateUserInput {
 
 input UpdateUserInput {
   id: Int!
-  firstName: String!
-  lastName: String!
-  email: String!
+  firstName: String
+  lastName: String
+  handle: String
+  email: String
 }
 
 type Query {

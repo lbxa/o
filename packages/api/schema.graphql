@@ -6,12 +6,13 @@ schema {
 input CreateUserInput {
   email: String!
   firstName: String!
-  handle: String
   lastName: String!
+  password: String!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  login(userLoginInput: UserLoginInput!): User
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
@@ -26,10 +27,11 @@ type Query {
 }
 
 input UpdateUserInput {
-  email: String!
-  firstName: String!
+  email: String
+  firstName: String
+  handle: String
   id: Int!
-  lastName: String!
+  lastName: String
 }
 
 type User {
@@ -38,4 +40,10 @@ type User {
   handle: String
   id: Int
   lastName: String
+  password: String
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
 }
