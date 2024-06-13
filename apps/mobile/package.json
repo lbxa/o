@@ -19,6 +19,7 @@
     "@o/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@react-navigation/native": "^6.1.17",
+    "classnames": "^2.5.1",
     "expo": "^51.0.1",
     "expo-constants": "~16.0.1",
     "expo-haptics": "^13.0.1",

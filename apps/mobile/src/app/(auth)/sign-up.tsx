@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
+import type { GestureResponderEvent } from "react-native";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useMutation } from "react-relay";
 import { UserCreateMutation } from "../../users";
 import type { userCreateMutation } from "../../users/__generated__/userCreateMutation.graphql";
 import { Controller, useForm } from "react-hook-form";
 import type { CreateUserInput } from "@o/api";
-// import { useLazyLoadQuery, graphql } from "react-relay";
-// import type { signUpUserQuery } from "./__generated__/signUpUserQuery.graphql";
+import { graphql } from "react-relay";
 
 // const UserProfileFragment = graphql`
 //   fragment signUpUserFragment on User {
@@ -30,8 +30,11 @@ import type { CreateUserInput } from "@o/api";
 //   }
 // `;
 
+type UserSignUpFormFields = {
+  passwordRepeat: string;
+} & CreateUserInput;
+
 export default function SignUp() {
-  // const { user } = useLazyLoadQuery<signUpUserQuery>(UserProfileQuery, { id: 1 });
   const [commitMutation, isMutationInFlight] =
     useMutation<userCreateMutation>(UserCreateMutation);
 
@@ -39,23 +42,25 @@ export default function SignUp() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateUserInput>({
+    watch,
+  } = useForm<UserSignUpFormFields>({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
+      password: "",
+      passwordRepeat: "",
     },
   });
 
+  const passwordRef = useRef({});
+  passwordRef.current = watch("password");
+
   const onSubmit = (data: CreateUserInput) => {
-    console.log(data);
+    const { firstName, lastName, email, password } = data;
     commitMutation({
       variables: {
-        userInput: {
-          firstName: "Erin",
-          lastName: "Jones",
-          email: "erin@jones.com",
-        },
+        userInput: { firstName, lastName, email, password },
       },
     });
   };
@@ -63,35 +68,121 @@ export default function SignUp() {
   return (
     <SafeAreaView>
       <ScrollView className="h-full">
-        <View className="px-md">
-          <Text className="text-3xl font-black mb-sm">Sign Up</Text>
+        <View className="w-full px-md">
+          <Text className="text-3xl font-black mb-md">Sign Up</Text>
+          <View className="flex flex-row justify-between mb-md gap-md">
+            <Controller
+              name="firstName"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onBlur, onChange, value } }) => (
+                <PrimaryTextInput
+                  className="flex-1"
+                  placeholder="First Name"
+                  inputMode="text"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  error={!!errors.firstName}
+                />
+              )}
+            />
+            <Controller
+              name="lastName"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onBlur, onChange, value } }) => (
+                <PrimaryTextInput
+                  className="flex-1"
+                  placeholder="Last Name"
+                  inputMode="text"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  error={!!errors.lastName}
+                />
+              )}
+            />
+          </View>
+
           <Controller
-            name="firstName"
+            name="email"
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "Invalid email",
+              },
+            }}
             render={({ field: { onBlur, onChange, value } }) => (
               <PrimaryTextInput
-                placeholder="Username"
-                inputMode="text"
+                className="mb-md"
+                placeholder="email@address.com"
+                inputMode="email"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                error={!!errors.email}
               />
             )}
           />
 
-          {errors.firstName && <Text>This is required!</Text>}
-          <PrimaryTextInput placeholder="name@email.com" inputMode="email" />
-          <PrimaryPasswordInput placeholder="Password" />
-          <PrimaryPasswordInput placeholder="Repeat password" />
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: true,
+              minLength: {
+                value: 8,
+                message: "Password must be > 8 characters",
+              },
+            }}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <PrimaryPasswordInput
+                placeholder="Password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                error={!!errors.password}
+              />
+            )}
+          />
+
+          <Controller
+            name="passwordRepeat"
+            control={control}
+            rules={{
+              required: true,
+              minLength: {
+                value: 8,
+                message: "Password must be > 8 characters",
+              },
+              validate: (repeatedPassword) =>
+                repeatedPassword === passwordRef.current ||
+                "Passwords do not match",
+            }}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <PrimaryPasswordInput
+                placeholder="Repeat Password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                error={!!errors.passwordRepeat}
+              />
+            )}
+          />
 
           <PrimaryButton
             title="Join the community"
             disabled={isMutationInFlight}
-            onPress={handleSubmit(onSubmit)}
+            onPress={(e) => {
+              // Read more about event pooling
+              // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+              e.persist();
+              handleSubmit(onSubmit);
+            }}
           ></PrimaryButton>
-
-          {/* <Text>{user?._id + ': ' + user?.firstName + ' ' + user?.lastName}</Text> */}
         </View>
       </ScrollView>
     </SafeAreaView>
