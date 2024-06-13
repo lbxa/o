@@ -27,6 +27,6 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.parameterTypes.enabled": true,
-  "relay.autoStartCompiler": true,
-  "relay.pathToConfig": "apps/mobile/package.json"
+  "relay.rootDirectory": "apps/mobile",
+  "relay.pathToConfig": "apps/mobile/relay.config.json",
 }
