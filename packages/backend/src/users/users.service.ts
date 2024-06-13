@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
+import { eq } from "drizzle-orm";
+
 import { db } from "../db/conn";
 import { users } from "../db/schema";
-import { eq } from "drizzle-orm";
 import { CreateUserInput, UpdateUserInput, User } from "../types/graphql";
 import { PasswordService } from "../utils";
 
@@ -11,11 +12,9 @@ export class UsersService {
 
   async create(createUserInput: CreateUserInput) {
     const { password, ...restOfUser } = createUserInput;
-    const passwordHash =
-      await this.passwordService.generatePasswordHash(password);
 
-    await db.insert(users).values({ password: passwordHash, ...restOfUser });
-    return { password: passwordHash, ...restOfUser };
+    await db.insert(users).values({ password, ...restOfUser });
+    return { password, ...restOfUser };
   }
 
   findAll() {
