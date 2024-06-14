@@ -1,5 +1,6 @@
 import type { TextInputProps } from "react-native";
 import { Text, View } from "react-native";
+
 import type { PrimaryTextInputProps } from "./PrimaryTextInput";
 import { PrimaryTextInput } from "./PrimaryTextInput";
 

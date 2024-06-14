@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
+import type { CreateUserInput } from "@o/api";
 import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
+import React, { useRef } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useMutation } from "react-relay";
-import { UserSignupMutation } from "../../users";
-import { Controller, useForm } from "react-hook-form";
-import type { CreateUserInput } from "@o/api";
+
 import type { userSignupMutation } from "../../__generated__/userSignupMutation.graphql";
+import { UserSignupMutation } from "../../users";
 
 type UserSignUpFormFields = {
   passwordRepeat: string;
@@ -38,7 +39,12 @@ export default function SignUp() {
     const { firstName, lastName, email, password } = data;
     commitMutation({
       variables: {
-        userInput: { firstName, lastName, email, password },
+        userInput: {
+          firstName,
+          lastName,
+          email,
+          password,
+        },
       },
     });
   };

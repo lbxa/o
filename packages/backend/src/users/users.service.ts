@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
+import { eq } from "drizzle-orm";
+
 import { db } from "../db/conn";
 import { users } from "../db/schema";
-import { eq } from "drizzle-orm";
 import { CreateUserInput, UpdateUserInput, User } from "../types/graphql";
 import { PasswordService } from "../utils";
 

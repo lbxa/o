@@ -1,10 +1,11 @@
-import { useState } from "react";
-import type { PrimaryTextInputProps } from "./PrimaryTextInput";
-import { PrimaryTextInput } from "./PrimaryTextInput";
-import type { TextInputProps } from "react-native";
-import { Text, TouchableOpacity, View } from "react-native";
 // import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as Haptics from "expo-haptics";
+import { useState } from "react";
+import type { TextInputProps } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+
+import type { PrimaryTextInputProps } from "./PrimaryTextInput";
+import { PrimaryTextInput } from "./PrimaryTextInput";
 import type { PrimaryTextInputControlProps } from "./PrimaryTextInputControl";
 
 {
@@ -24,8 +25,8 @@ export const PrimaryPasswordInput = (
   };
 
   return (
-    <View>
-      <View className="rounded-lg mb-md flex flex-row relative">
+    <View className="mb-md">
+      <View className="flex flex-row relative">
         <PrimaryTextInput
           className="grow"
           secureTextEntry={visible}

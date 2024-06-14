@@ -1,9 +1,9 @@
+import { Card } from "@universe/atoms";
+import { Link } from "expo-router";
+import type { LinkProps } from "expo-router/build/link/Link";
 import React from "react";
 import { Text, View } from "react-native";
-import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Card } from "@universe/atoms";
-import type { LinkProps } from "expo-router/build/link/Link";
 
 const CustomLink = (props: LinkProps) => {
   return (

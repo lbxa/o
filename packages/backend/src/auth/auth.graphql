@@ -3,6 +3,10 @@ input UserLoginInput {
   password: String!
 }
 
+type AccessToken {
+  accessToken: String
+}
+
 type Mutation {
-  login(userLoginInput: UserLoginInput!): User
+  login(userLoginInput: UserLoginInput!): AccessToken!
 }

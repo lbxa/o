@@ -28,9 +28,14 @@ export interface UpdateUserInput {
     email?: Nullable<string>;
 }
 
+export interface AccessToken {
+    __typename?: 'AccessToken';
+    accessToken?: Nullable<string>;
+}
+
 export interface IMutation {
     __typename?: 'IMutation';
-    login(userLoginInput: UserLoginInput): Nullable<User> | Promise<Nullable<User>>;
+    login(userLoginInput: UserLoginInput): AccessToken | Promise<AccessToken>;
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
 }

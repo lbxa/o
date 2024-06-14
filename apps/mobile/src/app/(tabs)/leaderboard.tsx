@@ -1,7 +1,7 @@
-import { Link } from "expo-router";
-import { ScrollView, Text, View } from "react-native";
 import { Card } from "@universe/atoms";
 import { LeaderboardCard } from "@universe/molecules";
+import { Link } from "expo-router";
+import { ScrollView, Text, View } from "react-native";
 
 export default function Leaderboard() {
   interface Person {
