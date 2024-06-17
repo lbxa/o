@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -16,23 +15,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type CreateUserInput = {
-  email: Scalars['String']['input'];
-  firstName: Scalars['String']['input'];
-  lastName: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: User;
-  login?: Maybe<User>;
-  updateUser: User;
-};
-
-
-export type MutationCreateUserArgs = {
-  createUserInput: CreateUserInput;
+  login: UserLoginResponse;
+  userCreate: UserCreateResponse;
+  userUpdate: User;
 };
 
 
@@ -41,8 +28,13 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationUpdateUserArgs = {
-  updateUserInput: UpdateUserInput;
+export type MutationUserCreateArgs = {
+  userCreateInput: UserCreateInput;
+};
+
+
+export type MutationUserUpdateArgs = {
+  userUpdateInput: UserUpdateInput;
 };
 
 export type Post = {
@@ -54,20 +46,13 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   health: Scalars['String']['output'];
+  hello: Scalars['String']['output'];
   user?: Maybe<User>;
 };
 
 
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
-};
-
-export type UpdateUserInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  handle?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -80,22 +65,36 @@ export type User = {
   password?: Maybe<Scalars['String']['output']>;
 };
 
+export type UserCreateInput = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type UserCreateResponse = {
+  __typename?: 'UserCreateResponse';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+  user: User;
+};
+
 export type UserLoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
-export type UserSignupFragmentFragment = { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, _id?: number | null } & { ' $fragmentName'?: 'UserSignupFragmentFragment' };
+export type UserLoginResponse = {
+  __typename?: 'UserLoginResponse';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+  user: User;
+};
 
-export type UserSignupMutationMutationVariables = Exact<{
-  userInput: CreateUserInput;
-}>;
-
-
-export type UserSignupMutationMutation = { __typename?: 'Mutation', createUser: (
-    { __typename?: 'User' }
-    & { ' $fragmentRefs'?: { 'UserSignupFragmentFragment': UserSignupFragmentFragment } }
-  ) };
-
-export const UserSignupFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"userSignupFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<UserSignupFragmentFragment, unknown>;
-export const UserSignupMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"userSignupMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"userSignupFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"userSignupFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<UserSignupMutationMutation, UserSignupMutationMutationVariables>;
+export type UserUpdateInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  handle?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Int']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+};

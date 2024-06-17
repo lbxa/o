@@ -1,1 +1,1 @@
-export * from "./password.service";
+export * from "./crypto.service";

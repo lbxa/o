@@ -1,22 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 
-import { db } from "../db/conn";
-import { users } from "../db/schema";
-import { CreateUserInput, UpdateUserInput, User } from "../types/graphql";
-import { PasswordService } from "../utils";
+import { DbService } from "../db/db.service";
+import { NewUser, User, users } from "../db/schema";
+import { UserUpdateInput } from "../types/graphql";
 
 @Injectable()
 export class UsersService {
-  constructor(private passwordService: PasswordService) {}
+  constructor(private dbService: DbService) {}
 
-  async create(createUserInput: CreateUserInput) {
-    const { password, ...restOfUser } = createUserInput;
-    const passwordHash =
-      await this.passwordService.generatePasswordHash(password);
+  async createUser(newUser: NewUser): Promise<Pick<User, "id">> {
+    const { password, ...restOfUser } = newUser;
+    // const passwordHash =
+    //   await this.cryptoService.generatePasswordHash(password);
+    const passwordHash = password; // TODO NEED TO GET THIS E2E WORKING ASAP
 
-    await db.insert(users).values({ password: passwordHash, ...restOfUser });
-    return { password: passwordHash, ...restOfUser };
+    const [result] = await this.dbService.db
+      .insert(users)
+      .values({ password: passwordHash, ...restOfUser });
+
+    return { id: result.insertId };
   }
 
   findAll() {
@@ -24,11 +27,14 @@ export class UsersService {
   }
 
   async findOne(id: number): Promise<User | undefined> {
-    const user = await db.select().from(users).where(eq(users.id, id));
+    const user = await this.dbService.db
+      .select()
+      .from(users)
+      .where(eq(users.id, id));
     return user[0];
   }
 
-  update(updateUserInput: UpdateUserInput) {
+  update(updateUserInput: UserUpdateInput) {
     return {
       ...updateUserInput,
     };

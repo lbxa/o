@@ -8,19 +8,19 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface UserLoginInput {
+export interface AuthLoginInput {
     email: string;
     password: string;
 }
 
-export interface CreateUserInput {
+export interface AuthCreateUserInput {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
 }
 
-export interface UpdateUserInput {
+export interface UserUpdateInput {
     id: number;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
@@ -28,16 +28,33 @@ export interface UpdateUserInput {
     email?: Nullable<string>;
 }
 
-export interface AccessToken {
-    __typename?: 'AccessToken';
-    accessToken?: Nullable<string>;
+export interface AuthLoginResponse {
+    __typename?: 'AuthLoginResponse';
+    accessToken: string;
+    refreshToken: string;
+    user: User;
+}
+
+export interface AuthCreateUserResponse {
+    __typename?: 'AuthCreateUserResponse';
+    accessToken: string;
+    refreshToken: string;
+    user: User;
+}
+
+export interface AuthCreateNewTokensResponse {
+    __typename?: 'AuthCreateNewTokensResponse';
+    accessToken: string;
+    refreshToken: string;
 }
 
 export interface IMutation {
     __typename?: 'IMutation';
-    login(userLoginInput: UserLoginInput): AccessToken | Promise<AccessToken>;
-    createUser(createUserInput: CreateUserInput): User | Promise<User>;
-    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
+    authLogin(authLoginInput: AuthLoginInput): AuthLoginResponse | Promise<AuthLoginResponse>;
+    authLogout(id: number): boolean | Promise<boolean>;
+    authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
+    authCreateNewTokens(): AuthCreateNewTokensResponse | Promise<AuthCreateNewTokensResponse>;
+    userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
 export interface Post {

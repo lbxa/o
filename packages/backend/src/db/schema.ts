@@ -7,6 +7,7 @@ export const users = mysqlTable("users", {
   email: varchar("email", { length: 255 }).unique().notNull(),
   handle: varchar("handle", { length: 255 }).unique(),
   password: varchar("password", { length: 255 }).notNull(),
+  refreshToken: varchar("refreshToken", { length: 1000 }),
 });
 
 export type User = typeof users.$inferSelect;
