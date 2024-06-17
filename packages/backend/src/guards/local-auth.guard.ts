@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
+// Local strategy can be used when jwtStategy or refreshTokenStrategy are not needed/useful
 @Injectable()
 export class LocalAuthGuard extends AuthGuard("local") {}
 
