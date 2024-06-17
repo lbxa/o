@@ -23,7 +23,7 @@ const Home = () => {
         <Text className="font-mono text-center text-3xl font-light">CHAMP</Text>
       </Card>
       <View>
-        <CustomLink href="(auth)/sign-in">Sign in</CustomLink>
+        <CustomLink href="(auth)/login">Login</CustomLink>
         <CustomLink href="(auth)/sign-up">Sign up</CustomLink>
         <CustomLink href="(tabs)/home">Home</CustomLink>
       </View>

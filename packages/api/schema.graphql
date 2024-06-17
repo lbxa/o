@@ -3,9 +3,40 @@ schema {
   mutation: Mutation
 }
 
+type AuthCreateNewTokensResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input AuthCreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type AuthCreateUserResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+input AuthLoginInput {
+  email: String!
+  password: String!
+}
+
+type AuthLoginResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
 type Mutation {
-  login(userLoginInput: UserLoginInput!): UserLoginResponse!
-  userCreate(userCreateInput: UserCreateInput!): UserCreateResponse!
+  authCreateNewTokens: AuthCreateNewTokensResponse!
+  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
+  authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
+  authLogout(id: Int!): Boolean!
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
@@ -16,7 +47,6 @@ type Post {
 
 type Query {
   health: String!
-  hello: String!
   user(id: Int!): User
 }
 
@@ -27,30 +57,6 @@ type User {
   id: Int
   lastName: String
   password: String
-}
-
-input UserCreateInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-}
-
-type UserCreateResponse {
-  accessToken: String!
-  refreshToken: String!
-  user: User!
-}
-
-input UserLoginInput {
-  email: String!
-  password: String!
-}
-
-type UserLoginResponse {
-  accessToken: String!
-  refreshToken: String!
-  user: User!
 }
 
 input UserUpdateInput {
