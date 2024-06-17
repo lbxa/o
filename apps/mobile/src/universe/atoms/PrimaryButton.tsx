@@ -1,6 +1,6 @@
-import type { ButtonProps, GestureResponderEvent } from "react-native";
-import { TouchableOpacity, Text } from "react-native";
 import * as Haptics from "expo-haptics";
+import type { ButtonProps, GestureResponderEvent } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 export const PrimaryButton = ({ title, onPress, ...props }: ButtonProps) => {
   const onPressHandler = async (e: GestureResponderEvent) => {

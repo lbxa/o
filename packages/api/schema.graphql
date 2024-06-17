@@ -3,17 +3,41 @@ schema {
   mutation: Mutation
 }
 
-input CreateUserInput {
+type AuthCreateNewTokensResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input AuthCreateUserInput {
   email: String!
   firstName: String!
   lastName: String!
   password: String!
 }
 
+type AuthCreateUserResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+input AuthLoginInput {
+  email: String!
+  password: String!
+}
+
+type AuthLoginResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  login(userLoginInput: UserLoginInput!): User
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  authCreateNewTokens: AuthCreateNewTokensResponse!
+  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
+  authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
+  authLogout(id: Int!): Boolean!
+  userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
 type Post {
@@ -26,14 +50,6 @@ type Query {
   user(id: Int!): User
 }
 
-input UpdateUserInput {
-  email: String
-  firstName: String
-  handle: String
-  id: Int!
-  lastName: String
-}
-
 type User {
   email: String
   firstName: String
@@ -43,7 +59,10 @@ type User {
   password: String
 }
 
-input UserLoginInput {
-  email: String!
-  password: String!
+input UserUpdateInput {
+  email: String
+  firstName: String
+  handle: String
+  id: Int!
+  lastName: String
 }

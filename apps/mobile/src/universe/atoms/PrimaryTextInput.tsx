@@ -1,8 +1,22 @@
+import classNames from "classnames";
 import type { TextInputProps } from "react-native";
 import { TextInput } from "react-native";
+export interface PrimaryTextInputProps {
+  error?: boolean;
+}
 
-export const PrimaryTextInput = (props: TextInputProps) => {
-  return (
-    <TextInput className="bg-white px-2 py-3 rounded-lg mb-md" {...props} />
+export const PrimaryTextInput = ({
+  className,
+  error,
+  ...props
+}: TextInputProps & PrimaryTextInputProps) => {
+  const textInputClass = classNames(
+    "bg-white rounded-lg px-2 py-3",
+    className,
+    {
+      "bg-red-200 color-red-900": error,
+    }
   );
+
+  return <TextInput className={textInputClass} {...props} />;
 };

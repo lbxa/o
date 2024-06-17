@@ -16,33 +16,65 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type CreateUserInput = {
+export type AuthCreateNewTokensResponse = {
+  __typename?: 'AuthCreateNewTokensResponse';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+};
+
+export type AuthCreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
+export type AuthCreateUserResponse = {
+  __typename?: 'AuthCreateUserResponse';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+  user: User;
+};
+
+export type AuthLoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type AuthLoginResponse = {
+  __typename?: 'AuthLoginResponse';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: User;
-  login?: Maybe<User>;
-  updateUser: User;
+  authCreateNewTokens: AuthCreateNewTokensResponse;
+  authCreateUser: AuthCreateUserResponse;
+  authLogin: AuthLoginResponse;
+  authLogout: Scalars['Boolean']['output'];
+  userUpdate: User;
 };
 
 
-export type MutationCreateUserArgs = {
-  createUserInput: CreateUserInput;
+export type MutationAuthCreateUserArgs = {
+  authCreateUserInput: AuthCreateUserInput;
 };
 
 
-export type MutationLoginArgs = {
-  userLoginInput: UserLoginInput;
+export type MutationAuthLoginArgs = {
+  authLoginInput: AuthLoginInput;
 };
 
 
-export type MutationUpdateUserArgs = {
-  updateUserInput: UpdateUserInput;
+export type MutationAuthLogoutArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationUserUpdateArgs = {
+  userUpdateInput: UserUpdateInput;
 };
 
 export type Post = {
@@ -62,14 +94,6 @@ export type QueryUserArgs = {
   id: Scalars['Int']['input'];
 };
 
-export type UpdateUserInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  handle?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  lastName?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']['output']>;
@@ -80,17 +104,33 @@ export type User = {
   password?: Maybe<Scalars['String']['output']>;
 };
 
-export type UserLoginInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type UserUpdateInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  handle?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Int']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UserFragmentFragment = { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, _id?: number | null } & { ' $fragmentName'?: 'UserFragmentFragment' };
+
 export type UserCreateMutationMutationVariables = Exact<{
-  userInput: CreateUserInput;
+  userInput: AuthCreateUserInput;
 }>;
 
 
-export type UserCreateMutationMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, _id?: number | null } };
+export type UserCreateMutationMutation = { __typename?: 'Mutation', authCreateUser: { __typename?: 'AuthCreateUserResponse', user: (
+      { __typename?: 'User' }
+      & { ' $fragmentRefs'?: { 'UserFragmentFragment': UserFragmentFragment } }
+    ) } };
+
+export type UserLoginMutationMutationVariables = Exact<{
+  authLoginInput: AuthLoginInput;
+}>;
 
 
-export const UserCreateMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"userCreateMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<UserCreateMutationMutation, UserCreateMutationMutationVariables>;
+export type UserLoginMutationMutation = { __typename?: 'Mutation', authLogin: { __typename?: 'AuthLoginResponse', accessToken: string, refreshToken: string } };
+
+export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<UserFragmentFragment, unknown>;
+export const UserCreateMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserCreateMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AuthCreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authCreateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"authCreateUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"_id"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<UserCreateMutationMutation, UserCreateMutationMutationVariables>;
+export const UserLoginMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserLoginMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"authLoginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AuthLoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authLogin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"authLoginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"authLoginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}}]}}]}}]} as unknown as DocumentNode<UserLoginMutationMutation, UserLoginMutationMutationVariables>;

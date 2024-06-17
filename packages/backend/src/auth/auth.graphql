@@ -1,8 +1,35 @@
-input UserLoginInput {
+input AuthLoginInput {
   email: String!
   password: String!
 }
 
+type AuthLoginResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+input AuthCreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+type AuthCreateUserResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+type AuthCreateNewTokensResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Mutation {
-  login(userLoginInput: UserLoginInput!): User
+  authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
+  authLogout(id: Int!): Boolean!
+  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
+  authCreateNewTokens: AuthCreateNewTokensResponse!
 }

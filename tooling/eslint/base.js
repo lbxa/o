@@ -6,6 +6,8 @@ import tseslint from "typescript-eslint";
 import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import prettierPlugin from "eslint-plugin-prettier";
+import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
+
 
 export default tseslint.config(
   {
@@ -18,7 +20,8 @@ export default tseslint.config(
       import: importPlugin,
       '@stylistic/ts': stylisticTs,
       '@stylistic/js': stylisticJs,
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
+      'simple-import-sort': simpleImportSortPlugin
     },
     extends: [
       eslint.configs.recommended,
@@ -36,7 +39,13 @@ export default tseslint.config(
         semi: true,
         useTabs: false
       }],
-      "@stylistic/js/max-len": ["error", { "code": 80 } ],
+      "@stylistic/js/max-len": [
+        "error", { 
+          "code": 80, 
+          "ignoreComments": true, 
+          "ignorePattern": "^import\\s.+\\sfrom\\s.+;$" 
+        } 
+      ],
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
@@ -57,6 +66,8 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-non-null-assertion": "error",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
     },
   },
   {

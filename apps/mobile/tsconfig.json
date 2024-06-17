@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@universe/*": ["src/universe/*"],
+      "@utils/*": ["src/utils/*"],
     },
     "jsx": "react-native",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
@@ -15,6 +16,7 @@
   "include": [
     "src",
     "*.ts",
+    "*.tsx",
     "*.js", 
   ],
   "exclude": [
