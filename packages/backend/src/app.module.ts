@@ -19,6 +19,13 @@ import { UsersModule } from "./users/users.module";
       typePaths: ["./**/*.graphql"],
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      formatError: (error) => {
+        const graphQLFormattedError = {
+          code: error.extensions?.code || "INTERNAL_SERVER_ERROR",
+          message: error.message,
+        };
+        return graphQLFormattedError;
+      },
     }),
     UsersModule,
     AuthModule,

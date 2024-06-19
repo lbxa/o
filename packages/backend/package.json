@@ -15,7 +15,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "type-check": "tsc",
     "mig:gen": "drizzle-kit generate",
-    "mig:make": "drizzle-kit migrate",
+    "mig:push": "drizzle-kit migrate",
     "mig:drop": "drizzle-kit drop",
     "test": "jest",
     "test:watch": "jest --watch",

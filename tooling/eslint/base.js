@@ -12,7 +12,7 @@ import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
 export default tseslint.config(
   {
     // Globally ignored files
-    ignores: ["**/*.config.*"],
+    // ignores: ["**/*.config.*"],
   },
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
