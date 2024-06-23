@@ -3,11 +3,11 @@
 import eslint from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
+import drizzlePlugin from "eslint-plugin-drizzle"
 import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import prettierPlugin from "eslint-plugin-prettier";
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
-
 
 export default tseslint.config(
   {
@@ -21,7 +21,8 @@ export default tseslint.config(
       '@stylistic/ts': stylisticTs,
       '@stylistic/js': stylisticJs,
       prettier: prettierPlugin,
-      'simple-import-sort': simpleImportSortPlugin
+      'simple-import-sort': simpleImportSortPlugin,
+      drizzle: drizzlePlugin
     },
     extends: [
       eslint.configs.recommended,
@@ -68,6 +69,8 @@ export default tseslint.config(
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+      'drizzle/enforce-delete-with-where': "error",
+      'drizzle/enforce-update-with-where': "error",
     },
   },
   {
