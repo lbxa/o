@@ -48,6 +48,7 @@ type Post {
 type Query {
   health: String!
   user(id: Int!): User
+  userValidateEmail(email: String!): ValidEmailResponse
 }
 
 type User {
@@ -65,4 +66,8 @@ input UserUpdateInput {
   handle: String
   id: Int!
   lastName: String
+}
+
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
 }

@@ -15,8 +15,13 @@ input UserUpdateInput {
   email: String
 }
 
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
+}
+
 type Query {
   user(id: Int!): User
+  userValidateEmail(email: String!): ValidEmailResponse
 }
 
 type Mutation {

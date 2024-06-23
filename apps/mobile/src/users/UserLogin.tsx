@@ -46,6 +46,8 @@ export const UserLogin = () => {
         },
       },
       updater: (store, data) => {
+        console.log("accessToken", data?.authLogin.accessToken);
+        console.log("refreshToken", data?.authLogin.refreshToken);
         // store.get("id");
         // data?.login.accessToken;
       },
@@ -109,11 +111,8 @@ export const UserLogin = () => {
           onPress={async (e) => {
             // Read more about event pooling
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-            await handleSubmit((data) => {
-              e.persist();
-              e.preventDefault();
-              onSubmit(data);
-            })(e);
+            e.persist();
+            await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
       </View>

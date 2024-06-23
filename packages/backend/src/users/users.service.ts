@@ -34,6 +34,14 @@ export class UsersService {
     return user[0];
   }
 
+  async findByEmail(email: string): Promise<boolean> {
+    const user = await this.dbService.db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
+    return user.length > 0;
+  }
+
   update(updateUserInput: UserUpdateInput) {
     return {
       ...updateUserInput,

@@ -16,7 +16,7 @@ const CustomLink = (props: LinkProps) => {
   );
 };
 
-const Home = () => {
+const App = () => {
   return (
     <SafeAreaView>
       <Card>
@@ -31,4 +31,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default App;

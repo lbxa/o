@@ -67,6 +67,7 @@ export interface IQuery {
     __typename?: 'IQuery';
     health(): string | Promise<string>;
     user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
 }
 
 export interface User {
@@ -77,6 +78,11 @@ export interface User {
     lastName?: Nullable<string>;
     email?: Nullable<string>;
     password?: Nullable<string>;
+}
+
+export interface ValidEmailResponse {
+    __typename?: 'ValidEmailResponse';
+    alreadyTaken: boolean;
 }
 
 type Nullable<T> = T | null;

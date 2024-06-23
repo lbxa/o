@@ -1,8 +1,7 @@
-import type { Config } from "tailwindcss";
+import baseConfig from "@o/tailwind/native";
 // @ts-expect-error - no types
 import nativewind from "nativewind/preset";
-
-import baseConfig from "@o/tailwind/native";
+import type { Config } from "tailwindcss";
 
 export default {
   content: ["./src/**/*.{ts,tsx}"],
