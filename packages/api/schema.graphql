@@ -34,8 +34,8 @@ type AuthLoginResponse {
 
 type Community {
   events: [Event]
-  id: Int
-  name: String
+  id: Int!
+  name: String!
   users: [User]
 }
 
@@ -81,7 +81,7 @@ type Post {
 }
 
 type Query {
-  communities: [Community]
+  communities: [Community!]
   community(id: Int!): Community
   communityEvents(communityId: Int!): [Event]
   health: String!

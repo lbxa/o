@@ -46,7 +46,7 @@ export const CommunityCreate = () => {
   };
 
   return (
-    <View>
+    <View className="mb-md">
       <Controller
         name="name"
         control={control}

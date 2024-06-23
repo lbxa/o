@@ -1,6 +1,6 @@
 type Community {
-  id: Int
-  name: String
+  id: Int!
+  name: String!
   users: [User]
   events: [Event]
 }
@@ -29,7 +29,7 @@ input EventCreateInput {
 
 type Query {
   community(id: Int!): Community
-  communities: [Community]
+  communities: [Community!]
   communityEvents(communityId: Int!): [Event]
 }
 

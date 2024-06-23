@@ -80,8 +80,8 @@ export interface IMutation {
 
 export interface Community {
     __typename?: 'Community';
-    id?: Nullable<number>;
-    name?: Nullable<string>;
+    id: number;
+    name: string;
     users?: Nullable<Nullable<User>[]>;
     events?: Nullable<Nullable<Event>[]>;
 }
@@ -97,7 +97,7 @@ export interface Event {
 export interface IQuery {
     __typename?: 'IQuery';
     community(id: number): Nullable<Community> | Promise<Nullable<Community>>;
-    communities(): Nullable<Nullable<Community>[]> | Promise<Nullable<Nullable<Community>[]>>;
+    communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityEvents(communityId: number): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     health(): string | Promise<string>;
     user(id: number): Nullable<User> | Promise<Nullable<User>>;

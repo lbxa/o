@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c8b80c7d2e09303cf2242b3e8859857>>
+ * @generated SignedSource<<b2f1ec13ec30da0e835eb686bf4a8a61>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type CommunityCreateMutation$variables = {
 };
 export type CommunityCreateMutation$data = {
   readonly communityCreate: {
-    readonly name: string | null | undefined;
+    readonly name: string;
   };
 };
 export type CommunityCreateMutation = {

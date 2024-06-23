@@ -1,14 +1,14 @@
 import { Card } from "@universe/atoms";
+import { Ozone } from "@universe/molecules";
 import { Link } from "expo-router";
 import type { LinkProps } from "expo-router/build/link/Link";
 import React from "react";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const CustomLink = (props: LinkProps) => {
   return (
     <Link
-      className="py-lg rounded-lg text-blue-500 text-xl text-center bg-blue-200 mb-md"
+      className="py-lg text-blue-500 text-xl text-center bg-blue-200 mb-md"
       {...props}
     >
       {props.children}
@@ -18,7 +18,7 @@ const CustomLink = (props: LinkProps) => {
 
 const App = () => {
   return (
-    <SafeAreaView>
+    <Ozone>
       <Card>
         <Text className="font-mono text-center text-3xl font-light">CHAMP</Text>
       </Card>
@@ -27,7 +27,7 @@ const App = () => {
         <CustomLink href="(auth)/sign-up">Sign up</CustomLink>
         <CustomLink href="(tabs)/home">Home</CustomLink>
       </View>
-    </SafeAreaView>
+    </Ozone>
   );
 };
 

@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  fragment CommunityFragment on Community {\n    _id: id\n    name\n  }\n": types.CommunityFragmentFragmentDoc,
     "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n": types.CommunityCreateMutationDocument,
+    "\n  query CommunityListQuery {\n    communities {\n      _id: id\n      name\n    }\n  }\n": types.CommunityListQueryDocument,
     "\n  fragment UserFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n": types.UserFragmentFragmentDoc,
     "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n    }\n  }\n": types.UserCreateMutationDocument,
@@ -43,6 +44,10 @@ export function graphql(source: "\n  fragment CommunityFragment on Community {\n
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CommunityListQuery {\n    communities {\n      _id: id\n      name\n    }\n  }\n"): (typeof documents)["\n  query CommunityListQuery {\n    communities {\n      _id: id\n      name\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
