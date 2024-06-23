@@ -5,6 +5,7 @@ import {
   PrimaryTextInputControl,
 } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
+import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
@@ -46,8 +47,10 @@ export const UserLogin = () => {
         },
       },
       updater: (store, data) => {
-        console.log("accessToken", data?.authLogin.accessToken);
-        console.log("refreshToken", data?.authLogin.refreshToken);
+        if (data?.authLogin.accessToken) {
+          SecureStore.setItem("accessToken", data.authLogin.accessToken);
+          console.log("accessToken", SecureStore.getItem("accessToken"));
+        }
         // store.get("id");
         // data?.login.accessToken;
       },
@@ -74,6 +77,7 @@ export const UserLogin = () => {
               className="mb-md"
               placeholder="email@address.com"
               inputMode="email"
+              autoCapitalize="none"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}

@@ -1,1 +1,0 @@
-ALTER TABLE `users` ADD `refreshToken` varchar(1000);

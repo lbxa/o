@@ -1,0 +1,43 @@
+type Community {
+  id: Int
+  name: String
+  users: [User]
+  events: [Event]
+}
+
+type Event {
+  id: Int
+  name: String
+  field: String
+  community: Community
+}
+
+input CommunityCreateInput {
+  name: String!
+}
+
+input CommunityUpdateInput {
+  id: Int!
+  name: String
+}
+
+input EventCreateInput {
+  name: String!
+  field: String
+  communityId: Int!
+}
+
+type Query {
+  community(id: Int!): Community
+  communities: [Community]
+  communityEvents(communityId: Int!): [Event]
+}
+
+type Mutation {
+  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
+  communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  communityDelete(id: Int!): Community
+  eventCreate(eventCreateInput: EventCreateInput!): Event!
+  communityJoin(userId: Int!, communityId: Int!): Community!
+  communityLeave(userId: Int!, communityId: Int!): Community!
+}

@@ -1,14 +1,17 @@
-import { Stack } from "expo-router";
+import { Title } from "@universe/atoms";
+import { Ozone } from "@universe/molecules";
 import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { View } from "react-native";
 
-export default function RootLayout() {
+import { CommunityCreate } from "../../communities";
+
+export default function Home() {
   return (
-    <SafeAreaProvider>
-      <Stack screenOptions={{ statusBarTranslucent: true }}>
-        <Stack.Screen name="home" />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </SafeAreaProvider>
+    <Ozone>
+      <View className="px-md">
+        <Title title="Create a community" />
+        <CommunityCreate />
+      </View>
+    </Ozone>
   );
 }

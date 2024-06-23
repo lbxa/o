@@ -1,9 +1,10 @@
+import { Ozone } from "@universe/molecules";
 import { Text, View } from "react-native";
 
 export default function Profile() {
   return (
-    <View>
+    <Ozone>
       <Text className="bg-slate-400">Profile page</Text>
-    </View>
+    </Ozone>
   );
 }

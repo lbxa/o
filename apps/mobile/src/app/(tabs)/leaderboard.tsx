@@ -1,5 +1,5 @@
 import { Card } from "@universe/atoms";
-import { LeaderboardCard } from "@universe/molecules";
+import { LeaderboardCard, Ozone } from "@universe/molecules";
 import { Link } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 
@@ -21,7 +21,7 @@ export default function Leaderboard() {
   ];
 
   return (
-    <ScrollView>
+    <Ozone>
       <View className="flex px-4 w-full justify-center mt-5">
         <Card>
           <Text className="text-xl font-bold mb-2">
@@ -49,6 +49,6 @@ export default function Leaderboard() {
 
         <Link href="/profile">Go to your user profile</Link>
       </View>
-    </ScrollView>
+    </Ozone>
   );
 }

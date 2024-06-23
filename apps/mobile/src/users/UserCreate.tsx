@@ -112,7 +112,7 @@ export const UserCreate = () => {
 
   return (
     <Ozone>
-      <View className="w-full px-md">
+      <View className="px-md">
         <Text className="text-3xl font-black mb-md">Sign Up</Text>
         <View className="flex flex-row justify-between mb-md gap-md">
           <Controller

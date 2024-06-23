@@ -31,7 +31,7 @@ export const communities = mysqlTable(
   "communities",
   {
     id: int("id").primaryKey().autoincrement(),
-    name: varchar("name", { length: 255 }).notNull(),
+    name: varchar("name", { length: 255 }).unique().notNull(),
   },
   (table) => ({
     nameIndex: index("name_idx").on(table.name),

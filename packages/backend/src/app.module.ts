@@ -7,6 +7,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import { AppResolver } from "./app.resolver";
 import { AuthModule } from "./auth/auth.module";
+import { CommunitiesModule } from "./communities/communities.module";
 import { DbService } from "./db/db.service";
 import { JwtAuthGuard } from "./guards/jwt.guard";
 import { UsersModule } from "./users/users.module";
@@ -29,6 +30,7 @@ import { UsersModule } from "./users/users.module";
     }),
     UsersModule,
     AuthModule,
+    CommunitiesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
