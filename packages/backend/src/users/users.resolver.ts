@@ -16,6 +16,8 @@ export class UsersResolver {
     return this.usersService.findOne(id);
   }
 
+  // TODO add currentUser query with regular polling
+
   @Public()
   @Query("userValidateEmail")
   validateEmail(@Args("email") email: string) {

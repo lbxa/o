@@ -2,7 +2,8 @@ import type { AuthCreateUserInput } from "@o/api";
 import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import { Ozone } from "@universe/molecules";
-import React, { useRef, useState, useTransition } from "react";
+import { Link } from "expo-router";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
@@ -13,7 +14,6 @@ import {
   useMutation,
   usePreloadedQuery,
   useQueryLoader,
-  useRelayEnvironment,
 } from "react-relay";
 import { graphql } from "react-relay";
 
@@ -52,10 +52,6 @@ const EmailCheckMessage = ({
   );
 };
 
-type UserSignUpFormFields = {
-  passwordRepeat: string;
-} & AuthCreateUserInput;
-
 export const UserCreate = () => {
   const [commitMutation, isMutationInFlight] =
     useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
@@ -79,18 +75,14 @@ export const UserCreate = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<UserSignUpFormFields>({
+  } = useForm<AuthCreateUserInput>({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
-      passwordRepeat: "",
     },
   });
-
-  const passwordRef = useRef({});
-  passwordRef.current = watch("password");
 
   const onSubmit = (data: AuthCreateUserInput) => {
     const { firstName, lastName, email, password } = data;
@@ -203,31 +195,6 @@ export const UserCreate = () => {
           )}
         />
 
-        <Controller
-          name="passwordRepeat"
-          control={control}
-          rules={{
-            required: { value: true, message: "Required field" },
-            minLength: {
-              value: 8,
-              message: "Password must be > 8 characters",
-            },
-            validate: (repeatedPassword) =>
-              repeatedPassword === passwordRef.current ||
-              "Passwords do not match",
-          }}
-          render={({ field: { onBlur, onChange, value } }) => (
-            <PrimaryPasswordInput
-              placeholder="Repeat Password"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              error={!!errors.passwordRepeat}
-              errorMessage={errors.passwordRepeat?.message}
-            />
-          )}
-        />
-
         <PrimaryButton
           title={isMutationInFlight ? "Loading..." : "Join the community"}
           disabled={isMutationInFlight}
@@ -238,6 +205,9 @@ export const UserCreate = () => {
             await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
+        <Link href="(auth)/login" className="mt-md underline text-blue-700">
+          Already have an account
+        </Link>
       </View>
     </Ozone>
   );

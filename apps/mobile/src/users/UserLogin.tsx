@@ -5,6 +5,7 @@ import {
   PrimaryTextInputControl,
 } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
+import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -23,6 +24,7 @@ const userLoginMutation = graphql`
 `;
 
 export const UserLogin = () => {
+  const router = useRouter();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserLoginMutation>(userLoginMutation);
 
@@ -48,8 +50,9 @@ export const UserLogin = () => {
       },
       updater: (store, data) => {
         if (data?.authLogin.accessToken) {
-          SecureStore.setItem("accessToken", data.authLogin.accessToken);
-          console.log("accessToken", SecureStore.getItem("accessToken"));
+          SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
+          console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
+          router.replace("(app)/home");
         }
         // store.get("id");
         // data?.login.accessToken;
@@ -80,6 +83,7 @@ export const UserLogin = () => {
               autoCapitalize="none"
               onBlur={onBlur}
               onChangeText={onChange}
+              autoCorrect={false}
               value={value}
               error={!!errors.email}
               errorMessage={errors.email?.message}
@@ -102,6 +106,7 @@ export const UserLogin = () => {
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
+              autoCorrect={false}
               value={value}
               error={!!errors.password}
               errorMessage={errors.password?.message}
@@ -119,6 +124,9 @@ export const UserLogin = () => {
             await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
+        <Link href="(auth)/sign-up" className="mt-md underline text-blue-700">
+          Create an account
+        </Link>
       </View>
     </Ozone>
   );

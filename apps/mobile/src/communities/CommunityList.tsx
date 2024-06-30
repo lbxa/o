@@ -1,5 +1,5 @@
 import { ContentCard } from "@universe/molecules";
-import { useEffect } from "react";
+import { router } from "expo-router";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
@@ -22,10 +22,6 @@ interface Props {
 export const CommunityList = ({ queryRef }: Props) => {
   const data = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   return (
     <View>
       {data.communities?.map((community) => {
@@ -34,6 +30,7 @@ export const CommunityList = ({ queryRef }: Props) => {
             key={community._id}
             title={community.name}
             body="Sample text"
+            onPress={() => router.navigate("/(app)/community/" + community._id)}
           />
         );
       })}

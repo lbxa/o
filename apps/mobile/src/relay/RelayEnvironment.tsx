@@ -4,26 +4,31 @@ import { RelayEnvironmentProvider } from "react-relay";
 import type { FetchFunction, IEnvironment } from "relay-runtime";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
-const fetchFn: FetchFunction = async (params, variables) => {
-  const token = await SecureStore.getItemAsync("accessToken");
+const fetchFn: FetchFunction = async (request, variables) => {
+  const token = SecureStore.getItem("ACCESS_TOKEN");
+
+  const headers = {
+    Accept: "application/json",
+    "Content-type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const body = JSON.stringify({
+    query: request.text,
+    variables,
+  });
 
   const response = await fetch("http://localhost:6969/graphql", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({
-      query: params.text,
-      variables,
-    }),
+    headers,
+    body,
   });
 
   const data = response.json();
 
   if (response.status === 401) {
     // Handle unauthorized error (e.g., token expired)
-    await SecureStore.deleteItemAsync("accessToken");
+    await SecureStore.deleteItemAsync("ACCESS_TOKEN");
     // You might want to redirect to login screen or refresh token here
   }
 

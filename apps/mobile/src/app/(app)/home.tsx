@@ -1,6 +1,7 @@
 import { Title } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
-import React, { useEffect } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback } from "react";
 import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
@@ -9,21 +10,25 @@ import {
   COMMUNITY_LIST_QUERY,
   CommunityCreate,
   CommunityList,
+  CommunitySearch,
 } from "../../communities";
 
 export default function Home() {
   const [communityListQueryRef, loadCommunityList] =
     useQueryLoader<CommunityListQuery>(COMMUNITY_LIST_QUERY);
 
-  useEffect(() => {
-    loadCommunityList({});
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadCommunityList({});
+    }, [])
+  );
 
   return (
     <Ozone>
       <View className="px-md">
         <Title title="Create a community" />
         <CommunityCreate />
+        <CommunitySearch />
         <Title title="Communities" />
         {communityListQueryRef && (
           <CommunityList queryRef={communityListQueryRef} />
