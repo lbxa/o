@@ -12,10 +12,10 @@ import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
 export default tseslint.config(
   {
     // Globally ignored files
-    ignores: ["**/*.config.*"],
+    ignores: ["**/*.config.*", "node_modules/**"],
   },
   {
-    files: ["**/*.js", "**/*.ts", "**/*.tsx"],
+    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
     plugins: {
       import: importPlugin,
       '@stylistic/ts': stylisticTs,
@@ -73,5 +73,11 @@ export default tseslint.config(
   {
     linterOptions: { reportUnusedDisableDirectives: true },
     languageOptions: { parserOptions: { project: true } },
+    // languageOptions: {
+    //   parserOptions: {
+    //     project: ['./tsconfig.json'],
+    //     tsconfigRootDir: "./",
+    //   },
+    // },
   },
 );
