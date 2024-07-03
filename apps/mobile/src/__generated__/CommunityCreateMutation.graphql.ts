@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b2f1ec13ec30da0e835eb686bf4a8a61>>
+ * @generated SignedSource<<d87ffac7f5dc6dd0949cb5a17a3f3e87>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,37 +35,38 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "communityCreateInput",
-        "variableName": "communityCreateInput"
-      }
-    ],
-    "concreteType": "Community",
-    "kind": "LinkedField",
-    "name": "communityCreate",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "communityCreateInput",
+    "variableName": "communityCreateInput"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "CommunityCreateMutation",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Community",
+        "kind": "LinkedField",
+        "name": "communityCreate",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -74,15 +75,35 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "CommunityCreateMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Community",
+        "kind": "LinkedField",
+        "name": "communityCreate",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "01fc3d5581c0efc3d1b372fd10b11aeb",
+    "cacheID": "97fe9b7ebb5a9b4859c457435e32024a",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    name\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

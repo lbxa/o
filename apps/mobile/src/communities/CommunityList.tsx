@@ -1,6 +1,6 @@
-import { ContentCard } from "@universe/molecules";
-import { router } from "expo-router";
-import { View } from "react-native";
+import { CommunityCard } from "@universe/molecules";
+import { useEffect } from "react";
+import { Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
@@ -9,8 +9,7 @@ import type { CommunityListQuery } from "../__generated__/CommunityListQuery.gra
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     communities {
-      _id: id
-      name
+      ...CommunityFragment
     }
   }
 `;
@@ -22,18 +21,16 @@ interface Props {
 export const CommunityList = ({ queryRef }: Props) => {
   const data = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
 
+  useEffect(() => {
+    console.log("Data", data);
+  }, [data]);
+
   return (
     <View>
-      {data.communities?.map((community) => {
-        return (
-          <ContentCard
-            key={community._id}
-            title={community.name}
-            body="Sample text"
-            onPress={() => router.navigate("/(app)/community/" + community._id)}
-          />
-        );
-      })}
+      <Text>Test</Text>
+      {data.communities?.map((community, i) => (
+        <CommunityCard key={i} community={community} />
+      ))}
     </View>
   );
 };

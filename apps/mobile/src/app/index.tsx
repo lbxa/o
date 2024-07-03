@@ -10,5 +10,7 @@ export default function App() {
     return <Redirect href="(auth)/login" />;
   }
 
+  console.log("TOK", tok);
+
   return <Redirect href="(app)/home" />;
 }

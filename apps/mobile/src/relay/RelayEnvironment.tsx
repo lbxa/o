@@ -6,6 +6,7 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 const fetchFn: FetchFunction = async (request, variables) => {
   const token = SecureStore.getItem("ACCESS_TOKEN");
+  console.log("CacheToke", token);
 
   const headers = {
     Accept: "application/json",

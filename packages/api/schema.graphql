@@ -34,7 +34,7 @@ type AuthLoginResponse {
 
 type Community {
   events: [Event]
-  id: Int!
+  id: ID!
   name: String!
   users: [User]
 }
@@ -44,14 +44,14 @@ input CommunityCreateInput {
 }
 
 input CommunityUpdateInput {
-  id: Int!
+  id: ID!
   name: String
 }
 
 type Event {
   community: Community
   field: String
-  id: Int
+  id: ID!
   name: String
 }
 

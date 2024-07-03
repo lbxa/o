@@ -1,12 +1,12 @@
 type Community {
-  id: Int!
+  id: ID!
   name: String!
   users: [User]
   events: [Event]
 }
 
 type Event {
-  id: Int
+  id: ID!
   name: String
   field: String
   community: Community
@@ -17,7 +17,7 @@ input CommunityCreateInput {
 }
 
 input CommunityUpdateInput {
-  id: Int!
+  id: ID!
   name: String
 }
 
@@ -28,16 +28,16 @@ input EventCreateInput {
 }
 
 type Query {
-  community(id: Int!): Community
+  community(id: ID!): Community
   communities: [Community!]
-  communityEvents(communityId: Int!): [Event]
+  communityEvents(communityId: ID!): [Event]
 }
 
 type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
-  communityDelete(id: Int!): Community
+  communityDelete(id: ID!): Community
   eventCreate(eventCreateInput: EventCreateInput!): Event!
-  communityJoin(userId: Int!, communityId: Int!): Community!
-  communityLeave(userId: Int!, communityId: Int!): Community!
+  communityJoin(userId: ID!, communityId: ID!): Community!
+  communityLeave(userId: ID!, communityId: ID!): Community!
 }

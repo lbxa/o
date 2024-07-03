@@ -118,6 +118,7 @@ export const UserCreate = () => {
                 inputMode="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                autoFocus={true}
                 value={value}
                 error={!!errors.firstName}
                 errorMessage={errors.firstName?.message}

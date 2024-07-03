@@ -84,6 +84,7 @@ export const UserLogin = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               autoCorrect={false}
+              autoFocus={true}
               value={value}
               error={!!errors.email}
               errorMessage={errors.email?.message}

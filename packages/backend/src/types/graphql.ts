@@ -25,7 +25,7 @@ export interface CommunityCreateInput {
 }
 
 export interface CommunityUpdateInput {
-    id: number;
+    id: string;
     name?: Nullable<string>;
 }
 
@@ -36,7 +36,7 @@ export interface EventCreateInput {
 }
 
 export interface UserUpdateInput {
-    id: number;
+    id: string;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     handle?: Nullable<string>;
@@ -71,16 +71,16 @@ export interface IMutation {
     authCreateNewTokens(): AuthCreateNewTokensResponse | Promise<AuthCreateNewTokensResponse>;
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
-    communityDelete(id: number): Nullable<Community> | Promise<Nullable<Community>>;
+    communityDelete(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     eventCreate(eventCreateInput: EventCreateInput): Event | Promise<Event>;
-    communityJoin(userId: number, communityId: number): Community | Promise<Community>;
-    communityLeave(userId: number, communityId: number): Community | Promise<Community>;
+    communityJoin(userId: string, communityId: string): Community | Promise<Community>;
+    communityLeave(userId: string, communityId: string): Community | Promise<Community>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
 export interface Community {
     __typename?: 'Community';
-    id: number;
+    id: string;
     name: string;
     users?: Nullable<Nullable<User>[]>;
     events?: Nullable<Nullable<Event>[]>;
@@ -88,7 +88,7 @@ export interface Community {
 
 export interface Event {
     __typename?: 'Event';
-    id?: Nullable<number>;
+    id: string;
     name?: Nullable<string>;
     field?: Nullable<string>;
     community?: Nullable<Community>;
@@ -96,11 +96,11 @@ export interface Event {
 
 export interface IQuery {
     __typename?: 'IQuery';
-    community(id: number): Nullable<Community> | Promise<Nullable<Community>>;
+    community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    communityEvents(communityId: number): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
+    communityEvents(communityId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     health(): string | Promise<string>;
-    user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    user(id: string): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
 }
 
@@ -112,7 +112,7 @@ export interface Post {
 
 export interface User {
     __typename?: 'User';
-    id?: Nullable<number>;
+    id?: Nullable<string>;
     handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<719e495508f5c386d51bd9554f194d8c>>
+ * @generated SignedSource<<9a0b74454edc732c1933f2c30abb4a92>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -107,7 +107,7 @@ return {
             "plural": false,
             "selections": [
               {
-                "alias": "_id",
+                "alias": null,
                 "args": null,
                 "kind": "ScalarField",
                 "name": "id",
@@ -143,12 +143,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "38c1aafbf51789ff75ea9baa498eee90",
+    "cacheID": "90d249f7c2429553665107f91445f175",
     "id": null,
     "metadata": {},
     "name": "UserCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n    }\n  }\n}\n\nfragment UserFragment on User {\n  _id: id\n  firstName\n  lastName\n  email\n}\n"
+    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n    }\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n}\n"
   }
 };
 })();

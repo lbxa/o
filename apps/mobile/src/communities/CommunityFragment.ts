@@ -1,8 +1,8 @@
 import { graphql } from "react-relay";
 
-export const CommunityFragment = graphql`
+export const COMMUNITY_FRAGMENT = graphql`
   fragment CommunityFragment on Community {
-    _id: id
+    id
     name
   }
 `;

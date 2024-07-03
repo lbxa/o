@@ -36,7 +36,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
-      user: { id: newUser.id, email: newUserInput.email },
+      user: { id: newUser.id.toString(), email: newUserInput.email },
     };
   }
 

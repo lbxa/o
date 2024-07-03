@@ -1,5 +1,14 @@
 import { PrimaryButton, PrimaryTextInput, Title } from "@universe/atoms";
 import { View } from "react-native";
+import { graphql } from "react-relay";
+
+export const COMMUNITY_SEARCH_QUERY = graphql`
+  query CommunitySearchQuery($id: Int!) {
+    community(id: $id) {
+      ...CommunityFragment
+    }
+  }
+`;
 
 export const CommunitySearch = () => {
   return (
