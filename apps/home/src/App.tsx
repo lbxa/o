@@ -1,8 +1,4 @@
-import "./App.css";
-
 import { createSignal } from "solid-js";
-
-import viteLogo from "/vite.svg";
 
 import solidLogo from "./assets/solid.svg";
 
@@ -10,27 +6,18 @@ function App() {
   const [count, setCount] = createSignal(0);
 
   return (
-    <div>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
+    <div class="w-full bg-red-100">
+      <div class="flex">
         <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
+          <img src={solidLogo} class="w-1/3 m-auto" alt="Solid logo" />
         </a>
       </div>
-      <h1>Welcome to O!</h1>
-      <div class="card">
+      <h1 class="text-5xl font-black">Welcome to O!</h1>
+      <div class="bg-gray-300">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count()}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p class="read-the-docs">
-        Click on the Vite and Solid logos to learn more
-      </p>
     </div>
   );
 }

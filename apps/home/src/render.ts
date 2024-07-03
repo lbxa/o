@@ -1,5 +1,3 @@
-import "./index.css";
-
 import * as THREE from "three";
 
 // DEBUG
@@ -158,7 +156,7 @@ document.addEventListener("mousemove", (e) => {
 
 const clock = new THREE.Clock();
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector("#webgl") as HTMLCanvasElement,
+  canvas: document.querySelector("#webgl")!,
   alpha: true,
   antialias: true,
 });
