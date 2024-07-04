@@ -76,13 +76,9 @@ const addParticle = () => {
 
   const particle = new THREE.Mesh(geometry, material);
 
-  // const [x, y, z] = Array(3)
-  //   .fill()
-  //   .map(() => THREE.MathUtils.randFloatSpread(80));
-
-  const [x, y, z] = [...Array(3)].map(() =>
+  const [x, y, z] = Array.from({ length: 3 }, () =>
     THREE.MathUtils.randFloatSpread(80)
-  );
+  ) as [number, number, number];
 
   particle.position.set(x, y, z);
   particle.castShadow = true;
@@ -90,7 +86,6 @@ const addParticle = () => {
   group.add(particle);
 };
 
-// Array(1000).fill().forEach(addParticle);
 [...Array(1000)].forEach(addParticle);
 
 /** -----------------------------------------------------------------
@@ -141,7 +136,7 @@ let mouseY = 0;
 let targetX = 0;
 let targetY = 0;
 
-document.addEventListener("scroll", (e) => {
+document.addEventListener("scroll", (_) => {
   // camera.position.y = window.scrollY * 0.0009;
   group.position.z = window.scrollY * 0.0005;
 });
