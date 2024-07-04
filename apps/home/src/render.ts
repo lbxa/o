@@ -86,7 +86,7 @@ const addParticle = () => {
   group.add(particle);
 };
 
-[...Array(1000)].forEach(addParticle);
+[...(Array(1000) as number[])].forEach(addParticle);
 
 /** -----------------------------------------------------------------
  *  (2) Lights
@@ -151,6 +151,7 @@ document.addEventListener("mousemove", (e) => {
 
 const clock = new THREE.Clock();
 const renderer = new THREE.WebGLRenderer({
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   canvas: document.querySelector("#webgl")!,
   alpha: true,
   antialias: true,
