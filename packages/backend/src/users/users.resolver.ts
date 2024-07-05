@@ -1,6 +1,7 @@
 import { ParseIntPipe, UseFilters } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 
+import { Public } from "../decorators";
 import { HttpExceptionFilter } from "../error";
 import { UserUpdateInput } from "../types/graphql";
 import { UsersService } from "./users.service";
@@ -13,6 +14,14 @@ export class UsersResolver {
   @Query("user")
   getUser(@Args("id", ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
+  }
+
+  // TODO add currentUser query with regular polling
+
+  @Public()
+  @Query("userValidateEmail")
+  validateEmail(@Args("email") email: string) {
+    return { alreadyTaken: this.usersService.findByEmail(email) };
   }
 
   @Mutation("userUpdate")

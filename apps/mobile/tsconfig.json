@@ -3,8 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@universe/*": ["src/universe/*"],
-      "@utils/*": ["src/utils/*"],
+      "@universe/*": [
+        "src/universe/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
     },
     "jsx": "react-native",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
@@ -17,7 +21,9 @@
     "src",
     "*.ts",
     "*.tsx",
-    "*.js", 
+    "*.js",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ],
   "exclude": [
     "node_modules"

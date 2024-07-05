@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { RelayEnvironment } from "../relay";
 
-export default function RootLayout() {
+export default function Root() {
   return (
     <RelayEnvironment>
       <ThemeProvider value={DefaultTheme}>

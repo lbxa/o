@@ -1,4 +1,4 @@
-// import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Entypo from "@expo/vector-icons/Entypo";
 import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import type { TextInputProps } from "react-native";
@@ -36,7 +36,13 @@ export const PrimaryPasswordInput = (
           className="absolute inset-y-0 right-0 pr-sm m-auto backdrop-blur-md bg-inherit rounded-r-lg"
           onPress={onPress}
         >
-          <Text className="m-auto">{visible ? "S" : "H"}</Text>
+          <View className="m-auto">
+            {visible ? (
+              <Entypo name="eye" size={18} color="black" />
+            ) : (
+              <Entypo name="eye-with-line" size={18} color="black" />
+            )}
+          </View>
         </TouchableOpacity>
       </View>
       {props.error && (

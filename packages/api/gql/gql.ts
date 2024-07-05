@@ -13,8 +13,13 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  fragment UserFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n": types.UserFragmentFragmentDoc,
+    "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n": types.CommunityCreateMutationDocument,
+    "\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n": types.CommunityFragmentFragmentDoc,
+    "\n  query CommunityListQuery {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityListQueryDocument,
+    "\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
+    "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n    }\n  }\n": types.UserCreateMutationDocument,
+    "\n  fragment UserFragment on User {\n    id\n    firstName\n    lastName\n    email\n  }\n": types.UserFragmentFragmentDoc,
     "\n  mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {\n    authLogin(authLoginInput: $authLoginInput) {\n      accessToken\n      refreshToken\n    }\n  }\n": types.UserLoginMutationDocument,
 };
 
@@ -35,11 +40,31 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment UserFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n"): (typeof documents)["\n  fragment UserFragment on User {\n    _id: id\n    firstName\n    lastName\n    email\n  }\n"];
+export function graphql(source: "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n"): (typeof documents)["\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CommunityListQuery {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityListQuery {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n"): (typeof documents)["\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment UserFragment on User {\n    id\n    firstName\n    lastName\n    email\n  }\n"): (typeof documents)["\n  fragment UserFragment on User {\n    id\n    firstName\n    lastName\n    email\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

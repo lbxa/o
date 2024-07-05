@@ -1,5 +1,5 @@
 type User {
-  id: Int
+  id: ID
   handle: String
   firstName: String
   lastName: String 
@@ -8,15 +8,20 @@ type User {
 }
 
 input UserUpdateInput {
-  id: Int!
+  id: ID!
   firstName: String
   lastName: String
   handle: String
   email: String
 }
 
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
+}
+
 type Query {
-  user(id: Int!): User
+  user(id: ID!): User
+  userValidateEmail(email: String!): ValidEmailResponse
 }
 
 type Mutation {
