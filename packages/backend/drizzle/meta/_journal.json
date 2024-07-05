@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1718280599657,
-      "tag": "0000_brief_the_renegades",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1718612883243,
-      "tag": "0001_cool_forgotten_one",
+      "when": 1719137747381,
+      "tag": "0000_fresh_maelstrom",
       "breakpoints": true
     }
   ]

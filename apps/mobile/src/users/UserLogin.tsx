@@ -5,6 +5,8 @@ import {
   PrimaryTextInputControl,
 } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
+import { Link, useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
@@ -22,6 +24,7 @@ const userLoginMutation = graphql`
 `;
 
 export const UserLogin = () => {
+  const router = useRouter();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserLoginMutation>(userLoginMutation);
 
@@ -46,6 +49,11 @@ export const UserLogin = () => {
         },
       },
       updater: (store, data) => {
+        if (data?.authLogin.accessToken) {
+          SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
+          console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
+          router.replace("(app)/home");
+        }
         // store.get("id");
         // data?.login.accessToken;
       },
@@ -72,8 +80,11 @@ export const UserLogin = () => {
               className="mb-md"
               placeholder="email@address.com"
               inputMode="email"
+              autoCapitalize="none"
               onBlur={onBlur}
               onChangeText={onChange}
+              autoCorrect={false}
+              autoFocus={true}
               value={value}
               error={!!errors.email}
               errorMessage={errors.email?.message}
@@ -96,6 +107,7 @@ export const UserLogin = () => {
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
+              autoCorrect={false}
               value={value}
               error={!!errors.password}
               errorMessage={errors.password?.message}
@@ -109,13 +121,13 @@ export const UserLogin = () => {
           onPress={async (e) => {
             // Read more about event pooling
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-            await handleSubmit((data) => {
-              e.persist();
-              e.preventDefault();
-              onSubmit(data);
-            })(e);
+            e.persist();
+            await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
+        <Link href="(auth)/sign-up" className="mt-md underline text-blue-700">
+          Create an account
+        </Link>
       </View>
     </Ozone>
   );

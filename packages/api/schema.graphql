@@ -32,11 +32,46 @@ type AuthLoginResponse {
   user: User!
 }
 
+type Community {
+  events: [Event]
+  id: ID!
+  name: String!
+  users: [User]
+}
+
+input CommunityCreateInput {
+  name: String!
+}
+
+input CommunityUpdateInput {
+  id: ID!
+  name: String
+}
+
+type Event {
+  community: Community
+  field: String
+  id: ID!
+  name: String
+}
+
+input EventCreateInput {
+  communityId: Int!
+  field: String
+  name: String!
+}
+
 type Mutation {
   authCreateNewTokens: AuthCreateNewTokensResponse!
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
+  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
+  communityDelete(id: Int!): Community
+  communityJoin(communityId: Int!, userId: Int!): Community!
+  communityLeave(communityId: Int!, userId: Int!): Community!
+  communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  eventCreate(eventCreateInput: EventCreateInput!): Event!
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
@@ -46,8 +81,12 @@ type Post {
 }
 
 type Query {
+  communities: [Community!]
+  community(id: Int!): Community
+  communityEvents(communityId: Int!): [Event]
   health: String!
   user(id: Int!): User
+  userValidateEmail(email: String!): ValidEmailResponse
 }
 
 type User {
@@ -65,4 +104,8 @@ input UserUpdateInput {
   handle: String
   id: Int!
   lastName: String
+}
+
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
 }
