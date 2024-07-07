@@ -43,6 +43,10 @@ export interface UserUpdateInput {
     email?: Nullable<string>;
 }
 
+export interface Node {
+    id: string;
+}
+
 export interface AuthLoginResponse {
     __typename?: 'AuthLoginResponse';
     accessToken: string;
@@ -78,7 +82,7 @@ export interface IMutation {
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
-export interface Community {
+export interface Community extends Node {
     __typename?: 'Community';
     id: string;
     name: string;
@@ -86,7 +90,7 @@ export interface Community {
     events?: Nullable<Nullable<Event>[]>;
 }
 
-export interface Event {
+export interface Event extends Node {
     __typename?: 'Event';
     id: string;
     name?: Nullable<string>;
@@ -104,15 +108,9 @@ export interface IQuery {
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
 }
 
-export interface Post {
-    __typename?: 'Post';
-    id: number;
-    content: string;
-}
-
-export interface User {
+export interface User extends Node {
     __typename?: 'User';
-    id?: Nullable<string>;
+    id: string;
     handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;

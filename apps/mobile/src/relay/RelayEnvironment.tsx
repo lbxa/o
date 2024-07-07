@@ -1,8 +1,11 @@
 import * as SecureStore from "expo-secure-store";
 import React, { useMemo } from "react";
 import { RelayEnvironmentProvider } from "react-relay";
+import { RelayNetworkLayer } from "react-relay-network-modern";
 import type { FetchFunction, IEnvironment } from "relay-runtime";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
+
+import { middlewares } from "./middlewares";
 
 const fetchFn: FetchFunction = async (request, variables) => {
   const token = SecureStore.getItem("ACCESS_TOKEN");
@@ -19,11 +22,14 @@ const fetchFn: FetchFunction = async (request, variables) => {
     variables,
   });
 
-  const response = await fetch("http://localhost:6969/graphql", {
-    method: "POST",
-    headers,
-    body,
-  });
+  const response = await fetch(
+    process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:6969/graphql",
+    {
+      method: "POST",
+      headers,
+      body,
+    }
+  );
 
   const data = response.json();
 
@@ -38,6 +44,7 @@ const fetchFn: FetchFunction = async (request, variables) => {
 
 function createEnvironment(): IEnvironment {
   const network = Network.create(fetchFn);
+  // const network = new RelayNetworkLayer(middlewares, {});
   const store = new Store(new RecordSource());
   return new Environment({ store, network });
 }

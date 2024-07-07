@@ -5,14 +5,14 @@ import {
   PrimaryTextInputControl,
 } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
-import { Link, useRouter } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import { Link } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
 import type { UserLoginMutation } from "../__generated__/UserLoginMutation.graphql";
+import { useAuth } from "../auth";
 
 const userLoginMutation = graphql`
   mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
@@ -24,7 +24,7 @@ const userLoginMutation = graphql`
 `;
 
 export const UserLogin = () => {
-  const router = useRouter();
+  const { login } = useAuth();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserLoginMutation>(userLoginMutation);
 
@@ -50,12 +50,8 @@ export const UserLogin = () => {
       },
       updater: (store, data) => {
         if (data?.authLogin.accessToken) {
-          SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
-          console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
-          router.replace("(app)/home");
+          login(data.authLogin.accessToken);
         }
-        // store.get("id");
-        // data?.login.accessToken;
       },
       // optimisticUpdater: {},
     });

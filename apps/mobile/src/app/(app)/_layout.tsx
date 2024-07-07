@@ -1,12 +1,13 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import { Redirect, Tabs } from "expo-router";
 
-import { useAuth } from "../../utils/useAuth";
+import { useAuth } from "../../auth";
 
 export default function AppLayout() {
-  const { session } = useAuth();
+  // const { session } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  if (!session) {
+  if (!isAuthenticated) {
     return <Redirect href="(auth)/login" />;
   }
 

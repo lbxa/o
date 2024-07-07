@@ -3,7 +3,7 @@ import { Ozone } from "@universe/molecules";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { useAuth } from "../../utils/useAuth";
+import { useAuth } from "../../auth";
 
 export default function Profile() {
   const router = useRouter();

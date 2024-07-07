@@ -32,7 +32,7 @@ type AuthLoginResponse {
   user: User!
 }
 
-type Community {
+type Community implements Node {
   events: [Event]
   id: ID!
   name: String!
@@ -48,7 +48,7 @@ input CommunityUpdateInput {
   name: String
 }
 
-type Event {
+type Event implements Node {
   community: Community
   field: String
   id: ID!
@@ -67,33 +67,32 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
-  communityDelete(id: Int!): Community
-  communityJoin(communityId: Int!, userId: Int!): Community!
-  communityLeave(communityId: Int!, userId: Int!): Community!
+  communityDelete(id: ID!): Community
+  communityJoin(communityId: ID!, userId: ID!): Community!
+  communityLeave(communityId: ID!, userId: ID!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   eventCreate(eventCreateInput: EventCreateInput!): Event!
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
-type Post {
-  content: String!
-  id: Int!
+interface Node {
+  id: ID!
 }
 
 type Query {
   communities: [Community!]
-  community(id: Int!): Community
-  communityEvents(communityId: Int!): [Event]
+  community(id: ID!): Community
+  communityEvents(communityId: ID!): [Event]
   health: String!
-  user(id: Int!): User
+  user(id: ID!): User
   userValidateEmail(email: String!): ValidEmailResponse
 }
 
-type User {
+type User implements Node {
   email: String
   firstName: String
   handle: String
-  id: Int
+  id: ID!
   lastName: String
   password: String
 }
@@ -102,7 +101,7 @@ input UserUpdateInput {
   email: String
   firstName: String
   handle: String
-  id: Int!
+  id: ID!
   lastName: String
 }
 

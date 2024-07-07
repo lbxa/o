@@ -16,7 +16,7 @@ const documents = {
     "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n    }\n  }\n": types.CommunityCreateMutationDocument,
     "\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n": types.CommunityFragmentFragmentDoc,
     "\n  query CommunityListQuery {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityListQueryDocument,
-    "\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
+    "\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
     "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n    }\n  }\n": types.UserCreateMutationDocument,
     "\n  fragment UserFragment on User {\n    id\n    firstName\n    lastName\n    email\n  }\n": types.UserFragmentFragmentDoc,
@@ -52,7 +52,7 @@ export function graphql(source: "\n  query CommunityListQuery {\n    communities
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunitySearchQuery($id: Int!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"];
+export function graphql(source: "\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

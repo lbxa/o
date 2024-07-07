@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { graphql } from "react-relay";
 
 export const COMMUNITY_SEARCH_QUERY = graphql`
-  query CommunitySearchQuery($id: Int!) {
+  query CommunitySearchQuery($id: ID!) {
     community(id: $id) {
       ...CommunityFragment
     }

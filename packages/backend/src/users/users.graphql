@@ -1,5 +1,5 @@
-type User {
-  id: ID
+type User implements Node {
+  id: ID!
   handle: String
   firstName: String
   lastName: String 

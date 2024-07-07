@@ -20,7 +20,6 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       loadCommunityList({});
-      console.log("communityListQueryRef", communityListQueryRef);
     }, [])
   );
 

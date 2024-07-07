@@ -1,11 +1,11 @@
-type Community {
+type Community implements Node {
   id: ID!
   name: String!
   users: [User]
   events: [Event]
 }
 
-type Event {
+type Event implements Node {
   id: ID!
   name: String
   field: String

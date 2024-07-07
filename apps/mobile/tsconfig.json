@@ -13,7 +13,8 @@
     "jsx": "react-native",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "types": [
-      "nativewind/types"
+      "nativewind/types",
+      "node"
     ],
     "checkJs": false
   },
