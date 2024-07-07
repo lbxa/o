@@ -2,9 +2,9 @@ import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useFragment } from "react-relay";
 
-import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
-import { COMMUNITY_FRAGMENT } from "../../communities";
-import { Subtitle } from "../atoms";
+import type { CommunityFragment$key } from "../__generated__/CommunityFragment.graphql";
+import { Subtitle } from "../universe/atoms";
+import { COMMUNITY_FRAGMENT } from ".";
 
 interface Props {
   community: CommunityFragment$key;

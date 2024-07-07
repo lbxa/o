@@ -1,9 +1,9 @@
-import { CommunityCard } from "@universe/molecules";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
 import type { CommunityListQuery } from "../__generated__/CommunityListQuery.graphql";
+import { CommunityCard } from "./CommunityCard";
 
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {

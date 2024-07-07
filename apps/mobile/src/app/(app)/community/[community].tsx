@@ -1,7 +1,7 @@
 import { Ozone } from "@universe/molecules";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
-import { Text } from "react-native";
+import { Text, Touchable, TouchableOpacity, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { useFragment, usePreloadedQuery, useQueryLoader } from "react-relay";
 
@@ -11,6 +11,12 @@ import {
   COMMUNITY_FRAGMENT,
   COMMUNITY_SEARCH_QUERY,
 } from "../../../communities";
+import {
+  PrimaryButton,
+  PrimaryTextInput,
+  Subtitle,
+  Title,
+} from "../../../universe/atoms";
 
 interface DumbProps {
   frag: CommunityFragment$key;
@@ -48,7 +54,7 @@ export default function CommunityPage() {
   );
 
   useEffect(() => {
-    loadQuery({ id: Number(communityId) }, { fetchPolicy: "store-only" });
+    loadQuery({ id: communityId! }, { fetchPolicy: "store-only" });
   }, [communityId, loadQuery]);
 
   if (!queryRef) {
@@ -57,7 +63,20 @@ export default function CommunityPage() {
 
   return (
     <Ozone>
-      <CommunityDetails queryRef={queryRef} />
+      <View className="w-full h-[200px] bg-gray-300 mb-md"></View>
+      {/* <CommunityDetails queryRef={queryRef} /> */}
+      <View className="px-md">
+        <Title title="Create a Challenge" />
+        <Subtitle title="Individual or team" />
+        <View className="flex flex-row justify-between mb-md">
+          <PrimaryButton title="Individual" />
+          <PrimaryButton title="Group" />
+        </View>
+        <Subtitle title="Select date" />
+        <Subtitle title="Challenge access code" />
+        <PrimaryTextInput placeholder="1234" className="mb-md" />
+        <PrimaryButton title="Start"></PrimaryButton>
+      </View>
     </Ozone>
   );
 }
