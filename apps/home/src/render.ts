@@ -60,6 +60,38 @@ sphere.castShadow = true;
 sphere.receiveShadow = true;
 group.add(sphere);
 
+const centerSphereGeometry = new THREE.SphereGeometry(0.5, 64, 64);
+const centerSphereMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x808080,
+  metalness: 0.1,
+  roughness: 0.1,
+  transmission: 0.9, // This makes the material transmissive
+  transparent: true,
+  opacity: 0.8,
+  clearcoat: 1.0,
+  clearcoatRoughness: 0.1,
+  side: THREE.DoubleSide,
+});
+
+const centerSphere = new THREE.Mesh(centerSphereGeometry, centerSphereMaterial);
+centerSphere.position.set(0, 0, 0); // Position at the center
+centerSphere.castShadow = true;
+centerSphere.receiveShadow = true;
+// group.add(centerSphere);
+
+// Add environment map for realistic reflections
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+const environmentMap = cubeTextureLoader.load([
+  "/img/envmap/px.png",
+  "/img/envmap/nx.png",
+  "/img/envmap/py.png",
+  "/img/envmap/ny.png",
+  "/img/envmap/pz.png",
+  "/img/envmap/nz.png",
+]);
+scene.environment = environmentMap;
+centerSphereMaterial.envMap = environmentMap;
+
 const addParticle = () => {
   const geometry = new THREE.SphereGeometry(0.05, 10, 10);
 
@@ -77,7 +109,7 @@ const addParticle = () => {
   const particle = new THREE.Mesh(geometry, material);
 
   const [x, y, z] = Array.from({ length: 3 }, () =>
-    THREE.MathUtils.randFloatSpread(80)
+    THREE.MathUtils.randFloatSpread(40)
   ) as [number, number, number];
 
   particle.position.set(x, y, z);
@@ -86,7 +118,7 @@ const addParticle = () => {
   group.add(particle);
 };
 
-[...(Array(1000) as number[])].forEach(addParticle);
+[...(Array(200) as number[])].forEach(addParticle);
 
 /** -----------------------------------------------------------------
  *  (2) Lights
@@ -142,11 +174,8 @@ document.addEventListener("scroll", (_) => {
 });
 
 document.addEventListener("mousemove", (e) => {
-  const windowHalfX = window.innerWidth / 2;
-  const windowHalfY = window.innerHeight / 2;
-
-  mouseX = e.clientX - windowHalfX;
-  mouseY = e.clientY - windowHalfY;
+  mouseX = e.clientX - window.innerWidth / 2;
+  mouseY = e.clientY - window.innerHeight / 2;
 });
 
 const clock = new THREE.Clock();
