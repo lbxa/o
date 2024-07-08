@@ -66,6 +66,9 @@ importers:
       vite-plugin-solid:
         specifier: ^2.10.2
         version: 2.10.2(solid-js@1.8.18)(vite@5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1))
+      vite-tsconfig-paths:
+        specifier: ^4.3.2
+        version: 4.3.2(typescript@5.3.3)(vite@5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1))
 
   apps/mobile:
     dependencies:
@@ -353,6 +356,9 @@ importers:
       eslint-plugin-simple-import-sort:
         specifier: ^12.1.0
         version: 12.1.0(eslint@9.5.0)
+      eslint-plugin-tailwindcss:
+        specifier: ^3.17.4
+        version: 3.17.4(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.14.5)(typescript@5.4.5)))
       prettier:
         specifier: ^3.3.1
         version: 3.3.2
@@ -4598,6 +4604,12 @@ packages:
     peerDependencies:
       eslint: '>=5.0.0'
 
+  eslint-plugin-tailwindcss@3.17.4:
+    resolution: {integrity: sha512-gJAEHmCq2XFfUP/+vwEfEJ9igrPeZFg+skeMtsxquSQdxba9XRk5bn0Bp9jxG1VV9/wwPKi1g3ZjItu6MIjhNg==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      tailwindcss: ^3.4.0
+
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
     engines: {node: '>=8.0.0'}
@@ -5124,6 +5136,9 @@ packages:
   globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
+
+  globrex@0.1.2:
+    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
 
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
@@ -7992,6 +8007,16 @@ packages:
       '@swc/wasm':
         optional: true
 
+  tsconfck@3.1.1:
+    resolution: {integrity: sha512-00eoI6WY57SvZEVjm13stEVE90VkEdJAFGgpFLTsZbJyW/LwFQ7uQxJHWpZ2hzSWgCPKc9AnBnNP+0X7o3hAmQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    peerDependencies:
+      typescript: ^5.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   tsconfig-paths-webpack-plugin@4.1.0:
     resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
     engines: {node: '>=10.13.0'}
@@ -8280,6 +8305,14 @@ packages:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       '@testing-library/jest-dom':
+        optional: true
+
+  vite-tsconfig-paths@4.3.2:
+    resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
+    peerDependencies:
+      vite: '*'
+    peerDependenciesMeta:
+      vite:
         optional: true
 
   vite@5.3.3:
@@ -13976,6 +14009,12 @@ snapshots:
     dependencies:
       eslint: 9.5.0
 
+  eslint-plugin-tailwindcss@3.17.4(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.14.5)(typescript@5.4.5))):
+    dependencies:
+      fast-glob: 3.3.2
+      postcss: 8.4.39
+      tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.14.5)(typescript@5.4.5))
+
   eslint-scope@5.1.1:
     dependencies:
       esrecurse: 4.3.0
@@ -14722,6 +14761,8 @@ snapshots:
       ignore: 5.3.1
       merge2: 1.4.1
       slash: 3.0.0
+
+  globrex@0.1.2: {}
 
   gopd@1.0.1:
     dependencies:
@@ -17978,6 +18019,10 @@ snapshots:
       yn: 3.1.1
     optional: true
 
+  tsconfck@3.1.1(typescript@5.3.3):
+    optionalDependencies:
+      typescript: 5.3.3
+
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
       chalk: 4.1.2
@@ -18247,6 +18292,17 @@ snapshots:
       vitefu: 0.2.5(vite@5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1))
     transitivePeerDependencies:
       - supports-color
+
+  vite-tsconfig-paths@4.3.2(typescript@5.3.3)(vite@5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1)):
+    dependencies:
+      debug: 4.3.5(supports-color@5.5.0)
+      globrex: 0.1.2
+      tsconfck: 3.1.1(typescript@5.3.3)
+    optionalDependencies:
+      vite: 5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   vite@5.3.3(@types/node@20.14.5)(lightningcss@1.22.0)(terser@5.31.1):
     dependencies:

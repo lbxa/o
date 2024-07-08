@@ -8,6 +8,7 @@ import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import prettierPlugin from "eslint-plugin-prettier";
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
+import tailwind from "eslint-plugin-tailwindcss";
 
 export default tseslint.config(
   {
@@ -29,6 +30,7 @@ export default tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
+      ...tailwind.configs["flat/recommended"]
     ],
     rules: {
       "prettier/prettier": ["error", {
@@ -44,7 +46,8 @@ export default tseslint.config(
         "error", { 
           "code": 80, 
           "ignoreComments": true, 
-          "ignorePattern": "^import\\s.+\\sfrom\\s.+;$" 
+          "ignorePattern": "^import\\s.+\\sfrom\\s.+;$",
+          "ignoreStrings": true
         } 
       ],
       "@typescript-eslint/no-unused-vars": [
