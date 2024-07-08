@@ -7,9 +7,8 @@ export const App = () => {
   return (
     <div class="w-full">
       <div class="mx-auto mb-lg flex w-full flex-col justify-around rounded-b-3xl bg-black py-3 text-white">
-        <h1 class="pl-3 text-6xl font-black md:text-7xl">Welcome </h1>
-        <h1 class="pl-3 text-6xl font-black md:text-7xl">to</h1>
-        <h1 class="bg-picasso bg-contain bg-clip-text bg-center pl-3 text-6xl font-black text-transparent md:text-7xl">
+        <h1 class="pl-3 text-6xl font-black md:text-7xl">Welcome to</h1>
+        <h1 class="inline bg-picasso bg-contain bg-clip-text bg-center pl-3 text-6xl font-black text-transparent md:text-7xl">
           oNex
         </h1>
       </div>

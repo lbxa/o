@@ -2,7 +2,7 @@ import { Li, Title, Ul } from "@universe/atoms";
 import { createSignal, For } from "solid-js";
 
 export const Why = () => {
-  const [active, setActive] = createSignal<boolean>(false);
+  const [active, setActive] = createSignal<boolean>(true);
 
   const items: string[] = [
     "Customisable challenges: We provide the tools to tailor fitness challenges catering to your community's unique needs.",
