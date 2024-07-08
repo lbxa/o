@@ -5,7 +5,7 @@ export const App = () => {
   const date = new Date();
 
   return (
-    <div class="h-screen w-full">
+    <div class="w-full">
       <div class="mx-auto mb-lg flex w-full flex-col justify-around rounded-b-3xl bg-black py-3 text-white">
         <h1 class="pl-3 text-6xl font-black md:text-7xl">Welcome </h1>
         <h1 class="pl-3 text-6xl font-black md:text-7xl">to</h1>
