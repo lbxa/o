@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@universe/*": ["src/universe/*"],
+      "@icons/*": ["src/icons/*"],
     },
     // "composite": true,
     // "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",

@@ -93,7 +93,7 @@ scene.environment = environmentMap;
 centerSphereMaterial.envMap = environmentMap;
 
 const addParticle = () => {
-  const geometry = new THREE.SphereGeometry(0.05, 10, 10);
+  const geometry = new THREE.SphereGeometry(0.1, 10, 10);
 
   const material = new THREE.MeshPhongMaterial({
     shininess: 100,
