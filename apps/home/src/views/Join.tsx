@@ -4,6 +4,10 @@ export const Join = () => {
   return (
     <div class="mb-xl">
       <Title>Join Us</Title>
+      <p class="mb-sm">
+        Be amongst the first to join our waitlist and gain early access to
+        exclusive features for free!
+      </p>
       <input
         type="email"
         placeholder="name@email.com"
