@@ -16,18 +16,18 @@ import {
 export const Why = () => {
   const items: () => WhyCardProps[] = () => [
     {
-      title: "Customisable challenges",
+      title: "Customisable Challenges",
       body: "We provide the tools to tailor fitness challenges catering to your community's unique needs.",
       icon: <Svg src={DumbbellSvg} />,
       blurred: true,
     },
     {
-      title: "Highly interactive",
+      title: "Highly Interactive",
       body: "Seamless interactions between members and staff in and outside of the gym through our social channels.",
       icon: <Svg src={AppIconsSvg} />,
     },
     {
-      title: "Data data data",
+      title: "Data Data Data",
       body: "Utilise our analytic tools to gain valuable insights into member preferences and behaviours, enhancing gym management and member satisfaction.",
       icon: <Svg src={ChartSvg} />,
       blurred: true,

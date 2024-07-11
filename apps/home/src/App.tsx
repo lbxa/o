@@ -1,12 +1,11 @@
 import { FaQ } from "./views/FaQ/FaQ";
+import { Footer } from "./views/Footer";
 import { Mission } from "./views/Mission";
 import { Pilot } from "./views/Pilot";
 import { Waitlist } from "./views/Waitlist";
 import { Why } from "./views/Why";
 
 export const App = () => {
-  const date = new Date();
-
   return (
     <div class="w-full selection:bg-black selection:text-white">
       <div class="mx-auto mb-xl flex w-full flex-col justify-around rounded-b-3xl bg-black py-3 text-white lg:text-center">
@@ -24,9 +23,7 @@ export const App = () => {
           <Waitlist />
         </div>
       </div>
-      <div class="pb-md text-center">
-        <span>oNex {date.getFullYear()}</span>
-      </div>
+      <Footer />
     </div>
   );
 };
