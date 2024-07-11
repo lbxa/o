@@ -3,8 +3,8 @@ export const Footer = () => {
   return (
     <div>
       <div class="mb-md text-center">
-        Get in touch with the founders
-        <a href="mailto:lucas@onex.social" class="block underline">
+        <p class="mb-sm">Get in touch with the founders</p>
+        <a href="mailto:lucas@onex.social" class="mb-sm block underline">
           lucas@onex.social
         </a>
         <a href="mailto:jamie@onex.social" class="block underline">
