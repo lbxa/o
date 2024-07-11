@@ -43,54 +43,9 @@ window.addEventListener("resize", () => {
  *  (1) Geometries
  */
 
-const geometry = new THREE.SphereGeometry(0.5, 30, 30);
-
 // MacOS: size: 0.005
 // Windows: size: 0.000001
 // Linux:
-const material = new THREE.PointsMaterial({
-  size: 0.008,
-  sizeAttenuation: true,
-  map: new THREE.TextureLoader().load("/img/disc.png"),
-  transparent: true,
-});
-
-const sphere = new THREE.Points(geometry, material);
-sphere.castShadow = true;
-sphere.receiveShadow = true;
-group.add(sphere);
-
-const centerSphereGeometry = new THREE.SphereGeometry(0.5, 64, 64);
-const centerSphereMaterial = new THREE.MeshPhysicalMaterial({
-  color: 0x808080,
-  metalness: 0.1,
-  roughness: 0.1,
-  transmission: 0.9, // This makes the material transmissive
-  transparent: true,
-  opacity: 0.8,
-  clearcoat: 1.0,
-  clearcoatRoughness: 0.1,
-  side: THREE.DoubleSide,
-});
-
-const centerSphere = new THREE.Mesh(centerSphereGeometry, centerSphereMaterial);
-centerSphere.position.set(0, 0, 0); // Position at the center
-centerSphere.castShadow = true;
-centerSphere.receiveShadow = true;
-// group.add(centerSphere);
-
-// Add environment map for realistic reflections
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-const environmentMap = cubeTextureLoader.load([
-  "/img/envmap/px.png",
-  "/img/envmap/nx.png",
-  "/img/envmap/py.png",
-  "/img/envmap/ny.png",
-  "/img/envmap/pz.png",
-  "/img/envmap/nz.png",
-]);
-scene.environment = environmentMap;
-centerSphereMaterial.envMap = environmentMap;
 
 const addParticle = () => {
   const geometry = new THREE.SphereGeometry(0.1, 10, 10);
@@ -102,7 +57,6 @@ const addParticle = () => {
     transparent: true,
     side: THREE.BackSide,
     blending: THREE.AdditiveBlending,
-    // map: particleTexture,
     depthWrite: false,
   });
 
@@ -162,21 +116,21 @@ scene.add(camera);
 /** -----------------------------------------------------------------
  *  (4) Rendering
  */
-let mouseX = 0;
-let mouseY = 0;
+const mouseX = 0;
+const mouseY = 0;
 
 let targetX = 0;
 let targetY = 0;
 
-document.addEventListener("scroll", (_) => {
-  // camera.position.y = window.scrollY * 0.0009;
-  group.position.z = window.scrollY * 0.0005;
-});
+// document.addEventListener("scroll", (_) => {
+//   // camera.position.y = window.scrollY * 0.0009;
+//   group.position.z = window.scrollY * 0.0005;
+// });
 
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX - window.innerWidth / 2;
-  mouseY = e.clientY - window.innerHeight / 2;
-});
+// document.addEventListener("mousemove", (e) => {
+//   mouseX = e.clientX - window.innerWidth / 2;
+//   mouseY = e.clientY - window.innerHeight / 2;
+// });
 
 const clock = new THREE.Clock();
 const renderer = new THREE.WebGLRenderer({
@@ -185,6 +139,7 @@ const renderer = new THREE.WebGLRenderer({
   alpha: true,
   antialias: true,
 });
+
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 

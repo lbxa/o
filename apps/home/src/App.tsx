@@ -1,13 +1,14 @@
 import { FaQ } from "./views/FaQ/FaQ";
-import { Join } from "./views/Join";
 import { Mission } from "./views/Mission";
+import { Pilot } from "./views/Pilot";
+import { Waitlist } from "./views/Waitlist";
 import { Why } from "./views/Why";
 
 export const App = () => {
   const date = new Date();
 
   return (
-    <div class="w-full selection:bg-fuchsia-300 selection:text-fuchsia-900">
+    <div class="w-full selection:bg-black selection:text-white">
       <div class="mx-auto mb-xl flex w-full flex-col justify-around rounded-b-3xl bg-black py-3 text-white lg:text-center">
         <h1 class="pl-3 text-6xl font-black md:text-7xl">Welcome to</h1>
         <h1 class="inline bg-picasso bg-contain bg-clip-text bg-center pl-3 text-6xl font-black text-transparent md:text-7xl">
@@ -18,8 +19,9 @@ export const App = () => {
         <Mission />
         <div>
           <Why />
-          <Join />
+          <Pilot />
           <FaQ />
+          <Waitlist />
         </div>
       </div>
       <div class="pb-md text-center">

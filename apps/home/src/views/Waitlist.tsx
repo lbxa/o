@@ -1,12 +1,12 @@
 import { Title } from "../universe/atoms";
 
-export const Join = () => {
+export const Waitlist = () => {
   return (
     <div class="mb-xl">
-      <Title>Join Us</Title>
+      <Title>Join the Waitlist</Title>
       <p class="mb-sm">
-        Be amongst the first to join our waitlist and gain early access to
-        exclusive features for free!
+        Don't want to be an early user but still interested? Join our waitlist
+        and you'll be notified as soon as we launch our general release!
       </p>
       <input
         type="email"
