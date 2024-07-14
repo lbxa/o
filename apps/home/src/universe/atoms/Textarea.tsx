@@ -1,7 +1,11 @@
 import type { JSX } from "solid-js";
 
-export const TextArea = (
-  props: JSX.TextareaHTMLAttributes<HTMLTextAreaElement>
+interface TextAreaInputProps {
+  error?: string;
+}
+
+export const TextAreaInput = (
+  props: JSX.TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
 ) => {
   return (
     <textarea

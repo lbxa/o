@@ -1,6 +1,58 @@
-import { Highlight, Input, TextArea, Title } from "@universe/atoms";
+import type { SubmitHandler } from "@modular-forms/solid";
+import { createForm, FormError, zodForm } from "@modular-forms/solid";
+import {
+  Button,
+  Highlight,
+  TextAreaInput,
+  TextInput,
+  Title,
+} from "@universe/atoms";
+import { createSignal } from "solid-js";
+import { z } from "zod";
+
+export const pilotFormSchema = z.object({
+  fullName: z
+    .string()
+    .min(1, "What should we call you?")
+    .max(100, "Full name must be less than 100 characters"),
+  email: z
+    .string()
+    .min(1, "We'll need your email!")
+    .email("Invalid email address"),
+  message: z.string().max(500, "Message must be less than 500 characters"),
+});
+
+export type PilotForm = z.infer<typeof pilotFormSchema>;
 
 export const Pilot = () => {
+  const [loginForm, { Form, Field }] = createForm<PilotForm>({
+    initialValues: { fullName: "", email: "", message: "" },
+    validate: zodForm(pilotFormSchema),
+  });
+
+  const [complete, setComplete] = createSignal(false);
+
+  const handleSubmit: SubmitHandler<PilotForm> = async (values, _) => {
+    try {
+      const response = await fetch(import.meta.env.VITE_PILOT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...values }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add to pilot program");
+      }
+
+      setComplete(true);
+      return response.text();
+    } catch (error) {
+      throw new FormError<PilotForm>("An error has occurred.");
+    }
+  };
+
   return (
     <div class="mb-xl">
       <Title>Early Users</Title>
@@ -15,12 +67,41 @@ export const Pilot = () => {
         develop, making sure they work perfectly for you. We're building this
         together!
       </p>
-      <Input type="text" placeholder="Full name" />
-      <Input type="email" placeholder="name@email.com" />
-      <TextArea rows={4} />
-      <button class="w-full rounded-lg bg-black p-sm px-md font-bold text-white">
-        JOIN THE LIMITED RELEASE
-      </button>
+      <Form onSubmit={handleSubmit}>
+        <Field name="fullName">
+          {(field, props) => (
+            <TextInput
+              type="text"
+              placeholder="Full name"
+              error={field.error}
+              {...props}
+              required
+            />
+          )}
+        </Field>
+        <Field name="email">
+          {(field, props) => (
+            <TextInput
+              type="email"
+              placeholder="name@email.com"
+              error={field.error}
+              {...props}
+              required
+            />
+          )}
+        </Field>
+        <Field name="message">
+          {(_, props) => <TextAreaInput rows={4} {...props} />}
+        </Field>
+        <Button
+          type="submit"
+          checked={complete()}
+          checkedText="THANK YOU"
+          loading={loginForm.submitting}
+        >
+          JOIN THE LIMITED RELEASE
+        </Button>
+      </Form>
     </div>
   );
 };
