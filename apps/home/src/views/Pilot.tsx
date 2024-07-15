@@ -96,6 +96,7 @@ export const Pilot = () => {
         <Button
           type="submit"
           checked={complete()}
+          disabled={complete()}
           checkedText="THANK YOU"
           loading={loginForm.submitting}
         >

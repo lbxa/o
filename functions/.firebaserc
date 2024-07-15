@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "onext-waitlists",
+    "staging": "onext-waitlists"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

@@ -21,7 +21,6 @@ export const Waitlist = () => {
   const [complete, setComplete] = createSignal(false);
 
   const handleSubmit: SubmitHandler<WaitlistForm> = async (values, _) => {
-    console.log(JSON.stringify({ ...values }));
     try {
       const response = await fetch(import.meta.env.VITE_WAITLIST_URL, {
         method: "POST",
@@ -64,6 +63,7 @@ export const Waitlist = () => {
         <Button
           type="submit"
           checked={complete()}
+          disabled={complete()}
           checkedText="THANK YOU"
           loading={waitlistForm.submitting}
         >
