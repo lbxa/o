@@ -1,0 +1,1 @@
+There is very poor monorepo support for Firebase. Consider this a fully isolated package.

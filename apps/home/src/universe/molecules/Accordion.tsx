@@ -1,10 +1,11 @@
+import type { JSX } from "solid-js";
 import { createSignal, Index } from "solid-js";
 
 import { MinusSvg, PlusSvg, Svg } from "../../icons";
 
-interface AccordionItem {
+export interface AccordionItem {
   title: string;
-  body: string | Element;
+  body: string | JSX.Element;
   active?: boolean;
   onClick?: () => void;
   isFirst?: boolean;
