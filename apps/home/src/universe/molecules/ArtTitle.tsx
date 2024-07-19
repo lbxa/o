@@ -5,16 +5,9 @@ export const ArtTitle = () => {
 
   onMount(() => {
     const day = new Date().getDay();
-
-    const evens = ["picasso", "warhol"];
-    const odds = ["raphael"];
-
-    const isEvenDay = day % 2 === 0;
-    const bgClassName = isEvenDay
-      ? evens[day % evens.length]
-      : odds[day % odds.length];
-
-    setBgClass("bg-" + bgClassName);
+    const art = ["bg-picasso", "bg-warhol", "bg-raphael"];
+    const artOfTheDay = art[day % art.length] ?? "bg-picasso";
+    setBgClass(artOfTheDay);
   });
 
   return (
