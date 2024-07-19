@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'picasso': "url('assets/picasso.jpg')"
+        'picasso': "url('assets/images/picasso.jpg')",
+        'raphael': "url('assets/images/raphael.jpg')",
+        'warhol': "url('assets/images/warhol-soup.jpg')"
       }
     }
   }

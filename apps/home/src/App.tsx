@@ -1,3 +1,5 @@
+import { ArtTitle } from "@universe/molecules";
+
 import { FaQ } from "./views/FaQ/FaQ";
 import { Footer } from "./views/Footer";
 import { Mission } from "./views/Mission";
@@ -10,9 +12,7 @@ export const App = () => {
     <div class="w-full selection:bg-black selection:text-white">
       <div class="mx-auto mb-xl flex w-full flex-col justify-around rounded-b-3xl bg-black py-sm pl-sm text-white lg:rounded-none lg:pl-0 lg:text-center">
         <h1 class="text-6xl font-black md:text-7xl">Welcome to</h1>
-        <h1 class="inline bg-picasso bg-contain bg-clip-text bg-center text-6xl font-black text-transparent md:text-7xl">
-          oNex
-        </h1>
+        <ArtTitle />
       </div>
       <div class="mx-auto flex flex-col px-sm pb-[30vh] sm:max-w-screen-sm md:flex-row md:gap-lg lg:max-w-screen-md">
         <Mission />
