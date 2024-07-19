@@ -5,7 +5,13 @@ export const ArtTitle = () => {
 
   onMount(() => {
     const day = new Date().getDay();
-    const art = ["bg-picasso", "bg-warhol", "bg-raphael"];
+    const art = [
+      "bg-picasso",
+      "bg-warhol",
+      "bg-raphael",
+      "bg-monet",
+      "bg-lichtenstein",
+    ];
     const artOfTheDay = art[day % art.length] ?? "bg-picasso";
     setBgClass(artOfTheDay);
   });
@@ -13,8 +19,8 @@ export const ArtTitle = () => {
   return (
     <h1
       class={`inline ${bgClass()} bg-contain 
-              bg-clip-text bg-center text-6xl 
-              font-black text-transparent md:text-7xl
+              bg-clip-text bg-center text-6xl font-black 
+              text-transparent md:text-7xl
             `}
     >
       oNex

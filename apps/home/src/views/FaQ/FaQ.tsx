@@ -44,11 +44,41 @@ const howItWorks = (): AccordionItem => {
   };
 };
 
+const challengeInfo = (): AccordionItem => {
+  const descriptions: { body: string }[] = [
+    {
+      body: "Create a team-based running challenge, e.g. 'The team that runs the most by the end of the week wins.'",
+    },
+    {
+      body: "Set metrics like random teams, one-week duration, and distance-based competition.",
+    },
+    {
+      body: "As a user you can check your team, track the leaderboard in real-time, and motivate teammates to run more.",
+    },
+    {
+      body: "Engage with your team, communicate, and strive to win together.",
+    },
+  ];
+
+  return {
+    title: "What’s an example of a challenge I could offer?",
+    body: (
+      <div>
+        {
+          <For each={descriptions}>
+            {({ body }) => <p class="mb-sm last:mb-0">{body}</p>}
+          </For>
+        }
+      </div>
+    ),
+  };
+};
+
 export const FaQ = (): JSX.Element => {
   return (
     <div class="mb-xl">
       <Title>FaQ</Title>
-      <Accordion items={[howItWorks(), ...faqItems]} />
+      <Accordion items={[howItWorks(), challengeInfo(), ...faqItems]} />
     </div>
   );
 };

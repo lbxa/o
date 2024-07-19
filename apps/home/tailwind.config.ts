@@ -9,8 +9,10 @@ export default {
       backgroundImage: {
         'picasso': "url('assets/images/picasso.jpg')",
         'raphael': "url('assets/images/raphael.jpg')",
-        'warhol': "url('assets/images/warhol-soup.jpg')"
-      }
+        'warhol': "url('assets/images/warhol-soup.jpg')",
+        'monet': "url('assets/images/monet.jpg')",
+        'lichtenstein': "url('assets/images/lichtenstein.jpg')"
+      } 
     }
   }
 } satisfies Config;
