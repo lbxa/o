@@ -19,7 +19,6 @@ export const Why = () => {
       title: "Customisable Challenges",
       body: "We provide the tools to tailor fitness challenges catering to your community's unique needs.",
       icon: <Svg src={DumbbellSvg} />,
-      blurred: true,
     },
     {
       title: "Highly Interactive",
@@ -30,7 +29,6 @@ export const Why = () => {
       title: "Data Data Data",
       body: "Utilise our analytic tools to gain valuable insights into member preferences and behaviours, enhancing gym management and member satisfaction.",
       icon: <Svg src={ChartSvg} />,
-      blurred: true,
     },
     {
       title: "Gamification",
@@ -41,13 +39,11 @@ export const Why = () => {
       title: "Community",
       body: "A supportive environment where members connect and progress together!",
       icon: <Svg src={GroupSvg} />,
-      blurred: true,
     },
     {
       title: "Speed",
       body: "oNex is just getting started. New features are rolling out every week.",
       icon: <Svg src={BoltSvg} class="w-md" />,
-      blurred: true,
     },
   ];
 
