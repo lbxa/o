@@ -1,3 +1,3 @@
 export * from "./Accordion";
-export * from "./ArtTitle";
+export * from "./Header";
 export * from "./WhyCard";

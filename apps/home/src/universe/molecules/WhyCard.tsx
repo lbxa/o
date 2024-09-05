@@ -33,7 +33,7 @@ export const WhyCard = (props: ParentProps<WhyCardProps>): JSX.Element => {
   return (
     <div
       onClick={() => setActive((prev) => !prev)}
-      class="relative mb-md rounded-lg border-2 border-solid border-black p-sm shadow-lg"
+      class="relative mb-md rounded-lg border-2 border-solid border-black bg-gray-100 p-sm shadow-lg"
     >
       <div class="flex gap-2 pb-xs">
         {props.icon}
