@@ -14,6 +14,21 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="Discover oNex. No one should go to the gym alone. Connect with workout buddies, join friendly competitions. With personalized challenges and progress tracking, oNex transforms fitness into a fun, social, and motivating journey. Say goodbye to quitting.">
     <title>oNex</title>
+    <script>
+      const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+
+      function updateThemeColor() {
+        themeColorMetaTag?.setAttribute("content", "#5955eb");
+      }
+
+      updateThemeColor(); // Initial call to set the theme color based on current mode
+
+      const observer = new MutationObserver(updateThemeColor);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

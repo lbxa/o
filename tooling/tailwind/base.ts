@@ -4,6 +4,27 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        ivory: {
+          light: "#f4f8fb",
+          DEFAULT: "#edf4f8",
+          dark: "#4893af",
+        },
+        indigo: {
+          light: "#e1e6fe",
+          DEFAULT: "#5955eb",
+          dark: "#37307f",
+        },
+        violet: {
+          light: "#ede9fe",
+          DEFAULT: "#a488f8",
+          dark: "#4c1f93",
+        },
+        navy: {
+          light: "#5849ff",
+          DEFAULT: "#0c044d",
+        },
+      },
       spacing: {
         xs: "0.25rem", // 4px
         sm: "0.5rem", // 8px

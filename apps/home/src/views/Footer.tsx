@@ -1,7 +1,7 @@
 export const Footer = () => {
   const date = new Date();
   return (
-    <div class="rounded-t-3xl bg-black pt-md text-white lg:rounded-none">
+    <div class="rounded-t-3xl bg-indigo pt-md text-ivory lg:rounded-none">
       <div class="mb-md text-center">
         <p class="mb-sm">Get in touch with the founders</p>
         <a href="mailto:lucas@onex.social" class="mb-sm block underline">
