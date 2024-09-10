@@ -55,7 +55,7 @@ export const Pilot = () => {
 
   return (
     <div class="mb-xl">
-      <Title>Early Users</Title>
+      <Title>Hosts</Title>
       <p class="mb-md text-3xl">
         Join our community of early adopters in the{" "}
         <Highlight color="black">limited release</Highlight> and be among the
@@ -64,8 +64,7 @@ export const Pilot = () => {
       <p class="mb-md">
         Enjoy free access to the platform and help shape its future by sharing
         your feedback. Your insights will directly influence the features we
-        develop, making sure they work perfectly for you. We're building this
-        together!
+        develop, making sure they work for you. We're building this together!
       </p>
       <Form onSubmit={handleSubmit}>
         <Field name="fullName">

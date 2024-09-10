@@ -43,10 +43,11 @@ export const Waitlist = () => {
 
   return (
     <div class="mb-xl">
-      <Title>Join the Waitlist</Title>
-      <p class="mb-sm">
-        Don't want to be an early user but still interested? Join our waitlist
-        and you'll be notified as soon as we launch our general release!
+      <Title>Users</Title>
+      <p class="mb-md">
+        Interested in how to level up your fitness journey alongside our
+        friends? Join our waitlist and you'll be notified as soon as we launch
+        our general release!
       </p>
       <Form onSubmit={handleSubmit}>
         <Field name="email">
