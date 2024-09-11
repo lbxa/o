@@ -1,12 +1,6 @@
 import type { SubmitHandler } from "@modular-forms/solid";
 import { createForm, FormError, zodForm } from "@modular-forms/solid";
-import {
-  Button,
-  Highlight,
-  TextAreaInput,
-  TextInput,
-  Title,
-} from "@universe/atoms";
+import { Button, Highlight, TextAreaInput, TextInput } from "@universe/atoms";
 import { createSignal } from "solid-js";
 import { z } from "zod";
 
@@ -55,7 +49,6 @@ export const Pilot = () => {
 
   return (
     <div class="mb-xl">
-      <Title>Hosts</Title>
       <p class="mb-md text-3xl">
         Join our community of early adopters in the{" "}
         <Highlight color="black">limited release</Highlight> and be among the

@@ -1,6 +1,6 @@
 import type { SubmitHandler } from "@modular-forms/solid";
 import { createForm, FormError, zodForm } from "@modular-forms/solid";
-import { Button, Highlight, TextInput, Title } from "@universe/atoms";
+import { Button, Highlight, TextInput } from "@universe/atoms";
 import { createSignal } from "solid-js";
 import { z } from "zod";
 
@@ -43,10 +43,9 @@ export const Waitlist = () => {
 
   return (
     <div class="mb-xl">
-      <Title>Users</Title>
       <p class="mb-md text-3xl">
-        Interested in how to <Highlight color="black">level up</Highlight> your
-        fitness journey alongside our friends?
+        Keen to <Highlight color="black">level up</Highlight> your fitness
+        journey alongside our friends?
       </p>
       <p class="mb-md">
         Join our waitlist and you'll be notified as soon as we launch our

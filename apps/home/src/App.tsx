@@ -24,9 +24,9 @@ export const App = () => {
         <Mission />
         <div>
           <Why />
-          <div class="mb-lg flex gap-lg">
+          <div class="mb-lg flex w-fit gap-lg">
             <Button
-              class="rounded-full bg-black p-lg px-xl text-2xl font-bold text-white hover:bg-black/80 md:text-lg"
+              class="rounded-full bg-black p-lg text-2xl font-bold text-white hover:bg-black/80"
               onClick={() => {
                 setStore("host", (prev) => !prev);
                 setStore("user", false);
@@ -35,7 +35,7 @@ export const App = () => {
               For Hosts
             </Button>
             <Button
-              class="rounded-full bg-black p-lg px-xl text-2xl font-bold text-white hover:bg-black/80 md:text-lg"
+              class="rounded-full bg-black p-lg text-2xl font-bold text-white hover:bg-black/80"
               onClick={() => {
                 setStore("user", (prev) => !prev);
                 setStore("host", false);
