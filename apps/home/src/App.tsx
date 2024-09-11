@@ -20,7 +20,7 @@ export const App = () => {
   return (
     <div class="w-full selection:bg-black selection:text-white">
       <Header />
-      <div class="mx-auto flex flex-col px-sm pb-[30vh] sm:max-w-screen-sm md:gap-lg lg:max-w-screen-md lg:flex-row">
+      <div class="mx-auto flex flex-col px-sm pb-[30vh] sm:max-w-screen-sm md:gap-lg lg:max-w-screen-md lg:flex-row lg:pt-[120px]">
         <Mission />
         <div>
           <Why />
