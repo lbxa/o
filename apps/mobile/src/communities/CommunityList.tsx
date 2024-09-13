@@ -1,6 +1,6 @@
 import { CommunityCard } from "@universe/molecules";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
@@ -27,7 +27,6 @@ export const CommunityList = ({ queryRef }: Props) => {
 
   return (
     <View>
-      <Text>Test</Text>
       {data.communities?.map((community, i) => (
         <CommunityCard key={i} community={community} />
       ))}

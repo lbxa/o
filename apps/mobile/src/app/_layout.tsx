@@ -13,11 +13,11 @@ export default function Root() {
         <SafeAreaProvider>
           <Stack
             screenOptions={{
-              statusBarTranslucent: true,
               headerShown: false,
             }}
           >
-            {/* <Stack.Screen name="(auth)"/> */}
+            <Stack.Screen name="(app)" />
+            {/* <Stack.Screen name="(auth)" /> */}
           </Stack>
         </SafeAreaProvider>
       </ThemeProvider>

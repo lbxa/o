@@ -1,17 +1,11 @@
-import { Title } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback } from "react";
 import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
-import type { CommunityListQuery } from "../../__generated__/CommunityListQuery.graphql";
-import {
-  COMMUNITY_LIST_QUERY,
-  CommunityCreate,
-  CommunityList,
-  CommunitySearch,
-} from "../../communities";
+import type { CommunityListQuery } from "../../../__generated__/CommunityListQuery.graphql";
+import { COMMUNITY_LIST_QUERY, CommunityList } from "../../../communities";
 
 export default function Home() {
   const [communityListQueryRef, loadCommunityList] =
@@ -27,10 +21,6 @@ export default function Home() {
   return (
     <Ozone>
       <View className="px-md">
-        <Title title="Create a community" />
-        <CommunityCreate />
-        <CommunitySearch />
-        <Title title="Communities" />
         {communityListQueryRef && (
           <CommunityList queryRef={communityListQueryRef} />
         )}

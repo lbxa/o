@@ -8,7 +8,7 @@ interface Props {
 export const Ozone: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
     <SafeAreaView>
-      <ScrollView className="h-full">{children}</ScrollView>
+      <ScrollView className="h-full bg-white pt-md">{children}</ScrollView>
     </SafeAreaView>
   );
 };

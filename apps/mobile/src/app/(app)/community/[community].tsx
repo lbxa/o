@@ -38,7 +38,7 @@ const CommunityDetails = ({ queryRef }: Props) => {
   return <DumbComponent frag={data.community} />;
 };
 
-export default function CommunityPage() {
+export default function CommunityDetailsRoute() {
   const { community: communityId } = useLocalSearchParams<{
     community: string;
   }>();
@@ -48,7 +48,7 @@ export default function CommunityPage() {
   );
 
   useEffect(() => {
-    loadQuery({ id: Number(communityId) }, { fetchPolicy: "store-only" });
+    loadQuery({ id: communityId }, { fetchPolicy: "store-only" });
   }, [communityId, loadQuery]);
 
   if (!queryRef) {

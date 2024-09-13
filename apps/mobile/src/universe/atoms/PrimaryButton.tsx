@@ -14,8 +14,8 @@ type VariantMatrix = {
 
 const variantMatrix: VariantMatrix = {
   blue: {
-    back: "bg-blue-200",
-    front: "color-blue-800",
+    back: "bg-violet/30",
+    front: "color-violet",
   },
   red: {
     back: "bg-red-200",

@@ -105,8 +105,8 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <Text className="text-3xl font-black mb-md">Sign Up</Text>
-        <View className="flex flex-row justify-between mb-md gap-md">
+        <Text className="mb-md text-3xl font-black">Sign Up</Text>
+        <View className="mb-md flex flex-row justify-between gap-md">
           <Controller
             name="firstName"
             control={control}
@@ -206,7 +206,7 @@ export const UserCreate = () => {
             await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
-        <Link href="(auth)/login" className="mt-md underline text-blue-700">
+        <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>
       </View>

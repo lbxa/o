@@ -11,7 +11,7 @@ export const PrimaryTextInput = ({
   ...props
 }: TextInputProps & PrimaryTextInputProps) => {
   const textInputClass = classNames(
-    "bg-white rounded-lg px-2 py-3",
+    "bg-ivory rounded-lg px-2 py-3",
     className,
     {
       "bg-red-200 color-red-900": error,

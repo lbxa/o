@@ -20,17 +20,16 @@ export const CommunityCard = ({ community }: Props) => {
 
   const onPress = () => {
     // loadQuery({ id: _id });
-    router.push("/(app)/community/" + id);
+    router.push(`/(app)/community/${id}`);
   };
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View className="bg-white mb-md pb-md rounded-lg">
-        <View className="w-full h-[100px] mb-md bg-gray-200"></View>
+      <View className="mb-md rounded-xl bg-ivory py-md">
         <View className="px-sm">
           <Subtitle title={name} />
-          <Text>"Subtitle"</Text>
-          <Text>"body"</Text>
+          <Text>Subtitle</Text>
+          <Text>body</Text>
         </View>
       </View>
     </TouchableOpacity>
