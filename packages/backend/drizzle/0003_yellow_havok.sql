@@ -1,0 +1,1 @@
+ALTER TABLE `communities` MODIFY COLUMN `is_public` boolean NOT NULL DEFAULT true;

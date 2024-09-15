@@ -8,6 +8,27 @@
       "when": 1719137747381,
       "tag": "0000_fresh_maelstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1726404009107,
+      "tag": "0001_magenta_phantom_reporter",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1726405826802,
+      "tag": "0002_silly_magma",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1726405837067,
+      "tag": "0003_yellow_havok",
+      "breakpoints": true
     }
   ]
 }

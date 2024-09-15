@@ -1,0 +1,1 @@
+ALTER TABLE `communities` ADD `private` boolean DEFAULT false NOT NULL;
