@@ -23,8 +23,12 @@ export class AuthService {
 
   async createNewUser(
     newUserInput: AuthCreateUserInput
-  ): Promise<AuthCreateUserResponse> {
+  ): Promise<AuthCreateUserResponse | undefined> {
     const newUser = await this.usersService.createUser(newUserInput);
+
+    if (!newUser.id) {
+      return undefined;
+    }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
       newUser.id,

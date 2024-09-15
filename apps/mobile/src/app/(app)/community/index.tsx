@@ -13,8 +13,10 @@ export default function CommunityHomeRoute() {
 
   useFocusEffect(
     useCallback(() => {
-      loadCommunityList({});
-      console.log("communityListQueryRef", communityListQueryRef);
+      if (!communityListQueryRef) {
+        loadCommunityList({});
+        console.log("communityListQueryRef", communityListQueryRef);
+      }
 
       return () => disposeCommunityList();
     }, [])

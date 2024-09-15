@@ -2,13 +2,10 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import {
-  communities,
-  Community,
-  NewCommunity,
-  userCommunities,
-} from "../db/schema";
+import { communities, NewCommunity, userCommunities } from "../db/schema";
 import { CurrentUser } from "../decorators/current-user.decorator";
+import { Community } from "../types/graphql";
+import { encodeGlobalId } from "../utils";
 
 @Resolver("Community")
 export class CommunitiesResolver {
@@ -20,12 +17,20 @@ export class CommunitiesResolver {
       .select()
       .from(communities)
       .where(eq(communities.id, id));
-    return community;
+
+    const globalId = encodeGlobalId("Community", community.id);
+
+    return { ...community, id: globalId };
   }
 
   @Query("communities")
   async getAllCommunities(): Promise<Community[]> {
-    return this.dbService.db.select().from(communities);
+    return (await this.dbService.db.select().from(communities)).map(
+      (community) => ({
+        ...community,
+        id: encodeGlobalId("Community", community.id),
+      })
+    );
   }
 
   @Mutation("communityCreate")

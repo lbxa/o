@@ -1,5 +1,5 @@
-type User {
-  id: ID
+type User implements Node {
+  id: ID!
   handle: String
   firstName: String
   lastName: String 
@@ -21,6 +21,7 @@ type ValidEmailResponse {
 
 type Query {
   user(id: ID!): User
+  activeUser: User
   userValidateEmail(email: String!): ValidEmailResponse
 }
 

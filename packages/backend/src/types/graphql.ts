@@ -22,6 +22,7 @@ export interface AuthCreateUserInput {
 
 export interface CommunityCreateInput {
     name: string;
+    isPublic: boolean;
 }
 
 export interface CommunityUpdateInput {
@@ -41,6 +42,10 @@ export interface UserUpdateInput {
     lastName?: Nullable<string>;
     handle?: Nullable<string>;
     email?: Nullable<string>;
+}
+
+export interface Node {
+    id: string;
 }
 
 export interface AuthLoginResponse {
@@ -78,15 +83,16 @@ export interface IMutation {
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
-export interface Community {
+export interface Community extends Node {
     __typename?: 'Community';
     id: string;
     name: string;
+    isPublic: boolean;
     users?: Nullable<Nullable<User>[]>;
     events?: Nullable<Nullable<Event>[]>;
 }
 
-export interface Event {
+export interface Event extends Node {
     __typename?: 'Event';
     id: string;
     name?: Nullable<string>;
@@ -100,19 +106,15 @@ export interface IQuery {
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityEvents(communityId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     health(): string | Promise<string>;
+    node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
+    activeUser(): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
 }
 
-export interface Post {
-    __typename?: 'Post';
-    id: number;
-    content: string;
-}
-
-export interface User {
+export interface User extends Node {
     __typename?: 'User';
-    id?: Nullable<string>;
+    id: string;
     handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;

@@ -32,14 +32,16 @@ type AuthLoginResponse {
   user: User!
 }
 
-type Community {
+type Community implements Node {
   events: [Event]
   id: ID!
+  isPublic: Boolean!
   name: String!
   users: [User]
 }
 
 input CommunityCreateInput {
+  isPublic: Boolean!
   name: String!
 }
 
@@ -48,7 +50,7 @@ input CommunityUpdateInput {
   name: String
 }
 
-type Event {
+type Event implements Node {
   community: Community
   field: String
   id: ID!
@@ -75,25 +77,26 @@ type Mutation {
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
-type Post {
-  content: String!
-  id: Int!
+interface Node {
+  id: ID!
 }
 
 type Query {
+  activeUser: User
   communities: [Community!]
   community(id: ID!): Community
   communityEvents(communityId: ID!): [Event]
   health: String!
+  node(id: ID!): Node
   user(id: ID!): User
   userValidateEmail(email: String!): ValidEmailResponse
 }
 
-type User {
+type User implements Node {
   email: String
   firstName: String
   handle: String
-  id: ID
+  id: ID!
   lastName: String
   password: String
 }

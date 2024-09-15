@@ -2,14 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { NewUser, User, users } from "../db/schema";
-import { UserUpdateInput } from "../types/graphql";
+import { NewUser, users } from "../db/schema";
+import { User, UserUpdateInput } from "../types/graphql";
+import { encodeGlobalId } from "../utils";
 
 @Injectable()
 export class UsersService {
   constructor(private dbService: DbService) {}
 
-  async createUser(newUser: NewUser): Promise<Pick<User, "id">> {
+  async createUser(newUser: NewUser): Promise<Pick<NewUser, "id">> {
     const { password, ...restOfUser } = newUser;
     // const passwordHash =
     //   await this.cryptoService.generatePasswordHash(password);
@@ -19,6 +20,8 @@ export class UsersService {
       .insert(users)
       .values({ password: passwordHash, ...restOfUser });
 
+    // const globalId = encodeGlobalId("User", result.insertId);
+
     return { id: result.insertId };
   }
 
@@ -27,11 +30,14 @@ export class UsersService {
   }
 
   async findOne(id: number): Promise<User | undefined> {
-    const user = await this.dbService.db
+    const [user] = await this.dbService.db
       .select()
       .from(users)
       .where(eq(users.id, id));
-    return user[0];
+
+    const globalId = encodeGlobalId("User", user.id);
+
+    return { ...user, id: globalId };
   }
 
   async findByEmail(email: string): Promise<boolean> {

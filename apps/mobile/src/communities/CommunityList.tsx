@@ -22,7 +22,7 @@ export const CommunityList = ({ queryRef }: Props) => {
   const data = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
 
   useEffect(() => {
-    console.log("Data", data);
+    console.log("Rows fetched", data.communities?.length);
   }, [data]);
 
   return (

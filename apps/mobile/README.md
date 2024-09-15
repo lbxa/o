@@ -36,6 +36,8 @@ declare module "*.svg" {
 }
 ```
 
+Caveat for customising the color of the SVGs is to make sure there is no `fill` in any of the children of `<svg>` and only `fill="#000000"` in the root `<svg>` tag. [This comment was the saviour.](https://github.com/kristerkari/react-native-svg-transformer/issues/105#issuecomment-775891947)
+
 ## Structure
 
 Reducing complexity whilst maximizing scalability and maintainability is the goal. Any nested stack navigators are used for scalability and access to the header.

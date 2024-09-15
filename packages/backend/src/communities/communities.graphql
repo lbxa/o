@@ -1,11 +1,12 @@
-type Community {
+type Community implements Node {
   id: ID!
   name: String!
+  isPublic: Boolean!
   users: [User]
   events: [Event]
 }
 
-type Event {
+type Event implements Node {
   id: ID!
   name: String
   field: String
@@ -14,6 +15,7 @@ type Event {
 
 input CommunityCreateInput {
   name: String!
+  isPublic: Boolean!
 }
 
 input CommunityUpdateInput {

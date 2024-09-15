@@ -25,7 +25,7 @@ export const CommunityCard = ({ community }: Props) => {
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View className="mb-md rounded-xl bg-ivory py-md">
+      <View className="mb-md bg-ivory py-md rounded-xl">
         <View className="px-sm">
           <Subtitle title={name} />
           <Text>Subtitle</Text>

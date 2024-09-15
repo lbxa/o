@@ -1,4 +1,5 @@
 import {
+  boolean,
   index,
   int,
   mysqlTable,
@@ -32,6 +33,7 @@ export const communities = mysqlTable(
   {
     id: int("id").primaryKey().autoincrement(),
     name: varchar("name", { length: 255 }).unique().notNull(),
+    isPublic: boolean("is_public").notNull().default(true),
   },
   (table) => ({
     nameIndex: index("name_idx").on(table.name),
