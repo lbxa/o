@@ -7,10 +7,8 @@ import { useFragment, usePreloadedQuery, useQueryLoader } from "react-relay";
 
 import type { CommunityFragment$key } from "../../../__generated__/CommunityFragment.graphql";
 import type { CommunitySearchQuery } from "../../../__generated__/CommunitySearchQuery.graphql";
-import {
-  COMMUNITY_FRAGMENT,
-  COMMUNITY_SEARCH_QUERY,
-} from "../../../communities";
+import { COMMUNITY_SEARCH_QUERY } from "../../../communities";
+import { COMMUNITY_FRAGMENT } from "../../../communities/CommunityFragment";
 
 interface DumbProps {
   frag: CommunityFragment$key;

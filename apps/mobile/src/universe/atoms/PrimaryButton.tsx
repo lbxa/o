@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import * as Haptics from "expo-haptics";
-import type { ButtonProps, GestureResponderEvent } from "react-native";
-import { Text, TouchableOpacity } from "react-native";
+import type { ButtonProps } from "react-native";
+import { Text } from "react-native";
+
+import { Touchable } from "./Touchable";
 
 type Variant = "blue" | "red";
 
@@ -29,21 +30,36 @@ type oButtonProps = {
 
 export const PrimaryButton = ({
   title,
-  onPress,
   variant = "blue",
   ...props
 }: oButtonProps) => {
-  const onPressHandler = async (e: GestureResponderEvent) => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
-    onPress?.(e);
-  };
+  // const onPressHandler = async (e: GestureResponderEvent) => {
+  //   await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+  //   onPress?.(e);
+  // };
 
   // const { front, back } = variantMatrix[variant];
 
+  // return (
+  //   <TouchableOpacity
+  //     className={classNames("rounded-md py-sm", variantMatrix[variant].back)}
+  //     onPress={onPressHandler}
+  //     {...props}
+  //   >
+  //     <Text
+  //       className={classNames(
+  //         "text-center font-bold",
+  //         variantMatrix[variant].front
+  //       )}
+  //     >
+  //       {title}
+  //     </Text>
+  //   </TouchableOpacity>
+  // );
+
   return (
-    <TouchableOpacity
+    <Touchable
       className={classNames("rounded-md py-sm", variantMatrix[variant].back)}
-      onPress={onPressHandler}
       {...props}
     >
       <Text
@@ -54,6 +70,6 @@ export const PrimaryButton = ({
       >
         {title}
       </Text>
-    </TouchableOpacity>
+    </Touchable>
   );
 };

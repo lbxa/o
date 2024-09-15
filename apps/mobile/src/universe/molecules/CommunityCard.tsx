@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useFragment } from "react-relay";
 
 import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
-import { COMMUNITY_FRAGMENT } from "../../communities";
+import { COMMUNITY_FRAGMENT } from "../../communities/CommunityFragment";
 import { Subtitle } from "../atoms";
 
 interface Props {

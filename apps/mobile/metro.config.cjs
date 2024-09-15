@@ -29,17 +29,6 @@ const config = (() => {
 
 module.exports = withTurborepoManagedCache(withMonorepoPaths(config));
 
-// OLD config
-// module.exports = withTurborepoManagedCache(
-//     withMonorepoPaths(
-//       withNativeWind(getDefaultConfig(__dirname), {
-//         input: "./src/global.css",
-//         configPath: "./tailwind.config.ts",
-//       }),
-//     ),
-//   );
-
-
 /**
  * Add the monorepo paths to the Metro config.
  * This allows Metro to resolve modules from the monorepo.

@@ -1,9 +1,13 @@
-import { Stack } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { MiniNav } from "@universe/molecules";
+import { Stack, useRouter } from "expo-router";
+import { Text, View } from "react-native";
 
 import ChevronLeftIcon from "../../../../assets/icons/chevron-left.svg";
+import { Touchable } from "../../../universe/atoms/Touchable";
 
 export default function CommunityRoot() {
+  const router = useRouter();
+
   return (
     <Stack
       screenOptions={{
@@ -13,13 +17,24 @@ export default function CommunityRoot() {
       }}
     >
       <Stack.Screen
+        name="index"
+        options={{
+          headerLeft: () => (
+            <View className="flex flex-row items-center gap-sm">
+              <Text className="text-3xl font-bold">Community</Text>
+            </View>
+          ),
+          headerRight: () => <MiniNav />,
+        }}
+      />
+      <Stack.Screen
         name="create"
         options={{
           headerLeft: () => (
             <View className="flex flex-row items-center gap-sm">
-              <TouchableOpacity>
+              <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
-              </TouchableOpacity>
+              </Touchable>
               <Text className="text-3xl font-bold">New Community</Text>
             </View>
           ),
@@ -30,9 +45,9 @@ export default function CommunityRoot() {
         options={{
           headerLeft: () => (
             <View className="flex flex-row items-center gap-sm">
-              <TouchableOpacity>
+              <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
-              </TouchableOpacity>
+              </Touchable>
               <Text className="text-3xl font-bold">Search</Text>
             </View>
           ),
