@@ -41,7 +41,9 @@ export class CommunitiesResolver {
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
   ): Promise<Community> {
-    const [result] = await this.dbService.db.insert(communities).values(input);
+    const [result] = await this.dbService.db
+      .insert(communities)
+      .values({ ...input, ownerId: userId });
 
     await this.dbService.db
       .insert(userCommunities)

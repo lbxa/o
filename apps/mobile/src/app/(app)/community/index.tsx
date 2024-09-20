@@ -1,7 +1,7 @@
 import { Ozone } from "@universe/molecules";
 import { useFocusEffect } from "expo-router";
-import { Suspense, useCallback } from "react";
-import { Text, View } from "react-native";
+import { useCallback } from "react";
+import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
 import type { CommunityListQuery } from "../../../__generated__/CommunityListQuery.graphql";
@@ -24,12 +24,10 @@ export default function CommunityHomeRoute() {
 
   return (
     <Ozone>
-      <View className="px-md">
-        <Suspense fallback={<Text>Loading...</Text>}>
-          {communityListQueryRef && (
-            <CommunityList queryRef={communityListQueryRef} />
-          )}
-        </Suspense>
+      <View className="">
+        {communityListQueryRef && (
+          <CommunityList queryRef={communityListQueryRef} />
+        )}
       </View>
     </Ozone>
   );

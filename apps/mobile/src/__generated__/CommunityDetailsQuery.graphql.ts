@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<46d70b5a2bd3d883331ad4dc30a9fff5>>
+ * @generated SignedSource<<d83825a4998771378300126b07052489>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,13 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityDetailsQuery$variables = {
   id: string;
 };
 export type CommunityDetailsQuery$data = {
-  readonly node: {
+  readonly community: {
     readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
   } | null | undefined;
 };
@@ -48,22 +48,15 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "Community",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "community",
         "plural": false,
         "selections": [
           {
-            "kind": "InlineFragment",
-            "selections": [
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "CommunityFragment"
-              }
-            ],
-            "type": "Community",
-            "abstractKey": null
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "CommunityFragment"
           }
         ],
         "storageKey": null
@@ -81,18 +74,11 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "Community",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "community",
         "plural": false,
         "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "__typename",
-            "storageKey": null
-          },
           {
             "alias": null,
             "args": null,
@@ -101,18 +87,11 @@ return {
             "storageKey": null
           },
           {
-            "kind": "InlineFragment",
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "name",
-                "storageKey": null
-              }
-            ],
-            "type": "Community",
-            "abstractKey": null
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -120,16 +99,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "32018845b1bda08579959f262b780966",
+    "cacheID": "56fb920790f0d90ec915c1dc4e84ecff",
     "id": null,
     "metadata": {},
     "name": "CommunityDetailsQuery",
     "operationKind": "query",
-    "text": "query CommunityDetailsQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Community {\n      ...CommunityFragment\n    }\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
+    "text": "query CommunityDetailsQuery(\n  $id: ID!\n) {\n  community(id: $id) {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5ab5b9a6a7b8038d9dd426bf4380b631";
+(node as any).hash = "70ddf3afce214988ae5f96d2112beefb";
 
 export default node;

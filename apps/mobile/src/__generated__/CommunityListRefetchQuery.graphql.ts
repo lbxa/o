@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<821c7dab7695a14e2084e25b24b5e8bb>>
+ * @generated SignedSource<<44ca1e7ea6b5df212bc587322e83018b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,11 +8,11 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityListRefetchQuery$variables = Record<PropertyKey, never>;
 export type CommunityListRefetchQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__communities">;
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__query">;
 };
 export type CommunityListRefetchQuery = {
   response: CommunityListRefetchQuery$data;
@@ -29,7 +29,7 @@ const node: ConcreteRequest = {
       {
         "args": null,
         "kind": "FragmentSpread",
-        "name": "CommunityList__communities"
+        "name": "CommunityList__query"
       }
     ],
     "type": "Query",
@@ -69,15 +69,15 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "f07d86b48b570a35d645dbac5edc8866",
+    "cacheID": "f9b5efe0cfc875c7b380a4de9d8da293",
     "id": null,
     "metadata": {},
     "name": "CommunityListRefetchQuery",
     "operationKind": "query",
-    "text": "query CommunityListRefetchQuery {\n  ...CommunityList__communities\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityList__communities on Query {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
+    "text": "query CommunityListRefetchQuery {\n  ...CommunityList__query\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityList__query on Query {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
   }
 };
 
-(node as any).hash = "2383c19053d053891aa8f20e1db88d1c";
+(node as any).hash = "8ec2889987303bf1b53d8459aad82add";
 
 export default node;

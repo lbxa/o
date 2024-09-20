@@ -14,15 +14,14 @@ export default function CommunityRoot() {
         headerShown: true,
         headerTitle: () => "",
         headerShadowVisible: false,
+        headerBackVisible: false,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <Text className="text-3xl font-bold">Community</Text>
-            </View>
+            <Text className="text-3xl font-bold">Community</Text>
           ),
           headerRight: () => <MiniNav />,
         }}
