@@ -5,5 +5,5 @@ interface Props {
 }
 
 export const Subtitle = ({ title }: Props) => {
-  return <Text className="text-xl font-bold mb-sm">{title}</Text>;
+  return <Text className="mb-sm text-xl font-bold">{title}</Text>;
 };

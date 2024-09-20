@@ -11,6 +11,10 @@
       "cache": true,
       "dependsOn": ["^lint"]
     },
+    "test": {
+      "cache": true,
+      "dependsOn": ["^lint", "^build"]
+    },
     "type-check": {
       "cache": true,
       "dependsOn": ["^type-check"]
@@ -21,15 +25,14 @@
     },
     "relay": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["^dev"]
+      "persistent": true
     },
     "gen": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^dev"]
     },
-    "//#gen": {
+    "//#gql": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^dev"]

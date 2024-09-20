@@ -7,8 +7,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ilovewinning
-      MYSQL_DATABASE: champ
-      MYSQL_USER: champ_server
+      MYSQL_DATABASE: o 
+      MYSQL_USER: o_server
       MYSQL_PASSWORD: ilovewinning
     volumes:
       - mysql-data:/var/lib/mysql

@@ -1,8 +1,8 @@
-type Post {
-  id: Int!
-  content: String!
+interface Node {
+  id: ID!
 }
 
 type Query {
   health: String! 
+  node(id: ID!): Node
 }

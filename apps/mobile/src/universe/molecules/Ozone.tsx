@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactNode } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
 interface Props {
   children: ReactNode | undefined;
@@ -8,7 +8,7 @@ interface Props {
 export const Ozone: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
     <SafeAreaView>
-      <ScrollView className="h-full">{children}</ScrollView>
+      <View className="h-full bg-white">{children}</View>
     </SafeAreaView>
   );
 };

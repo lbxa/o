@@ -2,17 +2,32 @@
 const { getDefaultConfig } = require("expo/metro-config");
 const { FileStore } = require("metro-cache");
 const { withNativeWind } = require("nativewind/metro");
-
 const path = require("path");
 
-module.exports = withTurborepoManagedCache(
-  withMonorepoPaths(
-    withNativeWind(getDefaultConfig(__dirname), {
-      input: "./src/global.css",
-      configPath: "./tailwind.config.ts",
-    }),
-  ),
-);
+const config = (() => {
+  const defaultConfig = getDefaultConfig(__dirname);
+  const { transformer, resolver } = defaultConfig;
+
+  const nativeWindConfig = withNativeWind(defaultConfig, {
+    input: "./src/global.css",
+    configPath: "./tailwind.config.ts",
+  });
+
+  return {
+    ...nativeWindConfig,
+    transformer: {
+      ...nativeWindConfig.transformer,
+      babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
+    },
+    resolver: {
+      ...nativeWindConfig.resolver,
+      assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
+      sourceExts: [...nativeWindConfig.resolver.sourceExts, "svg"],
+    },
+  };
+})();
+
+module.exports = withTurborepoManagedCache(withMonorepoPaths(config));
 
 /**
  * Add the monorepo paths to the Metro config.

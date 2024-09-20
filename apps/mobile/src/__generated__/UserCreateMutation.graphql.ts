@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9a0b74454edc732c1933f2c30abb4a92>>
+ * @generated SignedSource<<20bf7868143eb27a3e867249db11d0fe>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -143,12 +143,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "90d249f7c2429553665107f91445f175",
+    "cacheID": "3aa8d3d021b473a31adfb241a2940197",
     "id": null,
     "metadata": {},
     "name": "UserCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n    }\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n}\n"
+    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n      id\n    }\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n}\n"
   }
 };
 })();
