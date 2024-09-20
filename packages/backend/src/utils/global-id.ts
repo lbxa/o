@@ -1,7 +1,7 @@
-export type EntityType = "Community" | "User" | "Post";
+export type EntityType = "Community" | "User";
 
 export function encodeGlobalId(type: EntityType, id: number): string {
-  return Buffer.from(`${type}:${id}`).toString("base64");
+  return Buffer.from(`${type}:${id}`, "utf8").toString("base64");
 }
 
 export function decodeGlobalId(globalId: string): {
@@ -10,9 +10,14 @@ export function decodeGlobalId(globalId: string): {
 } {
   const decoded = Buffer.from(globalId, "base64").toString("utf-8");
   const [type, id] = decoded.split(":");
+
+  if (isNaN(Number(id))) {
+    throw new Error("Invalid ID. Expected a number.");
+  }
+
   return {
     type: type as EntityType,
-    id: parseInt(id, 10),
+    id: Number(id),
   };
 }
 

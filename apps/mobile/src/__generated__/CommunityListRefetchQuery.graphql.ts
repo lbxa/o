@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5dbefca0fd42002112694b75f2b708c6>>
+ * @generated SignedSource<<821c7dab7695a14e2084e25b24b5e8bb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,13 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type CommunityListQuery$variables = Record<PropertyKey, never>;
-export type CommunityListQuery$data = {
-  readonly communities: ReadonlyArray<{
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
-  }> | null | undefined;
+export type CommunityListRefetchQuery$variables = Record<PropertyKey, never>;
+export type CommunityListRefetchQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__communities">;
 };
-export type CommunityListQuery = {
-  response: CommunityListQuery$data;
-  variables: CommunityListQuery$variables;
+export type CommunityListRefetchQuery = {
+  response: CommunityListRefetchQuery$data;
+  variables: CommunityListRefetchQuery$variables;
 };
 
 const node: ConcreteRequest = {
@@ -26,23 +24,12 @@ const node: ConcreteRequest = {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityListQuery",
+    "name": "CommunityListRefetchQuery",
     "selections": [
       {
-        "alias": null,
         "args": null,
-        "concreteType": "Community",
-        "kind": "LinkedField",
-        "name": "communities",
-        "plural": true,
-        "selections": [
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "CommunityFragment"
-          }
-        ],
-        "storageKey": null
+        "kind": "FragmentSpread",
+        "name": "CommunityList__communities"
       }
     ],
     "type": "Query",
@@ -52,7 +39,7 @@ const node: ConcreteRequest = {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "CommunityListQuery",
+    "name": "CommunityListRefetchQuery",
     "selections": [
       {
         "alias": null,
@@ -82,15 +69,15 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "8181d44fbc220878f450cb8a077323af",
+    "cacheID": "f07d86b48b570a35d645dbac5edc8866",
     "id": null,
     "metadata": {},
-    "name": "CommunityListQuery",
+    "name": "CommunityListRefetchQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
+    "text": "query CommunityListRefetchQuery {\n  ...CommunityList__communities\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityList__communities on Query {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
   }
 };
 
-(node as any).hash = "07070ae0ea5e0509c88965f0c9db0038";
+(node as any).hash = "2383c19053d053891aa8f20e1db88d1c";
 
 export default node;

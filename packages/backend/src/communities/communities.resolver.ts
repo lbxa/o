@@ -1,26 +1,25 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { communities, NewCommunity, userCommunities } from "../db/schema";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Community } from "../types/graphql";
-import { encodeGlobalId } from "../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { CommunitiesService } from "./communities.service";
 
 @Resolver("Community")
 export class CommunitiesResolver {
-  constructor(private dbService: DbService) {}
+  constructor(
+    private dbService: DbService,
+    private communitiesService: CommunitiesService
+  ) {}
 
   @Query("community")
-  async getCommunity(@Args("id") id: number): Promise<Community> {
-    const [community] = await this.dbService.db
-      .select()
-      .from(communities)
-      .where(eq(communities.id, id));
+  async getCommunity(@Args("id") id: string): Promise<Community> {
+    const communityId = validateAndDecodeGlobalId(id, "Community");
+    const community = this.communitiesService.findOne(communityId);
 
-    const globalId = encodeGlobalId("Community", community.id);
-
-    return { ...community, id: globalId };
+    return community;
   }
 
   @Query("communities")
@@ -44,6 +43,6 @@ export class CommunitiesResolver {
       .insert(userCommunities)
       .values({ userId, communityId: result.insertId });
 
-    return this.getCommunity(result.insertId);
+    return this.communitiesService.findOne(result.insertId);
   }
 }
