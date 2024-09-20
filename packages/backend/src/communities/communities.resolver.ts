@@ -1,10 +1,14 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { communities, NewCommunity, userCommunities } from "@o/db";
 
 import { DbService } from "../db/db.service";
-import { communities, NewCommunity, userCommunities } from "../db/schema";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Community } from "../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import {
+  // DecodeGlobalId, TODO make this work
+  encodeGlobalId,
+  validateAndDecodeGlobalId,
+} from "../utils";
 import { CommunitiesService } from "./communities.service";
 
 @Resolver("Community")

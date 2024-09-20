@@ -5,13 +5,13 @@ import { defineConfig, Config as DrizzleConfig } from "drizzle-kit";
 const { DB_HOSTNAME, DB_USER, DB_NAME, DB_PORT, DB_PASSWORD } = process.env;
 
 if (!DB_HOSTNAME || !DB_USER || !DB_NAME || !DB_PORT || !DB_PASSWORD) {
-  throw new Error("DB creds invalid");
+  throw new Error("Invalid DB creds");
 }
 
 export default defineConfig({
-  schema: "./src/db/schema.ts",
+  schema: "./src/schema/*",
   out: "./drizzle",
-  dialect: "mysql", // 'postgresql' | 'mysql' | 'sqlite'
+  dialect: "mysql", 
   introspect: {
     casing: "camel"
   },

@@ -30,12 +30,6 @@ export interface CommunityUpdateInput {
     name?: Nullable<string>;
 }
 
-export interface EventCreateInput {
-    name: string;
-    field?: Nullable<string>;
-    communityId: number;
-}
-
 export interface UserUpdateInput {
     id: string;
     firstName?: Nullable<string>;
@@ -77,7 +71,7 @@ export interface IMutation {
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    eventCreate(eventCreateInput: EventCreateInput): Event | Promise<Event>;
+    communityInvite(userId: string, communityId: string): Community | Promise<Community>;
     communityJoin(userId: string, communityId: string): Community | Promise<Community>;
     communityLeave(userId: string, communityId: string): Community | Promise<Community>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
@@ -89,22 +83,12 @@ export interface Community extends Node {
     name: string;
     isPublic: boolean;
     users?: Nullable<Nullable<User>[]>;
-    events?: Nullable<Nullable<Event>[]>;
-}
-
-export interface Event extends Node {
-    __typename?: 'Event';
-    id: string;
-    name?: Nullable<string>;
-    field?: Nullable<string>;
-    community?: Nullable<Community>;
 }
 
 export interface IQuery {
     __typename?: 'IQuery';
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    communityEvents(communityId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;

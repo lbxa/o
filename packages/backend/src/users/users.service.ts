@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
+import { NewUser, users } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { NewUser, users } from "../db/schema";
 import { User, UserUpdateInput } from "../types/graphql";
 import { encodeGlobalId } from "../utils";
 

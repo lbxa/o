@@ -1,0 +1,33 @@
+{
+  "name": "@o/db",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Lucas Barbosa",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint src --fix",
+    "type-check": "tsc",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "mig:gen": "drizzle-kit generate",
+    "mig:push": "drizzle-kit migrate",
+    "mig:drop": "drizzle-kit drop"
+  },
+  "dependencies": {
+    "@o/api": "workspace:*",
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*",
+    "drizzle-orm": "^0.31.1",
+    "mysql2": "^3.10.0"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.5.25",
+    "drizzle-kit": "^0.22.4",
+    "eslint": "^9.5.0",
+    "typescript": "^5.1.3"
+  }
+}

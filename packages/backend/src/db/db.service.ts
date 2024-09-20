@@ -5,11 +5,12 @@ import {
   OnModuleInit,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as schema from "@o/db";
 import type { MySql2Database } from "drizzle-orm/mysql2";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
-import * as schema from "./schema";
+// import * as schema from "../../../db/src/schema";
 
 @Injectable()
 export class DbService implements OnModuleInit, OnModuleDestroy {
@@ -31,7 +32,7 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
 
     this.logger.log("Database connection acquired");
 
-    this.db = drizzle(this.connection, { schema, mode: "default" });
+    this.db = drizzle(this.connection, { mode: "default" });
   }
 
   async onModuleDestroy() {

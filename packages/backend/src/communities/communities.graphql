@@ -3,14 +3,6 @@ type Community implements Node {
   name: String!
   isPublic: Boolean!
   users: [User]
-  events: [Event]
-}
-
-type Event implements Node {
-  id: ID!
-  name: String
-  field: String
-  community: Community
 }
 
 input CommunityCreateInput {
@@ -23,23 +15,17 @@ input CommunityUpdateInput {
   name: String
 }
 
-input EventCreateInput {
-  name: String!
-  field: String
-  communityId: Int!
-}
-
 type Query {
   community(id: ID!): Community
   communities: [Community!]
-  communityEvents(communityId: ID!): [Event]
+  # communityEvents(communityId: ID!): [Event]
 }
 
 type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Community
-  eventCreate(eventCreateInput: EventCreateInput!): Event!
+  communityInvite(userId: ID!, communityId: ID!): Community!
   communityJoin(userId: ID!, communityId: ID!): Community!
   communityLeave(userId: ID!, communityId: ID!): Community!
 }

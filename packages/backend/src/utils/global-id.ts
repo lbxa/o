@@ -1,3 +1,26 @@
+// import type { ExecutionContext } from "@nestjs/common";
+// import { createParamDecorator } from "@nestjs/common";
+// import { GqlExecutionContext } from "@nestjs/graphql";
+
+// export const DecodeGlobalId = createParamDecorator(
+//   (data: string, ctx: ExecutionContext) => {
+//     const gqlContext = GqlExecutionContext.create(ctx);
+//     const args = gqlContext.getArgs<Record<string, unknown>>();
+//     const globalId = args[data];
+
+//     if (!globalId) {
+//       throw new Error(`Global ID not found in arguments for key: ${data}`);
+//     }
+
+//     try {
+//       const id = validateAndDecodeGlobalId(globalId, entityType);
+//       return Number(id);
+//     } catch {
+//       throw new Error(`Invalid global ID: ${globalId}`);
+//     }
+//   }
+// );
+
 export type EntityType = "Community" | "User";
 
 export function encodeGlobalId(type: EntityType, id: number): string {
