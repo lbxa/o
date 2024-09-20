@@ -11,6 +11,10 @@
       "cache": true,
       "dependsOn": ["^lint"]
     },
+    "test": {
+      "cache": true,
+      "dependsOn": ["^lint", "^build"]
+    },
     "type-check": {
       "cache": true,
       "dependsOn": ["^type-check"]
