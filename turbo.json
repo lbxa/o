@@ -21,15 +21,14 @@
     },
     "relay": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["^dev"]
+      "persistent": true
     },
     "gen": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^dev"]
     },
-    "//#gen": {
+    "//#gql": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^dev"]

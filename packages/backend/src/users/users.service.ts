@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { NewUser, users } from "@o/db";
+import type { NewUser } from "@o/db";
+import { users } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";

@@ -33,7 +33,6 @@ type AuthLoginResponse {
 }
 
 type Community implements Node {
-  events: [Event]
   id: ID!
   isPublic: Boolean!
   name: String!
@@ -50,19 +49,6 @@ input CommunityUpdateInput {
   name: String
 }
 
-type Event implements Node {
-  community: Community
-  field: String
-  id: ID!
-  name: String
-}
-
-input EventCreateInput {
-  communityId: Int!
-  field: String
-  name: String!
-}
-
 type Mutation {
   authCreateNewTokens: AuthCreateNewTokensResponse!
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
@@ -70,10 +56,10 @@ type Mutation {
   authLogout(id: Int!): Boolean!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityDelete(id: ID!): Community
+  communityInvite(communityId: ID!, userId: ID!): Community!
   communityJoin(communityId: ID!, userId: ID!): Community!
   communityLeave(communityId: ID!, userId: ID!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
-  eventCreate(eventCreateInput: EventCreateInput!): Event!
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
@@ -85,7 +71,6 @@ type Query {
   activeUser: User
   communities: [Community!]
   community(id: ID!): Community
-  communityEvents(communityId: ID!): [Event]
   health: String!
   node(id: ID!): Node
   user(id: ID!): User

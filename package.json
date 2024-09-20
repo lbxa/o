@@ -7,10 +7,10 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev gen relay",
+    "dev": "turbo dev gql relay",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "gen": "gql-gen --config codegen.ts"
+    "gql": "gql-gen --config codegen.ts"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
