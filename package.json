@@ -10,7 +10,7 @@
     "dev": "turbo dev gql relay",
     "test": "turbo test",
     "lint": "turbo lint",
-    "graph": "turbo build --graph==build-graph.svg",
+    "graph": "turbo build --graph=build-graph.svg",
     "type-check": "turbo type-check",
     "gql": "gql-gen --config codegen.ts"
   },
