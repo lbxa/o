@@ -2,6 +2,7 @@ import {
   boolean,
   index,
   int,
+  mysqlSchema,
   mysqlTable,
   primaryKey,
   timestamp,
@@ -9,6 +10,8 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { users } from "./user";
+
+// export const communitySchema = mysqlSchema("community");
 
 export const communities = mysqlTable(
   "communities",
@@ -27,21 +30,6 @@ export const communities = mysqlTable(
 
 export type Community = typeof communities.$inferSelect;
 export type NewCommunity = typeof communities.$inferInsert;
-
-// export const events = mysqlTable(
-//   "events",
-//   {
-//     id: int("id").primaryKey().autoincrement(),
-//     name: varchar("name", { length: 255 }).notNull(),
-//     communityId: int("community_id").references(() => communities.id),
-//   },
-//   (table) => ({
-//     communityIdIndex: index("community_id_idx").on(table.communityId),
-//   })
-// );
-
-// export type Event = typeof events.$inferSelect;
-// export type NewEvent = typeof events.$inferInsert;
 
 // User-Community relation (many-to-many)
 export const userCommunities = mysqlTable(
