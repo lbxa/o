@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { communities, NewCommunity, userCommunities } from "@o/db";
+import { CommunitiesTable, NewCommunity, CommunityMembershipsTable } from "@o/db";
 import { and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -13,15 +13,15 @@ export class CommunitiesService {
   async findOne(id: number): Promise<Community> {
     const [community] = await this.dbService.db
       .select()
-      .from(communities)
-      .where(eq(communities.id, id));
+      .from(CommunitiesTable)
+      .where(eq(CommunitiesTable.id, id));
 
     const globalId = encodeGlobalId("Community", community.id);
     return { ...community, id: globalId };
   }
 
   async findAll(): Promise<Community[]> {
-    const allCommunities = await this.dbService.db.select().from(communities);
+    const allCommunities = await this.dbService.db.select().from(CommunitiesTable);
     return allCommunities.map((community) => ({
       ...community,
       id: encodeGlobalId("Community", community.id),
@@ -29,24 +29,24 @@ export class CommunitiesService {
   }
 
   async create(input: NewCommunity, userId: number): Promise<Community> {
-    const [result] = await this.dbService.db.insert(communities).values(input);
+    const [result] = await this.dbService.db.insert(CommunitiesTable).values(input);
     await this.dbService.db
-      .insert(userCommunities)
-      .values({ userId, communityId: result.insertId });
+      .insert(CommunityMembershipsTable)
+      .values({ userId, communityId: result.insertId, isAdmin: true });
     return this.findOne(result.insertId);
   }
 
   async update(id: number, input: Partial<NewCommunity>): Promise<Community> {
     await this.dbService.db
-      .update(communities)
+      .update(CommunitiesTable)
       .set(input)
-      .where(eq(communities.id, id));
+      .where(eq(CommunitiesTable.id, id));
     return this.findOne(id);
   }
 
   async delete(id: number): Promise<Community> {
     const community = await this.findOne(id);
-    await this.dbService.db.delete(communities).where(eq(communities.id, id));
+    await this.dbService.db.delete(CommunitiesTable).where(eq(CommunitiesTable.id, id));
     return community;
   }
 
@@ -58,18 +58,18 @@ export class CommunitiesService {
 
   async join(userId: number, communityId: number): Promise<Community> {
     await this.dbService.db
-      .insert(userCommunities)
+      .insert(CommunityMembershipsTable)
       .values({ userId, communityId });
     return this.findOne(communityId);
   }
 
   async leave(userId: number, communityId: number): Promise<Community> {
     await this.dbService.db
-      .delete(userCommunities)
+      .delete(CommunityMembershipsTable)
       .where(
         and(
-          eq(userCommunities.userId, userId),
-          eq(userCommunities.communityId, communityId)
+          eq(CommunityMembershipsTable.userId, userId),
+          eq(CommunityMembershipsTable.communityId, communityId)
         )
       );
     return this.findOne(communityId);

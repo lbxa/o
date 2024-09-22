@@ -1,7 +1,7 @@
 import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { User, users } from "@o/db";
+import { User, UsersTable } from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -48,9 +48,9 @@ export class AuthService {
     email: string
   ): Promise<Pick<User, "id" | "password"> | undefined> {
     const userData = await this.dbService.db
-      .select({ id: users.id, password: users.password })
-      .from(users)
-      .where(eq(users.email, email));
+      .select({ id: UsersTable.id, password: UsersTable.password })
+      .from(UsersTable)
+      .where(eq(UsersTable.email, email));
 
     if (!userData[0]) {
       return undefined;
@@ -84,27 +84,27 @@ export class AuthService {
       await this.cryptoService.generateArgonHash(refreshToken);
 
     return await this.dbService.db
-      .update(users)
+      .update(UsersTable)
       .set({
         refreshToken: hashedRefreshToken,
       })
-      .where(eq(users.id, userId));
+      .where(eq(UsersTable.id, userId));
   }
 
   async invalidateRefreshToken(userId: number): Promise<boolean> {
     const [query] = await this.dbService.db
-      .update(users)
+      .update(UsersTable)
       .set({ refreshToken: null })
-      .where(and(eq(users.id, userId), isNotNull(users.refreshToken)));
+      .where(and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)));
 
     return query.affectedRows > 0;
   }
 
   async validateRefreshToken(userId: number, refreshToken: string) {
     const user = await this.dbService.db
-      .select({ refreshToken: users.refreshToken })
-      .from(users)
-      .where(and(eq(users.id, userId), isNotNull(users.refreshToken)));
+      .select({ refreshToken: UsersTable.refreshToken })
+      .from(UsersTable)
+      .where(and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)));
 
     /**
      * If the user has no active refreshToken, this could have

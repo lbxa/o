@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import type { NewUser } from "@o/db";
-import { users } from "@o/db";
+import { UsersTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -18,7 +18,7 @@ export class UsersService {
     const passwordHash = password; // TODO NEED TO GET THIS E2E WORKING ASAP
 
     const [result] = await this.dbService.db
-      .insert(users)
+      .insert(UsersTable)
       .values({ password: passwordHash, ...restOfUser });
 
     // const globalId = encodeGlobalId("User", result.insertId);
@@ -33,8 +33,8 @@ export class UsersService {
   async findOne(id: number): Promise<User | undefined> {
     const [user] = await this.dbService.db
       .select()
-      .from(users)
-      .where(eq(users.id, id));
+      .from(UsersTable)
+      .where(eq(UsersTable.id, id));
 
     const globalId = encodeGlobalId("User", user.id);
 
@@ -44,8 +44,8 @@ export class UsersService {
   async findByEmail(email: string): Promise<boolean> {
     const user = await this.dbService.db
       .select()
-      .from(users)
-      .where(eq(users.email, email));
+      .from(UsersTable)
+      .where(eq(UsersTable.email, email));
     return user.length > 0;
   }
 

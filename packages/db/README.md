@@ -28,6 +28,7 @@ erDiagram
         string name
         boolean is_public
         boolean is_verified
+        number owner_id FK
         datetime created_at
         datetime updated_at
     }

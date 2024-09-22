@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { communities, NewCommunity, userCommunities } from "@o/db";
+import { CommunitiesTable, NewCommunity, CommunityMembershipsTable } from "@o/db";
 
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
@@ -28,7 +28,7 @@ export class CommunitiesResolver {
 
   @Query("communities")
   async getAllCommunities(): Promise<Community[]> {
-    return (await this.dbService.db.select().from(communities)).map(
+    return (await this.dbService.db.select().from(CommunitiesTable)).map(
       (community) => ({
         ...community,
         id: encodeGlobalId("Community", community.id),
@@ -42,12 +42,12 @@ export class CommunitiesResolver {
     @CurrentUser("userId") userId: number
   ): Promise<Community> {
     const [result] = await this.dbService.db
-      .insert(communities)
+      .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId });
 
     await this.dbService.db
-      .insert(userCommunities)
-      .values({ userId, communityId: result.insertId });
+      .insert(CommunityMembershipsTable)
+      .values({ userId, communityId: result.insertId, isAdmin: true });
 
     return this.communitiesService.findOne(result.insertId);
   }
