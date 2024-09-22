@@ -10,6 +10,7 @@
     "dev": "turbo dev gql relay",
     "test": "turbo test",
     "lint": "turbo lint",
+    "graph": "turbo build --graph==build-graph.svg",
     "type-check": "turbo type-check",
     "gql": "gql-gen --config codegen.ts"
   },
@@ -19,5 +20,5 @@
     "@parcel/watcher": "^2.4.1",
     "turbo": "^2.1.2"
   },
-  "packageManager": "pnpm@9.10.0"
+  "packageManager": "pnpm@9.11.0"
 }

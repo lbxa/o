@@ -1,9 +1,4 @@
-import {
-  index,
-  mysqlTable,
-  text,
-  varchar,
-} from "drizzle-orm/mysql-core";
+import { index, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
 import { withIdPk, withModificationDates } from "../helpers";
 

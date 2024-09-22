@@ -10,8 +10,6 @@ import type { MySql2Database } from "drizzle-orm/mysql2";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
-// import * as schema from "../../../db/src/schema";
-
 @Injectable()
 export class DbService implements OnModuleInit, OnModuleDestroy {
   public db!: MySql2Database<typeof schema>;
