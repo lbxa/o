@@ -44,9 +44,36 @@ input CommunityCreateInput {
   name: String!
 }
 
+type CommunityInvitation implements Node {
+  community: Community!
+  createdAt: DateTime!
+  expiresAt: DateTime!
+  id: ID!
+  invitee: User!
+  inviter: User!
+  status: InvitationStatus!
+}
+
+type CommunityMembership implements Node {
+  community: Community!
+  id: ID!
+  isAdmin: Boolean!
+  joinedAt: DateTime!
+  user: User!
+}
+
 input CommunityUpdateInput {
   id: ID!
   name: String
+}
+
+"""Date custom scalar type"""
+scalar DateTime
+
+enum InvitationStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
 }
 
 type Mutation {
@@ -56,9 +83,9 @@ type Mutation {
   authLogout(id: Int!): Boolean!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityDelete(id: ID!): Community
-  communityInvite(communityId: ID!, userId: ID!): Community!
-  communityJoin(communityId: ID!, userId: ID!): Community!
-  communityLeave(communityId: ID!, userId: ID!): Community!
+  communityInvite(communityId: Int!, userId: Int!): Boolean!
+  communityJoin(inviteId: Int!): Community!
+  communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
@@ -71,19 +98,23 @@ type Query {
   activeUser: User
   communities: [Community!]
   community(id: ID!): Community
+  communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
   user(id: ID!): User
+  userCommunities(userId: ID!): [Community!]
   userValidateEmail(email: String!): ValidEmailResponse
 }
 
 type User implements Node {
+  createdAt: DateTime
   email: String
   firstName: String
   handle: String
   id: ID!
   lastName: String
   password: String
+  updatedAt: DateTime
 }
 
 input UserUpdateInput {

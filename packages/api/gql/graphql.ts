@@ -14,6 +14,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Date custom scalar type */
+  DateTime: { input: any; output: any; }
 };
 
 export type AuthCreateNewTokensResponse = {
@@ -61,10 +63,36 @@ export type CommunityCreateInput = {
   name: Scalars['String']['input'];
 };
 
+export type CommunityInvitation = Node & {
+  __typename?: 'CommunityInvitation';
+  community: Community;
+  createdAt: Scalars['DateTime']['output'];
+  expiresAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  invitee: User;
+  inviter: User;
+  status: InvitationStatus;
+};
+
+export type CommunityMembership = Node & {
+  __typename?: 'CommunityMembership';
+  community: Community;
+  id: Scalars['ID']['output'];
+  isAdmin: Scalars['Boolean']['output'];
+  joinedAt: Scalars['DateTime']['output'];
+  user: User;
+};
+
 export type CommunityUpdateInput = {
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
 };
+
+export enum InvitationStatus {
+  Accepted = 'ACCEPTED',
+  Declined = 'DECLINED',
+  Pending = 'PENDING'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -74,9 +102,9 @@ export type Mutation = {
   authLogout: Scalars['Boolean']['output'];
   communityCreate: Community;
   communityDelete?: Maybe<Community>;
-  communityInvite: Community;
+  communityInvite: Scalars['Boolean']['output'];
   communityJoin: Community;
-  communityLeave: Community;
+  communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
   userUpdate: User;
 };
@@ -108,20 +136,18 @@ export type MutationCommunityDeleteArgs = {
 
 
 export type MutationCommunityInviteArgs = {
-  communityId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
+  communityId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
 };
 
 
 export type MutationCommunityJoinArgs = {
-  communityId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
+  inviteId: Scalars['Int']['input'];
 };
 
 
 export type MutationCommunityLeaveArgs = {
-  communityId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -143,15 +169,22 @@ export type Query = {
   activeUser?: Maybe<User>;
   communities?: Maybe<Array<Community>>;
   community?: Maybe<Community>;
+  communityInvitations?: Maybe<Array<Community>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
   user?: Maybe<User>;
+  userCommunities?: Maybe<Array<Community>>;
   userValidateEmail?: Maybe<ValidEmailResponse>;
 };
 
 
 export type QueryCommunityArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryCommunityInvitationsArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -165,18 +198,25 @@ export type QueryUserArgs = {
 };
 
 
+export type QueryUserCommunitiesArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
 export type QueryUserValidateEmailArgs = {
   email: Scalars['String']['input'];
 };
 
 export type User = Node & {
   __typename?: 'User';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type UserUpdateInput = {

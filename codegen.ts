@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
  
-const config: CodegenConfig = {
+const config = {
   overwrite: true,
   schema: 'http://localhost:6969/graphql',
   ignoreNoDocuments: true,
@@ -11,7 +11,7 @@ const config: CodegenConfig = {
   ],
   generates: {
     './packages/api/gql/': { 
-      preset: 'client'
+      preset: 'client',
     },
     './packages/api/schema.graphql': {
       plugins: ['schema-ast'],
@@ -20,6 +20,6 @@ const config: CodegenConfig = {
       }
     }
   },
-};
+} satisfies CodegenConfig;
  
 export default config;
