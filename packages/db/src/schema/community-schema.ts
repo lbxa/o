@@ -4,6 +4,7 @@ import {
   int,
   mysqlTable,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/mysql-core";
 
@@ -49,21 +50,31 @@ export const CommunityMembershipsTable = mysqlTable(
 );
 
 // Community Invitations table
-export const CommunityInvitationsTable = mysqlTable("community_invitations", {
-  ...withIdPk,
-  communityId: int("community_id")
-    .notNull()
-    .references(() => CommunitiesTable.id),
-  inviterId: int("inviter_id")
-    .notNull()
-    .references(() => UsersTable.id),
-  inviteeId: int("invitee_id")
-    .notNull()
-    .references(() => UsersTable.id),
-  status: varchar("status", { length: 20 }).notNull().default("pending"),
-  expiresAt: timestamp("expires_at"),
-  ...withModificationDates,
-});
+export const CommunityInvitationsTable = mysqlTable(
+  "community_invitations",
+  {
+    ...withIdPk,
+    communityId: int("community_id")
+      .notNull()
+      .references(() => CommunitiesTable.id),
+    inviterId: int("inviter_id")
+      .notNull()
+      .references(() => UsersTable.id),
+    inviteeId: int("invitee_id")
+      .notNull()
+      .references(() => UsersTable.id),
+    status: varchar("status", { length: 20 }).notNull().default("pending"),
+    expiresAt: timestamp("expires_at").notNull(),
+    ...withModificationDates,
+  },
+  (table) => ({
+    uniqueMembership: unique("idempotent_invites").on(
+      table.inviterId,
+      table.inviteeId,
+      table.communityId
+    ),
+  })
+);
 
 export type Community = typeof CommunitiesTable.$inferSelect;
 export type NewCommunity = typeof CommunitiesTable.$inferInsert;

@@ -5,6 +5,30 @@ type Community implements Node {
   users: [User]
 }
 
+type CommunityMembership implements Node {
+  id: ID!
+  user: User!
+  community: Community!
+  isAdmin: Boolean!
+  joinedAt: DateTime!
+}
+
+type CommunityInvitation implements Node {
+  id: ID!
+  community: Community!
+  inviter: User!
+  invitee: User!
+  status: InvitationStatus!
+  createdAt: DateTime!
+  expiresAt: DateTime!
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
 input CommunityCreateInput {
   name: String!
   isPublic: Boolean!
@@ -18,14 +42,15 @@ input CommunityUpdateInput {
 type Query {
   community(id: ID!): Community
   communities: [Community!]
-  # communityEvents(communityId: ID!): [Event]
+  userCommunities(userId: ID!): [Community!]
+  communityInvitations(userId: ID!): [Community!]
 }
 
 type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Community
-  communityInvite(userId: ID!, communityId: ID!): Community!
-  communityJoin(userId: ID!, communityId: ID!): Community!
-  communityLeave(userId: ID!, communityId: ID!): Community!
+  communityInvite(userId: Int!, communityId: Int!): Boolean!
+  communityJoin(inviteId: Int!): Community!
+  communityLeave(id: ID!): Boolean!
 }

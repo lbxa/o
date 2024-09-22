@@ -5,6 +5,8 @@ type User implements Node {
   lastName: String 
   email: String
   password: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input UserUpdateInput {

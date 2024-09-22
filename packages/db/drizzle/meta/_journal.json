@@ -1,5 +1,27 @@
 {
   "version": "7",
   "dialect": "mysql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1726999477649,
+      "tag": "0000_smiling_gamma_corps",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1727009289845,
+      "tag": "0001_cute_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1727009590458,
+      "tag": "0002_lyrical_post",
+      "breakpoints": true
+    }
+  ]
 }

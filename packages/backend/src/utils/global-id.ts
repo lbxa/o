@@ -21,7 +21,8 @@
 //   }
 // );
 
-export type EntityType = "Community" | "User";
+type EntityIdentifiers = "Community" | "User";
+export type EntityType = EntityIdentifiers | `${EntityIdentifiers}${string}`;
 
 export function encodeGlobalId(type: EntityType, id: number): string {
   return Buffer.from(`${type}:${id}`, "utf8").toString("base64");

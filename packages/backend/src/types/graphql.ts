@@ -8,6 +8,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum InvitationStatus {
+    PENDING = "PENDING",
+    ACCEPTED = "ACCEPTED",
+    DECLINED = "DECLINED"
+}
+
 export interface AuthLoginInput {
     email: string;
     password: string;
@@ -71,9 +77,9 @@ export interface IMutation {
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    communityInvite(userId: string, communityId: string): Community | Promise<Community>;
-    communityJoin(userId: string, communityId: string): Community | Promise<Community>;
-    communityLeave(userId: string, communityId: string): Community | Promise<Community>;
+    communityInvite(userId: number, communityId: number): boolean | Promise<boolean>;
+    communityJoin(inviteId: number): Community | Promise<Community>;
+    communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
@@ -85,10 +91,32 @@ export interface Community extends Node {
     users?: Nullable<Nullable<User>[]>;
 }
 
+export interface CommunityMembership extends Node {
+    __typename?: 'CommunityMembership';
+    id: string;
+    user: User;
+    community: Community;
+    isAdmin: boolean;
+    joinedAt: DateTime;
+}
+
+export interface CommunityInvitation extends Node {
+    __typename?: 'CommunityInvitation';
+    id: string;
+    community: Community;
+    inviter: User;
+    invitee: User;
+    status: InvitationStatus;
+    createdAt: DateTime;
+    expiresAt: DateTime;
+}
+
 export interface IQuery {
     __typename?: 'IQuery';
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
@@ -104,6 +132,8 @@ export interface User extends Node {
     lastName?: Nullable<string>;
     email?: Nullable<string>;
     password?: Nullable<string>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export interface ValidEmailResponse {
@@ -111,4 +141,5 @@ export interface ValidEmailResponse {
     alreadyTaken: boolean;
 }
 
+export type DateTime = Date;
 type Nullable<T> = T | null;

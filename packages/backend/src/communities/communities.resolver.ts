@@ -1,14 +1,14 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { CommunitiesTable, NewCommunity, CommunityMembershipsTable } from "@o/db";
+import {
+  CommunitiesTable,
+  CommunityMembershipsTable,
+  NewCommunity,
+} from "@o/db";
 
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Community } from "../types/graphql";
-import {
-  // DecodeGlobalId, TODO make this work
-  encodeGlobalId,
-  validateAndDecodeGlobalId,
-} from "../utils";
+import { Community, CommunityInvitation } from "../types/graphql";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { CommunitiesService } from "./communities.service";
 
 @Resolver("Community")
@@ -34,6 +34,49 @@ export class CommunitiesResolver {
         id: encodeGlobalId("Community", community.id),
       })
     );
+  }
+
+  // TODO
+  // @Query("userCommunities")
+  // async getUserCommunities(
+  //   @Args("userId") userId: string
+  // ): Promise<Community[]> {
+  //   const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+  //   return this.communitiesService.findUserCommunities(decodedUserId);
+  // }
+
+  @Mutation("communityInvite")
+  async inviteToCommunity(
+    @Args("communityId") communityId: number,
+    @Args("userId") userId: number,
+    @CurrentUser("userId") inviterId: number
+  ): Promise<boolean> {
+    return this.communitiesService.invite(userId, communityId, inviterId);
+  }
+
+  @Query("communityInvitations")
+  getCommunityInvitations(
+    @Args("userId") userId: number
+  ): Promise<CommunityInvitation[]> {
+    return this.communitiesService.findUserInvitations(userId);
+  }
+
+  @Mutation("communityJoin")
+  async joinCommunity(
+    @Args("inviteId") inviteId: number,
+    @CurrentUser("userId") userId: number
+  ): Promise<Community> {
+    return this.communitiesService.join(userId, inviteId);
+  }
+
+  @Mutation("communityLeave")
+  async leaveCommunity(
+    @Args("id") id: string,
+    @CurrentUser("userId") userId: number
+  ): Promise<boolean> {
+    const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
+    await this.communitiesService.leave(userId, decodedCommunityId);
+    return true;
   }
 
   @Mutation("communityCreate")

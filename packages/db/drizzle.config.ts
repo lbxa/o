@@ -12,9 +12,6 @@ export default defineConfig({
   schema: "./src/schema/*.ts",
   out: "./drizzle",
   dialect: "mysql", 
-  introspect: {
-    casing: "camel"
-  },
   dbCredentials: {
     host: DB_HOSTNAME,
     user: DB_USER,

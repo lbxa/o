@@ -95,7 +95,9 @@ export class AuthService {
     const [query] = await this.dbService.db
       .update(UsersTable)
       .set({ refreshToken: null })
-      .where(and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)));
+      .where(
+        and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
+      );
 
     return query.affectedRows > 0;
   }
@@ -104,7 +106,9 @@ export class AuthService {
     const user = await this.dbService.db
       .select({ refreshToken: UsersTable.refreshToken })
       .from(UsersTable)
-      .where(and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)));
+      .where(
+        and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
+      );
 
     /**
      * If the user has no active refreshToken, this could have

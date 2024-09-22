@@ -6,3 +6,6 @@ type Query {
   health: String! 
   node(id: ID!): Node
 }
+
+# Custom scalars
+scalar DateTime
