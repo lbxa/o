@@ -82,7 +82,7 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
-  communityDelete(id: ID!): Community
+  communityDelete(id: ID!): Boolean!
   communityInvite(communityId: Int!, userId: Int!): Boolean!
   communityJoin(inviteId: Int!): Community!
   communityLeave(id: ID!): Boolean!
@@ -102,7 +102,7 @@ type Query {
   health: String!
   node(id: ID!): Node
   user(id: ID!): User
-  userCommunities(userId: ID!): [Community!]
+  userCommunities(userId: Int!): [Community!]
   userValidateEmail(email: String!): ValidEmailResponse
 }
 

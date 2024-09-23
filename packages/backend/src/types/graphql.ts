@@ -76,7 +76,7 @@ export interface IMutation {
     authCreateNewTokens(): AuthCreateNewTokensResponse | Promise<AuthCreateNewTokensResponse>;
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
-    communityDelete(id: string): Nullable<Community> | Promise<Nullable<Community>>;
+    communityDelete(id: string): boolean | Promise<boolean>;
     communityInvite(userId: number, communityId: number): boolean | Promise<boolean>;
     communityJoin(inviteId: number): Community | Promise<Community>;
     communityLeave(id: string): boolean | Promise<boolean>;
@@ -115,7 +115,7 @@ export interface IQuery {
     __typename?: 'IQuery';
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    userCommunities(userId: number): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;

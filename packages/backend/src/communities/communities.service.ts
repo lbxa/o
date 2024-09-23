@@ -20,6 +20,7 @@ import {
 } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { encodeGlobalId } from "../utils";
+import { convertToInvitationStatus } from "./utils/convert-to-invitation-status";
 
 @Injectable()
 export class CommunitiesService {
@@ -29,14 +30,17 @@ export class CommunitiesService {
   ) {}
 
   async findOne(id: number): Promise<Community> {
-    const [community] = await this.dbService.db
+    const communities = await this.dbService.db
       .select()
       .from(CommunitiesTable)
-      .where(eq(CommunitiesTable.id, id));
+      .where(eq(CommunitiesTable.id, id))
+      .limit(1);
 
-    if (!community) {
+    if (!communities[0]) {
       throw new NotFoundException(`Community with id ${id} not found`);
     }
+
+    const community = communities[0];
 
     const globalId = encodeGlobalId("Community", community.id);
     return { ...community, id: globalId };
@@ -65,15 +69,15 @@ export class CommunitiesService {
         invitee: InviteeAlias,
       })
       .from(CommunityInvitationsTable)
-      .leftJoin(
+      .innerJoin(
         CommunitiesTable,
         eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
       )
-      .leftJoin(
+      .innerJoin(
         InviterAlias,
         eq(InviterAlias.id, CommunityInvitationsTable.inviterId)
       )
-      .leftJoin(
+      .innerJoin(
         InviteeAlias,
         eq(InviteeAlias.id, CommunityInvitationsTable.inviteeId)
       )
@@ -94,7 +98,30 @@ export class CommunitiesService {
         ...row.invitee,
         id: encodeGlobalId("User", row.invitee.id),
       },
+      status: convertToInvitationStatus(row.invitation.status),
     }));
+  }
+
+  async findUserCommunities(userId: number): Promise<Community[]> {
+    const communities = await this.dbService.db
+      .select({
+        id: CommunitiesTable.id,
+        name: CommunitiesTable.name,
+        isPublic: CommunitiesTable.isPublic,
+      })
+      .from(CommunityMembershipsTable)
+      .innerJoin(
+        CommunitiesTable,
+        eq(CommunitiesTable.id, CommunityMembershipsTable.communityId)
+      )
+      .where(eq(CommunityMembershipsTable.userId, userId));
+
+    return communities.map(
+      (community): Community => ({
+        ...community,
+        id: encodeGlobalId("Community", community.id),
+      })
+    );
   }
 
   async create(input: NewCommunity, userId: number): Promise<Community> {
@@ -117,12 +144,11 @@ export class CommunitiesService {
     return this.findOne(id);
   }
 
-  async delete(id: number): Promise<Community> {
-    const community = await this.findOne(id);
+  async remove(id: number): Promise<boolean> {
     await this.dbService.db
       .delete(CommunitiesTable)
       .where(eq(CommunitiesTable.id, id));
-    return community;
+    return true;
   }
 
   async invite(
@@ -144,12 +170,13 @@ export class CommunitiesService {
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
       });
 
-    const [invitation] = await this.dbService.db
+    const invitation = await this.dbService.db
       .select()
       .from(CommunityInvitationsTable)
-      .where(eq(CommunityInvitationsTable.id, result.insertId));
+      .where(eq(CommunityInvitationsTable.id, result.insertId))
+      .limit(1);
 
-    if (!invitation) {
+    if (!invitation[0]) {
       throw new NotFoundException(
         `Invitation with ID ${result.insertId} not found`
       );
@@ -159,7 +186,7 @@ export class CommunitiesService {
   }
 
   async join(userId: number, inviteId: number): Promise<Community> {
-    const [invitation] = await this.dbService.db
+    const invitations = await this.dbService.db
       .select()
       .from(CommunityInvitationsTable)
       .where(
@@ -167,11 +194,14 @@ export class CommunitiesService {
           eq(CommunityInvitationsTable.id, inviteId),
           eq(CommunityInvitationsTable.inviteeId, userId)
         )
-      );
+      )
+      .limit(1);
 
-    if (!invitation || invitation.inviteeId !== userId) {
+    if (!invitations[0] || invitations[0].inviteeId !== userId) {
       throw new ForbiddenException("Invalid invitation");
     }
+
+    const invitation = invitations[0];
 
     // TODO is this good design?
     // const alreadyMember = await this.dbService.db

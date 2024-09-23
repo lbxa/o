@@ -19,15 +19,13 @@ export class CommunitiesResolver {
   ) {}
 
   @Query("community")
-  async getCommunity(@Args("id") id: string): Promise<Community> {
+  async community(@Args("id") id: string): Promise<Community> {
     const communityId = validateAndDecodeGlobalId(id, "Community");
-    const community = this.communitiesService.findOne(communityId);
-
-    return community;
+    return this.communitiesService.findOne(communityId);
   }
 
   @Query("communities")
-  async getAllCommunities(): Promise<Community[]> {
+  async communities(): Promise<Community[]> {
     return (await this.dbService.db.select().from(CommunitiesTable)).map(
       (community) => ({
         ...community,
@@ -36,41 +34,52 @@ export class CommunitiesResolver {
     );
   }
 
-  // TODO
-  // @Query("userCommunities")
-  // async getUserCommunities(
-  //   @Args("userId") userId: string
-  // ): Promise<Community[]> {
-  //   const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-  //   return this.communitiesService.findUserCommunities(decodedUserId);
-  // }
+  @Query("userCommunities")
+  userCommunities(@Args("userId") userId: number): Promise<Community[]> {
+    // const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+    return this.communitiesService.findUserCommunities(userId);
+  }
 
   @Mutation("communityInvite")
-  async inviteToCommunity(
-    @Args("communityId") communityId: number,
-    @Args("userId") userId: number,
+  async communityInvite(
+    @Args("communityId") communityId: string,
+    @Args("userId") userId: string,
     @CurrentUser("userId") inviterId: number
   ): Promise<boolean> {
-    return this.communitiesService.invite(userId, communityId, inviterId);
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      communityId,
+      "Community"
+    );
+    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+    return this.communitiesService.invite(
+      decodedUserId,
+      decodedCommunityId,
+      inviterId
+    );
   }
 
   @Query("communityInvitations")
-  getCommunityInvitations(
-    @Args("userId") userId: number
+  async communityInvitations(
+    @Args("userId") userId: string
   ): Promise<CommunityInvitation[]> {
-    return this.communitiesService.findUserInvitations(userId);
+    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+    return this.communitiesService.findUserInvitations(decodedUserId);
   }
 
   @Mutation("communityJoin")
-  async joinCommunity(
-    @Args("inviteId") inviteId: number,
+  async communityJoin(
+    @Args("inviteId") inviteId: string,
     @CurrentUser("userId") userId: number
   ): Promise<Community> {
-    return this.communitiesService.join(userId, inviteId);
+    const decodedInviteId = validateAndDecodeGlobalId(
+      inviteId,
+      "CommunityInvitation"
+    );
+    return this.communitiesService.join(userId, decodedInviteId);
   }
 
   @Mutation("communityLeave")
-  async leaveCommunity(
+  async communityLeave(
     @Args("id") id: string,
     @CurrentUser("userId") userId: number
   ): Promise<boolean> {
@@ -79,19 +88,31 @@ export class CommunitiesResolver {
     return true;
   }
 
+  // TODO
+  // - test for admin role
+  // - remove all active memberships
+  // - remove all pending invitations
+  @Mutation("communityDelete")
+  async communityDelete(
+    @Args("id") id: string,
+    @CurrentUser("userId") userId: number
+  ): Promise<boolean> {
+    const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
+    await this.communitiesService.leave(userId, decodedCommunityId);
+    return this.communitiesService.remove(decodedCommunityId);
+  }
+
   @Mutation("communityCreate")
-  async createCommunity(
+  async communityCreate(
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
   ): Promise<Community> {
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId });
-
     await this.dbService.db
       .insert(CommunityMembershipsTable)
       .values({ userId, communityId: result.insertId, isAdmin: true });
-
     return this.communitiesService.findOne(result.insertId);
   }
 }

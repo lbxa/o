@@ -101,7 +101,7 @@ export type Mutation = {
   authLogin: AuthLoginResponse;
   authLogout: Scalars['Boolean']['output'];
   communityCreate: Community;
-  communityDelete?: Maybe<Community>;
+  communityDelete: Scalars['Boolean']['output'];
   communityInvite: Scalars['Boolean']['output'];
   communityJoin: Community;
   communityLeave: Scalars['Boolean']['output'];
@@ -199,7 +199,7 @@ export type QueryUserArgs = {
 
 
 export type QueryUserCommunitiesArgs = {
-  userId: Scalars['ID']['input'];
+  userId: Scalars['Int']['input'];
 };
 
 

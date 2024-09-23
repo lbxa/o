@@ -42,14 +42,14 @@ input CommunityUpdateInput {
 type Query {
   community(id: ID!): Community
   communities: [Community!]
-  userCommunities(userId: ID!): [Community!]
+  userCommunities(userId: Int!): [Community!]
   communityInvitations(userId: ID!): [Community!]
 }
 
 type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
-  communityDelete(id: ID!): Community
+  communityDelete(id: ID!): Boolean! 
   communityInvite(userId: Int!, communityId: Int!): Boolean!
   communityJoin(inviteId: Int!): Community!
   communityLeave(id: ID!): Boolean!

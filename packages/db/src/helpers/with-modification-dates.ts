@@ -1,6 +1,6 @@
 import { timestamp } from "drizzle-orm/mysql-core";
 
 export const withModificationDates = {
-  createdAt: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").onUpdateNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().onUpdateNow(),
 };
