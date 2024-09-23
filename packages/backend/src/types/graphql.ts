@@ -122,6 +122,7 @@ export interface IQuery {
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
     activeUser(): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
+    userSearch(searchTerm: string): Nullable<User[]> | Promise<Nullable<User[]>>;
 }
 
 export interface User extends Node {

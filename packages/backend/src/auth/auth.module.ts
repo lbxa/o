@@ -20,7 +20,7 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>("SECRET"),
+        secret: configService.getOrThrow<string>("SECRET"),
         signOptions: { expiresIn: "60s" },
       }),
       inject: [ConfigService],

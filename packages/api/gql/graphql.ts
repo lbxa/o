@@ -174,6 +174,7 @@ export type Query = {
   node?: Maybe<Node>;
   user?: Maybe<User>;
   userCommunities?: Maybe<Array<Community>>;
+  userSearch?: Maybe<Array<Maybe<User>>>;
   userValidateEmail?: Maybe<ValidEmailResponse>;
 };
 
@@ -200,6 +201,11 @@ export type QueryUserArgs = {
 
 export type QueryUserCommunitiesArgs = {
   userId: Scalars['Int']['input'];
+};
+
+
+export type QueryUserSearchArgs = {
+  searchTerm: Scalars['String']['input'];
 };
 
 

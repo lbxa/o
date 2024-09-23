@@ -1,7 +1,9 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   index,
   int,
+  mysqlEnum,
   mysqlTable,
   timestamp,
   unique,
@@ -27,6 +29,14 @@ export const CommunitiesTable = mysqlTable(
   })
 );
 
+export const CommunitiesRelations = relations(CommunitiesTable, ({ one }) => ({
+  owner: one(UsersTable, {
+    fields: [CommunitiesTable.ownerId],
+    references: [UsersTable.id],
+    relationName: "communityOwner",
+  }),
+}));
+
 // User-Community relation (many-to-many)
 export const CommunityMembershipsTable = mysqlTable(
   "community_memberships",
@@ -49,6 +59,20 @@ export const CommunityMembershipsTable = mysqlTable(
   })
 );
 
+export const CommunityMembershipsRelations = relations(
+  CommunityMembershipsTable,
+  ({ one }) => ({
+    community: one(CommunitiesTable, {
+      fields: [CommunityMembershipsTable.communityId],
+      references: [CommunitiesTable.id],
+    }),
+    user: one(UsersTable, {
+      fields: [CommunityMembershipsTable.userId],
+      references: [UsersTable.id],
+    }),
+  })
+);
+
 // Community Invitations table
 export const CommunityInvitationsTable = mysqlTable(
   "community_invitations",
@@ -63,7 +87,10 @@ export const CommunityInvitationsTable = mysqlTable(
     inviteeId: int("invitee_id")
       .notNull()
       .references(() => UsersTable.id),
-    status: varchar("status", { length: 20 }).notNull().default("pending"),
+    // status: varchar("status", { length: 20 }).notNull().default("PENDING"),
+    status: mysqlEnum("status", ["PENDING", "ACCEPTED", "DENIED"])
+      .notNull()
+      .default("PENDING"),
     expiresAt: timestamp("expires_at").notNull(),
     ...withModificationDates,
   },

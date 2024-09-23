@@ -36,6 +36,11 @@ export class UsersResolver {
     return this.usersService.update(userUpdateInput);
   }
 
+  @Query("userSearch")
+  userSearch(@Args("searchTerm") searchTerm: string) {
+    return this.usersService.userSearch(searchTerm);
+  }
+
   // @Mutation('removeUser')
   // remove(@Args('id') id: number) {
   //   console.log("Deletedk");

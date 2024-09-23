@@ -103,6 +103,7 @@ type Query {
   node(id: ID!): Node
   user(id: ID!): User
   userCommunities(userId: Int!): [Community!]
+  userSearch(searchTerm: String!): [User]
   userValidateEmail(email: String!): ValidEmailResponse
 }
 

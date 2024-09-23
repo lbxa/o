@@ -25,6 +25,7 @@ type Query {
   user(id: ID!): User
   activeUser: User
   userValidateEmail(email: String!): ValidEmailResponse
+  userSearch(searchTerm: String!): [User!]
 }
 
 type Mutation {

@@ -30,26 +30,21 @@ export class CommunitiesService {
   ) {}
 
   async findOne(id: number): Promise<Community> {
-    const communities = await this.dbService.db
-      .select()
-      .from(CommunitiesTable)
-      .where(eq(CommunitiesTable.id, id))
-      .limit(1);
+    const community = await this.dbService.db.query.CommunitiesTable.findFirst({
+      where: eq(CommunitiesTable.id, id),
+    });
 
-    if (!communities[0]) {
+    if (!community) {
       throw new NotFoundException(`Community with id ${id} not found`);
     }
-
-    const community = communities[0];
 
     const globalId = encodeGlobalId("Community", community.id);
     return { ...community, id: globalId };
   }
 
   async findAll(): Promise<Community[]> {
-    const allCommunities = await this.dbService.db
-      .select()
-      .from(CommunitiesTable);
+    const allCommunities =
+      await this.dbService.db.query.CommunitiesTable.findMany();
 
     return allCommunities.map((community) => ({
       ...community,

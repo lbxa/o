@@ -60,7 +60,7 @@ export class AuthService {
   }
 
   createSignedTokenPair(userId: number, email: string) {
-    const secret = this.configService.get<string>("SECRET");
+    const secret = this.configService.getOrThrow<string>("SECRET");
     const accessToken = this.jwtService.sign(
       {
         userId,

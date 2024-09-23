@@ -14,7 +14,8 @@
     "dev": "tsc --watch",
     "mig:gen": "drizzle-kit generate",
     "mig:push": "drizzle-kit migrate",
-    "mig:drop": "drizzle-kit drop"
+    "mig:drop": "drizzle-kit drop",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@o/eslint": "workspace:*",
