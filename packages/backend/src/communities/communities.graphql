@@ -1,8 +1,15 @@
-type Community implements Node {
+type Community implements Node & Timestampable {
   id: ID!
   name: String!
   isPublic: Boolean!
   users: [User]
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  # TODO
+  members: [User!]
+  memberships: [CommunityMembership!]
+  invitations: [CommunityInvitation!]
 }
 
 type CommunityMembership implements Node {
@@ -13,13 +20,14 @@ type CommunityMembership implements Node {
   joinedAt: DateTime!
 }
 
-type CommunityInvitation implements Node {
+type CommunityInvitation implements Node & Timestampable {
   id: ID!
   community: Community!
   inviter: User!
   invitee: User!
   status: InvitationStatus!
   createdAt: DateTime!
+  updatedAt: DateTime
   expiresAt: DateTime!
 }
 
@@ -42,7 +50,7 @@ input CommunityUpdateInput {
 type Query {
   community(id: ID!): Community
   communities: [Community!]
-  userCommunities(userId: Int!): [Community!]
+  userCommunities(userId: ID!): [Community!]
   communityInvitations(userId: ID!): [Community!]
 }
 
@@ -50,7 +58,7 @@ type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Boolean! 
-  communityInvite(userId: Int!, communityId: Int!): Boolean!
+  communityInvite(userId: ID!, communityId: ID!): Boolean!
   communityJoin(inviteId: Int!): Community!
   communityLeave(id: ID!): Boolean!
 }

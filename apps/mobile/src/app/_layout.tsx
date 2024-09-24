@@ -6,24 +6,36 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { RelayEnvironment } from "../relay";
 import { ActiveUserProvider } from "../users/ActiveUser";
+import { useAuth } from "../utils/useAuth";
 
 export default function Root() {
+  const { session } = useAuth();
+
   return (
     <RelayEnvironment>
-      <ActiveUserProvider>
-        <ThemeProvider value={DefaultTheme}>
-          <SafeAreaProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <SafeAreaProvider>
+          {session ? (
+            <ActiveUserProvider>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="(app)" />
+              </Stack>
+            </ActiveUserProvider>
+          ) : (
             <Stack
               screenOptions={{
                 headerShown: false,
               }}
             >
-              <Stack.Screen name="(app)" />
               <Stack.Screen name="(auth)" />
             </Stack>
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </ActiveUserProvider>
+          )}
+        </SafeAreaProvider>
+      </ThemeProvider>
     </RelayEnvironment>
   );
 }

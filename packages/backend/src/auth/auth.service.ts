@@ -1,4 +1,9 @@
-import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { User, UsersTable } from "@o/db";
@@ -27,7 +32,7 @@ export class AuthService {
     const newUser = await this.usersService.createUser(newUserInput);
 
     if (!newUser.id) {
-      return undefined;
+      throw new ForbiddenException("User creation failed");
     }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
@@ -47,16 +52,19 @@ export class AuthService {
   async validateUser(
     email: string
   ): Promise<Pick<User, "id" | "password"> | undefined> {
-    const userData = await this.dbService.db
-      .select({ id: UsersTable.id, password: UsersTable.password })
-      .from(UsersTable)
-      .where(eq(UsersTable.email, email));
+    const user = await this.dbService.db.query.UsersTable.findFirst({
+      where: eq(UsersTable.email, email),
+      columns: {
+        id: true,
+        password: true,
+      },
+    });
 
-    if (!userData[0]) {
-      return undefined;
+    if (!user) {
+      throw new ForbiddenException(`User data for ${email} not found`);
     }
 
-    return userData[0];
+    return user;
   }
 
   createSignedTokenPair(userId: number, email: string) {
@@ -103,25 +111,32 @@ export class AuthService {
   }
 
   async validateRefreshToken(userId: number, refreshToken: string) {
-    const user = await this.dbService.db
-      .select({ refreshToken: UsersTable.refreshToken })
-      .from(UsersTable)
-      .where(
-        and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
-      );
+    // const user = await this.dbService.db
+    //   .select({ refreshToken: UsersTable.refreshToken })
+    //   .from(UsersTable)
+    //   .where(
+    //     and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
+    //   );
+
+    const user = await this.dbService.db.query.UsersTable.findFirst({
+      where: and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)),
+      columns: {
+        refreshToken: true,
+      },
+    });
 
     /**
      * If the user has no active refreshToken, this could have
      * happened due to a logout event. Restrict access.
      */
-    if (!user[0]?.refreshToken) {
-      this.logger.error("Refresh token fetch from database did not work");
+    if (!user?.refreshToken) {
+      this.logger.error("Error fetching refresh token from the database");
       throw new UnauthorizedException(
         "Access Denied: Refresh token is missing or invalid"
       );
     }
 
-    const storedRefreshToken = user[0].refreshToken;
+    const storedRefreshToken = user.refreshToken;
 
     const match = await this.cryptoService.verifyArgonHash(
       storedRefreshToken,

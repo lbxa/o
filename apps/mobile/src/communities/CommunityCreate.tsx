@@ -1,11 +1,20 @@
-import { PrimaryButton, PrimaryTextInputControl, Title } from "@universe/atoms";
+import SearchIcon from "@assets/icons/search.svg";
+import {
+  PrimaryButton,
+  PrimaryTextInputControl,
+  Title,
+  Touchable,
+} from "@universe/atoms";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Switch, View } from "react-native";
-import { graphql, useMutation } from "react-relay";
+import { Switch, Text, View } from "react-native";
+import { graphql, useMutation, useQueryLoader } from "react-relay";
+
 import type {
   CommunityCreateInput,
   CommunityCreateMutation,
-} from "src/__generated__/CommunityCreateMutation.graphql";
+} from "../__generated__/CommunityCreateMutation.graphql.ts";
 
 export const COMMUNITY_CREATE_MUTATION = graphql`
   mutation CommunityCreateMutation(
@@ -19,6 +28,7 @@ export const COMMUNITY_CREATE_MUTATION = graphql`
 `;
 
 export const CommunityCreate = () => {
+  const router = useRouter();
   const [commitMutation, isMutationInFlight] =
     useMutation<CommunityCreateMutation>(COMMUNITY_CREATE_MUTATION);
 
@@ -69,7 +79,6 @@ export const CommunityCreate = () => {
         )}
       />
       <Title>Public</Title>
-      {/* <Switch className="mb-md" onValueChange={toggleSwitch} /> */}
       <Controller
         name="isPublic"
         control={control}
@@ -78,16 +87,13 @@ export const CommunityCreate = () => {
         )}
       />
       <Title>Invite Members</Title>
-      <PrimaryTextInputControl
-        className="mb-md"
-        placeholder="Search names"
-        inputMode="text"
-        // onBlur={onBlur}
-        // onChangeText={onChange}
-        // value={value}
-        // error={!!errors.name}
-        // errorMessage={errors.name?.message}
-      />
+      <Touchable
+        onPress={() => router.push("/(app)/community/invite")}
+        className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+      >
+        <SearchIcon width={25} />
+        <Text className="pl-sm">Search</Text>
+      </Touchable>
       <PrimaryButton
         title={isMutationInFlight ? "Loading..." : "Create"}
         disabled={isMutationInFlight}

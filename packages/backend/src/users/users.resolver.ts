@@ -1,20 +1,37 @@
 import { ParseIntPipe, UseFilters } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 
+import { CommunitiesService } from "../communities/communities.service";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { HttpExceptionFilter } from "../error";
-import { User, UserUpdateInput } from "../types/graphql";
+import { Community, User, UserUpdateInput } from "../types/graphql";
+import { validateAndDecodeGlobalId } from "../utils";
 import { UsersService } from "./users.service";
 
 @Resolver("User")
 @UseFilters(HttpExceptionFilter)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly communitiesService: CommunitiesService
+  ) {}
 
   @Query("user")
-  getUser(@Args("id", ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  getUser(@CurrentUser("userId") userId: number) {
+    return this.usersService.findOne(userId);
+  }
+
+  @Query("users")
+  getUsers() {
+    return this.usersService.findAll();
   }
 
   // TODO add currentUser query with regular polling
@@ -23,6 +40,27 @@ export class UsersResolver {
     @CurrentUser("userId") userId: number
   ): Promise<User | undefined> {
     return this.usersService.findOne(userId);
+  }
+
+  // TODO actually implement this
+  @ResolveField()
+  async friends(@Parent() user: User): Promise<User[]> {
+    return this.usersService.findAll();
+  }
+
+  @ResolveField()
+  async communities(@Parent() user: User): Promise<Community[]> {
+    const userId = validateAndDecodeGlobalId(user.id, "User");
+    return this.communitiesService.findUserCommunities(userId);
+  }
+
+  // TODO implement this
+  @ResolveField()
+  async searchFriends(@Args("searchTerm") searchTerm: string): Promise<User[]> {
+    if (!searchTerm) {
+      return this.usersService.findAll();
+    }
+    return this.usersService.userSearch(searchTerm);
   }
 
   @Public()

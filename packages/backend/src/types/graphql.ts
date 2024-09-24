@@ -48,6 +48,11 @@ export interface Node {
     id: string;
 }
 
+export interface Timestampable {
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
 export interface AuthLoginResponse {
     __typename?: 'AuthLoginResponse';
     accessToken: string;
@@ -77,18 +82,23 @@ export interface IMutation {
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
-    communityInvite(userId: number, communityId: number): boolean | Promise<boolean>;
+    communityInvite(userId: string, communityId: string): boolean | Promise<boolean>;
     communityJoin(inviteId: number): Community | Promise<Community>;
     communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
-export interface Community extends Node {
+export interface Community extends Node, Timestampable {
     __typename?: 'Community';
     id: string;
     name: string;
     isPublic: boolean;
     users?: Nullable<Nullable<User>[]>;
+    createdAt: DateTime;
+    updatedAt?: Nullable<DateTime>;
+    members?: Nullable<User[]>;
+    memberships?: Nullable<CommunityMembership[]>;
+    invitations?: Nullable<CommunityInvitation[]>;
 }
 
 export interface CommunityMembership extends Node {
@@ -100,7 +110,7 @@ export interface CommunityMembership extends Node {
     joinedAt: DateTime;
 }
 
-export interface CommunityInvitation extends Node {
+export interface CommunityInvitation extends Node, Timestampable {
     __typename?: 'CommunityInvitation';
     id: string;
     community: Community;
@@ -108,6 +118,7 @@ export interface CommunityInvitation extends Node {
     invitee: User;
     status: InvitationStatus;
     createdAt: DateTime;
+    updatedAt?: Nullable<DateTime>;
     expiresAt: DateTime;
 }
 
@@ -115,17 +126,18 @@ export interface IQuery {
     __typename?: 'IQuery';
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    userCommunities(userId: number): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
-    user(id: string): Nullable<User> | Promise<Nullable<User>>;
+    user(): User | Promise<User>;
+    users(): Nullable<User[]> | Promise<Nullable<User[]>>;
     activeUser(): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
-    userSearch(searchTerm: string): Nullable<User[]> | Promise<Nullable<User[]>>;
+    userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
 }
 
-export interface User extends Node {
+export interface User extends Node, Timestampable {
     __typename?: 'User';
     id: string;
     handle?: Nullable<string>;
@@ -135,6 +147,12 @@ export interface User extends Node {
     password?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
+    friends?: Nullable<User[]>;
+    communities?: Nullable<Community[]>;
+    searchFriends?: User[];
+    memberships?: Nullable<CommunityMembership[]>;
+    sentInvitations?: Nullable<CommunityInvitation[]>;
+    receivedInvitations?: Nullable<CommunityInvitation[]>;
 }
 
 export interface ValidEmailResponse {

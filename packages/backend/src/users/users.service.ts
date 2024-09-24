@@ -31,8 +31,13 @@ export class UsersService {
     return { id: result.insertId };
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    const users = await this.dbService.db.query.UsersTable.findMany();
+
+    return users.map((user) => ({
+      ...user,
+      id: encodeGlobalId("User", user.id),
+    }));
   }
 
   async findOne(id: number): Promise<User | undefined> {

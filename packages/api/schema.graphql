@@ -32,10 +32,15 @@ type AuthLoginResponse {
   user: User!
 }
 
-type Community implements Node {
+type Community implements Node & Timestampable {
+  createdAt: DateTime!
   id: ID!
+  invitations: [CommunityInvitation!]
   isPublic: Boolean!
+  members: [User!]
+  memberships: [CommunityMembership!]
   name: String!
+  updatedAt: DateTime
   users: [User]
 }
 
@@ -44,7 +49,7 @@ input CommunityCreateInput {
   name: String!
 }
 
-type CommunityInvitation implements Node {
+type CommunityInvitation implements Node & Timestampable {
   community: Community!
   createdAt: DateTime!
   expiresAt: DateTime!
@@ -52,6 +57,7 @@ type CommunityInvitation implements Node {
   invitee: User!
   inviter: User!
   status: InvitationStatus!
+  updatedAt: DateTime
 }
 
 type CommunityMembership implements Node {
@@ -83,7 +89,7 @@ type Mutation {
   authLogout(id: Int!): Boolean!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityDelete(id: ID!): Boolean!
-  communityInvite(communityId: Int!, userId: Int!): Boolean!
+  communityInvite(communityId: ID!, userId: ID!): Boolean!
   communityJoin(inviteId: Int!): Community!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
@@ -101,20 +107,32 @@ type Query {
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
-  user(id: ID!): User
-  userCommunities(userId: Int!): [Community!]
-  userSearch(searchTerm: String!): [User]
+  user: User!
+  userCommunities(userId: ID!): [Community!]
+  userSearch(searchTerm: String): [User!]
   userValidateEmail(email: String!): ValidEmailResponse
+  users: [User!]
 }
 
-type User implements Node {
+interface Timestampable {
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type User implements Node & Timestampable {
+  communities: [Community!]
   createdAt: DateTime
   email: String
   firstName: String
+  friends: [User!]
   handle: String
   id: ID!
   lastName: String
+  memberships: [CommunityMembership!]
   password: String
+  receivedInvitations: [CommunityInvitation!]
+  searchFriends(searchTerm: String): [User!]!
+  sentInvitations: [CommunityInvitation!]
   updatedAt: DateTime
 }
 

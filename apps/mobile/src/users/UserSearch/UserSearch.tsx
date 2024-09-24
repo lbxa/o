@@ -1,70 +1,45 @@
-import PaperPlaneIcon from "@assets/icons/paper-plane.svg";
 import SearchIcon from "@assets/icons/search.svg";
-import { PrimaryTextInputControl, Touchable } from "@universe/atoms";
+import { PrimaryTextInputControl } from "@universe/atoms";
 import debounce from "debounce";
 import { Link } from "expo-router";
-import React, { startTransition, useCallback, useState } from "react";
+import React, { useCallback, useState, useTransition } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import {
   graphql,
-  useFragment,
   usePreloadedQuery,
   useRefetchableFragment,
 } from "react-relay";
 
-import type { UserFragment$key } from "../../__generated__/UserFragment.graphql";
 import type { UserSearchFriendsFragment$key } from "../../__generated__/UserSearchFriendsFragment.graphql";
 import type { UserSearchFriendsListQuery } from "../../__generated__/UserSearchFriendsListQuery.graphql";
 import type { UserSearchRefetchQuery } from "../../__generated__/UserSearchRefetchQuery.graphql";
-import { USER_FRAGMENT } from "../UserFragment";
+import { UserInviteCard } from "./UserInviteCard";
 
 const USER_FRIENDS_LIST_FRAGMENT = graphql`
   fragment UserSearchFriendsFragment on User
   @refetchable(queryName: "UserSearchRefetchQuery")
-  @argumentDefinitions(search: { type: "String", defaultValue: null }) {
-    searchFriends(searchTerm: $search) {
-      id
+  @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
+    searchFriends(searchTerm: $searchTerm) {
       ...UserFragment
     }
   }
 `;
 
 export const USER_FRIENDS_LIST_QUERY = graphql`
-  query UserSearchFriendsListQuery {
+  query UserSearchFriendsListQuery($searchTerm: String) {
     user {
-      ...UserSearchFriendsFragment
+      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)
     }
   }
 `;
-
-interface UserCardProps {
-  userFragment: UserFragment$key;
-}
-
-const UserInviteCard = ({ userFragment }: UserCardProps) => {
-  const user = useFragment(USER_FRAGMENT, userFragment);
-
-  return (
-    <View className="mb-lg flex w-full flex-row items-center px-md">
-      <View className="flex flex-1 flex-col">
-        <Text>
-          {user.firstName} {user.lastName}
-        </Text>
-        <Text>{user.handle}</Text>
-      </View>
-      <Touchable>
-        <PaperPlaneIcon fill={"#5955eb"} />
-      </Touchable>
-    </View>
-  );
-};
 
 interface UserListProps {
   user: UserSearchFriendsFragment$key;
 }
 const UserList = ({ user }: UserListProps) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [data, refetch] = useRefetchableFragment<
     UserSearchRefetchQuery,
     UserSearchFriendsFragment$key
@@ -73,25 +48,35 @@ const UserList = ({ user }: UserListProps) => {
   const debouncedSearch = useCallback(
     debounce((term: string) => {
       startTransition(() => {
-        refetch({ search: term }, { UNSTABLE_renderPolicy: "partial" });
+        refetch({ searchTerm: term });
       });
     }, 300),
     [refetch]
   );
 
-  const handleSearchChange = useCallback(
-    (text: string) => {
-      setSearchQuery(text);
-      debouncedSearch(text);
-    },
-    [debouncedSearch]
-  );
+  const handleSearchChange = useCallback((term: string) => {
+    setSearchQuery(term);
+    console.log("Hyray", data);
+    refetch(
+      { searchTerm: term },
+      {
+        onComplete: (error) => {
+          if (error) console.error("ERR", error); // TODO fix this
+        },
+      }
+    );
+    // debouncedSearch(text);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Data after refetch:", data);
+  // }, [data]);
 
   return (
-    <View className="flex-1 px-md">
+    <View className="px-md flex-1">
       <View className="h-full">
         <View className="mb-sm flex w-full flex-row items-center">
-          <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
+          <View className="mb-md bg-ivory px-sm flex w-full flex-1 flex-row items-center rounded-lg">
             <SearchIcon width={20} />
             <PrimaryTextInputControl
               className="flex-1"
@@ -104,6 +89,7 @@ const UserList = ({ user }: UserListProps) => {
             <Link href="../">Cancel</Link>
           </View>
         </View>
+        {isPending && <Text className="text-center">Loading...</Text>}
         <FlatList
           data={data.searchFriends}
           renderItem={({ item }) => <UserInviteCard userFragment={item} />}

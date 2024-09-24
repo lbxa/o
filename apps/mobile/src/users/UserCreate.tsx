@@ -2,19 +2,13 @@ import type { AuthCreateUserInput } from "@o/api";
 import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import { Ozone } from "@universe/molecules";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import {
-  fetchQuery,
-  PreloadOptions,
-  useLazyLoadQuery,
-  useMutation,
-  usePreloadedQuery,
-  useQueryLoader,
-} from "react-relay";
+import { useMutation, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { graphql } from "react-relay";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
@@ -34,6 +28,7 @@ const USER_CREATE_MUTATION = graphql`
       user {
         ...UserFragment
       }
+      accessToken
     }
   }
 `;
@@ -53,6 +48,7 @@ const EmailCheckMessage = ({
 };
 
 export const UserCreate = () => {
+  const router = useRouter();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
 
@@ -95,6 +91,12 @@ export const UserCreate = () => {
           password,
         },
       },
+      updater: (store, data) => {
+        if (data?.authCreateUser.user) {
+          SecureStore.setItem("ACCESS_TOKEN", data.authCreateUser.accessToken);
+          router.replace("/(app)/home");
+        }
+      },
       onError: (e) => {
         console.log(1, e.name);
         console.log(2, e.message);
@@ -105,7 +107,7 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <View className="mb-md flex flex-row justify-between gap-md">
+        <View className="mb-md gap-md flex flex-row justify-between">
           <Controller
             name="firstName"
             control={control}

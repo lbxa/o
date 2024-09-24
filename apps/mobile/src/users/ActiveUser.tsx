@@ -1,8 +1,7 @@
 import type { User } from "@o/api";
 import type { PropsWithChildren } from "react";
-import { createContext, useContext, useEffect } from "react";
-import type { PreloadedQuery } from "react-relay";
-import { graphql, usePreloadedQuery, useQueryLoader } from "react-relay";
+import { createContext, Suspense, useContext } from "react";
+import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { ActiveUserQuery } from "../__generated__/ActiveUserQuery.graphql";
 
@@ -22,28 +21,21 @@ const ActiveUserContext = createContext<User | undefined | null>(undefined);
 export const ActiveUserProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [queryRef, loadQuery, disposeQuery] =
-    useQueryLoader<ActiveUserQuery>(ACTIVE_USER_QUERY);
-
-  useEffect(() => {
-    loadQuery({}, { fetchPolicy: "store-or-network" });
-
-    return () => disposeQuery();
-  }, [loadQuery]);
-
-  if (!queryRef) {
-    return null; // this will most likely need to be removed
-  }
-
   return (
-    <ActiveUserContainer queryRef={queryRef}>{children}</ActiveUserContainer>
+    <Suspense fallback={null}>
+      <ActiveUserLoader>{children}</ActiveUserLoader>
+    </Suspense>
   );
 };
 
-const ActiveUserContainer: React.FC<
-  PropsWithChildren<{ queryRef: PreloadedQuery<ActiveUserQuery> }>
-> = ({ queryRef, children }) => {
-  const data = usePreloadedQuery(ACTIVE_USER_QUERY, queryRef);
+const ActiveUserLoader: React.FC<PropsWithChildren> = ({ children }) => {
+  const data = useLazyLoadQuery<ActiveUserQuery>(
+    ACTIVE_USER_QUERY,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
+
+  console.log("ACT", data.activeUser);
 
   return (
     <ActiveUserContext.Provider value={data.activeUser}>

@@ -16,13 +16,14 @@ import { UsersTable } from "./user-schema";
 export const CommunitiesTable = mysqlTable(
   "communities",
   {
-    id: int("id").primaryKey().autoincrement(),
+    ...withIdPk,
     name: varchar("name", { length: 255 }).unique().notNull(),
     isPublic: boolean("is_public").notNull().default(true),
     isVerified: boolean("is_verified").notNull().default(false),
     ownerId: int("owner_id")
       .notNull()
       .references(() => UsersTable.id),
+    ...withModificationDates,
   },
   (table) => ({
     nameIndex: index("name_idx").on(table.name),

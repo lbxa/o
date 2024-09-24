@@ -2,10 +2,14 @@ interface Node {
   id: ID!
 }
 
+interface Timestampable {
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+scalar DateTime
+
 type Query {
   health: String! 
   node(id: ID!): Node
 }
-
-# Custom scalars
-scalar DateTime

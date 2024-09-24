@@ -1,9 +1,8 @@
+import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
+import { Touchable } from "@universe/atoms";
 import { MiniNav } from "@universe/molecules";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
-
-import ChevronLeftIcon from "../../../../assets/icons/chevron-left.svg";
-import { Touchable } from "../../../universe/atoms/Touchable";
 
 export default function CommunityRoot() {
   const router = useRouter();
@@ -24,6 +23,16 @@ export default function CommunityRoot() {
             <Text className="text-3xl font-bold">Community</Text>
           ),
           headerRight: () => <MiniNav />,
+        }}
+      />
+      <Stack.Screen
+        name="invite"
+        options={{
+          headerLeft: () => (
+            <Text className="text-xl font-bold">Invite your friends</Text>
+          ),
+          headerBackVisible: true,
+          presentation: "modal",
         }}
       />
       <Stack.Screen

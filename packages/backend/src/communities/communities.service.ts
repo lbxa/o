@@ -103,6 +103,7 @@ export class CommunitiesService {
         id: CommunitiesTable.id,
         name: CommunitiesTable.name,
         isPublic: CommunitiesTable.isPublic,
+        createdAt: CommunitiesTable.createdAt,
       })
       .from(CommunityMembershipsTable)
       .innerJoin(

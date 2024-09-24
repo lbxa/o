@@ -1,6 +1,5 @@
 import { Ozone } from "@universe/molecules";
-import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
+import { useEffect } from "react";
 import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
@@ -11,20 +10,15 @@ export default function CommunityHomeRoute() {
   const [communityListQueryRef, loadCommunityList, disposeCommunityList] =
     useQueryLoader<CommunityListQuery>(COMMUNITY_LIST_QUERY);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!communityListQueryRef) {
-        loadCommunityList({});
-        console.log("communityListQueryRef", communityListQueryRef);
-      }
+  useEffect(() => {
+    loadCommunityList({});
 
-      return () => disposeCommunityList();
-    }, [])
-  );
+    return () => disposeCommunityList();
+  }, []);
 
   return (
     <Ozone>
-      <View className="">
+      <View>
         {communityListQueryRef && (
           <CommunityList queryRef={communityListQueryRef} />
         )}

@@ -4,7 +4,7 @@ import { Text } from "react-native";
 
 import { Touchable } from "./Touchable";
 
-type Variant = "blue" | "red";
+type Variant = "violet" | "red" | "indigo" | "navy";
 
 type VariantMatrix = {
   [key in Variant]: {
@@ -14,9 +14,17 @@ type VariantMatrix = {
 };
 
 const variantMatrix: VariantMatrix = {
-  blue: {
+  violet: {
     back: "bg-violet/30",
     front: "color-violet",
+  },
+  indigo: {
+    back: "bg-indigo/30",
+    front: "color-indigo",
+  },
+  navy: {
+    back: "bg-navy/30",
+    front: "color-navy",
   },
   red: {
     back: "bg-red-200",
@@ -26,11 +34,12 @@ const variantMatrix: VariantMatrix = {
 
 type oButtonProps = {
   variant?: Variant;
+  icon?: React.ReactElement;
 } & ButtonProps;
 
 export const PrimaryButton = ({
   title,
-  variant = "blue",
+  variant = "indigo",
   ...props
 }: oButtonProps) => {
   // const onPressHandler = async (e: GestureResponderEvent) => {

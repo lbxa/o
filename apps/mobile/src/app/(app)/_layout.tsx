@@ -14,15 +14,19 @@ export default function AppLayout() {
   }
 
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
           title: "Home",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             // <Entypo size={28} name="home" color={color} />
-            <HomeIcon width={28} color={color} fill={color} />
+            <HomeIcon fill={focused ? "#5955eb" : color} />
           ),
         }}
       />
@@ -30,9 +34,8 @@ export default function AppLayout() {
         name="community"
         options={{
           title: "Community",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <PeopleIcon width={28} color={color} fill={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <PeopleIcon width={28} fill={focused ? "#5955eb" : color} />
           ),
         }}
       />
@@ -40,9 +43,12 @@ export default function AppLayout() {
         name="profile"
         options={{
           title: "Profile",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Entypo name="circle" size={28} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <Entypo
+              name="circle"
+              size={28}
+              color={focused ? "#5955eb" : color}
+            />
           ),
         }}
       />

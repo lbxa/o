@@ -1,3 +1,4 @@
+import { ParseIntPipe } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import {
   CommunitiesTable,
@@ -35,7 +36,9 @@ export class CommunitiesResolver {
   }
 
   @Query("userCommunities")
-  userCommunities(@Args("userId") userId: number): Promise<Community[]> {
+  userCommunities(
+    @Args("userId", ParseIntPipe) userId: number
+  ): Promise<Community[]> {
     // const decodedUserId = validateAndDecodeGlobalId(userId, "User");
     return this.communitiesService.findUserCommunities(userId);
   }
