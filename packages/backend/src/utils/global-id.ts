@@ -21,7 +21,7 @@
 //   }
 // );
 
-type EntityIdentifiers = "Community" | "User";
+type EntityIdentifiers = "Community" | "User" | "Challenge";
 export type EntityType = EntityIdentifiers | `${EntityIdentifiers}${string}`;
 
 export function encodeGlobalId(type: EntityType, id: number): string {

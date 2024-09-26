@@ -13,6 +13,7 @@ import { JwtAuthGuard } from "./guards/jwt.guard";
 import { DateTimeScalar } from "./types/datetime";
 import { UsersModule } from "./users/users.module";
 import { ViewerModule } from "./viewer/viewer.module";
+import { ChallengesModule } from './challenges/challenges.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ViewerModule } from "./viewer/viewer.module";
     AuthModule,
     CommunitiesModule,
     ViewerModule,
+    ChallengesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

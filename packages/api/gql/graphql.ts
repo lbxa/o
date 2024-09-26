@@ -50,6 +50,58 @@ export type AuthLoginResponse = {
   user: User;
 };
 
+export type Challenge = Node & Timestampable & {
+  __typename?: 'Challenge';
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  endDate: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  invitations?: Maybe<Array<ChallengeInvitation>>;
+  members?: Maybe<Array<User>>;
+  memberships?: Maybe<Array<ChallengeMembership>>;
+  name: Scalars['String']['output'];
+  startDate: Scalars['DateTime']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type ChallengeCreateInput = {
+  communityId: Scalars['ID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate: Scalars['DateTime']['input'];
+  name: Scalars['String']['input'];
+  startDate: Scalars['DateTime']['input'];
+};
+
+export type ChallengeInvitation = Node & Timestampable & {
+  __typename?: 'ChallengeInvitation';
+  challenge: Challenge;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  expiresAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  invitee: User;
+  inviter: User;
+  status: InvitationStatus;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type ChallengeMembership = Node & {
+  __typename?: 'ChallengeMembership';
+  challenge: Challenge;
+  community: Community;
+  id: Scalars['ID']['output'];
+  joinedAt: Scalars['DateTime']['output'];
+  user: User;
+};
+
+export type ChallengeUpdateInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type Community = Node & Timestampable & {
   __typename?: 'Community';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -106,6 +158,12 @@ export type Mutation = {
   authCreateUser: AuthCreateUserResponse;
   authLogin: AuthLoginResponse;
   authLogout: Scalars['Boolean']['output'];
+  challengeCreate: Challenge;
+  challengeDelete: Scalars['Boolean']['output'];
+  challengeInvite: Scalars['Boolean']['output'];
+  challengeJoin: Challenge;
+  challengeLeave: Scalars['Boolean']['output'];
+  challengeUpdate: Challenge;
   communityCreate: Community;
   communityDelete: Scalars['Boolean']['output'];
   communityInvite: Scalars['Boolean']['output'];
@@ -128,6 +186,37 @@ export type MutationAuthLoginArgs = {
 
 export type MutationAuthLogoutArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type MutationChallengeCreateArgs = {
+  challengeCreateInput: ChallengeCreateInput;
+};
+
+
+export type MutationChallengeDeleteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationChallengeInviteArgs = {
+  challengeId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
+export type MutationChallengeJoinArgs = {
+  inviteId: Scalars['ID']['input'];
+};
+
+
+export type MutationChallengeLeaveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationChallengeUpdateArgs = {
+  challengeUpdateInput: ChallengeUpdateInput;
 };
 
 
@@ -172,11 +261,16 @@ export type Node = {
 
 export type Query = {
   __typename?: 'Query';
+  challenge?: Maybe<Challenge>;
+  challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
+  challenges?: Maybe<Array<Challenge>>;
   communities?: Maybe<Array<Community>>;
   community?: Maybe<Community>;
+  communityChallenges?: Maybe<Array<Challenge>>;
   communityInvitations?: Maybe<Array<Community>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
+  userChallenges?: Maybe<Array<Challenge>>;
   userCommunities?: Maybe<Array<Community>>;
   userSearch?: Maybe<Array<User>>;
   userValidateEmail?: Maybe<ValidEmailResponse>;
@@ -185,8 +279,23 @@ export type Query = {
 };
 
 
+export type QueryChallengeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryChallengeInvitationsArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
 export type QueryCommunityArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryCommunityChallengesArgs = {
+  communityId: Scalars['ID']['input'];
 };
 
 
@@ -197,6 +306,11 @@ export type QueryCommunityInvitationsArgs = {
 
 export type QueryNodeArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryUserChallengesArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 

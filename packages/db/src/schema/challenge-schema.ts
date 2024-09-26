@@ -64,7 +64,7 @@ export const ChallengeMembershipsTable = mysqlTable(
     communityId: int("community_id")
       .notNull()
       .references(() => CommunitiesTable.id),
-    joinedAt: timestamp("joined_at").defaultNow(),
+    joinedAt: timestamp("joined_at").notNull().defaultNow(),
   },
   (table) => ({
     uniqueMembership: index("user_challenge_unique").on(
@@ -107,7 +107,7 @@ export const ChallengeInvitationsTable = mysqlTable("challenge_invitations", {
     .notNull()
     .references(() => UsersTable.id),
   status: InvitationStatusEnum.notNull().default("PENDING"),
-  expiresAt: timestamp("expires_at"),
+  expiresAt: timestamp("expires_at").notNull(),
   ...withModificationDates,
 });
 

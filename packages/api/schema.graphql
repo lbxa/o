@@ -32,6 +32,55 @@ type AuthLoginResponse {
   user: User!
 }
 
+type Challenge implements Node & Timestampable {
+  community: Community!
+  createdAt: DateTime
+  description: String
+  endDate: DateTime!
+  id: ID!
+  invitations: [ChallengeInvitation!]
+  members: [User!]
+  memberships: [ChallengeMembership!]
+  name: String!
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+input ChallengeCreateInput {
+  communityId: ID!
+  description: String
+  endDate: DateTime!
+  name: String!
+  startDate: DateTime!
+}
+
+type ChallengeInvitation implements Node & Timestampable {
+  challenge: Challenge!
+  createdAt: DateTime
+  expiresAt: DateTime!
+  id: ID!
+  invitee: User!
+  inviter: User!
+  status: InvitationStatus!
+  updatedAt: DateTime
+}
+
+type ChallengeMembership implements Node {
+  challenge: Challenge!
+  community: Community!
+  id: ID!
+  joinedAt: DateTime!
+  user: User!
+}
+
+input ChallengeUpdateInput {
+  description: String
+  endDate: DateTime
+  id: ID!
+  name: String
+  startDate: DateTime
+}
+
 type Community implements Node & Timestampable {
   createdAt: DateTime
   id: ID!
@@ -87,6 +136,12 @@ type Mutation {
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
+  challengeCreate(challengeCreateInput: ChallengeCreateInput!): Challenge!
+  challengeDelete(id: ID!): Boolean!
+  challengeInvite(challengeId: ID!, userId: ID!): Boolean!
+  challengeJoin(inviteId: ID!): Challenge!
+  challengeLeave(id: ID!): Boolean!
+  challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
   communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityDelete(id: ID!): Boolean!
   communityInvite(communityId: ID!, userId: ID!): Boolean!
@@ -101,11 +156,16 @@ interface Node {
 }
 
 type Query {
+  challenge(id: ID!): Challenge
+  challengeInvitations(userId: ID!): [ChallengeInvitation!]
+  challenges: [Challenge!]
   communities: [Community!]
   community(id: ID!): Community
+  communityChallenges(communityId: ID!): [Challenge!]
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
+  userChallenges(userId: ID!): [Challenge!]
   userCommunities(userId: ID!): [Community!]
   userSearch(searchTerm: String): [User!]
   userValidateEmail(email: String!): ValidEmailResponse

@@ -1,4 +1,4 @@
-import { InvitationStatus } from "../../types/graphql";
+import { InvitationStatus } from "../types/graphql";
 
 export const convertToInvitationStatus = (status: string): InvitationStatus => {
   const uppercaseStatus = status.toUpperCase();

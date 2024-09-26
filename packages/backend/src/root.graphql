@@ -9,7 +9,13 @@ interface Timestampable {
 
 scalar DateTime
 
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
 type Query {
   health: String! 
-  node(id: ID!): Node
+  node(id: ID!): Node # relay compliant  
 }

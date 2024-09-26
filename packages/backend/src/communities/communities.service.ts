@@ -20,7 +20,7 @@ import {
 } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { encodeGlobalId } from "../utils";
-import { convertToInvitationStatus } from "./utils/convert-to-invitation-status";
+import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
 
 @Injectable()
 export class CommunitiesService {

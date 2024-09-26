@@ -31,12 +31,6 @@ type CommunityInvitation implements Node & Timestampable {
   expiresAt: DateTime!
 }
 
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
-}
-
 input CommunityCreateInput {
   name: String!
   isPublic: Boolean!
