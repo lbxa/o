@@ -8,8 +8,8 @@ export interface WhyCardProps {
 }
 export const WhyCard = (props: ParentProps<WhyCardProps>): JSX.Element => {
   return (
-    <div class="relative mb-md rounded-lg border-2 border-solid border-black bg-ivory-light p-sm shadow-lg">
-      <div class="flex gap-2 pb-xs">
+    <div class="mb-md bg-ivory-light p-sm relative rounded-lg border-2 border-solid border-black shadow-lg">
+      <div class="pb-xs flex gap-2">
         {props.icon}
         <h1 class="text-lg">{props.title}</h1>
       </div>
