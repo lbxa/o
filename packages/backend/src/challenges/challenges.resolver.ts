@@ -1,4 +1,3 @@
-import { ParseIntPipe } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { NewChallenge } from "@o/db";
 
@@ -21,12 +20,22 @@ export class ChallengesResolver {
     return this.challengesService.findOne(challengeId);
   }
 
+  // TODO bench mark this against query builder version
+  // there must be a hidden cost to this syntactical simplicity
   @Query("challenges")
   async challenges(): Promise<Challenge[]> {
-    const challenges = await this.dbService.db.query.ChallengesTable.findMany();
+    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
+      with: {
+        community: true,
+      },
+    });
 
     return challenges.map((challenge) => ({
       ...challenge,
+      community: {
+        ...challenge.community,
+        id: encodeGlobalId("Community", challenge.community.id),
+      },
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }

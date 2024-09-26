@@ -22,7 +22,10 @@
 // );
 
 type EntityIdentifiers = "Community" | "User" | "Challenge";
-export type EntityType = EntityIdentifiers | `${EntityIdentifiers}${string}`;
+type EntitySecondaryIdentifiers = "Invitation";
+export type EntityType =
+  | EntityIdentifiers
+  | `${EntityIdentifiers}${EntitySecondaryIdentifiers}`;
 
 export function encodeGlobalId(type: EntityType, id: number): string {
   return Buffer.from(`${type}:${id}`, "utf8").toString("base64");

@@ -7,6 +7,7 @@ import {
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
   ChallengesTable,
+  CommunitiesTable,
   CommunityMembershipsTable,
   NewChallenge,
   UsersTable,
@@ -29,22 +30,37 @@ export class ChallengesService {
   async findOne(id: number): Promise<Challenge> {
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
       where: eq(ChallengesTable.id, id),
+      with: {
+        community: true,
+      },
     });
 
     if (!challenge) {
       throw new NotFoundException(`Challenge with id ${id} not found`);
     }
 
-    const globalId = encodeGlobalId("Challenge", challenge.id);
-    return { ...challenge, id: globalId };
+    return {
+      ...challenge,
+      community: {
+        ...challenge.community,
+        id: encodeGlobalId("Community", challenge.community.id),
+      },
+      id: encodeGlobalId("Challenge", challenge.id),
+    };
   }
 
   async findAll(): Promise<Challenge[]> {
     const allChallenges =
-      await this.dbService.db.query.ChallengesTable.findMany();
+      await this.dbService.db.query.ChallengesTable.findMany({
+        with: { community: true },
+      });
 
     return allChallenges.map((challenge) => ({
       ...challenge,
+      community: {
+        ...challenge.community,
+        id: encodeGlobalId("Challenge", challenge.community.id),
+      },
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
@@ -59,11 +75,16 @@ export class ChallengesService {
         challenge: ChallengesTable,
         inviter: InviterAlias,
         invitee: InviteeAlias,
+        community: CommunitiesTable,
       })
       .from(ChallengeInvitationsTable)
       .innerJoin(
         ChallengesTable,
         eq(ChallengeInvitationsTable.challengeId, ChallengesTable.id)
+      )
+      .innerJoin(
+        CommunitiesTable,
+        eq(ChallengesTable.communityId, CommunitiesTable.id)
       )
       .innerJoin(
         InviterAlias,
@@ -80,6 +101,10 @@ export class ChallengesService {
       id: encodeGlobalId("ChallengeInvitation", row.invitation.id),
       challenge: {
         ...row.challenge,
+        community: {
+          ...row.community,
+          id: encodeGlobalId("Community", row.community.id),
+        },
         id: encodeGlobalId("Challenge", row.challenge.id),
       },
       inviter: {
@@ -104,47 +129,59 @@ export class ChallengesService {
         endDate: ChallengesTable.endDate,
         createdAt: ChallengesTable.createdAt,
         updatedAt: ChallengesTable.updatedAt,
+        community: CommunitiesTable,
       })
       .from(ChallengeMembershipsTable)
       .innerJoin(
         ChallengesTable,
         eq(ChallengesTable.id, ChallengeMembershipsTable.challengeId)
       )
+      .innerJoin(
+        CommunitiesTable,
+        eq(CommunitiesTable.id, ChallengeMembershipsTable.communityId)
+      )
       .where(eq(ChallengeMembershipsTable.userId, userId));
 
     return challenges.map((challenge) => ({
       ...challenge,
+      community: {
+        ...challenge.community,
+        id: encodeGlobalId("Challenge", challenge.community.id),
+      },
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
   async findCommunityChallenges(communityId: number): Promise<Challenge[]> {
-    const challenges = await this.dbService.db
-      .select()
-      .from(ChallengesTable)
-      .where(eq(ChallengesTable.communityId, communityId));
+    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
+      where: eq(ChallengesTable.communityId, communityId),
+      with: {
+        community: true,
+      },
+    });
 
     return challenges.map((challenge) => ({
       ...challenge,
+      community: {
+        ...challenge.community,
+        id: encodeGlobalId("Community", challenge.community.id),
+      },
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
   async create(input: NewChallenge, userId: number): Promise<Challenge> {
     // Verify that the user is an admin of the community
-    const isAdmin = await this.dbService.db
-      .select()
-      .from(CommunityMembershipsTable)
-      .where(
-        and(
+    const isAdmin =
+      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
+        where: and(
           eq(CommunityMembershipsTable.userId, userId),
           eq(CommunityMembershipsTable.communityId, input.communityId),
           eq(CommunityMembershipsTable.isAdmin, true)
-        )
-      )
-      .limit(1);
+        ),
+      });
 
-    if (isAdmin.length === 0) {
+    if (!isAdmin) {
       throw new ForbiddenException(
         "Only community admins can create challenges"
       );
@@ -167,29 +204,24 @@ export class ChallengesService {
 
   async remove(id: number, userId: number): Promise<boolean> {
     // Verify that the user is an admin of the community
-    const challenge = await this.dbService.db
-      .select()
-      .from(ChallengesTable)
-      .where(eq(ChallengesTable.id, id))
-      .limit(1);
+    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
+      where: eq(ChallengesTable.id, id),
+    });
 
-    if (!challenge[0]) {
+    if (!challenge) {
       throw new NotFoundException(`Challenge with id ${id} not found`);
     }
 
-    const isAdmin = await this.dbService.db
-      .select()
-      .from(CommunityMembershipsTable)
-      .where(
-        and(
+    const isAdmin =
+      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
+        where: and(
           eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, challenge[0].communityId),
+          eq(CommunityMembershipsTable.communityId, challenge.communityId),
           eq(CommunityMembershipsTable.isAdmin, true)
-        )
-      )
-      .limit(1);
+        ),
+      });
 
-    if (isAdmin.length === 0) {
+    if (isAdmin) {
       throw new ForbiddenException(
         "Only community admins can delete challenges"
       );
@@ -198,6 +230,7 @@ export class ChallengesService {
     await this.dbService.db
       .delete(ChallengesTable)
       .where(eq(ChallengesTable.id, id));
+
     return true;
   }
 
