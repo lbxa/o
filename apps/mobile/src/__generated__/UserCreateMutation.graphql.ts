@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0e4c6c84c2a9e5e977d20d6b1feeadc8>>
+ * @generated SignedSource<<21c938edb3e36749df0c12671d827ddd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type AuthCreateUserInput = {
   email: string;

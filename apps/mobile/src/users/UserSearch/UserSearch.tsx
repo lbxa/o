@@ -43,16 +43,17 @@ export const USER_FRIENDS_LIST_QUERY = graphql`
 `;
 
 interface UserListProps {
-  user: UserSearchFriendsFragment$key;
+  viewer: UserSearchFriendsFragment$key;
 }
-const UserList = ({ user }: UserListProps) => {
+const UserList = ({ viewer }: UserListProps) => {
   const [isPending, startTransition] = useTransition();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [data, refetch] = useRefetchableFragment<
     UserSearchRefetchQuery,
     UserSearchFriendsFragment$key
-  >(USER_FRIENDS_LIST_FRAGMENT, user);
+  >(USER_FRIENDS_LIST_FRAGMENT, viewer);
 
+  // TODO implement deboucing once flickering issue is resolved
   // const debouncedSearch = useCallback(
   //   debounce((term: string) => {
   //     startTransition(() => {
@@ -127,7 +128,7 @@ export const UserSearch = ({ queryRef }: UserSearchProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <UserList user={query.viewer} />
+      <UserList viewer={query.viewer} />
     </SafeAreaView>
   );
 };

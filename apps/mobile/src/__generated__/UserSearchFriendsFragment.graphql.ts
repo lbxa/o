@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7e98d17d177ce90083f4c22030b94f41>>
+ * @generated SignedSource<<8ae055563bb5c3154eeff4a38fbd4e63>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserSearchFriendsFragment$data = {
   readonly user: {

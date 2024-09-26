@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8b5bc78f5714d49da2908d5636b487fb>>
+ * @generated SignedSource<<4303b066f290be7b309107e2baec1f92>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserSearchRefetchQuery$variables = {
   searchTerm?: string | null | undefined;

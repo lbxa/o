@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<74f45d25a7b4a4a30d97b8f44fafb3c2>>
+ * @generated SignedSource<<6a8ed8cdaae7cfaf3355232a416c935e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type CommunityCreateInput = {
   isPublic: boolean;
   name: string;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d736e3e7ff029df90b97b8793a53ed6a>>
+ * @generated SignedSource<<88cf82d4a8bc39a14d34a5a11385dc18>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserFragment$data = {
   readonly email: string | null | undefined;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<777e87d72b38b367b362279609396715>>
+ * @generated SignedSource<<c7db164fb5f9c5ab8d7da30c306a28c3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserSearchFriendsListQuery$variables = {
   searchTerm?: string | null | undefined;

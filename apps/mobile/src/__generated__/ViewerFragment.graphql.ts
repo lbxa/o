@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a9b7f946709a73c3b242ca040cc41469>>
+ * @generated SignedSource<<b9e3ffc0fb493feb1714cb71fe1ff67e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ViewerFragment$data = {
   readonly user: {

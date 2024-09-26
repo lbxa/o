@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<44ca1e7ea6b5df212bc587322e83018b>>
+ * @generated SignedSource<<af7e7b22f041496d5a10ba87bd8b8034>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityListRefetchQuery$variables = Record<PropertyKey, never>;
 export type CommunityListRefetchQuery$data = {

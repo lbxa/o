@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<febccdc5637a3a9f0b9bb68d608d55c8>>
+ * @generated SignedSource<<45fce754acdfc10c5311ef299c3c39eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunitySearchQuery$variables = {
   id: string;
