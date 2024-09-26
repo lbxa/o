@@ -1,10 +1,10 @@
 import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
+import { User, users } from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { User, users } from "../db/schema";
 import { AuthCreateUserInput, AuthCreateUserResponse } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { CryptoService } from "../utils";
@@ -23,8 +23,12 @@ export class AuthService {
 
   async createNewUser(
     newUserInput: AuthCreateUserInput
-  ): Promise<AuthCreateUserResponse> {
+  ): Promise<AuthCreateUserResponse | undefined> {
     const newUser = await this.usersService.createUser(newUserInput);
+
+    if (!newUser.id) {
+      return undefined;
+    }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
       newUser.id,

@@ -22,17 +22,12 @@ export interface AuthCreateUserInput {
 
 export interface CommunityCreateInput {
     name: string;
+    isPublic: boolean;
 }
 
 export interface CommunityUpdateInput {
     id: string;
     name?: Nullable<string>;
-}
-
-export interface EventCreateInput {
-    name: string;
-    field?: Nullable<string>;
-    communityId: number;
 }
 
 export interface UserUpdateInput {
@@ -41,6 +36,10 @@ export interface UserUpdateInput {
     lastName?: Nullable<string>;
     handle?: Nullable<string>;
     email?: Nullable<string>;
+}
+
+export interface Node {
+    id: string;
 }
 
 export interface AuthLoginResponse {
@@ -72,47 +71,34 @@ export interface IMutation {
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    eventCreate(eventCreateInput: EventCreateInput): Event | Promise<Event>;
+    communityInvite(userId: string, communityId: string): Community | Promise<Community>;
     communityJoin(userId: string, communityId: string): Community | Promise<Community>;
     communityLeave(userId: string, communityId: string): Community | Promise<Community>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
-export interface Community {
+export interface Community extends Node {
     __typename?: 'Community';
     id: string;
     name: string;
+    isPublic: boolean;
     users?: Nullable<Nullable<User>[]>;
-    events?: Nullable<Nullable<Event>[]>;
-}
-
-export interface Event {
-    __typename?: 'Event';
-    id: string;
-    name?: Nullable<string>;
-    field?: Nullable<string>;
-    community?: Nullable<Community>;
 }
 
 export interface IQuery {
     __typename?: 'IQuery';
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    communityEvents(communityId: string): Nullable<Nullable<Event>[]> | Promise<Nullable<Nullable<Event>[]>>;
     health(): string | Promise<string>;
+    node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
+    activeUser(): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
 }
 
-export interface Post {
-    __typename?: 'Post';
-    id: number;
-    content: string;
-}
-
-export interface User {
+export interface User extends Node {
     __typename?: 'User';
-    id?: Nullable<string>;
+    id: string;
     handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;

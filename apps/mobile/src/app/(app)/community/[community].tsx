@@ -1,63 +1,87 @@
-import { Ozone } from "@universe/molecules";
-import { useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
-import { Text } from "react-native";
-import type { PreloadedQuery } from "react-relay";
-import { useFragment, usePreloadedQuery, useQueryLoader } from "react-relay";
+import { Touchable } from "@universe/atoms";
+import { MiniNav, Ozone } from "@universe/molecules";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { graphql, useFragment, useLazyLoadQuery } from "react-relay";
 
+import ChevronLeftIcon from "../../../../assets/icons/chevron-left.svg";
+import type { CommunityDetailsQuery } from "../../../__generated__/CommunityDetailsQuery.graphql";
 import type { CommunityFragment$key } from "../../../__generated__/CommunityFragment.graphql";
-import type { CommunitySearchQuery } from "../../../__generated__/CommunitySearchQuery.graphql";
-import {
-  COMMUNITY_FRAGMENT,
-  COMMUNITY_SEARCH_QUERY,
-} from "../../../communities";
+import { COMMUNITY_FRAGMENT } from "../../../communities/CommunityFragment";
 
-interface DumbProps {
-  frag: CommunityFragment$key;
-}
-
-const DumbComponent = ({ frag }: DumbProps) => {
-  const data = useFragment(COMMUNITY_FRAGMENT, frag);
-  return <Text>{data.name}</Text>;
-};
+const COMMUNITY_DETAILS_QUERY = graphql`
+  query CommunityDetailsQuery($id: ID!) {
+    community(id: $id) {
+      ...CommunityFragment
+    }
+  }
+`;
 
 interface Props {
-  queryRef: PreloadedQuery<CommunitySearchQuery>;
+  frag: CommunityFragment$key | undefined | null;
+  setName: (name: string) => void;
 }
 
-const CommunityDetails = ({ queryRef }: Props) => {
-  const data = usePreloadedQuery<CommunitySearchQuery>(
-    COMMUNITY_SEARCH_QUERY,
-    queryRef
-  );
+const CommunityDetails = ({ frag, setName }: Props) => {
+  const data = useFragment(COMMUNITY_FRAGMENT, frag);
 
-  if (!data.community) {
+  useEffect(() => {
+    data && setName(data.name);
+  }, [setName]);
+
+  if (!data) {
     return <Text>Community not found</Text>;
   }
 
-  return <DumbComponent frag={data.community} />;
+  return <Text>{data.name}</Text>;
 };
 
-export default function CommunityPage() {
+export default function CommunityDetailsRoute() {
+  const router = useRouter();
+  const [communityName, setCommunityName] = useState<string | undefined>(
+    undefined
+  );
   const { community: communityId } = useLocalSearchParams<{
     community: string;
   }>();
 
-  const [queryRef, loadQuery] = useQueryLoader<CommunitySearchQuery>(
-    COMMUNITY_SEARCH_QUERY
+  const query = useLazyLoadQuery<CommunityDetailsQuery>(
+    COMMUNITY_DETAILS_QUERY,
+    { id: communityId },
+    { fetchPolicy: "store-or-network" }
   );
-
-  useEffect(() => {
-    loadQuery({ id: Number(communityId) }, { fetchPolicy: "store-only" });
-  }, [communityId, loadQuery]);
-
-  if (!queryRef) {
-    return <Text>Loading...</Text>;
-  }
 
   return (
     <Ozone>
-      <CommunityDetails queryRef={queryRef} />
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <View className="flex flex-row items-center gap-sm">
+              <Touchable onPress={() => router.back()}>
+                <ChevronLeftIcon />
+              </Touchable>
+              <Text className="text-3xl font-bold">
+                {communityName ?? "Community"}
+              </Text>
+            </View>
+          ),
+          headerRight: () => (
+            <MiniNav
+              items={["create", "message"]}
+              itemConfigs={{
+                create: {
+                  href: "/(app)/community/create",
+                },
+              }}
+            />
+          ),
+        }}
+      />
+      <View className="px-md">
+        <Text className="text-xl font-bold">Challenges</Text>
+        <CommunityDetails frag={query.community} setName={setCommunityName} />
+      </View>
     </Ozone>
   );
 }

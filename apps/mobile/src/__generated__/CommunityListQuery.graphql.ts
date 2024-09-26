@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6bae532507d49115924d0f5f78e8d72f>>
+ * @generated SignedSource<<9d54fc9b8d786b99480244eaf9d5c320>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,9 +12,7 @@ import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityListQuery$variables = Record<PropertyKey, never>;
 export type CommunityListQuery$data = {
-  readonly communities: ReadonlyArray<{
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
-  }> | null | undefined;
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__query">;
 };
 export type CommunityListQuery = {
   response: CommunityListQuery$data;
@@ -29,20 +27,9 @@ const node: ConcreteRequest = {
     "name": "CommunityListQuery",
     "selections": [
       {
-        "alias": null,
         "args": null,
-        "concreteType": "Community",
-        "kind": "LinkedField",
-        "name": "communities",
-        "plural": true,
-        "selections": [
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "CommunityFragment"
-          }
-        ],
-        "storageKey": null
+        "kind": "FragmentSpread",
+        "name": "CommunityList__query"
       }
     ],
     "type": "Query",
@@ -82,15 +69,15 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "8181d44fbc220878f450cb8a077323af",
+    "cacheID": "da1b48273801dbe88ad9b127bc0ea022",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
+    "text": "query CommunityListQuery {\n  ...CommunityList__query\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityList__query on Query {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
   }
 };
 
-(node as any).hash = "07070ae0ea5e0509c88965f0c9db0038";
+(node as any).hash = "7d97c27ef3ece258547a08b8987d0ba1";
 
 export default node;

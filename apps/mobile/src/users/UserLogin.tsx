@@ -8,7 +8,7 @@ import { Ozone } from "@universe/molecules";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
@@ -19,6 +19,11 @@ const userLoginMutation = graphql`
     authLogin(authLoginInput: $authLoginInput) {
       accessToken
       refreshToken
+      user {
+        firstName
+        lastName
+        email
+      }
     }
   }
 `;
@@ -52,19 +57,17 @@ export const UserLogin = () => {
         if (data?.authLogin.accessToken) {
           SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
           console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
-          router.replace("(app)/home");
+          router.replace("/(app)/home");
         }
         // store.get("id");
         // data?.login.accessToken;
       },
-      // optimisticUpdater: {},
     });
   };
 
   return (
     <Ozone>
       <View className="px-md">
-        <Text className="text-3xl font-black mb-md">Login</Text>
         <Controller
           name="email"
           control={control}
@@ -125,7 +128,7 @@ export const UserLogin = () => {
             await handleSubmit(onSubmit)();
           }}
         ></PrimaryButton>
-        <Link href="(auth)/sign-up" className="mt-md underline text-blue-700">
+        <Link href="/(auth)/sign-up" className="mt-md text-blue-700 underline">
           Create an account
         </Link>
       </View>

@@ -29,5 +29,5 @@
   "typescript.inlayHints.parameterTypes.enabled": true,
   "relay.rootDirectory": "apps/mobile",
   "relay.pathToConfig": "apps/mobile/relay.config.json",
-  "relay.autoStartCompiler": false
+  "relay.autoStartCompiler": false,
 }

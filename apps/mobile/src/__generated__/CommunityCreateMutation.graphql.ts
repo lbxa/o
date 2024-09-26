@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d87ffac7f5dc6dd0949cb5a17a3f3e87>>
+ * @generated SignedSource<<ea8ec9fd3ba0a3a8f6e134f102b87978>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,6 +10,7 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type CommunityCreateInput = {
+  isPublic: boolean;
   name: string;
 };
 export type CommunityCreateMutation$variables = {
@@ -17,6 +18,7 @@ export type CommunityCreateMutation$variables = {
 };
 export type CommunityCreateMutation$data = {
   readonly communityCreate: {
+    readonly isPublic: boolean;
     readonly name: string;
   };
 };
@@ -46,6 +48,13 @@ v2 = {
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "isPublic",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -62,7 +71,8 @@ return {
         "name": "communityCreate",
         "plural": false,
         "selections": [
-          (v2/*: any*/)
+          (v2/*: any*/),
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
@@ -85,6 +95,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -98,16 +109,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "97fe9b7ebb5a9b4859c457435e32024a",
+    "cacheID": "5e3400a7fec75bfac3bee6377f1b2729",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    name\n    id\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    name\n    isPublic\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f267ebd08e0e5e5bcf3be5dc6669a4fb";
+(node as any).hash = "383c143e43a98b1b181f1feee8fedeb1";
 
 export default node;

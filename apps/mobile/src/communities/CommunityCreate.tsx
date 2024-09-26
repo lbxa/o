@@ -1,6 +1,6 @@
-import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
+import { PrimaryButton, PrimaryTextInputControl, Title } from "@universe/atoms";
 import { Controller, useForm } from "react-hook-form";
-import { View } from "react-native";
+import { Switch, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
 import type {
   CommunityCreateInput,
@@ -13,6 +13,7 @@ export const COMMUNITY_CREATE_MUTATION = graphql`
   ) {
     communityCreate(communityCreateInput: $communityCreateInput) {
       name
+      isPublic
     }
   }
 `;
@@ -28,15 +29,17 @@ export const CommunityCreate = () => {
   } = useForm<CommunityCreateInput>({
     defaultValues: {
       name: "",
+      isPublic: false,
     },
   });
 
   const onSubmit = (data: CommunityCreateInput) => {
-    const { name } = data;
+    const { name, isPublic } = data;
     commitMutation({
       variables: {
         communityCreateInput: {
           name,
+          isPublic,
         },
       },
       onError: (error) => {
@@ -47,6 +50,7 @@ export const CommunityCreate = () => {
 
   return (
     <View className="mb-md">
+      <Title>Name</Title>
       <Controller
         name="name"
         control={control}
@@ -63,6 +67,26 @@ export const CommunityCreate = () => {
             errorMessage={errors.name?.message}
           />
         )}
+      />
+      <Title>Public</Title>
+      {/* <Switch className="mb-md" onValueChange={toggleSwitch} /> */}
+      <Controller
+        name="isPublic"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Switch className="mb-md" onValueChange={onChange} value={value} />
+        )}
+      />
+      <Title>Invite Members</Title>
+      <PrimaryTextInputControl
+        className="mb-md"
+        placeholder="Search names"
+        inputMode="text"
+        // onBlur={onBlur}
+        // onChangeText={onChange}
+        // value={value}
+        // error={!!errors.name}
+        // errorMessage={errors.name?.message}
       />
       <PrimaryButton
         title={isMutationInFlight ? "Loading..." : "Create"}

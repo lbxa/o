@@ -5,3 +5,4 @@ export * from "./PrimaryTextInput";
 export * from "./PrimaryTextInputControl";
 export * from "./Subtitle";
 export * from "./Title";
+export * from "./Touchable";
