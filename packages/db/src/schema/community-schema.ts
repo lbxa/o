@@ -3,7 +3,6 @@ import {
   boolean,
   index,
   int,
-  mysqlEnum,
   mysqlTable,
   timestamp,
   unique,
@@ -11,6 +10,8 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { withIdPk, withModificationDates } from "../helpers";
+import { InvitationStatusEnum } from "../helpers/invitation-status-enum";
+import { ChallengesTable } from "./challenge-schema";
 import { UsersTable } from "./user-schema";
 
 export const CommunitiesTable = mysqlTable(
@@ -30,13 +31,25 @@ export const CommunitiesTable = mysqlTable(
   })
 );
 
-export const CommunitiesRelations = relations(CommunitiesTable, ({ one }) => ({
-  owner: one(UsersTable, {
-    fields: [CommunitiesTable.ownerId],
-    references: [UsersTable.id],
-    relationName: "communityOwner",
-  }),
-}));
+export const CommunitiesRelations = relations(
+  CommunitiesTable,
+  ({ one, many }) => ({
+    owner: one(UsersTable, {
+      fields: [CommunitiesTable.ownerId],
+      references: [UsersTable.id],
+      relationName: "communityOwner",
+    }),
+    memberships: many(CommunityMembershipsTable, {
+      relationName: "communityMemberships",
+    }),
+    invitations: many(CommunityInvitationsTable, {
+      relationName: "communityInvitations",
+    }),
+    challenges: many(ChallengesTable, {
+      relationName: "communityChallenges",
+    }),
+  })
+);
 
 // User-Community relation (many-to-many)
 export const CommunityMembershipsTable = mysqlTable(
@@ -63,13 +76,15 @@ export const CommunityMembershipsTable = mysqlTable(
 export const CommunityMembershipsRelations = relations(
   CommunityMembershipsTable,
   ({ one }) => ({
-    community: one(CommunitiesTable, {
-      fields: [CommunityMembershipsTable.communityId],
-      references: [CommunitiesTable.id],
-    }),
     user: one(UsersTable, {
       fields: [CommunityMembershipsTable.userId],
       references: [UsersTable.id],
+      relationName: "communityMembershipUser",
+    }),
+    community: one(CommunitiesTable, {
+      fields: [CommunityMembershipsTable.communityId],
+      references: [CommunitiesTable.id],
+      relationName: "communityMembershipCommunity",
     }),
   })
 );
@@ -88,10 +103,7 @@ export const CommunityInvitationsTable = mysqlTable(
     inviteeId: int("invitee_id")
       .notNull()
       .references(() => UsersTable.id),
-    // status: varchar("status", { length: 20 }).notNull().default("PENDING"),
-    status: mysqlEnum("status", ["PENDING", "ACCEPTED", "DENIED"])
-      .notNull()
-      .default("PENDING"),
+    status: InvitationStatusEnum.notNull().default("PENDING"),
     expiresAt: timestamp("expires_at").notNull(),
     ...withModificationDates,
   },
@@ -101,6 +113,27 @@ export const CommunityInvitationsTable = mysqlTable(
       table.inviteeId,
       table.communityId
     ),
+  })
+);
+
+export const CommunityInvitationsRelations = relations(
+  CommunityInvitationsTable,
+  ({ one }) => ({
+    community: one(CommunitiesTable, {
+      fields: [CommunityInvitationsTable.communityId],
+      references: [CommunitiesTable.id],
+      relationName: "communityInvitationCommunity",
+    }),
+    inviter: one(UsersTable, {
+      fields: [CommunityInvitationsTable.inviterId],
+      references: [UsersTable.id],
+      relationName: "communityInvitationInviter",
+    }),
+    invitee: one(UsersTable, {
+      fields: [CommunityInvitationsTable.inviteeId],
+      references: [UsersTable.id],
+      relationName: "communityInvitationInvitee",
+    }),
   })
 );
 

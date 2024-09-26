@@ -1,6 +1,16 @@
+import { relations } from "drizzle-orm";
 import { mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
 import { withIdPk, withModificationDates } from "../helpers";
+import {
+  ChallengeInvitationsTable,
+  ChallengeMembershipsTable,
+} from "./challenge-schema";
+import {
+  CommunitiesTable,
+  CommunityInvitationsTable,
+  CommunityMembershipsTable,
+} from "./community-schema";
 
 export const UsersTable = mysqlTable("users", {
   ...withIdPk,
@@ -14,6 +24,30 @@ export const UsersTable = mysqlTable("users", {
   avatarUrl: varchar("avatar_url", { length: 1000 }),
   ...withModificationDates,
 });
+
+export const UsersRelations = relations(UsersTable, ({ many }) => ({
+  ownedCommunities: many(CommunitiesTable, {
+    relationName: "userOwnedCommunities",
+  }),
+  communityMemberships: many(CommunityMembershipsTable, {
+    relationName: "userCommunityMemberships",
+  }),
+  communityInvitationsSent: many(CommunityInvitationsTable, {
+    relationName: "userCommunityInvitationsSent",
+  }),
+  communityInvitationsReceived: many(CommunityInvitationsTable, {
+    relationName: "userCommunityInvitationsReceived",
+  }),
+  challengeMemberships: many(ChallengeMembershipsTable, {
+    relationName: "userChallengeMemberships",
+  }),
+  challengeInvitationsSent: many(ChallengeInvitationsTable, {
+    relationName: "userChallengeInvitationsSent",
+  }),
+  challengeInvitationsReceived: many(ChallengeInvitationsTable, {
+    relationName: "userChallengeInvitationsReceived",
+  }),
+}));
 
 export type User = typeof UsersTable.$inferSelect;
 export type NewUser = typeof UsersTable.$inferInsert;
