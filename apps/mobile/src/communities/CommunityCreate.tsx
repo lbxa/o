@@ -1,6 +1,6 @@
 import SearchIcon from "@assets/icons/search.svg";
 import {
-  PrimaryButton,
+  Button,
   PrimaryTextInputControl,
   Title,
   Touchable,
@@ -89,12 +89,12 @@ export const CommunityCreate = () => {
       <Title>Invite Members</Title>
       <Touchable
         onPress={() => router.push("/(app)/community/invite")}
-        className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+        className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
       >
         <SearchIcon width={25} />
         <Text className="pl-sm">Search</Text>
       </Touchable>
-      <PrimaryButton
+      <Button
         title={isMutationInFlight ? "Loading..." : "Create"}
         disabled={isMutationInFlight}
         onPress={async (e) => {

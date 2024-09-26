@@ -12,7 +12,7 @@ export default function CommunityInviteModal() {
     loadQuery({});
 
     return () => disposeQuery();
-  }, []);
+  }, [disposeQuery, loadQuery]);
 
   if (!queryRef) return;
 

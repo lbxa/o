@@ -9,7 +9,7 @@ type User implements Node & Timestampable {
   updatedAt: DateTime
   friends: [User!]
   communities: [Community!]
-  searchFriends(searchTerm: String): [User!]!
+  searchFriends(searchTerm: String): [User!]
 
   # TODO
   memberships: [CommunityMembership!]
@@ -30,9 +30,7 @@ type ValidEmailResponse {
 }
 
 type Query {
-  user: User!
   users: [User!]
-  activeUser: User
   userValidateEmail(email: String!): ValidEmailResponse
   userSearch(searchTerm: String): [User!]
 }

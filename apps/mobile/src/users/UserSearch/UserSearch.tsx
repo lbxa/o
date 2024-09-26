@@ -2,7 +2,13 @@ import SearchIcon from "@assets/icons/search.svg";
 import { PrimaryTextInputControl } from "@universe/atoms";
 import debounce from "debounce";
 import { Link } from "expo-router";
-import React, { useCallback, useState, useTransition } from "react";
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import {
@@ -17,18 +23,20 @@ import type { UserSearchRefetchQuery } from "../../__generated__/UserSearchRefet
 import { UserInviteCard } from "./UserInviteCard";
 
 const USER_FRIENDS_LIST_FRAGMENT = graphql`
-  fragment UserSearchFriendsFragment on User
+  fragment UserSearchFriendsFragment on Viewer
   @refetchable(queryName: "UserSearchRefetchQuery")
   @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
-    searchFriends(searchTerm: $searchTerm) {
-      ...UserFragment
+    user {
+      searchFriends(searchTerm: $searchTerm) {
+        ...UserFragment
+      }
     }
   }
 `;
 
 export const USER_FRIENDS_LIST_QUERY = graphql`
   query UserSearchFriendsListQuery($searchTerm: String) {
-    user {
+    viewer {
       ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)
     }
   }
@@ -45,38 +53,45 @@ const UserList = ({ user }: UserListProps) => {
     UserSearchFriendsFragment$key
   >(USER_FRIENDS_LIST_FRAGMENT, user);
 
-  const debouncedSearch = useCallback(
-    debounce((term: string) => {
-      startTransition(() => {
-        refetch({ searchTerm: term });
-      });
-    }, 300),
+  // const debouncedSearch = useCallback(
+  //   debounce((term: string) => {
+  //     startTransition(() => {
+  //       refetch(
+  //         { searchTerm: term },
+  //         { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy: "partial" }
+  //       );
+  //     });
+  //   }, 300),
+  //   []
+  // );
+
+  useEffect(() => {
+    console.log("UserList mounted");
+    return () => {
+      console.log("UserList unmounted");
+    };
+  }, []);
+
+  const handleSearchChange = useCallback(
+    (term: string) => {
+      setSearchQuery(term);
+      refetch(
+        { searchTerm: term },
+        {
+          fetchPolicy: "store-and-network",
+          UNSTABLE_renderPolicy: "partial",
+        }
+      );
+      // debouncedSearch(text);
+    },
     [refetch]
   );
 
-  const handleSearchChange = useCallback((term: string) => {
-    setSearchQuery(term);
-    console.log("Hyray", data);
-    refetch(
-      { searchTerm: term },
-      {
-        onComplete: (error) => {
-          if (error) console.error("ERR", error); // TODO fix this
-        },
-      }
-    );
-    // debouncedSearch(text);
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("Data after refetch:", data);
-  // }, [data]);
-
   return (
-    <View className="px-md flex-1">
+    <View className="flex-1 px-md">
       <View className="h-full">
         <View className="mb-sm flex w-full flex-row items-center">
-          <View className="mb-md bg-ivory px-sm flex w-full flex-1 flex-row items-center rounded-lg">
+          <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
             <SearchIcon width={20} />
             <PrimaryTextInputControl
               className="flex-1"
@@ -84,6 +99,7 @@ const UserList = ({ user }: UserListProps) => {
               inputMode="text"
               autoFocus
               value={searchQuery}
+              textContentType="oneTimeCode"
               onChangeText={handleSearchChange}
             />
             <Link href="../">Cancel</Link>
@@ -91,7 +107,7 @@ const UserList = ({ user }: UserListProps) => {
         </View>
         {isPending && <Text className="text-center">Loading...</Text>}
         <FlatList
-          data={data.searchFriends}
+          data={data.user?.searchFriends}
           renderItem={({ item }) => <UserInviteCard userFragment={item} />}
         />
       </View>
@@ -111,7 +127,7 @@ export const UserSearch = ({ queryRef }: UserSearchProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <UserList user={query.user} />
+      <UserList user={query.viewer} />
     </SafeAreaView>
   );
 };

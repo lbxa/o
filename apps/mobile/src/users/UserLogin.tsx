@@ -1,6 +1,6 @@
 import type { AuthLoginInput } from "@o/api";
 import {
-  PrimaryButton,
+  Button,
   PrimaryPasswordInput,
   PrimaryTextInputControl,
 } from "@universe/atoms";
@@ -118,7 +118,7 @@ export const UserLogin = () => {
           )}
         />
 
-        <PrimaryButton
+        <Button
           title={isMutationInFlight ? "Loading..." : "Login"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -127,7 +127,7 @@ export const UserLogin = () => {
             e.persist();
             await handleSubmit(onSubmit)();
           }}
-        ></PrimaryButton>
+        ></Button>
         <Link href="/(auth)/sign-up" className="mt-md text-blue-700 underline">
           Create an account
         </Link>

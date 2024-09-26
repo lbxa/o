@@ -6,6 +6,9 @@
       "@assets/*": [
         "assets/*"
       ],
+      "@state/*": [
+        "src/state/*"
+      ],
       "@universe/*": [
         "src/universe/*"
       ],

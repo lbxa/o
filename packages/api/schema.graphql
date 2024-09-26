@@ -33,10 +33,10 @@ type AuthLoginResponse {
 }
 
 type Community implements Node & Timestampable {
-  createdAt: DateTime!
+  createdAt: DateTime
   id: ID!
   invitations: [CommunityInvitation!]
-  isPublic: Boolean!
+  isPublic: Boolean
   members: [User!]
   memberships: [CommunityMembership!]
   name: String!
@@ -101,17 +101,16 @@ interface Node {
 }
 
 type Query {
-  activeUser: User
   communities: [Community!]
   community(id: ID!): Community
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
-  user: User!
   userCommunities(userId: ID!): [Community!]
   userSearch(searchTerm: String): [User!]
   userValidateEmail(email: String!): ValidEmailResponse
   users: [User!]
+  viewer: Viewer
 }
 
 interface Timestampable {
@@ -131,7 +130,7 @@ type User implements Node & Timestampable {
   memberships: [CommunityMembership!]
   password: String
   receivedInvitations: [CommunityInvitation!]
-  searchFriends(searchTerm: String): [User!]!
+  searchFriends(searchTerm: String): [User!]
   sentInvitations: [CommunityInvitation!]
   updatedAt: DateTime
 }
@@ -146,4 +145,8 @@ input UserUpdateInput {
 
 type ValidEmailResponse {
   alreadyTaken: Boolean!
+}
+
+type Viewer {
+  user: User
 }

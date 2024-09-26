@@ -1,4 +1,4 @@
-import { PrimaryButton, PrimaryTextInput } from "@universe/atoms";
+import { Button, PrimaryTextInput } from "@universe/atoms";
 import { View } from "react-native";
 import { graphql } from "react-relay";
 
@@ -14,7 +14,7 @@ export const CommunitySearch = () => {
   return (
     <View className="mb-md">
       <PrimaryTextInput className="mb-md" placeholder="Community name" />
-      <PrimaryButton title="Search" />
+      <Button title="Search" />
     </View>
   );
 };

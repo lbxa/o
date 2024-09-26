@@ -11,6 +11,7 @@ import {
 import type { CommunityList__query$key } from "../__generated__/CommunityList__query.graphql";
 import type { CommunityListQuery } from "../__generated__/CommunityListQuery.graphql";
 import type { CommunityListRefetchQuery } from "../__generated__/CommunityListRefetchQuery.graphql";
+import { useRefreshByUser } from "../utils";
 
 const COMMUNITY_LIST_FRAGMENT = graphql`
   fragment CommunityList__query on Query
@@ -40,28 +41,34 @@ export const CommunityList = ({ queryRef }: Props) => {
     CommunityList__query$key
   >(COMMUNITY_LIST_FRAGMENT, query);
 
+  // const { isRefetchingByUser, refetchByUser } = useRefreshByUser(() =>
+  //   refetch({}, { fetchPolicy: "store-only" })
+  // );
+
+  // Removing this stopped the screen from flickering
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({}, { fetchPolicy: "network-only" });
+      refetch(
+        {},
+        { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy: "partial" }
+      );
     });
   }, [refetch]);
 
   useEffect(() => {
     console.log("Rows fetched", data.communities?.length);
-  }, [query]);
+  }, [data.communities?.length, query]);
 
   return (
-    <View className="min-h-screen">
-      <Suspense fallback={<Text>Loading...</Text>}>
-        <FlatList
-          data={data.communities}
-          renderItem={({ item }) => <CommunityCard community={item} />}
-          ListHeaderComponent={<></>}
-          refreshControl={
-            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
-          }
-        />
-      </Suspense>
+    <View className="h-full">
+      <FlatList
+        data={data.communities}
+        renderItem={({ item }) => <CommunityCard community={item} />}
+        ListHeaderComponent={<></>}
+        refreshControl={
+          <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+        }
+      />
     </View>
   );
 };

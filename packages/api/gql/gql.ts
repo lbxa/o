@@ -19,14 +19,15 @@ const documents = {
     "\n  fragment CommunityList__query on Query\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityList__QueryFragmentDoc,
     "\n  query CommunityListQuery {\n    ...CommunityList__query\n  }\n": types.CommunityListQueryDocument,
     "\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
-    "\n  query ActiveUserQuery {\n    activeUser {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n": types.ActiveUserQueryDocument,
     "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n      accessToken\n    }\n  }\n": types.UserCreateMutationDocument,
     "\n  fragment UserFragment on User {\n    id\n    firstName\n    lastName\n    email\n    handle\n  }\n": types.UserFragmentFragmentDoc,
     "\n  mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {\n    authLogin(authLoginInput: $authLoginInput) {\n      accessToken\n      refreshToken\n      user {\n        firstName\n        lastName\n        email\n      }\n    }\n  }\n": types.UserLoginMutationDocument,
     "\n  mutation UserInviteCardMutation($userId: ID!, $communityId: ID!) {\n    communityInvite(userId: $userId, communityId: $communityId)\n  }\n": types.UserInviteCardMutationDocument,
-    "\n  fragment UserSearchFriendsFragment on User\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n    }\n  }\n": types.UserSearchFriendsFragmentFragmentDoc,
-    "\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    user {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n": types.UserSearchFriendsListQueryDocument,
+    "\n  fragment UserSearchFriendsFragment on Viewer\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    user {\n      searchFriends(searchTerm: $searchTerm) {\n        ...UserFragment\n      }\n    }\n  }\n": types.UserSearchFriendsFragmentFragmentDoc,
+    "\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    viewer {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n": types.UserSearchFriendsListQueryDocument,
+    "\n  query ViewerQuery {\n    viewer {\n      ...ViewerFragment\n    }\n  }\n": types.ViewerQueryDocument,
+    "\n  fragment ViewerFragment on Viewer\n  @refetchable(queryName: \"ViewerRefetchQuery\") {\n    user {\n      ...UserFragment\n    }\n  }\n": types.ViewerFragmentFragmentDoc,
 };
 
 /**
@@ -70,10 +71,6 @@ export function graphql(source: "\n  query CommunitySearchQuery($id: ID!) {\n   
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query ActiveUserQuery {\n    activeUser {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n"): (typeof documents)["\n  query ActiveUserQuery {\n    activeUser {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n"): (typeof documents)["\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -94,11 +91,19 @@ export function graphql(source: "\n  mutation UserInviteCardMutation($userId: ID
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment UserSearchFriendsFragment on User\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n    }\n  }\n"): (typeof documents)["\n  fragment UserSearchFriendsFragment on User\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n    }\n  }\n"];
+export function graphql(source: "\n  fragment UserSearchFriendsFragment on Viewer\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    user {\n      searchFriends(searchTerm: $searchTerm) {\n        ...UserFragment\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment UserSearchFriendsFragment on Viewer\n  @refetchable(queryName: \"UserSearchRefetchQuery\")\n  @argumentDefinitions(searchTerm: { type: \"String\", defaultValue: null }) {\n    user {\n      searchFriends(searchTerm: $searchTerm) {\n        ...UserFragment\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    user {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n"): (typeof documents)["\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    user {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n"];
+export function graphql(source: "\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    viewer {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n"): (typeof documents)["\n  query UserSearchFriendsListQuery($searchTerm: String) {\n    viewer {\n      ...UserSearchFriendsFragment @arguments(searchTerm: $searchTerm)\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query ViewerQuery {\n    viewer {\n      ...ViewerFragment\n    }\n  }\n"): (typeof documents)["\n  query ViewerQuery {\n    viewer {\n      ...ViewerFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment ViewerFragment on Viewer\n  @refetchable(queryName: \"ViewerRefetchQuery\") {\n    user {\n      ...UserFragment\n    }\n  }\n"): (typeof documents)["\n  fragment ViewerFragment on Viewer\n  @refetchable(queryName: \"ViewerRefetchQuery\") {\n    user {\n      ...UserFragment\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

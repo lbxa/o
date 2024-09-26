@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2ce4c666d7a209ea6207f1c41339e8e0>>
+ * @generated SignedSource<<777e87d72b38b367b362279609396715>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,9 +14,9 @@ export type UserSearchFriendsListQuery$variables = {
   searchTerm?: string | null | undefined;
 };
 export type UserSearchFriendsListQuery$data = {
-  readonly user: {
+  readonly viewer: {
     readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriendsFragment">;
-  };
+  } | null | undefined;
 };
 export type UserSearchFriendsListQuery = {
   response: UserSearchFriendsListQuery$data;
@@ -55,9 +55,9 @@ return {
       {
         "alias": null,
         "args": null,
-        "concreteType": "User",
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "user",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
@@ -81,68 +81,79 @@ return {
       {
         "alias": null,
         "args": null,
-        "concreteType": "User",
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "user",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
+            "args": null,
             "concreteType": "User",
             "kind": "LinkedField",
-            "name": "searchFriends",
-            "plural": true,
+            "name": "user",
+            "plural": false,
             "selections": [
-              (v2/*: any*/),
               {
                 "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "firstName",
+                "args": (v1/*: any*/),
+                "concreteType": "User",
+                "kind": "LinkedField",
+                "name": "searchFriends",
+                "plural": true,
+                "selections": [
+                  (v2/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "firstName",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "lastName",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "email",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "handle",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "lastName",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "email",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "handle",
-                "storageKey": null
-              }
+              (v2/*: any*/)
             ],
             "storageKey": null
-          },
-          (v2/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "9fd2e767828d0cdc98ef455b6c3f521e",
+    "cacheID": "6f08db30f7ea1a150eb42c4c0054d283",
     "id": null,
     "metadata": {},
     "name": "UserSearchFriendsListQuery",
     "operationKind": "query",
-    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  user {\n    ...UserSearchFriendsFragment_1CW4ID\n    id\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on User {\n  searchFriends(searchTerm: $searchTerm) {\n    ...UserFragment\n    id\n  }\n  id\n}\n"
+    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f398b37bba48267a7aee058d52f7d374";
+(node as any).hash = "bd52943e0e5f0cdf90facb729f54f4cd";
 
 export default node;

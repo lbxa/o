@@ -1,4 +1,4 @@
-import { Touchable } from "@universe/atoms";
+import { Button, Touchable } from "@universe/atoms";
 import { MiniNav, Ozone } from "@universe/molecules";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ const CommunityDetails = ({ frag, setName }: Props) => {
 
   useEffect(() => {
     data && setName(data.name);
-  }, [setName]);
+  }, [data, setName]);
 
   if (!data) {
     return <Text>Community not found</Text>;
@@ -57,7 +57,7 @@ export default function CommunityDetailsRoute() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>
@@ -79,6 +79,15 @@ export default function CommunityDetailsRoute() {
         }}
       />
       <View className="px-md">
+        <View className="mb-md gap-md flex flex-row">
+          <Button title="Share" variant="violet" className="w-20 rounded-xl" />
+          <Button
+            title="Invite"
+            variant="violet"
+            className="w-20 rounded-xl"
+            onPress={() => router.push("/(app)/community/invite")}
+          />
+        </View>
         <Text className="text-xl font-bold">Challenges</Text>
         <CommunityDetails frag={query.community} setName={setCommunityName} />
       </View>

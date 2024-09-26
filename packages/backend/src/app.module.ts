@@ -12,6 +12,7 @@ import { DbService } from "./db/db.service";
 import { JwtAuthGuard } from "./guards/jwt.guard";
 import { DateTimeScalar } from "./types/datetime";
 import { UsersModule } from "./users/users.module";
+import { ViewerModule } from "./viewer/viewer.module";
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     AuthModule,
     CommunitiesModule,
+    ViewerModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

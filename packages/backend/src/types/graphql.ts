@@ -92,9 +92,9 @@ export interface Community extends Node, Timestampable {
     __typename?: 'Community';
     id: string;
     name: string;
-    isPublic: boolean;
+    isPublic?: Nullable<boolean>;
     users?: Nullable<Nullable<User>[]>;
-    createdAt: DateTime;
+    createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
     memberships?: Nullable<CommunityMembership[]>;
@@ -130,11 +130,10 @@ export interface IQuery {
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
-    user(): User | Promise<User>;
     users(): Nullable<User[]> | Promise<Nullable<User[]>>;
-    activeUser(): Nullable<User> | Promise<Nullable<User>>;
     userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
     userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
+    viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }
 
 export interface User extends Node, Timestampable {
@@ -149,7 +148,7 @@ export interface User extends Node, Timestampable {
     updatedAt?: Nullable<DateTime>;
     friends?: Nullable<User[]>;
     communities?: Nullable<Community[]>;
-    searchFriends?: User[];
+    searchFriends?: Nullable<User[]>;
     memberships?: Nullable<CommunityMembership[]>;
     sentInvitations?: Nullable<CommunityInvitation[]>;
     receivedInvitations?: Nullable<CommunityInvitation[]>;
@@ -158,6 +157,11 @@ export interface User extends Node, Timestampable {
 export interface ValidEmailResponse {
     __typename?: 'ValidEmailResponse';
     alreadyTaken: boolean;
+}
+
+export interface Viewer {
+    __typename?: 'Viewer';
+    user?: Nullable<User>;
 }
 
 export type DateTime = Date;

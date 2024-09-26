@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6faa6ca5ef4b9be9e77dda00e2fd26cf>>
+ * @generated SignedSource<<7e98d17d177ce90083f4c22030b94f41>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,11 @@
 import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserSearchFriendsFragment$data = {
-  readonly id: string;
-  readonly searchFriends: ReadonlyArray<{
-    readonly " $fragmentSpreads": FragmentRefs<"UserFragment">;
-  }>;
+  readonly user: {
+    readonly searchFriends: ReadonlyArray<{
+      readonly " $fragmentSpreads": FragmentRefs<"UserFragment">;
+    }> | null | undefined;
+  } | null | undefined;
   readonly " $fragmentType": "UserSearchFriendsFragment";
 };
 export type UserSearchFriendsFragment$key = {
@@ -35,51 +36,51 @@ const node: ReaderFragment = {
     "refetch": {
       "connection": null,
       "fragmentPathInResult": [
-        "node"
+        "viewer"
       ],
-      "operation": require('./UserSearchRefetchQuery.graphql'),
-      "identifierInfo": {
-        "identifierField": "id",
-        "identifierQueryVariableName": "id"
-      }
+      "operation": require('./UserSearchRefetchQuery.graphql')
     }
   },
   "name": "UserSearchFriendsFragment",
   "selections": [
     {
       "alias": null,
-      "args": [
-        {
-          "kind": "Variable",
-          "name": "searchTerm",
-          "variableName": "searchTerm"
-        }
-      ],
+      "args": null,
       "concreteType": "User",
       "kind": "LinkedField",
-      "name": "searchFriends",
-      "plural": true,
+      "name": "user",
+      "plural": false,
       "selections": [
         {
-          "args": null,
-          "kind": "FragmentSpread",
-          "name": "UserFragment"
+          "alias": null,
+          "args": [
+            {
+              "kind": "Variable",
+              "name": "searchTerm",
+              "variableName": "searchTerm"
+            }
+          ],
+          "concreteType": "User",
+          "kind": "LinkedField",
+          "name": "searchFriends",
+          "plural": true,
+          "selections": [
+            {
+              "args": null,
+              "kind": "FragmentSpread",
+              "name": "UserFragment"
+            }
+          ],
+          "storageKey": null
         }
       ],
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
       "storageKey": null
     }
   ],
-  "type": "User",
+  "type": "Viewer",
   "abstractKey": null
 };
 
-(node as any).hash = "feb75911bbece4d8a705beb755c77426";
+(node as any).hash = "97aa3055a937414e98a0efdd692967e7";
 
 export default node;

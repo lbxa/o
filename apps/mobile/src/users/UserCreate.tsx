@@ -1,5 +1,5 @@
 import type { AuthCreateUserInput } from "@o/api";
-import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
+import { Button, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import { Ozone } from "@universe/molecules";
 import { Link, useRouter } from "expo-router";
@@ -107,7 +107,7 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <View className="mb-md gap-md flex flex-row justify-between">
+        <View className="mb-md flex flex-row justify-between gap-md">
           <Controller
             name="firstName"
             control={control}
@@ -197,7 +197,7 @@ export const UserCreate = () => {
           )}
         />
 
-        <PrimaryButton
+        <Button
           title={isMutationInFlight ? "Loading..." : "Join the community"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -206,7 +206,7 @@ export const UserCreate = () => {
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
             await handleSubmit(onSubmit)();
           }}
-        ></PrimaryButton>
+        ></Button>
         <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>

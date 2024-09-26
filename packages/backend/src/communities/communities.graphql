@@ -1,9 +1,9 @@
 type Community implements Node & Timestampable {
   id: ID!
   name: String!
-  isPublic: Boolean!
+  isPublic: Boolean
   users: [User]
-  createdAt: DateTime!
+  createdAt: DateTime
   updatedAt: DateTime
 
   # TODO
