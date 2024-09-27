@@ -68,13 +68,19 @@ export class AuthService {
   }
 
   createSignedTokenPair(userId: number, email: string) {
-    const secret = this.configService.getOrThrow<string>("SECRET");
+    const accessTokenSecret = this.configService.getOrThrow<string>(
+      "ACCESS_TOKEN_SECRET"
+    );
+    const refreshTokenSecret = this.configService.getOrThrow<string>(
+      "REFRESH_TOKEN_SECRET"
+    );
+
     const accessToken = this.jwtService.sign(
       {
         userId,
         email,
       },
-      { expiresIn: "1hr", secret }
+      { expiresIn: "1hr", secret: accessTokenSecret }
     );
     const refreshToken = this.jwtService.sign(
       {
@@ -82,7 +88,7 @@ export class AuthService {
         email,
         accessToken,
       },
-      { expiresIn: "7d", secret }
+      { expiresIn: "30d", secret: refreshTokenSecret }
     );
     return { accessToken, refreshToken };
   }
@@ -111,13 +117,6 @@ export class AuthService {
   }
 
   async validateRefreshToken(userId: number, refreshToken: string) {
-    // const user = await this.dbService.db
-    //   .select({ refreshToken: UsersTable.refreshToken })
-    //   .from(UsersTable)
-    //   .where(
-    //     and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
-    //   );
-
     const user = await this.dbService.db.query.UsersTable.findFirst({
       where: and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)),
       columns: {
@@ -146,11 +145,7 @@ export class AuthService {
     return match;
   }
 
-  async createNewTokens(
-    userId: number,
-    userEmail: string,
-    refreshToken: string
-  ) {
+  async refreshTokens(userId: number, userEmail: string, refreshToken: string) {
     const validToken = await this.validateRefreshToken(userId, refreshToken);
     if (!validToken) {
       throw new UnauthorizedException(
