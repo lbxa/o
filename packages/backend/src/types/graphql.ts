@@ -83,8 +83,8 @@ export interface AuthCreateUserResponse {
     user: User;
 }
 
-export interface AuthCreateNewTokensResponse {
-    __typename?: 'AuthCreateNewTokensResponse';
+export interface Tokens {
+    __typename?: 'Tokens';
     accessToken: string;
     refreshToken: string;
 }
@@ -94,7 +94,7 @@ export interface IMutation {
     authLogin(authLoginInput: AuthLoginInput): AuthLoginResponse | Promise<AuthLoginResponse>;
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
-    authCreateNewTokens(): AuthCreateNewTokensResponse | Promise<AuthCreateNewTokensResponse>;
+    authRefreshTokens(): Tokens | Promise<Tokens>;
     challengeCreate(challengeCreateInput: ChallengeCreateInput): Challenge | Promise<Challenge>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
