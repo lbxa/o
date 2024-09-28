@@ -39,14 +39,9 @@ export const ChallengesRelations = relations(
     community: one(CommunitiesTable, {
       fields: [ChallengesTable.communityId],
       references: [CommunitiesTable.id],
-      relationName: "challengeCommunity",
     }),
-    memberships: many(ChallengeMembershipsTable, {
-      relationName: "challengeMemberships",
-    }),
-    invitations: many(ChallengeInvitationsTable, {
-      relationName: "challengeInvitations",
-    }),
+    memberships: many(ChallengeMembershipsTable),
+    invitations: many(ChallengeInvitationsTable),
   })
 );
 
@@ -80,17 +75,14 @@ export const ChallengeMembershipsRelations = relations(
     user: one(UsersTable, {
       fields: [ChallengeMembershipsTable.userId],
       references: [UsersTable.id],
-      relationName: "challengeMembershipUser",
     }),
     community: one(CommunitiesTable, {
       fields: [ChallengeMembershipsTable.communityId],
       references: [CommunitiesTable.id],
-      relationName: "challengeMembershipCommunity",
     }),
     challenge: one(ChallengesTable, {
       fields: [ChallengeMembershipsTable.challengeId],
       references: [ChallengesTable.id],
-      relationName: "challengeMembershipChallenge",
     }),
   })
 );
@@ -117,17 +109,16 @@ export const ChallengeInvitationsRelations = relations(
     challenge: one(ChallengesTable, {
       fields: [ChallengeInvitationsTable.challengeId],
       references: [ChallengesTable.id],
-      relationName: "challengeInvitationChallenge",
     }),
     inviter: one(UsersTable, {
       fields: [ChallengeInvitationsTable.inviterId],
       references: [UsersTable.id],
-      relationName: "challengeInvitationInviter",
+      relationName: "inviter",
     }),
     invitee: one(UsersTable, {
       fields: [ChallengeInvitationsTable.inviteeId],
       references: [UsersTable.id],
-      relationName: "challengeInvitationInvitee",
+      relationName: "invitee",
     }),
   })
 );

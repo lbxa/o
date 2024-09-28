@@ -26,26 +26,20 @@ export const UsersTable = mysqlTable("users", {
 });
 
 export const UsersRelations = relations(UsersTable, ({ many }) => ({
-  ownedCommunities: many(CommunitiesTable, {
-    relationName: "userOwnedCommunities",
-  }),
-  communityMemberships: many(CommunityMembershipsTable, {
-    relationName: "userCommunityMemberships",
-  }),
+  ownedCommunities: many(CommunitiesTable),
+  communityMemberships: many(CommunityMembershipsTable),
   communityInvitationsSent: many(CommunityInvitationsTable, {
-    relationName: "userCommunityInvitationsSent",
+    relationName: "inviter",
   }),
   communityInvitationsReceived: many(CommunityInvitationsTable, {
-    relationName: "userCommunityInvitationsReceived",
+    relationName: "invitee",
   }),
-  challengeMemberships: many(ChallengeMembershipsTable, {
-    relationName: "userChallengeMemberships",
-  }),
+  challengeMemberships: many(ChallengeMembershipsTable),
   challengeInvitationsSent: many(ChallengeInvitationsTable, {
-    relationName: "userChallengeInvitationsSent",
+    relationName: "inviter",
   }),
   challengeInvitationsReceived: many(ChallengeInvitationsTable, {
-    relationName: "userChallengeInvitationsReceived",
+    relationName: "invitee",
   }),
 }));
 

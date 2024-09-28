@@ -37,17 +37,10 @@ export const CommunitiesRelations = relations(
     owner: one(UsersTable, {
       fields: [CommunitiesTable.ownerId],
       references: [UsersTable.id],
-      relationName: "communityOwner",
     }),
-    memberships: many(CommunityMembershipsTable, {
-      relationName: "communityMemberships",
-    }),
-    invitations: many(CommunityInvitationsTable, {
-      relationName: "communityInvitations",
-    }),
-    challenges: many(ChallengesTable, {
-      relationName: "communityChallenges",
-    }),
+    memberships: many(CommunityMembershipsTable),
+    invitations: many(CommunityInvitationsTable),
+    challenges: many(ChallengesTable),
   })
 );
 
@@ -79,12 +72,10 @@ export const CommunityMembershipsRelations = relations(
     user: one(UsersTable, {
       fields: [CommunityMembershipsTable.userId],
       references: [UsersTable.id],
-      relationName: "communityMembershipUser",
     }),
     community: one(CommunitiesTable, {
       fields: [CommunityMembershipsTable.communityId],
       references: [CommunitiesTable.id],
-      relationName: "communityMembershipCommunity",
     }),
   })
 );
@@ -122,17 +113,16 @@ export const CommunityInvitationsRelations = relations(
     community: one(CommunitiesTable, {
       fields: [CommunityInvitationsTable.communityId],
       references: [CommunitiesTable.id],
-      relationName: "communityInvitationCommunity",
     }),
     inviter: one(UsersTable, {
       fields: [CommunityInvitationsTable.inviterId],
       references: [UsersTable.id],
-      relationName: "communityInvitationInviter",
+      relationName: "inviter",
     }),
     invitee: one(UsersTable, {
       fields: [CommunityInvitationsTable.inviteeId],
       references: [UsersTable.id],
-      relationName: "communityInvitationInvitee",
+      relationName: "invitee",
     }),
   })
 );
