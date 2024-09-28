@@ -5,7 +5,7 @@ type User implements Node & Timestampable {
   lastName: String 
   email: String
   password: String
-  createdAt: DateTime
+createdAt: DateTime
   updatedAt: DateTime
   friends: [User!]
   communities: [Community!]

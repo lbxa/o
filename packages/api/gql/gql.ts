@@ -13,12 +13,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityDetailsQueryDocument,
     "\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n": types.ChallengeCreateMutationDocument,
+    "\n  fragment ChallengeFragment on Challenge {\n    id\n    name\n    description\n    startDate\n    endDate\n  }\n": types.ChallengeFragmentFragmentDoc,
     "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n      isPublic\n    }\n  }\n": types.CommunityCreateMutationDocument,
     "\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n": types.CommunityFragmentFragmentDoc,
-    "\n  fragment CommunityList__query on Query\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityList__QueryFragmentDoc,
-    "\n  query CommunityListQuery {\n    ...CommunityList__query\n  }\n": types.CommunityListQueryDocument,
+    "\n  fragment CommunityListFragment on Viewer\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityListFragmentFragmentDoc,
+    "\n  query CommunityListQuery {\n    viewer {\n      ...CommunityListFragment\n    }\n  }\n": types.CommunityListQueryDocument,
+    "\n  query CommunityChallengesListQuery($communityId: ID!) {\n    communityChallenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n": types.CommunityChallengesListQueryDocument,
+    "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      name\n      ...CommunityFragment\n    }\n  }\n": types.CommunityDetailsQueryDocument,
     "\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
     "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n      accessToken\n    }\n  }\n": types.UserCreateMutationDocument,
@@ -48,11 +50,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"];
+export function graphql(source: "\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"): (typeof documents)["\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"): (typeof documents)["\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"];
+export function graphql(source: "\n  fragment ChallengeFragment on Challenge {\n    id\n    name\n    description\n    startDate\n    endDate\n  }\n"): (typeof documents)["\n  fragment ChallengeFragment on Challenge {\n    id\n    name\n    description\n    startDate\n    endDate\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -64,11 +66,19 @@ export function graphql(source: "\n  fragment CommunityFragment on Community {\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment CommunityList__query on Query\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  fragment CommunityList__query on Query\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"];
+export function graphql(source: "\n  fragment CommunityListFragment on Viewer\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  fragment CommunityListFragment on Viewer\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CommunityListQuery {\n    ...CommunityList__query\n  }\n"): (typeof documents)["\n  query CommunityListQuery {\n    ...CommunityList__query\n  }\n"];
+export function graphql(source: "\n  query CommunityListQuery {\n    viewer {\n      ...CommunityListFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityListQuery {\n    viewer {\n      ...CommunityListFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CommunityChallengesListQuery($communityId: ID!) {\n    communityChallenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityChallengesListQuery($communityId: ID!) {\n    communityChallenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      name\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      name\n      ...CommunityFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -6,10 +6,9 @@ import {
   Touchable,
 } from "@universe/atoms";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
-import { graphql, useMutation, useQueryLoader } from "react-relay";
+import { graphql, useMutation } from "react-relay";
 
 import type {
   CommunityCreateInput,

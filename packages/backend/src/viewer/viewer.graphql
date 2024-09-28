@@ -1,5 +1,6 @@
 type Viewer {
   user: User
+  communities: [Community!]
 }
 
 type Query {

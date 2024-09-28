@@ -28,7 +28,7 @@ export interface AuthCreateUserInput {
 
 export interface ChallengeCreateInput {
     name: string;
-    description?: Nullable<string>;
+    description: string;
     communityId: string;
     startDate: DateTime;
     endDate: DateTime;
@@ -115,9 +115,9 @@ export interface Challenge extends Node, Timestampable {
     id: string;
     name: string;
     description?: Nullable<string>;
-    community: Community;
-    startDate: DateTime;
-    endDate: DateTime;
+    community?: Nullable<Community>;
+    startDate?: Nullable<DateTime>;
+    endDate?: Nullable<DateTime>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
@@ -225,6 +225,7 @@ export interface ValidEmailResponse {
 export interface Viewer {
     __typename?: 'Viewer';
     user?: Nullable<User>;
+    communities?: Nullable<Community[]>;
 }
 
 export type DateTime = Date;

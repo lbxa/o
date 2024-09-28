@@ -1,9 +1,12 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { NewChallenge } from "@o/db";
 
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, ChallengeInvitation } from "../types/graphql";
+import {
+  Challenge,
+  ChallengeCreateInput,
+  ChallengeInvitation,
+} from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { ChallengesService } from "./challenges.service";
 
@@ -59,10 +62,14 @@ export class ChallengesResolver {
 
   @Mutation("challengeCreate")
   async challengeCreate(
-    @Args("challengeCreateInput") input: NewChallenge,
+    @Args("challengeCreateInput") input: ChallengeCreateInput,
     @CurrentUser("userId") userId: number
   ): Promise<Challenge> {
-    return this.challengesService.create(input, userId);
+    const communityId = validateAndDecodeGlobalId(
+      input.communityId,
+      "Community"
+    );
+    return this.challengesService.create({ ...input, communityId }, userId);
   }
 
   @Mutation("challengeInvite")

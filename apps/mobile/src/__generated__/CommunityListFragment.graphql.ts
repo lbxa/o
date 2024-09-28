@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<797e9a1dcaf0c0aa563cb8eea2992496>>
+ * @generated SignedSource<<5d5081caa8904349eff51639a0c9088a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,15 @@
 
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type CommunityList__query$data = {
+export type CommunityListFragment$data = {
   readonly communities: ReadonlyArray<{
     readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
   }> | null | undefined;
-  readonly " $fragmentType": "CommunityList__query";
+  readonly " $fragmentType": "CommunityListFragment";
 };
-export type CommunityList__query$key = {
-  readonly " $data"?: CommunityList__query$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__query">;
+export type CommunityListFragment$key = {
+  readonly " $data"?: CommunityListFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityListFragment">;
 };
 
 const node: ReaderFragment = {
@@ -27,11 +27,13 @@ const node: ReaderFragment = {
   "metadata": {
     "refetch": {
       "connection": null,
-      "fragmentPathInResult": [],
+      "fragmentPathInResult": [
+        "viewer"
+      ],
       "operation": require('./CommunityListRefetchQuery.graphql')
     }
   },
-  "name": "CommunityList__query",
+  "name": "CommunityListFragment",
   "selections": [
     {
       "alias": null,
@@ -50,10 +52,10 @@ const node: ReaderFragment = {
       "storageKey": null
     }
   ],
-  "type": "Query",
+  "type": "Viewer",
   "abstractKey": null
 };
 
-(node as any).hash = "8ec2889987303bf1b53d8459aad82add";
+(node as any).hash = "a957f3eb4d3a7e3539d19f0ceb439f2a";
 
 export default node;

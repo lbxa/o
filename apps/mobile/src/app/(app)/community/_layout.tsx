@@ -4,7 +4,7 @@ import { MiniNav } from "@universe/molecules";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-export default function CommunityRoot() {
+export default function CommunityRootLayout() {
   const router = useRouter();
 
   return (
@@ -39,7 +39,7 @@ export default function CommunityRoot() {
         name="create"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>
@@ -58,7 +58,7 @@ export default function CommunityRoot() {
         name="search"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>

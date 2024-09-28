@@ -45,17 +45,6 @@ const PillGroup = ({ type, options }: PillGroupProps) => {
 };
 
 export const ChallengeTypeSelector = () => {
-  // const [queryRef, loadQuery, disposeQuery] =
-  //   useQueryLoader<UserSearchFriendsListQuery>(USER_FRIENDS_LIST_QUERY);
-
-  // useEffect(() => {
-  //   loadQuery({});
-
-  //   return () => disposeQuery();
-  // }, [disposeQuery, loadQuery]);
-
-  // if (!queryRef) return;
-
   const categories = ["Reps", "Time", "Weight", "Social"];
   const metrics = [
     {
@@ -63,7 +52,7 @@ export const ChallengeTypeSelector = () => {
       options: ["Min", "Max"],
     },
     {
-      type: "Chronological",
+      type: "Duration",
       options: ["Shortest", "Longest"],
     },
   ];

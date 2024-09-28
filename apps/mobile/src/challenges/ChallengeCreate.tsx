@@ -15,7 +15,7 @@ import {
 } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
 import { useRouter } from "expo-router";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
@@ -23,7 +23,7 @@ import { graphql, useMutation } from "react-relay";
 import type {
   ChallengeCreateInput,
   ChallengeCreateMutation,
-} from "../__generated__/ChallengeCreateMutation.graphql.ts";
+} from "../__generated__/ChallengeCreateMutation.graphql";
 import { useAppSelector } from "../state";
 import { selectActiveCommunity } from "../state/community.slice";
 import CustomBackdrop from "./BottomSheetBackdrop";
@@ -42,6 +42,9 @@ export const CHALLENGE_CREATE_MUTATION = graphql`
 
 export const ChallengeCreate = () => {
   const router = useRouter();
+  const [formStatus, setFormStatus] = useState<
+    "COMPLETED" | "ERROR" | "PENDING"
+  >("PENDING");
   const activeCommunity = useAppSelector(selectActiveCommunity);
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(CHALLENGE_CREATE_MUTATION);
@@ -69,7 +72,7 @@ export const ChallengeCreate = () => {
       name: "",
       description: "",
       startDate: new Date(),
-      endDate: "",
+      endDate: new Date(),
     },
   });
 
@@ -85,8 +88,13 @@ export const ChallengeCreate = () => {
           endDate,
         },
       },
+      onCompleted: (data) => {
+        console.log("SUCCESS", data.challengeCreate);
+        setFormStatus("COMPLETED");
+      },
       onError: (error) => {
         console.error(error.message);
+        setFormStatus("ERROR");
       },
     });
   };
@@ -157,27 +165,53 @@ export const ChallengeCreate = () => {
               <Title>Type</Title>
               <Touchable
                 onPress={handlePresentModalPress}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <CrissCrossIcon width={25} />
                 <Text className="pl-sm">Choose from a blend of options</Text>
               </Touchable>
 
               <Title>Duration</Title>
-              <View className="mb-lg flex flex-col justify-between gap-md">
-                <View className="flex flex-row items-center justify-between gap-md">
+              <View className="mb-lg gap-md flex flex-col justify-between">
+                <View className="gap-md flex flex-row items-center justify-between">
                   <Text className="text-xl ">Start</Text>
-                  <RNDateTimePicker mode="datetime" value={new Date()} />
+                  <Controller
+                    name="startDate"
+                    control={control}
+                    rules={{
+                      required: { value: true, message: "Required field" },
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                      <RNDateTimePicker
+                        mode="datetime"
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )}
+                  />
                 </View>
                 <View className="flex flex-row items-center justify-between ">
                   <Text className="text-xl ">End</Text>
-                  <RNDateTimePicker mode="datetime" value={new Date()} />
+                  <Controller
+                    name="endDate"
+                    control={control}
+                    rules={{
+                      required: { value: true, message: "Required field" },
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                      <RNDateTimePicker
+                        mode="datetime"
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )}
+                  />
                 </View>
               </View>
               <Title>Invite Members</Title>
               <Touchable
                 onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>

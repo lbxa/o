@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4770ae6916f02ed1a7d0b6d4cf05672f>>
+ * @generated SignedSource<<7946d1c849ff82e45dd64787e735378c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,10 @@
 import { ConcreteRequest } from 'relay-runtime';
 export type ChallengeCreateInput = {
   communityId: string;
-  description?: string | null | undefined;
-  endDate: any;
+  description: string;
+  endDate: Date;
   name: string;
-  startDate: any;
+  startDate: Date;
 };
 export type ChallengeCreateMutation$variables = {
   challengeCreateInput: ChallengeCreateInput;

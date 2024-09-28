@@ -28,22 +28,22 @@ type AuthLoginResponse {
 }
 
 type Challenge implements Node & Timestampable {
-  community: Community!
+  community: Community
   createdAt: DateTime
   description: String
-  endDate: DateTime!
+  endDate: DateTime
   id: ID!
   invitations: [ChallengeInvitation!]
   members: [User!]
   memberships: [ChallengeMembership!]
   name: String!
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
 }
 
 input ChallengeCreateInput {
   communityId: ID!
-  description: String
+  description: String!
   endDate: DateTime!
   name: String!
   startDate: DateTime!
@@ -208,5 +208,6 @@ type ValidEmailResponse {
 }
 
 type Viewer {
+  communities: [Community!]
   user: User
 }

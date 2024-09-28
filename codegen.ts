@@ -16,7 +16,10 @@ const config = {
     './packages/api/schema.graphql': {
       plugins: ['schema-ast'],
       config: {
-        includeDirectives: true
+        includeDirectives: true,
+        scalars: {
+          DateTime: "Date"
+        }
       }
     }
   },

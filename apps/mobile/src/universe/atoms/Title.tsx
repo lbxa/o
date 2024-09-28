@@ -1,6 +1,14 @@
+import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import { Text } from "react-native";
 
-export const Title: React.FC<PropsWithChildren> = ({ children }) => {
-  return <Text className="mb-md text-3xl font-bold">{children}</Text>;
+export const Title: React.FC<PropsWithChildren<{ className?: string }>> = ({
+  children,
+  className,
+}) => {
+  return (
+    <Text className={classNames("text-3xl font-bold", className)}>
+      {children}
+    </Text>
+  );
 };

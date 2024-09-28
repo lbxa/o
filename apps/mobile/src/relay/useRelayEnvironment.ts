@@ -76,7 +76,8 @@ export const useRelayEnvironment = (): {
           const refreshResult =
             (await refreshResponse.json()) as GraphQLResponseWithData;
 
-          if (refreshResult.data.authRefreshTokens) {
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          if (refreshResult?.data?.authRefreshTokens) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const {
               accessToken: newAccessToken,

@@ -171,7 +171,6 @@ export class ChallengesService {
   }
 
   async create(input: NewChallenge, userId: number): Promise<Challenge> {
-    // Verify that the user is an admin of the community
     const isAdmin =
       await this.dbService.db.query.CommunityMembershipsTable.findFirst({
         where: and(

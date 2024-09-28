@@ -1,4 +1,5 @@
 import { CustomScalar, Scalar } from "@nestjs/graphql";
+import { GraphQLScalarType } from "graphql";
 import { Kind, ValueNode } from "graphql";
 
 @Scalar("DateTime")
