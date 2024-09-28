@@ -3,6 +3,7 @@ import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
 import { DbService } from "../db/db.service";
+import { UsersService } from "../users/users.service";
 import { CommunitiesResolver } from "./communities.resolver";
 import { CommunitiesService } from "./communities.service";
 
@@ -15,6 +16,7 @@ describe("CommunitiesResolver", () => {
         ConfigService,
         CommunitiesResolver,
         CommunitiesService,
+        UsersService,
         DbService,
       ],
     }).compile();

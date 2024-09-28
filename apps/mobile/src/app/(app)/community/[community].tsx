@@ -1,87 +1,30 @@
-import { Touchable } from "@universe/atoms";
-import { MiniNav, Ozone } from "@universe/molecules";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { graphql, useFragment, useLazyLoadQuery } from "react-relay";
+import { useLocalSearchParams } from "expo-router";
 
-import ChevronLeftIcon from "../../../../assets/icons/chevron-left.svg";
-import type { CommunityDetailsQuery } from "../../../__generated__/CommunityDetailsQuery.graphql";
-import type { CommunityFragment$key } from "../../../__generated__/CommunityFragment.graphql";
-import { COMMUNITY_FRAGMENT } from "../../../communities/CommunityFragment";
-
-const COMMUNITY_DETAILS_QUERY = graphql`
-  query CommunityDetailsQuery($id: ID!) {
-    community(id: $id) {
-      ...CommunityFragment
-    }
-  }
-`;
-
-interface Props {
-  frag: CommunityFragment$key | undefined | null;
-  setName: (name: string) => void;
-}
-
-const CommunityDetails = ({ frag, setName }: Props) => {
-  const data = useFragment(COMMUNITY_FRAGMENT, frag);
-
-  useEffect(() => {
-    data && setName(data.name);
-  }, [setName]);
-
-  if (!data) {
-    return <Text>Community not found</Text>;
-  }
-
-  return <Text>{data.name}</Text>;
-};
+import { CommunityRoot } from "../../../communities";
 
 export default function CommunityDetailsRoute() {
-  const router = useRouter();
-  const [communityName, setCommunityName] = useState<string | undefined>(
-    undefined
-  );
+  // const router = useRouter();
+
+  // const [queryRef, loadQuery, disposeQuery] =
+  //   useQueryLoader<CommunityChallengesQuery>(COMMUNITY_CHALLENGES_QUERY);
+
   const { community: communityId } = useLocalSearchParams<{
     community: string;
   }>();
 
-  const query = useLazyLoadQuery<CommunityDetailsQuery>(
-    COMMUNITY_DETAILS_QUERY,
-    { id: communityId },
-    { fetchPolicy: "store-or-network" }
-  );
+  // const community = useActiveCommunity();
 
-  return (
-    <Ozone>
-      <Stack.Screen
-        options={{
-          headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <Touchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </Touchable>
-              <Text className="text-3xl font-bold">
-                {communityName ?? "Community"}
-              </Text>
-            </View>
-          ),
-          headerRight: () => (
-            <MiniNav
-              items={["create", "message"]}
-              itemConfigs={{
-                create: {
-                  href: "/(app)/community/create",
-                },
-              }}
-            />
-          ),
-        }}
-      />
-      <View className="px-md">
-        <Text className="text-xl font-bold">Challenges</Text>
-        <CommunityDetails frag={query.community} setName={setCommunityName} />
-      </View>
-    </Ozone>
-  );
+  // const query = useLazyLoadQuery<CommunityDetailsQuery>(
+  //   COMMUNITY_DETAILS_QUERY,
+  //   { id: community?.id },
+  //   { fetchPolicy: "store-and-network" }
+  // );
+
+  // useEffect(() => {
+  //   loadQuery({ communityId: community?.id });
+
+  //   return () => disposeQuery();
+  // }, [community]);
+
+  return <CommunityRoot communityId={communityId} />;
 }

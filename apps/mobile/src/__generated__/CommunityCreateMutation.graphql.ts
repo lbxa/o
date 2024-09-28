@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ea8ec9fd3ba0a3a8f6e134f102b87978>>
+ * @generated SignedSource<<6a8ed8cdaae7cfaf3355232a416c935e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type CommunityCreateInput = {
   isPublic: boolean;
   name: string;
@@ -18,7 +18,7 @@ export type CommunityCreateMutation$variables = {
 };
 export type CommunityCreateMutation$data = {
   readonly communityCreate: {
-    readonly isPublic: boolean;
+    readonly isPublic: boolean | null | undefined;
     readonly name: string;
   };
 };

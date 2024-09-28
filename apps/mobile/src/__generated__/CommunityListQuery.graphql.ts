@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9d54fc9b8d786b99480244eaf9d5c320>>
+ * @generated SignedSource<<1e307df0d53e04ed704892ba5f48b523>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,11 +8,13 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityListQuery$variables = Record<PropertyKey, never>;
 export type CommunityListQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityList__query">;
+  readonly viewer: {
+    readonly " $fragmentSpreads": FragmentRefs<"CommunityListFragment">;
+  } | null | undefined;
 };
 export type CommunityListQuery = {
   response: CommunityListQuery$data;
@@ -27,9 +29,20 @@ const node: ConcreteRequest = {
     "name": "CommunityListQuery",
     "selections": [
       {
+        "alias": null,
         "args": null,
-        "kind": "FragmentSpread",
-        "name": "CommunityList__query"
+        "concreteType": "Viewer",
+        "kind": "LinkedField",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "CommunityListFragment"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "type": "Query",
@@ -44,23 +57,34 @@ const node: ConcreteRequest = {
       {
         "alias": null,
         "args": null,
-        "concreteType": "Community",
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "communities",
-        "plural": true,
+        "name": "viewer",
+        "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
+            "concreteType": "Community",
+            "kind": "LinkedField",
+            "name": "communities",
+            "plural": true,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "name",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -69,15 +93,15 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "da1b48273801dbe88ad9b127bc0ea022",
+    "cacheID": "6951906b24da2a1e3ea7120a66262bbe",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  ...CommunityList__query\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityList__query on Query {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
+    "text": "query CommunityListQuery {\n  viewer {\n    ...CommunityListFragment\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityListFragment on Viewer {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
   }
 };
 
-(node as any).hash = "7d97c27ef3ece258547a08b8987d0ba1";
+(node as any).hash = "bd692b4612fe0b93e300e1fe945b1612";
 
 export default node;

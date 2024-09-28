@@ -8,6 +8,7 @@ import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import prettierPlugin from "eslint-plugin-prettier";
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import tailwind from "eslint-plugin-tailwindcss";
 
 export default tseslint.config(
@@ -23,7 +24,8 @@ export default tseslint.config(
       '@stylistic/js': stylisticJs,
       prettier: prettierPlugin,
       'simple-import-sort': simpleImportSortPlugin,
-      drizzle: drizzlePlugin
+      drizzle: drizzlePlugin,
+      'react-hooks': reactHooksPlugin
     },
     extends: [
       eslint.configs.recommended,
@@ -74,16 +76,11 @@ export default tseslint.config(
       'simple-import-sort/exports': 'error',
       'drizzle/enforce-delete-with-where': "error",
       'drizzle/enforce-update-with-where': "error",
+      ...reactHooksPlugin.configs.recommended.rules
     },
   },
   {
     linterOptions: { reportUnusedDisableDirectives: true },
     languageOptions: { parserOptions: { project: true } },
-    // languageOptions: {
-    //   parserOptions: {
-    //     project: ['./tsconfig.json'],
-    //     tsconfigRootDir: "./",
-    //   },
-    // },
   },
 );

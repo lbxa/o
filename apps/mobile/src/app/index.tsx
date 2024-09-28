@@ -1,16 +1,14 @@
 import { Redirect } from "expo-router";
 import React from "react";
 
-import { useAuth } from "../utils/useAuth";
+import { useToken } from "../utils/useToken";
 
 export default function App() {
-  const { tok } = useAuth();
+  const { token } = useToken();
 
-  if (!tok) {
+  if (!token) {
     return <Redirect href="/(auth)/login" />;
   }
-
-  console.log("TOK", tok);
 
   return <Redirect href="/(app)/home" />;
 }

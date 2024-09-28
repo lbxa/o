@@ -1,0 +1,67 @@
+type Challenge implements Node & Timestampable {
+  id: ID!
+  name: String!
+  description: String
+  community: Community
+  startDate: DateTime
+  endDate: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  members: [User!]
+  memberships: [ChallengeMembership!]
+  invitations: [ChallengeInvitation!]
+}
+
+type ChallengeMembership implements Node {
+  id: ID!
+  user: User!
+  community: Community!
+  challenge: Challenge!
+  joinedAt: DateTime!
+}
+
+type ChallengeInvitation implements Node & Timestampable {
+  id: ID!
+  challenge: Challenge!
+  inviter: User!
+  invitee: User!
+  status: InvitationStatus!
+  createdAt: DateTime
+  updatedAt: DateTime
+  expiresAt: DateTime!
+}
+
+# Inputs
+input ChallengeCreateInput {
+  name: String!
+  description: String!
+  communityId: ID!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+input ChallengeUpdateInput {
+  id: ID!
+  name: String
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+type Query {
+  challenge(id: ID!): Challenge
+  challenges: [Challenge!]
+  communityChallenges(communityId: ID!): [Challenge!]
+  userChallenges(userId: ID!): [Challenge!]
+  challengeInvitations(userId: ID!): [ChallengeInvitation!]
+}
+
+type Mutation {
+  challengeCreate(challengeCreateInput: ChallengeCreateInput!): Challenge!
+  challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
+  challengeDelete(id: ID!): Boolean!
+  challengeInvite(userId: ID!, challengeId: ID!): Boolean!
+  challengeJoin(inviteId: ID!): Challenge!
+  challengeLeave(id: ID!): Boolean!
+}

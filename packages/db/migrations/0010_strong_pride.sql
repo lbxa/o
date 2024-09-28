@@ -1,0 +1,1 @@
+ALTER TABLE `community_invitations` MODIFY COLUMN `status` enum('PENDING','ACCEPTED','DENIED') NOT NULL DEFAULT 'PENDING';

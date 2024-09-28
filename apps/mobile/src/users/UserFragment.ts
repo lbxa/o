@@ -6,5 +6,6 @@ export const USER_FRAGMENT = graphql`
     firstName
     lastName
     email
+    handle
   }
 `;

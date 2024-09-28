@@ -16,7 +16,7 @@ export default function Root() {
         name="index"
         options={{
           headerLeft: () => <Text className="text-3xl font-bold">oNex</Text>,
-          headerRight: () => <MiniNav />,
+          headerRight: () => <MiniNav items={["search", "message"]} />,
         }}
       />
     </Stack>

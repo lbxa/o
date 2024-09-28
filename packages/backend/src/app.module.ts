@@ -7,10 +7,13 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import { AppResolver } from "./app.resolver";
 import { AuthModule } from "./auth/auth.module";
+import { ChallengesModule } from "./challenges/challenges.module";
 import { CommunitiesModule } from "./communities/communities.module";
 import { DbService } from "./db/db.service";
 import { JwtAuthGuard } from "./guards/jwt.guard";
+import { DateTimeScalar } from "./types/datetime";
 import { UsersModule } from "./users/users.module";
+import { ViewerModule } from "./viewer/viewer.module";
 
 @Module({
   imports: [
@@ -31,9 +34,12 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     AuthModule,
     CommunitiesModule,
+    ViewerModule,
+    ChallengesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
+    DateTimeScalar,
     AppResolver,
     DbService,
   ],

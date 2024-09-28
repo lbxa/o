@@ -22,7 +22,7 @@ type AuthCreateUserResponse {
   user: User!
 }
 
-type AuthCreateNewTokensResponse {
+type Tokens {
   accessToken: String!
   refreshToken: String!
 }
@@ -31,5 +31,5 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
-  authCreateNewTokens: AuthCreateNewTokensResponse!
+  authRefreshTokens: Tokens!
 }

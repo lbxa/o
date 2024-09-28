@@ -1,7 +1,10 @@
 {
+  "$schema": null,
   "src": "./src",
   "language": "typescript",
   "schema": "../../packages/api/schema.graphql",
   "artifactDirectory": "./src/__generated__",
-  "exclude": ["**/node_modules/**", "**/__mocks__/**", "src/__generated__/**"]
+  "customScalarTypes": {
+    "DateTime": "Date"
+  }
 }

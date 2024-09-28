@@ -1,6 +1,6 @@
 import { CommunityCard } from "@universe/molecules";
-import { Suspense, useCallback, useEffect, useTransition } from "react";
-import { FlatList, RefreshControl, Text, View } from "react-native";
+import { useCallback, useEffect, useTransition } from "react";
+import { FlatList, RefreshControl, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import {
   graphql,
@@ -8,12 +8,12 @@ import {
   useRefetchableFragment,
 } from "react-relay";
 
-import type { CommunityList__query$key } from "../__generated__/CommunityList__query.graphql";
+import type { CommunityListFragment$key } from "../__generated__/CommunityListFragment.graphql";
 import type { CommunityListQuery } from "../__generated__/CommunityListQuery.graphql";
 import type { CommunityListRefetchQuery } from "../__generated__/CommunityListRefetchQuery.graphql";
 
 const COMMUNITY_LIST_FRAGMENT = graphql`
-  fragment CommunityList__query on Query
+  fragment CommunityListFragment on Viewer
   @refetchable(queryName: "CommunityListRefetchQuery") {
     communities {
       ...CommunityFragment
@@ -23,7 +23,9 @@ const COMMUNITY_LIST_FRAGMENT = graphql`
 
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
-    ...CommunityList__query
+    viewer {
+      ...CommunityListFragment
+    }
   }
 `;
 
@@ -37,31 +39,32 @@ export const CommunityList = ({ queryRef }: Props) => {
 
   const [data, refetch] = useRefetchableFragment<
     CommunityListRefetchQuery,
-    CommunityList__query$key
-  >(COMMUNITY_LIST_FRAGMENT, query);
+    CommunityListFragment$key
+  >(COMMUNITY_LIST_FRAGMENT, query.viewer);
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({}, { fetchPolicy: "network-only" });
+      refetch(
+        {},
+        { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy: "partial" }
+      );
     });
   }, [refetch]);
 
   useEffect(() => {
-    console.log("Rows fetched", data.communities?.length);
-  }, [query]);
+    console.log("Rows fetched", data?.communities?.length);
+  }, [data?.communities?.length, query]);
 
   return (
-    <View className="min-h-screen">
-      <Suspense fallback={<Text>Loading...</Text>}>
-        <FlatList
-          data={data.communities}
-          renderItem={({ item }) => <CommunityCard community={item} />}
-          ListHeaderComponent={<></>}
-          refreshControl={
-            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
-          }
-        />
-      </Suspense>
+    <View className="h-full">
+      <FlatList
+        data={data?.communities}
+        renderItem={({ item }) => <CommunityCard community={item} />}
+        ListHeaderComponent={<></>}
+        refreshControl={
+          <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+        }
+      />
     </View>
   );
 };

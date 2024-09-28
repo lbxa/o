@@ -1,6 +1,6 @@
 import type { AuthLoginInput } from "@o/api";
 import {
-  PrimaryButton,
+  Button,
   PrimaryPasswordInput,
   PrimaryTextInputControl,
 } from "@universe/atoms";
@@ -13,6 +13,7 @@ import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
 import type { UserLoginMutation } from "../__generated__/UserLoginMutation.graphql";
+import { useSecureStore } from "../utils/useSecureStore";
 
 const userLoginMutation = graphql`
   mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
@@ -30,6 +31,7 @@ const userLoginMutation = graphql`
 
 export const UserLogin = () => {
   const router = useRouter();
+  const { setStoreItem } = useSecureStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserLoginMutation>(userLoginMutation);
 
@@ -55,8 +57,12 @@ export const UserLogin = () => {
       },
       updater: (store, data) => {
         if (data?.authLogin.accessToken) {
-          SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
+          // SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
+          setStoreItem("ACCESS_TOKEN", data.authLogin.accessToken);
+          setStoreItem("REFRESH_TOKEN", data.authLogin.refreshToken);
+
           console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
+          console.log("refreshToken", SecureStore.getItem("REFRESH_TOKEN"));
           router.replace("/(app)/home");
         }
         // store.get("id");
@@ -118,7 +124,7 @@ export const UserLogin = () => {
           )}
         />
 
-        <PrimaryButton
+        <Button
           title={isMutationInFlight ? "Loading..." : "Login"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -127,7 +133,7 @@ export const UserLogin = () => {
             e.persist();
             await handleSubmit(onSubmit)();
           }}
-        ></PrimaryButton>
+        ></Button>
         <Link href="/(auth)/sign-up" className="mt-md text-blue-700 underline">
           Create an account
         </Link>

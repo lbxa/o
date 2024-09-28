@@ -1,0 +1,1 @@
+CREATE FULLTEXT INDEX idx_email ON users(email);

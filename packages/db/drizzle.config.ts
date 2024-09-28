@@ -9,12 +9,9 @@ if (!DB_HOSTNAME || !DB_USER || !DB_NAME || !DB_PORT || !DB_PASSWORD) {
 }
 
 export default defineConfig({
-  schema: "./src/schema/*",
-  out: "./drizzle",
+  schema: "./src/schema/*.ts",
+  out: "./migrations",
   dialect: "mysql", 
-  introspect: {
-    casing: "camel"
-  },
   dbCredentials: {
     host: DB_HOSTNAME,
     user: DB_USER,

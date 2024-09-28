@@ -10,8 +10,6 @@ import type { MySql2Database } from "drizzle-orm/mysql2";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
-// import * as schema from "../../../db/src/schema";
-
 @Injectable()
 export class DbService implements OnModuleInit, OnModuleDestroy {
   public db!: MySql2Database<typeof schema>;
@@ -22,17 +20,17 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     this.connection = await mysql.createConnection({
-      host: this.configService.get<string>("DB_HOSTNAME"),
-      user: this.configService.get<string>("DB_USER"),
-      database: this.configService.get<string>("DB_NAME"),
-      port: Number(this.configService.get<string>("DB_PORT")),
-      password: this.configService.get<string>("DB_PASSWORD"),
+      host: this.configService.getOrThrow<string>("DB_HOSTNAME"),
+      user: this.configService.getOrThrow<string>("DB_USER"),
+      database: this.configService.getOrThrow<string>("DB_NAME"),
+      port: Number(this.configService.getOrThrow<string>("DB_PORT")),
+      password: this.configService.getOrThrow<string>("DB_PASSWORD"),
       multipleStatements: false,
     });
 
     this.logger.log("Database connection acquired");
 
-    this.db = drizzle(this.connection, { mode: "default" });
+    this.db = drizzle(this.connection, { schema, mode: "default" });
   }
 
   async onModuleDestroy() {

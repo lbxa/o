@@ -1,7 +1,12 @@
-import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { User, users } from "@o/db";
+import { User, UsersTable } from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -27,7 +32,7 @@ export class AuthService {
     const newUser = await this.usersService.createUser(newUserInput);
 
     if (!newUser.id) {
-      return undefined;
+      throw new ForbiddenException("User creation failed");
     }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
@@ -47,26 +52,35 @@ export class AuthService {
   async validateUser(
     email: string
   ): Promise<Pick<User, "id" | "password"> | undefined> {
-    const userData = await this.dbService.db
-      .select({ id: users.id, password: users.password })
-      .from(users)
-      .where(eq(users.email, email));
+    const user = await this.dbService.db.query.UsersTable.findFirst({
+      where: eq(UsersTable.email, email),
+      columns: {
+        id: true,
+        password: true,
+      },
+    });
 
-    if (!userData[0]) {
-      return undefined;
+    if (!user) {
+      throw new ForbiddenException(`User data for ${email} not found`);
     }
 
-    return userData[0];
+    return user;
   }
 
   createSignedTokenPair(userId: number, email: string) {
-    const secret = this.configService.get<string>("SECRET");
+    const accessTokenSecret = this.configService.getOrThrow<string>(
+      "ACCESS_TOKEN_SECRET"
+    );
+    const refreshTokenSecret = this.configService.getOrThrow<string>(
+      "REFRESH_TOKEN_SECRET"
+    );
+
     const accessToken = this.jwtService.sign(
       {
         userId,
         email,
       },
-      { expiresIn: "1hr", secret }
+      { expiresIn: "1hr", secret: accessTokenSecret }
     );
     const refreshToken = this.jwtService.sign(
       {
@@ -74,7 +88,7 @@ export class AuthService {
         email,
         accessToken,
       },
-      { expiresIn: "7d", secret }
+      { expiresIn: "30d", secret: refreshTokenSecret }
     );
     return { accessToken, refreshToken };
   }
@@ -84,40 +98,44 @@ export class AuthService {
       await this.cryptoService.generateArgonHash(refreshToken);
 
     return await this.dbService.db
-      .update(users)
+      .update(UsersTable)
       .set({
         refreshToken: hashedRefreshToken,
       })
-      .where(eq(users.id, userId));
+      .where(eq(UsersTable.id, userId));
   }
 
   async invalidateRefreshToken(userId: number): Promise<boolean> {
     const [query] = await this.dbService.db
-      .update(users)
+      .update(UsersTable)
       .set({ refreshToken: null })
-      .where(and(eq(users.id, userId), isNotNull(users.refreshToken)));
+      .where(
+        and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
+      );
 
     return query.affectedRows > 0;
   }
 
   async validateRefreshToken(userId: number, refreshToken: string) {
-    const user = await this.dbService.db
-      .select({ refreshToken: users.refreshToken })
-      .from(users)
-      .where(and(eq(users.id, userId), isNotNull(users.refreshToken)));
+    const user = await this.dbService.db.query.UsersTable.findFirst({
+      where: and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken)),
+      columns: {
+        refreshToken: true,
+      },
+    });
 
     /**
      * If the user has no active refreshToken, this could have
      * happened due to a logout event. Restrict access.
      */
-    if (!user[0]?.refreshToken) {
-      this.logger.error("Refresh token fetch from database did not work");
+    if (!user?.refreshToken) {
+      this.logger.error("Error fetching refresh token from the database");
       throw new UnauthorizedException(
         "Access Denied: Refresh token is missing or invalid"
       );
     }
 
-    const storedRefreshToken = user[0].refreshToken;
+    const storedRefreshToken = user.refreshToken;
 
     const match = await this.cryptoService.verifyArgonHash(
       storedRefreshToken,
@@ -127,11 +145,7 @@ export class AuthService {
     return match;
   }
 
-  async createNewTokens(
-    userId: number,
-    userEmail: string,
-    refreshToken: string
-  ) {
+  async refreshTokens(userId: number, userEmail: string, refreshToken: string) {
     const validToken = await this.validateRefreshToken(userId, refreshToken);
     if (!validToken) {
       throw new UnauthorizedException(

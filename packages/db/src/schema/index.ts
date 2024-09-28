@@ -1,2 +1,3 @@
-export * from "./community";
-export * from "./user";
+export * from "./challenge-schema";
+export * from "./community-schema";
+export * from "./user-schema";

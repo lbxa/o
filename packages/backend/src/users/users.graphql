@@ -1,10 +1,20 @@
-type User implements Node {
+type User implements Node & Timestampable {
   id: ID!
   handle: String
   firstName: String
   lastName: String 
   email: String
   password: String
+createdAt: DateTime
+  updatedAt: DateTime
+  friends: [User!]
+  communities: [Community!]
+  searchFriends(searchTerm: String): [User!]
+
+  # TODO
+  memberships: [CommunityMembership!]
+  sentInvitations: [CommunityInvitation!]
+  receivedInvitations: [CommunityInvitation!]
 }
 
 input UserUpdateInput {
@@ -20,9 +30,9 @@ type ValidEmailResponse {
 }
 
 type Query {
-  user(id: ID!): User
-  activeUser: User
+  users: [User!]
   userValidateEmail(email: String!): ValidEmailResponse
+  userSearch(searchTerm: String): [User!]
 }
 
 type Mutation {

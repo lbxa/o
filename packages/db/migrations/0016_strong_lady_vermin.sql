@@ -1,0 +1,2 @@
+ALTER TABLE `challenge_invitations` MODIFY COLUMN `status` enum('PENDING','ACCEPTED','DENIED') NOT NULL DEFAULT 'PENDING';--> statement-breakpoint
+CREATE INDEX `community_idx` ON `challenges` (`community_id`);

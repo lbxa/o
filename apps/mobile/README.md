@@ -1,6 +1,6 @@
 # o
 
-Enjoy the luxury of VSCode full graphql intellisense power by react relay.
+Enjoy the luxury of VSCode full graphql intellisense powered by react relay.
 
 ## Known Issues
 
@@ -40,7 +40,7 @@ Caveat for customising the color of the SVGs is to make sure there is no `fill` 
 
 ## Structure
 
-Reducing complexity whilst maximizing scalability and maintainability is the goal. Any nested stack navigators are used for scalability and access to the header.
+Reducing complexity whilst maximizing scalability and maintainability is the goal. Any nested stack navigators are used for scalability and access to a shared header.
 
 ```plaintext
 Root Stack Navigator
@@ -54,3 +54,5 @@ Root Stack Navigator
         └── Profile Tab (Stack Navigator)
             └── Profile Screen
 ```
+
+Each primary screen view will have its parent screen query, which will pass down fragments to its children. Pulling to refresh should iron out the missing data in these screens.

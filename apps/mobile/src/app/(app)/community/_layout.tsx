@@ -1,11 +1,10 @@
+import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
+import { Touchable } from "@universe/atoms";
 import { MiniNav } from "@universe/molecules";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import ChevronLeftIcon from "../../../../assets/icons/chevron-left.svg";
-import { Touchable } from "../../../universe/atoms/Touchable";
-
-export default function CommunityRoot() {
+export default function CommunityRootLayout() {
   const router = useRouter();
 
   return (
@@ -27,10 +26,20 @@ export default function CommunityRoot() {
         }}
       />
       <Stack.Screen
+        name="invite"
+        options={{
+          headerLeft: () => (
+            <Text className="text-xl font-bold">Invite your friends</Text>
+          ),
+          headerBackVisible: true,
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
         name="create"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>
@@ -40,10 +49,16 @@ export default function CommunityRoot() {
         }}
       />
       <Stack.Screen
+        name="challenge"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="search"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>

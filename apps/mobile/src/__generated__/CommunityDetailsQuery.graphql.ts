@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d83825a4998771378300126b07052489>>
+ * @generated SignedSource<<faaba0f144f51be7b98c84624fd74cf1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityDetailsQuery$variables = {
   id: string;
 };
 export type CommunityDetailsQuery$data = {
   readonly community: {
+    readonly name: string;
     readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
   } | null | undefined;
 };
@@ -37,7 +38,14 @@ v1 = [
     "name": "id",
     "variableName": "id"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -53,6 +61,7 @@ return {
         "name": "community",
         "plural": false,
         "selections": [
+          (v2/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -79,18 +88,12 @@ return {
         "name": "community",
         "plural": false,
         "selections": [
+          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
             "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
             "storageKey": null
           }
         ],
@@ -99,16 +102,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "56fb920790f0d90ec915c1dc4e84ecff",
+    "cacheID": "65697c77a1373b76c0a893f85d1f4a39",
     "id": null,
     "metadata": {},
     "name": "CommunityDetailsQuery",
     "operationKind": "query",
-    "text": "query CommunityDetailsQuery(\n  $id: ID!\n) {\n  community(id: $id) {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
+    "text": "query CommunityDetailsQuery(\n  $id: ID!\n) {\n  community(id: $id) {\n    name\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
   }
 };
 })();
 
-(node as any).hash = "70ddf3afce214988ae5f96d2112beefb";
+(node as any).hash = "2fe852239a4d0707408a3c90e885326f";
 
 export default node;

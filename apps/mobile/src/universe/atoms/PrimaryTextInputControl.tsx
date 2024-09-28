@@ -18,7 +18,7 @@ export const PrimaryTextInputControl = ({
     <View className={className}>
       <PrimaryTextInput {...props} error={error} />
       {error && (
-        <Text className="px-2 mt-sm color-red-900">{errorMessage}</Text>
+        <Text className="mt-sm px-2 color-red-900">{errorMessage}</Text>
       )}
     </View>
   );

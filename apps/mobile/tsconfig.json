@@ -6,6 +6,9 @@
       "@assets/*": [
         "assets/*"
       ],
+      "@state/*": [
+        "src/state/*"
+      ],
       "@universe/*": [
         "src/universe/*"
       ],
@@ -29,6 +32,6 @@
     "expo-env.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    ".expo"
   ]
 }

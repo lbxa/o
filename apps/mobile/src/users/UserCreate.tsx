@@ -1,20 +1,14 @@
 import type { AuthCreateUserInput } from "@o/api";
-import { PrimaryButton, PrimaryTextInputControl } from "@universe/atoms";
+import { Button, PrimaryTextInputControl } from "@universe/atoms";
 import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
 import { Ozone } from "@universe/molecules";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import {
-  fetchQuery,
-  PreloadOptions,
-  useLazyLoadQuery,
-  useMutation,
-  usePreloadedQuery,
-  useQueryLoader,
-} from "react-relay";
+import { useMutation, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { graphql } from "react-relay";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
@@ -34,6 +28,7 @@ const USER_CREATE_MUTATION = graphql`
       user {
         ...UserFragment
       }
+      accessToken
     }
   }
 `;
@@ -53,6 +48,7 @@ const EmailCheckMessage = ({
 };
 
 export const UserCreate = () => {
+  const router = useRouter();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
 
@@ -94,6 +90,12 @@ export const UserCreate = () => {
           email,
           password,
         },
+      },
+      updater: (store, data) => {
+        if (data?.authCreateUser.user) {
+          SecureStore.setItem("ACCESS_TOKEN", data.authCreateUser.accessToken);
+          router.replace("/(app)/home");
+        }
       },
       onError: (e) => {
         console.log(1, e.name);
@@ -195,7 +197,7 @@ export const UserCreate = () => {
           )}
         />
 
-        <PrimaryButton
+        <Button
           title={isMutationInFlight ? "Loading..." : "Join the community"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -204,7 +206,7 @@ export const UserCreate = () => {
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
             await handleSubmit(onSubmit)();
           }}
-        ></PrimaryButton>
+        ></Button>
         <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>

@@ -1,16 +1,16 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { PrimaryButton } from "@universe/atoms";
+import { Button } from "@universe/atoms";
 import { Ozone } from "@universe/molecules";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import { useActiveUser } from "../../../users";
-import { useAuth } from "../../../utils/useAuth";
+import { useViewer } from "../../../users";
+import { useToken } from "../../../utils/useToken";
 
 export default function Profile() {
   const router = useRouter();
-  const activeUser = useActiveUser();
-  const { logout } = useAuth();
+  const { viewer } = useViewer();
+  const { deleteToken } = useToken();
 
   return (
     <Ozone>
@@ -22,15 +22,15 @@ export default function Profile() {
             </View>
           </View>
           <Text className="text-left text-6xl font-bold">
-            {activeUser?.firstName + " " + activeUser?.lastName}
+            {viewer?.firstName + " " + viewer?.lastName}
           </Text>
-          <Text>{activeUser?.email}</Text>
+          <Text>{viewer?.email}</Text>
         </View>
         <View className="mx-md">
-          <PrimaryButton
+          <Button
             title="Logout"
-            onPress={() => {
-              logout();
+            onPress={async () => {
+              await deleteToken();
               router.replace("/(auth)/login");
             }}
           />

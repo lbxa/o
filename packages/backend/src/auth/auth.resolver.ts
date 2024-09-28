@@ -4,7 +4,7 @@ import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { RefreshTokenGuard } from "../guards/refresh-token.guard";
-import { AuthCreateUserInput, AuthLoginInput } from "../types/graphql";
+import { AuthCreateUserInput, AuthLoginInput, Tokens } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { AuthService } from "./auth.service";
 
@@ -61,13 +61,13 @@ export class AuthResolver {
 
   @Public()
   @UseGuards(RefreshTokenGuard)
-  @Mutation("authCreateNewTokens")
-  async createNewTokens(
+  @Mutation("authRefreshTokens")
+  async refreshTokens(
     @CurrentUser("userId") userId: number,
     @CurrentUser("email") userEmail: string,
     @CurrentUser("refreshToken") refreshToken: string
-  ) {
-    return await this.authService.createNewTokens(
+  ): Promise<Tokens> {
+    return await this.authService.refreshTokens(
       userId,
       userEmail,
       refreshToken

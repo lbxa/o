@@ -1,0 +1,1 @@
+ALTER TABLE `challenges` MODIFY COLUMN `description` text NOT NULL;
