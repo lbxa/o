@@ -10,7 +10,7 @@ interface F {
 export const useToken = (): F => {
   const { getStoreItem, deleteStoreItem } = useSecureStore();
 
-  const token = useMemo(() => !!getStoreItem("ACCESS_TOKEN"), [getStoreItem]);
+  const token = !!getStoreItem("ACCESS_TOKEN");
 
   const deleteToken = useCallback(
     async () => await deleteStoreItem("ACCESS_TOKEN"),

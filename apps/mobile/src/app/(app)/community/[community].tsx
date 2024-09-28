@@ -57,7 +57,7 @@ export default function CommunityDetailsRoute() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>
@@ -71,7 +71,7 @@ export default function CommunityDetailsRoute() {
               items={["create", "message"]}
               itemConfigs={{
                 create: {
-                  href: "/(app)/community/create",
+                  href: "/(app)/community/challenge/create",
                 },
               }}
             />
@@ -79,7 +79,7 @@ export default function CommunityDetailsRoute() {
         }}
       />
       <View className="px-md">
-        <View className="mb-md gap-md flex flex-row">
+        <View className="mb-md flex flex-row gap-md">
           <Button title="Share" variant="violet" className="w-20 rounded-xl" />
           <Button
             title="Invite"

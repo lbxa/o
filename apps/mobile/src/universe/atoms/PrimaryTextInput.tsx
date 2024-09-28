@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { TextInputProps } from "react-native";
 import { TextInput } from "react-native";
+
 export interface PrimaryTextInputProps {
   error?: boolean;
 }

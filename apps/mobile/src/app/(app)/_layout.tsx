@@ -4,12 +4,12 @@ import React from "react";
 
 import HomeIcon from "../../../assets/icons/home.svg";
 import PeopleIcon from "../../../assets/icons/people.svg";
-import { useAuth } from "../../utils/useAuth";
+import { useToken } from "../../utils/useToken";
 
 export default function AppLayout() {
-  const { session } = useAuth();
+  const { token } = useToken();
 
-  if (!session) {
+  if (!token) {
     return <Redirect href="/(auth)/login" />;
   }
 
@@ -25,7 +25,6 @@ export default function AppLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
-            // <Entypo size={28} name="home" color={color} />
             <HomeIcon fill={focused ? "#5955eb" : color} />
           ),
         }}

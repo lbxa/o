@@ -18,12 +18,6 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
-export type AuthCreateNewTokensResponse = {
-  __typename?: 'AuthCreateNewTokensResponse';
-  accessToken: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
-};
-
 export type AuthCreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
@@ -154,10 +148,10 @@ export enum InvitationStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  authCreateNewTokens: AuthCreateNewTokensResponse;
   authCreateUser: AuthCreateUserResponse;
   authLogin: AuthLoginResponse;
   authLogout: Scalars['Boolean']['output'];
+  authRefreshTokens: Tokens;
   challengeCreate: Challenge;
   challengeDelete: Scalars['Boolean']['output'];
   challengeInvite: Scalars['Boolean']['output'];
@@ -333,6 +327,12 @@ export type Timestampable = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+export type Tokens = {
+  __typename?: 'Tokens';
+  accessToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+};
+
 export type User = Node & Timestampable & {
   __typename?: 'User';
   communities?: Maybe<Array<Community>>;
@@ -383,6 +383,13 @@ export type CommunityDetailsQueryQuery = { __typename?: 'Query', community?: (
     { __typename?: 'Community' }
     & { ' $fragmentRefs'?: { 'CommunityFragmentFragment': CommunityFragmentFragment } }
   ) | null };
+
+export type ChallengeCreateMutationMutationVariables = Exact<{
+  challengeCreateInput: ChallengeCreateInput;
+}>;
+
+
+export type ChallengeCreateMutationMutation = { __typename?: 'Mutation', challengeCreate: { __typename?: 'Challenge', name: string, description?: string | null } };
 
 export type CommunityCreateMutationMutationVariables = Exact<{
   communityCreateInput: CommunityCreateInput;
@@ -484,6 +491,7 @@ export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind"
 export const UserSearchFriendsFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserSearchFriendsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Viewer"}},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"refetchable"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"queryName"},"value":{"kind":"StringValue","value":"UserSearchRefetchQuery","block":false}}]},{"kind":"Directive","name":{"kind":"Name","value":"argumentDefinitions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchTerm"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"String","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"defaultValue"},"value":{"kind":"NullValue"}}]}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchFriends"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchTerm"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]} as unknown as DocumentNode<UserSearchFriendsFragmentFragment, unknown>;
 export const ViewerFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ViewerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Viewer"}},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"refetchable"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"queryName"},"value":{"kind":"StringValue","value":"ViewerRefetchQuery","block":false}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]} as unknown as DocumentNode<ViewerFragmentFragment, unknown>;
 export const CommunityDetailsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommunityDetailsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"community"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommunityFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommunityFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Community"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]} as unknown as DocumentNode<CommunityDetailsQueryQuery, CommunityDetailsQueryQueryVariables>;
+export const ChallengeCreateMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ChallengeCreateMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"challengeCreateInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ChallengeCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"challengeCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"challengeCreateInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"challengeCreateInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<ChallengeCreateMutationMutation, ChallengeCreateMutationMutationVariables>;
 export const CommunityCreateMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommunityCreateMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"communityCreateInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommunityCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"communityCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"communityCreateInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"communityCreateInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode<CommunityCreateMutationMutation, CommunityCreateMutationMutationVariables>;
 export const CommunityListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommunityListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommunityList__query"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommunityFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Community"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommunityList__query"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Query"}},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"refetchable"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"queryName"},"value":{"kind":"StringValue","value":"CommunityListRefetchQuery","block":false}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"communities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommunityFragment"}}]}}]}}]} as unknown as DocumentNode<CommunityListQueryQuery, CommunityListQueryQueryVariables>;
 export const CommunitySearchQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommunitySearchQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"community"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommunityFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommunityFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Community"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]} as unknown as DocumentNode<CommunitySearchQueryQuery, CommunitySearchQueryQueryVariables>;

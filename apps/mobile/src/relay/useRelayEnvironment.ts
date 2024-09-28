@@ -27,9 +27,10 @@ export const useRelayEnvironment = (): {
 
   const fetchFn: FetchFunction = useCallback(
     async (request, variables) => {
-      // const token = SecureStore.getItem("ACCESS_TOKEN");
       const accessToken = getStoreItem("ACCESS_TOKEN");
-      console.log("CacheToke", accessToken);
+      const refreshToken = getStoreItem("REFRESH_TOKEN");
+      console.log("CachedAccessToken", accessToken);
+      console.log("CachedRefreshToken", refreshToken);
 
       const makeRequest = async (
         token: string | null

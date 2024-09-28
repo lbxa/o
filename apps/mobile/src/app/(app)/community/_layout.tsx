@@ -49,6 +49,12 @@ export default function CommunityRoot() {
         }}
       />
       <Stack.Screen
+        name="challenge"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="search"
         options={{
           headerLeft: () => (

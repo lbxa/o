@@ -3,11 +3,6 @@ schema {
   mutation: Mutation
 }
 
-type AuthCreateNewTokensResponse {
-  accessToken: String!
-  refreshToken: String!
-}
-
 input AuthCreateUserInput {
   email: String!
   firstName: String!
@@ -132,10 +127,10 @@ enum InvitationStatus {
 }
 
 type Mutation {
-  authCreateNewTokens: AuthCreateNewTokensResponse!
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
+  authRefreshTokens: Tokens!
   challengeCreate(challengeCreateInput: ChallengeCreateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
@@ -176,6 +171,11 @@ type Query {
 interface Timestampable {
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+type Tokens {
+  accessToken: String!
+  refreshToken: String!
 }
 
 type User implements Node & Timestampable {

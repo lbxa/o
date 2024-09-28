@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityDetailsQueryDocument,
+    "\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n": types.ChallengeCreateMutationDocument,
     "\n  mutation CommunityCreateMutation(\n    $communityCreateInput: CommunityCreateInput!\n  ) {\n    communityCreate(communityCreateInput: $communityCreateInput) {\n      name\n      isPublic\n    }\n  }\n": types.CommunityCreateMutationDocument,
     "\n  fragment CommunityFragment on Community {\n    id\n    name\n  }\n": types.CommunityFragmentFragmentDoc,
     "\n  fragment CommunityList__query on Query\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityList__QueryFragmentDoc,
@@ -48,6 +49,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"): (typeof documents)["\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"): (typeof documents)["\n  mutation ChallengeCreateMutation(\n    $challengeCreateInput: ChallengeCreateInput!\n  ) {\n    challengeCreate(challengeCreateInput: $challengeCreateInput) {\n      name\n      description\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

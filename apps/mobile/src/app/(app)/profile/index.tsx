@@ -5,12 +5,12 @@ import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
 import { useViewer } from "../../../users";
-import { useAuth } from "../../../utils/useAuth";
+import { useToken } from "../../../utils/useToken";
 
 export default function Profile() {
   const router = useRouter();
   const { viewer } = useViewer();
-  const { logout } = useAuth();
+  const { deleteToken } = useToken();
 
   return (
     <Ozone>
@@ -29,8 +29,8 @@ export default function Profile() {
         <View className="mx-md">
           <Button
             title="Logout"
-            onPress={() => {
-              logout();
+            onPress={async () => {
+              await deleteToken();
               router.replace("/(auth)/login");
             }}
           />
