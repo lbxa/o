@@ -1,0 +1,22 @@
+{
+  "name": "@o/infra",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "sso": "aws sso login --sso-session=onex",
+    "lint": "eslint --fix ."
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*",
+    "@pulumi/aws": "^6.0.0",
+    "@pulumi/awsx": "^2.0.2",
+    "@pulumi/pulumi": "^3.113.0",
+    "eslint": "^9.11.1",
+    "typescript": "^5.6.2"
+  }
+}
