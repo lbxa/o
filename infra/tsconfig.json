@@ -3,7 +3,7 @@
         "strict": true,
         "outDir": "bin",
         "target": "es2020",
-        "module": "commonjs",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "sourceMap": true,
         "experimentalDecorators": true,
@@ -15,5 +15,6 @@
     "files": [
         "index.ts"
     ],
-    "include": ["stack"]
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
 }

@@ -1,7 +1,6 @@
 {
   "name": "@o/infra",
   "main": "index.ts",
-  "type": "module",
   "scripts": {
     "sso": "aws sso login --sso-session=onex",
     "lint": "eslint --fix ."

@@ -1,7 +1,8 @@
 config:
   aws:profile: onex-dev
   aws:region: ap-southeast-2
-  infra:dbHost: localhost
+  infra:backendPort: "6969"
+  infra:dbHostname: localhost
   infra:dbName: o
   infra:dbPassword:
     secure: AAABAEYTXjyxOQoxWF8LcPmDOY/EZQgG8/ocJWoqegi2nzyIH1aEAmYnuOA=
