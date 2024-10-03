@@ -1,6 +1,6 @@
 # Infra
 
-All managed [Pulumi](https://www.pulumi.com/).
+All managed with the lovely [Pulumi](https://www.pulumi.com/) <3
 
 ## AWS Config
 
@@ -45,3 +45,11 @@ subgraph VPC
 
 end
 ```
+
+![AWS Simple Architecture](./arch.svg)
+
+## IaC
+
+Since the infra is entirely managed with Pulumi, all the resources are defined in TypeScript code. Logical groups have been organised into components.
+
+This will only become easier to maintain and extend as the infra scales in complexity. Pulumi docs are fantastic and should be referred to for any questions.

@@ -2,9 +2,10 @@
     "compilerOptions": {
         "strict": true,
         "outDir": "bin",
-        "target": "es2020",
+        "baseUrl": ".",
+        "target": "ESNext",
         "module": "CommonJS",
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "sourceMap": true,
         "experimentalDecorators": true,
         "pretty": true,
