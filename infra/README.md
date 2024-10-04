@@ -1,6 +1,8 @@
 # Infra
 
-All managed with the lovely [Pulumi](https://www.pulumi.com/) <3
+All managed with the lovely [Pulumi](https://www.pulumi.com/) <3 
+
+Make sure the Pulumi CLI is installed and up-to-date.
 
 ## AWS Config
 

@@ -1,9 +1,16 @@
+/* eslint-disable @stylistic/js/max-len */
 import * as aws from "@pulumi/aws";
 import type { Vpc } from "@pulumi/awsx/ec2";
 import * as pulumi from "@pulumi/pulumi";
+import type { RandomPassword } from "@pulumi/random";
 
 interface DbComponentArgs {
   vpc: Vpc;
+  dbName: pulumi.Input<string>;
+  dbPassword: RandomPassword;
+  dbUser: pulumi.Input<string>;
+  dbPort: pulumi.Input<string>;
+  whitelistedIp: pulumi.Output<string>;
 }
 
 export class DbComponent extends pulumi.ComponentResource {
@@ -12,7 +19,7 @@ export class DbComponent extends pulumi.ComponentResource {
 
   // inbound/outbound rules
   public readonly allowVpcTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
-  // public readonly allowOnlyDevTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  public readonly allowWhitelistedIpTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   public readonly allowAllTrafficIpv4: aws.vpc.SecurityGroupEgressRule;
 
   private readonly db: aws.rds.Instance;
@@ -20,21 +27,18 @@ export class DbComponent extends pulumi.ComponentResource {
 
   constructor(
     name: string,
-    { vpc: { vpc, privateSubnetIds } }: DbComponentArgs,
+    args: DbComponentArgs,
     opts: pulumi.ComponentResourceOptions = {}
   ) {
     super("onex:infra:rds", name, {}, opts);
 
-    const config = new pulumi.Config();
-    const dbName = config.require("dbName");
-    const dbPassword = config.requireSecret("dbPassword");
-    const dbUser = config.require("dbUser");
-    const dbPort = config.require("dbPort");
-
     this.dbSubnetGroup = new aws.rds.SubnetGroup(
       `${name}-subnet-group`,
       {
-        subnetIds: privateSubnetIds,
+        // use public subnets for now to access from local machines in
+        // production, use private subnets with higher security measures
+        // https://repost.aws/knowledge-center/rds-connectivity-instance-subnet-vpc
+        subnetIds: args.vpc.publicSubnetIds,
         tags: { Name: `${name}-subnet-group` },
       },
       { parent: this }
@@ -45,7 +49,7 @@ export class DbComponent extends pulumi.ComponentResource {
       {
         name: `${name}-security-group`,
         description: "Security group for RDS MySQL instance",
-        vpcId: vpc.id,
+        vpcId: args.vpc.vpcId,
         tags: { Name: `${name}-security-group` },
       },
       { parent: this }
@@ -56,27 +60,27 @@ export class DbComponent extends pulumi.ComponentResource {
       {
         description: "Allow traffic from VPC",
         securityGroupId: this.dbSecurityGroup.id,
-        cidrIpv4: vpc.cidrBlock,
-        fromPort: Number(dbPort),
-        toPort: Number(dbPort),
+        cidrIpv4: args.vpc.vpc.cidrBlock,
+        fromPort: Number(args.dbPort),
+        toPort: Number(args.dbPort),
         ipProtocol: aws.ec2.ProtocolType.TCP,
       },
       { parent: this }
     );
 
     // TODO make this rule work
-    // this.allowOnlyDevTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-    //   `${name}-allow-only-dev-traffic-ipv4`,
-    //   {
-    //     description: "Allow traffic from dev IP",
-    //     securityGroupId: this.dbSecurityGroup.id,
-    //     cidrIpv4: "120.155.83.10", // IP range e.g. 203.0.113.0/24
-    //     fromPort: Number(dbPort),
-    //     toPort: Number(dbPort),
-    //     ipProtocol: aws.ec2.ProtocolType.TCP,
-    //   },
-    //   { parent: this }
-    // );
+    this.allowWhitelistedIpTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
+      `${name}-allow-whitelisted-ip-traffic-ipv4`,
+      {
+        description: "Allow whitelisted traffic from dev IPs",
+        securityGroupId: this.dbSecurityGroup.id,
+        cidrIpv4: pulumi.interpolate`${args.whitelistedIp}/32`,
+        fromPort: Number(args.dbPort),
+        toPort: Number(args.dbPort),
+        ipProtocol: aws.ec2.ProtocolType.TCP,
+      },
+      { parent: this }
+    );
 
     // TODO outbound rules might not apply to RDS instances
     this.allowAllTrafficIpv4 = new aws.vpc.SecurityGroupEgressRule(
@@ -93,11 +97,11 @@ export class DbComponent extends pulumi.ComponentResource {
     );
 
     this.db = new aws.rds.Instance(
-      `${name}-rds-instance`,
+      `${name}-rds`,
       {
         allocatedStorage: 20,
         maxAllocatedStorage: 100,
-        dbName,
+        dbName: args.dbName,
         engine: "mysql",
         engineVersion: "8.0",
         // T4g run on ARM processors so are more power efficient
@@ -105,14 +109,14 @@ export class DbComponent extends pulumi.ComponentResource {
         // pricing information.
         // https://aws.amazon.com/rds/instance-types/
         instanceClass: aws.rds.InstanceType.T4G_Micro,
-        username: dbUser,
-        password: dbPassword,
-        port: Number(dbPort),
+        username: args.dbUser,
+        password: args.dbPassword.result.apply((result) => result),
+        port: Number(args.dbPort),
         parameterGroupName: "default.mysql8.0",
         skipFinalSnapshot: true,
         dbSubnetGroupName: this.dbSubnetGroup.name,
         vpcSecurityGroupIds: [this.dbSecurityGroup.id],
-        publiclyAccessible: false,
+        publiclyAccessible: true,
         // high availability
         multiAz: false,
         // "gp3" is more cost effective than gp2

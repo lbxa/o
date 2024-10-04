@@ -8,6 +8,11 @@ interface ClusterComponentArgs {
   vpc: Vpc;
   repo: awsx.ecr.Repository;
   dbHostname: pulumi.Output<string>;
+  dbName: pulumi.Input<string>;
+  dbPassword: pulumi.Input<string>;
+  dbUser: pulumi.Input<string>;
+  dbPort: pulumi.Input<string>;
+  backendPort: pulumi.Input<string>;
 }
 
 export class ClusterComponent extends pulumi.ComponentResource {
@@ -19,6 +24,8 @@ export class ClusterComponent extends pulumi.ComponentResource {
   private readonly clusterSecurityGroup: aws.ec2.SecurityGroup;
   private readonly allowHttpTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   private readonly allowHttpsTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  private readonly allowSshTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  private readonly allowRdsTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   private readonly allowBackendTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   private readonly allowAllTrafficEgressIpv4: aws.vpc.SecurityGroupEgressRule;
 
@@ -30,14 +37,6 @@ export class ClusterComponent extends pulumi.ComponentResource {
     opts: pulumi.ComponentResourceOptions = {}
   ) {
     super("onex:infra:cluster", name, {}, opts);
-
-    const config = new pulumi.Config();
-
-    const dbName = config.require("dbName");
-    const dbPassword = config.requireSecret("dbPassword");
-    const dbUser = config.require("dbUser");
-    const dbPort = config.require("dbPort");
-    const backendPort = config.require("backendPort");
 
     this.cluster = new aws.ecs.Cluster(name, {}, { parent: this });
 
@@ -51,63 +50,93 @@ export class ClusterComponent extends pulumi.ComponentResource {
       { parent: this }
     );
 
-    this.lb = new awsx.lb.ApplicationLoadBalancer(
-      `${name}-lb`,
-      { subnetIds: args.vpc.publicSubnetIds },
-      { parent: this }
-    );
-
     this.clusterSecurityGroup = new aws.ec2.SecurityGroup(
       `${name}-security-group`,
       {
         vpcId: args.vpc.vpcId,
         description: "Security group for ECS cluster",
-        tags: { Name: "onex-cluster-security-group" },
+        tags: { Name: `${name}-security-group` },
+      },
+      { parent: this }
+    );
+
+    // TODO add listener to the web
+    this.lb = new awsx.lb.ApplicationLoadBalancer(
+      `${name}-lb`,
+      {
+        subnetIds: args.vpc.publicSubnetIds,
+        securityGroups: [this.clusterSecurityGroup.id],
+      },
+      { parent: this }
+    );
+
+    this.allowRdsTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
+      `${name}-allow-rds-traffic-ipv4`,
+      {
+        description: "Allow RDS traffic",
+        securityGroupId: this.clusterSecurityGroup.id,
+        cidrIpv4: args.vpc.vpc.cidrBlock,
+        fromPort: Number(args.dbPort),
+        toPort: Number(args.dbPort),
+        ipProtocol: aws.ec2.ProtocolType.TCP,
       },
       { parent: this }
     );
 
     this.allowHttpTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      "allow-http-traffic-ipv4",
+      `${name}-allow-http-traffic-ipv4`,
       {
         description: "Allow HTTP traffic",
         securityGroupId: this.clusterSecurityGroup.id,
         cidrIpv4: args.vpc.vpc.cidrBlock,
         fromPort: 80,
         toPort: 80,
-        ipProtocol: "tcp",
+        ipProtocol: aws.ec2.ProtocolType.TCP,
       },
       { parent: this }
     );
 
     this.allowHttpsTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      "allow-https-traffic-ipv4",
+      `${name}-allow-https-traffic-ipv4`,
       {
         description: "Allow HTTPS traffic",
         securityGroupId: this.clusterSecurityGroup.id,
         cidrIpv4: args.vpc.vpc.cidrBlock,
         fromPort: 443,
         toPort: 443,
-        ipProtocol: "tcp",
+        ipProtocol: aws.ec2.ProtocolType.TCP,
+      },
+      { parent: this }
+    );
+
+    this.allowSshTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
+      `${name}-allow-ssh-traffic-ipv4`,
+      {
+        description: "Allow SSH traffic",
+        securityGroupId: this.clusterSecurityGroup.id,
+        cidrIpv4: args.vpc.vpc.cidrBlock,
+        fromPort: 22,
+        toPort: 22,
+        ipProtocol: aws.ec2.ProtocolType.TCP,
       },
       { parent: this }
     );
 
     this.allowBackendTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      "allow-backend-traffic-ipv4",
+      `${name}-allow-backend-traffic-ipv4`,
       {
         description: "Allow backend traffic",
         securityGroupId: this.clusterSecurityGroup.id,
         cidrIpv4: args.vpc.vpc.cidrBlock,
-        fromPort: Number(backendPort),
-        toPort: Number(backendPort),
-        ipProtocol: "tcp",
+        fromPort: Number(args.backendPort),
+        toPort: Number(args.backendPort),
+        ipProtocol: aws.ec2.ProtocolType.TCP,
       },
       { parent: this }
     );
 
     this.allowAllTrafficEgressIpv4 = new aws.vpc.SecurityGroupEgressRule(
-      "allow-all-egress-traffic-ipv4",
+      `${name}-allow-all-egress-traffic-ipv4`,
       {
         description: "Allow outbound traffic",
         securityGroupId: this.clusterSecurityGroup.id,
@@ -132,7 +161,7 @@ export class ClusterComponent extends pulumi.ComponentResource {
           essential: true,
           portMappings: [
             {
-              containerPort: Number(backendPort),
+              containerPort: Number(args.backendPort),
               targetGroup: this.lb.defaultTargetGroup,
             },
           ],
@@ -143,23 +172,23 @@ export class ClusterComponent extends pulumi.ComponentResource {
             },
             {
               name: "DB_NAME",
-              value: dbName,
+              value: args.dbName,
             },
             {
               name: "DB_PASSWORD", // TODO move to secure secrets
-              value: dbPassword,
+              value: args.dbPassword,
             },
             {
               name: "DB_USER",
-              value: dbUser,
+              value: args.dbUser,
             },
             {
               name: "DB_PORT",
-              value: dbPort,
+              value: args.dbPort,
             },
             {
               name: "BACKEND_PORT",
-              value: backendPort,
+              value: args.backendPort,
             },
           ],
         },

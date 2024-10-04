@@ -3,6 +3,7 @@
   "main": "index.ts",
   "scripts": {
     "sso": "aws sso login --sso-session=onex",
+    "db:pwd": "pulumi stack output dbRandomPassword --show-secrets",
     "lint": "eslint --fix ."
   },
   "devDependencies": {
@@ -15,6 +16,7 @@
     "@pulumi/aws": "^6.0.0",
     "@pulumi/awsx": "^2.0.2",
     "@pulumi/pulumi": "^3.113.0",
+    "@pulumi/random": "^4.16.6",
     "eslint": "^9.11.1",
     "typescript": "^5.6.2"
   }

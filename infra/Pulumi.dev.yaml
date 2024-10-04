@@ -4,7 +4,5 @@ config:
   infra:backendPort: "6969"
   infra:dbHostname: localhost
   infra:dbName: o
-  infra:dbPassword:
-    secure: AAABAEYTXjyxOQoxWF8LcPmDOY/EZQgG8/ocJWoqegi2nzyIH1aEAmYnuOA=
   infra:dbPort: "3306"
   infra:dbUser: o_server
