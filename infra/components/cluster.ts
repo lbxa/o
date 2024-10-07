@@ -44,7 +44,8 @@ export class ClusterComponent extends pulumi.ComponentResource {
       "backend-image",
       {
         repositoryUrl: args.repo.url,
-        context: "../../packages/backend",
+        context: "../../", // root context of the monorepo
+        dockerfile: "../../packages/backend/backend.Dockerfile",
         platform: "linux/amd64",
       },
       { parent: this }
