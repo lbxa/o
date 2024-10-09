@@ -17,7 +17,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN yarn global add pnpm@latest 
+RUN yarn global add pnpm@9.12.1
  
 # Copy isolate subworkspace configuration files
 COPY --from=builder /app/out/json/ .
