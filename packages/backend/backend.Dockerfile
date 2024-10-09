@@ -5,7 +5,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN yarn global add turbo@latest
+RUN yarn global add turbo@2.1.3
 COPY . .
  
 # Generate a partial monorepo with a pruned lockfile for a target workspace.

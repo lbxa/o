@@ -12,7 +12,7 @@
     "type-check": "tsc",
     "test": "jest",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/src/main.js",
+    "start:prod": "node dist/main.js",
     "gql": "nodemon --watch 'src/**/*.graphql' --ext graphql --exec 'node generate-types.mjs'",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:watch": "jest --watch",

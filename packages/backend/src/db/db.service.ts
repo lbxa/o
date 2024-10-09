@@ -19,22 +19,32 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
   constructor(private configService: ConfigService) {}
 
   async onModuleInit() {
-    this.connection = await mysql.createConnection({
-      host: this.configService.getOrThrow<string>("DB_HOSTNAME"),
-      user: this.configService.getOrThrow<string>("DB_USER"),
-      database: this.configService.getOrThrow<string>("DB_NAME"),
-      port: Number(this.configService.getOrThrow<string>("DB_PORT")),
-      password: this.configService.getOrThrow<string>("DB_PASSWORD"),
-      multipleStatements: false,
-    });
+    try {
+      this.connection = await mysql.createConnection({
+        host: this.configService.getOrThrow<string>("DB_HOSTNAME"),
+        user: this.configService.getOrThrow<string>("DB_USER"),
+        database: this.configService.getOrThrow<string>("DB_NAME"),
+        port: Number(this.configService.getOrThrow<string>("DB_PORT")),
+        password: this.configService.getOrThrow<string>("DB_PASSWORD"),
+        multipleStatements: false,
+      });
 
-    this.logger.log("Database connection acquired");
+      this.logger.log("Database connection acquired");
 
-    this.db = drizzle(this.connection, { schema, mode: "default" });
+      this.db = drizzle(this.connection, { schema, mode: "default" });
+    } catch (error) {
+      this.logger.error("Error acquiring database connection", error);
+      throw error;
+    }
   }
 
   async onModuleDestroy() {
-    await this.connection.end();
-    this.logger.log("Database connection destroyed");
+    try {
+      await this.connection.end();
+      this.logger.log("Database connection destroyed");
+    } catch (error) {
+      this.logger.error("Error destroying database connection", error);
+      throw error;
+    }
   }
 }
