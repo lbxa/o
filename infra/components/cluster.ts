@@ -43,7 +43,7 @@ export class ClusterComponent extends pulumi.ComponentResource {
     this.backendImage = new awsx.ecr.Image(
       `${name}-docker-image`,
       {
-        imageTag: pulumi.interpolate`${args.repo.url}:latest`,
+        imageTag: "latest",
         repositoryUrl: args.repo.url,
         // paths are relative from the directory of where pulumi entrypoint
         // file is run, not from the directory of this file
@@ -173,12 +173,20 @@ export class ClusterComponent extends pulumi.ComponentResource {
     );
 
     this.fargateService = new awsx.ecs.FargateService(
-      "service",
+      `${name}-fargate-service`,
       {
         cluster: this.cluster.arn,
         assignPublicIp: true,
         desiredCount: 2,
+        // networkConfiguration: {
+        //   subnets: args.vpc.privateSubnetIds,
+        //   securityGroups: [this.clusterSecurityGroup.id],
+        // },
         taskDefinitionArgs: {
+          runtimePlatform: {
+            cpuArchitecture: "ARM64",
+            operatingSystemFamily: "LINUX",
+          },
           container: {
             name: `${name}-backend`,
             image: this.backendImage.imageUri,
@@ -191,7 +199,6 @@ export class ClusterComponent extends pulumi.ComponentResource {
                 hostPort: Number(args.backendPort),
                 protocol: aws.ec2.ProtocolType.TCP,
                 targetGroup: this.lb.defaultTargetGroup,
-                // targetGroup: this.lb.defaultTargetGroup,
               },
             ],
             environment: [
