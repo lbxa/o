@@ -9,7 +9,7 @@ interface ClusterComponentArgs {
   repo: awsx.ecr.Repository;
   dbHostname: pulumi.Output<string>;
   dbName: pulumi.Input<string>;
-  dbPassword: pulumi.Input<string>;
+  dbPassword: pulumi.Output<string>;
   dbUser: pulumi.Input<string>;
   dbPort: pulumi.Input<string>;
   backendPort: pulumi.Input<string>;
@@ -41,12 +41,16 @@ export class ClusterComponent extends pulumi.ComponentResource {
     this.cluster = new aws.ecs.Cluster(name, {}, { parent: this });
 
     this.backendImage = new awsx.ecr.Image(
-      "backend-image",
+      `${name}-docker-image`,
       {
+        imageTag: pulumi.interpolate`${args.repo.url}:latest`,
         repositoryUrl: args.repo.url,
-        context: "../../", // root context of the monorepo
-        dockerfile: "../../packages/backend/backend.Dockerfile",
-        platform: "linux/amd64",
+        // paths are relative from the directory of where pulumi entrypoint
+        // file is run, not from the directory of this file
+        // https://www.pulumi.com/docs/iac/concepts/projects/#project-relative-paths
+        context: "../", // root context of the monorepo
+        dockerfile: "../packages/backend/backend.Dockerfile",
+        platform: "linux/arm64",
       },
       { parent: this }
     );
@@ -57,16 +61,6 @@ export class ClusterComponent extends pulumi.ComponentResource {
         vpcId: args.vpc.vpcId,
         description: "Security group for ECS cluster",
         tags: { Name: `${name}-security-group` },
-      },
-      { parent: this }
-    );
-
-    // TODO add listener to the web
-    this.lb = new awsx.lb.ApplicationLoadBalancer(
-      `${name}-lb`,
-      {
-        subnetIds: args.vpc.publicSubnetIds,
-        securityGroups: [this.clusterSecurityGroup.id],
       },
       { parent: this }
     );
@@ -149,52 +143,88 @@ export class ClusterComponent extends pulumi.ComponentResource {
       { parent: this }
     );
 
-    this.fargateService = new awsx.ecs.FargateService("service", {
-      cluster: this.cluster.arn,
-      assignPublicIp: true,
-      desiredCount: 1,
-      taskDefinitionArgs: {
-        container: {
-          name: `${name}-backend`,
-          image: this.backendImage.imageUri,
-          cpu: 128,
-          memory: 512,
-          essential: true,
-          portMappings: [
-            {
-              containerPort: Number(args.backendPort),
-              targetGroup: this.lb.defaultTargetGroup,
-            },
-          ],
-          environment: [
-            {
-              name: "DB_HOSTNAME",
-              value: args.dbHostname,
-            },
-            {
-              name: "DB_NAME",
-              value: args.dbName,
-            },
-            {
-              name: "DB_PASSWORD", // TODO move to secure secrets
-              value: args.dbPassword,
-            },
-            {
-              name: "DB_USER",
-              value: args.dbUser,
-            },
-            {
-              name: "DB_PORT",
-              value: args.dbPort,
-            },
-            {
-              name: "BACKEND_PORT",
-              value: args.backendPort,
-            },
-          ],
+    // TODO add listener to the web
+    // awsx.lb.ApplicationLoadBalancer automatically handles ingress
+    // and egress rules automatically
+    // https://www.pulumi.com/docs/iac/clouds/aws/guides/elb/#manually-configuring-listeners
+    this.lb = new awsx.lb.ApplicationLoadBalancer(
+      `${name}-lb`,
+      {
+        subnetIds: args.vpc.publicSubnetIds,
+        securityGroups: [this.clusterSecurityGroup.id],
+        listener: {
+          port: 80,
+          protocol: "HTTP",
+        },
+        defaultTargetGroup: {
+          port: 6969,
+          healthCheck: {
+            path: "/",
+            port: "6969",
+            protocol: "HTTP",
+            interval: 30,
+            timeout: 5,
+            healthyThreshold: 2,
+            unhealthyThreshold: 2,
+          },
         },
       },
-    });
+      { parent: this }
+    );
+
+    this.fargateService = new awsx.ecs.FargateService(
+      "service",
+      {
+        cluster: this.cluster.arn,
+        assignPublicIp: true,
+        desiredCount: 2,
+        taskDefinitionArgs: {
+          container: {
+            name: `${name}-backend`,
+            image: this.backendImage.imageUri,
+            cpu: 128,
+            memory: 512,
+            essential: true,
+            portMappings: [
+              {
+                containerPort: Number(args.backendPort),
+                hostPort: Number(args.backendPort),
+                protocol: aws.ec2.ProtocolType.TCP,
+                targetGroup: this.lb.defaultTargetGroup,
+                // targetGroup: this.lb.defaultTargetGroup,
+              },
+            ],
+            environment: [
+              {
+                name: "DB_HOSTNAME",
+                value: args.dbHostname,
+              },
+              {
+                name: "DB_NAME",
+                value: args.dbName,
+              },
+              {
+                name: "DB_PASSWORD",
+                value: args.dbPassword,
+              },
+              {
+                name: "DB_USER",
+                value: args.dbUser,
+              },
+              {
+                name: "DB_PORT",
+                value: args.dbPort,
+              },
+              {
+                name: "BACKEND_PORT",
+                value: args.backendPort,
+              },
+            ],
+          },
+        },
+      },
+      { parent: this }
+    );
 
     this.backendUrl = pulumi.interpolate`http://${this.lb.loadBalancer.dnsName}`;
 

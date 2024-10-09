@@ -2,12 +2,11 @@
 import * as aws from "@pulumi/aws";
 import type { Vpc } from "@pulumi/awsx/ec2";
 import * as pulumi from "@pulumi/pulumi";
-import type { RandomPassword } from "@pulumi/random";
 
 interface DbComponentArgs {
   vpc: Vpc;
   dbName: pulumi.Input<string>;
-  dbPassword: RandomPassword;
+  dbPassword: pulumi.Output<string>;
   dbUser: pulumi.Input<string>;
   dbPort: pulumi.Input<string>;
   whitelistedIp: pulumi.Output<string>;
@@ -24,6 +23,9 @@ export class DbComponent extends pulumi.ComponentResource {
 
   private readonly db: aws.rds.Instance;
   public readonly dbHostname: pulumi.Output<string>;
+  public readonly dbName: pulumi.Output<string>;
+  public readonly dbUser: pulumi.Output<string>;
+  public readonly dbPassword: pulumi.Output<string | undefined>;
 
   constructor(
     name: string,
@@ -110,7 +112,7 @@ export class DbComponent extends pulumi.ComponentResource {
         // https://aws.amazon.com/rds/instance-types/
         instanceClass: aws.rds.InstanceType.T4G_Micro,
         username: args.dbUser,
-        password: args.dbPassword.result.apply((result) => result),
+        password: args.dbPassword,
         port: Number(args.dbPort),
         parameterGroupName: "default.mysql8.0",
         skipFinalSnapshot: true,
@@ -129,10 +131,20 @@ export class DbComponent extends pulumi.ComponentResource {
       { parent: this }
     );
 
-    this.dbHostname = this.db.endpoint;
+    // format: endpoint:port
+    // remove port from endpoint to get db hostname
+    this.dbHostname = pulumi
+      .output(this.db.endpoint)
+      .apply((endpoint) => endpoint.split(":")[0]);
+    this.dbName = this.db.dbName;
+    this.dbUser = this.db.username;
+    this.dbPassword = this.db.password;
 
     this.registerOutputs({
       dbHostname: this.dbHostname,
+      dbName: this.dbName,
+      dbUser: this.dbUser,
+      dbPassword: this.dbPassword,
     });
   }
 }

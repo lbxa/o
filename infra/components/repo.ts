@@ -8,8 +8,20 @@ export class RepoComponent extends pulumi.ComponentResource {
     super("onex:infra:repo", name, {}, opts);
 
     this.repo = new awsx.ecr.Repository(
-      `${name}-repo`,
-      { forceDelete: true },
+      "onex-backend",
+      {
+        forceDelete: true,
+        lifecyclePolicy: {
+          rules: [
+            {
+              tagStatus: awsx.ecr.LifecycleTagStatus.Untagged,
+              description: "Expire images older than 7 days",
+              maximumAgeLimit: 7,
+              maximumNumberOfImages: 10,
+            },
+          ],
+        },
+      },
       { parent: this }
     );
   }

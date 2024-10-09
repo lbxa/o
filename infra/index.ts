@@ -1,16 +1,15 @@
 import * as aws from "@pulumi/aws";
 import * as awsx from "@pulumi/awsx";
+import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 
-// import { ClusterComponent } from "./components/cluster";
+import { ClusterComponent } from "./components/cluster";
 import { DbComponent } from "./components/db";
-// import { getIp } from "./helpers/getIp";
 
 const config = new pulumi.Config();
 
 const dbName = config.require("dbName");
-// const dbPassword = config.requireSecret("dbPassword");
 const dbUser = config.require("dbUser");
 const dbPort = config.require("dbPort");
 const backendPort = config.require("backendPort");
@@ -20,41 +19,57 @@ const vpc = new awsx.ec2.Vpc("onex-vpc", {
   enableDnsSupport: true,
 });
 
-const dbPassword = new random.RandomPassword("db-password", {
-  length: 16,
-  special: true,
-  overrideSpecial: "!#$%&*()-_=+[]{}<>:?",
-});
+let dbPassword = config.getSecret("dbPassword");
+if (!dbPassword) {
+  dbPassword = new random.RandomPassword("db-password", {
+    length: 16,
+    special: true,
+    // mysql password requirements
+    overrideSpecial: "!#$%&*()-_=+[]{}<>:?",
+  }).result;
+}
 
-const db = new DbComponent(
-  "onex-db",
-  {
-    vpc,
-    dbName,
-    dbPassword,
-    whitelistedIp: pulumi.output("203.8.118.10"),
-    dbUser,
-    dbPort,
-  },
-  { dependsOn: [dbPassword] }
-);
+const db = new DbComponent("onex-db", {
+  vpc,
+  dbName,
+  dbPassword,
+  whitelistedIp: pulumi.output("120.155.83.10"),
+  dbUser,
+  dbPort,
+});
 
 export const dbHostname = db.dbHostname;
 
-export const dbRandomPassword = dbPassword.result.apply((result) => result);
+export const dbRandomPassword = dbPassword;
 
-const repo = new awsx.ecr.Repository("onex-registry", { forceDelete: true });
-// const backendCluster = new ClusterComponent("onex-backend-cluster", {
-//   vpc,
-//   repo,
-//   dbHostname,
-//   dbName,
-//   dbPassword,
-//   dbUser,
-//   dbPort,
-//   backendPort,
-// });
-// export const backendUrl = backendCluster.backendUrl;
+const repo = new awsx.ecr.Repository("onex-backend", {
+  forceDelete: true,
+  lifecyclePolicy: {
+    rules: [
+      {
+        tagStatus: awsx.ecr.LifecycleTagStatus.Untagged,
+        description: "Expire images older than 7 days",
+        maximumAgeLimit: 7,
+        maximumNumberOfImages: 10,
+      },
+    ],
+  },
+});
+
+const backendCluster = new ClusterComponent("onex-backend-cluster", {
+  vpc,
+  repo,
+  dbHostname: db.dbHostname,
+  dbName: db.dbName,
+  dbPassword,
+  dbUser: db.dbUser,
+  dbPort,
+  backendPort,
+});
+
+export const backendUrl = backendCluster.backendUrl;
+
+/// !WARNING
 
 // const backendImage = new awsx.ecr.Image("backend-image", {
 //   repositoryUrl: repo.url,
