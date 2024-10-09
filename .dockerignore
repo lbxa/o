@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+logs
+tmp
+**/dist
+coverage
+**/node_modules
+**/.git
+.vscode

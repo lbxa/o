@@ -1,0 +1,11 @@
+name: infra
+main: index.ts
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm
+description: AWS IaC
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript

@@ -31,6 +31,7 @@ export class CommunitiesResolver {
       (community) => ({
         ...community,
         id: encodeGlobalId("Community", community.id),
+        name: community.name,
       })
     );
   }

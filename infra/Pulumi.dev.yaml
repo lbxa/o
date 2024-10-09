@@ -1,0 +1,9 @@
+config:
+  aws:profile: onex-dev
+  aws:region: ap-southeast-2
+  infra:backendPort: "6969"
+  infra:dbName: o
+  infra:dbPort: "3306"
+  infra:dbUser: o_server
+  infra:dbPasword:
+    secure: AAABAEBzEijO7VitzUFYSf6k1H7TC7ZyU+Z6Z1AnKYmzDTANK8DUnmy+4eg8+XMc
