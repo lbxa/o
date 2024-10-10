@@ -103,6 +103,7 @@ export class CommunitiesService {
         id: CommunitiesTable.id,
         name: CommunitiesTable.name,
         isPublic: CommunitiesTable.isPublic,
+        isVerified: CommunitiesTable.isVerified,
         createdAt: CommunitiesTable.createdAt,
       })
       .from(CommunityMembershipsTable)
@@ -112,12 +113,10 @@ export class CommunitiesService {
       )
       .where(eq(CommunityMembershipsTable.userId, userId));
 
-    return communities.map(
-      (community): Community => ({
-        ...community,
-        id: encodeGlobalId("Community", community.id),
-      })
-    );
+    return communities.map((community) => ({
+      ...community,
+      id: encodeGlobalId("Community", community.id),
+    }));
   }
 
   async create(input: NewCommunity, userId: number): Promise<Community> {
