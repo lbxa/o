@@ -1,14 +1,22 @@
 import { ParseIntPipe } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 import {
   CommunitiesTable,
   CommunityMembershipsTable,
   NewCommunity,
 } from "@o/db";
 
+import { ChallengesService } from "../challenges/challenges.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Community, CommunityInvitation } from "../types/graphql";
+import { Challenge, Community, CommunityInvitation } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { CommunitiesService } from "./communities.service";
 
@@ -16,8 +24,15 @@ import { CommunitiesService } from "./communities.service";
 export class CommunitiesResolver {
   constructor(
     private dbService: DbService,
-    private communitiesService: CommunitiesService
+    private communitiesService: CommunitiesService,
+    private challengesService: ChallengesService
   ) {}
+
+  @ResolveField()
+  async challenges(@Parent() community: Community): Promise<Challenge[]> {
+    const communityId = validateAndDecodeGlobalId(community.id, "Community");
+    return this.challengesService.findCommunityChallenges(communityId);
+  }
 
   @Query("community")
   async community(@Args("id") id: string): Promise<Community> {
@@ -32,6 +47,7 @@ export class CommunitiesResolver {
         ...community,
         id: encodeGlobalId("Community", community.id),
         name: community.name,
+        isVerified: community.isVerified,
       })
     );
   }

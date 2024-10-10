@@ -28,6 +28,16 @@ export default function ChallengeRoot() {
           ),
         }}
       />
+      <Stack.Screen
+        name="invite"
+        options={{
+          headerLeft: () => (
+            <Text className="text-xl font-bold">Invite your friends</Text>
+          ),
+          headerBackVisible: true,
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 }

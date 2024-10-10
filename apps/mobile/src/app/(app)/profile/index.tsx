@@ -15,8 +15,8 @@ export default function Profile() {
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md flex grow bg-ivory p-md">
-          <View className="mb-md flex size-[150px] rounded-full bg-gray-300">
+        <View className="mb-md bg-ivory p-md flex grow">
+          <View className="mb-md flex rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
             </View>

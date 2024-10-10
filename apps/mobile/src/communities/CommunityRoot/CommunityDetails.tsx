@@ -15,24 +15,24 @@ export const COMMUNITY_DETAILS_QUERY = graphql`
   }
 `;
 
-interface Props {
-  queryRef: PreloadedQuery<CommunityDetailsQuery>;
-}
+// interface Props {
+//   queryRef: PreloadedQuery<CommunityDetailsQuery>;
+// }
 
-export const CommunityDetails = ({ queryRef }: Props) => {
+export const CommunityDetails = () => {
   const router = useRouter();
-  const query = usePreloadedQuery<CommunityDetailsQuery>(
-    COMMUNITY_DETAILS_QUERY,
-    queryRef
-  );
+  // const query = usePreloadedQuery<CommunityDetailsQuery>(
+  //   COMMUNITY_DETAILS_QUERY,
+  //   queryRef
+  // );
 
   return (
-    <View className="mb-md flex flex-row gap-md">
-      <Button title="Share" variant="violet" className="w-20 rounded-xl" />
+    <View className="mb-md flex flex-row gap-md pt-sm">
+      <Button title="Share" variant="indigo" className="rounded-xl" />
       <Button
         title="Invite"
-        variant="violet"
-        className="w-20 rounded-xl"
+        variant="indigo"
+        className="rounded-xl"
         onPress={() => router.push("/(app)/community/invite")}
       />
     </View>

@@ -1,5 +1,6 @@
 # Requirements
 
+This is the only file you need to read to understand how to install and run this codebase. Ideally you'd straight away get it from the root readme.
 
 ## Corepack
 

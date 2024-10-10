@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1e307df0d53e04ed704892ba5f48b523>>
+ * @generated SignedSource<<1bc832d93642fe3321a6470761d58972>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -83,6 +83,13 @@ const node: ConcreteRequest = {
                 "kind": "ScalarField",
                 "name": "name",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isVerified",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -93,12 +100,12 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "6951906b24da2a1e3ea7120a66262bbe",
+    "cacheID": "e2f383b751a594123bfa41b3739dab25",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  viewer {\n    ...CommunityListFragment\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n\nfragment CommunityListFragment on Viewer {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
+    "text": "query CommunityListQuery {\n  viewer {\n    ...CommunityListFragment\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityListFragment on Viewer {\n  communities {\n    ...CommunityFragment\n    id\n  }\n}\n"
   }
 };
 

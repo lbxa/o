@@ -77,10 +77,12 @@ input ChallengeUpdateInput {
 }
 
 type Community implements Node & Timestampable {
+  challenges: [Challenge!]
   createdAt: DateTime
   id: ID!
   invitations: [CommunityInvitation!]
   isPublic: Boolean
+  isVerified: Boolean
   members: [User!]
   memberships: [CommunityMembership!]
   name: String!
@@ -208,6 +210,7 @@ type ValidEmailResponse {
 }
 
 type Viewer {
+  challenges(communityId: ID!): [Challenge!]
   communities: [Community!]
   user: User
 }

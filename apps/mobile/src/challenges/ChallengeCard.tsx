@@ -1,5 +1,6 @@
 import { Title, Touchable } from "@universe/atoms";
 import dayjs from "dayjs";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { useFragment } from "react-relay";
 
@@ -11,6 +12,7 @@ interface ChallengeCardProps {
 }
 export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
   const data = useFragment(CHALLENGE_FRAGMENT, challengeFragment);
+  const router = useRouter();
 
   const endDate = dayjs(data.endDate);
   const today = dayjs();
@@ -19,12 +21,14 @@ export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
   const daysLeft = endDate.diff(today, "day");
 
   return (
-    <Touchable>
+    <Touchable
+      onPress={() => router.push(`/(app)/community/challenge/${data.id}`)}
+    >
       <View className="mb-md rounded-xl bg-ivory p-sm">
         <View className="mb-md flex flex-row items-center justify-between">
           <Title>{data.name}</Title>
-          <View className="rounded-lg bg-violet/30 px-sm">
-            <Text className="text-xl font-bold text-violet">
+          <View className="rounded-lg bg-indigo/30 px-sm">
+            <Text className="text-xl font-bold text-indigo">
               {daysLeft + " days"}
             </Text>
           </View>

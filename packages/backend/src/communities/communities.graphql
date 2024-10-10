@@ -2,12 +2,14 @@ type Community implements Node & Timestampable {
   id: ID!
   name: String!
   isPublic: Boolean
+  isVerified: Boolean
   users: [User]
   createdAt: DateTime
   updatedAt: DateTime
 
   # TODO
   members: [User!]
+  challenges: [Challenge!]
   memberships: [CommunityMembership!]
   invitations: [CommunityInvitation!]
 }

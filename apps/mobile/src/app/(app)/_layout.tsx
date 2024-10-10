@@ -1,8 +1,7 @@
+import CircleIcon from "@assets/icons/circle.svg";
 import HomeIcon from "@assets/icons/home.svg";
 import PeopleIcon from "@assets/icons/people.svg";
-import Entypo from "@expo/vector-icons/Entypo";
 import { Redirect, Tabs } from "expo-router";
-import React from "react";
 
 import { useToken } from "../../utils/useToken";
 
@@ -16,7 +15,7 @@ export default function AppLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         headerShown: false,
         tabBarActiveTintColor: "#5955eb",
       }}
@@ -39,9 +38,7 @@ export default function AppLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => (
-            <Entypo name="circle" size={28} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <CircleIcon width={25} fill={color} />,
         }}
       />
     </Tabs>

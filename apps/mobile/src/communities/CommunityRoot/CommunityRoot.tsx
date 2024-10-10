@@ -1,39 +1,35 @@
-import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Button, Touchable } from "@universe/atoms";
 import { MiniNav, Ozone } from "@universe/molecules";
-import { Stack, useRouter } from "expo-router";
-import { useEffect } from "react";
-import { Text, View } from "react-native";
-import { useLazyLoadQuery, useQueryLoader } from "react-relay";
+import { Stack } from "expo-router";
+import { View } from "react-native";
+import type { PreloadedQuery } from "react-relay";
+import { graphql, useLazyLoadQuery, usePreloadedQuery } from "react-relay";
 
-import type { CommunityChallengesListQuery } from "../../__generated__/CommunityChallengesListQuery.graphql";
 import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
-import {
-  COMMUNITY_CHALLENGES_LIST_QUERY,
-  CommunityChallengesList,
-} from "./CommunityChallengesList";
-import { COMMUNITY_DETAILS_QUERY, CommunityDetails } from "./CommunityDetails";
+import type { CommunityRootQuery } from "../../__generated__/CommunityRootQuery.graphql";
+import { CommunityChallenges } from "./CommunityChallenges";
+import { COMMUNITY_DETAILS_QUERY } from "./CommunityDetails";
+import { CommunityTitle } from "./CommunityTitle";
+
+export const COMMUNITY_ROOT_QUERY = graphql`
+  query CommunityRootQuery($communityId: ID!) {
+    community(id: $communityId) {
+      ...CommunityChallenges_community
+    }
+  }
+`;
 
 interface CommunityRootProps {
   communityId: string;
+  communityRootQueryRef: PreloadedQuery<CommunityRootQuery>;
 }
-export const CommunityRoot = ({ communityId }: CommunityRootProps) => {
-  const router = useRouter();
-
-  const [
-    communityChallengesQueryRef,
-    loadCommunityChallengesQuery,
-    disposeCommunityChallengesQuery,
-  ] = useQueryLoader<CommunityChallengesListQuery>(
-    COMMUNITY_CHALLENGES_LIST_QUERY
+export const CommunityRoot = ({
+  communityId,
+  communityRootQueryRef,
+}: CommunityRootProps) => {
+  const communityRootData = usePreloadedQuery<CommunityRootQuery>(
+    COMMUNITY_ROOT_QUERY,
+    communityRootQueryRef
   );
-
-  // TODO will need late when this component matures
-  const [
-    communityDetailsQueryRef,
-    loadCommunityDetailsQuery,
-    disposeCommunityDetailsQuery,
-  ] = useQueryLoader<CommunityDetailsQuery>(COMMUNITY_CHALLENGES_LIST_QUERY);
 
   const query = useLazyLoadQuery<CommunityDetailsQuery>(
     COMMUNITY_DETAILS_QUERY,
@@ -41,29 +37,14 @@ export const CommunityRoot = ({ communityId }: CommunityRootProps) => {
     { fetchPolicy: "store-and-network" }
   );
 
-  useEffect(() => {
-    loadCommunityChallengesQuery({ communityId: communityId });
-
-    return () => disposeCommunityChallengesQuery();
-  }, [communityId]);
-
   return (
     <Ozone>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <Touchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </Touchable>
-              <Text className="text-3xl font-bold">
-                {query.community?.name ?? "Loading..."}
-              </Text>
-            </View>
-          ),
+          headerLeft: () => <CommunityTitle community={query.community} />,
           headerRight: () => (
             <MiniNav
-              items={["create", "message"]}
+              items={["create"]}
               itemConfigs={{
                 create: {
                   href: "/(app)/community/challenge/create",
@@ -73,24 +54,9 @@ export const CommunityRoot = ({ communityId }: CommunityRootProps) => {
           ),
         }}
       />
-      <View className="px-md">
-        {/* {communityDetailsQueryRef && (
-          <CommunityDetails queryRef={communityDetailsQueryRef} />
-        )} */}
-        <View className="mb-md flex flex-row gap-md">
-          <Button title="Share" variant="indigo" className="w-20 rounded-xl" />
-          <Button
-            title="Invite"
-            variant="indigo"
-            className="w-20 rounded-xl"
-            onPress={() => router.push("/(app)/community/invite")}
-          />
-        </View>
-        {communityChallengesQueryRef && (
-          <CommunityChallengesList
-            challengesQueryRef={communityChallengesQueryRef}
-            communityFrag={query.community}
-          />
+      <View>
+        {communityRootData.community && (
+          <CommunityChallenges fragmentRef={communityRootData.community} />
         )}
       </View>
     </Ozone>

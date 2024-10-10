@@ -1,3 +1,4 @@
+// TODO what's wrong with this import
 import type { Tokens } from "@o/api";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
@@ -10,6 +11,15 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 import { useSecureStore } from "../utils/useSecureStore";
 
+/**
+ * Relay environment has been setup to work authTokens that can
+ * be replenished with a refreshToken until that has expired.
+ * Then the user has no choice but to log back in.
+ *
+ * The expiry values of authToken and refreshToken have been
+ * chosen specifically to strike a balance between user
+ * experience and sound security practices.
+ */
 export const useRelayEnvironment = (): {
   fetchFn: FetchFunction;
   createEnvironment: () => IEnvironment;
@@ -28,9 +38,6 @@ export const useRelayEnvironment = (): {
   const fetchFn: FetchFunction = useCallback(
     async (request, variables) => {
       const accessToken = getStoreItem("ACCESS_TOKEN");
-      const refreshToken = getStoreItem("REFRESH_TOKEN");
-      console.log("CachedAccessToken", accessToken);
-      console.log("CachedRefreshToken", refreshToken);
 
       const makeRequest = async (
         token: string | null

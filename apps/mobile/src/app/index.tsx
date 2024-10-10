@@ -1,5 +1,4 @@
 import { Redirect } from "expo-router";
-import React from "react";
 
 import { useToken } from "../utils/useToken";
 

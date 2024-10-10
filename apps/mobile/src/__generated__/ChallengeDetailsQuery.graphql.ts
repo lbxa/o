@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<72b78a9f7d9293ae7014508d87066a6f>>
+ * @generated SignedSource<<f0dfe0ec37952cb2d05375b330526a1d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,18 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type CommunityChallengesListQuery$variables = {
-  communityId: string;
+export type ChallengeDetailsQuery$variables = {
+  id: string;
 };
-export type CommunityChallengesListQuery$data = {
-  readonly communityChallenges: ReadonlyArray<{
+export type ChallengeDetailsQuery$data = {
+  readonly challenge: {
+    readonly name: string;
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment">;
-  }> | null | undefined;
+  } | null | undefined;
 };
-export type CommunityChallengesListQuery = {
-  response: CommunityChallengesListQuery$data;
-  variables: CommunityChallengesListQuery$variables;
+export type ChallengeDetailsQuery = {
+  response: ChallengeDetailsQuery$data;
+  variables: ChallengeDetailsQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -28,31 +29,39 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "communityId"
+    "name": "id"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "communityId",
-    "variableName": "communityId"
+    "name": "id",
+    "variableName": "id"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityChallengesListQuery",
+    "name": "ChallengeDetailsQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
         "concreteType": "Challenge",
         "kind": "LinkedField",
-        "name": "communityChallenges",
-        "plural": true,
+        "name": "challenge",
+        "plural": false,
         "selections": [
+          (v2/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -69,28 +78,22 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "CommunityChallengesListQuery",
+    "name": "ChallengeDetailsQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
         "concreteType": "Challenge",
         "kind": "LinkedField",
-        "name": "communityChallenges",
-        "plural": true,
+        "name": "challenge",
+        "plural": false,
         "selections": [
+          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
             "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
             "storageKey": null
           },
           {
@@ -120,16 +123,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6ab2d5f5808dd2388b3592dcd237f536",
+    "cacheID": "94009cccbdcaafb4ab2df89dac209ca4",
     "id": null,
     "metadata": {},
-    "name": "CommunityChallengesListQuery",
+    "name": "ChallengeDetailsQuery",
     "operationKind": "query",
-    "text": "query CommunityChallengesListQuery(\n  $communityId: ID!\n) {\n  communityChallenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n"
+    "text": "query ChallengeDetailsQuery(\n  $id: ID!\n) {\n  challenge(id: $id) {\n    name\n    ...ChallengeFragment\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n"
   }
 };
 })();
 
-(node as any).hash = "38cc3510cae9b70c861fdb91bb49d594";
+(node as any).hash = "f288f82b4a806ea677b8c080756663fb";
 
 export default node;

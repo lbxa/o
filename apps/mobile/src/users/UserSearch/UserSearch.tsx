@@ -89,10 +89,10 @@ const UserList = ({ viewer }: UserListProps) => {
   );
 
   return (
-    <View className="flex-1 px-md">
+    <View className="px-md flex-1">
       <View className="h-full">
         <View className="mb-sm flex w-full flex-row items-center">
-          <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
+          <View className="mb-md bg-ivory px-sm flex w-full flex-1 flex-row items-center rounded-lg">
             <SearchIcon width={20} />
             <PrimaryTextInputControl
               className="flex-1"
@@ -128,7 +128,7 @@ export const UserSearch = ({ queryRef }: UserSearchProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <UserList viewer={query.viewer} />
+      {query.viewer && <UserList viewer={query.viewer} />}
     </SafeAreaView>
   );
 };

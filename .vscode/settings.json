@@ -30,4 +30,5 @@
   "relay.rootDirectory": "apps/mobile",
   "relay.pathToConfig": "apps/mobile/relay.config.json",
   "relay.autoStartCompiler": false,
+  "svg.preview.background": "transparent",
 }
