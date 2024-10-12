@@ -50,6 +50,8 @@ const IGNORED_PACKAGES = [
 ];
 ```
 
+Currently the best fix for this is using rnx-kit. Thanks Microsoft! [More on it here.](https://gist.github.com/Zn4rK/ed60c380e7b672e3089074f51792a2b8).
+
 ### Nativewind v4
 
 NativeWind v4 doesn't work as expected with pnpm [#701](https://github.com/nativewind/nativewind/issues/701).
