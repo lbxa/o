@@ -5,6 +5,9 @@ const { withNativeWind } = require("nativewind/metro");
 const { makeMetroConfig } = require("@rnx-kit/metro-config");
 const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks");
 
+// !This is my best shot!
+const { mergeConfig } = require("metro-config");
+
 const path = require("path");
 
 const symlinksResolver = MetroSymlinksResolver();
@@ -57,31 +60,30 @@ const symlinksResolver = MetroSymlinksResolver();
 
 /// !TEST
 
+// Striking a balance between Nativewind and rnx-kit was tricky
+// https://github.com/nativewind/nativewind/issues/926
+
 const projectDir = __dirname;
 const monorepoRoot = path.resolve(projectDir, "../..");
 
 /** @type {import('expo/metro-config').MetroConfig} */
-const defaultConfig = getDefaultConfig(__dirname, {
-  isCSSEnabled: true,
-});
+const defaultConfig = getDefaultConfig(projectDir);
 
 const nativeWindConfig = withNativeWind(defaultConfig, {
-  input: "./src/global.css",
-  configPath: "./tailwind.config.ts",
+  input: path.join(projectDir, "./src/global.css"),
+  configPath: path.join(projectDir, "./tailwind.config.ts")
 });
-
-// const { resolver: defaultResolver, transformer: defaultTransformer } = defaultConfig;
 
 /** @type {import('expo/metro-config').MetroConfig} */
 module.exports = makeMetroConfig({
   ...defaultConfig,
-  ...nativeWindConfig,
+  projectRoot: projectDir,
   resolver: {
     ...defaultConfig.resolver,
     ...nativeWindConfig.resolver,
     disableHierarchicalLookup: true,
     assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== "svg"),
-    sourceExts: [...nativeWindConfig.resolver.sourceExts, "svg"],
+    sourceExts: [...defaultConfig.resolver.sourceExts, "svg"],
     nodeModulesPaths: [
       path.resolve(projectDir, "node_modules"),
       path.resolve(monorepoRoot, "node_modules"),
@@ -104,12 +106,13 @@ module.exports = makeMetroConfig({
   },
   transformer: {
     ...defaultConfig.transformer,
-    ...nativeWindConfig.transformer,
     babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
+    // <3 -> https://github.com/kristerkari/react-native-svg-transformer/issues/141
+    assetPlugins: ['expo-asset/tools/hashAssetFiles'],
+    ...nativeWindConfig.transformer
   },
-  watchFolders: [
-   monorepoRoot 
-  ],
+  transformerPath: nativeWindConfig.transformerPath,
+  watchFolders: [monorepoRoot],
   cacheStores: [
     new FileStore({
       root: path.join(projectDir, "node_modules", ".cache", "metro"),
