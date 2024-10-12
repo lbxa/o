@@ -27,8 +27,6 @@ const config = (() => {
   };
 })();
 
-module.exports = withTurborepoManagedCache(withMonorepoPaths(config));
-
 /**
  * Add the monorepo paths to the Metro config.
  * This allows Metro to resolve modules from the monorepo.
@@ -50,6 +48,8 @@ function withMonorepoPaths(config) {
     path.resolve(monorepoRoot, "node_modules"),
   ];
 
+  config.resolver.unstable_enableSymlinks = true;
+
   return config;
 }
 
@@ -68,3 +68,5 @@ function withTurborepoManagedCache(config) {
   ];
   return config;
 }
+
+module.exports = withTurborepoManagedCache(withMonorepoPaths(config));
