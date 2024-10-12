@@ -4,7 +4,6 @@
   "engines": {
     "node": ">=20.14"
   },
-  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",

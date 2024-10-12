@@ -2,30 +2,122 @@
 const { getDefaultConfig } = require("expo/metro-config");
 const { FileStore } = require("metro-cache");
 const { withNativeWind } = require("nativewind/metro");
+const { makeMetroConfig } = require("@rnx-kit/metro-config");
+const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks");
+
 const path = require("path");
 
-const config = (() => {
-  const defaultConfig = getDefaultConfig(__dirname);
-  const { transformer, resolver } = defaultConfig;
+const symlinksResolver = MetroSymlinksResolver();
 
-  const nativeWindConfig = withNativeWind(defaultConfig, {
-    input: "./src/global.css",
-    configPath: "./tailwind.config.ts",
-  });
+// const config = (() => {
+//   const defaultConfig = getDefaultConfig(__dirname);
+//   const { transformer, resolver } = defaultConfig;
 
-  return {
-    ...nativeWindConfig,
-    transformer: {
-      ...nativeWindConfig.transformer,
-      babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
+//   const nativeWindConfig = withNativeWind(defaultConfig, {
+//     input: "./src/global.css",
+//     configPath: "./tailwind.config.ts",
+//   });
+
+//   return {
+//     ...nativeWindConfig,
+//     transformer: {
+//       ...nativeWindConfig.transformer,
+//       babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
+//     },
+//     resolver: {
+//       ...nativeWindConfig.resolver,
+//       assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
+//       sourceExts: [...nativeWindConfig.resolver.sourceExts, "svg"],
+//     },
+//   };
+// })();
+
+/** @type {import('expo/metro-config').MetroConfig} */
+// const withSymlinkSupport = (config) => makeMetroConfig({
+//   ...config,
+//   resolver: {
+//     ...config.resolver,
+//     resolveRequest: (context, moduleName, platform) => {
+//       try {
+//         // Symlinks resolver throws when it can't find what we're looking for.
+//         const res = symlinksResolver(context, moduleName, platform);
+
+//         if (res) {
+//           return res;
+//         }
+//       } catch {
+//         // If we have an error, we pass it on to the next resolver in the chain,
+//         // which should be one of expos.
+//         // https://github.com/expo/expo/blob/9c025ce7c10b23546ca889f3905f4a46d65608a4/packages/%40expo/cli/src/start/server/metro/withMetroResolvers.ts#L47
+//         return context.resolveRequest(context, moduleName, platform);
+//       }
+//     },
+//   },
+// });
+
+/// !TEST
+
+const projectDir = __dirname;
+const monorepoRoot = path.resolve(projectDir, "../..");
+
+/** @type {import('expo/metro-config').MetroConfig} */
+const defaultConfig = getDefaultConfig(__dirname, {
+  isCSSEnabled: true,
+});
+
+const nativeWindConfig = withNativeWind(defaultConfig, {
+  input: "./src/global.css",
+  configPath: "./tailwind.config.ts",
+});
+
+// const { resolver: defaultResolver, transformer: defaultTransformer } = defaultConfig;
+
+/** @type {import('expo/metro-config').MetroConfig} */
+module.exports = makeMetroConfig({
+  ...defaultConfig,
+  ...nativeWindConfig,
+  resolver: {
+    ...defaultConfig.resolver,
+    ...nativeWindConfig.resolver,
+    disableHierarchicalLookup: true,
+    assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== "svg"),
+    sourceExts: [...nativeWindConfig.resolver.sourceExts, "svg"],
+    nodeModulesPaths: [
+      path.resolve(projectDir, "node_modules"),
+      path.resolve(monorepoRoot, "node_modules"),
+    ],
+    resolveRequest: (context, moduleName, platform) => {
+      try {
+        // Symlinks resolver throws when it can't find what we're looking for.
+        const res = symlinksResolver(context, moduleName, platform);
+
+        if (res) {
+          return res;
+        }
+      } catch {
+        // If we have an error, we pass it on to the next resolver in the chain,
+        // which should be one of expos.
+        // https://github.com/expo/expo/blob/9c025ce7c10b23546ca889f3905f4a46d65608a4/packages/%40expo/cli/src/start/server/metro/withMetroResolvers.ts#L47
+        return context.resolveRequest(context, moduleName, platform);
+      }
     },
-    resolver: {
-      ...nativeWindConfig.resolver,
-      assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
-      sourceExts: [...nativeWindConfig.resolver.sourceExts, "svg"],
-    },
-  };
-})();
+  },
+  transformer: {
+    ...defaultConfig.transformer,
+    ...nativeWindConfig.transformer,
+    babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
+  },
+  watchFolders: [
+   monorepoRoot 
+  ],
+  cacheStores: [
+    new FileStore({
+      root: path.join(projectDir, "node_modules", ".cache", "metro"),
+    }),
+  ]
+});
+
+/// !TEST
 
 /**
  * Add the monorepo paths to the Metro config.
@@ -48,7 +140,7 @@ function withMonorepoPaths(config) {
     path.resolve(monorepoRoot, "node_modules"),
   ];
 
-  config.resolver.unstable_enableSymlinks = true;
+  // config.resolver.unstable_enableSymlinks = true;
 
   return config;
 }
@@ -69,4 +161,4 @@ function withTurborepoManagedCache(config) {
   return config;
 }
 
-module.exports = withTurborepoManagedCache(withMonorepoPaths(config));
+// module.exports = withTurborepoManagedCache(withMonorepoPaths(withSymlinkSupport(config)));

@@ -50,6 +50,12 @@ const IGNORED_PACKAGES = [
 ];
 ```
 
+### Nativewind v4
+
+NativeWind v4 doesn't work as expected with pnpm [#701](https://github.com/nativewind/nativewind/issues/701).
+
+Solution was to manually install `react-native-css-interop` as a dev dependency. Read [this issue comment](https://github.com/nativewind/nativewind/issues/894#issuecomment-2354453948) for more.
+
 ## SVGs
 
 Managed with `react-native-svg-transformer`. Docs are nicely written at: https://github.com/kristerkari/react-native-svg-transformer.
@@ -69,6 +75,8 @@ declare module "*.svg" {
   export default content;
 }
 ```
+
+[Expo SVG Documentation](https://docs.expo.dev/versions/latest/sdk/svg/).
 
 Caveat for customising the color of the SVGs is to make sure there is no `fill` in any of the children of `<svg>` and only `fill="#000000"` in the root `<svg>` tag. [This comment was the saviour.](https://github.com/kristerkari/react-native-svg-transformer/issues/105#issuecomment-775891947)
 

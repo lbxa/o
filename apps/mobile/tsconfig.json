@@ -35,8 +35,8 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts", 
-    "metro.config.cjs" 
-, "entry.ts"  ],
+    "metro.config.cjs"
+  ],
   "exclude": [
     ".expo"
   ]
