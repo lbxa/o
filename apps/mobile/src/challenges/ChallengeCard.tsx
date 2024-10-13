@@ -33,11 +33,7 @@ export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
             </Text>
           </View>
         </View>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
+        <Text>Socials will go here</Text>
       </View>
     </Touchable>
   );

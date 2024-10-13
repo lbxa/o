@@ -26,3 +26,5 @@ tsconfig.tsbuildinfo
 *.sw?
 .env.*
 !.env.template
+
+vite.config.ts.timestamp*
