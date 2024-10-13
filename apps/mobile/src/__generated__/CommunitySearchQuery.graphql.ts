@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<45fce754acdfc10c5311ef299c3c39eb>>
+ * @generated SignedSource<<405f7adbc520c507364048ae0a9a395e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -92,6 +92,13 @@ return {
             "kind": "ScalarField",
             "name": "name",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isVerified",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -99,12 +106,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "00ffcad0fd44c7231c7307978666dc19",
+    "cacheID": "94239ab4a354940fd00e68359c4628d9",
     "id": null,
     "metadata": {},
     "name": "CommunitySearchQuery",
     "operationKind": "query",
-    "text": "query CommunitySearchQuery(\n  $id: ID!\n) {\n  community(id: $id) {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n}\n"
+    "text": "query CommunitySearchQuery(\n  $id: ID!\n) {\n  community(id: $id) {\n    ...CommunityFragment\n    id\n  }\n}\n\nfragment CommunityFragment on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();

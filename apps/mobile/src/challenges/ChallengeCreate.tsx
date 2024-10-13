@@ -109,7 +109,7 @@ export const ChallengeCreate = () => {
         backdropComponent={(props) => <CustomBackdrop {...props} />}
       >
         <BottomSheetView>
-          <ChallengeTypeSelector />
+          <ChallengeTypeSelector modalRef={bottomSheetModalRef} />
         </BottomSheetView>
       </BottomSheetModal>
       <Ozone>
@@ -165,15 +165,15 @@ export const ChallengeCreate = () => {
               <Title>Type</Title>
               <Touchable
                 onPress={handlePresentModalPress}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <CrissCrossIcon width={25} />
                 <Text className="pl-sm">Choose from a blend of options</Text>
               </Touchable>
 
               <Title>Duration</Title>
-              <View className="mb-lg gap-md flex flex-col justify-between">
-                <View className="gap-md flex flex-row items-center justify-between">
+              <View className="mb-lg flex flex-col justify-between gap-md">
+                <View className="flex flex-row items-center justify-between gap-md">
                   <Text className="text-xl ">Start</Text>
                   <Controller
                     name="startDate"
@@ -211,7 +211,7 @@ export const ChallengeCreate = () => {
               <Title>Invite Members</Title>
               <Touchable
                 onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>

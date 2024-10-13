@@ -43,8 +43,8 @@ const secondaryVariantMatrix: VariantMatrix = {
     front: "color-indigo",
   },
   navy: {
-    back: "bg-navy/30",
-    front: "color-navy",
+    back: "bg-navy",
+    front: "color-ivory",
   },
   red: {
     back: "bg-red-200",
@@ -61,6 +61,7 @@ type ButtonProps = {
 
 export const Button = ({
   title,
+  icon,
   type = "primary",
   variant = "indigo",
   className,
@@ -72,12 +73,13 @@ export const Button = ({
   return (
     <Touchable
       className={classNames(
-        "rounded-md py-sm",
+        "rounded-md py-sm px-md",
         variantMatrix[variant].back,
         className
       )}
       {...props}
     >
+      {icon}
       <Text
         className={classNames(
           "text-center font-bold",

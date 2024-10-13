@@ -39,7 +39,7 @@ export default function CommunityRootLayout() {
         name="create"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>
@@ -58,7 +58,7 @@ export default function CommunityRootLayout() {
         name="search"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <Touchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </Touchable>

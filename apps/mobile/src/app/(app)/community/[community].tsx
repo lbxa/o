@@ -1,30 +1,36 @@
 import { useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
+import { View } from "react-native";
+import { useQueryLoader } from "react-relay";
 
-import { CommunityRoot } from "../../../communities";
+import type { CommunityRootQuery } from "../../../__generated__/CommunityRootQuery.graphql";
+import { COMMUNITY_ROOT_QUERY, CommunityRoot } from "../../../communities";
 
 export default function CommunityDetailsRoute() {
-  // const router = useRouter();
-
-  // const [queryRef, loadQuery, disposeQuery] =
-  //   useQueryLoader<CommunityChallengesQuery>(COMMUNITY_CHALLENGES_QUERY);
-
   const { community: communityId } = useLocalSearchParams<{
     community: string;
   }>();
 
-  // const community = useActiveCommunity();
+  const [
+    communityRootQueryRef,
+    loadCommunityRootQuery,
+    disposeCommunityRootQuery,
+  ] = useQueryLoader<CommunityRootQuery>(COMMUNITY_ROOT_QUERY);
 
-  // const query = useLazyLoadQuery<CommunityDetailsQuery>(
-  //   COMMUNITY_DETAILS_QUERY,
-  //   { id: community?.id },
-  //   { fetchPolicy: "store-and-network" }
-  // );
+  useEffect(() => {
+    loadCommunityRootQuery({ communityId: communityId });
 
-  // useEffect(() => {
-  //   loadQuery({ communityId: community?.id });
+    return () => disposeCommunityRootQuery();
+  }, [communityId]);
 
-  //   return () => disposeQuery();
-  // }, [community]);
-
-  return <CommunityRoot communityId={communityId} />;
+  return (
+    <View>
+      {communityRootQueryRef && (
+        <CommunityRoot
+          communityId={communityId}
+          communityRootQueryRef={communityRootQueryRef}
+        />
+      )}
+    </View>
+  );
 }

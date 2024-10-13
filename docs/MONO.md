@@ -6,6 +6,8 @@ Monorepo's are amazing for scaling large and complex software projects. The cave
 
 Nx is a great tool built by a great team, but it gets in the way of the job. Turbo does literally 90% of what Nx does whilst not getting in the way. The remaining 10% Turbo still has to catch up on is also not a big deal since its mostly just developer candy.
 
+Turbo tries very hard to not get in the way of the developer. It's the most minimal monorepo management tool I've used.
+
 ## Pruning
 
 Most packages are dockerised as self-contained services. They will most of the time depend on numerous other shared packages in the monorepo. We can build a pruned microrepo of a target package and its dependencies with the following command:

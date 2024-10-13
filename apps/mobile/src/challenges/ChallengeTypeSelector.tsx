@@ -1,6 +1,7 @@
+import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Button, Title, Touchable } from "@universe/atoms";
 import classNames from "classnames";
-import React, { useState } from "react";
+import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 // TODO turn into accordion like PillGroup
@@ -27,16 +28,16 @@ const PillGroup = ({ type, options }: PillGroupProps) => {
 
   return (
     <View className={classNames("flex flex-row mr-md", { "gap-md": open })}>
-      <View className="rounded-xl bg-navy/30 px-md py-sm">
+      <View className="rounded-xl bg-indigo/30 px-md py-sm">
         <Touchable onPress={() => setOpen((prev) => !prev)}>
-          <Text className="font-bold text-navy">{type}</Text>
+          <Text className="font-bold text-indigo">{type}</Text>
         </Touchable>
       </View>
       <View className="flex flex-row items-center gap-md">
         {open &&
           options.map((option, i) => (
-            <View className="rounded-xl bg-violet/30 px-md py-sm" key={i}>
-              <Text className="font-bold text-violet">{option}</Text>
+            <View className="rounded-xl bg-navy/30 px-md py-sm" key={i}>
+              <Text className="font-bold text-navy">{option}</Text>
             </View>
           ))}
       </View>
@@ -44,7 +45,12 @@ const PillGroup = ({ type, options }: PillGroupProps) => {
   );
 };
 
-export const ChallengeTypeSelector = () => {
+interface ChallengeTypeSelectorProps {
+  modalRef: React.RefObject<BottomSheetModalMethods>;
+}
+export const ChallengeTypeSelector = ({
+  modalRef,
+}: ChallengeTypeSelectorProps) => {
   const categories = ["Reps", "Time", "Weight", "Social"];
   const metrics = [
     {
@@ -63,8 +69,8 @@ export const ChallengeTypeSelector = () => {
         <Title>Select a category</Title>
         <View className="mb-lg flex flex-row gap-md">
           {categories.map((category, i) => (
-            <View className="rounded-xl bg-navy/30 px-md py-sm" key={i}>
-              <Text className="font-bold text-navy">{category}</Text>
+            <View className="rounded-xl bg-indigo/30 px-md py-sm" key={i}>
+              <Text className="font-bold text-indigo">{category}</Text>
             </View>
           ))}
         </View>
@@ -87,6 +93,7 @@ export const ChallengeTypeSelector = () => {
           // Read more about event pooling
           // https://legacy.reactjs.org/docs/legacy-event-pooling.html
           e.persist();
+          modalRef.current?.close();
         }}
       />
     </View>

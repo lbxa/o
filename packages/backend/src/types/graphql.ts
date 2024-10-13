@@ -170,10 +170,12 @@ export interface Community extends Node, Timestampable {
     id: string;
     name: string;
     isPublic?: Nullable<boolean>;
+    isVerified?: Nullable<boolean>;
     users?: Nullable<Nullable<User>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
+    challenges?: Nullable<Challenge[]>;
     memberships?: Nullable<CommunityMembership[]>;
     invitations?: Nullable<CommunityInvitation[]>;
 }
@@ -226,6 +228,7 @@ export interface Viewer {
     __typename?: 'Viewer';
     user?: Nullable<User>;
     communities?: Nullable<Community[]>;
+    challenges?: Nullable<Challenge[]>;
 }
 
 export type DateTime = Date;

@@ -21,6 +21,7 @@ const COMMUNITY_LIST_FRAGMENT = graphql`
   }
 `;
 
+// TODO moved to the parent component
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     viewer {
@@ -44,20 +45,14 @@ export const CommunityList = ({ queryRef }: Props) => {
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch(
-        {},
-        { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy: "partial" }
-      );
+      refetch({}, { fetchPolicy: "store-and-network" });
     });
   }, [refetch]);
-
-  useEffect(() => {
-    console.log("Rows fetched", data?.communities?.length);
-  }, [data?.communities?.length, query]);
 
   return (
     <View className="h-full">
       <FlatList
+        className="px-sm"
         data={data?.communities}
         renderItem={({ item }) => <CommunityCard community={item} />}
         ListHeaderComponent={<></>}

@@ -1,0 +1,40 @@
+{
+  "cli": {
+    "version": ">= 12.5.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "monorepo": {
+      "node": "20.14",
+      "pnpm": "9.12.1",
+      "cache": {
+        "key": "turbo",
+        "paths": [
+          "../../node_modules/.cache/turbo"
+        ]
+      }
+    },
+    "development": {
+      "extends": "monorepo",
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "development-simulator": {
+      "extends": "monorepo",
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview": {
+      "distribution": "store"
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

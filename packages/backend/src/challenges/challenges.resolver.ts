@@ -43,17 +43,6 @@ export class ChallengesResolver {
     }));
   }
 
-  @Query("communityChallenges")
-  async communityChallenges(
-    @Args("communityId") communityId: string
-  ): Promise<Challenge[]> {
-    const decodedCommunityId = validateAndDecodeGlobalId(
-      communityId,
-      "Community"
-    );
-    return this.challengesService.findCommunityChallenges(decodedCommunityId);
-  }
-
   @Query("userChallenges")
   async userChallenges(@Args("userId") userId: string): Promise<Challenge[]> {
     const decodedUserId = validateAndDecodeGlobalId(userId, "User");

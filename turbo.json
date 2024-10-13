@@ -5,7 +5,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "node_modules/.cache/metro/**"]
     },
     "lint": {
       "cache": true,

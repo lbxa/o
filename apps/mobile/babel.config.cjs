@@ -7,6 +7,9 @@ module.exports = function (api) {
       "nativewind/babel",
     ],
     // reanimated has to be listed last
-    plugins: ['relay', 'react-native-reanimated/plugin']
+    plugins: [
+      'react-native-reanimated/plugin',
+      'relay'
+    ]
   };
 };
