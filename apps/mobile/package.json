@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "lint": "eslint . --fix",
     "type-check": "tsc",
+    "eas:build:simulator": "eas build --profile development-simulator --platform ios",
     "relay": "relay-compiler --watch",
     "clean": "git clean -xdf .cache .expo .turbo android ios node_modules",
     "postinstall": "pnpm dlx expo-doctor@latest"

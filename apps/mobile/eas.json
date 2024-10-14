@@ -5,7 +5,7 @@
   },
   "build": {
     "monorepo": {
-      "node": "20.14",
+      "node": "20.14.0",
       "pnpm": "9.12.1",
       "cache": {
         "key": "turbo",
