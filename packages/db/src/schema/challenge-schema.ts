@@ -17,13 +17,13 @@ export const ChallengesTable = mysqlTable(
   "challenges",
   {
     ...withIdPk,
-    name: varchar("name", { length: 255 }).notNull(),
-    description: text("description").notNull(),
-    communityId: int("community_id")
+    name: varchar({ length: 255 }).notNull(),
+    description: text().notNull(),
+    communityId: int()
       .notNull()
       .references(() => CommunitiesTable.id),
-    startDate: timestamp("start_date").notNull(),
-    endDate: timestamp("end_date").notNull(),
+    startDate: timestamp().notNull(),
+    endDate: timestamp().notNull(),
     ...withModificationDates,
   },
   (table) => ({
@@ -50,16 +50,16 @@ export const ChallengeMembershipsTable = mysqlTable(
   "challenge_memberships",
   {
     ...withIdPk,
-    userId: int("user_id")
+    userId: int()
       .notNull()
       .references(() => UsersTable.id),
-    challengeId: int("challenge_id")
+    challengeId: int()
       .notNull()
       .references(() => ChallengesTable.id),
-    communityId: int("community_id")
+    communityId: int()
       .notNull()
       .references(() => CommunitiesTable.id),
-    joinedAt: timestamp("joined_at").notNull().defaultNow(),
+    joinedAt: timestamp().notNull().defaultNow(),
   },
   (table) => ({
     uniqueMembership: index("user_challenge_unique").on(
@@ -89,17 +89,17 @@ export const ChallengeMembershipsRelations = relations(
 
 export const ChallengeInvitationsTable = mysqlTable("challenge_invitations", {
   ...withIdPk,
-  challengeId: int("challenge_id")
+  challengeId: int()
     .notNull()
     .references(() => ChallengesTable.id),
-  inviterId: int("inviter_id")
+  inviterId: int()
     .notNull()
     .references(() => UsersTable.id),
-  inviteeId: int("invitee_id")
+  inviteeId: int()
     .notNull()
     .references(() => UsersTable.id),
   status: InvitationStatusEnum.notNull().default("PENDING"),
-  expiresAt: timestamp("expires_at").notNull(),
+  expiresAt: timestamp().notNull(),
   ...withModificationDates,
 });
 

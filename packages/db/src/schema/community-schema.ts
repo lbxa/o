@@ -18,10 +18,10 @@ export const CommunitiesTable = mysqlTable(
   "communities",
   {
     ...withIdPk,
-    name: varchar("name", { length: 255 }).unique().notNull(),
-    isPublic: boolean("is_public").notNull().default(true),
-    isVerified: boolean("is_verified").notNull().default(false),
-    ownerId: int("owner_id")
+    name: varchar({ length: 255 }).unique().notNull(),
+    isPublic: boolean().notNull().default(true),
+    isVerified: boolean().notNull().default(false),
+    ownerId: int()
       .notNull()
       .references(() => UsersTable.id),
     ...withModificationDates,
@@ -49,14 +49,14 @@ export const CommunityMembershipsTable = mysqlTable(
   "community_memberships",
   {
     ...withIdPk,
-    userId: int("user_id")
+    userId: int()
       .notNull()
       .references(() => UsersTable.id),
-    communityId: int("community_id")
+    communityId: int()
       .notNull()
       .references(() => CommunitiesTable.id),
-    isAdmin: boolean("is_admin").notNull().default(false),
-    joinedAt: timestamp("joined_at").defaultNow(),
+    isAdmin: boolean().notNull().default(false),
+    joinedAt: timestamp().defaultNow(),
   },
   (table) => ({
     uniqueMembership: index("user_community_unique").on(
@@ -85,17 +85,17 @@ export const CommunityInvitationsTable = mysqlTable(
   "community_invitations",
   {
     ...withIdPk,
-    communityId: int("community_id")
+    communityId: int()
       .notNull()
       .references(() => CommunitiesTable.id),
-    inviterId: int("inviter_id")
+    inviterId: int()
       .notNull()
       .references(() => UsersTable.id),
-    inviteeId: int("invitee_id")
+    inviteeId: int()
       .notNull()
       .references(() => UsersTable.id),
     status: InvitationStatusEnum.notNull().default("PENDING"),
-    expiresAt: timestamp("expires_at").notNull(),
+    expiresAt: timestamp().notNull(),
     ...withModificationDates,
   },
   (table) => ({

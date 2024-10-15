@@ -31,7 +31,11 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
 
       this.logger.log("Database connection acquired");
 
-      this.db = drizzle(this.connection, { schema, mode: "default" });
+      this.db = drizzle(this.connection, {
+        schema,
+        mode: "default",
+        casing: "snake_case",
+      });
     } catch (error) {
       this.logger.error("Error acquiring database connection", error);
       throw error;
