@@ -4,23 +4,17 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "monorepo": {
+    "base": {
       "node": "20.14.0",
-      "pnpm": "9.12.1",
-      "cache": {
-        "key": "turbo",
-        "paths": [
-          "../../node_modules/.cache/turbo"
-        ]
-      }
+      "pnpm": "9.12.1"
     },
     "development": {
-      "extends": "monorepo",
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal"
     },
-    "development-simulator": {
-      "extends": "monorepo",
+    "development:simulator": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
