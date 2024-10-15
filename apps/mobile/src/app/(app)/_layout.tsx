@@ -3,7 +3,7 @@ import HomeIcon from "@assets/icons/home.svg";
 import PeopleIcon from "@assets/icons/people.svg";
 import { Redirect, Tabs } from "expo-router";
 
-import { useToken } from "../../utils/useToken";
+import { useToken } from "@/utils/useToken";
 
 export default function AppLayout() {
   const { token } = useToken();

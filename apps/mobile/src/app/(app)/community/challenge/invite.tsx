@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useQueryLoader } from "react-relay";
 
+import { USER_FRIENDS_LIST_QUERY, UserSearch } from "@/users";
+
 import type { UserSearchFriendsListQuery } from "../../../../__generated__/UserSearchFriendsListQuery.graphql";
-import { USER_FRIENDS_LIST_QUERY, UserSearch } from "../../../../users";
 
 export default function ChallengeInviteModal() {
   const [queryRef, loadQuery, disposeQuery] =

@@ -12,6 +12,7 @@ export default defineConfig({
   schema: "./src/schema/*.ts",
   out: "./migrations",
   dialect: "mysql", 
+  casing: "snake_case",
   dbCredentials: {
     host: DB_HOSTNAME,
     user: DB_USER,

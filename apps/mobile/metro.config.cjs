@@ -9,11 +9,6 @@ const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks");
 
 const symlinksResolver = MetroSymlinksResolver();
 
-/**
- * Striking a balance between Nativewind and rnx-kit was tricky
- * @see https://github.com/nativewind/nativewind/issues/926
- */
-
 const projectDir = __dirname;
 const monorepoRoot = path.resolve(projectDir, "../..");
 const defaultConfig = getDefaultConfig(projectDir);
@@ -100,6 +95,10 @@ const finalConfig = makeMetroConfig(mergeConfig(defaultConfig, monorepoConfig, s
  * resolve css imports. If this is overridden, Nativewind will not work.
  * 
  * @see https://github.com/nativewind/nativewind/issues/972#issuecomment-2329660147
+ *
+ * Striking a balance between Nativewind and rnx-kit was tricky
+ * 
+ * @see https://github.com/nativewind/nativewind/issues/926
  */
 module.exports = withNativeWind(finalConfig, {
   input: path.join(projectDir, "./src/global.css"),

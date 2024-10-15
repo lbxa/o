@@ -1,4 +1,4 @@
-import { ChallengeCreate } from "../../../../challenges";
+import { ChallengeCreate } from "@/challenges";
 
 export default function ChallengeCreateRoute() {
   return <ChallengeCreate />;

@@ -85,6 +85,19 @@ export const CommunityCreate = () => {
           <Switch className="mb-md" onValueChange={onChange} value={value} />
         )}
       />
+
+      <Title>Data Controls</Title>
+      <Text>Who can invite members?</Text>
+      <View className="pl-md">
+        <Text>Admins only</Text>
+        <Text>Everyone</Text>
+      </View>
+      <Text>Who can create new challenges?</Text>
+      <View className="pl-md">
+        <Text>Admins only</Text>
+        <Text>Everyone</Text>
+      </View>
+
       <Title>Invite Members</Title>
       <Touchable
         onPress={() => router.push("/(app)/community/invite")}

@@ -4,9 +4,10 @@ import React, { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
+import { selectActiveCommunity, useAppSelector } from "@/state";
+
 import type { UserFragment$key } from "../../__generated__/UserFragment.graphql";
 import type { UserInviteCardMutation } from "../../__generated__/UserInviteCardMutation.graphql";
-import { selectActiveCommunity, useAppSelector } from "../../state";
 import { USER_FRAGMENT } from "../UserFragment";
 
 const USER_COMMUNITY_INVITE_MUTATION = graphql`
@@ -51,7 +52,7 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
   }, [activeCommunity.id, commitMutation, user.id]);
 
   return (
-    <View className="mb-lg px-md flex w-full flex-row items-center">
+    <View className="mb-lg flex w-full flex-row items-center px-md">
       <View className="flex flex-1 flex-col">
         <Text>
           {user.firstName} {user.lastName}

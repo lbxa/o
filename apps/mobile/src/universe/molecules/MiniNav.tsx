@@ -1,13 +1,12 @@
+import MessageIcon from "@assets/icons/message.svg";
+import PlusIcon from "@assets/icons/plus.svg";
+import SearchIcon from "@assets/icons/search.svg";
 import * as Haptics from "expo-haptics";
 import type { Href } from "expo-router";
 import { Link } from "expo-router";
 import type { PropsWithChildren } from "react";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-
-import MessageIcon from "../../../assets/icons/message.svg";
-import PlusIcon from "../../../assets/icons/plus.svg";
-import SearchIcon from "../../../assets/icons/search.svg";
 
 const ICON_DIM = {
   width: 20,
