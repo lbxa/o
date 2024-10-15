@@ -1,6 +1,7 @@
-import { Button, PrimaryTextInput } from "@universe/atoms";
 import { View } from "react-native";
 import { graphql } from "react-relay";
+
+import { Button, PrimaryTextInput } from "@/universe/atoms";
 
 export const COMMUNITY_SEARCH_QUERY = graphql`
   query CommunitySearchQuery($id: ID!) {

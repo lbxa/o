@@ -1,6 +1,7 @@
-import { Ozone } from "@universe/molecules";
 import React from "react";
 import { Text, View } from "react-native";
+
+import { Ozone } from "@/universe/molecules";
 
 export default function Home() {
   return (

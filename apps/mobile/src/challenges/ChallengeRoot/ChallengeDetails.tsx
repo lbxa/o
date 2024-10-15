@@ -1,9 +1,10 @@
 import RecordIcon from "@assets/icons/record.svg";
-import { Button } from "@universe/atoms";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useLazyLoadQuery } from "react-relay";
+
+import { Button } from "@/universe/atoms";
 
 import type { ChallengeDetailsQuery } from "../../__generated__/ChallengeDetailsQuery.graphql";
 

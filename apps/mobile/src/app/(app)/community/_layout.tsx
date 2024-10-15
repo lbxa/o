@@ -1,8 +1,9 @@
 import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Touchable } from "@universe/atoms";
-import { MiniNav } from "@universe/molecules";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
+
+import { Touchable } from "@/universe/atoms";
+import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
   const router = useRouter();

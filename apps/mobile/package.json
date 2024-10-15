@@ -31,6 +31,7 @@
     "dayjs": "^1.11.13",
     "debounce": "^2.1.1",
     "expo": "^51.0.17",
+    "expo-checkbox": "~3.0.0",
     "expo-constants": "~16.0.2",
     "expo-dev-client": "~4.0.28",
     "expo-haptics": "^13.0.1",

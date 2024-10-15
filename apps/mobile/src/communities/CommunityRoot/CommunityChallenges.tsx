@@ -1,9 +1,9 @@
-import { Button } from "@universe/atoms";
 import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 import { graphql, useRefetchableFragment } from "react-relay";
 
 import { ChallengeCard } from "@/challenges";
+import { Button } from "@/universe/atoms";
 
 import type { CommunityChallenges_community$key } from "../../__generated__/CommunityChallenges_community.graphql";
 import type { CommunityChallengesRefreshQuery } from "../../__generated__/CommunityChallengesRefreshQuery.graphql";

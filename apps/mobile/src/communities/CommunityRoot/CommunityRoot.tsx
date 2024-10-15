@@ -1,8 +1,9 @@
-import { MiniNav, Ozone } from "@universe/molecules";
 import { Stack } from "expo-router";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useLazyLoadQuery, usePreloadedQuery } from "react-relay";
+
+import { MiniNav, Ozone } from "@/universe/molecules";
 
 import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 import type { CommunityRootQuery } from "../../__generated__/CommunityRootQuery.graphql";

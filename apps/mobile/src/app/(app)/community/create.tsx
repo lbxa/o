@@ -1,8 +1,8 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { Ozone } from "@universe/molecules";
 import { View } from "react-native";
 
 import { CommunityCreate } from "@/communities";
+import { Ozone } from "@/universe/molecules";
 
 export default function CommunityCreateRoute() {
   return (

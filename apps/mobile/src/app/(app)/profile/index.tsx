@@ -1,9 +1,9 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { Button, Touchable } from "@universe/atoms";
-import { Ozone } from "@universe/molecules";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
+import { Button, Touchable } from "@/universe/atoms";
+import { Ozone } from "@/universe/molecules";
 import { useViewer } from "@/users";
 import { useToken } from "@/utils/useToken";
 

@@ -1,9 +1,14 @@
+import classNames from "classnames";
+import type { PropsWithChildren } from "react";
 import { Text } from "react-native";
 
-interface Props {
-  title: string;
-}
-
-export const Subtitle = ({ title }: Props) => {
-  return <Text className="mb-sm text-xl font-bold">{title}</Text>;
+export const Subtitle: React.FC<PropsWithChildren<{ className?: string }>> = ({
+  children,
+  className,
+}) => {
+  return (
+    <Text className={classNames("mb-md text-sm text-gray-500", className)}>
+      {children}
+    </Text>
+  );
 };

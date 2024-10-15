@@ -1,8 +1,9 @@
-import { Title, Touchable } from "@universe/atoms";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { useFragment } from "react-relay";
+
+import { Title, Touchable } from "@/universe/atoms";
 
 import type { ChallengeFragment$key } from "../__generated__/ChallengeFragment.graphql";
 import { CHALLENGE_FRAGMENT } from "./ChallengeFragment";

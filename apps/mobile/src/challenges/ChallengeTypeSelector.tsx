@@ -1,15 +1,16 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { ScrollView, View } from "react-native";
+
 import {
   Button,
+  Pill,
   PrimaryTextInputControl,
   Title,
   Touchable,
-} from "@universe/atoms";
-import classNames from "classnames";
-import { useRef, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { ScrollView, Text, View } from "react-native";
+} from "@/universe/atoms";
 
 type Category = "Reps" | "Time" | "Weight" | "Distance" | "Social";
 
@@ -31,37 +32,6 @@ type MetricOption = "Min" | "Max" | "Target" | "Shortest" | "Longest";
 type CategoryUnitsMap = Record<Category, Unit[]>;
 
 // TODO turn into accordion like PillGroup
-interface PillProps {
-  onPress?: () => void;
-  label: string;
-  selected?: boolean;
-  variant?: "indigo" | "navy" | "violet";
-}
-
-const Pill = ({ label, onPress, variant = "indigo", selected }: PillProps) => {
-  return (
-    <Touchable onPress={() => onPress?.()}>
-      <View
-        className={classNames("rounded-xl px-md py-sm bg-gray-200", {
-          "bg-indigo/30": variant === "indigo" && selected,
-          "bg-navy/30": variant === "navy" && selected,
-          "bg-violet/30": variant === "violet" && selected,
-        })}
-      >
-        <Text
-          className={classNames("font-bold", {
-            "text-gray-700": !selected,
-            "text-indigo": variant === "indigo" && selected,
-            "text-navy": variant === "navy" && selected,
-            "text-violet": variant === "violet" && selected,
-          })}
-        >
-          {label}
-        </Text>
-      </View>
-    </Touchable>
-  );
-};
 
 interface PillGroupProps {
   group: {
@@ -80,16 +50,16 @@ const PillGroup = ({
   groupSelected,
   optionSelected,
 }: PillGroupProps) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | undefined>(undefined);
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   return (
     <ScrollView
       horizontal
-      className="py-sm"
+      className="pb-md"
       ref={scrollViewRef}
       onContentSizeChange={() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true });
+        // scrollViewRef.current?.scrollToStart({ animated: true });
       }}
     >
       <View className="mr-md flex flex-row gap-md">
@@ -98,19 +68,21 @@ const PillGroup = ({
             {openIndex === i && (
               <Touchable
                 className="rounded-full bg-gray-200 p-xs"
-                onPress={() => setOpenIndex(null)}
+                onPress={() => setOpenIndex(undefined)}
               >
                 <CrossIcon width={18} height={18} fill={"gray"} />
               </Touchable>
             )}
-            <Pill
-              label={label}
-              onPress={() => {
-                setOpenIndex(i);
-                onGroupPress?.(label);
-              }}
-              selected={groupSelected === label}
-            />
+            {(openIndex === i || openIndex === undefined) && (
+              <Pill
+                label={label}
+                onPress={() => {
+                  setOpenIndex(openIndex === i ? undefined : i);
+                  onGroupPress?.(label);
+                }}
+                selected={groupSelected === label}
+              />
+            )}
             {openIndex === i &&
               options.map((option, j) => (
                 <Pill
@@ -192,7 +164,7 @@ export const ChallengeTypeSelector = ({
   return (
     <View className="flex h-full flex-col bg-white px-md">
       <View className="flex-1">
-        <Title>Select a category</Title>
+        <Title className="mb-xl">Select a category</Title>
         <View className="mb-xl flex flex-row flex-wrap gap-md">
           {categories.map((c, i) => (
             <Pill
@@ -204,7 +176,7 @@ export const ChallengeTypeSelector = ({
           ))}
         </View>
 
-        <Title className="mb-0">Select a metric</Title>
+        <Title className="mb-xl">Select a metric</Title>
         <View className="mb-xl flex flex-row flex-wrap gap-md">
           <PillGroup
             group={metrics}
@@ -216,8 +188,8 @@ export const ChallengeTypeSelector = ({
         </View>
 
         {metricOption === "Target" && (
-          <View>
-            <Title>Select a target</Title>
+          <View className="mb-xl">
+            <Title className="mb-xl">Select a target</Title>
             <View className="flex flex-row items-center gap-md">
               <View className="flex flex-row gap-md">
                 <Controller
@@ -228,6 +200,7 @@ export const ChallengeTypeSelector = ({
                   }}
                   render={({ field: { onBlur, onChange, value } }) => (
                     <PrimaryTextInputControl
+                      className="min-w-12 max-w-20"
                       placeholder="100"
                       keyboardType="number-pad"
                       inputMode="numeric"
@@ -259,11 +232,10 @@ export const ChallengeTypeSelector = ({
           </View>
         )}
       </View>
-
       <Button
         title={"Finish"}
         variant="indigo"
-        className="mb-lg"
+        className="mb-10"
         onPress={(e) => {
           // Read more about event pooling
           // https://legacy.reactjs.org/docs/legacy-event-pooling.html

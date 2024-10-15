@@ -1,7 +1,4 @@
 import type { AuthCreateUserInput } from "@o/api";
-import { Button, PrimaryTextInputControl } from "@universe/atoms";
-import { PrimaryPasswordInput } from "@universe/atoms/PrimaryPasswordInput";
-import { Ozone } from "@universe/molecules";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React from "react";
@@ -10,6 +7,10 @@ import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { useMutation, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { graphql } from "react-relay";
+
+import { Button, PrimaryTextInputControl } from "@/universe/atoms";
+import { PrimaryPasswordInput } from "@/universe/atoms/PrimaryPasswordInput";
+import { Ozone } from "@/universe/molecules";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
 import type { UserCreateValidateEmailQuery } from "../__generated__/UserCreateValidateEmailQuery.graphql";

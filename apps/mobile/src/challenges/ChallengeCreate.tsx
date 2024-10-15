@@ -1,24 +1,28 @@
 import CameraIcon from "@assets/icons/camera.svg";
+import ChevronRightIcon from "@assets/icons/chevron-right.svg";
 import CrissCrossIcon from "@assets/icons/criss-cross.svg";
 import SearchIcon from "@assets/icons/search.svg";
+import StopwatchIcon from "@assets/icons/stopwatch.svg";
+import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import {
-  Button,
-  PrimaryTextInputControl,
-  Title,
-  Touchable,
-} from "@universe/atoms";
-import { Ozone } from "@universe/molecules";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
+
+import {
+  Button,
+  PrimaryTextInputControl,
+  Title,
+  Touchable,
+} from "@/universe/atoms";
+import { Ozone } from "@/universe/molecules";
 
 import type {
   ChallengeCreateInput,
@@ -26,7 +30,9 @@ import type {
 } from "../__generated__/ChallengeCreateMutation.graphql";
 import { useAppSelector } from "../state";
 import { selectActiveCommunity } from "../state/community.slice";
-import CustomBackdrop from "./BottomSheetBackdrop";
+import { BottomSheetBackdrop } from "./BottomSheetBackdrop";
+import { ChallengeCadenceSelector } from "./ChallengeCadenceSelector";
+import { ChallengeDataControls } from "./ChallengeDataControls";
 import { ChallengeTypeSelector } from "./ChallengeTypeSelector";
 
 export const CHALLENGE_CREATE_MUTATION = graphql`
@@ -49,18 +55,21 @@ export const ChallengeCreate = () => {
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(CHALLENGE_CREATE_MUTATION);
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["50%", "70%"], []);
+  const challengeBuilderModalRef = useRef<BottomSheetModal>(null);
+  const candenceSelectorModalRef = useRef<BottomSheetModal>(null);
+  const dataControlsModalRef = useRef<BottomSheetModal>(null);
 
   // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+  const handlePresentChallengeBuilderModalPress = useCallback(() => {
+    challengeBuilderModalRef.current?.present();
   }, []);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+  const handlePresentCandenceSelectorModalPress = useCallback(() => {
+    candenceSelectorModalRef.current?.present();
+  }, []);
+
+  const handlePresentDataControlsModalPress = useCallback(() => {
+    dataControlsModalRef.current?.present();
   }, []);
 
   const {
@@ -100,16 +109,16 @@ export const ChallengeCreate = () => {
   };
 
   return (
-    <BottomSheetModalProvider>
+    <View>
       <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        backdropComponent={(props) => <CustomBackdrop {...props} />}
+        ref={challengeBuilderModalRef}
+        index={0}
+        snapPoints={["70%"]}
+        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+        enablePanDownToClose
       >
         <BottomSheetView>
-          <ChallengeTypeSelector modalRef={bottomSheetModalRef} />
+          <ChallengeTypeSelector modalRef={challengeBuilderModalRef} />
         </BottomSheetView>
       </BottomSheetModal>
       <Ozone>
@@ -164,11 +173,14 @@ export const ChallengeCreate = () => {
               />
               <Title>Type</Title>
               <Touchable
-                onPress={handlePresentModalPress}
+                onPress={handlePresentChallengeBuilderModalPress}
                 className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
-                <CrissCrossIcon width={25} />
-                <Text className="pl-sm">Choose from a blend of options</Text>
+                <View className="flex flex-1 flex-row items-center">
+                  <CrissCrossIcon width={25} />
+                  <Text className="pl-sm">Choose from a blend of options</Text>
+                </View>
+                <ChevronRightIcon width={25} />
               </Touchable>
 
               <Title>Duration</Title>
@@ -210,50 +222,61 @@ export const ChallengeCreate = () => {
               </View>
 
               <Title>Cadence</Title>
-              <Text className="">How often will you post your progress?</Text>
-              <View>
-                <Text>Daily</Text>
-                <Text>Weekly</Text>
-                <Text>Bi-weekly</Text>
-                <Text>Monthly</Text>
-                <Text>Yearly</Text>
-                <Text>Custom</Text>
-                <Text>Repeat every N: </Text>
-                <View className="flex flex-row gap-md">
-                  <Text>Hours</Text>
-                  <Text>Days</Text>
-                  <Text>Weeks</Text>
-                  <Text>Months</Text>
-                  <Text>Years</Text>
+              <Touchable
+                onPress={handlePresentCandenceSelectorModalPress}
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+              >
+                <View className="flex flex-1 flex-row items-center">
+                  <StopwatchIcon width={25} />
+                  <Text className="pl-sm">
+                    How often will you post your progress?
+                  </Text>
                 </View>
-              </View>
+                <ChevronRightIcon width={25} />
+              </Touchable>
+
+              <BottomSheetModal
+                ref={candenceSelectorModalRef}
+                index={0}
+                snapPoints={["40%"]}
+                backdropComponent={(props) => (
+                  <BottomSheetBackdrop {...props} />
+                )}
+                enablePanDownToClose
+              >
+                <BottomSheetView>
+                  <ChallengeCadenceSelector
+                    modalRef={candenceSelectorModalRef}
+                  />
+                </BottomSheetView>
+              </BottomSheetModal>
 
               <Title>Data Controls</Title>
 
-              <Text className="text-xl font-bold">Proof of Workout</Text>
-              <Text>
-                How will you users prove they completed your challenge?
-              </Text>
-              <View className="">
-                <Text className="text-xl">Blind Trust</Text>
-                <Text>
-                  Users can submit their workouts without any verification. This
-                  is a good option for challenges that are self-paced and do not
-                  require any external verification.
-                </Text>
-                <Text className="text-xl">Buddy System</Text>
-                <Text>
-                  Users can verify each other's workouts. This is a good option
-                  for communities that want to maintain a high level of trust
-                  and accountability.
-                </Text>
-                <Text className="text-xl">Verified admin only</Text>
-                <Text>
-                  Only admins can verify your proof of workout. This is a good
-                  option for communities that want to maintain heavily control
-                  over verification process.
-                </Text>
-              </View>
+              <Touchable
+                onPress={handlePresentDataControlsModalPress}
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+              >
+                <View className="flex flex-1 flex-row items-center">
+                  <VerifiedBadgeIcon width={25} fill="black" />
+                  <Text className="pl-sm">What method of proof is needed?</Text>
+                </View>
+                <ChevronRightIcon width={25} />
+              </Touchable>
+
+              <BottomSheetModal
+                ref={dataControlsModalRef}
+                index={0}
+                snapPoints={["60%"]}
+                backdropComponent={(props) => (
+                  <BottomSheetBackdrop {...props} />
+                )}
+                enablePanDownToClose
+              >
+                <BottomSheetView>
+                  <ChallengeDataControls modalRef={dataControlsModalRef} />
+                </BottomSheetView>
+              </BottomSheetModal>
 
               <Title>Invite Members</Title>
               <Touchable
@@ -277,6 +300,6 @@ export const ChallengeCreate = () => {
           </View>
         </ScrollView>
       </Ozone>
-    </BottomSheetModalProvider>
+    </View>
   );
 };
