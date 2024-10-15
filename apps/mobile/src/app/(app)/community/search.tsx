@@ -1,7 +1,7 @@
 import { Ozone } from "@universe/molecules";
 import { View } from "react-native";
 
-import { CommunitySearch } from "../../../communities";
+import { CommunitySearch } from "@/communities";
 
 export default function CommunitySearchRoute() {
   return (

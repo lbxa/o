@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
-import { MiniNav } from "../../../universe/molecules";
+import { MiniNav } from "@/universe/molecules";
 
 export default function Root() {
   return (

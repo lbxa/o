@@ -1,10 +1,12 @@
+import { Button } from "@universe/atoms";
 import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 import { graphql, useRefetchableFragment } from "react-relay";
 
+import { ChallengeCard } from "@/challenges";
+
 import type { CommunityChallenges_community$key } from "../../__generated__/CommunityChallenges_community.graphql";
 import type { CommunityChallengesRefreshQuery } from "../../__generated__/CommunityChallengesRefreshQuery.graphql";
-import { ChallengeCard } from "../../challenges";
 import { CommunityDetails } from "./CommunityDetails";
 
 export const COMMUNITY_CHALLENGES_FRAGMENT = graphql`
@@ -50,6 +52,7 @@ export const CommunityChallenges = ({ fragmentRef }: Props) => {
           </View>
         }
         ListEmptyComponent={<Text>No challenges yet!</Text>}
+        ListFooterComponent={<Button title="See Past Challenges"></Button>}
         renderItem={({ item }) => <ChallengeCard challengeFragment={item} />}
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />

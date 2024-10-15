@@ -52,7 +52,7 @@ export const ChallengeCreate = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ["30%", "50%"], []);
+  const snapPoints = useMemo(() => ["50%", "70%"], []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -208,6 +208,53 @@ export const ChallengeCreate = () => {
                   />
                 </View>
               </View>
+
+              <Title>Cadence</Title>
+              <Text className="">How often will you post your progress?</Text>
+              <View>
+                <Text>Daily</Text>
+                <Text>Weekly</Text>
+                <Text>Bi-weekly</Text>
+                <Text>Monthly</Text>
+                <Text>Yearly</Text>
+                <Text>Custom</Text>
+                <Text>Repeat every N: </Text>
+                <View className="flex flex-row gap-md">
+                  <Text>Hours</Text>
+                  <Text>Days</Text>
+                  <Text>Weeks</Text>
+                  <Text>Months</Text>
+                  <Text>Years</Text>
+                </View>
+              </View>
+
+              <Title>Data Controls</Title>
+
+              <Text className="text-xl font-bold">Proof of Workout</Text>
+              <Text>
+                How will you users prove they completed your challenge?
+              </Text>
+              <View className="">
+                <Text className="text-xl">Blind Trust</Text>
+                <Text>
+                  Users can submit their workouts without any verification. This
+                  is a good option for challenges that are self-paced and do not
+                  require any external verification.
+                </Text>
+                <Text className="text-xl">Buddy System</Text>
+                <Text>
+                  Users can verify each other's workouts. This is a good option
+                  for communities that want to maintain a high level of trust
+                  and accountability.
+                </Text>
+                <Text className="text-xl">Verified admin only</Text>
+                <Text>
+                  Only admins can verify your proof of workout. This is a good
+                  option for communities that want to maintain heavily control
+                  over verification process.
+                </Text>
+              </View>
+
               <Title>Invite Members</Title>
               <Touchable
                 onPress={() => router.push("/(app)/community/invite")}
