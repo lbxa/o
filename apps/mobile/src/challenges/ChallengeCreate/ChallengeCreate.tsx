@@ -14,6 +14,12 @@ import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
 
+import type {
+  ChallengeCreateInput,
+  ChallengeCreateMutation,
+} from "@/__generated__/ChallengeCreateMutation.graphql";
+import { useAppSelector } from "@/state";
+import { selectActiveCommunity } from "@/state/community.slice";
 import {
   Button,
   PrimaryTextInputControl,
@@ -22,13 +28,7 @@ import {
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-import type {
-  ChallengeCreateInput,
-  ChallengeCreateMutation,
-} from "../__generated__/ChallengeCreateMutation.graphql";
-import { useAppSelector } from "../state";
-import { selectActiveCommunity } from "../state/community.slice";
-import { BottomSheetBackdrop } from "./BottomSheetBackdrop";
+import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { ChallengeCadenceSelector } from "./ChallengeCadenceSelector";
 import { ChallengeDataControls } from "./ChallengeDataControls";
 import { ChallengeTypeSelector } from "./ChallengeTypeSelector";
