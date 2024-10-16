@@ -8,6 +8,7 @@ interface PillProps {
   label: string;
   selected?: boolean;
   variant?: "indigo" | "navy" | "violet";
+  className?: string;
 }
 
 export const Pill = ({
@@ -15,9 +16,10 @@ export const Pill = ({
   onPress,
   variant = "indigo",
   selected,
+  className,
 }: PillProps) => {
   return (
-    <Touchable onPress={() => onPress?.()}>
+    <Touchable className={className} onPress={() => onPress?.()}>
       <View
         className={classNames("rounded-xl px-md py-sm bg-gray-200", {
           "bg-indigo/30": variant === "indigo" && selected,

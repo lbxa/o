@@ -6,6 +6,8 @@ import StopwatchIcon from "@assets/icons/stopwatch.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import classNames from "classnames";
+import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -71,6 +73,7 @@ export const ChallengeCreate = () => {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<ChallengeCreateInput>({
     defaultValues: {
       name: "",
@@ -79,6 +82,8 @@ export const ChallengeCreate = () => {
       endDate: new Date(),
     },
   });
+
+  const startDate = watch("startDate");
 
   const onSubmit = (data: ChallengeCreateInput) => {
     const { name, description, startDate, endDate } = data;
@@ -105,17 +110,6 @@ export const ChallengeCreate = () => {
 
   return (
     <View>
-      <BottomSheetModal
-        ref={challengeBuilderModalRef}
-        index={0}
-        snapPoints={["70%"]}
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
-        enablePanDownToClose
-      >
-        <BottomSheetView>
-          <ChallengeTypeSelector modalRef={challengeBuilderModalRef} />
-        </BottomSheetView>
-      </BottomSheetModal>
       <Ozone>
         <ScrollView>
           <View className="flex-1">
@@ -178,33 +172,33 @@ export const ChallengeCreate = () => {
                 <ChevronRightIcon width={25} />
               </Touchable>
 
+              <BottomSheetModal
+                ref={challengeBuilderModalRef}
+                index={0}
+                snapPoints={["70%"]}
+                backdropComponent={(props) => (
+                  <BottomSheetBackdrop {...props} />
+                )}
+                enablePanDownToClose
+              >
+                <BottomSheetView>
+                  <ChallengeTypeSelector modalRef={challengeBuilderModalRef} />
+                </BottomSheetView>
+              </BottomSheetModal>
+
               <Title>Duration</Title>
               <View className="mb-lg flex flex-col justify-between gap-md">
-                <View className="flex flex-row items-center justify-between gap-md">
+                <View
+                  className={classNames(
+                    "flex flex-row items-center justify-between rounded-lg pl-sm",
+                    {
+                      "bg-red-200 text-red-800": !!errors.endDate,
+                    }
+                  )}
+                >
                   <Text className="text-xl ">Start</Text>
                   <Controller
                     name="startDate"
-                    control={control}
-                    rules={{
-                      required: { value: true, message: "Required field" },
-                    }}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <RNDateTimePicker
-                          mode="datetime"
-                          value={value}
-                          onChange={(e, selectedDate) => {
-                            onChange(selectedDate);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </View>
-                <View className="flex flex-row items-center justify-between ">
-                  <Text className="text-xl ">End</Text>
-                  <Controller
-                    name="endDate"
                     control={control}
                     rules={{
                       required: { value: true, message: "Required field" },
@@ -213,7 +207,39 @@ export const ChallengeCreate = () => {
                       <RNDateTimePicker
                         mode="datetime"
                         value={value}
-                        onChange={(e, selectedDate) => {
+                        onChange={(_, selectedDate) => {
+                          onChange(selectedDate);
+                        }}
+                      />
+                    )}
+                  />
+                </View>
+                <View
+                  className={classNames(
+                    "flex flex-row items-center justify-between rounded-lg pl-sm",
+                    {
+                      "bg-red-200 text-red-800": !!errors.endDate,
+                    }
+                  )}
+                >
+                  <Text className="text-xl">End</Text>
+                  <Controller
+                    name="endDate"
+                    control={control}
+                    rules={{
+                      required: { value: true, message: "Required field" },
+                      validate: (endDate) => {
+                        if (dayjs(endDate).isBefore(dayjs(startDate))) {
+                          return "End date must be after start date";
+                        }
+                        return true;
+                      },
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                      <RNDateTimePicker
+                        mode="datetime"
+                        value={value}
+                        onChange={(_, selectedDate) => {
                           onChange(selectedDate);
                         }}
                       />

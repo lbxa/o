@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { Button, Pill, Subtitle, Title } from "@/universe/atoms";
 
 type Cadence =
+  | "None"
   | "Daily"
   | "Weekly"
   | "Bi-weekly"
@@ -20,13 +21,14 @@ interface CustomCadence {
 export const ChallengeCadenceSelector: React.FC<{
   modalRef: React.RefObject<BottomSheetModal>;
 }> = ({ modalRef }) => {
-  const [cadence, setCadence] = useState<Cadence>("Daily");
+  const [cadence, setCadence] = useState<Cadence>("None");
   const [customCadence, setCustomCadence] = useState<CustomCadence>({
     interval: 1,
     unit: "Days",
   });
 
   const candences: Cadence[] = [
+    "None",
     "Daily",
     "Weekly",
     "Bi-weekly",

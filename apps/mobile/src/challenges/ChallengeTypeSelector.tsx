@@ -8,6 +8,7 @@ import {
   Button,
   Pill,
   PrimaryTextInputControl,
+  Subtitle,
   Title,
   Touchable,
 } from "@/universe/atoms";
@@ -54,20 +55,13 @@ const PillGroup = ({
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   return (
-    <ScrollView
-      horizontal
-      className="pb-md"
-      ref={scrollViewRef}
-      onContentSizeChange={() => {
-        // scrollViewRef.current?.scrollToStart({ animated: true });
-      }}
-    >
-      <View className="mr-md flex flex-row gap-md">
+    <ScrollView horizontal className="pb-md" ref={scrollViewRef}>
+      <View className="flex flex-row">
         {group.map(({ label, options }, i) => (
-          <View key={i} className="flex flex-row items-center gap-md">
+          <View key={i} className="flex flex-row items-center">
             {openIndex === i && (
               <Touchable
-                className="rounded-full bg-gray-200 p-xs"
+                className="mr-md rounded-full bg-gray-200 p-xs"
                 onPress={() => setOpenIndex(undefined)}
               >
                 <CrossIcon width={18} height={18} fill={"gray"} />
@@ -76,6 +70,7 @@ const PillGroup = ({
             {(openIndex === i || openIndex === undefined) && (
               <Pill
                 label={label}
+                className="mr-md"
                 onPress={() => {
                   setOpenIndex(openIndex === i ? undefined : i);
                   onGroupPress?.(label);
@@ -83,16 +78,19 @@ const PillGroup = ({
                 selected={groupSelected === label}
               />
             )}
-            {openIndex === i &&
-              options.map((option, j) => (
-                <Pill
-                  key={j}
-                  label={option}
-                  variant="navy"
-                  selected={optionSelected === option}
-                  onPress={() => onOptionPress?.(option)}
-                />
-              ))}
+            {openIndex === i && (
+              <View className="flex flex-row gap-md">
+                {options.map((option, j) => (
+                  <Pill
+                    key={j}
+                    label={option}
+                    variant="navy"
+                    selected={optionSelected === option}
+                    onPress={() => onOptionPress?.(option)}
+                  />
+                ))}
+              </View>
+            )}
           </View>
         ))}
       </View>
@@ -164,8 +162,9 @@ export const ChallengeTypeSelector = ({
   return (
     <View className="flex h-full flex-col bg-white px-md">
       <View className="flex-1">
-        <Title className="mb-xl">Select a category</Title>
-        <View className="mb-xl flex flex-row flex-wrap gap-md">
+        <Title>Select a category</Title>
+        <Subtitle>What type of challenge are you creating?</Subtitle>
+        <View className="mb-lg flex flex-row flex-wrap gap-md">
           {categories.map((c, i) => (
             <Pill
               onPress={() => setCategory(c)}
@@ -176,8 +175,9 @@ export const ChallengeTypeSelector = ({
           ))}
         </View>
 
-        <Title className="mb-xl">Select a metric</Title>
-        <View className="mb-xl flex flex-row flex-wrap gap-md">
+        <Title>Select a metric</Title>
+        <Subtitle>How will users measure their progress?</Subtitle>
+        <View className="mb-lg flex flex-row flex-wrap gap-md">
           <PillGroup
             group={metrics}
             optionSelected={metricOption}
@@ -188,8 +188,9 @@ export const ChallengeTypeSelector = ({
         </View>
 
         {metricOption === "Target" && (
-          <View className="mb-xl">
-            <Title className="mb-xl">Select a target</Title>
+          <View className="mb-lg">
+            <Title>Select a target</Title>
+            <Subtitle>What should participants aim to achieve?</Subtitle>
             <View className="flex flex-row items-center gap-md">
               <View className="flex flex-row gap-md">
                 <Controller
