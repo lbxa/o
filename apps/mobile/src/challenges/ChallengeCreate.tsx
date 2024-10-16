@@ -4,14 +4,10 @@ import CrissCrossIcon from "@assets/icons/criss-cross.svg";
 import SearchIcon from "@assets/icons/search.svg";
 import StopwatchIcon from "@assets/icons/stopwatch.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
@@ -59,7 +55,6 @@ export const ChallengeCreate = () => {
   const candenceSelectorModalRef = useRef<BottomSheetModal>(null);
   const dataControlsModalRef = useRef<BottomSheetModal>(null);
 
-  // callbacks
   const handlePresentChallengeBuilderModalPress = useCallback(() => {
     challengeBuilderModalRef.current?.present();
   }, []);
@@ -193,13 +188,17 @@ export const ChallengeCreate = () => {
                     rules={{
                       required: { value: true, message: "Required field" },
                     }}
-                    render={({ field: { onChange, value } }) => (
-                      <RNDateTimePicker
-                        mode="datetime"
-                        value={value}
-                        onChange={onChange}
-                      />
-                    )}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <RNDateTimePicker
+                          mode="datetime"
+                          value={value}
+                          onChange={(e, selectedDate) => {
+                            onChange(selectedDate);
+                          }}
+                        />
+                      );
+                    }}
                   />
                 </View>
                 <View className="flex flex-row items-center justify-between ">
@@ -214,7 +213,9 @@ export const ChallengeCreate = () => {
                       <RNDateTimePicker
                         mode="datetime"
                         value={value}
-                        onChange={onChange}
+                        onChange={(e, selectedDate) => {
+                          onChange(selectedDate);
+                        }}
                       />
                     )}
                   />

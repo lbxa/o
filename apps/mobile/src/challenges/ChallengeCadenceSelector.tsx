@@ -1,6 +1,6 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { Button, Pill, Subtitle, Title } from "@/universe/atoms";
 
@@ -32,7 +32,7 @@ export const ChallengeCadenceSelector: React.FC<{
     "Bi-weekly",
     "Monthly",
     "Yearly",
-    "Custom",
+    // "Custom",
   ];
 
   return (
@@ -60,17 +60,14 @@ export const ChallengeCadenceSelector: React.FC<{
           <Text>Years</Text>
         </View> */}
       </View>
-      <Button
-        title={"Done"}
-        variant="indigo"
-        className="mb-10"
-        onPress={(e) => {
-          // Read more about event pooling
-          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-          e.persist();
-          modalRef.current?.close();
-        }}
-      />
+      <View className="flex-none">
+        <Button
+          title={"Done"}
+          variant="indigo"
+          className="mb-10"
+          onPress={() => modalRef.current?.close()}
+        />
+      </View>
     </View>
   );
 };
