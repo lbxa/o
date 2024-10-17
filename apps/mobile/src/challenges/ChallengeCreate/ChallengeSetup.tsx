@@ -1,6 +1,6 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, View } from "react-native";
 
@@ -13,7 +13,12 @@ import {
   Touchable,
 } from "@/universe/atoms";
 
-type Category = "Reps" | "Time" | "Weight" | "Distance" | "Social";
+type Activity =
+  | "Repetitions"
+  | "Time-Based"
+  | "Weightlifting"
+  | "Distance"
+  | "Social";
 
 type Unit =
   | "kg"
@@ -26,11 +31,16 @@ type Unit =
   | "mi"
   | "km";
 
-type Metric = "Numerical" | "Duration" | "Change";
+type ProgressMeasurement = "Count-Based" | "Duration" | "Improvement Over Time";
 
-type MetricOption = "Min" | "Max" | "Target" | "Shortest" | "Longest";
+type GoalTypes =
+  | "Lowest Number"
+  | "Highest Number"
+  | "Specific Target"
+  | "Shortest Time"
+  | "Longest Duration";
 
-type CategoryUnitsMap = Record<Category, Unit[]>;
+type ActivityUnitsMap = Record<Activity, Unit[]>;
 
 // TODO turn into accordion like PillGroup
 
@@ -41,8 +51,8 @@ interface PillGroupProps {
   }[];
   onOptionPress?: (option: string) => void;
   onGroupPress?: (group: string) => void;
-  groupSelected?: Metric;
-  optionSelected?: MetricOption;
+  groupSelected?: ProgressMeasurement;
+  optionSelected?: GoalTypes;
 }
 const PillGroup = ({
   group,
@@ -55,7 +65,18 @@ const PillGroup = ({
   const scrollViewRef = useRef<ScrollView | null>(null);
 
   return (
-    <ScrollView horizontal className="pb-md" ref={scrollViewRef}>
+    <ScrollView
+      horizontal
+      ref={scrollViewRef}
+      showsHorizontalScrollIndicator={false}
+      onContentSizeChange={() => {
+        scrollViewRef.current?.scrollTo({
+          y: 0,
+          x: 0,
+          animated: true,
+        });
+      }}
+    >
       <View className="flex flex-row">
         {group.map(({ label, options }, i) => (
           <View key={i} className="flex flex-row items-center">
@@ -98,53 +119,58 @@ const PillGroup = ({
   );
 };
 
-interface ChallengeTypeSelectorForm {
+interface ChallengeSetupForm {
   target: string;
   unit: string;
 }
 
-interface ChallengeTypeSelectorProps {
+interface ChallengeSetupProps {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }
-export const ChallengeTypeSelector = ({
-  modalRef,
-}: ChallengeTypeSelectorProps) => {
-  const categories: Category[] = [
-    "Reps",
-    "Time",
-    "Weight",
+export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
+  const activities: Activity[] = [
+    "Repetitions",
+    "Time-Based",
+    "Weightlifting",
     "Distance",
     "Social",
   ];
 
-  const [category, setCategory] = useState<Category | undefined>(undefined);
-  const [metric, setMetric] = useState<Metric | undefined>(undefined);
-  const [metricOption, setMetricOption] = useState<MetricOption | undefined>(
-    undefined
-  );
+  const [activity, setActivity] = useState<Activity | undefined>(undefined);
+  const [progressMeasurement, setProgressMeasurement] = useState<
+    ProgressMeasurement | undefined
+  >(undefined);
+  const [goalType, setGoalType] = useState<GoalTypes | undefined>(undefined);
   const [unit, setUnit] = useState<Unit | undefined>(undefined);
   const [target, setTarget] = useState<string | undefined>(undefined);
 
-  const categoryUnitsMap: CategoryUnitsMap = {
-    Reps: [], // Reps typically do not have units
-    Time: ["seconds", "minutes", "hours"], // Common time units (seconds, minutes, hours)
-    Weight: ["kg", "lb"], // Pounds and kilograms are the most common for weight
+  // useEffect(() => {
+  //   if (goalType === "Specific Target") {
+  //     modalRef.current?.snapToIndex(1);
+  //   }
+  //   modalRef.current?.snapToIndex(0);
+  // }, [goalType, modalRef]);
+
+  const activityUnitsMap: ActivityUnitsMap = {
+    Repetitions: [], // Reps typically do not have units
+    "Time-Based": ["seconds", "minutes", "hours"], // Common time units (seconds, minutes, hours)
+    Weightlifting: ["kg", "lb"], // Pounds and kilograms are the most common for weight
     Distance: ["m", "km", "mi", "ft"], // Feet and meters are common for distance
     Social: [], // No units for Social
   };
 
-  const metrics: { label: Metric; options: MetricOption[] }[] = [
+  const metrics: { label: ProgressMeasurement; options: GoalTypes[] }[] = [
     {
-      label: "Numerical",
-      options: ["Min", "Max", "Target"],
+      label: "Count-Based",
+      options: ["Lowest Number", "Highest Number", "Specific Target"],
     },
     {
       label: "Duration",
-      options: ["Shortest", "Longest"],
+      options: ["Shortest Time", "Longest Duration"],
     },
     {
-      label: "Change",
-      options: ["Min", "Max", "Target"],
+      label: "Improvement Over Time",
+      options: ["Lowest Number", "Highest Number", "Specific Target"],
     },
   ];
 
@@ -152,7 +178,7 @@ export const ChallengeTypeSelector = ({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ChallengeTypeSelectorForm>({
+  } = useForm<ChallengeSetupForm>({
     defaultValues: {
       target: "",
       unit: "",
@@ -162,35 +188,39 @@ export const ChallengeTypeSelector = ({
   return (
     <View className="flex h-full flex-col bg-white px-md">
       <View className="flex-1">
-        <Title>Select a category</Title>
-        <Subtitle>What type of challenge are you creating?</Subtitle>
+        <Title>Select an activity</Title>
+        <Subtitle>What type of activity is this challenge?</Subtitle>
         <View className="mb-lg flex flex-row flex-wrap gap-md">
-          {categories.map((c, i) => (
+          {activities.map((c, i) => (
             <Pill
-              onPress={() => setCategory(c)}
+              onPress={() => setActivity(c)}
               label={c}
               key={i}
-              selected={category === c}
+              selected={activity === c}
             />
           ))}
         </View>
 
-        <Title>Select a metric</Title>
-        <Subtitle>How will users measure their progress?</Subtitle>
+        <Title>Progress measurement</Title>
+        <Subtitle>How will participants measure their progress?</Subtitle>
         <View className="mb-lg flex flex-row flex-wrap gap-md">
           <PillGroup
             group={metrics}
-            optionSelected={metricOption}
-            groupSelected={metric}
-            onGroupPress={(group) => setMetric(group as Metric)}
-            onOptionPress={(option) => setMetricOption(option as MetricOption)}
+            optionSelected={goalType}
+            groupSelected={progressMeasurement}
+            onGroupPress={(group) =>
+              setProgressMeasurement(group as ProgressMeasurement)
+            }
+            onOptionPress={(option) => setGoalType(option as GoalTypes)}
           />
         </View>
 
-        {metricOption === "Target" && (
+        {goalType === "Specific Target" && (
           <View className="mb-lg">
-            <Title>Select a target</Title>
-            <Subtitle>What should participants aim to achieve?</Subtitle>
+            <Title>Set a goal</Title>
+            <Subtitle>
+              What is the goal participants should aim to achieve?
+            </Subtitle>
             <View className="flex flex-row items-center gap-md">
               <View className="flex flex-row gap-md">
                 <Controller
@@ -207,7 +237,10 @@ export const ChallengeTypeSelector = ({
                       inputMode="numeric"
                       autoCapitalize="none"
                       onBlur={onBlur}
-                      onChangeText={onChange}
+                      onChangeText={(text) => {
+                        setTarget(text);
+                        onChange(text);
+                      }}
                       autoCorrect={false}
                       autoFocus={true}
                       value={value}
@@ -219,8 +252,8 @@ export const ChallengeTypeSelector = ({
               </View>
 
               <View className="flex flex-row gap-md">
-                {category &&
-                  categoryUnitsMap[category].map((u, i) => (
+                {activity &&
+                  activityUnitsMap[activity].map((u, i) => (
                     <Pill
                       label={u}
                       key={i}
@@ -232,18 +265,18 @@ export const ChallengeTypeSelector = ({
             </View>
           </View>
         )}
+        <Button
+          title="Done"
+          variant="indigo"
+          className="mb-10"
+          onPress={(e) => {
+            // Read more about event pooling
+            // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+            e.persist();
+            modalRef.current?.close();
+          }}
+        />
       </View>
-      <Button
-        title={"Finish"}
-        variant="indigo"
-        className="mb-10"
-        onPress={(e) => {
-          // Read more about event pooling
-          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-          e.persist();
-          modalRef.current?.close();
-        }}
-      />
     </View>
   );
 };

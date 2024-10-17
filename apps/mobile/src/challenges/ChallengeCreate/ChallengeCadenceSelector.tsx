@@ -39,21 +39,20 @@ export const ChallengeCadenceSelector: React.FC<{
 
   return (
     <View className="flex h-full flex-col bg-white px-md">
-      <View className="flex flex-1 flex-col">
-        <Title>Repeat</Title>
-        <Subtitle>How often will users need to post their progress?</Subtitle>
-        <View className="flex flex-row flex-wrap gap-md">
-          {candences.map((c) => (
-            <Pill
-              label={c}
-              key={c}
-              selected={cadence === c}
-              onPress={() => setCadence(c)}
-            />
-          ))}
-        </View>
-        {/* TODO custom cadences */}
-        {/* <Text>Repeat every N: </Text>
+      <Title>Repeat</Title>
+      <Subtitle>How often will users need to post their progress?</Subtitle>
+      <View className="mb-lg flex flex-row flex-wrap gap-md">
+        {candences.map((c) => (
+          <Pill
+            label={c}
+            key={c}
+            selected={cadence === c}
+            onPress={() => setCadence(c)}
+          />
+        ))}
+      </View>
+      {/* TODO custom cadences */}
+      {/* <Text>Repeat every N: </Text>
         <View className="flex flex-row gap-md">
           <Text>Hours</Text>
           <Text>Days</Text>
@@ -61,15 +60,12 @@ export const ChallengeCadenceSelector: React.FC<{
           <Text>Months</Text>
           <Text>Years</Text>
         </View> */}
-      </View>
-      <View className="flex-none">
-        <Button
-          title={"Done"}
-          variant="indigo"
-          className="mb-10"
-          onPress={() => modalRef.current?.close()}
-        />
-      </View>
+      <Button
+        title={"Done"}
+        variant="indigo"
+        className="mb-10"
+        onPress={() => modalRef.current?.close()}
+      />
     </View>
   );
 };

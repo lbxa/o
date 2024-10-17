@@ -4,7 +4,11 @@ import CrissCrossIcon from "@assets/icons/criss-cross.svg";
 import SearchIcon from "@assets/icons/search.svg";
 import StopwatchIcon from "@assets/icons/stopwatch.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";
@@ -31,7 +35,7 @@ import { Ozone } from "@/universe/molecules";
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { ChallengeCadenceSelector } from "./ChallengeCadenceSelector";
 import { ChallengeDataControls } from "./ChallengeDataControls";
-import { ChallengeTypeSelector } from "./ChallengeTypeSelector";
+import { ChallengeSetup } from "./ChallengeSetup";
 
 export const CHALLENGE_CREATE_MUTATION = graphql`
   mutation ChallengeCreateMutation(
@@ -123,7 +127,7 @@ export const ChallengeCreate = () => {
               <Controller
                 name="name"
                 control={control}
-                rules={{ required: { value: true, message: "Required field" } }}
+                rules={{ required: { value: true, message: "Required" } }}
                 render={({ field: { onBlur, onChange, value } }) => (
                   <PrimaryTextInputControl
                     className="mb-lg"
@@ -141,7 +145,7 @@ export const ChallengeCreate = () => {
               <Controller
                 name="description"
                 control={control}
-                rules={{ required: { value: true, message: "Required field" } }}
+                rules={{ required: { value: true, message: "Required" } }}
                 render={({ field: { onBlur, onChange, value } }) => (
                   <PrimaryTextInputControl
                     className="mb-lg"
@@ -175,22 +179,24 @@ export const ChallengeCreate = () => {
               <BottomSheetModal
                 ref={challengeBuilderModalRef}
                 index={0}
-                snapPoints={["70%"]}
+                snapPoints={[400]}
                 backdropComponent={(props) => (
-                  <BottomSheetBackdrop {...props} />
+                  <BottomSheetBackdrop {...props} snapPoints={[400]} />
                 )}
+                enableDynamicSizing
                 enablePanDownToClose
+                maxDynamicContentSize={600}
               >
-                <BottomSheetView>
-                  <ChallengeTypeSelector modalRef={challengeBuilderModalRef} />
-                </BottomSheetView>
+                <BottomSheetScrollView>
+                  <ChallengeSetup modalRef={challengeBuilderModalRef} />
+                </BottomSheetScrollView>
               </BottomSheetModal>
 
               <Title>Duration</Title>
-              <View className="mb-lg flex flex-col justify-between gap-md">
+              <View className="mb-lg flex flex-col justify-between">
                 <View
                   className={classNames(
-                    "flex flex-row items-center justify-between rounded-lg pl-sm",
+                    "flex flex-row items-center justify-between rounded-lg pl-sm mb-md",
                     {
                       "bg-red-200 text-red-800": !!errors.endDate,
                     }
@@ -216,7 +222,7 @@ export const ChallengeCreate = () => {
                 </View>
                 <View
                   className={classNames(
-                    "flex flex-row items-center justify-between rounded-lg pl-sm",
+                    "flex flex-row items-center justify-between rounded-lg pl-sm mb-sm",
                     {
                       "bg-red-200 text-red-800": !!errors.endDate,
                     }
@@ -246,6 +252,11 @@ export const ChallengeCreate = () => {
                     )}
                   />
                 </View>
+                {!!errors.endDate && (
+                  <Text className="pl-sm text-red-900">
+                    End date must be after start date
+                  </Text>
+                )}
               </View>
 
               <Title>Cadence</Title>
@@ -264,18 +275,17 @@ export const ChallengeCreate = () => {
 
               <BottomSheetModal
                 ref={candenceSelectorModalRef}
-                index={0}
-                snapPoints={["40%"]}
+                enableDynamicSizing
                 backdropComponent={(props) => (
                   <BottomSheetBackdrop {...props} />
                 )}
                 enablePanDownToClose
               >
-                <BottomSheetView>
+                <BottomSheetScrollView>
                   <ChallengeCadenceSelector
                     modalRef={candenceSelectorModalRef}
                   />
-                </BottomSheetView>
+                </BottomSheetScrollView>
               </BottomSheetModal>
 
               <Title>Data Controls</Title>
@@ -293,16 +303,15 @@ export const ChallengeCreate = () => {
 
               <BottomSheetModal
                 ref={dataControlsModalRef}
-                index={0}
-                snapPoints={["60%"]}
+                enableDynamicSizing
+                enablePanDownToClose
                 backdropComponent={(props) => (
                   <BottomSheetBackdrop {...props} />
                 )}
-                enablePanDownToClose
               >
-                <BottomSheetView>
+                <BottomSheetScrollView>
                   <ChallengeDataControls modalRef={dataControlsModalRef} />
-                </BottomSheetView>
+                </BottomSheetScrollView>
               </BottomSheetModal>
 
               <Title>Invite Members</Title>

@@ -62,19 +62,17 @@ export const ChallengeDataControls: React.FC<{
 
   return (
     <View className="flex h-full flex-col bg-white px-md">
-      <View className="flex flex-1">
-        <Title>Proof of Workout</Title>
-        <Subtitle>How will users prove they completed your challenge?</Subtitle>
-        <View className="flex flex-col gap-md">
-          {controls.map((c) => (
-            <DataControl
-              key={c.controlName}
-              {...c}
-              selected={c.controlId === control}
-              onSelect={() => setControl(c.controlId)}
-            />
-          ))}
-        </View>
+      <Title>Proof of Workout</Title>
+      <Subtitle>How will users prove they completed your challenge?</Subtitle>
+      <View className="mb-lg flex flex-col gap-md">
+        {controls.map((c) => (
+          <DataControl
+            key={c.controlName}
+            {...c}
+            selected={c.controlId === control}
+            onSelect={() => setControl(c.controlId)}
+          />
+        ))}
       </View>
       <Button
         title={"Done"}
