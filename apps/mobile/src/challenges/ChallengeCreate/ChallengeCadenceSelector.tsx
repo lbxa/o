@@ -38,7 +38,7 @@ export const ChallengeCadenceSelector: React.FC<{
   ];
 
   return (
-    <View className="flex h-full flex-col bg-white px-md">
+    <View className="flex h-full flex-col  px-md pb-md">
       <Title>Repeat</Title>
       <Subtitle>How often will users need to post their progress?</Subtitle>
       <View className="mb-lg flex flex-row flex-wrap gap-md">
@@ -63,7 +63,6 @@ export const ChallengeCadenceSelector: React.FC<{
       <Button
         title={"Done"}
         variant="indigo"
-        className="mb-10"
         onPress={() => modalRef.current?.close()}
       />
     </View>

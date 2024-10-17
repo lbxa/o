@@ -61,7 +61,7 @@ export const ChallengeDataControls: React.FC<{
   ];
 
   return (
-    <View className="flex h-full flex-col bg-white px-md">
+    <View className="flex h-full flex-col bg-white px-md pb-10">
       <Title>Proof of Workout</Title>
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <View className="mb-lg flex flex-col gap-md">
@@ -77,7 +77,6 @@ export const ChallengeDataControls: React.FC<{
       <Button
         title={"Done"}
         variant="indigo"
-        className="mb-10"
         onPress={(e) => {
           // Read more about event pooling
           // https://legacy.reactjs.org/docs/legacy-event-pooling.html

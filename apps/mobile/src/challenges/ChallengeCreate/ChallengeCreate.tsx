@@ -179,13 +179,13 @@ export const ChallengeCreate = () => {
               <BottomSheetModal
                 ref={challengeBuilderModalRef}
                 index={0}
-                snapPoints={[400]}
+                snapPoints={["45%"]}
                 backdropComponent={(props) => (
-                  <BottomSheetBackdrop {...props} snapPoints={[400]} />
+                  <BottomSheetBackdrop {...props} snapPoints={["45%"]} />
                 )}
                 enableDynamicSizing
                 enablePanDownToClose
-                maxDynamicContentSize={600}
+                // maxDynamicContentSize={700}
               >
                 <BottomSheetScrollView>
                   <ChallengeSetup modalRef={challengeBuilderModalRef} />
@@ -281,11 +281,11 @@ export const ChallengeCreate = () => {
                 )}
                 enablePanDownToClose
               >
-                <BottomSheetScrollView>
+                <BottomSheetView>
                   <ChallengeCadenceSelector
                     modalRef={candenceSelectorModalRef}
                   />
-                </BottomSheetScrollView>
+                </BottomSheetView>
               </BottomSheetModal>
 
               <Title>Data Controls</Title>

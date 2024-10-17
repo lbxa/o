@@ -1,6 +1,6 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, View } from "react-native";
 
@@ -29,7 +29,8 @@ type Unit =
   | "minutes"
   | "hours"
   | "mi"
-  | "km";
+  | "km"
+  | "%";
 
 type ProgressMeasurement = "Count-Based" | "Duration" | "Improvement Over Time";
 
@@ -38,7 +39,8 @@ type GoalTypes =
   | "Highest Number"
   | "Specific Target"
   | "Shortest Time"
-  | "Longest Duration";
+  | "Most Improved"
+  | "Longest Time";
 
 type ActivityUnitsMap = Record<Activity, Unit[]>;
 
@@ -144,13 +146,6 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
   const [unit, setUnit] = useState<Unit | undefined>(undefined);
   const [target, setTarget] = useState<string | undefined>(undefined);
 
-  // useEffect(() => {
-  //   if (goalType === "Specific Target") {
-  //     modalRef.current?.snapToIndex(1);
-  //   }
-  //   modalRef.current?.snapToIndex(0);
-  // }, [goalType, modalRef]);
-
   const activityUnitsMap: ActivityUnitsMap = {
     Repetitions: [], // Reps typically do not have units
     "Time-Based": ["seconds", "minutes", "hours"], // Common time units (seconds, minutes, hours)
@@ -166,11 +161,11 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
     },
     {
       label: "Duration",
-      options: ["Shortest Time", "Longest Duration"],
+      options: ["Shortest Time", "Longest Time", "Specific Target"],
     },
     {
       label: "Improvement Over Time",
-      options: ["Lowest Number", "Highest Number", "Specific Target"],
+      options: ["Most Improved", "Specific Target"],
     },
   ];
 
@@ -186,97 +181,105 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
   });
 
   return (
-    <View className="flex h-full flex-col bg-white px-md">
-      <View className="flex-1">
-        <Title>Select an activity</Title>
-        <Subtitle>What type of activity is this challenge?</Subtitle>
-        <View className="mb-lg flex flex-row flex-wrap gap-md">
-          {activities.map((c, i) => (
-            <Pill
-              onPress={() => setActivity(c)}
-              label={c}
-              key={i}
-              selected={activity === c}
-            />
-          ))}
-        </View>
-
-        <Title>Progress measurement</Title>
-        <Subtitle>How will participants measure their progress?</Subtitle>
-        <View className="mb-lg flex flex-row flex-wrap gap-md">
-          <PillGroup
-            group={metrics}
-            optionSelected={goalType}
-            groupSelected={progressMeasurement}
-            onGroupPress={(group) =>
-              setProgressMeasurement(group as ProgressMeasurement)
-            }
-            onOptionPress={(option) => setGoalType(option as GoalTypes)}
+    <View className="flex h-full flex-col bg-white px-md pb-10">
+      <Title>Select an activity</Title>
+      <Subtitle>What type of activity is this challenge?</Subtitle>
+      <View className="mb-lg flex flex-row flex-wrap gap-md">
+        {activities.map((c, i) => (
+          <Pill
+            onPress={() => setActivity(c)}
+            label={c}
+            key={i}
+            selected={activity === c}
           />
-        </View>
+        ))}
+      </View>
 
-        {goalType === "Specific Target" && (
-          <View className="mb-lg">
-            <Title>Set a goal</Title>
-            <Subtitle>
-              What is the goal participants should aim to achieve?
-            </Subtitle>
-            <View className="flex flex-row items-center gap-md">
-              <View className="flex flex-row gap-md">
-                <Controller
-                  name="target"
-                  control={control}
-                  rules={{
-                    required: { value: true, message: "Required field" },
-                  }}
-                  render={({ field: { onBlur, onChange, value } }) => (
-                    <PrimaryTextInputControl
-                      className="min-w-12 max-w-20"
-                      placeholder="100"
-                      keyboardType="number-pad"
-                      inputMode="numeric"
-                      autoCapitalize="none"
-                      onBlur={onBlur}
-                      onChangeText={(text) => {
-                        setTarget(text);
-                        onChange(text);
-                      }}
-                      autoCorrect={false}
-                      autoFocus={true}
-                      value={value}
-                      error={!!errors.target}
-                      errorMessage={errors.target?.message}
-                    />
-                  )}
-                />
-              </View>
+      <Title>Progress measurement</Title>
+      <Subtitle>How will participants measure their progress?</Subtitle>
+      <View className="mb-lg flex flex-row flex-wrap gap-md">
+        <PillGroup
+          group={metrics}
+          optionSelected={goalType}
+          groupSelected={progressMeasurement}
+          onGroupPress={(group) =>
+            setProgressMeasurement(group as ProgressMeasurement)
+          }
+          onOptionPress={(option) => setGoalType(option as GoalTypes)}
+        />
+      </View>
 
+      {goalType === "Specific Target" && (
+        <View className="mb-lg">
+          <Title>Set a goal</Title>
+          <Subtitle>
+            What is the goal participants should aim to achieve?
+          </Subtitle>
+          <View className="flex flex-row items-center gap-md">
+            <View className="flex flex-row gap-md">
+              <Controller
+                name="target"
+                control={control}
+                rules={{
+                  required: { value: true, message: "Required field" },
+                }}
+                render={({ field: { onBlur, onChange, value } }) => (
+                  <PrimaryTextInputControl
+                    className="min-w-12 max-w-20"
+                    placeholder="100"
+                    keyboardType="number-pad"
+                    inputMode="numeric"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={(text) => {
+                      setTarget(text);
+                      onChange(text);
+                    }}
+                    autoCorrect={false}
+                    autoFocus={true}
+                    value={value}
+                    error={!!errors.target}
+                    errorMessage={errors.target?.message}
+                  />
+                )}
+              />
+            </View>
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View className="flex flex-row gap-md">
                 {activity &&
-                  activityUnitsMap[activity].map((u, i) => (
+                  activityUnitsMap[activity].map((u) => (
                     <Pill
                       label={u}
-                      key={i}
+                      key={u}
                       selected={u === unit}
                       onPress={() => setUnit(u)}
                     />
                   ))}
+                {goalType === "Specific Target" &&
+                  progressMeasurement === "Improvement Over Time" && (
+                    <Pill
+                      label={"%"}
+                      key={"%"}
+                      selected={"%" === unit}
+                      onPress={() => setUnit("%")}
+                    />
+                  )}
               </View>
-            </View>
+            </ScrollView>
           </View>
-        )}
-        <Button
-          title="Done"
-          variant="indigo"
-          className="mb-10"
-          onPress={(e) => {
-            // Read more about event pooling
-            // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-            e.persist();
-            modalRef.current?.close();
-          }}
-        />
-      </View>
+        </View>
+      )}
+      <Button
+        title="Done"
+        variant="indigo"
+        onPress={(e) => {
+          // Read more about event pooling
+          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+          e.persist();
+          modalRef.current?.close();
+        }}
+      />
     </View>
   );
 };

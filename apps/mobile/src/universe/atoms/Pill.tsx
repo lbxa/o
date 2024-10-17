@@ -21,7 +21,8 @@ export const Pill = ({
   return (
     <Touchable className={className} onPress={() => onPress?.()}>
       <View
-        className={classNames("rounded-xl px-md py-sm bg-gray-200", {
+        className={classNames("rounded-xl px-md py-sm", {
+          "bg-ivory": !selected,
           "bg-indigo/30": variant === "indigo" && selected,
           "bg-navy/30": variant === "navy" && selected,
           "bg-violet/30": variant === "violet" && selected,
