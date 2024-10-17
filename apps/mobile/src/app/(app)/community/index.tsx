@@ -1,9 +1,9 @@
-import { Ozone } from "@universe/molecules";
 import { useEffect } from "react";
 import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
 import { COMMUNITY_LIST_QUERY, CommunityList } from "@/communities";
+import { Ozone } from "@/universe/molecules";
 
 import type { CommunityListQuery } from "../../../__generated__/CommunityListQuery.graphql";
 

@@ -1,14 +1,15 @@
 import SearchIcon from "@assets/icons/search.svg";
+import { useRouter } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import { Switch, Text, View } from "react-native";
+import { graphql, useMutation } from "react-relay";
+
 import {
   Button,
   PrimaryTextInputControl,
   Title,
   Touchable,
-} from "@universe/atoms";
-import { useRouter } from "expo-router";
-import { Controller, useForm } from "react-hook-form";
-import { Switch, Text, View } from "react-native";
-import { graphql, useMutation } from "react-relay";
+} from "@/universe/atoms";
 
 import type {
   CommunityCreateInput,

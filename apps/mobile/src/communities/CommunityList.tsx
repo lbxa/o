@@ -1,4 +1,3 @@
-import { CommunityCard } from "@universe/molecules";
 import { useCallback, useEffect, useTransition } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
@@ -7,6 +6,8 @@ import {
   usePreloadedQuery,
   useRefetchableFragment,
 } from "react-relay";
+
+import { CommunityCard } from "@/universe/molecules";
 
 import type { CommunityListFragment$key } from "../__generated__/CommunityListFragment.graphql";
 import type { CommunityListQuery } from "../__generated__/CommunityListQuery.graphql";

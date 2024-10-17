@@ -1,5 +1,4 @@
 import SearchIcon from "@assets/icons/search.svg";
-import { PrimaryTextInputControl } from "@universe/atoms";
 import debounce from "debounce";
 import { Link } from "expo-router";
 import React, {
@@ -16,6 +15,8 @@ import {
   usePreloadedQuery,
   useRefetchableFragment,
 } from "react-relay";
+
+import { PrimaryTextInputControl } from "@/universe/atoms";
 
 import type { UserSearchFriendsFragment$key } from "../../__generated__/UserSearchFriendsFragment.graphql";
 import type { UserSearchFriendsListQuery } from "../../__generated__/UserSearchFriendsListQuery.graphql";
@@ -89,10 +90,10 @@ const UserList = ({ viewer }: UserListProps) => {
   );
 
   return (
-    <View className="px-md flex-1">
+    <View className="flex-1 px-md">
       <View className="h-full">
         <View className="mb-sm flex w-full flex-row items-center">
-          <View className="mb-md bg-ivory px-sm flex w-full flex-1 flex-row items-center rounded-lg">
+          <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
             <SearchIcon width={20} />
             <PrimaryTextInputControl
               className="flex-1"

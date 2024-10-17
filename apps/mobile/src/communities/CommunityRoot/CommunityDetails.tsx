@@ -1,8 +1,9 @@
-import { Button } from "@universe/atoms";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
+
+import { Button } from "@/universe/atoms";
 
 import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 

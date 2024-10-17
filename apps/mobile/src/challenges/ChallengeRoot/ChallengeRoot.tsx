@@ -1,10 +1,11 @@
 import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Touchable } from "@universe/atoms";
-import { MiniNav, Ozone } from "@universe/molecules";
 import { router, Stack } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import { useLazyLoadQuery } from "react-relay";
+
+import { Touchable } from "@/universe/atoms";
+import { MiniNav, Ozone } from "@/universe/molecules";
 
 import type { ChallengeDetailsQuery } from "../../__generated__/ChallengeDetailsQuery.graphql";
 import { CHALLENGE_DETAILS_QUERY, ChallengeDetails } from "./ChallengeDetails";

@@ -1,5 +1,6 @@
 export * from "./Button";
 export * from "./Card";
+export * from "./Pill";
 export * from "./PrimaryPasswordInput";
 export * from "./PrimaryTextInput";
 export * from "./PrimaryTextInputControl";

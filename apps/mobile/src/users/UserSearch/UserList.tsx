@@ -1,5 +1,5 @@
 // import SearchIcon from "@assets/icons/search.svg";
-// import { PrimaryTextInputControl } from "@universe/atoms";
+// import { PrimaryTextInputControl } from "@/universe/atoms";
 // import { Link } from "expo-router";
 // import React, { useEffect } from "react";
 // import { FlatList, View } from "react-native";

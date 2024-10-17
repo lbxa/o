@@ -1,7 +1,8 @@
 import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Touchable } from "@universe/atoms";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
+
+import { Touchable } from "@/universe/atoms";
 
 export default function ChallengeRoot() {
   const router = useRouter();

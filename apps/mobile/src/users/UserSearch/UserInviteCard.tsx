@@ -1,10 +1,10 @@
 import PaperPlaneIcon from "@assets/icons/paper-plane.svg";
-import { Touchable } from "@universe/atoms";
 import React, { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
 import { selectActiveCommunity, useAppSelector } from "@/state";
+import { Touchable } from "@/universe/atoms";
 
 import type { UserFragment$key } from "../../__generated__/UserFragment.graphql";
 import type { UserInviteCardMutation } from "../../__generated__/UserInviteCardMutation.graphql";

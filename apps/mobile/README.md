@@ -18,6 +18,9 @@ pnpm dlx npkill # remove everything
 
 ### Brittle Symlinks With pnpm Monorepo
 
+> [!IMPORTANT]
+> First class support for React Native in a pnpm monorepo is a hot mess. Luckily I invested the time to make it work and easy to follow. The `metro.config.cjs` is the main file to edit to get things working.
+
 React Native has very poor symlink support for modern monorepo tools that rely on symlinks and
 global caches to dramatically increase the performance of installs e.g. pnpm. It can literally
 break unexpectedly as explained by [this Github Issue comment](https://github.com/pnpm/pnpm/issues/4286#issuecomment-2233017605).
@@ -50,6 +53,9 @@ const IGNORED_PACKAGES = [
 ];
 ```
 
+> [!WARNING]
+> The above list could be outdated by the time you're reading this.
+
 Currently the best fix for this is using rnx-kit. Thanks Microsoft! [More on it here.](https://gist.github.com/Zn4rK/ed60c380e7b672e3089074f51792a2b8).
 
 ### Nativewind v4
@@ -57,6 +63,17 @@ Currently the best fix for this is using rnx-kit. Thanks Microsoft! [More on it 
 NativeWind v4 doesn't work as expected with pnpm [#701](https://github.com/nativewind/nativewind/issues/701).
 
 Solution was to manually install `react-native-css-interop` as a dev dependency. Read [this issue comment](https://github.com/nativewind/nativewind/issues/894#issuecomment-2354453948) for more.
+
+### Expo Health
+
+Sometimes running package updates can update expo dependencies to a version that is incompatible with the current project. This will most likely break the development and expo-go builds. There are two helper scripts to make sure expo stays healthy.
+
+```json
+{
+  "expo-doctor": "pnpx expo-doctor@latest",
+  "expo-fix": "pnpx expo install --check"
+}
+```
 
 ## SVGs
 
