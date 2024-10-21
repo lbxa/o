@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useTransition } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import { useCallback, useTransition } from "react";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import {
   graphql,
@@ -53,10 +53,11 @@ export const CommunityList = ({ queryRef }: Props) => {
   return (
     <View className="h-full">
       <FlatList
-        className="px-sm"
+        className="px-md"
         data={data?.communities}
         renderItem={({ item }) => <CommunityCard community={item} />}
         ListHeaderComponent={<></>}
+        ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
         }

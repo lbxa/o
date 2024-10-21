@@ -51,7 +51,11 @@ export const CommunityChallenges = ({ fragmentRef }: Props) => {
             <Text className="mb-md text-2xl font-bold">Challenges</Text>
           </View>
         }
-        ListEmptyComponent={<Text>No challenges yet!</Text>}
+        ListEmptyComponent={
+          <Text className="mb-md">
+            No challenges yet. Be the first to create one.
+          </Text>
+        }
         ListFooterComponent={<Button title="See Past Challenges"></Button>}
         renderItem={({ item }) => <ChallengeCard challengeFragment={item} />}
         refreshControl={

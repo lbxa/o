@@ -167,7 +167,7 @@ export const ChallengeCreate = () => {
               <Title>Type</Title>
               <Touchable
                 onPress={handlePresentChallengeBuilderModalPress}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
                   <CrissCrossIcon width={25} />
@@ -184,7 +184,7 @@ export const ChallengeCreate = () => {
                   <BottomSheetBackdrop {...props} snapPoints={["45%"]} />
                 )}
                 enableDynamicSizing
-                enablePanDownToClose
+                // enablePanDownToClose
                 // maxDynamicContentSize={700}
               >
                 <BottomSheetScrollView>
@@ -262,7 +262,7 @@ export const ChallengeCreate = () => {
               <Title>Cadence</Title>
               <Touchable
                 onPress={handlePresentCandenceSelectorModalPress}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
                   <StopwatchIcon width={25} />
@@ -292,7 +292,7 @@ export const ChallengeCreate = () => {
 
               <Touchable
                 onPress={handlePresentDataControlsModalPress}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
                   <VerifiedBadgeIcon width={25} fill="black" />
@@ -317,7 +317,7 @@ export const ChallengeCreate = () => {
               <Title>Invite Members</Title>
               <Touchable
                 onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>
