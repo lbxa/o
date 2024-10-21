@@ -1,78 +1,106 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "5bbd3227-c181-472f-af97-1686c859436a",
+  "id": "e72a917b-a6e9-4f24-97f3-b315b3afb783",
   "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "challenge_invitations": {
-      "name": "challenge_invitations",
+    "challenge.activity_unit": {
+      "name": "activity_unit",
+      "schema": "challenge",
+      "columns": {
+        "activity": {
+          "name": "activity",
+          "type": "activity_type",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit": {
+          "name": "unit",
+          "type": "activity_units",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "activity_unit_activity_unit_pk": {
+          "name": "activity_unit_activity_unit_pk",
+          "columns": [
+            "activity",
+            "unit"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "challenge.activities": {
+      "name": "activities",
+      "schema": "challenge",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "challenge_id": {
           "name": "challenge_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "inviter_id": {
-          "name": "inviter_id",
-          "type": "int",
+        "type": {
+          "name": "type",
+          "type": "activity_type",
+          "typeSchema": "challenge",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "invitee_id": {
-          "name": "invitee_id",
-          "type": "int",
+        "goal": {
+          "name": "goal",
+          "type": "activity_goal",
+          "typeSchema": "challenge",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "status": {
-          "name": "status",
-          "type": "varchar(20)",
+        "objective": {
+          "name": "objective",
+          "type": "activity_objective",
+          "typeSchema": "challenge",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'pending'"
+          "notNull": true
         },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "timestamp",
+        "unit": {
+          "name": "unit",
+          "type": "activity_units",
+          "typeSchema": "challenge",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "onUpdate": true
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "challenge_invitations_challenge_id_challenges_id_fk": {
-          "name": "challenge_invitations_challenge_id_challenges_id_fk",
-          "tableFrom": "challenge_invitations",
+        "activities_challenge_id_challenges_id_fk": {
+          "name": "activities_challenge_id_challenges_id_fk",
+          "tableFrom": "activities",
           "tableTo": "challenges",
+          "schemaTo": "challenge",
           "columnsFrom": [
             "challenge_id"
           ],
@@ -82,10 +110,227 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "challenge_invitations_inviter_id_users_id_fk": {
-          "name": "challenge_invitations_inviter_id_users_id_fk",
-          "tableFrom": "challenge_invitations",
+        "activities_unit_type_activity_unit_unit_activity_fk": {
+          "name": "activities_unit_type_activity_unit_unit_activity_fk",
+          "tableFrom": "activities",
+          "tableTo": "activity_unit",
+          "schemaTo": "challenge",
+          "columnsFrom": [
+            "unit",
+            "type"
+          ],
+          "columnsTo": [
+            "unit",
+            "activity"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "activities_goal_objective_goal_objective_goal_objective_fk": {
+          "name": "activities_goal_objective_goal_objective_goal_objective_fk",
+          "tableFrom": "activities",
+          "tableTo": "goal_objective",
+          "schemaTo": "challenge",
+          "columnsFrom": [
+            "goal",
+            "objective"
+          ],
+          "columnsTo": [
+            "goal",
+            "objective"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "challenge.activity_results": {
+      "name": "activity_results",
+      "schema": "challenge",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "activity_id": {
+          "name": "activity_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "result": {
+          "name": "result",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "activity_results_user_id_users_id_fk": {
+          "name": "activity_results_user_id_users_id_fk",
+          "tableFrom": "activity_results",
           "tableTo": "users",
+          "schemaTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "activity_results_activity_id_activities_id_fk": {
+          "name": "activity_results_activity_id_activities_id_fk",
+          "tableFrom": "activity_results",
+          "tableTo": "activities",
+          "schemaTo": "challenge",
+          "columnsFrom": [
+            "activity_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "challenge.goal_objective": {
+      "name": "goal_objective",
+      "schema": "challenge",
+      "columns": {
+        "goal": {
+          "name": "goal",
+          "type": "activity_goal",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "objective": {
+          "name": "objective",
+          "type": "activity_objective",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "goal_objective_goal_objective_pk": {
+          "name": "goal_objective_goal_objective_pk",
+          "columns": [
+            "goal",
+            "objective"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "challenge.invitations": {
+      "name": "invitations",
+      "schema": "challenge",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "challenge_id": {
+          "name": "challenge_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inviter_id": {
+          "name": "inviter_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "invitee_id": {
+          "name": "invitee_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "invitations_challenge_id_challenges_id_fk": {
+          "name": "invitations_challenge_id_challenges_id_fk",
+          "tableFrom": "invitations",
+          "tableTo": "challenges",
+          "schemaTo": "challenge",
+          "columnsFrom": [
+            "challenge_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "invitations_inviter_id_users_id_fk": {
+          "name": "invitations_inviter_id_users_id_fk",
+          "tableFrom": "invitations",
+          "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "inviter_id"
           ],
@@ -95,10 +340,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "challenge_invitations_invitee_id_users_id_fk": {
-          "name": "challenge_invitations_invitee_id_users_id_fk",
-          "tableFrom": "challenge_invitations",
+        "invitations_invitee_id_users_id_fk": {
+          "name": "invitations_invitee_id_users_id_fk",
+          "tableFrom": "invitations",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "invitee_id"
           ],
@@ -109,71 +355,74 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "challenge_invitations_id": {
-          "name": "challenge_invitations_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "challenge_memberships": {
-      "name": "challenge_memberships",
+    "challenge.memberships": {
+      "name": "memberships",
+      "schema": "challenge",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "challenge_id": {
           "name": "challenge_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "community_id": {
           "name": "community_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "joined_at": {
           "name": "joined_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {
-        "user_challenge_unique": {
-          "name": "user_challenge_unique",
+        "memberships_user_id_challenge_id_index": {
+          "name": "memberships_user_id_challenge_id_index",
           "columns": [
-            "user_id",
-            "challenge_id"
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "challenge_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "challenge_memberships_user_id_users_id_fk": {
-          "name": "challenge_memberships_user_id_users_id_fk",
-          "tableFrom": "challenge_memberships",
+        "memberships_user_id_users_id_fk": {
+          "name": "memberships_user_id_users_id_fk",
+          "tableFrom": "memberships",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -183,10 +432,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "challenge_memberships_challenge_id_challenges_id_fk": {
-          "name": "challenge_memberships_challenge_id_challenges_id_fk",
-          "tableFrom": "challenge_memberships",
+        "memberships_challenge_id_challenges_id_fk": {
+          "name": "memberships_challenge_id_challenges_id_fk",
+          "tableFrom": "memberships",
           "tableTo": "challenges",
+          "schemaTo": "challenge",
           "columnsFrom": [
             "challenge_id"
           ],
@@ -196,10 +446,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "challenge_memberships_community_id_communities_id_fk": {
-          "name": "challenge_memberships_community_id_communities_id_fk",
-          "tableFrom": "challenge_memberships",
+        "memberships_community_id_communities_id_fk": {
+          "name": "memberships_community_id_communities_id_fk",
+          "tableFrom": "memberships",
           "tableTo": "communities",
+          "schemaTo": "community",
           "columnsFrom": [
             "community_id"
           ],
@@ -210,93 +461,114 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "challenge_memberships_id": {
-          "name": "challenge_memberships_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "challenges": {
+    "challenge.challenges": {
       "name": "challenges",
+      "schema": "challenge",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true
         },
         "community_id": {
           "name": "community_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "start_date": {
           "name": "start_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "end_date": {
           "name": "end_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "onUpdate": true
+          "notNull": false
         }
       },
       "indexes": {
-        "challenge_name_idx": {
-          "name": "challenge_name_idx",
+        "challenges_name_index": {
+          "name": "challenges_name_index",
           "columns": [
-            "name"
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
-        "challenge_date_idx": {
-          "name": "challenge_date_idx",
+        "challenges_community_id_index": {
+          "name": "challenges_community_id_index",
           "columns": [
-            "start_date",
-            "end_date"
+            {
+              "expression": "community_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "challenges_start_date_end_date_index": {
+          "name": "challenges_start_date_end_date_index",
+          "columns": [
+            {
+              "expression": "start_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "end_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -304,6 +576,7 @@
           "name": "challenges_community_id_communities_id_fk",
           "tableFrom": "challenges",
           "tableTo": "communities",
+          "schemaTo": "community",
           "columnsFrom": [
             "community_id"
           ],
@@ -314,39 +587,30 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "challenges_id": {
-          "name": "challenges_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "communities": {
+    "community.communities": {
       "name": "communities",
+      "schema": "community",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "is_public": {
           "name": "is_public",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": true
         },
         "is_verified": {
@@ -354,24 +618,43 @@
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": false
         },
         "owner_id": {
           "name": "owner_id",
-          "type": "int",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {
-        "name_idx": {
-          "name": "name_idx",
+        "communities_name_index": {
+          "name": "communities_name_index",
           "columns": [
-            "name"
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -379,6 +662,7 @@
           "name": "communities_owner_id_users_id_fk",
           "tableFrom": "communities",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "owner_id"
           ],
@@ -389,92 +673,80 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "communities_id": {
-          "name": "communities_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "communities_name_unique": {
           "name": "communities_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
           ]
         }
       }
     },
-    "community_invitations": {
-      "name": "community_invitations",
+    "community.invitations": {
+      "name": "invitations",
+      "schema": "community",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "community_id": {
           "name": "community_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "inviter_id": {
           "name": "inviter_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "invitee_id": {
           "name": "invitee_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "status": {
           "name": "status",
-          "type": "varchar(20)",
+          "type": "status",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "'pending'"
+          "default": "'PENDING'"
         },
         "expires_at": {
           "name": "expires_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "onUpdate": true
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "community_invitations_community_id_communities_id_fk": {
-          "name": "community_invitations_community_id_communities_id_fk",
-          "tableFrom": "community_invitations",
+        "invitations_community_id_communities_id_fk": {
+          "name": "invitations_community_id_communities_id_fk",
+          "tableFrom": "invitations",
           "tableTo": "communities",
+          "schemaTo": "community",
           "columnsFrom": [
             "community_id"
           ],
@@ -484,10 +756,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "community_invitations_inviter_id_users_id_fk": {
-          "name": "community_invitations_inviter_id_users_id_fk",
-          "tableFrom": "community_invitations",
+        "invitations_inviter_id_users_id_fk": {
+          "name": "invitations_inviter_id_users_id_fk",
+          "tableFrom": "invitations",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "inviter_id"
           ],
@@ -497,10 +770,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "community_invitations_invitee_id_users_id_fk": {
-          "name": "community_invitations_invitee_id_users_id_fk",
-          "tableFrom": "community_invitations",
+        "invitations_invitee_id_users_id_fk": {
+          "name": "invitations_invitee_id_users_id_fk",
+          "tableFrom": "invitations",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "invitee_id"
           ],
@@ -511,46 +785,46 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "community_invitations_id": {
-          "name": "community_invitations_id",
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "invitations_inviterId_inviteeId_communityId_unique": {
+          "name": "invitations_inviterId_inviteeId_communityId_unique",
+          "nullsNotDistinct": false,
           "columns": [
-            "id"
+            "inviter_id",
+            "invitee_id",
+            "community_id"
           ]
         }
-      },
-      "uniqueConstraints": {}
+      }
     },
-    "community_memberships": {
-      "name": "community_memberships",
+    "community.memberships": {
+      "name": "memberships",
+      "schema": "community",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "community_id": {
           "name": "community_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "is_admin": {
           "name": "is_admin",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": false
         },
         "joined_at": {
@@ -558,25 +832,38 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         }
       },
       "indexes": {
-        "user_community_unique": {
-          "name": "user_community_unique",
+        "memberships_user_id_community_id_index": {
+          "name": "memberships_user_id_community_id_index",
           "columns": [
-            "user_id",
-            "community_id"
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "community_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "community_memberships_user_id_users_id_fk": {
-          "name": "community_memberships_user_id_users_id_fk",
-          "tableFrom": "community_memberships",
+        "memberships_user_id_users_id_fk": {
+          "name": "memberships_user_id_users_id_fk",
+          "tableFrom": "memberships",
           "tableTo": "users",
+          "schemaTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -586,10 +873,11 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "community_memberships_community_id_communities_id_fk": {
-          "name": "community_memberships_community_id_communities_id_fk",
-          "tableFrom": "community_memberships",
+        "memberships_community_id_communities_id_fk": {
+          "name": "memberships_community_id_communities_id_fk",
+          "tableFrom": "memberships",
           "tableTo": "communities",
+          "schemaTo": "community",
           "columnsFrom": [
             "community_id"
           ],
@@ -600,126 +888,95 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "community_memberships_id": {
-          "name": "community_memberships_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "user.users": {
       "name": "users",
+      "schema": "user",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "first_name": {
           "name": "first_name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "last_name": {
           "name": "last_name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "email": {
           "name": "email",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "handle": {
           "name": "handle",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "password": {
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
-        "refreshToken": {
-          "name": "refreshToken",
+        "refresh_token": {
+          "name": "refresh_token",
           "type": "varchar(1000)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "avatar_url": {
           "name": "avatar_url",
           "type": "varchar(1000)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "onUpdate": true
+          "notNull": false
         }
       },
-      "indexes": {
-        "email_idx": {
-          "name": "email_idx",
-          "columns": [
-            "email"
-          ],
-          "isUnique": false
-        },
-        "handle_idx": {
-          "name": "handle_idx",
-          "columns": [
-            "handle"
-          ],
-          "isUnique": false
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "users_id": {
-          "name": "users_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "email"
           ]
         },
         "users_handle_unique": {
           "name": "users_handle_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "handle"
           ]
@@ -727,13 +984,75 @@
       }
     }
   },
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
+  "enums": {
+    "challenge.activity_type": {
+      "name": "activity_type",
+      "schema": "challenge",
+      "values": [
+        "Repetitions",
+        "Weightlifting",
+        "Time-Based",
+        "Distance",
+        "Social"
+      ]
+    },
+    "challenge.activity_goal": {
+      "name": "activity_goal",
+      "schema": "challenge",
+      "values": [
+        "Counting",
+        "Duration",
+        "Improvement"
+      ]
+    },
+    "challenge.activity_objective": {
+      "name": "activity_objective",
+      "schema": "challenge",
+      "values": [
+        "Lowest Number",
+        "Highest Number",
+        "Specific Target",
+        "Shortest Time",
+        "Longest Time",
+        "Most Improved"
+      ]
+    },
+    "challenge.activity_units": {
+      "name": "activity_units",
+      "schema": "challenge",
+      "values": [
+        "kg",
+        "lb",
+        "m",
+        "ft",
+        "seconds",
+        "minutes",
+        "hours",
+        "mi",
+        "km",
+        "%",
+        "None"
+      ]
+    },
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "PENDING",
+        "ACCEPTED",
+        "DENIED"
+      ]
+    }
   },
-  "internal": {
-    "tables": {},
-    "indexes": {}
+  "schemas": {
+    "challenge": "challenge",
+    "community": "community",
+    "user": "user"
+  },
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
   }
 }

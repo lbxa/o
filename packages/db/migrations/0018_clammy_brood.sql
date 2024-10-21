@@ -1,2 +1,0 @@
-ALTER TABLE `challenge_invitations` MODIFY COLUMN `expires_at` timestamp NOT NULL;--> statement-breakpoint
-ALTER TABLE `challenge_memberships` MODIFY COLUMN `joined_at` timestamp NOT NULL DEFAULT (now());

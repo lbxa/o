@@ -1,1 +1,0 @@
-ALTER TABLE `community_invitations` ADD CONSTRAINT `idempotent_invites` UNIQUE(`inviter_id`,`invitee_id`,`community_id`);
