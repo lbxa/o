@@ -1,0 +1,40 @@
+meta {
+  name: RefreshTokens
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{REFRESH_TOKEN}}
+}
+
+body:graphql {
+  mutation RefreshTokens {
+    authRefreshTokens {
+      accessToken
+      refreshToken
+    }
+  }
+  
+  
+  # mutation Login($input: UserLoginInput!) {
+  #   login(userLoginInput: $input) {
+  #     accessToken
+  #   }
+  # }
+}
+
+body:graphql:vars {
+  {
+    "input": {
+      "email": "MarryRobert@hotmail.com",
+      "password": ""
+    }
+  }
+}

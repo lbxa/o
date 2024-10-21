@@ -1,0 +1,25 @@
+meta {
+  name: ChallengeInvitations
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  query {
+    community(id: "Q29tbXVuaXR5OjIy") {
+      name
+    }
+  }
+  
+  
+}

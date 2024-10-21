@@ -1,0 +1,36 @@
+meta {
+  name: ChallengeLeave
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  # query {
+  #   communityInvitations(userId: 1) {
+  #     id
+  #   }
+  # }
+  
+  # mutation {
+  #   communityInvite(userId: 2, communityId: 1)
+  # }
+  
+  mutation {
+    communityJoin(inviteId: 2) {
+  		name
+      isPublic
+    }
+  }
+  
+  
+}

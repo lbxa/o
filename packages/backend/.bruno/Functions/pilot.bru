@@ -1,0 +1,23 @@
+meta {
+  name: pilot
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{PILOT_URL}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "fullName": "Lucas Barbosa",
+    "email": "lucas.chu.barbosa@gmail.com",
+    "message": "Heyoooo"
+  }
+}

@@ -1,0 +1,44 @@
+meta {
+  name: ActiveUser
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  query {
+    # activeUser {
+    #   id
+    #   firstName
+    #   lastName
+    #   handle
+    #   email
+    # }
+    
+    viewer {
+      user {
+        id
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

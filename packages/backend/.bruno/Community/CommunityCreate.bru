@@ -1,0 +1,40 @@
+meta {
+  name: CommunityCreate
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    communityCreate(communityCreateInput: {
+      name: "Random one to delete",
+      isPublic: true
+    }) {
+      name
+      isPublic
+    }
+  }
+  
+  # query {
+  #   communities {
+  #     id
+  #     name
+  #     isPublic
+  #   }
+  # }
+  
+}

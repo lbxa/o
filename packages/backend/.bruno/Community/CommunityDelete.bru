@@ -1,0 +1,21 @@
+meta {
+  name: CommunityDelete
+  type: graphql
+  seq: 6
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    communityDelete(id: "Q29tbXVuaXR5OjM")
+  }
+}

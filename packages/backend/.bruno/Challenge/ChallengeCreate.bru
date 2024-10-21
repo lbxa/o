@@ -1,0 +1,43 @@
+meta {
+  name: ChallengeCreate
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    challengeCreate(challengeCreateInput: {
+      name: "300 Pushups!",
+      description: "The last one wasn't enough!"
+      communityId: 1,
+      startDate: "2024-09-24 04:19:03",
+      endDate: "2024-10-01 04:19:03"
+    }) {
+      name
+      description
+    }
+  }
+  
+  # query {
+  #   communities {
+  #     id
+  #     name
+  #     isPublic
+  #   }
+  # }
+  
+}

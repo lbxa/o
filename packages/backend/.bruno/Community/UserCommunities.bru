@@ -1,0 +1,48 @@
+meta {
+  name: UserCommunities
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment Community on Community {
+    id
+    name
+    isPublic
+    isVerified
+  }
+  
+  query {
+    # userCommunities(userId: 1) {
+    #   ...Community
+    # }
+    viewer {
+      communities {
+        ...Community
+      }
+    }
+  
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}
