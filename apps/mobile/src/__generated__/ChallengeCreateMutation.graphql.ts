@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7946d1c849ff82e45dd64787e735378c>>
+ * @generated SignedSource<<1cf98628397f841ffdae99187c0e75eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,14 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
+export type ChallengeCadence = "BIWEEKLY" | "DAILY" | "MONTHLY" | "NONE" | "WEEKLY" | "YEARLY" | "%future added value";
+export type ChallengeMode = "BLIND_TRUST" | "VERIFIED_ONLY" | "%future added value";
 export type ChallengeCreateInput = {
+  cadence: ChallengeCadence;
   communityId: string;
   description: string;
   endDate: Date;
+  mode: ChallengeMode;
   name: string;
   startDate: Date;
 };

@@ -13,8 +13,11 @@ import { CommunityTitle } from "./CommunityTitle";
 
 export const COMMUNITY_ROOT_QUERY = graphql`
   query CommunityRootQuery($communityId: ID!) {
-    community(id: $communityId) {
-      ...CommunityChallenges_community
+    # community(id: $communityId) {
+    #   ...CommunityChallenges_community
+    # }
+    viewer {
+      ...CommunityChallenges_challenges @arguments(communityId: $communityId)
     }
   }
 `;
@@ -56,8 +59,8 @@ export const CommunityRoot = ({
         }}
       />
       <View>
-        {communityRootData.community && (
-          <CommunityChallenges fragmentRef={communityRootData.community} />
+        {communityRootData.viewer && (
+          <CommunityChallenges fragmentRef={communityRootData.viewer} />
         )}
       </View>
     </Ozone>

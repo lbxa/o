@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5796dc2a2274ad664627bdf89b9f79b6>>
+ * @generated SignedSource<<93b6e06741d09819530df8f73f2e6155>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,11 +11,11 @@
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommunityChallengesRefreshQuery$variables = {
-  id: string;
+  communityId: string;
 };
 export type CommunityChallengesRefreshQuery$data = {
-  readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_community">;
+  readonly viewer: {
+    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
   } | null | undefined;
 };
 export type CommunityChallengesRefreshQuery = {
@@ -28,23 +28,16 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "id"
+    "name": "communityId"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "id",
-    "variableName": "id"
+    "name": "communityId",
+    "variableName": "communityId"
   }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -54,16 +47,16 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": null,
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
-            "args": null,
+            "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "CommunityChallenges_community"
+            "name": "CommunityChallenges_challenges"
           }
         ],
         "storageKey": null
@@ -80,66 +73,57 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": null,
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "__typename",
-            "storageKey": null
-          },
-          (v2/*: any*/),
-          {
-            "kind": "InlineFragment",
+            "args": (v1/*: any*/),
+            "concreteType": "Challenge",
+            "kind": "LinkedField",
+            "name": "challenges",
+            "plural": true,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Challenge",
-                "kind": "LinkedField",
-                "name": "challenges",
-                "plural": true,
-                "selections": [
-                  (v2/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "description",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "startDate",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "endDate",
-                    "storageKey": null
-                  }
-                ],
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "name",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "description",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "startDate",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "endDate",
                 "storageKey": null
               }
             ],
-            "type": "Community",
-            "abstractKey": null
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -147,16 +131,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b7897ca3e4af091657dfaf067cce79fc",
+    "cacheID": "ec9fbf14af7966a04c98639f2fb8d211",
     "id": null,
     "metadata": {},
     "name": "CommunityChallengesRefreshQuery",
     "operationKind": "query",
-    "text": "query CommunityChallengesRefreshQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...CommunityChallenges_community\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n\nfragment CommunityChallenges_community on Community {\n  id\n  challenges {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query CommunityChallengesRefreshQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...CommunityChallenges_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n\nfragment CommunityChallenges_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f5d66861e423d451b81e550e89e06003";
+(node as any).hash = "a2716b030b1dbbdaa5b0c15a62b37c72";
 
 export default node;

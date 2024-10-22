@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
+import { ChallengesService } from "../challenges/challenges.service";
 import { DbService } from "../db/db.service";
 import { UsersService } from "../users/users.service";
 import { CryptoService } from "../utils";
@@ -20,6 +21,7 @@ describe("AuthResolver", () => {
         AuthService,
         UsersService,
         CryptoService,
+        ChallengesService,
         JwtService,
         DbService,
       ],

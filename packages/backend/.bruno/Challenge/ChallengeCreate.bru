@@ -21,19 +21,19 @@ auth:bearer {
 body:graphql {
   mutation {
     challengeCreate(challengeCreateInput: {
-      name: "300 Pushups!",
-      description: "The last one wasn't enough!"
+      name: "Quickest Mile",
+      description: "Who can run the quickest mile?",
       communityId: "Q29tbXVuaXR5OjE=",
       mode: BLIND_TRUST,
-      cadence: WEEKLY,
+      cadence: NONE,
       startDate: "2024-09-24 04:19:03",
-      endDate: "2024-10-01 04:19:03"
+      endDate: "2024-09-26 04:20:03"
     },
     challengeActivityCreateInput: {
-      type: REPETITIONS,
-      goal: COUNTING,
-      unit: NONE,
-      objective: HIGHEST_NUMBER
+      type: TIME_BASED,
+      measurement: DURATION,
+      goal: SHORTEST_TIME,
+      unit: MI,
     }) {
       name
       description

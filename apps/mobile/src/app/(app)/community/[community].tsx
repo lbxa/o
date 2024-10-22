@@ -3,9 +3,8 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { useQueryLoader } from "react-relay";
 
+import type { CommunityRootQuery } from "@/__generated__/CommunityRootQuery.graphql";
 import { COMMUNITY_ROOT_QUERY, CommunityRoot } from "@/communities";
-
-import type { CommunityRootQuery } from "../../../__generated__/CommunityRootQuery.graphql";
 
 export default function CommunityDetailsRoute() {
   const { community: communityId } = useLocalSearchParams<{

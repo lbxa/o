@@ -21,9 +21,9 @@ const documents = {
     "\n  fragment CommunityFragment on Community {\n    id\n    name\n    isVerified\n  }\n": types.CommunityFragmentFragmentDoc,
     "\n  fragment CommunityListFragment on Viewer\n  @refetchable(queryName: \"CommunityListRefetchQuery\") {\n    communities {\n      ...CommunityFragment\n    }\n  }\n": types.CommunityListFragmentFragmentDoc,
     "\n  query CommunityListQuery {\n    viewer {\n      ...CommunityListFragment\n    }\n  }\n": types.CommunityListQueryDocument,
-    "\n  fragment CommunityChallenges_community on Community\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\") {\n    id\n    challenges {\n      ...ChallengeFragment\n    }\n  }\n": types.CommunityChallenges_CommunityFragmentDoc,
+    "\n  fragment CommunityChallenges_challenges on Viewer\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\")\n  @argumentDefinitions(communityId: { type: \"ID!\" }) {\n    challenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n": types.CommunityChallenges_ChallengesFragmentDoc,
     "\n  query CommunityDetailsQuery($id: ID!) {\n    community(id: $id) {\n      name\n      ...CommunityFragment\n    }\n  }\n": types.CommunityDetailsQueryDocument,
-    "\n  query CommunityRootQuery($communityId: ID!) {\n    community(id: $communityId) {\n      ...CommunityChallenges_community\n    }\n  }\n": types.CommunityRootQueryDocument,
+    "\n  query CommunityRootQuery($communityId: ID!) {\n    # community(id: $communityId) {\n    #   ...CommunityChallenges_community\n    # }\n    viewer {\n      ...CommunityChallenges_challenges @arguments(communityId: $communityId)\n    }\n  }\n": types.CommunityRootQueryDocument,
     "\n  query CommunitySearchQuery($id: ID!) {\n    community(id: $id) {\n      ...CommunityFragment\n    }\n  }\n": types.CommunitySearchQueryDocument,
     "\n  query UserCreateValidateEmailQuery($email: String!) {\n    userValidateEmail(email: $email) {\n      alreadyTaken\n    }\n  }\n": types.UserCreateValidateEmailQueryDocument,
     "\n  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {\n    authCreateUser(authCreateUserInput: $userInput) {\n      user {\n        ...UserFragment\n      }\n      accessToken\n    }\n  }\n": types.UserCreateMutationDocument,
@@ -81,7 +81,7 @@ export function graphql(source: "\n  query CommunityListQuery {\n    viewer {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment CommunityChallenges_community on Community\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\") {\n    id\n    challenges {\n      ...ChallengeFragment\n    }\n  }\n"): (typeof documents)["\n  fragment CommunityChallenges_community on Community\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\") {\n    id\n    challenges {\n      ...ChallengeFragment\n    }\n  }\n"];
+export function graphql(source: "\n  fragment CommunityChallenges_challenges on Viewer\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\")\n  @argumentDefinitions(communityId: { type: \"ID!\" }) {\n    challenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n"): (typeof documents)["\n  fragment CommunityChallenges_challenges on Viewer\n  @refetchable(queryName: \"CommunityChallengesRefreshQuery\")\n  @argumentDefinitions(communityId: { type: \"ID!\" }) {\n    challenges(communityId: $communityId) {\n      ...ChallengeFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -89,7 +89,7 @@ export function graphql(source: "\n  query CommunityDetailsQuery($id: ID!) {\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CommunityRootQuery($communityId: ID!) {\n    community(id: $communityId) {\n      ...CommunityChallenges_community\n    }\n  }\n"): (typeof documents)["\n  query CommunityRootQuery($communityId: ID!) {\n    community(id: $communityId) {\n      ...CommunityChallenges_community\n    }\n  }\n"];
+export function graphql(source: "\n  query CommunityRootQuery($communityId: ID!) {\n    # community(id: $communityId) {\n    #   ...CommunityChallenges_community\n    # }\n    viewer {\n      ...CommunityChallenges_challenges @arguments(communityId: $communityId)\n    }\n  }\n"): (typeof documents)["\n  query CommunityRootQuery($communityId: ID!) {\n    # community(id: $communityId) {\n    #   ...CommunityChallenges_community\n    # }\n    viewer {\n      ...CommunityChallenges_challenges @arguments(communityId: $communityId)\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

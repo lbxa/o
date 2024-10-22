@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a3b8c618998b5139b9e41b6211f141fb>>
+ * @generated SignedSource<<8c6d3a70e8dbaac5fa13b40cf1bfdfec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,8 +14,8 @@ export type CommunityRootQuery$variables = {
   communityId: string;
 };
 export type CommunityRootQuery$data = {
-  readonly community: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_community">;
+  readonly viewer: {
+    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
   } | null | undefined;
 };
 export type CommunityRootQuery = {
@@ -34,17 +34,10 @@ var v0 = [
 v1 = [
   {
     "kind": "Variable",
-    "name": "id",
+    "name": "communityId",
     "variableName": "communityId"
   }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -54,16 +47,16 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Community",
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "community",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
-            "args": null,
+            "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "CommunityChallenges_community"
+            "name": "CommunityChallenges_challenges"
           }
         ],
         "storageKey": null
@@ -80,22 +73,27 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Community",
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "community",
+        "name": "viewer",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
-            "args": null,
+            "args": (v1/*: any*/),
             "concreteType": "Challenge",
             "kind": "LinkedField",
             "name": "challenges",
             "plural": true,
             "selections": [
-              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              },
               {
                 "alias": null,
                 "args": null,
@@ -133,16 +131,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e902a29a2d7b2b4ece8c8d3faa0e76ea",
+    "cacheID": "f96c74bbf3b533b21bfaa931173b36c4",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  community(id: $communityId) {\n    ...CommunityChallenges_community\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n\nfragment CommunityChallenges_community on Community {\n  id\n  challenges {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...CommunityChallenges_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n\nfragment CommunityChallenges_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "32e1f6562b556f35e9929fa4ee2e351b";
+(node as any).hash = "68c0c84e0e1cec53a10270e6c2eb7b0b";
 
 export default node;

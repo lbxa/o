@@ -20,11 +20,14 @@ import { aliasedTable, and, eq } from "drizzle-orm";
 import { DbService } from "../db/db.service";
 import {
   Challenge,
+  ChallengeCadence,
   ChallengeInvitation,
+  ChallengeMode,
   InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId } from "../utils";
 import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
+import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
 export class ChallengesService {
@@ -158,17 +161,12 @@ export class ChallengesService {
   async findCommunityChallenges(communityId: number): Promise<Challenge[]> {
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
       where: eq(ChallengesTable.communityId, communityId),
-      with: {
-        community: true,
-      },
     });
 
     return challenges.map((challenge) => ({
       ...challenge,
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
+      mode: mapToEnum(ChallengeMode, challenge.mode),
+      cadence: mapToEnum(ChallengeCadence, challenge.cadence),
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
@@ -212,6 +210,7 @@ export class ChallengesService {
       );
     }
 
+    // TODO redundant call
     return this.findOne(challenge.insertedId);
   }
 

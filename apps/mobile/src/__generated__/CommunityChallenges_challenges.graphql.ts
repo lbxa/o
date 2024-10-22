@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<775c3b29c2e64e3771e963d97d162c88>>
+ * @generated SignedSource<<815451b53231e2de45f79ae49f6f990f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,46 +10,46 @@
 
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type CommunityChallenges_community$data = {
+export type CommunityChallenges_challenges$data = {
   readonly challenges: ReadonlyArray<{
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment">;
   }> | null | undefined;
-  readonly id: string;
-  readonly " $fragmentType": "CommunityChallenges_community";
+  readonly " $fragmentType": "CommunityChallenges_challenges";
 };
-export type CommunityChallenges_community$key = {
-  readonly " $data"?: CommunityChallenges_community$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_community">;
+export type CommunityChallenges_challenges$key = {
+  readonly " $data"?: CommunityChallenges_challenges$data;
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
 };
 
 const node: ReaderFragment = {
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "communityId"
+    }
+  ],
   "kind": "Fragment",
   "metadata": {
     "refetch": {
       "connection": null,
       "fragmentPathInResult": [
-        "node"
+        "viewer"
       ],
-      "operation": require('./CommunityChallengesRefreshQuery.graphql'),
-      "identifierInfo": {
-        "identifierField": "id",
-        "identifierQueryVariableName": "id"
-      }
+      "operation": require('./CommunityChallengesRefreshQuery.graphql')
     }
   },
-  "name": "CommunityChallenges_community",
+  "name": "CommunityChallenges_challenges",
   "selections": [
     {
       "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "communityId",
+          "variableName": "communityId"
+        }
+      ],
       "concreteType": "Challenge",
       "kind": "LinkedField",
       "name": "challenges",
@@ -64,10 +64,10 @@ const node: ReaderFragment = {
       "storageKey": null
     }
   ],
-  "type": "Community",
+  "type": "Viewer",
   "abstractKey": null
 };
 
-(node as any).hash = "f5d66861e423d451b81e550e89e06003";
+(node as any).hash = "a2716b030b1dbbdaa5b0c15a62b37c72";
 
 export default node;
