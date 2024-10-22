@@ -1,15 +1,21 @@
 /* eslint-disable simple-import-sort/exports */
-//! IMPORTANT: DO NOT EXPORT ANYTHING ELSE FROM HERE
-//! This barrel file is the only exit point. The import * as schema from
-//! "@o/db" syntax is used in other packages. I've chosen an explicit
+//! IMPORTANT: DO NOT EXPORT ANYTHING OTHER THAN DRIZZLE CONSTRUCTS FROM HERE
+//! This barrel file is intended to be the only exit point. The import * as schema
+//! from "@o/db" syntax is used in other packages. I've chosen an explicit
 //! export format because nothing should ever be a surprise! Sometimes we
 //! add Drizzle schema that shouldn't be exported like util types or other
 //! non-schema things that can cause runtime errors in other packages.
 
+/**
+ * USER
+ */
 export type { NewUser, User } from "./schema/user.schema";
 export { UserSchema, UsersTable } from "./schema/user.schema";
 export { UsersRelations } from "./relations/user.relations";
 
+/**
+ * COMMUNITY
+ */
 export type {
   Community,
   NewCommunity,
@@ -30,6 +36,9 @@ export {
   CommunityInvitationsRelations,
 } from "./relations/community.relations";
 
+/**
+ * CHALLENGE
+ */
 export type {
   Challenge,
   NewChallenge,
@@ -66,4 +75,7 @@ export {
   ChallengeActivityResultRelations,
 } from "./relations/challenge.relations";
 
+/**
+ * SHARED/MISC
+ */
 export { InvitationStatus } from "./schema/shared";
