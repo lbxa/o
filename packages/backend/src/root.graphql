@@ -2,7 +2,7 @@ interface Node {
   id: ID!
 }
 
-interface Timestampable {
+interface Timestamps {
   createdAt: DateTime
   updatedAt: DateTime
 }

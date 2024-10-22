@@ -179,15 +179,15 @@ const activityUnitsMap = {
 };
 ```
 
-#### Activity Goals
+#### Activity Measurements
 
-Goals are what communities measure to determine the success of a challenge. We currently offer the following goal types:
+Measurements are how communities quantify the success of a challenge. We currently offer the following measurement types:
 
-- Count-Based
+- Counting
 - Duration
-- Improvement Over Time
+- Improvement
 
-Each goal has constituent types that help specify the goal:
+Each measurement has specific goals:
 
 - Lowest Number
 - Highest Number
@@ -199,10 +199,10 @@ Each goal has constituent types that help specify the goal:
 Similarly this is our internal mapping to ensure the correct goals are linked to the correct goal types:
 
 ```ts
-const goalTypesMap = {
-  "Count-Based": ["Lowest Number", "Highest Number", "Specific Target"],
+const measurementGoalsMap = {
+  "Counting": ["Lowest Number", "Highest Number", "Specific Target"],
   "Duration": ["Shortest Time", "Longest Time"],
-  "Improvement Over Time": ["Most Improved", "Specific Target"],
+  "Improvement": ["Most Improved", "Specific Target"],
 };
 ```
 

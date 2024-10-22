@@ -1,5 +1,5 @@
 {
-  "id": "6e319bae-5473-43ef-b3c6-1e3f2ea00885",
+  "id": "88d3fe8b-2775-4490-affc-366ffaadeb0e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -60,6 +60,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "measurement": {
+          "name": "measurement",
+          "type": "activity_measurement",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        },
         "goal": {
           "name": "goal",
           "type": "activity_goal",
@@ -69,10 +76,9 @@
         },
         "target": {
           "name": "target",
-          "type": "activity_goal_target",
-          "typeSchema": "challenge",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "unit": {
           "name": "unit",
@@ -107,38 +113,6 @@
           ],
           "columnsTo": [
             "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "activities_unit_type_activity_unit_unit_activity_fk": {
-          "name": "activities_unit_type_activity_unit_unit_activity_fk",
-          "tableFrom": "activities",
-          "tableTo": "activity_unit",
-          "schemaTo": "challenge",
-          "columnsFrom": [
-            "unit",
-            "type"
-          ],
-          "columnsTo": [
-            "unit",
-            "activity"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "activities_goal_target_goal_objective_goal_objective_fk": {
-          "name": "activities_goal_target_goal_objective_goal_objective_fk",
-          "tableFrom": "activities",
-          "tableTo": "goal_objective",
-          "schemaTo": "challenge",
-          "columnsFrom": [
-            "goal",
-            "target"
-          ],
-          "columnsTo": [
-            "goal",
-            "objective"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -884,20 +858,20 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "challenge.goal_objective": {
-      "name": "goal_objective",
+    "challenge.measurement_goal": {
+      "name": "measurement_goal",
       "schema": "challenge",
       "columns": {
-        "goal": {
-          "name": "goal",
-          "type": "activity_goal",
+        "measurement": {
+          "name": "measurement",
+          "type": "activity_measurement",
           "typeSchema": "challenge",
           "primaryKey": false,
           "notNull": true
         },
-        "objective": {
-          "name": "objective",
-          "type": "activity_goal_target",
+        "goal": {
+          "name": "goal",
+          "type": "activity_goal",
           "typeSchema": "challenge",
           "primaryKey": false,
           "notNull": true
@@ -906,11 +880,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "goal_objective_goal_objective_pk": {
-          "name": "goal_objective_goal_objective_pk",
+        "measurement_goal_measurement_goal_pk": {
+          "name": "measurement_goal_measurement_goal_pk",
           "columns": [
-            "goal",
-            "objective"
+            "measurement",
+            "goal"
           ]
         }
       },
@@ -1016,21 +990,21 @@
       "name": "activity_goal",
       "schema": "challenge",
       "values": [
-        "COUNTING",
-        "DURATION",
-        "IMPROVEMENT"
-      ]
-    },
-    "challenge.activity_goal_target": {
-      "name": "activity_goal_target",
-      "schema": "challenge",
-      "values": [
         "LOWEST_NUMBER",
         "HIGHEST_NUMBER",
         "SPECIFIC_TARGET",
         "SHORTEST_TIME",
         "LONGEST_TIME",
         "MOST_IMPROVED"
+      ]
+    },
+    "challenge.activity_measurement": {
+      "name": "activity_measurement",
+      "schema": "challenge",
+      "values": [
+        "COUNTING",
+        "DURATION",
+        "IMPROVEMENT"
       ]
     },
     "challenge.activity_type": {

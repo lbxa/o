@@ -1,4 +1,4 @@
-type User implements Node & Timestampable {
+type User implements Node & Timestamps {
   id: ID!
   handle: String
   firstName: String

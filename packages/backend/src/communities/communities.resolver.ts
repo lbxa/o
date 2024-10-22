@@ -129,10 +129,13 @@ export class CommunitiesResolver {
   ): Promise<Community> {
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
-      .values({ ...input, ownerId: userId });
+      .values({ ...input, ownerId: userId })
+      .returning({ insertedId: CommunitiesTable.id });
+
     await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.insertId, isAdmin: true });
-    return this.communitiesService.findOne(result.insertId);
+      .values({ userId, communityId: result.insertedId, isAdmin: true });
+
+    return this.communitiesService.findOne(result.insertedId);
   }
 }

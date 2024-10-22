@@ -52,11 +52,11 @@ export {
   ChallengeActivityType,
   ChallengeActivityUnits,
   ChallengeActivityGoal,
-  ChallengeActivityGoalTarget,
+  ChallengeActivityMeasurement,
   ChallengeActivitiesTable,
   ChallengeActivityResultsTable,
   ActivityUnitTable,
-  GoalObjectiveTable,
+  MeasurementGoalTable,
 } from "./schema/challenge.schema";
 export {
   ChallengesRelations,

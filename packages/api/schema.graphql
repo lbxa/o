@@ -27,7 +27,8 @@ type AuthLoginResponse {
   user: User!
 }
 
-type Challenge implements Node & Timestampable {
+type Challenge implements Node & Timestamps {
+  cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
   description: String
@@ -36,20 +37,89 @@ type Challenge implements Node & Timestampable {
   invitations: [ChallengeInvitation!]
   members: [User!]
   memberships: [ChallengeMembership!]
+  mode: ChallengeMode
   name: String!
   startDate: DateTime
   updatedAt: DateTime
 }
 
+type ChallengeActivity implements Node & Timestamps {
+  challengeId: ID!
+  createdAt: DateTime
+  goal: ChallengeActivityGoal
+  id: ID!
+  measurement: ChallengeActivityMeasurement
+  target: Int
+  type: ChallengeActivityType
+  unit: ChallengeActivityUnits
+  updatedAt: DateTime
+}
+
+input ChallengeActivityCreateInput {
+  goal: ChallengeActivityGoal!
+  measurement: ChallengeActivityMeasurement!
+  target: Int
+  type: ChallengeActivityType!
+  unit: ChallengeActivityUnits!
+}
+
+enum ChallengeActivityGoal {
+  HIGHEST_NUMBER
+  LONGEST_TIME
+  LOWEST_NUMBER
+  MOST_IMPROVED
+  SHORTEST_TIME
+  SPECIFIC_TARGET
+}
+
+enum ChallengeActivityMeasurement {
+  COUNTING
+  DURATION
+  IMPROVEMENT
+}
+
+enum ChallengeActivityType {
+  DISTANCE
+  REPETITIONS
+  SOCIAL
+  TIME_BASED
+  WEIGHTLIFTING
+}
+
+enum ChallengeActivityUnits {
+  FT
+  HOURS
+  KG
+  KM
+  LB
+  M
+  MI
+  MINUTES
+  NONE
+  PERCENT
+  SECONDS
+}
+
+enum ChallengeCadence {
+  BIWEEKLY
+  DAILY
+  MONTHLY
+  NONE
+  WEEKLY
+  YEARLY
+}
+
 input ChallengeCreateInput {
+  cadence: ChallengeCadence!
   communityId: ID!
   description: String!
   endDate: DateTime!
+  mode: ChallengeMode!
   name: String!
   startDate: DateTime!
 }
 
-type ChallengeInvitation implements Node & Timestampable {
+type ChallengeInvitation implements Node & Timestamps {
   challenge: Challenge!
   createdAt: DateTime
   expiresAt: DateTime!
@@ -68,6 +138,11 @@ type ChallengeMembership implements Node {
   user: User!
 }
 
+enum ChallengeMode {
+  BLIND_TRUST
+  VERIFIED_ONLY
+}
+
 input ChallengeUpdateInput {
   description: String
   endDate: DateTime
@@ -76,7 +151,7 @@ input ChallengeUpdateInput {
   startDate: DateTime
 }
 
-type Community implements Node & Timestampable {
+type Community implements Node & Timestamps {
   challenges: [Challenge!]
   createdAt: DateTime
   id: ID!
@@ -95,7 +170,7 @@ input CommunityCreateInput {
   name: String!
 }
 
-type CommunityInvitation implements Node & Timestampable {
+type CommunityInvitation implements Node & Timestamps {
   community: Community!
   createdAt: DateTime!
   expiresAt: DateTime!
@@ -133,7 +208,7 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   authRefreshTokens: Tokens!
-  challengeCreate(challengeCreateInput: ChallengeCreateInput!): Challenge!
+  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput, challengeCreateInput: ChallengeCreateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!
@@ -170,7 +245,7 @@ type Query {
   viewer: Viewer
 }
 
-interface Timestampable {
+interface Timestamps {
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -180,7 +255,7 @@ type Tokens {
   refreshToken: String!
 }
 
-type User implements Node & Timestampable {
+type User implements Node & Timestamps {
   communities: [Community!]
   createdAt: DateTime
   email: String

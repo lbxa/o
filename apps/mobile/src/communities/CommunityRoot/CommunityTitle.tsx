@@ -21,14 +21,16 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   const communityFragment = useFragment(COMMUNITY_FRAGMENT, community);
 
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <Touchable onPress={() => router.back()}>
         <ChevronLeftIcon />
       </Touchable>
       <Text className="text-3xl font-bold">
         {communityFragment?.name ?? "Loading..."}
       </Text>
-      {communityFragment?.isVerified && <VerifiedBadgeIcon width={28} />}
+      {communityFragment?.isVerified && (
+        <VerifiedBadgeIcon width={20} height={20} />
+      )}
     </View>
   );
 };

@@ -23,9 +23,17 @@ body:graphql {
     challengeCreate(challengeCreateInput: {
       name: "300 Pushups!",
       description: "The last one wasn't enough!"
-      communityId: 1,
+      communityId: "Q29tbXVuaXR5OjE=",
+      mode: BLIND_TRUST,
+      cadence: WEEKLY,
       startDate: "2024-09-24 04:19:03",
       endDate: "2024-10-01 04:19:03"
+    },
+    challengeActivityCreateInput: {
+      type: REPETITIONS,
+      goal: COUNTING,
+      unit: NONE,
+      objective: HIGHEST_NUMBER
     }) {
       name
       description

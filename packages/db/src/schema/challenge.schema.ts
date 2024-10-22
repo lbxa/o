@@ -110,23 +110,19 @@ export const ChallengeActivityUnits = ChallengeSchema.enum("activity_units", [
   "NONE",
 ]);
 
-export const ChallengeActivityGoal = ChallengeSchema.enum("activity_goal", [
-  "COUNTING",
-  "DURATION",
-  "IMPROVEMENT",
-]);
-
-export const ChallengeActivityGoalTarget = ChallengeSchema.enum(
-  "activity_goal_target",
-  [
-    "LOWEST_NUMBER",
-    "HIGHEST_NUMBER",
-    "SPECIFIC_TARGET",
-    "SHORTEST_TIME",
-    "LONGEST_TIME",
-    "MOST_IMPROVED",
-  ]
+export const ChallengeActivityMeasurement = ChallengeSchema.enum(
+  "activity_measurement",
+  ["COUNTING", "DURATION", "IMPROVEMENT"]
 );
+
+export const ChallengeActivityGoal = ChallengeSchema.enum("activity_goal", [
+  "LOWEST_NUMBER",
+  "HIGHEST_NUMBER",
+  "SPECIFIC_TARGET",
+  "SHORTEST_TIME",
+  "LONGEST_TIME",
+  "MOST_IMPROVED",
+]);
 
 export const ChallengeActivitiesTable = ChallengeSchema.table(
   "activities",
@@ -136,21 +132,23 @@ export const ChallengeActivitiesTable = ChallengeSchema.table(
       .notNull()
       .references(() => ChallengesTable.id),
     type: ChallengeActivityType().notNull(),
+    measurement: ChallengeActivityMeasurement().notNull(),
     goal: ChallengeActivityGoal().notNull(),
-    target: ChallengeActivityGoalTarget().notNull(),
+    target: integer(),
     unit: ChallengeActivityUnits().notNull(),
     ...withModificationDates,
-  },
-  (table) => ({
-    activityUnitFk: foreignKey({
-      columns: [table.unit, table.type],
-      foreignColumns: [ActivityUnitTable.unit, ActivityUnitTable.activity],
-    }),
-    goalObjectiveFk: foreignKey({
-      columns: [table.goal, table.target],
-      foreignColumns: [GoalObjectiveTable.goal, GoalObjectiveTable.objective],
-    }),
-  })
+  }
+  // TODO enforce constraints for data integrity on postgres side
+  // (table) => ({
+  // activityUnitFk: foreignKey({
+  //   columns: [table.unit, table.type],
+  //   foreignColumns: [ActivityUnitTable.unit, ActivityUnitTable.activity],
+  // }),
+  // goalObjectiveFk: foreignKey({
+  //   columns: [table.goal, table.target],
+  //   foreignColumns: [GoalObjectiveTable.goal, GoalObjectiveTable.objective],
+  // }),
+  // })
 );
 
 export const ChallengeActivityResultsTable = ChallengeSchema.table(
@@ -183,14 +181,14 @@ export const ActivityUnitTable = ChallengeSchema.table(
   })
 );
 
-export const GoalObjectiveTable = ChallengeSchema.table(
-  "goal_objective",
+export const MeasurementGoalTable = ChallengeSchema.table(
+  "measurement_goal",
   {
+    measurement: ChallengeActivityMeasurement().notNull(),
     goal: ChallengeActivityGoal().notNull(),
-    objective: ChallengeActivityGoalTarget().notNull(),
   },
   (table) => ({
-    pk: primaryKey({ columns: [table.goal, table.objective] }),
+    pk: primaryKey({ columns: [table.measurement, table.goal] }),
   })
 );
 

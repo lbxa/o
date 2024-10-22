@@ -4,6 +4,7 @@ import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
+  ChallengeActivityCreateInput,
   ChallengeCreateInput,
   ChallengeInvitation,
 } from "../types/graphql";
@@ -51,14 +52,20 @@ export class ChallengesResolver {
 
   @Mutation("challengeCreate")
   async challengeCreate(
-    @Args("challengeCreateInput") input: ChallengeCreateInput,
+    @Args("challengeCreateInput") challengeInput: ChallengeCreateInput,
+    @Args("challengeActivityCreateInput")
+    activityInput: ChallengeActivityCreateInput,
     @CurrentUser("userId") userId: number
   ): Promise<Challenge> {
     const communityId = validateAndDecodeGlobalId(
-      input.communityId,
+      challengeInput.communityId,
       "Community"
     );
-    return this.challengesService.create({ ...input, communityId }, userId);
+    return this.challengesService.create(
+      { ...challengeInput, communityId },
+      { ...activityInput },
+      userId
+    );
   }
 
   @Mutation("challengeInvite")

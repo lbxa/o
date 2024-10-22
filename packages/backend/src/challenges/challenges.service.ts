@@ -1,15 +1,18 @@
 import {
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
 import {
+  ChallengeActivitiesTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
   ChallengesTable,
   CommunitiesTable,
   CommunityMembershipsTable,
   NewChallenge,
+  NewChallengeActivity,
   UsersTable,
 } from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
@@ -170,12 +173,16 @@ export class ChallengesService {
     }));
   }
 
-  async create(input: NewChallenge, userId: number): Promise<Challenge> {
+  async create(
+    challengeInput: NewChallenge,
+    activityInput: Omit<NewChallengeActivity, "challengeId">,
+    userId: number
+  ): Promise<Challenge> {
     const isAdmin =
       await this.dbService.db.query.CommunityMembershipsTable.findFirst({
         where: and(
           eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, input.communityId),
+          eq(CommunityMembershipsTable.communityId, challengeInput.communityId),
           eq(CommunityMembershipsTable.isAdmin, true)
         ),
       });
@@ -186,11 +193,26 @@ export class ChallengesService {
       );
     }
 
-    const [result] = await this.dbService.db
+    const [challenge] = await this.dbService.db
       .insert(ChallengesTable)
-      .values({ ...input });
+      .values({ ...challengeInput })
+      .returning({ insertedId: ChallengesTable.id });
 
-    return this.findOne(result.insertId);
+    const [challengeActivity] = await this.dbService.db
+      .insert(ChallengeActivitiesTable)
+      .values({
+        ...activityInput,
+        challengeId: challenge.insertedId,
+      })
+      .returning({ insertedId: ChallengeActivitiesTable.id });
+
+    if (!challengeActivity.insertedId) {
+      throw new InternalServerErrorException(
+        "Failed to create challenge activity"
+      );
+    }
+
+    return this.findOne(challenge.insertedId);
   }
 
   async update(id: number, input: Partial<NewChallenge>): Promise<Challenge> {

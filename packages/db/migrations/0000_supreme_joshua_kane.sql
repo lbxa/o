@@ -4,8 +4,8 @@ CREATE SCHEMA "community";
 --> statement-breakpoint
 CREATE SCHEMA "user";
 --> statement-breakpoint
-CREATE TYPE "challenge"."activity_goal" AS ENUM('COUNTING', 'DURATION', 'IMPROVEMENT');--> statement-breakpoint
-CREATE TYPE "challenge"."activity_goal_target" AS ENUM('LOWEST_NUMBER', 'HIGHEST_NUMBER', 'SPECIFIC_TARGET', 'SHORTEST_TIME', 'LONGEST_TIME', 'MOST_IMPROVED');--> statement-breakpoint
+CREATE TYPE "challenge"."activity_goal" AS ENUM('LOWEST_NUMBER', 'HIGHEST_NUMBER', 'SPECIFIC_TARGET', 'SHORTEST_TIME', 'LONGEST_TIME', 'MOST_IMPROVED');--> statement-breakpoint
+CREATE TYPE "challenge"."activity_measurement" AS ENUM('COUNTING', 'DURATION', 'IMPROVEMENT');--> statement-breakpoint
 CREATE TYPE "challenge"."activity_type" AS ENUM('REPETITIONS', 'WEIGHTLIFTING', 'TIME_BASED', 'DISTANCE', 'SOCIAL');--> statement-breakpoint
 CREATE TYPE "challenge"."activity_units" AS ENUM('KG', 'LB', 'M', 'FT', 'SECONDS', 'MINUTES', 'HOURS', 'MI', 'KM', 'PERCENT', 'NONE');--> statement-breakpoint
 CREATE TYPE "challenge"."cadence" AS ENUM('NONE', 'DAILY', 'WEEKLY', 'BIWEEKLY', 'MONTHLY', 'YEARLY');--> statement-breakpoint
@@ -21,8 +21,9 @@ CREATE TABLE IF NOT EXISTS "challenge"."activities" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"challenge_id" integer NOT NULL,
 	"type" "challenge"."activity_type" NOT NULL,
+	"measurement" "challenge"."activity_measurement" NOT NULL,
 	"goal" "challenge"."activity_goal" NOT NULL,
-	"target" "challenge"."activity_goal_target" NOT NULL,
+	"target" integer,
 	"unit" "challenge"."activity_units" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
@@ -100,10 +101,10 @@ CREATE TABLE IF NOT EXISTS "community"."memberships" (
 	"joined_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "challenge"."goal_objective" (
+CREATE TABLE IF NOT EXISTS "challenge"."measurement_goal" (
+	"measurement" "challenge"."activity_measurement" NOT NULL,
 	"goal" "challenge"."activity_goal" NOT NULL,
-	"objective" "challenge"."activity_goal_target" NOT NULL,
-	CONSTRAINT "goal_objective_goal_objective_pk" PRIMARY KEY("goal","objective")
+	CONSTRAINT "measurement_goal_measurement_goal_pk" PRIMARY KEY("measurement","goal")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user"."users" (
@@ -124,18 +125,6 @@ CREATE TABLE IF NOT EXISTS "user"."users" (
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "challenge"."activities" ADD CONSTRAINT "activities_challenge_id_challenges_id_fk" FOREIGN KEY ("challenge_id") REFERENCES "challenge"."challenges"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "challenge"."activities" ADD CONSTRAINT "activities_unit_type_activity_unit_unit_activity_fk" FOREIGN KEY ("unit","type") REFERENCES "challenge"."activity_unit"("unit","activity") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "challenge"."activities" ADD CONSTRAINT "activities_goal_target_goal_objective_goal_objective_fk" FOREIGN KEY ("goal","target") REFERENCES "challenge"."goal_objective"("goal","objective") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

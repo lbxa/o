@@ -8,6 +8,57 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum ChallengeMode {
+    BLIND_TRUST = "BLIND_TRUST",
+    VERIFIED_ONLY = "VERIFIED_ONLY"
+}
+
+export enum ChallengeCadence {
+    NONE = "NONE",
+    DAILY = "DAILY",
+    WEEKLY = "WEEKLY",
+    BIWEEKLY = "BIWEEKLY",
+    MONTHLY = "MONTHLY",
+    YEARLY = "YEARLY"
+}
+
+export enum ChallengeActivityType {
+    REPETITIONS = "REPETITIONS",
+    WEIGHTLIFTING = "WEIGHTLIFTING",
+    TIME_BASED = "TIME_BASED",
+    DISTANCE = "DISTANCE",
+    SOCIAL = "SOCIAL"
+}
+
+export enum ChallengeActivityUnits {
+    KG = "KG",
+    LB = "LB",
+    M = "M",
+    FT = "FT",
+    SECONDS = "SECONDS",
+    MINUTES = "MINUTES",
+    HOURS = "HOURS",
+    MI = "MI",
+    KM = "KM",
+    PERCENT = "PERCENT",
+    NONE = "NONE"
+}
+
+export enum ChallengeActivityMeasurement {
+    COUNTING = "COUNTING",
+    DURATION = "DURATION",
+    IMPROVEMENT = "IMPROVEMENT"
+}
+
+export enum ChallengeActivityGoal {
+    LOWEST_NUMBER = "LOWEST_NUMBER",
+    HIGHEST_NUMBER = "HIGHEST_NUMBER",
+    SPECIFIC_TARGET = "SPECIFIC_TARGET",
+    SHORTEST_TIME = "SHORTEST_TIME",
+    LONGEST_TIME = "LONGEST_TIME",
+    MOST_IMPROVED = "MOST_IMPROVED"
+}
+
 export enum InvitationStatus {
     PENDING = "PENDING",
     ACCEPTED = "ACCEPTED",
@@ -26,12 +77,22 @@ export interface AuthCreateUserInput {
     password: string;
 }
 
+export interface ChallengeActivityCreateInput {
+    type: ChallengeActivityType;
+    measurement: ChallengeActivityMeasurement;
+    goal: ChallengeActivityGoal;
+    target?: Nullable<number>;
+    unit: ChallengeActivityUnits;
+}
+
 export interface ChallengeCreateInput {
     name: string;
     description: string;
     communityId: string;
     startDate: DateTime;
     endDate: DateTime;
+    mode: ChallengeMode;
+    cadence: ChallengeCadence;
 }
 
 export interface ChallengeUpdateInput {
@@ -64,7 +125,7 @@ export interface Node {
     id: string;
 }
 
-export interface Timestampable {
+export interface Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }
@@ -95,7 +156,7 @@ export interface IMutation {
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
-    challengeCreate(challengeCreateInput: ChallengeCreateInput): Challenge | Promise<Challenge>;
+    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput?: Nullable<ChallengeActivityCreateInput>): Challenge | Promise<Challenge>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
@@ -110,7 +171,7 @@ export interface IMutation {
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
 
-export interface Challenge extends Node, Timestampable {
+export interface Challenge extends Node, Timestamps {
     __typename?: 'Challenge';
     id: string;
     name: string;
@@ -118,11 +179,26 @@ export interface Challenge extends Node, Timestampable {
     community?: Nullable<Community>;
     startDate?: Nullable<DateTime>;
     endDate?: Nullable<DateTime>;
+    mode?: Nullable<ChallengeMode>;
+    cadence?: Nullable<ChallengeCadence>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
+}
+
+export interface ChallengeActivity extends Node, Timestamps {
+    __typename?: 'ChallengeActivity';
+    id: string;
+    challengeId: string;
+    type?: Nullable<ChallengeActivityType>;
+    measurement?: Nullable<ChallengeActivityMeasurement>;
+    goal?: Nullable<ChallengeActivityGoal>;
+    target?: Nullable<number>;
+    unit?: Nullable<ChallengeActivityUnits>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export interface ChallengeMembership extends Node {
@@ -134,7 +210,7 @@ export interface ChallengeMembership extends Node {
     joinedAt: DateTime;
 }
 
-export interface ChallengeInvitation extends Node, Timestampable {
+export interface ChallengeInvitation extends Node, Timestamps {
     __typename?: 'ChallengeInvitation';
     id: string;
     challenge: Challenge;
@@ -165,7 +241,7 @@ export interface IQuery {
     viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }
 
-export interface Community extends Node, Timestampable {
+export interface Community extends Node, Timestamps {
     __typename?: 'Community';
     id: string;
     name: string;
@@ -189,7 +265,7 @@ export interface CommunityMembership extends Node {
     joinedAt: DateTime;
 }
 
-export interface CommunityInvitation extends Node, Timestampable {
+export interface CommunityInvitation extends Node, Timestamps {
     __typename?: 'CommunityInvitation';
     id: string;
     community: Community;
@@ -201,7 +277,7 @@ export interface CommunityInvitation extends Node, Timestampable {
     expiresAt: DateTime;
 }
 
-export interface User extends Node, Timestampable {
+export interface User extends Node, Timestamps {
     __typename?: 'User';
     id: string;
     handle?: Nullable<string>;

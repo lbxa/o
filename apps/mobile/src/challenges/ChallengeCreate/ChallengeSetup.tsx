@@ -32,7 +32,7 @@ type Unit =
   | "km"
   | "%";
 
-type ProgressMeasurement = "Count-Based" | "Duration" | "Improvement Over Time";
+type ProgressMeasurement = "Counting" | "Duration" | "Improvement Over Time";
 
 type GoalTypes =
   | "Lowest Number"
@@ -84,7 +84,7 @@ const PillGroup = ({
           <View key={i} className="flex flex-row items-center">
             {openIndex === i && (
               <Touchable
-                className="mr-md rounded-full bg-gray-200 p-xs"
+                className="mr-md p-xs rounded-full bg-gray-200"
                 onPress={() => setOpenIndex(undefined)}
               >
                 <CrossIcon width={18} height={18} fill={"gray"} />
@@ -102,7 +102,7 @@ const PillGroup = ({
               />
             )}
             {openIndex === i && (
-              <View className="flex flex-row gap-md">
+              <View className="gap-md flex flex-row">
                 {options.map((option, j) => (
                   <Pill
                     key={j}
@@ -156,7 +156,7 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
 
   const metrics: { label: ProgressMeasurement; options: GoalTypes[] }[] = [
     {
-      label: "Count-Based",
+      label: "Counting",
       options: ["Lowest Number", "Highest Number", "Specific Target"],
     },
     {
@@ -181,10 +181,10 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
   });
 
   return (
-    <View className="flex h-full flex-col bg-white px-md pb-10">
+    <View className="px-md flex h-full flex-col bg-white pb-10">
       <Title>Select an activity</Title>
       <Subtitle>What type of activity is this challenge?</Subtitle>
-      <View className="mb-lg flex flex-row flex-wrap gap-md">
+      <View className="mb-lg gap-md flex flex-row flex-wrap">
         {activities.map((c, i) => (
           <Pill
             onPress={() => setActivity(c)}
@@ -195,9 +195,9 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
         ))}
       </View>
 
-      <Title>Progress measurement</Title>
+      <Title>Select a goal</Title>
       <Subtitle>How will participants measure their progress?</Subtitle>
-      <View className="mb-lg flex flex-row flex-wrap gap-md">
+      <View className="mb-lg gap-md flex flex-row flex-wrap">
         <PillGroup
           group={metrics}
           optionSelected={goalType}
@@ -211,12 +211,12 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
 
       {goalType === "Specific Target" && (
         <View className="mb-lg">
-          <Title>Set a goal</Title>
+          <Title>Set an objective</Title>
           <Subtitle>
             What is the goal participants should aim to achieve?
           </Subtitle>
-          <View className="flex flex-row items-center gap-md">
-            <View className="flex flex-row gap-md">
+          <View className="gap-md flex flex-row items-center">
+            <View className="gap-md flex flex-row">
               <Controller
                 name="target"
                 control={control}
@@ -246,7 +246,7 @@ export const ChallengeSetup = ({ modalRef }: ChallengeSetupProps) => {
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View className="flex flex-row gap-md">
+              <View className="gap-md flex flex-row">
                 {activity &&
                   activityUnitsMap[activity].map((u) => (
                     <Pill

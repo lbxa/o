@@ -30,13 +30,74 @@ export type AuthLoginInput = {
   password: Scalars['String']['input'];
 };
 
+export type ChallengeActivityCreateInput = {
+  goal: ChallengeActivityGoal;
+  measurement: ChallengeActivityMeasurement;
+  target?: InputMaybe<Scalars['Int']['input']>;
+  type: ChallengeActivityType;
+  unit: ChallengeActivityUnits;
+};
+
+export enum ChallengeActivityGoal {
+  HighestNumber = 'HIGHEST_NUMBER',
+  LongestTime = 'LONGEST_TIME',
+  LowestNumber = 'LOWEST_NUMBER',
+  MostImproved = 'MOST_IMPROVED',
+  ShortestTime = 'SHORTEST_TIME',
+  SpecificTarget = 'SPECIFIC_TARGET'
+}
+
+export enum ChallengeActivityMeasurement {
+  Counting = 'COUNTING',
+  Duration = 'DURATION',
+  Improvement = 'IMPROVEMENT'
+}
+
+export enum ChallengeActivityType {
+  Distance = 'DISTANCE',
+  Repetitions = 'REPETITIONS',
+  Social = 'SOCIAL',
+  TimeBased = 'TIME_BASED',
+  Weightlifting = 'WEIGHTLIFTING'
+}
+
+export enum ChallengeActivityUnits {
+  Ft = 'FT',
+  Hours = 'HOURS',
+  Kg = 'KG',
+  Km = 'KM',
+  Lb = 'LB',
+  M = 'M',
+  Mi = 'MI',
+  Minutes = 'MINUTES',
+  None = 'NONE',
+  Percent = 'PERCENT',
+  Seconds = 'SECONDS'
+}
+
+export enum ChallengeCadence {
+  Biweekly = 'BIWEEKLY',
+  Daily = 'DAILY',
+  Monthly = 'MONTHLY',
+  None = 'NONE',
+  Weekly = 'WEEKLY',
+  Yearly = 'YEARLY'
+}
+
 export type ChallengeCreateInput = {
+  cadence: ChallengeCadence;
   communityId: Scalars['ID']['input'];
   description: Scalars['String']['input'];
   endDate: Scalars['DateTime']['input'];
+  mode: ChallengeMode;
   name: Scalars['String']['input'];
   startDate: Scalars['DateTime']['input'];
 };
+
+export enum ChallengeMode {
+  BlindTrust = 'BLIND_TRUST',
+  VerifiedOnly = 'VERIFIED_ONLY'
+}
 
 export type ChallengeUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
