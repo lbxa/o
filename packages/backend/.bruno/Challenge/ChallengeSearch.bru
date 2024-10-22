@@ -20,6 +20,8 @@ body:graphql {
     description
     startDate
     endDate
+    mode
+  	cadence
     community {
       name
     }
@@ -31,13 +33,21 @@ body:graphql {
   #     isPublic
   #   }
     
-    communityChallenges(communityId: "Q29tbXVuaXR5OjE=") {
-      ...ChallengeFragment
-    }
+    # communityChallenges(communityId: "Q29tbXVuaXR5OjE=") {
+    #   ...ChallengeFragment
+    # }
+    
+    # challenge(id: "Q2hhbGxlbmdlOjE=") {
+    #   ...ChallengeFragment
+    # }
     
     # challenges {
     #   ...ChallengeFragment
     # }
+    
+    userChallenges(userId: "VXNlcjox") {
+      ...ChallengeFragment
+    }
   }
   
   

@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  Challenge as PgChallenge,
   ChallengeActivitiesTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
@@ -25,13 +26,23 @@ import {
   ChallengeMode,
   InvitationStatus,
 } from "../types/graphql";
-import { encodeGlobalId } from "../utils";
-import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
-import { mapToEnum } from "../utils/map-to-enum";
+import { encodeGlobalId, mapToEnum } from "../utils";
 
 @Injectable()
 export class ChallengesService {
   constructor(private dbService: DbService) {}
+
+  // TODO map Db types to GraphQL types
+  // e.g. DrizzleChallenge -> Challenge
+  // add mapper to interface for all services to implement
+  public mapper(challenge: PgChallenge): Challenge {
+    return {
+      ...challenge,
+      mode: mapToEnum(ChallengeMode, challenge.mode),
+      cadence: mapToEnum(ChallengeCadence, challenge.cadence),
+      id: encodeGlobalId("Challenge", challenge.id),
+    };
+  }
 
   async findOne(id: number): Promise<Challenge> {
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
@@ -46,12 +57,11 @@ export class ChallengesService {
     }
 
     return {
-      ...challenge,
+      ...this.mapper(challenge),
       community: {
         ...challenge.community,
         id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     };
   }
 
@@ -62,12 +72,11 @@ export class ChallengesService {
       });
 
     return allChallenges.map((challenge) => ({
-      ...challenge,
+      ...this.mapper(challenge),
       community: {
         ...challenge.community,
-        id: encodeGlobalId("Challenge", challenge.community.id),
+        id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
@@ -106,12 +115,11 @@ export class ChallengesService {
       ...row.invitation,
       id: encodeGlobalId("ChallengeInvitation", row.invitation.id),
       challenge: {
-        ...row.challenge,
+        ...this.mapper(row.challenge),
         community: {
           ...row.community,
           id: encodeGlobalId("Community", row.community.id),
         },
-        id: encodeGlobalId("Challenge", row.challenge.id),
       },
       inviter: {
         ...row.inviter,
@@ -121,20 +129,14 @@ export class ChallengesService {
         ...row.invitee,
         id: encodeGlobalId("User", row.invitee.id),
       },
-      status: convertToInvitationStatus(row.invitation.status),
+      status: mapToEnum(InvitationStatus, row.invitation.status),
     }));
   }
 
   async findUserChallenges(userId: number): Promise<Challenge[]> {
     const challenges = await this.dbService.db
       .select({
-        id: ChallengesTable.id,
-        name: ChallengesTable.name,
-        description: ChallengesTable.description,
-        startDate: ChallengesTable.startDate,
-        endDate: ChallengesTable.endDate,
-        createdAt: ChallengesTable.createdAt,
-        updatedAt: ChallengesTable.updatedAt,
+        challenge: ChallengesTable,
         community: CommunitiesTable,
       })
       .from(ChallengeMembershipsTable)
@@ -149,12 +151,11 @@ export class ChallengesService {
       .where(eq(ChallengeMembershipsTable.userId, userId));
 
     return challenges.map((challenge) => ({
-      ...challenge,
+      ...this.mapper(challenge.challenge),
       community: {
         ...challenge.community,
-        id: encodeGlobalId("Challenge", challenge.community.id),
+        id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 

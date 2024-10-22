@@ -20,7 +20,7 @@ import {
 } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { encodeGlobalId } from "../utils";
-import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
+import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
 export class CommunitiesService {
@@ -93,7 +93,7 @@ export class CommunitiesService {
         ...row.invitee,
         id: encodeGlobalId("User", row.invitee.id),
       },
-      status: convertToInvitationStatus(row.invitation.status),
+      status: mapToEnum(InvitationStatus, row.invitation.status),
     }));
   }
 

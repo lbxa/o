@@ -35,12 +35,11 @@ export class ChallengesResolver {
     });
 
     return challenges.map((challenge) => ({
-      ...challenge,
+      ...this.challengesService.mapper(challenge),
       community: {
         ...challenge.community,
         id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
