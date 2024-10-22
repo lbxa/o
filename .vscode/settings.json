@@ -23,6 +23,7 @@
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "project-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.inlayHints.enumMemberValues.enabled": true,

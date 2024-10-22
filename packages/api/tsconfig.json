@@ -4,7 +4,7 @@
     "baseUrl": "./"
   },
   "include": [
-    "./gql",
     "./index.d.ts",
+    "./codegen.ts"
   ]
 }
