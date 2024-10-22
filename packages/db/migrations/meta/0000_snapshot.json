@@ -1,5 +1,5 @@
 {
-  "id": "e72a917b-a6e9-4f24-97f3-b315b3afb783",
+  "id": "6e319bae-5473-43ef-b3c6-1e3f2ea00885",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -34,7 +34,8 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "challenge.activities": {
       "name": "activities",
@@ -66,9 +67,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "objective": {
-          "name": "objective",
-          "type": "activity_objective",
+        "target": {
+          "name": "target",
+          "type": "activity_goal_target",
           "typeSchema": "challenge",
           "primaryKey": false,
           "notNull": true
@@ -126,14 +127,14 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "activities_goal_objective_goal_objective_goal_objective_fk": {
-          "name": "activities_goal_objective_goal_objective_goal_objective_fk",
+        "activities_goal_target_goal_objective_goal_objective_fk": {
+          "name": "activities_goal_target_goal_objective_goal_objective_fk",
           "tableFrom": "activities",
           "tableTo": "goal_objective",
           "schemaTo": "challenge",
           "columnsFrom": [
             "goal",
-            "objective"
+            "target"
           ],
           "columnsTo": [
             "goal",
@@ -144,7 +145,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "challenge.activity_results": {
       "name": "activity_results",
@@ -220,39 +222,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "challenge.goal_objective": {
-      "name": "goal_objective",
-      "schema": "challenge",
-      "columns": {
-        "goal": {
-          "name": "goal",
-          "type": "activity_goal",
-          "typeSchema": "challenge",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "objective": {
-          "name": "objective",
-          "type": "activity_objective",
-          "typeSchema": "challenge",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "goal_objective_goal_objective_pk": {
-          "name": "goal_objective_goal_objective_pk",
-          "columns": [
-            "goal",
-            "objective"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "challenge.invitations": {
       "name": "invitations",
@@ -356,7 +327,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "challenge.memberships": {
       "name": "memberships",
@@ -462,7 +434,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "challenge.challenges": {
       "name": "challenges",
@@ -497,6 +470,22 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true
+        },
+        "mode": {
+          "name": "mode",
+          "type": "mode",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'BLIND_TRUST'"
+        },
+        "cadence": {
+          "name": "cadence",
+          "type": "cadence",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'NONE'"
         },
         "end_date": {
           "name": "end_date",
@@ -588,7 +577,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "community.communities": {
       "name": "communities",
@@ -682,7 +672,8 @@
             "name"
           ]
         }
-      }
+      },
+      "checkConstraints": {}
     },
     "community.invitations": {
       "name": "invitations",
@@ -796,7 +787,8 @@
             "community_id"
           ]
         }
-      }
+      },
+      "checkConstraints": {}
     },
     "community.memberships": {
       "name": "memberships",
@@ -889,7 +881,41 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "challenge.goal_objective": {
+      "name": "goal_objective",
+      "schema": "challenge",
+      "columns": {
+        "goal": {
+          "name": "goal",
+          "type": "activity_goal",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "objective": {
+          "name": "objective",
+          "type": "activity_goal_target",
+          "typeSchema": "challenge",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "goal_objective_goal_objective_pk": {
+          "name": "goal_objective_goal_objective_pk",
+          "columns": [
+            "goal",
+            "objective"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "user.users": {
       "name": "users",
@@ -981,57 +1007,78 @@
             "handle"
           ]
         }
-      }
+      },
+      "checkConstraints": {}
     }
   },
   "enums": {
-    "challenge.activity_type": {
-      "name": "activity_type",
-      "schema": "challenge",
-      "values": [
-        "Repetitions",
-        "Weightlifting",
-        "Time-Based",
-        "Distance",
-        "Social"
-      ]
-    },
     "challenge.activity_goal": {
       "name": "activity_goal",
       "schema": "challenge",
       "values": [
-        "Counting",
-        "Duration",
-        "Improvement"
+        "COUNTING",
+        "DURATION",
+        "IMPROVEMENT"
       ]
     },
-    "challenge.activity_objective": {
-      "name": "activity_objective",
+    "challenge.activity_goal_target": {
+      "name": "activity_goal_target",
       "schema": "challenge",
       "values": [
-        "Lowest Number",
-        "Highest Number",
-        "Specific Target",
-        "Shortest Time",
-        "Longest Time",
-        "Most Improved"
+        "LOWEST_NUMBER",
+        "HIGHEST_NUMBER",
+        "SPECIFIC_TARGET",
+        "SHORTEST_TIME",
+        "LONGEST_TIME",
+        "MOST_IMPROVED"
+      ]
+    },
+    "challenge.activity_type": {
+      "name": "activity_type",
+      "schema": "challenge",
+      "values": [
+        "REPETITIONS",
+        "WEIGHTLIFTING",
+        "TIME_BASED",
+        "DISTANCE",
+        "SOCIAL"
       ]
     },
     "challenge.activity_units": {
       "name": "activity_units",
       "schema": "challenge",
       "values": [
-        "kg",
-        "lb",
-        "m",
-        "ft",
-        "seconds",
-        "minutes",
-        "hours",
-        "mi",
-        "km",
-        "%",
-        "None"
+        "KG",
+        "LB",
+        "M",
+        "FT",
+        "SECONDS",
+        "MINUTES",
+        "HOURS",
+        "MI",
+        "KM",
+        "PERCENT",
+        "NONE"
+      ]
+    },
+    "challenge.cadence": {
+      "name": "cadence",
+      "schema": "challenge",
+      "values": [
+        "NONE",
+        "DAILY",
+        "WEEKLY",
+        "BIWEEKLY",
+        "MONTHLY",
+        "YEARLY"
+      ]
+    },
+    "challenge.mode": {
+      "name": "mode",
+      "schema": "challenge",
+      "values": [
+        "BLIND_TRUST",
+        "VERIFIED_ONLY"
       ]
     },
     "public.status": {
@@ -1050,6 +1097,7 @@
     "user": "user"
   },
   "sequences": {},
+  "views": {},
   "_meta": {
     "columns": {},
     "schemas": {},

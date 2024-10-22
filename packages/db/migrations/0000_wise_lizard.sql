@@ -4,36 +4,13 @@ CREATE SCHEMA "community";
 --> statement-breakpoint
 CREATE SCHEMA "user";
 --> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "challenge"."activity_type" AS ENUM('Repetitions', 'Weightlifting', 'Time-Based', 'Distance', 'Social');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "challenge"."activity_goal" AS ENUM('Counting', 'Duration', 'Improvement');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "challenge"."activity_objective" AS ENUM('Lowest Number', 'Highest Number', 'Specific Target', 'Shortest Time', 'Longest Time', 'Most Improved');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "challenge"."activity_units" AS ENUM('kg', 'lb', 'm', 'ft', 'seconds', 'minutes', 'hours', 'mi', 'km', '%', 'None');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."status" AS ENUM('PENDING', 'ACCEPTED', 'DENIED');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
+CREATE TYPE "challenge"."activity_goal" AS ENUM('COUNTING', 'DURATION', 'IMPROVEMENT');--> statement-breakpoint
+CREATE TYPE "challenge"."activity_goal_target" AS ENUM('LOWEST_NUMBER', 'HIGHEST_NUMBER', 'SPECIFIC_TARGET', 'SHORTEST_TIME', 'LONGEST_TIME', 'MOST_IMPROVED');--> statement-breakpoint
+CREATE TYPE "challenge"."activity_type" AS ENUM('REPETITIONS', 'WEIGHTLIFTING', 'TIME_BASED', 'DISTANCE', 'SOCIAL');--> statement-breakpoint
+CREATE TYPE "challenge"."activity_units" AS ENUM('KG', 'LB', 'M', 'FT', 'SECONDS', 'MINUTES', 'HOURS', 'MI', 'KM', 'PERCENT', 'NONE');--> statement-breakpoint
+CREATE TYPE "challenge"."cadence" AS ENUM('NONE', 'DAILY', 'WEEKLY', 'BIWEEKLY', 'MONTHLY', 'YEARLY');--> statement-breakpoint
+CREATE TYPE "challenge"."mode" AS ENUM('BLIND_TRUST', 'VERIFIED_ONLY');--> statement-breakpoint
+CREATE TYPE "public"."status" AS ENUM('PENDING', 'ACCEPTED', 'DENIED');--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "challenge"."activity_unit" (
 	"activity" "challenge"."activity_type" NOT NULL,
 	"unit" "challenge"."activity_units" NOT NULL,
@@ -45,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "challenge"."activities" (
 	"challenge_id" integer NOT NULL,
 	"type" "challenge"."activity_type" NOT NULL,
 	"goal" "challenge"."activity_goal" NOT NULL,
-	"objective" "challenge"."activity_objective" NOT NULL,
+	"target" "challenge"."activity_goal_target" NOT NULL,
 	"unit" "challenge"."activity_units" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
@@ -58,12 +35,6 @@ CREATE TABLE IF NOT EXISTS "challenge"."activity_results" (
 	"result" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "challenge"."goal_objective" (
-	"goal" "challenge"."activity_goal" NOT NULL,
-	"objective" "challenge"."activity_objective" NOT NULL,
-	CONSTRAINT "goal_objective_goal_objective_pk" PRIMARY KEY("goal","objective")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "challenge"."invitations" (
@@ -91,6 +62,8 @@ CREATE TABLE IF NOT EXISTS "challenge"."challenges" (
 	"description" text NOT NULL,
 	"community_id" integer NOT NULL,
 	"start_date" timestamp NOT NULL,
+	"mode" "challenge"."mode" DEFAULT 'BLIND_TRUST' NOT NULL,
+	"cadence" "challenge"."cadence" DEFAULT 'NONE' NOT NULL,
 	"end_date" timestamp NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
@@ -127,6 +100,12 @@ CREATE TABLE IF NOT EXISTS "community"."memberships" (
 	"joined_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "challenge"."goal_objective" (
+	"goal" "challenge"."activity_goal" NOT NULL,
+	"objective" "challenge"."activity_goal_target" NOT NULL,
+	CONSTRAINT "goal_objective_goal_objective_pk" PRIMARY KEY("goal","objective")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user"."users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"first_name" text NOT NULL,
@@ -156,7 +135,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "challenge"."activities" ADD CONSTRAINT "activities_goal_objective_goal_objective_goal_objective_fk" FOREIGN KEY ("goal","objective") REFERENCES "challenge"."goal_objective"("goal","objective") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "challenge"."activities" ADD CONSTRAINT "activities_goal_target_goal_objective_goal_objective_fk" FOREIGN KEY ("goal","target") REFERENCES "challenge"."goal_objective"("goal","objective") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

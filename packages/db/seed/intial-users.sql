@@ -1,5 +1,6 @@
-INSERT INTO users (first_name, last_name, full_name, email, handle, password, refreshToken, avatar_url)
+INSERT INTO user.users (first_name, last_name, full_name, email, handle, password, refresh_token, avatar_url)
 VALUES
+('Lucas', 'Barbosa', 'Lucas Barbosa', 'lucasbrsa@hotmail.com', 'lbxa', 'Password1', NULL, NULL),
 ('John', 'Doe', 'John Doe', 'john.doe1@example.com', 'johndoe1', 'password1', NULL, NULL),
 ('Jane', 'Smith', 'Jane Smith', 'jane.smith2@example.com', 'janesmith2', 'password2', NULL, NULL),
 ('Michael', 'Johnson', 'Michael Johnson', 'michael.johnson3@example.com', 'michaeljohnson3', 'password3', NULL, NULL),

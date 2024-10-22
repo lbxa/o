@@ -106,6 +106,8 @@ Q: Should only admins create challenges? Or should any member be able to create 
 
 The bread and butter of challenges are activities. This is where all the logic happens. Activities are the actual things you do in a challenge. There can be multiple activities in a challenge where the level of user customisation comes from concepts below.
 
+To start off, one activity per challenge will keeps simple. However, we want hosts to feel they have the freedom to create diverse challenges with multiple activities.
+
 ```mermaid
 erDiagram
     USERS {
@@ -120,30 +122,9 @@ erDiagram
         number id PK
         number challengeId FK
         string type
-        datetime created_at
-        datetime updated_at
-    }
-
-    CHALLENGE_ACTIVITY_UNITS {
-        number id PK
-        number activityId FK
-        string unit
-        datetime created_at
-        datetime updated_at
-    }
-
-    CHALLENGE_ACTIVITY_GOALS {
-        number id PK
-        number activityId FK
         string goal
-        datetime created_at
-        datetime updated_at
-    }
-
-    CHALLENGE_ACTIVITY_GOAL_TYPES {
-        number id PK
-        number goalId FK
-        string type
+        string objective
+        string unit
         datetime created_at
         datetime updated_at
     }
@@ -152,17 +133,14 @@ erDiagram
         number id PK
         number userId FK
         number activityId FK
-        number result
+        integer result
         datetime created_at
         datetime updated_at
     }
 
     %% Relationships
     CHALLENGES ||--o{ CHALLENGE_ACTIVITIES : "has"
-    CHALLENGE_ACTIVITIES ||--o{ CHALLENGE_ACTIVITY_UNITS : "has"
-    CHALLENGE_ACTIVITIES ||--o{ CHALLENGE_ACTIVITY_GOALS : "has"
     CHALLENGE_ACTIVITIES ||--o{ CHALLENGE_ACTIVITY_RESULTS : "has"
-    CHALLENGE_ACTIVITY_GOALS ||--o{ CHALLENGE_ACTIVITY_GOAL_TYPES : "has"
     USERS ||--o{ CHALLENGE_ACTIVITY_RESULTS : "submits"
 ```
 

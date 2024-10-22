@@ -1,29 +1,16 @@
 import { relations } from "drizzle-orm";
-import { mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
-import { withIdPk, withModificationDates } from "../helpers";
 import {
+  ChallengeActivityResultsTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
-} from "./challenge-schema";
+} from "../schema/challenge.schema";
 import {
   CommunitiesTable,
   CommunityInvitationsTable,
   CommunityMembershipsTable,
-} from "./community-schema";
-
-export const UsersTable = mysqlTable("users", {
-  ...withIdPk,
-  firstName: text().notNull(),
-  lastName: text().notNull(),
-  fullName: text().notNull(),
-  email: varchar({ length: 255 }).unique().notNull(),
-  handle: varchar({ length: 255 }).unique(),
-  password: varchar({ length: 255 }).notNull(),
-  refreshToken: varchar({ length: 1000 }),
-  avatarUrl: varchar({ length: 1000 }),
-  ...withModificationDates,
-});
+} from "../schema/community.schema";
+import { UsersTable } from "../schema/user.schema";
 
 export const UsersRelations = relations(UsersTable, ({ many }) => ({
   ownedCommunities: many(CommunitiesTable),
@@ -41,7 +28,5 @@ export const UsersRelations = relations(UsersTable, ({ many }) => ({
   challengeInvitationsReceived: many(ChallengeInvitationsTable, {
     relationName: "invitee",
   }),
+  activityResults: many(ChallengeActivityResultsTable),
 }));
-
-export type User = typeof UsersTable.$inferSelect;
-export type NewUser = typeof UsersTable.$inferInsert;
