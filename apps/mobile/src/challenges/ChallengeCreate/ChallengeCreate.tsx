@@ -22,8 +22,7 @@ import type {
   ChallengeCreateInput,
   ChallengeCreateMutation,
 } from "@/__generated__/ChallengeCreateMutation.graphql";
-import { useAppSelector } from "@/state";
-import { selectActiveCommunity } from "@/state/community.slice";
+import { useZustStore } from "@/state";
 import {
   Button,
   PrimaryTextInputControl,
@@ -53,7 +52,7 @@ export const ChallengeCreate = () => {
   const [formStatus, setFormStatus] = useState<
     "COMPLETED" | "ERROR" | "PENDING"
   >("PENDING");
-  const activeCommunity = useAppSelector(selectActiveCommunity);
+  const { selectedCommunity } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(CHALLENGE_CREATE_MUTATION);
 
@@ -90,13 +89,18 @@ export const ChallengeCreate = () => {
   const startDate = watch("startDate");
 
   const onSubmit = (data: ChallengeCreateInput) => {
+    if (!selectedCommunity) {
+      // don't submit if no community is selected
+      throw new Error("No community selected");
+    }
+
     const { name, description, startDate, endDate } = data;
     commitMutation({
       variables: {
         challengeCreateInput: {
           name,
           description,
-          communityId: activeCommunity?.id,
+          communityId: selectedCommunity.id,
           startDate,
           endDate,
         },

@@ -1,3 +1,4 @@
+export * from "./challenge.slice";
 export * from "./community.slice";
-export * from "./store";
 export * from "./user.slice";
+export * from "./zust-store";

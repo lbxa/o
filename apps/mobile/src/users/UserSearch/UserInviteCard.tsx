@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
-import { selectActiveCommunity, useAppSelector } from "@/state";
+import { useZustStore } from "@/state";
 import { Touchable } from "@/universe/atoms";
 
 import type { UserFragment$key } from "../../__generated__/UserFragment.graphql";
@@ -24,9 +24,9 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
   const [commitMutation, mutationInFlight] =
     useMutation<UserInviteCardMutation>(USER_COMMUNITY_INVITE_MUTATION);
   const user = useFragment(USER_FRAGMENT, userFragment);
-  const activeCommunity = useAppSelector(selectActiveCommunity);
+  const { selectedCommunity } = useZustStore();
 
-  if (!activeCommunity) {
+  if (!selectedCommunity) {
     throw new Error("ERR: no active community");
     // TODO what kind of error should we throw here?
   }
@@ -38,7 +38,7 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
     commitMutation({
       variables: {
         userId: user.id,
-        communityId: activeCommunity.id,
+        communityId: selectedCommunity.id,
       },
       onCompleted: (response) => {
         setSuccess(true);
@@ -49,10 +49,10 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
         setSuccess(false);
       },
     });
-  }, [activeCommunity.id, commitMutation, user.id]);
+  }, [commitMutation, selectedCommunity.id, user.id]);
 
   return (
-    <View className="mb-lg flex w-full flex-row items-center px-md">
+    <View className="mb-lg px-md flex w-full flex-row items-center">
       <View className="flex flex-1 flex-col">
         <Text>
           {user.firstName} {user.lastName}

@@ -1,27 +1,22 @@
 import type { User } from "@o/api";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import type { StateCreator } from "zustand";
 
-import type { RootState } from "./store";
+import type { ChallengeSlice } from "./challenge.slice";
+import type { CommunitySlice } from "./community.slice";
 
-interface UserState {
-  activeUser: User | undefined;
+export interface UserSlice {
+  user: User | null;
+  setUser: (user: User) => void;
+  logoutUser: () => void;
 }
 
-const initialState: UserState = {
-  activeUser: undefined,
-};
-
-export const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    setActiveUser: (state, action: PayloadAction<User>) => {
-      state.activeUser = action.payload;
-    },
-  },
+export const createUserSlice: StateCreator<
+  UserSlice & CommunitySlice & ChallengeSlice,
+  [["zustand/immer", never]],
+  [],
+  UserSlice
+> = (set) => ({
+  user: null,
+  setUser: (user: User) => set({ user }),
+  logoutUser: () => set({ user: null }),
 });
-
-export const { setActiveUser } = userSlice.actions;
-
-export const selectActiveUser = (state: RootState) => state.user.activeUser;

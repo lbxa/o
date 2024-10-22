@@ -5,9 +5,9 @@ import { graphql, useRefetchableFragment } from "react-relay";
 import type { CommunityChallenges_challenges$key } from "@/__generated__/CommunityChallenges_challenges.graphql";
 import type { CommunityChallengesRefreshQuery } from "@/__generated__/CommunityChallengesRefreshQuery.graphql";
 import { ChallengeCard } from "@/challenges";
+import { useZustStore } from "@/state";
 import { Button } from "@/universe/atoms";
 
-import { selectActiveCommunity, useAppSelector } from "../../state";
 import { CommunityDetails } from "./CommunityDetails";
 
 export const COMMUNITY_CHALLENGES_FRAGMENT = graphql`
@@ -26,7 +26,7 @@ interface Props {
 
 export const CommunityChallenges = ({ fragmentRef }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const activeCommunity = useAppSelector(selectActiveCommunity);
+  const { selectedCommunity } = useZustStore();
 
   const [data, refetch] = useRefetchableFragment<
     CommunityChallengesRefreshQuery,
@@ -36,11 +36,11 @@ export const CommunityChallenges = ({ fragmentRef }: Props) => {
   const handleRefresh = useCallback(() => {
     startTransition(() => {
       refetch(
-        { communityId: activeCommunity?.id },
+        { communityId: selectedCommunity?.id },
         { fetchPolicy: "store-and-network" }
       );
     });
-  }, [refetch, activeCommunity]);
+  }, [refetch, selectedCommunity?.id]);
 
   console.log("data.id", data.challenges?.length);
 

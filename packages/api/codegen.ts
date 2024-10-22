@@ -7,6 +7,8 @@ const config = {
   schema: "http://localhost:6969/graphql",
   ignoreNoDocuments: true,
   watch: true,
+  // only execute codegen on specific subset of files
+  // to avoid unnecessary re-generation
   documents: ["../backend/src/**/*.graphql"],
   generates: {
     "./gql/types.ts": {
