@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "types": "./index.d.ts",
+  "main": "./index.ts",
   "scripts": {
     "lint": "eslint --fix .",
     "gql": "gql-gen --config codegen.ts --watch",

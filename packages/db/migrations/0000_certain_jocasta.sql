@@ -4,13 +4,48 @@ CREATE SCHEMA "community";
 --> statement-breakpoint
 CREATE SCHEMA "user";
 --> statement-breakpoint
-CREATE TYPE "challenge"."activity_goal" AS ENUM('LOWEST_NUMBER', 'HIGHEST_NUMBER', 'SPECIFIC_TARGET', 'SHORTEST_TIME', 'LONGEST_TIME', 'MOST_IMPROVED');--> statement-breakpoint
-CREATE TYPE "challenge"."activity_measurement" AS ENUM('COUNTING', 'DURATION', 'IMPROVEMENT');--> statement-breakpoint
-CREATE TYPE "challenge"."activity_type" AS ENUM('REPETITIONS', 'WEIGHTLIFTING', 'TIME_BASED', 'DISTANCE', 'SOCIAL');--> statement-breakpoint
-CREATE TYPE "challenge"."activity_units" AS ENUM('KG', 'LB', 'M', 'FT', 'SECONDS', 'MINUTES', 'HOURS', 'MI', 'KM', 'PERCENT', 'NONE');--> statement-breakpoint
-CREATE TYPE "challenge"."cadence" AS ENUM('NONE', 'DAILY', 'WEEKLY', 'BIWEEKLY', 'MONTHLY', 'YEARLY');--> statement-breakpoint
-CREATE TYPE "challenge"."mode" AS ENUM('BLIND_TRUST', 'VERIFIED_ONLY');--> statement-breakpoint
-CREATE TYPE "public"."status" AS ENUM('PENDING', 'ACCEPTED', 'DENIED');--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."activity_goal" AS ENUM('LOWEST_NUMBER', 'HIGHEST_NUMBER', 'SPECIFIC_TARGET', 'SHORTEST_TIME', 'LONGEST_TIME', 'MOST_IMPROVED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."activity_measurement" AS ENUM('COUNTING', 'DURATION', 'IMPROVEMENT');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."activity_type" AS ENUM('REPETITIONS', 'WEIGHTLIFTING', 'TIME_BASED', 'DISTANCE', 'SOCIAL');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."activity_units" AS ENUM('KILOGRAMS', 'POUNDS', 'METRES', 'FEET', 'SECONDS', 'MINUTES', 'HOURS', 'MILES', 'KILOMETRES', 'PERCENT', 'NONE');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."cadence" AS ENUM('NONE', 'DAILY', 'WEEKLY', 'BIWEEKLY', 'MONTHLY', 'YEARLY');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "challenge"."mode" AS ENUM('BLIND_TRUST', 'VERIFIED_ONLY');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."status" AS ENUM('PENDING', 'ACCEPTED', 'DENIED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "challenge"."activity_unit" (
 	"activity" "challenge"."activity_type" NOT NULL,
 	"unit" "challenge"."activity_units" NOT NULL,

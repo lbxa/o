@@ -4,18 +4,16 @@ This is the only file you need to read to understand how to install and run this
 
 ## Corepack
 
-Corepack is a requirement to conveniently work with the latest version of pnpm. Yarn and npm will be far too slow once this codebase starts scaling.
+Corepack is a requirement to conveniently work with the latest version of pnpm. Yarn and npm will be far too slow once this codebase starts scaling and they tend to destroy even the best disk space out there. SSD space is precious for web devs.
 
-- Node 20
-- Corepack
+- Install node@20 using [nvm](https://github.com/nvm-sh/nvm).
 - `corepack enable`
 
 ## Watchman
 
-Watchman is relied upon for the React Native Expo development server and relay compiler to watch for files changes correctly. [It's know to be unstable at times](https://facebook.github.io/watchman/docs/troubleshooting#reactnative-watcher-took-too-long-to-load), so if the server is not watching for file changes, try restarting the server with the following command:
+Watchman is relied upon for the React Native Expo development server and relay compiler to watch for files changes correctly.
 
 ```bash
-watchman shutdown-server
 brew update
-brew reinstall watchman
+brew install watchman
 ```

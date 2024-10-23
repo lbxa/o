@@ -9,11 +9,12 @@ import {
   BottomSheetScrollView,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { ChallengeCadence, ChallengeMode } from "@o/api";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
@@ -32,15 +33,20 @@ import {
 import { Ozone } from "@/universe/molecules";
 
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
+import { ChallengeActivitySelector } from "./ChallengeActivitySelector";
 import { ChallengeCadenceSelector } from "./ChallengeCadenceSelector";
-import { ChallengeDataControls } from "./ChallengeDataControls";
-import { ChallengeSetup } from "./ChallengeSetup";
+import { ChallengeModeSelector } from "./ChallengeModeSelector";
 
 export const CHALLENGE_CREATE_MUTATION = graphql`
   mutation ChallengeCreateMutation(
     $challengeCreateInput: ChallengeCreateInput!
+    $challengeActivityCreateInput: ChallengeActivityCreateInput!
   ) {
-    challengeCreate(challengeCreateInput: $challengeCreateInput) {
+    challengeCreate(
+      challengeCreateInput: $challengeCreateInput
+      challengeActivityCreateInput: $challengeActivityCreateInput
+    ) {
+      id
       name
       description
     }
@@ -49,10 +55,7 @@ export const CHALLENGE_CREATE_MUTATION = graphql`
 
 export const ChallengeCreate = () => {
   const router = useRouter();
-  const [formStatus, setFormStatus] = useState<
-    "COMPLETED" | "ERROR" | "PENDING"
-  >("PENDING");
-  const { selectedCommunity } = useZustStore();
+  const { selectedCommunity, challengeForm } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(CHALLENGE_CREATE_MUTATION);
 
@@ -72,6 +75,10 @@ export const ChallengeCreate = () => {
     dataControlsModalRef.current?.present();
   }, []);
 
+  useEffect(() => {
+    console.log("CHALLENGE", challengeForm);
+  }, [challengeForm]);
+
   const {
     control,
     handleSubmit,
@@ -81,6 +88,8 @@ export const ChallengeCreate = () => {
     defaultValues: {
       name: "",
       description: "",
+      cadence: ChallengeCadence.None,
+      mode: ChallengeMode.BlindTrust,
       startDate: new Date(),
       endDate: new Date(),
     },
@@ -94,24 +103,44 @@ export const ChallengeCreate = () => {
       throw new Error("No community selected");
     }
 
+    if (
+      !challengeForm.activity?.goal ||
+      !challengeForm.activity.measurement ||
+      !challengeForm.activity.type ||
+      !challengeForm.activity.unit
+    ) {
+      // TODO throw a toast!
+      throw new Error("Missing challenge activity data");
+    }
+
     const { name, description, startDate, endDate } = data;
+
     commitMutation({
       variables: {
         challengeCreateInput: {
           name,
           description,
           communityId: selectedCommunity.id,
+          cadence: challengeForm.cadence ?? ChallengeCadence.None,
+          mode: challengeForm.mode ?? ChallengeMode.BlindTrust,
           startDate,
           endDate,
+        },
+        challengeActivityCreateInput: {
+          type: challengeForm.activity.type,
+          measurement: challengeForm.activity.measurement,
+          goal: challengeForm.activity.goal,
+          target: challengeForm.activity.target,
+          unit: challengeForm.activity.unit,
         },
       },
       onCompleted: (data) => {
         console.log("SUCCESS", data.challengeCreate);
-        setFormStatus("COMPLETED");
+        // setFormStatus("COMPLETED");
       },
       onError: (error) => {
         console.error(error.message);
-        setFormStatus("ERROR");
+        // setFormStatus("ERROR");
       },
     });
   };
@@ -171,7 +200,7 @@ export const ChallengeCreate = () => {
               <Title>Type</Title>
               <Touchable
                 onPress={handlePresentChallengeBuilderModalPress}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
                   <CrissCrossIcon width={25} />
@@ -192,7 +221,9 @@ export const ChallengeCreate = () => {
                 // maxDynamicContentSize={700}
               >
                 <BottomSheetScrollView>
-                  <ChallengeSetup modalRef={challengeBuilderModalRef} />
+                  <ChallengeActivitySelector
+                    modalRef={challengeBuilderModalRef}
+                  />
                 </BottomSheetScrollView>
               </BottomSheetModal>
 
@@ -266,10 +297,10 @@ export const ChallengeCreate = () => {
               <Title>Cadence</Title>
               <Touchable
                 onPress={handlePresentCandenceSelectorModalPress}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
-                  <StopwatchIcon width={25} />
+                  <StopwatchIcon width={20} />
                   <Text className="pl-sm">
                     How often will you post your progress?
                   </Text>
@@ -279,7 +310,6 @@ export const ChallengeCreate = () => {
 
               <BottomSheetModal
                 ref={candenceSelectorModalRef}
-                enableDynamicSizing
                 backdropComponent={(props) => (
                   <BottomSheetBackdrop {...props} />
                 )}
@@ -296,10 +326,10 @@ export const ChallengeCreate = () => {
 
               <Touchable
                 onPress={handlePresentDataControlsModalPress}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <View className="flex flex-1 flex-row items-center">
-                  <VerifiedBadgeIcon width={25} fill="black" />
+                  <VerifiedBadgeIcon width={20} height={20} fill="black" />
                   <Text className="pl-sm">What method of proof is needed?</Text>
                 </View>
                 <ChevronRightIcon width={25} />
@@ -314,14 +344,14 @@ export const ChallengeCreate = () => {
                 )}
               >
                 <BottomSheetScrollView>
-                  <ChallengeDataControls modalRef={dataControlsModalRef} />
+                  <ChallengeModeSelector modalRef={dataControlsModalRef} />
                 </BottomSheetScrollView>
               </BottomSheetModal>
 
               <Title>Invite Members</Title>
               <Touchable
                 onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>

@@ -97,15 +97,15 @@ export const ChallengeActivityType = ChallengeSchema.enum("activity_type", [
 ]);
 
 export const ChallengeActivityUnits = ChallengeSchema.enum("activity_units", [
-  "KG",
-  "LB",
-  "M",
-  "FT",
+  "KILOGRAMS",
+  "POUNDS",
+  "METRES",
+  "FEET",
   "SECONDS",
   "MINUTES",
   "HOURS",
-  "MI",
-  "KM",
+  "MILES",
+  "KILOMETRES",
   "PERCENT",
   "NONE",
 ]);

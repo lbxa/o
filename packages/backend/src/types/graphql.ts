@@ -10,6 +10,7 @@
 
 export enum ChallengeMode {
     BLIND_TRUST = "BLIND_TRUST",
+    BUDDY_SYSTEM = "BUDDY_SYSTEM",
     VERIFIED_ONLY = "VERIFIED_ONLY"
 }
 
@@ -31,15 +32,15 @@ export enum ChallengeActivityType {
 }
 
 export enum ChallengeActivityUnits {
-    KG = "KG",
-    LB = "LB",
-    M = "M",
-    FT = "FT",
+    KILOGRAMS = "KILOGRAMS",
+    POUNDS = "POUNDS",
+    METRES = "METRES",
+    FEET = "FEET",
     SECONDS = "SECONDS",
     MINUTES = "MINUTES",
     HOURS = "HOURS",
-    MI = "MI",
-    KM = "KM",
+    MILES = "MILES",
+    KILOMETRES = "KILOMETRES",
     PERCENT = "PERCENT",
     NONE = "NONE"
 }
@@ -156,7 +157,7 @@ export interface IMutation {
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
-    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput?: Nullable<ChallengeActivityCreateInput>): Challenge | Promise<Challenge>;
+    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): Challenge | Promise<Challenge>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
@@ -183,6 +184,7 @@ export interface Challenge extends Node, Timestamps {
     cadence?: Nullable<ChallengeCadence>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
+    activity?: Nullable<ChallengeActivity>;
     members?: Nullable<User[]>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
@@ -191,7 +193,7 @@ export interface Challenge extends Node, Timestamps {
 export interface ChallengeActivity extends Node, Timestamps {
     __typename?: 'ChallengeActivity';
     id: string;
-    challengeId: string;
+    challengeId?: Nullable<string>;
     type?: Nullable<ChallengeActivityType>;
     measurement?: Nullable<ChallengeActivityMeasurement>;
     goal?: Nullable<ChallengeActivityGoal>;

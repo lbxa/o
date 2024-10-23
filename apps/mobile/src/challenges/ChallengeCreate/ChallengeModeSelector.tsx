@@ -1,67 +1,81 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { ChallengeMode } from "@o/api";
+import classNames from "classnames";
 import CheckBox from "expo-checkbox";
-import React, { useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 
 import { Button, Subtitle, Title } from "@/universe/atoms";
+
+import { useZustStore } from "../../state";
+import type { ChallengeModeLabel } from "../ChallengeMode";
 
 const DataControl: React.FC<{
   controlName: string;
   controlDescription: string;
   onSelect?: () => void;
   selected?: boolean;
-  disabled?: boolean;
-}> = ({ controlName, controlDescription, selected, onSelect, disabled }) => {
+  comingSoon?: boolean;
+}> = ({ controlName, controlDescription, selected, onSelect, comingSoon }) => {
   return (
     <View className="flex flex-row items-center gap-md">
       <View className="flex flex-1">
-        <Text className="mb-sm text-xl">{controlName}</Text>
+        <Text
+          className={classNames("mb-sm text-xl", {
+            "text-gray-500": comingSoon,
+          })}
+        >
+          {controlName}
+          {comingSoon && " (Coming Soon)"}
+        </Text>
         <Text>{controlDescription}</Text>
       </View>
       <CheckBox
         value={selected}
         color="black"
-        disabled={disabled}
+        disabled={comingSoon}
         onValueChange={onSelect}
       />
     </View>
   );
 };
 
-export const ChallengeDataControls: React.FC<{
+export const ChallengeModeSelector: React.FC<{
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }> = ({ modalRef }) => {
-  const [control, setControl] = useState<string>("blind_trust");
+  const { setChallengeFormField, challengeForm } = useZustStore();
+
+  const selectedControl = challengeForm.mode ?? ChallengeMode.BlindTrust;
 
   const controls: {
-    controlId: string;
-    controlName: string;
+    controlId: ChallengeMode;
+    controlName: ChallengeModeLabel;
     controlDescription: string;
-    disabled?: boolean;
+    comingSoon?: boolean;
   }[] = [
     {
-      controlId: "blind_trust",
+      controlId: ChallengeMode.BlindTrust,
       controlName: "Blind Trust",
       controlDescription:
         "Users can submit their workouts without any verification. This is a good option for challenges that are self-paced and do not require any external verification.",
     },
     {
-      controlId: "buddy_system",
-      controlName: "Buddy System (Coming Soon)",
+      controlId: ChallengeMode.BuddySystem,
+      controlName: "Buddy System",
       controlDescription:
         "Users can verify each other's workouts. This is a good option for communities that want to maintain a level of trust, accountability and getting that conversation started.",
-      disabled: true,
+      comingSoon: true,
     },
     {
-      controlId: "verified_admin",
-      controlName: "Verified Admin",
+      controlId: ChallengeMode.VerifiedOnly,
+      controlName: "Verified Only",
       controlDescription:
         "Only admins are permitted to verify a members workout. This option is ideal for challenges that emphasise strict accountability and require a higher level of oversight.",
     },
   ];
 
   return (
-    <View className="flex h-full flex-col bg-white px-md pb-10">
+    <View className="flex flex-col bg-white px-md pb-10">
       <Title>Proof of Workout</Title>
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <View className="mb-lg flex flex-col gap-md">
@@ -69,18 +83,15 @@ export const ChallengeDataControls: React.FC<{
           <DataControl
             key={c.controlName}
             {...c}
-            selected={c.controlId === control}
-            onSelect={() => setControl(c.controlId)}
+            selected={c.controlId === selectedControl}
+            onSelect={() => setChallengeFormField("mode", c.controlId)}
           />
         ))}
       </View>
       <Button
         title={"Done"}
         variant="indigo"
-        onPress={(e) => {
-          // Read more about event pooling
-          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-          e.persist();
+        onPress={() => {
           modalRef.current?.close();
         }}
       />

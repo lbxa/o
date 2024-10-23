@@ -13,6 +13,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "mig:gen": "drizzle-kit generate",
+    "mig:gen:custom": "drizzle-kit generate --custom",
     "mig:push": "drizzle-kit migrate",
     "mig:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"

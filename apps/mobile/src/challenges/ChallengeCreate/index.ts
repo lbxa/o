@@ -1,4 +1,4 @@
+export * from "./ChallengeActivitySelector";
 export * from "./ChallengeCadenceSelector";
 export * from "./ChallengeCreate";
-export * from "./ChallengeDataControls";
-export * from "./ChallengeSetup";
+export * from "./ChallengeModeSelector";

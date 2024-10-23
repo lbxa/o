@@ -1,5 +1,5 @@
 {
-  "id": "88d3fe8b-2775-4490-affc-366ffaadeb0e",
+  "id": "0a803dfe-4a84-4491-b722-9a28c3567cb8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -34,8 +34,7 @@
           ]
         }
       },
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.activities": {
       "name": "activities",
@@ -119,8 +118,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.activity_results": {
       "name": "activity_results",
@@ -196,8 +194,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.invitations": {
       "name": "invitations",
@@ -301,8 +298,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.memberships": {
       "name": "memberships",
@@ -408,8 +404,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.challenges": {
       "name": "challenges",
@@ -551,8 +546,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "community.communities": {
       "name": "communities",
@@ -646,8 +640,7 @@
             "name"
           ]
         }
-      },
-      "checkConstraints": {}
+      }
     },
     "community.invitations": {
       "name": "invitations",
@@ -761,8 +754,7 @@
             "community_id"
           ]
         }
-      },
-      "checkConstraints": {}
+      }
     },
     "community.memberships": {
       "name": "memberships",
@@ -855,8 +847,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "challenge.measurement_goal": {
       "name": "measurement_goal",
@@ -888,8 +879,7 @@
           ]
         }
       },
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "uniqueConstraints": {}
     },
     "user.users": {
       "name": "users",
@@ -981,8 +971,7 @@
             "handle"
           ]
         }
-      },
-      "checkConstraints": {}
+      }
     }
   },
   "enums": {
@@ -1022,15 +1011,15 @@
       "name": "activity_units",
       "schema": "challenge",
       "values": [
-        "KG",
-        "LB",
-        "M",
-        "FT",
+        "KILOGRAMS",
+        "POUNDS",
+        "METRES",
+        "FEET",
         "SECONDS",
         "MINUTES",
         "HOURS",
-        "MI",
-        "KM",
+        "MILES",
+        "KILOMETRES",
         "PERCENT",
         "NONE"
       ]
@@ -1071,7 +1060,6 @@
     "user": "user"
   },
   "sequences": {},
-  "views": {},
   "_meta": {
     "columns": {},
     "schemas": {},

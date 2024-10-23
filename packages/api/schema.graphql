@@ -28,6 +28,7 @@ type AuthLoginResponse {
 }
 
 type Challenge implements Node & Timestamps {
+  activity: ChallengeActivity
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -44,7 +45,7 @@ type Challenge implements Node & Timestamps {
 }
 
 type ChallengeActivity implements Node & Timestamps {
-  challengeId: ID!
+  challengeId: ID
   createdAt: DateTime
   goal: ChallengeActivityGoal
   id: ID!
@@ -87,16 +88,16 @@ enum ChallengeActivityType {
 }
 
 enum ChallengeActivityUnits {
-  FT
+  FEET
   HOURS
-  KG
-  KM
-  LB
-  M
-  MI
+  KILOGRAMS
+  KILOMETRES
+  METRES
+  MILES
   MINUTES
   NONE
   PERCENT
+  POUNDS
   SECONDS
 }
 
@@ -140,6 +141,7 @@ type ChallengeMembership implements Node {
 
 enum ChallengeMode {
   BLIND_TRUST
+  BUDDY_SYSTEM
   VERIFIED_ONLY
 }
 
@@ -208,7 +210,7 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   authRefreshTokens: Tokens!
-  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput, challengeCreateInput: ChallengeCreateInput!): Challenge!
+  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!

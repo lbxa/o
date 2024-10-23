@@ -1,5 +1,6 @@
 enum ChallengeMode {
   BLIND_TRUST
+  BUDDY_SYSTEM
   VERIFIED_ONLY
 }
 
@@ -23,6 +24,8 @@ type Challenge implements Node & Timestamps {
   cadence: ChallengeCadence
   createdAt: DateTime
   updatedAt: DateTime
+  # TODO the future challenges will support multiple activities
+  activity: ChallengeActivity
 
   members: [User!]
   memberships: [ChallengeMembership!]
@@ -38,15 +41,15 @@ enum ChallengeActivityType {
 }
 
 enum ChallengeActivityUnits {
-  KG
-  LB
-  M
-  FT
+  KILOGRAMS
+  POUNDS
+  METRES
+  FEET
   SECONDS
   MINUTES
   HOURS
-  MI
-  KM
+  MILES
+  KILOMETRES
   PERCENT
   NONE
 }
@@ -68,7 +71,7 @@ enum ChallengeActivityGoal {
 
 type ChallengeActivity implements Node & Timestamps {
   id: ID!
-  challengeId: ID!
+  challengeId: ID
   type: ChallengeActivityType
   measurement: ChallengeActivityMeasurement
   goal: ChallengeActivityGoal
@@ -134,7 +137,7 @@ type Query {
 type Mutation {
   challengeCreate(
     challengeCreateInput: ChallengeCreateInput!
-    challengeActivityCreateInput: ChallengeActivityCreateInput
+    challengeActivityCreateInput: ChallengeActivityCreateInput!
   ): Challenge!
   challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!

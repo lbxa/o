@@ -43,6 +43,7 @@ export type AuthLoginResponse = {
 
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
+  activity?: Maybe<ChallengeActivity>;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -60,7 +61,7 @@ export type Challenge = Node & Timestamps & {
 
 export type ChallengeActivity = Node & Timestamps & {
   __typename?: 'ChallengeActivity';
-  challengeId: Scalars['ID']['output'];
+  challengeId?: Maybe<Scalars['ID']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   goal?: Maybe<ChallengeActivityGoal>;
   id: Scalars['ID']['output'];
@@ -103,16 +104,16 @@ export enum ChallengeActivityType {
 }
 
 export enum ChallengeActivityUnits {
-  Ft = 'FT',
+  Feet = 'FEET',
   Hours = 'HOURS',
-  Kg = 'KG',
-  Km = 'KM',
-  Lb = 'LB',
-  M = 'M',
-  Mi = 'MI',
+  Kilograms = 'KILOGRAMS',
+  Kilometres = 'KILOMETRES',
+  Metres = 'METRES',
+  Miles = 'MILES',
   Minutes = 'MINUTES',
   None = 'NONE',
   Percent = 'PERCENT',
+  Pounds = 'POUNDS',
   Seconds = 'SECONDS'
 }
 
@@ -158,6 +159,7 @@ export type ChallengeMembership = Node & {
 
 export enum ChallengeMode {
   BlindTrust = 'BLIND_TRUST',
+  BuddySystem = 'BUDDY_SYSTEM',
   VerifiedOnly = 'VERIFIED_ONLY'
 }
 
@@ -259,7 +261,7 @@ export type MutationAuthLogoutArgs = {
 
 
 export type MutationChallengeCreateArgs = {
-  challengeActivityCreateInput?: InputMaybe<ChallengeActivityCreateInput>;
+  challengeActivityCreateInput: ChallengeActivityCreateInput;
   challengeCreateInput: ChallengeCreateInput;
 };
 
