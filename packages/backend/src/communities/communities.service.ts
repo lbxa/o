@@ -20,7 +20,7 @@ import {
 } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { encodeGlobalId } from "../utils";
-import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
+import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
 export class CommunitiesService {
@@ -93,7 +93,7 @@ export class CommunitiesService {
         ...row.invitee,
         id: encodeGlobalId("User", row.invitee.id),
       },
-      status: convertToInvitationStatus(row.invitation.status),
+      status: mapToEnum(InvitationStatus, row.invitation.status),
     }));
   }
 
@@ -122,13 +122,14 @@ export class CommunitiesService {
   async create(input: NewCommunity, userId: number): Promise<Community> {
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
-      .values({ ...input, ownerId: userId });
+      .values({ ...input, ownerId: userId })
+      .returning({ insertedId: CommunitiesTable.id });
 
     await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.insertId, isAdmin: true });
+      .values({ userId, communityId: result.insertedId, isAdmin: true });
 
-    return this.findOne(result.insertId);
+    return this.findOne(result.insertedId);
   }
 
   async update(id: number, input: Partial<NewCommunity>): Promise<Community> {
@@ -163,17 +164,18 @@ export class CommunitiesService {
         inviteeId: inviteeId,
         status: InvitationStatus.PENDING,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-      });
+      })
+      .returning({ insertedId: CommunityInvitationsTable.id });
 
     const invitation = await this.dbService.db
       .select()
       .from(CommunityInvitationsTable)
-      .where(eq(CommunityInvitationsTable.id, result.insertId))
+      .where(eq(CommunityInvitationsTable.id, result.insertedId))
       .limit(1);
 
     if (!invitation[0]) {
       throw new NotFoundException(
-        `Invitation with ID ${result.insertId} not found`
+        `Invitation with ID ${result.insertedId} not found`
       );
     }
 

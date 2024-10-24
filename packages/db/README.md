@@ -101,3 +101,120 @@ A user must be a member of a community to join their challenge(s). If a user is 
 Challenge roles are inherited from community roles so the system doesn't explode with complexity.
 
 Q: Should only admins create challenges? Or should any member be able to create a challenge?
+
+### Activities
+
+The bread and butter of challenges are activities. This is where all the logic happens. Activities are the actual things you do in a challenge. There can be multiple activities in a challenge where the level of user customisation comes from concepts below.
+
+To start off, one activity per challenge will keeps simple. However, we want hosts to feel they have the freedom to create diverse challenges with multiple activities.
+
+```mermaid
+erDiagram
+    USERS {
+        number id PK
+    }
+
+    CHALLENGES {
+        number id PK
+    }
+
+    CHALLENGE_ACTIVITIES {
+        number id PK
+        number challengeId FK
+        string type
+        string goal
+        string objective
+        string unit
+        datetime created_at
+        datetime updated_at
+    }
+
+    CHALLENGE_ACTIVITY_RESULTS {
+        number id PK
+        number userId FK
+        number activityId FK
+        integer result
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% Relationships
+    CHALLENGES ||--o{ CHALLENGE_ACTIVITIES : "has"
+    CHALLENGE_ACTIVITIES ||--o{ CHALLENGE_ACTIVITY_RESULTS : "has"
+    USERS ||--o{ CHALLENGE_ACTIVITY_RESULTS : "submits"
+```
+
+#### Activity Types
+
+Users can create a challenge from the following activity types:
+
+- Repetitions
+- Weightlifting
+- Time-Based
+- Distance
+- Social
+
+Each of these activities can have a different unit of measurement:
+
+- kg
+- lb
+- m
+- ft
+- seconds
+- minutes
+- hours
+- mi
+- km
+- %
+
+We build internal mappings to ensure the correct units are linked to the correct activity types e.g.
+
+```ts
+const activityUnitsMap = {
+  "Repetitions": [],
+  "Time-Based": ["seconds", "minutes", "hours"],
+  "Weightlifting": ["kg", "lb"],
+  "Distance": ["m", "km", "mi", "ft"],
+  "Social": [],
+};
+```
+
+#### Activity Measurements
+
+Measurements are how communities quantify the success of a challenge. We currently offer the following measurement types:
+
+- Counting
+- Duration
+- Improvement
+
+Each measurement has specific goals:
+
+- Lowest Number
+- Highest Number
+- Shortest Time
+- Longest Time
+- Most Improved
+- Specific Target
+
+Similarly this is our internal mapping to ensure the correct goals are linked to the correct goal types:
+
+```ts
+const measurementGoalsMap = {
+  "Counting": ["Lowest Number", "Highest Number", "Specific Target"],
+  "Duration": ["Shortest Time", "Longest Time"],
+  "Improvement": ["Most Improved", "Specific Target"],
+};
+```
+
+This information gives us the ability to offer a dynamic set of options for users to choose from when creating a challenge. Here are some examples:
+
+- "The One Rep Max": Repetitions, Count-Based, Highest Number
+- "The Fastest 5k": Time-Based, Duration, Shortest Time
+- "The Heaviest Deadlift": Weightlifting, Count-Based, Specific Target, 100 kg
+- "The Intense Run": Distance, Improvement Over Time, Most Improved
+- "The Most Improved Bench Press": Weightlifting, Improvement Over Time, Specific Target, 30 %
+- "The Coffee Run": Social
+
+#### Results
+
+Activities are templates for collecting results. Once a challenge's activity is created we use the units and goal types to infer what the user should record. Results are recorded into the activity results table.

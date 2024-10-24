@@ -4,6 +4,7 @@ import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
+  ChallengeActivityCreateInput,
   ChallengeCreateInput,
   ChallengeInvitation,
 } from "../types/graphql";
@@ -34,12 +35,11 @@ export class ChallengesResolver {
     });
 
     return challenges.map((challenge) => ({
-      ...challenge,
+      ...this.challengesService.mapper(challenge),
       community: {
         ...challenge.community,
         id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
@@ -51,14 +51,20 @@ export class ChallengesResolver {
 
   @Mutation("challengeCreate")
   async challengeCreate(
-    @Args("challengeCreateInput") input: ChallengeCreateInput,
+    @Args("challengeCreateInput") challengeInput: ChallengeCreateInput,
+    @Args("challengeActivityCreateInput")
+    activityInput: ChallengeActivityCreateInput,
     @CurrentUser("userId") userId: number
   ): Promise<Challenge> {
     const communityId = validateAndDecodeGlobalId(
-      input.communityId,
+      challengeInput.communityId,
       "Community"
     );
-    return this.challengesService.create({ ...input, communityId }, userId);
+    return this.challengesService.create(
+      { ...challengeInput, communityId },
+      { ...activityInput },
+      userId
+    );
   }
 
   @Mutation("challengeInvite")

@@ -1,15 +1,19 @@
 import {
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
 import {
+  Challenge as PgChallenge,
+  ChallengeActivitiesTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
   ChallengesTable,
   CommunitiesTable,
   CommunityMembershipsTable,
   NewChallenge,
+  NewChallengeActivity,
   UsersTable,
 } from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
@@ -17,15 +21,28 @@ import { aliasedTable, and, eq } from "drizzle-orm";
 import { DbService } from "../db/db.service";
 import {
   Challenge,
+  ChallengeCadence,
   ChallengeInvitation,
+  ChallengeMode,
   InvitationStatus,
 } from "../types/graphql";
-import { encodeGlobalId } from "../utils";
-import { convertToInvitationStatus } from "../utils/convert-to-invitation-status";
+import { encodeGlobalId, mapToEnum } from "../utils";
 
 @Injectable()
 export class ChallengesService {
   constructor(private dbService: DbService) {}
+
+  // TODO map Db types to GraphQL types
+  // e.g. DrizzleChallenge -> Challenge
+  // add mapper to interface for all services to implement
+  public mapper(challenge: PgChallenge): Challenge {
+    return {
+      ...challenge,
+      mode: mapToEnum(ChallengeMode, challenge.mode),
+      cadence: mapToEnum(ChallengeCadence, challenge.cadence),
+      id: encodeGlobalId("Challenge", challenge.id),
+    };
+  }
 
   async findOne(id: number): Promise<Challenge> {
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
@@ -40,12 +57,11 @@ export class ChallengesService {
     }
 
     return {
-      ...challenge,
+      ...this.mapper(challenge),
       community: {
         ...challenge.community,
         id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     };
   }
 
@@ -56,12 +72,11 @@ export class ChallengesService {
       });
 
     return allChallenges.map((challenge) => ({
-      ...challenge,
+      ...this.mapper(challenge),
       community: {
         ...challenge.community,
-        id: encodeGlobalId("Challenge", challenge.community.id),
+        id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
@@ -100,12 +115,11 @@ export class ChallengesService {
       ...row.invitation,
       id: encodeGlobalId("ChallengeInvitation", row.invitation.id),
       challenge: {
-        ...row.challenge,
+        ...this.mapper(row.challenge),
         community: {
           ...row.community,
           id: encodeGlobalId("Community", row.community.id),
         },
-        id: encodeGlobalId("Challenge", row.challenge.id),
       },
       inviter: {
         ...row.inviter,
@@ -115,20 +129,14 @@ export class ChallengesService {
         ...row.invitee,
         id: encodeGlobalId("User", row.invitee.id),
       },
-      status: convertToInvitationStatus(row.invitation.status),
+      status: mapToEnum(InvitationStatus, row.invitation.status),
     }));
   }
 
   async findUserChallenges(userId: number): Promise<Challenge[]> {
     const challenges = await this.dbService.db
       .select({
-        id: ChallengesTable.id,
-        name: ChallengesTable.name,
-        description: ChallengesTable.description,
-        startDate: ChallengesTable.startDate,
-        endDate: ChallengesTable.endDate,
-        createdAt: ChallengesTable.createdAt,
-        updatedAt: ChallengesTable.updatedAt,
+        challenge: ChallengesTable,
         community: CommunitiesTable,
       })
       .from(ChallengeMembershipsTable)
@@ -143,39 +151,37 @@ export class ChallengesService {
       .where(eq(ChallengeMembershipsTable.userId, userId));
 
     return challenges.map((challenge) => ({
-      ...challenge,
+      ...this.mapper(challenge.challenge),
       community: {
         ...challenge.community,
-        id: encodeGlobalId("Challenge", challenge.community.id),
+        id: encodeGlobalId("Community", challenge.community.id),
       },
-      id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
   async findCommunityChallenges(communityId: number): Promise<Challenge[]> {
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
       where: eq(ChallengesTable.communityId, communityId),
-      with: {
-        community: true,
-      },
     });
 
     return challenges.map((challenge) => ({
       ...challenge,
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
+      mode: mapToEnum(ChallengeMode, challenge.mode),
+      cadence: mapToEnum(ChallengeCadence, challenge.cadence),
       id: encodeGlobalId("Challenge", challenge.id),
     }));
   }
 
-  async create(input: NewChallenge, userId: number): Promise<Challenge> {
+  async create(
+    challengeInput: NewChallenge,
+    activityInput: Omit<NewChallengeActivity, "challengeId">,
+    userId: number
+  ): Promise<Challenge> {
     const isAdmin =
       await this.dbService.db.query.CommunityMembershipsTable.findFirst({
         where: and(
           eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, input.communityId),
+          eq(CommunityMembershipsTable.communityId, challengeInput.communityId),
           eq(CommunityMembershipsTable.isAdmin, true)
         ),
       });
@@ -186,11 +192,27 @@ export class ChallengesService {
       );
     }
 
-    const [result] = await this.dbService.db
+    const [challenge] = await this.dbService.db
       .insert(ChallengesTable)
-      .values({ ...input });
+      .values({ ...challengeInput })
+      .returning({ insertedId: ChallengesTable.id });
 
-    return this.findOne(result.insertId);
+    const [challengeActivity] = await this.dbService.db
+      .insert(ChallengeActivitiesTable)
+      .values({
+        ...activityInput,
+        challengeId: challenge.insertedId,
+      })
+      .returning({ insertedId: ChallengeActivitiesTable.id });
+
+    if (!challengeActivity.insertedId) {
+      throw new InternalServerErrorException(
+        "Failed to create challenge activity"
+      );
+    }
+
+    // TODO redundant call
+    return this.findOne(challenge.insertedId);
   }
 
   async update(id: number, input: Partial<NewChallenge>): Promise<Challenge> {

@@ -2,6 +2,7 @@ import { ConfigService } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
+import { ChallengesService } from "../challenges/challenges.service";
 import { DbService } from "../db/db.service";
 import { UsersService } from "../users/users.service";
 import { CommunitiesResolver } from "./communities.resolver";
@@ -16,6 +17,7 @@ describe("CommunitiesResolver", () => {
         ConfigService,
         CommunitiesResolver,
         CommunitiesService,
+        ChallengesService,
         UsersService,
         DbService,
       ],

@@ -1,6 +1,6 @@
-import { timestamp } from "drizzle-orm/mysql-core";
+import { timestamp } from "drizzle-orm/pg-core";
 
 export const withModificationDates = {
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp().onUpdateNow(),
+  createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp({ mode: "date" }).$onUpdate(() => new Date()),
 };

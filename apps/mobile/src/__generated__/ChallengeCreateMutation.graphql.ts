@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7946d1c849ff82e45dd64787e735378c>>
+ * @generated SignedSource<<07e72da47b27ef066cf4e1c35ad11672>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,19 +9,36 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
+export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
+export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
+export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
+export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
+export type ChallengeCadence = "BIWEEKLY" | "DAILY" | "MONTHLY" | "NONE" | "WEEKLY" | "YEARLY" | "%future added value";
+export type ChallengeMode = "BLIND_TRUST" | "BUDDY_SYSTEM" | "VERIFIED_ONLY" | "%future added value";
 export type ChallengeCreateInput = {
+  cadence: ChallengeCadence;
   communityId: string;
   description: string;
   endDate: Date;
+  mode: ChallengeMode;
   name: string;
   startDate: Date;
 };
+export type ChallengeActivityCreateInput = {
+  goal: ChallengeActivityGoal;
+  measurement: ChallengeActivityMeasurement;
+  target?: number | null | undefined;
+  type: ChallengeActivityType;
+  unit: ChallengeActivityUnits;
+};
 export type ChallengeCreateMutation$variables = {
+  challengeActivityCreateInput: ChallengeActivityCreateInput;
   challengeCreateInput: ChallengeCreateInput;
 };
 export type ChallengeCreateMutation$data = {
   readonly challengeCreate: {
     readonly description: string | null | undefined;
+    readonly id: string;
     readonly name: string;
   };
 };
@@ -31,97 +48,95 @@ export type ChallengeCreateMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "challengeCreateInput"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "challengeCreateInput",
-    "variableName": "challengeCreateInput"
-  }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "name",
-  "storageKey": null
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "challengeActivityCreateInput"
 },
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "description",
-  "storageKey": null
-};
-return {
-  "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "ChallengeCreateMutation",
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "challengeCreateInput"
+},
+v2 = [
+  {
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "challengeActivityCreateInput",
+        "variableName": "challengeActivityCreateInput"
+      },
+      {
+        "kind": "Variable",
+        "name": "challengeCreateInput",
+        "variableName": "challengeCreateInput"
+      }
+    ],
+    "concreteType": "Challenge",
+    "kind": "LinkedField",
+    "name": "challengeCreate",
+    "plural": false,
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Challenge",
-        "kind": "LinkedField",
-        "name": "challengeCreate",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/)
-        ],
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "name",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "description",
         "storageKey": null
       }
     ],
+    "storageKey": null
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "ChallengeCreateMutation",
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "ChallengeCreateMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Challenge",
-        "kind": "LinkedField",
-        "name": "challengeCreate",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "31bc89e8cd3bdc5b734417bb745c9bf6",
+    "cacheID": "f188236629b728a5e0584fbfe8947ac3",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput) {\n    name\n    description\n    id\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    id\n    name\n    description\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3fde22a2e8b8c2bb30fa334576a6dde9";
+(node as any).hash = "684afccb39cb6dd80d1ff702c3d6c87c";
 
 export default node;

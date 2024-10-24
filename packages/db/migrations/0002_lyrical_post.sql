@@ -1,1 +1,0 @@
-ALTER TABLE `community_invitations` MODIFY COLUMN `expires_at` timestamp NOT NULL;

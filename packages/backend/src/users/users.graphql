@@ -1,11 +1,11 @@
-type User implements Node & Timestampable {
+type User implements Node & Timestamps {
   id: ID!
   handle: String
   firstName: String
   lastName: String 
   email: String
   password: String
-createdAt: DateTime
+  createdAt: DateTime
   updatedAt: DateTime
   friends: [User!]
   communities: [Community!]

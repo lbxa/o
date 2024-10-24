@@ -1,5 +1,5 @@
-import { int } from "drizzle-orm/mysql-core";
+import { serial } from "drizzle-orm/pg-core";
 
 export const withIdPk = {
-  id: int().primaryKey().autoincrement(),
+  id: serial().primaryKey(),
 };

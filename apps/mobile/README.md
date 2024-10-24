@@ -8,12 +8,20 @@ The choice of using pnpm workspaces with react native kind of complicates things
 
 The solution is gentle: https://github.com/expo/expo/issues/18038#issuecomment-1734833421
 
-Hard cache reset (from root) to reset from erroneous state:
+### Watchman Instability
+
+[Watchman is known to be unstable at times](https://facebook.github.io/watchman/docs/troubleshooting#reactnative-watcher-took-too-long-to-load), so if the server is not watching for file changes, try restarting the server with the following commands:
 
 ```bash
 watchman watch-del-all
-pnpm store prune
-pnpm dlx npkill # remove everything
+watchman shutdown-server
+```
+
+You can also increase the max file descriptor limit to give watchman more room to breathe (on MacOS) by adding the following to `/etc/sysctl.conf`:
+
+```bash
+sudo sysctl kern.maxfiles=10485760
+sudo sysctl kern.maxfilesperproc=1048576
 ```
 
 ### Brittle Symlinks With pnpm Monorepo

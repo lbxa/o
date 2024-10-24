@@ -1,0 +1,54 @@
+meta {
+  name: ChallengeSearch
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment ChallengeFragment on Challenge {
+    name
+    description
+    startDate
+    endDate
+    mode
+  	cadence
+    community {
+      name
+    }
+  }
+  
+  query {
+  #   community(id: "Q29tbXVuaXR5OjI=") {
+  #     name
+  #     isPublic
+  #   }
+    
+    # communityChallenges(communityId: "Q29tbXVuaXR5OjE=") {
+    #   ...ChallengeFragment
+    # }
+    
+    # challenge(id: "Q2hhbGxlbmdlOjE=") {
+    #   ...ChallengeFragment
+    # }
+    
+    # challenges {
+    #   ...ChallengeFragment
+    # }
+    
+    userChallenges(userId: "VXNlcjox") {
+      ...ChallengeFragment
+    }
+  }
+  
+  
+}

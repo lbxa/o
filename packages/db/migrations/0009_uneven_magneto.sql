@@ -1,1 +1,0 @@
-ALTER TABLE `community_invitations` ADD `status` enum('PENDING','ACCEPTED','DENIED') DEFAULT 'PENDING';

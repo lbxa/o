@@ -1,4 +1,4 @@
-type Community implements Node & Timestampable {
+type Community implements Node & Timestamps {
   id: ID!
   name: String!
   isPublic: Boolean
@@ -22,7 +22,7 @@ type CommunityMembership implements Node {
   joinedAt: DateTime!
 }
 
-type CommunityInvitation implements Node & Timestampable {
+type CommunityInvitation implements Node & Timestamps {
   id: ID!
   community: Community!
   inviter: User!

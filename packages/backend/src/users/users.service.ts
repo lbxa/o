@@ -20,15 +20,18 @@ export class UsersService {
     //   await this.cryptoService.generatePasswordHash(password);
     const passwordHash = password; // TODO NEED TO GET THIS E2E WORKING ASAP
 
-    const [result] = await this.dbService.db.insert(UsersTable).values({
-      ...restOfUser,
-      password: passwordHash,
-      fullName: restOfUser.firstName + " " + restOfUser.lastName,
-    });
+    const [result] = await this.dbService.db
+      .insert(UsersTable)
+      .values({
+        ...restOfUser,
+        password: passwordHash,
+        fullName: restOfUser.firstName + " " + restOfUser.lastName,
+      })
+      .returning({ insertedId: UsersTable.id });
 
     // const globalId = encodeGlobalId("User", result.insertId);
 
-    return { id: result.insertId };
+    return { id: result.insertedId };
   }
 
   async findAll(): Promise<User[]> {

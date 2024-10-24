@@ -1,19 +1,17 @@
 services:
   db:
-    image: mysql:latest
-    container_name: mysql-dev
+    image: postgres:latest
+    container_name: postgres-dev
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ilovewinning
-      MYSQL_DATABASE: o 
-      MYSQL_USER: o_server
-      MYSQL_PASSWORD: ilovewinning
+      POSTGRES_USER: o_server
+      POSTGRES_PASSWORD: ilovewinning
+      POSTGRES_DB: o 
     volumes:
-      - mysql-data:/var/lib/mysql
-      # - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - postgres-data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
 volumes:
-  mysql-data:
+  postgres-data:
     driver: local

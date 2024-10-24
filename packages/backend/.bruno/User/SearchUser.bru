@@ -1,0 +1,55 @@
+meta {
+  name: SearchUser
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment User on User {
+    id
+    firstName
+    lastName
+    handle
+    email
+  }
+  
+  # fragment UserFriends on User {
+  #   friends {
+  #     ...User
+  #   }
+  # }
+  
+  query { 
+    user {
+      # ...UserFriends
+      searchFriends(searchTerm: null) {
+        id
+        ...User
+      }
+    }
+    # userSearch(searchTerm: "barbosa") {
+    #   ...User
+    # }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

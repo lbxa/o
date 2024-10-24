@@ -27,19 +27,9 @@
       "cache": false,
       "persistent": true
     },
-    "gen": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["^dev"]
-    },
     "gql": {
       "cache": false,
       "persistent": true
-    },
-    "//#gql": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["^dev"]
     }
   }
 }

@@ -1,28 +1,21 @@
 import type { Community } from "@o/api";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import type { StateCreator } from "zustand";
 
-import type { RootState } from "./store";
+import type { ChallengeSlice } from "./challenge.slice";
+import type { UserSlice } from "./user.slice";
 
-interface UserState {
-  activeCommunity: Community | undefined;
+export interface CommunitySlice {
+  selectedCommunity: Community | null;
+  setSelectedCommunity: (community: Community) => void;
 }
 
-const initialState: UserState = {
-  activeCommunity: undefined,
-};
-
-export const communitySlice = createSlice({
-  name: "community",
-  initialState,
-  reducers: {
-    setActiveCommunity: (state, action: PayloadAction<Community>) => {
-      state.activeCommunity = action.payload;
-    },
-  },
+// follows the pattern StateCreator<MyState, Mutators, [], MySlice>
+export const createCommunitySlice: StateCreator<
+  CommunitySlice & UserSlice & ChallengeSlice,
+  [["zustand/immer", never]],
+  [],
+  CommunitySlice
+> = (set) => ({
+  selectedCommunity: null,
+  setSelectedCommunity: (community) => set({ selectedCommunity: community }),
 });
-
-export const { setActiveCommunity } = communitySlice.actions;
-
-export const selectActiveCommunity = (state: RootState) =>
-  state.community.activeCommunity;

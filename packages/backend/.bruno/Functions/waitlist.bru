@@ -1,0 +1,21 @@
+meta {
+  name: waitlist
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{WAITLIST_URL}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "gabicard@gmail.com"
+  }
+}

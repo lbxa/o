@@ -1,1 +1,1 @@
-export * from "./useActiveCommunity";
+export * from "./useSelectedCommunity";

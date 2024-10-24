@@ -1,1 +1,0 @@
-ALTER TABLE `community_invitations` DROP COLUMN `status`;

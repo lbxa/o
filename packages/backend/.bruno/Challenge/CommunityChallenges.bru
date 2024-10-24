@@ -1,0 +1,47 @@
+meta {
+  name: CommunityChallenges
+  type: graphql
+  seq: 8
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment ChallengeFragment on Challenge {
+    id
+    name
+  }
+  
+  query {
+    community(id: "Q29tbXVuaXR5OjE=") {
+      id
+      challenges {
+        ...ChallengeFragment
+      }
+    }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}
