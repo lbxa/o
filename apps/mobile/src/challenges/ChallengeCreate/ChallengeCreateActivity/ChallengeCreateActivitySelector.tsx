@@ -18,28 +18,26 @@ import { PillGroup } from "@/universe/molecules";
 import type {
   ChallengeActivityGoalLabel,
   ChallengeActivityMeasurementLabel,
-} from "../ChallengeActivity";
+} from "../../ChallengeActivity";
 import {
   challengeActivityGoalLabelToEnum,
   challengeActivityGoalToLabel,
   challengeActivityMeasurementLabelToEnum,
   ChallengeActivityMeasurementToGoalMap,
   challengeActivityMeasurementToLabel,
-  challengeActivityToLabel,
+  challengeActivityTypeToLabel,
   ChallengeActivityTypeToUnitsMap,
   challengeActivityUnitToLabel,
-} from "../ChallengeActivity";
+} from "../../ChallengeActivity";
 
 interface ChallengeActivityForm {
   target: string;
 }
 
-interface ChallengeActivityProps {
+interface Props {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }
-export const ChallengeActivitySelector = ({
-  modalRef,
-}: ChallengeActivityProps) => {
+export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   const { setChallengeFormActivityField } = useZustStore();
 
   const challengeForm = useZustStore((state) => state.challengeForm);
@@ -89,7 +87,7 @@ export const ChallengeActivitySelector = ({
           <Pill
             key={c}
             onPress={() => setChallengeFormActivityField("type", c)}
-            label={challengeActivityToLabel(c)}
+            label={challengeActivityTypeToLabel(c)}
             selected={selectedActivity === c}
           />
         ))}
@@ -100,9 +98,11 @@ export const ChallengeActivitySelector = ({
       <View className="mb-lg flex flex-row flex-wrap gap-md">
         <PillGroup
           group={goals}
-          optionSelected={challengeActivityGoalToLabel(
-            selectedGoal ?? ChallengeActivityGoal.HighestNumber
-          )}
+          optionSelected={
+            selectedGoal
+              ? challengeActivityGoalToLabel(selectedGoal)
+              : undefined
+          }
           onOptionPress={(option) =>
             setChallengeFormActivityField(
               "goal",
@@ -111,9 +111,11 @@ export const ChallengeActivitySelector = ({
               )
             )
           }
-          groupSelected={challengeActivityMeasurementToLabel(
-            selectedMeasurement ?? ChallengeActivityMeasurement.Counting
-          )}
+          groupSelected={
+            selectedMeasurement
+              ? challengeActivityMeasurementToLabel(selectedMeasurement)
+              : undefined
+          }
           onGroupPress={(group) =>
             setChallengeFormActivityField(
               "measurement",

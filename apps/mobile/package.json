@@ -19,12 +19,13 @@
     "expo-fix": "pnpx expo install --check"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.2",
+    "@gorhom/bottom-sheet": "^5.0.2",
+    "@hookform/resolvers": "^3.9.0",
     "@o/api": "workspace:*",
     "@o/eslint": "workspace:*",
     "@o/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
-    "@expo/vector-icons": "^14.0.2",
-    "@gorhom/bottom-sheet": "^5.0.2",
     "@react-native-community/datetimepicker": "^8.0.1",
     "@react-navigation/native": "^6.1.17",
     "classnames": "^2.5.1",
@@ -53,6 +54,7 @@
     "react-relay": "^18.0.0",
     "react-relay-network-modern": "^6.2.2",
     "relay-runtime": "18.0.0",
+    "zod": "^3.23.8",
     "zustand": "^5.0.0"
   },
   "devDependencies": {

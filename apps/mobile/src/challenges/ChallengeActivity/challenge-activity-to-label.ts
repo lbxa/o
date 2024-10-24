@@ -12,7 +12,7 @@ import type {
   ChallengeActivityUnitLabel,
 } from "./challenge-activity.types";
 
-export const challengeActivityToLabel = (
+export const challengeActivityTypeToLabel = (
   activity: ChallengeActivityType
 ): ChallengeActivityLabel => {
   switch (activity) {

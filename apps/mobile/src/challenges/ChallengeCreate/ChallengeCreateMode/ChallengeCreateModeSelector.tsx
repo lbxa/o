@@ -5,10 +5,10 @@ import CheckBox from "expo-checkbox";
 import React from "react";
 import { Text, View } from "react-native";
 
+import { useZustStore } from "@/state";
 import { Button, Subtitle, Title } from "@/universe/atoms";
 
-import { useZustStore } from "../../state";
-import type { ChallengeModeLabel } from "../ChallengeMode";
+import type { ChallengeModeLabel } from "../../ChallengeMode";
 
 const DataControl: React.FC<{
   controlName: string;
@@ -40,7 +40,7 @@ const DataControl: React.FC<{
   );
 };
 
-export const ChallengeModeSelector: React.FC<{
+export const ChallengeCreateModeSelector: React.FC<{
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }> = ({ modalRef }) => {
   const { setChallengeFormField, challengeForm } = useZustStore();

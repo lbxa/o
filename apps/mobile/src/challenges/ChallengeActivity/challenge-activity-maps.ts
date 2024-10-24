@@ -35,7 +35,7 @@ export const ChallengeActivityTypeToUnitsMap = new Map<
   ChallengeActivityType,
   ChallengeActivityUnits[]
 >([
-  [ChallengeActivityType.Repetitions, [ChallengeActivityUnits.None]],
+  [ChallengeActivityType.Repetitions, []],
   [
     ChallengeActivityType.TimeBased,
     [
@@ -57,5 +57,5 @@ export const ChallengeActivityTypeToUnitsMap = new Map<
       ChallengeActivityUnits.Feet,
     ],
   ],
-  [ChallengeActivityType.Social, [ChallengeActivityUnits.None]],
+  [ChallengeActivityType.Social, []],
 ]);

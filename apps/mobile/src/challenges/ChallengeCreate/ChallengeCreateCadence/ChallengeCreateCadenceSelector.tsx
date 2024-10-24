@@ -5,9 +5,9 @@ import { View } from "react-native";
 import { useZustStore } from "@/state";
 import { Button, Pill, Subtitle, Title } from "@/universe/atoms";
 
-import { challengeCadenceToLabel } from "../ChallengeCadence";
+import { challengeCadenceToLabel } from "../../ChallengeCadence";
 
-export const ChallengeCadenceSelector: React.FC<{
+export const ChallengeCreateCadenceSelector: React.FC<{
   modalRef: React.RefObject<BottomSheetModal>;
 }> = ({ modalRef }) => {
   const { setChallengeFormField, challengeForm } = useZustStore();
