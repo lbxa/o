@@ -104,8 +104,8 @@ export class DbComponent extends pulumi.ComponentResource {
         allocatedStorage: 20,
         maxAllocatedStorage: 100,
         dbName: args.dbName,
-        engine: "mysql",
-        engineVersion: "8.0",
+        engine: "postgres",
+        engineVersion: "16",
         // T4g run on ARM processors so are more power efficient
         // than the T3 x86 instances. Use the link below for
         // pricing information.
@@ -114,7 +114,7 @@ export class DbComponent extends pulumi.ComponentResource {
         username: args.dbUser,
         password: args.dbPassword,
         port: Number(args.dbPort),
-        parameterGroupName: "default.mysql8.0",
+        parameterGroupName: "default.postgres16",
         skipFinalSnapshot: true,
         dbSubnetGroupName: this.dbSubnetGroup.name,
         vpcSecurityGroupIds: [this.dbSecurityGroup.id],
