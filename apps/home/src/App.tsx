@@ -20,13 +20,13 @@ export const App = () => {
   return (
     <div class="w-full selection:bg-black selection:text-white">
       <Header />
-      <div class="px-sm md:gap-lg mx-auto flex flex-col pb-[30vh] sm:max-w-screen-sm lg:max-w-screen-md lg:flex-row lg:pt-[120px]">
+      <div class="mx-auto flex flex-col px-sm pb-[30vh] sm:max-w-screen-sm md:gap-lg lg:max-w-screen-md lg:flex-row lg:pt-[120px]">
         <Mission />
         <div>
           <Why />
-          <div class="mb-lg gap-lg flex w-fit">
+          <div class="mb-lg flex w-fit gap-lg">
             <Button
-              class="p-lg rounded-full bg-black text-2xl font-bold text-white hover:bg-black/80"
+              class="rounded-full bg-black p-lg text-2xl font-bold text-white hover:bg-black/80"
               onClick={() => {
                 setStore("host", (prev) => !prev);
                 setStore("user", false);
@@ -35,7 +35,7 @@ export const App = () => {
               For Hosts
             </Button>
             <Button
-              class="p-lg rounded-full bg-black text-2xl font-bold text-white hover:bg-black/80"
+              class="rounded-full bg-black p-lg text-2xl font-bold text-white hover:bg-black/80"
               onClick={() => {
                 setStore("user", (prev) => !prev);
                 setStore("host", false);
