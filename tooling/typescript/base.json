@@ -18,9 +18,8 @@
     "noUncheckedIndexedAccess": true,
     "checkJs": false,
 
-    "module": "Preserve",
     "moduleResolution": "Bundler",
-    "noEmit": false
+    "noEmit": true
   },
   "exclude": ["node_modules", "build", "dist"]
 }

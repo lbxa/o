@@ -1,21 +1,24 @@
 {
   "name": "@o/db",
   "version": "1.0.0",
-  "description": "",
-  "author": "Lucas Barbosa",
-  "private": true,
   "license": "UNLICENSED",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "lint": "eslint src --fix",
-    "type-check": "tsc",
+    "lint": "eslint . --fix",
+    "type-check": "tsc --noEmit",
     "build": "tsc",
     "dev": "tsc --watch",
-    "mig:gen": "drizzle-kit generate",
-    "mig:gen:custom": "drizzle-kit generate --custom",
-    "mig:push": "drizzle-kit migrate",
-    "mig:drop": "drizzle-kit drop",
+    "migrate:g": "drizzle-kit generate",
+    "migrate:g:custom": "drizzle-kit generate --custom",
+    "migrate:push": "drizzle-kit migrate",
+    "migrate:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -30,6 +33,7 @@
     "@swc/core": "^1.5.25",
     "@types/node": "^22.7.5",
     "@types/pg": "^8.11.10",
+    "dotenv": "^16.4.5",
     "drizzle-kit": "^0.25.0",
     "eslint": "^9.11.0",
     "typescript": "^5.1.3"

@@ -22,9 +22,11 @@
       }
     },
     "preview": {
+      "extends": "base",
       "distribution": "store"
     },
     "production": {
+      "extends": "base",
       "autoIncrement": true
     }
   },
