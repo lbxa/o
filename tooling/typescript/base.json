@@ -12,14 +12,15 @@
 
     "incremental": true,
     "disableSourceOfProjectReferenceRedirect": true,
+    "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
 
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": false,
 
-    "module": "ES2022",
+    "module": "Preserve",
     "moduleResolution": "Bundler",
-    "noEmit": true
+    "noEmit": false
   },
   "exclude": ["node_modules", "build", "dist"]
 }

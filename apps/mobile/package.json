@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "lint": "eslint . --fix",
     "relay": "relay-compiler --watch",
-    "type-check": "tsc",
+    "type-check": "tsc --noEmit",
     "prebuild": "expo prebuild --clean",
     "prebuild:ios": "expo prebuild --platform ios --clean",
     "pod-install": "pnpx pod-install",
