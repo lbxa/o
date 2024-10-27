@@ -13,11 +13,12 @@ import { DbService } from "./db/db.service";
 import { JwtAuthGuard } from "./guards/jwt.guard";
 import { DateTimeScalar } from "./types/datetime";
 import { UsersModule } from "./users/users.module";
+import { envFile } from "./utils";
 import { ViewerModule } from "./viewer/viewer.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
@@ -34,8 +35,8 @@ import { ViewerModule } from "./viewer/viewer.module";
     UsersModule,
     AuthModule,
     CommunitiesModule,
-    ViewerModule,
     ChallengesModule,
+    ViewerModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

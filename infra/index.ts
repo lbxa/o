@@ -40,21 +40,21 @@ const db = new DbComponent("onex-db", {
 export const dbHostname = db.dbHostname;
 export const dbRandomPassword = dbPassword;
 
-// const backendRepo = new RepoComponent("onex-backend");
+const backendRepo = new RepoComponent("onex-backend");
 
-// const backendCluster = new ClusterComponent(
-//   "onex-backend-cluster",
-//   {
-//     vpc,
-//     repo: backendRepo.repo,
-//     dbHostname: db.dbHostname,
-//     dbName: db.dbName,
-//     dbPassword,
-//     dbUser: db.dbUser,
-//     dbPort,
-//     backendPort,
-//   },
-//   { dependsOn: [backendRepo] }
-// );
+const backendCluster = new ClusterComponent(
+  "onex-backend-cluster",
+  {
+    vpc,
+    repo: backendRepo.repo,
+    dbHostname: db.dbHostname,
+    dbName: db.dbName,
+    dbPassword,
+    dbUser: db.dbUser,
+    dbPort,
+    backendPort,
+  },
+  { dependsOn: [backendRepo] }
+);
 
-// export const backendUrl = backendCluster.backendUrl;
+export const backendUrl = backendCluster.backendUrl;

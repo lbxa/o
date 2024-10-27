@@ -1,0 +1,1 @@
+ALTER TYPE "challenge"."mode" ADD VALUE 'BUDDY_SYSTEM';
