@@ -9,7 +9,7 @@ interface DbComponentArgs {
   dbPassword: pulumi.Output<string>;
   dbUser: pulumi.Input<string>;
   dbPort: pulumi.Input<string>;
-  whitelistedIp: pulumi.Output<string>;
+  whitelistedIp?: pulumi.Output<string>;
 }
 
 export class DbComponent extends pulumi.ComponentResource {
@@ -18,7 +18,7 @@ export class DbComponent extends pulumi.ComponentResource {
 
   // inbound/outbound rules
   public readonly allowVpcTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
-  public readonly allowWhitelistedIpTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  public readonly allowWhitelistedIpTrafficIpv4?: aws.vpc.SecurityGroupIngressRule;
   public readonly allowAllTrafficIpv4: aws.vpc.SecurityGroupEgressRule;
 
   private readonly db: aws.rds.Instance;
@@ -71,18 +71,20 @@ export class DbComponent extends pulumi.ComponentResource {
     );
 
     // TODO make this rule work
-    this.allowWhitelistedIpTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      `${name}-allow-whitelisted-ip-traffic-ipv4`,
-      {
-        description: "Allow whitelisted traffic from dev IPs",
-        securityGroupId: this.dbSecurityGroup.id,
-        cidrIpv4: pulumi.interpolate`${args.whitelistedIp}/32`,
-        fromPort: Number(args.dbPort),
-        toPort: Number(args.dbPort),
-        ipProtocol: aws.ec2.ProtocolType.TCP,
-      },
-      { parent: this }
-    );
+    if (args.whitelistedIp) {
+      this.allowWhitelistedIpTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
+        `${name}-allow-whitelisted-ip-traffic-ipv4`,
+        {
+          description: "Allow whitelisted traffic from dev IPs",
+          securityGroupId: this.dbSecurityGroup.id,
+          cidrIpv4: pulumi.interpolate`${args.whitelistedIp}/32`,
+          fromPort: Number(args.dbPort),
+          toPort: Number(args.dbPort),
+          ipProtocol: aws.ec2.ProtocolType.TCP,
+        },
+        { parent: this }
+      );
+    }
 
     // TODO outbound rules might not apply to RDS instances
     this.allowAllTrafficIpv4 = new aws.vpc.SecurityGroupEgressRule(
