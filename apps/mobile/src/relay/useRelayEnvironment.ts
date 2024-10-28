@@ -1,4 +1,3 @@
-// TODO what's wrong with this import
 import type { Tokens } from "@o/api";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";

@@ -56,7 +56,11 @@ export const UserLogin = () => {
           password,
         },
       },
+      onError: (e) => {
+        console.log("error", e);
+      },
       updater: (store, data) => {
+        console.log("data", data);
         if (data?.authLogin.accessToken) {
           // SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
           setStoreItem("ACCESS_TOKEN", data.authLogin.accessToken);
