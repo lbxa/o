@@ -16,6 +16,7 @@
   "eslint.workingDirectories": [
     { "pattern": "apps/*/" },
     { "pattern": "packages/*/" },
+    { "pattern": "infra/*/" },
     { "pattern": "tooling/*/" }
   ],
   "tailwindCSS.experimental.classRegex": [

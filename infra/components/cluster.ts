@@ -184,7 +184,7 @@ export class ClusterComponent extends pulumi.ComponentResource {
         // },
         taskDefinitionArgs: {
           runtimePlatform: {
-            cpuArchitecture: "ARM64",
+            cpuArchitecture: "X86_64",
             operatingSystemFamily: "LINUX",
           },
           container: {

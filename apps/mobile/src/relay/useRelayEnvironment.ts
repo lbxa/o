@@ -42,7 +42,10 @@ export const useRelayEnvironment = (): {
       const makeRequest = async (
         token: string | null
       ): Promise<GraphQLResponseWithData> => {
-        const response = await fetch("http://localhost:6969/graphql", {
+        const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+        if (!apiUrl) throw new Error("API URL is not configured");
+
+        const response = await fetch(apiUrl, {
           method: "POST",
           headers: formatRequestHeader(token),
           body: JSON.stringify({
