@@ -40,8 +40,8 @@ FROM base AS runner
   COPY --from=installer --chown=nestjs:nodejs /app ./
   WORKDIR /app/packages/backend
 
-  HEALTHCHECK CMD curl --fail http://localhost/ || exit 1
+  HEALTHCHECK CMD curl --fail http://localhost:6969/ || exit 1
 
-  EXPOSE 80
+  EXPOSE 6969
   
   CMD node dist/main.js
