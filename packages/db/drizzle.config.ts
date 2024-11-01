@@ -32,6 +32,6 @@ export default defineConfig({
     database: DB_NAME,
     port: Number(DB_PORT),
     password: DB_PASSWORD,
-    ssl: DB_SSL === "true",
+    ssl: DB_SSL === "true" ? { rejectUnauthorized: false } : false,
   },
 }) satisfies DrizzleConfig;
