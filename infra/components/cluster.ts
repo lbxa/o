@@ -15,7 +15,7 @@ interface ClusterComponentArgs {
   backendPort: pulumi.Input<string>;
 }
 
-export class ClusterComponent extends pulumi.ComponentResource {
+export class Cluster extends pulumi.ComponentResource {
   private readonly cluster: aws.ecs.Cluster;
   private readonly backendImage: awsx.ecr.Image;
   private readonly lb: awsx.lb.ApplicationLoadBalancer;
@@ -24,9 +24,9 @@ export class ClusterComponent extends pulumi.ComponentResource {
   private readonly clusterSecurityGroup: aws.ec2.SecurityGroup;
   private readonly allowHttpTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   private readonly allowHttpsTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
-  private readonly allowSshTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
-  private readonly allowRdsTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
-  private readonly allowBackendTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  // private readonly allowSshTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  // private readonly allowRdsTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
+  // private readonly allowBackendTrafficIpv4: aws.vpc.SecurityGroupIngressRule;
   private readonly allowAllTrafficEgressIpv4: aws.vpc.SecurityGroupEgressRule;
 
   public readonly backendUrl: pulumi.Output<string>;
@@ -65,19 +65,6 @@ export class ClusterComponent extends pulumi.ComponentResource {
       { parent: this }
     );
 
-    this.allowRdsTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      `${name}-allow-rds-traffic-ipv4`,
-      {
-        description: "Allow RDS traffic",
-        securityGroupId: this.clusterSecurityGroup.id,
-        cidrIpv4: args.vpc.vpc.cidrBlock,
-        fromPort: Number(args.dbPort),
-        toPort: Number(args.dbPort),
-        ipProtocol: aws.ec2.ProtocolType.TCP,
-      },
-      { parent: this }
-    );
-
     this.allowHttpTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
       `${name}-allow-http-traffic-ipv4`,
       {
@@ -104,32 +91,6 @@ export class ClusterComponent extends pulumi.ComponentResource {
       { parent: this }
     );
 
-    this.allowSshTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      `${name}-allow-ssh-traffic-ipv4`,
-      {
-        description: "Allow SSH traffic",
-        securityGroupId: this.clusterSecurityGroup.id,
-        cidrIpv4: args.vpc.vpc.cidrBlock,
-        fromPort: 22,
-        toPort: 22,
-        ipProtocol: aws.ec2.ProtocolType.TCP,
-      },
-      { parent: this }
-    );
-
-    this.allowBackendTrafficIpv4 = new aws.vpc.SecurityGroupIngressRule(
-      `${name}-allow-backend-traffic-ipv4`,
-      {
-        description: "Allow backend traffic",
-        securityGroupId: this.clusterSecurityGroup.id,
-        cidrIpv4: args.vpc.vpc.cidrBlock,
-        fromPort: Number(args.backendPort),
-        toPort: Number(args.backendPort),
-        ipProtocol: aws.ec2.ProtocolType.TCP,
-      },
-      { parent: this }
-    );
-
     this.allowAllTrafficEgressIpv4 = new aws.vpc.SecurityGroupEgressRule(
       `${name}-allow-all-egress-traffic-ipv4`,
       {
@@ -139,6 +100,28 @@ export class ClusterComponent extends pulumi.ComponentResource {
         toPort: 0,
         fromPort: 0,
         ipProtocol: "-1",
+      },
+      { parent: this }
+    );
+
+    /**
+     * Required permissions for ECS cluster to execute ECR tasks
+     */
+    const ecsTaskExecutionRole = new aws.iam.Role(
+      `${name}-ecs-task-execution-role`,
+      {
+        assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
+          Service: "ecs-tasks.amazonaws.com",
+        }),
+      },
+      { parent: this }
+    );
+
+    new aws.iam.RolePolicyAttachment(
+      `${name}-ecs-task-execution-role-policy-attachment`,
+      {
+        role: ecsTaskExecutionRole.name,
+        policyArn: aws.iam.ManagedPolicy.AmazonECSTaskExecutionRolePolicy,
       },
       { parent: this }
     );
@@ -157,10 +140,10 @@ export class ClusterComponent extends pulumi.ComponentResource {
           protocol: "HTTP",
         },
         defaultTargetGroup: {
-          port: 6969,
+          port: 80,
           healthCheck: {
             path: "/",
-            port: "6969",
+            port: "80",
             protocol: "HTTP",
             interval: 30,
             timeout: 5,
@@ -176,15 +159,15 @@ export class ClusterComponent extends pulumi.ComponentResource {
       `${name}-fargate-service`,
       {
         cluster: this.cluster.arn,
-        assignPublicIp: true,
         desiredCount: 2,
-        // networkConfiguration: {
-        //   subnets: args.vpc.privateSubnetIds,
-        //   securityGroups: [this.clusterSecurityGroup.id],
-        // },
+        networkConfiguration: {
+          subnets: args.vpc.privateSubnetIds,
+          securityGroups: [this.clusterSecurityGroup.id],
+          assignPublicIp: true,
+        },
         taskDefinitionArgs: {
           runtimePlatform: {
-            cpuArchitecture: "X86_64",
+            cpuArchitecture: "ARM64",
             operatingSystemFamily: "LINUX",
           },
           container: {

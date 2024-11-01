@@ -1,7 +1,7 @@
 import * as awsx from "@pulumi/awsx";
 import * as pulumi from "@pulumi/pulumi";
 
-export class RepoComponent extends pulumi.ComponentResource {
+export class Repo extends pulumi.ComponentResource {
   public readonly repo: awsx.ecr.Repository;
 
   constructor(name: string, opts: pulumi.ComponentResourceOptions = {}) {

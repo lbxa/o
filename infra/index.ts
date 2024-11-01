@@ -2,16 +2,16 @@ import * as awsx from "@pulumi/awsx";
 import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 
-import { ClusterComponent } from "./components/cluster";
-import { DbComponent } from "./components/db";
-import { RepoComponent } from "./components/repo";
+// import { ClusterComponent } from "./components/cluster";
+import { Db } from "./components/db";
+// import { Repo } from "./components/repo";
 
 const config = new pulumi.Config();
 
 const dbName = config.require("dbName");
 const dbUser = config.require("dbUser");
 const dbPort = config.require("dbPort");
-const backendPort = config.require("backendPort");
+// const backendPort = config.require("backendPort");
 
 const vpc = new awsx.ec2.Vpc(
   "onex-vpc",
@@ -32,7 +32,7 @@ if (!dbPassword) {
   }).result;
 }
 
-const db = new DbComponent(
+const db = new Db(
   "onex-db",
   {
     vpc,
@@ -47,9 +47,7 @@ const db = new DbComponent(
 export const dbHostname = db.dbHostname;
 export const dbRandomPassword = dbPassword;
 
-const backendRepo = new RepoComponent("onex-backend", {
-  protect: true,
-});
+// const backendRepo = new Repo("onex-backend");
 
 // const backendCluster = new ClusterComponent(
 //   "onex-backend-cluster",

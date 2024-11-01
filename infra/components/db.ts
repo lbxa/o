@@ -12,7 +12,7 @@ interface DbComponentArgs {
   whitelistedIp?: pulumi.Output<string>;
 }
 
-export class DbComponent extends pulumi.ComponentResource {
+export class Db extends pulumi.ComponentResource {
   public readonly dbSubnetGroup: aws.rds.SubnetGroup;
   public readonly dbSecurityGroup: aws.ec2.SecurityGroup;
 
