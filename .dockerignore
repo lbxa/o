@@ -12,4 +12,3 @@ coverage
 .vscode
 .env*
 .env
-.dockerignore
