@@ -1,0 +1,21 @@
+name: Check PR Title  
+  
+on:  
+  pull_request:  
+    types: [opened, edited, reopened]  
+  
+jobs:  
+  check-title:  
+    runs-on: ubuntu-latest  
+  
+    steps:  
+    - name: Check PR title for Conventional Commits format  
+      uses: actions/github-script@v4  
+      with:  
+        script: |  
+          const prTitle = context.payload.pull_request.title;  
+          const conventionalCommitPattern = /^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .+$/;  
+  
+          if (!conventionalCommitPattern.test(prTitle)) {  
+            core.setFailed(`The PR title "${prTitle}" does not follow Conventional Commits format.`);  
+          }  
