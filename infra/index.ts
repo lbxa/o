@@ -2,21 +2,25 @@ import * as awsx from "@pulumi/awsx";
 import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 
-import { ClusterComponent } from "./components/cluster";
-import { DbComponent } from "./components/db";
-import { RepoComponent } from "./components/repo";
+// import { ClusterComponent } from "./components/cluster";
+import { Db } from "./components/db";
+// import { Repo } from "./components/repo";
 
 const config = new pulumi.Config();
 
 const dbName = config.require("dbName");
 const dbUser = config.require("dbUser");
 const dbPort = config.require("dbPort");
-const backendPort = config.require("backendPort");
+// const backendPort = config.require("backendPort");
 
-const vpc = new awsx.ec2.Vpc("onex-vpc", {
-  enableDnsHostnames: true,
-  enableDnsSupport: true,
-});
+const vpc = new awsx.ec2.Vpc(
+  "onex-vpc",
+  {
+    enableDnsHostnames: true,
+    enableDnsSupport: true,
+  },
+  { protect: true }
+);
 
 let dbPassword = config.getSecret("dbPassword");
 if (!dbPassword) {
@@ -28,33 +32,36 @@ if (!dbPassword) {
   }).result;
 }
 
-const db = new DbComponent("onex-db", {
-  vpc,
-  dbName,
-  dbPassword,
-  whitelistedIp: pulumi.output("120.155.83.10"),
-  dbUser,
-  dbPort,
-});
+const db = new Db(
+  "onex-db",
+  {
+    vpc,
+    dbName,
+    dbPassword,
+    dbUser,
+    dbPort,
+  },
+  { protect: true }
+);
 
 export const dbHostname = db.dbHostname;
 export const dbRandomPassword = dbPassword;
 
-const backendRepo = new RepoComponent("onex-backend");
+// const backendRepo = new Repo("onex-backend");
 
-const backendCluster = new ClusterComponent(
-  "onex-backend-cluster",
-  {
-    vpc,
-    repo: backendRepo.repo,
-    dbHostname: db.dbHostname,
-    dbName: db.dbName,
-    dbPassword,
-    dbUser: db.dbUser,
-    dbPort,
-    backendPort,
-  },
-  { dependsOn: [backendRepo] }
-);
+// const backendCluster = new ClusterComponent(
+//   "onex-backend-cluster",
+//   {
+//     vpc,
+//     repo: backendRepo.repo,
+//     dbHostname: db.dbHostname,
+//     dbName: db.dbName,
+//     dbPassword,
+//     dbUser: db.dbUser,
+//     dbPort,
+//     backendPort,
+//   },
+//   { dependsOn: [backendRepo] }
+// );
 
-export const backendUrl = backendCluster.backendUrl;
+// export const backendUrl = backendCluster.backendUrl;

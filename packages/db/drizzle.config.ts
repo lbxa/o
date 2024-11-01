@@ -1,11 +1,23 @@
-import "dotenv/config";
-
+import dotenv from "dotenv";
 import { defineConfig, Config as DrizzleConfig } from "drizzle-kit";
 
-const { DB_HOSTNAME, DB_USER, DB_NAME, DB_PORT, DB_PASSWORD } = process.env;
+const envFile = () => {
+  switch (process.env.NODE_ENV) {
+    case "local":
+      return ".env.local";
+    case "development":
+      return ".env.dev";
+    default:
+      return ".env.local";
+  }
+};
 
-if (!DB_HOSTNAME || !DB_USER || !DB_NAME || !DB_PORT || !DB_PASSWORD) {
-  throw new Error("Invalid DB creds");
+dotenv.config({ path: envFile() });
+
+const { DB_HOSTNAME, DB_USER, DB_NAME, DB_PORT, DB_PASSWORD, DB_SSL } = process.env;
+
+if (!DB_HOSTNAME || !DB_USER || !DB_NAME || !DB_PORT || !DB_PASSWORD || !DB_SSL) {
+  throw new Error("Database credentials not found");
 }
 
 export default defineConfig({
@@ -20,6 +32,6 @@ export default defineConfig({
     database: DB_NAME,
     port: Number(DB_PORT),
     password: DB_PASSWORD,
-    ssl: false,
+    ssl: DB_SSL === "true" ? { rejectUnauthorized: false } : false,
   },
 }) satisfies DrizzleConfig;

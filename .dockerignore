@@ -1,10 +1,14 @@
 node_modules
-dist
+**/node_modules
 .git
+**/.git
 logs
 tmp
+dist
 **/dist
+.cache
+**/.cache
 coverage
-**/node_modules
-**/.git
 .vscode
+.env*
+.env

@@ -10,7 +10,6 @@ import {
   rdsPolicy,
 } from "./policies";
 
-// Create our users.
 const lucas = new aws.iam.User("lucas@onex.social");
 // const mary = new aws.iam.User("mary");
 

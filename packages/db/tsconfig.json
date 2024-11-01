@@ -1,19 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@o/tsconfig/internal.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "lib": ["es2020"],
-    "composite": true,                // Enable Project References
-    "declaration": true,              // Emit .d.ts files
-    "declarationMap": true,           // (Optional) Emit .d.ts.map files
-    "outDir": "dist",                  // Output directory for compiled files
-    "rootDir": "src",                  // Root directory of source files
-    "strict": true,                    // Enable strict type-checking options
-    "moduleResolution": "node",        // Module resolution strategy
-    "esModuleInterop": true,           // Enable interoperability between CommonJS and ES Modules
-    "skipLibCheck": true               // Skip type checking of declaration files
+    "module": "CommonJS",
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

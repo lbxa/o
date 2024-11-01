@@ -18,6 +18,7 @@ export const ChallengeSchema = pgSchema("challenge");
 
 export const ChallengeMode = ChallengeSchema.enum("mode", [
   "BLIND_TRUST",
+  "BUDDY_SYSTEM",
   "VERIFIED_ONLY",
 ]);
 

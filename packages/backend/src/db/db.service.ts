@@ -26,6 +26,10 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
         database: this.configService.getOrThrow<string>("DB_NAME"),
         port: Number(this.configService.getOrThrow<string>("DB_PORT")),
         password: this.configService.getOrThrow<string>("DB_PASSWORD"),
+        ssl:
+          this.configService.getOrThrow<string>("DB_SSL") === "true"
+            ? { rejectUnauthorized: false }
+            : false,
       });
 
       this.logger.log("Database connection acquired");
