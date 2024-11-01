@@ -1,13 +1,14 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import { useFragment } from "react-relay";
 
 import { COMMUNITY_FRAGMENT } from "@/communities/CommunityFragment";
 import { useZustStore } from "@/state";
 
 import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
+import { Touchable } from "../atoms";
 
 interface Props {
   community: CommunityFragment$key;
@@ -25,7 +26,7 @@ export const CommunityCard = ({ community }: Props) => {
   };
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Touchable onPress={onPress}>
       <View className="mb-md bg-ivory pb-md rounded-xl">
         <View className="mb-sm flex h-[200px] w-full rounded-t-xl bg-gray-300">
           <View className="m-auto">
@@ -40,6 +41,6 @@ export const CommunityCard = ({ community }: Props) => {
           <Text>Social summary will go here</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 };

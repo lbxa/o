@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<815451b53231e2de45f79ae49f6f990f>>
+ * @generated SignedSource<<f17b2408faf5924faaa1a711a0599f96>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type CommunityChallenges_challenges$data = {
   readonly challenges: ReadonlyArray<{
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment">;

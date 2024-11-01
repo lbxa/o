@@ -5,6 +5,42 @@ import {
   ChallengeActivityUnits,
 } from "@o/api";
 
+export const ChallengeActivityToMeasurementMap = new Map<
+  ChallengeActivityType,
+  ChallengeActivityMeasurement[]
+>([
+  [
+    ChallengeActivityType.Repetitions,
+    [
+      ChallengeActivityMeasurement.Counting,
+      ChallengeActivityMeasurement.Improvement,
+    ],
+  ],
+  [
+    ChallengeActivityType.TimeBased,
+    [
+      ChallengeActivityMeasurement.Duration,
+      ChallengeActivityMeasurement.Improvement,
+    ],
+  ],
+  [
+    ChallengeActivityType.Weightlifting,
+    [
+      ChallengeActivityMeasurement.Counting,
+      ChallengeActivityMeasurement.Improvement,
+    ],
+  ],
+  [
+    ChallengeActivityType.Distance,
+    [
+      ChallengeActivityMeasurement.Counting,
+      ChallengeActivityMeasurement.Duration,
+      ChallengeActivityMeasurement.Improvement,
+    ],
+  ],
+  [ChallengeActivityType.Social, []],
+]);
+
 export const ChallengeActivityMeasurementToGoalMap = new Map<
   ChallengeActivityMeasurement,
   ChallengeActivityGoal[]

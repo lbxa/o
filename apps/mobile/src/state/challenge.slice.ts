@@ -11,6 +11,8 @@ type ChallengeForm = Partial<Challenge>;
 export interface ChallengeSlice {
   selectedChallenge: Challenge | null;
   setSelectedChallenge: (challenge: Challenge) => void;
+  recordedChallenge: Challenge | null;
+  setRecordedChallenge: (challenge: Challenge) => void;
   challengeForm: ChallengeForm;
   setChallengeFormField: <K extends keyof ChallengeForm>(
     field: K,
@@ -31,6 +33,8 @@ export const createChallengeSlice: StateCreator<
   selectedChallenge: null,
   challengeForm: {},
   setSelectedChallenge: (challenge) => set({ selectedChallenge: challenge }),
+  recordedChallenge: null,
+  setRecordedChallenge: (challenge) => set({ recordedChallenge: challenge }),
   setChallengeFormField: (field, value) =>
     set(
       produce((state: Draft<ChallengeSlice>) => {

@@ -25,6 +25,7 @@ import {
   challengeActivityMeasurementLabelToEnum,
   ChallengeActivityMeasurementToGoalMap,
   challengeActivityMeasurementToLabel,
+  ChallengeActivityToMeasurementMap,
   challengeActivityTypeToLabel,
   ChallengeActivityTypeToUnitsMap,
   challengeActivityUnitToLabel,
@@ -49,12 +50,32 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
 
   const activities = Object.values(ChallengeActivityType);
 
-  const goals = [...ChallengeActivityMeasurementToGoalMap].map(
-    ([measurement, goals]) => ({
-      label: challengeActivityMeasurementToLabel(measurement),
-      options: goals.map((goal) => challengeActivityGoalToLabel(goal)),
+  const measurements = [...ChallengeActivityToMeasurementMap].reduce(
+    (acc, [activity, measurements]) => {
+      acc[activity] = measurements;
+      return acc;
+    },
+    {} as Record<ChallengeActivityType, ChallengeActivityMeasurement[]>
+  );
+
+  const allowedMeasurements = selectedActivity
+    ? measurements[selectedActivity]
+    : [];
+
+  const allowedMeasurementGoals = allowedMeasurements.map(
+    (allowedMeasurement) => ({
+      measurement: allowedMeasurement,
+      goals: ChallengeActivityMeasurementToGoalMap.get(allowedMeasurement),
     })
   );
+
+  const hasSpecificTargetGoal = selectedMeasurement
+    ? allowedMeasurementGoals.find(
+        (goal) =>
+          goal.goals?.includes(ChallengeActivityGoal.SpecificTarget) &&
+          selectedGoal === ChallengeActivityGoal.SpecificTarget
+      )
+    : false;
 
   const units = [...ChallengeActivityTypeToUnitsMap].reduce(
     (acc, [activity, units]) => {
@@ -93,41 +114,50 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
         ))}
       </View>
 
-      <Title>Select a measurement</Title>
-      <Subtitle>How will participants measure their progress?</Subtitle>
-      <View className="mb-lg flex flex-row flex-wrap gap-md">
-        <PillGroup
-          group={goals}
-          optionSelected={
-            selectedGoal
-              ? challengeActivityGoalToLabel(selectedGoal)
-              : undefined
-          }
-          onOptionPress={(option) =>
-            setChallengeFormActivityField(
-              "goal",
-              challengeActivityGoalLabelToEnum(
-                option as ChallengeActivityGoalLabel
-              )
-            )
-          }
-          groupSelected={
-            selectedMeasurement
-              ? challengeActivityMeasurementToLabel(selectedMeasurement)
-              : undefined
-          }
-          onGroupPress={(group) =>
-            setChallengeFormActivityField(
-              "measurement",
-              challengeActivityMeasurementLabelToEnum(
-                group as ChallengeActivityMeasurementLabel
-              )
-            )
-          }
-        />
-      </View>
+      {allowedMeasurements.length > 0 && (
+        <View>
+          <Title>Select a measurement</Title>
+          <Subtitle>How will participants measure their progress?</Subtitle>
+          <View className="mb-lg flex flex-row flex-wrap gap-md">
+            <PillGroup
+              group={allowedMeasurementGoals.map(({ measurement, goals }) => ({
+                label: challengeActivityMeasurementToLabel(
+                  measurement
+                ) as string,
+                options: goals?.map(challengeActivityGoalToLabel) ?? [],
+              }))}
+              optionSelected={
+                selectedGoal
+                  ? challengeActivityGoalToLabel(selectedGoal)
+                  : undefined
+              }
+              onOptionPress={(option) =>
+                setChallengeFormActivityField(
+                  "goal",
+                  challengeActivityGoalLabelToEnum(
+                    option as ChallengeActivityGoalLabel
+                  )
+                )
+              }
+              groupSelected={
+                selectedMeasurement
+                  ? challengeActivityMeasurementToLabel(selectedMeasurement)
+                  : undefined
+              }
+              onGroupPress={(group) =>
+                setChallengeFormActivityField(
+                  "measurement",
+                  challengeActivityMeasurementLabelToEnum(
+                    group as ChallengeActivityMeasurementLabel
+                  )
+                )
+              }
+            />
+          </View>
+        </View>
+      )}
 
-      {selectedGoal === ChallengeActivityGoal.SpecificTarget && (
+      {hasSpecificTargetGoal && (
         <View className="mb-lg">
           <Title>Set a target</Title>
           <Subtitle>
@@ -174,23 +204,22 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                       onPress={() => setChallengeFormActivityField("unit", u)}
                     />
                   ))}
-                {selectedGoal === ChallengeActivityGoal.SpecificTarget &&
-                  selectedMeasurement ===
-                    ChallengeActivityMeasurement.Improvement && (
-                    <Pill
-                      label={challengeActivityUnitToLabel(
+                {selectedMeasurement ===
+                  ChallengeActivityMeasurement.Improvement && (
+                  <Pill
+                    label={challengeActivityUnitToLabel(
+                      ChallengeActivityUnits.Percent
+                    )}
+                    key={ChallengeActivityUnits.Percent}
+                    selected={selectedUnit === ChallengeActivityUnits.Percent}
+                    onPress={() =>
+                      setChallengeFormActivityField(
+                        "unit",
                         ChallengeActivityUnits.Percent
-                      )}
-                      key={ChallengeActivityUnits.Percent}
-                      selected={selectedUnit === ChallengeActivityUnits.Percent}
-                      onPress={() =>
-                        setChallengeFormActivityField(
-                          "unit",
-                          ChallengeActivityUnits.Percent
-                        )
-                      }
-                    />
-                  )}
+                      )
+                    }
+                  />
+                )}
               </View>
             </ScrollView>
           </View>

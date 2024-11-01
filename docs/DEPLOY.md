@@ -2,7 +2,7 @@
 
 ## Publishing to the App Store
 
-1. Follow [these instructions](https://docs.expo.dev/submit/ios/).
+Follow [these instructions](https://docs.expo.dev/submit/ios/).
 
 > [!NOTE]
 > If you need to move the binary builds locally with `--local` for debugging there are missing Apple

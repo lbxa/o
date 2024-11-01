@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f0dfe0ec37952cb2d05375b330526a1d>>
+ * @generated SignedSource<<4349895934aee896151a4165b38a30d2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ConcreteRequest } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type ChallengeDetailsQuery$variables = {
   id: string;
 };

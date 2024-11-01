@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5d3a2e4c79b042d3ea76afef46213c73>>
+ * @generated SignedSource<<f4388aa5e1b77edf43749734dacc5312>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
 export type UserInviteCardMutation$variables = {
   communityId: string;
   userId: string;

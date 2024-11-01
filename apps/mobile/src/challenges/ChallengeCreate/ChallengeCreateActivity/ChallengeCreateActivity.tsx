@@ -31,12 +31,11 @@ export const ChallengeCreateActivity = () => {
 
       <BottomSheetModal
         ref={modalRef}
-        index={0}
-        snapPoints={["45%"]}
-        backdropComponent={(props) => (
-          <BottomSheetBackdrop {...props} snapPoints={["45%"]} />
-        )}
+        // index={0}
+        // snapPoints={["45%"]}
+        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
         enableDynamicSizing
+        maxDynamicContentSize={700}
         // enablePanDownToClose
         // maxDynamicContentSize={700}
       >

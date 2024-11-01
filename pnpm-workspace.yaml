@@ -8,7 +8,7 @@ packages:
   - '!out/**'
 
 # TODO add these into each package.json
-# waiting on support for pnpm up -i -L --filter <package>
+# waiting on support for pnpm up -i --filter <package>
 # right now these catalogs must be updated manually
 catalog:
   typescript: ^5.3.3

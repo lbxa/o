@@ -4,11 +4,13 @@
     "slug": "o",
     "scheme": "rn",
     "version": "1.0.0",
+    "owner": "lbxa",
     "orientation": "portrait",
+    "jsEngine": "hermes",
     "icon": "./assets/onex-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/onex-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#5955eb"
     },
@@ -21,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/onex-adaptive-icon.png",
         "backgroundColor": "#5955eb"
       },
       "package": "com.oCorp.oNex"
@@ -30,8 +32,10 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      "expo-dev-client",
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true

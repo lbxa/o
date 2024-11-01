@@ -37,13 +37,12 @@ export const useRelayEnvironment = (): {
   const fetchFn: FetchFunction = useCallback(
     async (request, variables) => {
       const accessToken = getStoreItem("ACCESS_TOKEN");
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+      if (!apiUrl) throw new Error("API URL is not configured");
 
       const makeRequest = async (
         token: string | null
       ): Promise<GraphQLResponseWithData> => {
-        const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-        if (!apiUrl) throw new Error("API URL is not configured");
-
         const response = await fetch(apiUrl, {
           method: "POST",
           headers: formatRequestHeader(token),
@@ -66,7 +65,7 @@ export const useRelayEnvironment = (): {
         const refreshToken = getStoreItem("REFRESH_TOKEN");
 
         if (refreshToken) {
-          const refreshResponse = await fetch("http://localhost:6969/graphql", {
+          const refreshResponse = await fetch(apiUrl, {
             method: "POST",
             headers: formatRequestHeader(refreshToken),
             body: JSON.stringify({

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e2717d2c0170abe339da69f03446e663>>
+ * @generated SignedSource<<ab6ed42f053d749fbc48cd33ee55c42c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
 export type UserCreateValidateEmailQuery$variables = {
   email: string;
 };

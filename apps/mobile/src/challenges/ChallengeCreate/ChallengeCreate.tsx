@@ -165,6 +165,7 @@ export const ChallengeCreate = () => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     multiline
+                    blurOnSubmit
                     // numberOfLines={10}
                     value={value}
                     error={!!errors.name}

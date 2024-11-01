@@ -6,7 +6,7 @@ import React from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Subtitle, Title } from "@/universe/atoms";
+import { Button, Subtitle, Title, Touchable } from "@/universe/atoms";
 
 import type { ChallengeModeLabel } from "../../ChallengeMode";
 
@@ -18,25 +18,27 @@ const DataControl: React.FC<{
   comingSoon?: boolean;
 }> = ({ controlName, controlDescription, selected, onSelect, comingSoon }) => {
   return (
-    <View className="flex flex-row items-center gap-md">
-      <View className="flex flex-1">
-        <Text
-          className={classNames("mb-sm text-xl", {
-            "text-gray-500": comingSoon,
-          })}
-        >
-          {controlName}
-          {comingSoon && " (Coming Soon)"}
-        </Text>
-        <Text>{controlDescription}</Text>
+    <Touchable onPress={onSelect} disabled={comingSoon}>
+      <View className="flex flex-row items-center gap-md">
+        <View className="flex flex-1">
+          <Text
+            className={classNames("mb-sm text-xl", {
+              "text-gray-500": comingSoon,
+            })}
+          >
+            {controlName}
+            {comingSoon && " (Coming Soon)"}
+          </Text>
+          <Text>{controlDescription}</Text>
+        </View>
+        <CheckBox
+          value={selected}
+          color="black"
+          disabled={comingSoon}
+          onValueChange={onSelect}
+        />
       </View>
-      <CheckBox
-        value={selected}
-        color="black"
-        disabled={comingSoon}
-        onValueChange={onSelect}
-      />
-    </View>
+    </Touchable>
   );
 };
 
@@ -45,7 +47,7 @@ export const ChallengeCreateModeSelector: React.FC<{
 }> = ({ modalRef }) => {
   const { setChallengeFormField, challengeForm } = useZustStore();
 
-  const selectedControl = challengeForm.mode ?? ChallengeMode.BlindTrust;
+  const selectedControl = challengeForm.mode;
 
   const controls: {
     controlId: ChallengeMode;

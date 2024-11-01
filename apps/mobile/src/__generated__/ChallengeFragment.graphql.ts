@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ed4e0e4150fb7b385f05ccb9f6ba796f>>
+ * @generated SignedSource<<89be1530a2dec03b48eabe76d2f2e381>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type ChallengeFragment$data = {
   readonly description: string | null | undefined;
   readonly endDate: Date | null | undefined;
