@@ -79,6 +79,27 @@ enum ChallengeActivityMeasurement {
   IMPROVEMENT
 }
 
+"""
+Results for a challenge activity are recorded per user per activity.
+In the future we may want to support multiple activities per challenge.
+
+There can be multiple results per activity per user.
+"""
+type ChallengeActivityResult implements Node & Timestamps {
+  activity: ChallengeActivity!
+  createdAt: DateTime
+  id: ID!
+  result: Int!
+  updatedAt: DateTime
+  user: User!
+}
+
+input ChallengeActivityResultCreateInput {
+  activityId: ID!
+  result: Int!
+  userId: ID!
+}
+
 enum ChallengeActivityType {
   DISTANCE
   REPETITIONS
@@ -210,6 +231,7 @@ type Mutation {
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
   authLogout(id: Int!): Boolean!
   authRefreshTokens: Tokens!
+  challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): ChallengeActivityResult!
   challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!

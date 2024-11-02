@@ -12,27 +12,19 @@
       "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
-      "channel": "development",
       "env": {
         "EXPO_PUBLIC_API_URL": "http://localhost:6969/graphql"
       }
     },
     "development:simulator": {
-      "extends": "base",
-      "developmentClient": true,
-      "distribution": "internal",
-      "channel": "development",
+      "extends": "development",
       "ios": {
         "simulator": true
-      },
-      "env": {
-        "EXPO_PUBLIC_API_URL": "http://localhost:6969/graphql"
       }
     },
     "preview": {
       "extends": "base",
       "distribution": "internal",
-      "channel": "staging",
       "env": {
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }
@@ -41,7 +33,6 @@
       "extends": "base",
       "autoIncrement": true,
       "distribution": "store",
-      "channel": "production",
       "resourceClass": "large",
       "env": {
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"

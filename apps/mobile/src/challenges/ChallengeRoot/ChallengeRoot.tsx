@@ -6,7 +6,6 @@ import { useQueryLoader } from "react-relay";
 import { MiniNav, Ozone } from "@/universe/molecules";
 
 import type { ChallengeDetailsQuery } from "../../__generated__/ChallengeDetailsQuery.graphql";
-import { TimerLogger } from "../ChallengeLogger";
 import { CHALLENGE_DETAILS_QUERY, ChallengeDetails } from "./ChallengeDetails";
 import { ChallengeHeader } from "./ChallengeHeader";
 
@@ -30,7 +29,6 @@ export const ChallengeRoot = ({ challengeId }: ChallengeRootProps) => {
           headerRight: () => <MiniNav items={["message"]} />,
         }}
       />
-      <TimerLogger />
       <View className="px-md">
         {queryRef && <ChallengeDetails queryRef={queryRef} />}
         <Text className="mb-md text-2xl font-bold">Top Movers</Text>

@@ -95,6 +95,28 @@ export enum ChallengeActivityMeasurement {
   Improvement = 'IMPROVEMENT'
 }
 
+/**
+ * Results for a challenge activity are recorded per user per activity.
+ * In the future we may want to support multiple activities per challenge.
+ *
+ * There can be multiple results per activity per user.
+ */
+export type ChallengeActivityResult = Node & Timestamps & {
+  __typename?: 'ChallengeActivityResult';
+  activity: ChallengeActivity;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  result: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user: User;
+};
+
+export type ChallengeActivityResultCreateInput = {
+  activityId: Scalars['ID']['input'];
+  result: Scalars['Int']['input'];
+  userId: Scalars['ID']['input'];
+};
+
 export enum ChallengeActivityType {
   Distance = 'DISTANCE',
   Repetitions = 'REPETITIONS',
@@ -229,6 +251,7 @@ export type Mutation = {
   authLogin: AuthLoginResponse;
   authLogout: Scalars['Boolean']['output'];
   authRefreshTokens: Tokens;
+  challengeActivityResultCreate: ChallengeActivityResult;
   challengeCreate: Challenge;
   challengeDelete: Scalars['Boolean']['output'];
   challengeInvite: Scalars['Boolean']['output'];
@@ -257,6 +280,11 @@ export type MutationAuthLoginArgs = {
 
 export type MutationAuthLogoutArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type MutationChallengeActivityResultCreateArgs = {
+  challengeActivityResultCreateInput: ChallengeActivityResultCreateInput;
 };
 
 

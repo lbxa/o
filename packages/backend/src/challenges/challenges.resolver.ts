@@ -5,17 +5,21 @@ import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
   ChallengeActivityCreateInput,
+  ChallengeActivityResult,
+  ChallengeActivityResultCreateInput,
   ChallengeCreateInput,
   ChallengeInvitation,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { ChallengeActivityResultsService } from "./challenge-results";
 import { ChallengesService } from "./challenges.service";
 
 @Resolver("Challenge")
 export class ChallengesResolver {
   constructor(
     private dbService: DbService,
-    private challengesService: ChallengesService
+    private challengesService: ChallengesService,
+    private challengeActivityResultsService: ChallengeActivityResultsService
   ) {}
 
   @Query("challenge")
@@ -65,6 +69,23 @@ export class ChallengesResolver {
       { ...activityInput },
       userId
     );
+  }
+
+  @Mutation("challengeActivityResultCreate")
+  async challengeActivityResultCreate(
+    @Args("challengeActivityResultCreateInput")
+    resultInput: ChallengeActivityResultCreateInput,
+    @CurrentUser("userId") userId: number
+  ): Promise<ChallengeActivityResult> {
+    const activityId = validateAndDecodeGlobalId(
+      resultInput.activityId,
+      "ChallengeActivity"
+    );
+    return this.challengeActivityResultsService.create({
+      ...resultInput,
+      activityId,
+      userId,
+    });
   }
 
   @Mutation("challengeInvite")

@@ -89,6 +89,27 @@ input ChallengeActivityCreateInput {
   unit: ChallengeActivityUnits!
 }
 
+"""
+Results for a challenge activity are recorded per user per activity.
+In the future we may want to support multiple activities per challenge.
+
+There can be multiple results per activity per user.
+"""
+type ChallengeActivityResult implements Node & Timestamps {
+  id: ID!
+  user: User!
+  activity: ChallengeActivity!
+  result: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ChallengeActivityResultCreateInput {
+  activityId: ID!
+  userId: ID!
+  result: Int!
+}
+
 type ChallengeMembership implements Node {
   id: ID!
   user: User!
@@ -144,4 +165,7 @@ type Mutation {
   challengeInvite(userId: ID!, challengeId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!
   challengeLeave(id: ID!): Boolean!
+  challengeActivityResultCreate(
+    challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!
+  ): ChallengeActivityResult!
 }

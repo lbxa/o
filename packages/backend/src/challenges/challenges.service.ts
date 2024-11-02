@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 import {
   Challenge as PgChallenge,
-  ChallengeActivitiesTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
   ChallengesTable,
@@ -27,10 +26,14 @@ import {
   InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum } from "../utils";
+import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengesService {
-  constructor(private dbService: DbService) {}
+  constructor(
+    private challengeActivitiesService: ChallengeActivitiesService,
+    private dbService: DbService
+  ) {}
 
   // TODO map Db types to GraphQL types
   // e.g. DrizzleChallenge -> Challenge
@@ -195,32 +198,35 @@ export class ChallengesService {
     const [challenge] = await this.dbService.db
       .insert(ChallengesTable)
       .values({ ...challengeInput })
-      .returning({ insertedId: ChallengesTable.id });
+      .returning();
 
-    const [challengeActivity] = await this.dbService.db
-      .insert(ChallengeActivitiesTable)
-      .values({
-        ...activityInput,
-        challengeId: challenge.insertedId,
-      })
-      .returning({ insertedId: ChallengeActivitiesTable.id });
+    const challengeActivity = await this.challengeActivitiesService.create({
+      ...activityInput,
+      challengeId: challenge.id,
+    });
 
-    if (!challengeActivity.insertedId) {
+    if (!challengeActivity) {
       throw new InternalServerErrorException(
         "Failed to create challenge activity"
       );
     }
 
-    // TODO redundant call
-    return this.findOne(challenge.insertedId);
+    return this.mapper(challenge);
   }
 
   async update(id: number, input: Partial<NewChallenge>): Promise<Challenge> {
-    await this.dbService.db
+    const [updatedChallenge] = await this.dbService.db
       .update(ChallengesTable)
       .set(input)
-      .where(eq(ChallengesTable.id, id));
-    return this.findOne(id);
+      .where(eq(ChallengesTable.id, id))
+      .returning();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!updatedChallenge) {
+      throw new NotFoundException(`Challenge with id ${id} not found`);
+    }
+
+    return this.mapper(updatedChallenge);
   }
 
   async remove(id: number, userId: number): Promise<boolean> {

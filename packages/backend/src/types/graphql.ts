@@ -86,6 +86,12 @@ export interface ChallengeActivityCreateInput {
     unit: ChallengeActivityUnits;
 }
 
+export interface ChallengeActivityResultCreateInput {
+    activityId: string;
+    userId: string;
+    result: number;
+}
+
 export interface ChallengeCreateInput {
     name: string;
     description: string;
@@ -163,6 +169,7 @@ export interface IMutation {
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
     challengeJoin(inviteId: string): Challenge | Promise<Challenge>;
     challengeLeave(id: string): boolean | Promise<boolean>;
+    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
@@ -199,6 +206,16 @@ export interface ChallengeActivity extends Node, Timestamps {
     goal?: Nullable<ChallengeActivityGoal>;
     target?: Nullable<number>;
     unit?: Nullable<ChallengeActivityUnits>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
+export interface ChallengeActivityResult extends Node, Timestamps {
+    __typename?: 'ChallengeActivityResult';
+    id: string;
+    user: User;
+    activity: ChallengeActivity;
+    result: number;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }

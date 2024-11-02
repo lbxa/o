@@ -7,6 +7,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
+    "build:mobile": "turbo build --filter=\"...{./apps/mobile}\"",
     "dev": "turbo dev gql relay",
     "test": "turbo test",
     "lint": "turbo lint",

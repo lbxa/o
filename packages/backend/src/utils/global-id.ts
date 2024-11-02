@@ -21,8 +21,13 @@
 //   }
 // );
 
-type EntityIdentifiers = "Community" | "User" | "Challenge";
-type EntitySecondaryIdentifiers = "Invitation";
+type EntityIdentifiers =
+  | "Community"
+  | "User"
+  | "Challenge"
+  | "ChallengeActivity";
+
+type EntitySecondaryIdentifiers = "Invitation" | "Result";
 export type EntityType =
   | EntityIdentifiers
   | `${EntityIdentifiers}${EntitySecondaryIdentifiers}`;

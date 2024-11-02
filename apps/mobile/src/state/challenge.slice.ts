@@ -8,11 +8,21 @@ import type { UserSlice } from "./user.slice";
 
 type ChallengeForm = Partial<Challenge>;
 
+type RecordedChallenge = Challenge &
+  Partial<{
+    time: number | undefined;
+    attempts: number | undefined;
+  }>;
+
 export interface ChallengeSlice {
   selectedChallenge: Challenge | null;
   setSelectedChallenge: (challenge: Challenge) => void;
-  recordedChallenge: Challenge | null;
-  setRecordedChallenge: (challenge: Challenge) => void;
+  recordedChallenge: RecordedChallenge | null;
+  setRecordedChallenge: (challenge: RecordedChallenge | null) => void;
+  setRecordedChallengeField: <K extends keyof RecordedChallenge>(
+    field: K,
+    value: RecordedChallenge[K]
+  ) => void;
   challengeForm: ChallengeForm;
   setChallengeFormField: <K extends keyof ChallengeForm>(
     field: K,
@@ -35,6 +45,13 @@ export const createChallengeSlice: StateCreator<
   setSelectedChallenge: (challenge) => set({ selectedChallenge: challenge }),
   recordedChallenge: null,
   setRecordedChallenge: (challenge) => set({ recordedChallenge: challenge }),
+  setRecordedChallengeField: (field, value) =>
+    set(
+      produce((state: Draft<ChallengeSlice>) => {
+        if (!state.recordedChallenge) return;
+        state.recordedChallenge[field] = value;
+      })
+    ),
   setChallengeFormField: (field, value) =>
     set(
       produce((state: Draft<ChallengeSlice>) => {

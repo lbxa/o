@@ -1,16 +1,26 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import type { NewUser } from "@o/db";
+import type { NewUser, User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { User, UserUpdateInput } from "../types/graphql";
+import { EntityMapper } from "../entity";
+import { User as GqlUser, UserUpdateInput } from "../types/graphql";
 import { encodeGlobalId } from "../utils";
 import { fullTextSearch } from "./utils/full-text-search";
 
 @Injectable()
-export class UsersService {
+export class UsersService
+  implements EntityMapper<typeof UsersTable, PgUser, GqlUser>
+{
   constructor(private dbService: DbService) {}
+
+  public pg2GqlMapper(pgUser: PgUser): GqlUser {
+    return {
+      ...pgUser,
+      id: encodeGlobalId("User", pgUser.id),
+    };
+  }
 
   async createUser(
     newUser: Omit<NewUser, "fullName">
@@ -29,32 +39,24 @@ export class UsersService {
       })
       .returning({ insertedId: UsersTable.id });
 
-    // const globalId = encodeGlobalId("User", result.insertId);
-
     return { id: result.insertedId };
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<GqlUser[]> {
     const users = await this.dbService.db.query.UsersTable.findMany();
-
-    return users.map((user) => ({
-      ...user,
-      id: encodeGlobalId("User", user.id),
-    }));
+    return users.map((user) => this.pg2GqlMapper(user));
   }
 
-  async findOne(id: number): Promise<User | undefined> {
+  async findOne(id: number): Promise<GqlUser | undefined> {
     const user = await this.dbService.db.query.UsersTable.findFirst({
       where: eq(UsersTable.id, id),
     });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${user} not found`);
+      throw new NotFoundException(`User with id ${id} not found`);
     }
 
-    const globalId = encodeGlobalId("User", user.id);
-
-    return { ...user, id: globalId };
+    return this.pg2GqlMapper(user);
   }
 
   // TODO replace for full text search :)
@@ -66,7 +68,7 @@ export class UsersService {
     return !!user;
   }
 
-  async userSearch(searchTerm: string): Promise<User[]> {
+  async userSearch(searchTerm: string): Promise<GqlUser[]> {
     return await fullTextSearch(this.dbService, searchTerm);
   }
 

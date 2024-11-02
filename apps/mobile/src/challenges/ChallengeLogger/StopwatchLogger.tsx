@@ -1,6 +1,6 @@
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import classNames from "classnames";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
@@ -13,14 +13,21 @@ import { formatTime } from "./utils";
 type TimerButtonVariant = "start" | "stop" | "record";
 
 interface TimerButtonProps {
+  variant: TimerButtonVariant;
+  setVariant: React.Dispatch<React.SetStateAction<TimerButtonVariant>>;
   onStart: () => void;
   onStop: () => void;
   onRecord: () => void;
   reset?: boolean;
 }
 
-const TimerButton = ({ onStart, onStop, onRecord }: TimerButtonProps) => {
-  const [variant, setVariant] = useState<TimerButtonVariant>("start");
+const TimerButton = ({
+  variant,
+  setVariant,
+  onStart,
+  onStop,
+  onRecord,
+}: TimerButtonProps) => {
   const handlerLookup: Record<TimerButtonVariant, () => void> = {
     start: onStart,
     stop: onStop,
@@ -69,25 +76,36 @@ const TimerButton = ({ onStart, onStop, onRecord }: TimerButtonProps) => {
   );
 };
 
-export const TimerLogger = () => {
+interface TimerLoggerProps {
+  modalRef: React.RefObject<BottomSheetModal>;
+}
+
+export const TimerLogger = ({ modalRef }: TimerLoggerProps) => {
   const { time, start, stop, reset } = useStopwatch();
-  const modalRef = useRef<BottomSheetModal>(null);
-  const handleModal = useCallback(() => {
-    modalRef.current?.present();
-  }, []);
+  const { setRecordedChallenge, setRecordedChallengeField } = useZustStore();
+  const [timerButtonVariant, setTimerButtonVariant] =
+    useState<TimerButtonVariant>("start");
+  const [attempts, setAttempts] = useState(0);
 
-  const { recordedChallenge } = useZustStore();
-
-  useEffect(() => {
-    if (recordedChallenge) {
-      handleModal();
-    }
-  }, [handleModal, recordedChallenge]);
-
-  const handleRecord = () => {
+  const handleRecord = useCallback(() => {
     reset();
+    setRecordedChallenge(null);
+    setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
-  };
+  }, [
+    reset,
+    setRecordedChallenge,
+    setRecordedChallengeField,
+    attempts,
+    modalRef,
+  ]);
+
+  const handleReset = useCallback(() => {
+    reset();
+    setTimerButtonVariant("start");
+    setAttempts((prev) => prev + 1);
+    setRecordedChallengeField("attempts", attempts);
+  }, [reset, setRecordedChallengeField, attempts]);
 
   return (
     <BottomSheetModal
@@ -107,7 +125,7 @@ export const TimerLogger = () => {
           </Text>
           <View className="flex flex-row justify-around gap-md">
             <Touchable
-              onPress={reset}
+              onPress={handleReset}
               className="mt-auto flex size-[100px] rounded-full bg-gray-200"
             >
               <Text className="m-auto text-xl font-bold text-gray-600">
@@ -115,12 +133,13 @@ export const TimerLogger = () => {
               </Text>
             </Touchable>
             <TimerButton
+              variant={timerButtonVariant}
+              setVariant={setTimerButtonVariant}
               onStart={start}
               onStop={stop}
               onRecord={handleRecord}
             />
           </View>
-          {/* <Button title="Record" className="mt-lg" /> */}
         </View>
       </BottomSheetScrollView>
     </BottomSheetModal>
