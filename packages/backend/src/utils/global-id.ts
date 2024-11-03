@@ -27,7 +27,7 @@ type EntityIdentifiers =
   | "Challenge"
   | "ChallengeActivity";
 
-type EntitySecondaryIdentifiers = "Invitation" | "Result";
+type EntitySecondaryIdentifiers = "Invitation" | "Result" | "Membership";
 export type EntityType =
   | EntityIdentifiers
   | `${EntityIdentifiers}${EntitySecondaryIdentifiers}`;

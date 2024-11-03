@@ -1,0 +1,1 @@
+ALTER TABLE "challenge"."activity_results" ALTER COLUMN "challenge_id" SET NOT NULL;

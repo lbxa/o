@@ -1,10 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-export interface Timestamp {
-  minutes: number;
-  seconds: number;
-  milliseconds: number;
-}
+import { Timestamp } from "../utils";
 
 export const useStopwatch = (): {
   time: Timestamp;
@@ -49,7 +45,7 @@ export const useStopwatch = (): {
     const minutes = Math.floor((elapsedTime / 60000) % 60);
     const seconds = Math.floor((elapsedTime / 1000) % 60);
     const milliseconds = Math.floor((elapsedTime % 1000) / 10);
-    return { minutes, seconds, milliseconds };
+    return new Timestamp(minutes, seconds, milliseconds);
   }, [elapsedTime]);
 
   const time = useMemo(() => getTime(), [getTime]);

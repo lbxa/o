@@ -7,5 +7,13 @@ export const CHALLENGE_FRAGMENT = graphql`
     description
     startDate
     endDate
+    activity {
+      id
+      type
+      measurement
+      goal
+      unit
+      target
+    }
   }
 `;

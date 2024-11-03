@@ -14,7 +14,11 @@ import { useZustStore } from "@/state";
 import { Button, Touchable } from "@/universe/atoms";
 
 import { CHALLENGE_FRAGMENT } from "../ChallengeFragment";
-import { TimerLogger } from "../ChallengeLogger";
+import {
+  RepetitionLogger,
+  StopwatchLogger,
+  WeightLogger,
+} from "../ChallengeLogger";
 
 export const CHALLENGE_DETAILS_QUERY = graphql`
   query ChallengeDetailsQuery($id: ID!) {
@@ -37,7 +41,9 @@ export const ChallengeDetails = ({ queryRef }: Props) => {
     queryRef
   );
 
-  const modalRef = useRef<BottomSheetModal>(null);
+  const stopwatchModalRef = useRef<BottomSheetModal>(null);
+  const repetitionModalRef = useRef<BottomSheetModal>(null);
+  const weightModalRef = useRef<BottomSheetModal>(null);
 
   const [showDescription, setShowDescription] = useState(true);
 
@@ -48,26 +54,23 @@ export const ChallengeDetails = ({ queryRef }: Props) => {
 
   const handleRecord = () => {
     challenge && setRecordedChallenge(challenge);
-    modalRef.current?.present();
+    weightModalRef.current?.present();
   };
 
   return (
-    <View className="relative mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
-        <View className="rounded-xl bg-ivory p-md">
-          <Touchable
-            className="absolute right-sm top-sm"
-            onPress={() => setShowDescription(false)}
-          >
+        <View className="flex-row items-start rounded-xl bg-ivory p-sm">
+          <OnexIcon width={15} height={15} />
+          <Text className="mx-sm flex-1">{challenge?.description}</Text>
+          <Touchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} />
           </Touchable>
-          <View className="mx-auto mb-md">
-            <OnexIcon />
-          </View>
-          <Text className="text-center">{challenge?.description}</Text>
         </View>
       )}
-      <TimerLogger modalRef={modalRef} />
+      <StopwatchLogger modalRef={stopwatchModalRef} />
+      <RepetitionLogger modalRef={repetitionModalRef} />
+      <WeightLogger modalRef={weightModalRef} />
       <View className="flex flex-row gap-md">
         <Button title="Share" variant="indigo" className="rounded-xl" />
         <Button

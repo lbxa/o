@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import {
   ChallengeActivitiesTable,
   ChallengeActivity as PgChallengeActivity,
@@ -58,7 +58,9 @@ export class ChallengeActivitiesService
         : undefined;
 
     if (!whereClause) {
-      throw new Error("At least one search criterion must be provided.");
+      throw new InternalServerErrorException(
+        "At least one search criterion must be provided."
+      );
     }
 
     const challengeActivity =

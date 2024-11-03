@@ -150,7 +150,7 @@ Users can create a challenge from the following activity types:
 
 - Repetitions
 - Weightlifting
-- Time-Based
+- Time-Based (always measured in milliseconds)
 - Distance
 - Social
 

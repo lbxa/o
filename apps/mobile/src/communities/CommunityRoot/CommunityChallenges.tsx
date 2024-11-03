@@ -47,7 +47,7 @@ export const CommunityChallenges = ({ fragmentRef }: Props) => {
   return (
     <View>
       <FlatList
-        className="px-md min-h-full"
+        className="min-h-full px-md"
         data={data.challenges}
         ListHeaderComponent={
           <View>

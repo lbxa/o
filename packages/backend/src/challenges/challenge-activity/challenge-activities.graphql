@@ -1,0 +1,56 @@
+enum ChallengeActivityType {
+  REPETITIONS
+  WEIGHTLIFTING
+  TIME_BASED
+  DISTANCE
+  SOCIAL
+}
+
+enum ChallengeActivityUnits {
+  KILOGRAMS
+  POUNDS
+  METRES
+  FEET
+  SECONDS
+  MINUTES
+  HOURS
+  MILES
+  KILOMETRES
+  PERCENT
+  NONE
+}
+
+enum ChallengeActivityMeasurement {
+  COUNTING
+  DURATION
+  IMPROVEMENT
+}
+
+enum ChallengeActivityGoal {
+  LOWEST_NUMBER
+  HIGHEST_NUMBER
+  SPECIFIC_TARGET
+  SHORTEST_TIME
+  LONGEST_TIME
+  MOST_IMPROVED
+}
+
+type ChallengeActivity implements Node & Timestamps {
+  id: ID!
+  challengeId: ID
+  type: ChallengeActivityType!
+  measurement: ChallengeActivityMeasurement!
+  goal: ChallengeActivityGoal!
+  target: Int
+  unit: ChallengeActivityUnits!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ChallengeActivityCreateInput {
+  type: ChallengeActivityType!
+  measurement: ChallengeActivityMeasurement!
+  goal: ChallengeActivityGoal!
+  target: Int
+  unit: ChallengeActivityUnits!
+}

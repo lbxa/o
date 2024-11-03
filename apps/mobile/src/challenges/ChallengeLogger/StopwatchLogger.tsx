@@ -1,98 +1,65 @@
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Touchable } from "@/universe/atoms";
+import type { TimerButtonVariant } from "@/universe/atoms";
+import { TimerButton, Touchable } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useStopwatch } from "./hooks";
-import { formatTime } from "./utils";
+import { useChallengeActivityResultCreateMutation } from "./mutations";
 
-type TimerButtonVariant = "start" | "stop" | "record";
-
-interface TimerButtonProps {
-  variant: TimerButtonVariant;
-  setVariant: React.Dispatch<React.SetStateAction<TimerButtonVariant>>;
-  onStart: () => void;
-  onStop: () => void;
-  onRecord: () => void;
-  reset?: boolean;
-}
-
-const TimerButton = ({
-  variant,
-  setVariant,
-  onStart,
-  onStop,
-  onRecord,
-}: TimerButtonProps) => {
-  const handlerLookup: Record<TimerButtonVariant, () => void> = {
-    start: onStart,
-    stop: onStop,
-    record: onRecord,
-  };
-
-  const labelLookup: Record<TimerButtonVariant, string> = {
-    start: "Start",
-    stop: "Stop",
-    record: "Record",
-  };
-
-  const stateLookup: Record<TimerButtonVariant, TimerButtonVariant> = {
-    start: "stop",
-    stop: "record",
-    record: "start",
-  };
-
-  const selectVariantText = (variant: TimerButtonVariant) =>
-    labelLookup[variant];
-
-  const handlePress = () => {
-    setVariant((prev) => stateLookup[prev]);
-    handlerLookup[variant]();
-  };
-
-  return (
-    <Touchable
-      onPress={handlePress}
-      className={classNames("mt-auto flex size-[250px] rounded-full ", {
-        "bg-green-200": variant === "start",
-        "bg-red-200": variant === "stop",
-        "bg-indigo-200": variant === "record",
-      })}
-    >
-      <Text
-        className={classNames("m-auto text-3xl font-bold", {
-          "text-green-600": variant === "start",
-          "text-red-600": variant === "stop",
-          "text-indigo-600": variant === "record",
-        })}
-      >
-        {selectVariantText(variant)}
-      </Text>
-    </Touchable>
-  );
-};
-
-interface TimerLoggerProps {
+interface StopwatchLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
 }
 
-export const TimerLogger = ({ modalRef }: TimerLoggerProps) => {
+export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
   const { time, start, stop, reset } = useStopwatch();
-  const { setRecordedChallenge, setRecordedChallengeField } = useZustStore();
+  const {
+    setRecordedChallenge,
+    setRecordedChallengeField,
+    selectedChallenge,
+    activeUser,
+  } = useZustStore();
   const [timerButtonVariant, setTimerButtonVariant] =
     useState<TimerButtonVariant>("start");
   const [attempts, setAttempts] = useState(0);
 
+  const [commitMutation] = useChallengeActivityResultCreateMutation();
+
   const handleRecord = useCallback(() => {
+    console.log("selectedChallenge", selectedChallenge);
+    console.log("activeUser", activeUser);
+    if (!selectedChallenge?.activity.id || !activeUser?.id) {
+      throw new Error("Challenge results require userId or activityId");
+    }
+
+    commitMutation({
+      variables: {
+        input: {
+          challengeId: selectedChallenge.id,
+          activityId: selectedChallenge.activity.id,
+          userId: activeUser.id,
+          result: time.toInt(),
+        },
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+      onCompleted: () => {
+        console.log("result logged!");
+      },
+    });
     reset();
     setRecordedChallenge(null);
     setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
   }, [
+    selectedChallenge,
+    activeUser,
+    commitMutation,
+    time,
     reset,
     setRecordedChallenge,
     setRecordedChallengeField,
@@ -121,7 +88,7 @@ export const TimerLogger = ({ modalRef }: TimerLoggerProps) => {
             className="w-full text-center text-[5.5rem] font-bold"
             style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
           >
-            {formatTime(time)}
+            {time.toString()}
           </Text>
           <View className="flex flex-row justify-around gap-md">
             <Touchable
@@ -137,7 +104,7 @@ export const TimerLogger = ({ modalRef }: TimerLoggerProps) => {
               setVariant={setTimerButtonVariant}
               onStart={start}
               onStop={stop}
-              onRecord={handleRecord}
+              onDone={handleRecord}
             />
           </View>
         </View>

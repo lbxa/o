@@ -1,5 +1,5 @@
 import {
-  foreignKey,
+  bigint,
   index,
   integer,
   pgSchema,
@@ -162,7 +162,17 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
     activityId: integer()
       .notNull()
       .references(() => ChallengeActivitiesTable.id),
-    result: integer().notNull(),
+    challengeId: integer()
+      .notNull()
+      .references(() => ChallengesTable.id),
+    /**
+     * If you’re expecting values above 2^31 but below 2^53, you can
+     * utilise mode: 'number' and deal with javascript number as
+     * opposed to bigint.
+     *
+     * @see https://orm.drizzle.team/docs/column-types/pg#bigint
+     */
+    result: bigint({ mode: "number" }).notNull(),
     ...withModificationDates,
   }
 );

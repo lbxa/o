@@ -43,7 +43,7 @@ export type AuthLoginResponse = {
 
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
-  activity?: Maybe<ChallengeActivity>;
+  activity: ChallengeActivity;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -63,12 +63,12 @@ export type ChallengeActivity = Node & Timestamps & {
   __typename?: 'ChallengeActivity';
   challengeId?: Maybe<Scalars['ID']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  goal?: Maybe<ChallengeActivityGoal>;
+  goal: ChallengeActivityGoal;
   id: Scalars['ID']['output'];
-  measurement?: Maybe<ChallengeActivityMeasurement>;
+  measurement: ChallengeActivityMeasurement;
   target?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<ChallengeActivityType>;
-  unit?: Maybe<ChallengeActivityUnits>;
+  type: ChallengeActivityType;
+  unit: ChallengeActivityUnits;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -362,6 +362,7 @@ export type Node = {
 export type Query = {
   __typename?: 'Query';
   challenge?: Maybe<Challenge>;
+  challengeActivityResults?: Maybe<Array<ChallengeActivityResult>>;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   challenges?: Maybe<Array<Challenge>>;
   communities?: Maybe<Array<Community>>;
@@ -381,6 +382,11 @@ export type Query = {
 
 export type QueryChallengeArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryChallengeActivityResultsArgs = {
+  challengeId: Scalars['ID']['input'];
 };
 
 

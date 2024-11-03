@@ -18,7 +18,7 @@ import { PillGroup } from "@/universe/molecules";
 import type {
   ChallengeActivityGoalLabel,
   ChallengeActivityMeasurementLabel,
-} from "../../ChallengeActivity";
+} from "../../ChallengeActivity/domain";
 import {
   challengeActivityGoalLabelToEnum,
   challengeActivityGoalToLabel,
@@ -29,7 +29,7 @@ import {
   challengeActivityTypeToLabel,
   ChallengeActivityTypeToUnitsMap,
   challengeActivityUnitToLabel,
-} from "../../ChallengeActivity";
+} from "../../ChallengeActivity/domain";
 
 interface ChallengeActivityForm {
   target: string;
@@ -225,17 +225,19 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
           </View>
         </View>
       )}
-      <Button
-        title="Done"
-        variant="indigo"
-        onPress={async (e) => {
-          // Read more about event pooling
-          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-          e.persist();
-          await handleSubmit(onSubmit)();
-          modalRef.current?.close();
-        }}
-      />
+      {selectedActivity && selectedMeasurement && selectedGoal && (
+        <Button
+          title="Done"
+          variant="indigo"
+          onPress={async (e) => {
+            // Read more about event pooling
+            // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+            e.persist();
+            await handleSubmit(onSubmit)();
+            modalRef.current?.close();
+          }}
+        />
+      )}
     </View>
   );
 };

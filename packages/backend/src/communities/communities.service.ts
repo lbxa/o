@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import {
   CommunitiesTable,
+  Community as PgCommunity,
   CommunityInvitationsTable,
   CommunityMembershipsTable,
   NewCommunity,
@@ -13,23 +14,29 @@ import {
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
+import { EntityMapper } from "../entity/entity-mapper";
 import {
-  Community,
+  Community as GqlCommunity,
   CommunityInvitation,
   InvitationStatus,
 } from "../types/graphql";
-import { UsersService } from "../users/users.service";
 import { encodeGlobalId } from "../utils";
 import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
-export class CommunitiesService {
-  constructor(
-    private usersService: UsersService,
-    private dbService: DbService
-  ) {}
+export class CommunitiesService
+  implements EntityMapper<typeof CommunitiesTable, PgCommunity, GqlCommunity>
+{
+  constructor(private dbService: DbService) {}
 
-  async findOne(id: number): Promise<Community> {
+  public pg2GqlMapper(community: PgCommunity): GqlCommunity {
+    return {
+      ...community,
+      id: encodeGlobalId("Community", community.id),
+    };
+  }
+
+  async findOne(id: number): Promise<GqlCommunity> {
     const community = await this.dbService.db.query.CommunitiesTable.findFirst({
       where: eq(CommunitiesTable.id, id),
     });
@@ -38,18 +45,14 @@ export class CommunitiesService {
       throw new NotFoundException(`Community with id ${id} not found`);
     }
 
-    const globalId = encodeGlobalId("Community", community.id);
-    return { ...community, id: globalId };
+    return this.pg2GqlMapper(community);
   }
 
-  async findAll(): Promise<Community[]> {
+  async findAll(): Promise<GqlCommunity[]> {
     const allCommunities =
       await this.dbService.db.query.CommunitiesTable.findMany();
 
-    return allCommunities.map((community) => ({
-      ...community,
-      id: encodeGlobalId("Community", community.id),
-    }));
+    return allCommunities.map((community) => this.pg2GqlMapper(community));
   }
 
   async findUserInvitations(userId: number): Promise<CommunityInvitation[]> {
@@ -97,14 +100,10 @@ export class CommunitiesService {
     }));
   }
 
-  async findUserCommunities(userId: number): Promise<Community[]> {
+  async findUserCommunities(userId: number): Promise<GqlCommunity[]> {
     const communities = await this.dbService.db
       .select({
-        id: CommunitiesTable.id,
-        name: CommunitiesTable.name,
-        isPublic: CommunitiesTable.isPublic,
-        isVerified: CommunitiesTable.isVerified,
-        createdAt: CommunitiesTable.createdAt,
+        userCommunity: CommunitiesTable,
       })
       .from(CommunityMembershipsTable)
       .innerJoin(
@@ -113,13 +112,12 @@ export class CommunitiesService {
       )
       .where(eq(CommunityMembershipsTable.userId, userId));
 
-    return communities.map((community) => ({
-      ...community,
-      id: encodeGlobalId("Community", community.id),
-    }));
+    return communities.map((community) =>
+      this.pg2GqlMapper(community.userCommunity)
+    );
   }
 
-  async create(input: NewCommunity, userId: number): Promise<Community> {
+  async create(input: NewCommunity, userId: number): Promise<GqlCommunity> {
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })
@@ -132,7 +130,10 @@ export class CommunitiesService {
     return this.findOne(result.insertedId);
   }
 
-  async update(id: number, input: Partial<NewCommunity>): Promise<Community> {
+  async update(
+    id: number,
+    input: Partial<NewCommunity>
+  ): Promise<GqlCommunity> {
     await this.dbService.db
       .update(CommunitiesTable)
       .set(input)
@@ -182,7 +183,7 @@ export class CommunitiesService {
     return true;
   }
 
-  async join(userId: number, inviteId: number): Promise<Community> {
+  async join(userId: number, inviteId: number): Promise<GqlCommunity> {
     const invitations = await this.dbService.db
       .select()
       .from(CommunityInvitationsTable)

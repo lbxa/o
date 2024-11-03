@@ -15,9 +15,21 @@ auth:bearer {
 }
 
 body:graphql {
+  fragment UserFragment on User {
+    firstName
+    lastName
+  }
+  
+  fragment ChallengeInvitation on ChallengeInvitation {
+    id
+    inviter {
+      ...UserFragment
+    }
+  }
+  
   query {
-    community(id: "Q29tbXVuaXR5OjIy") {
-      name
+    challengeInvitations(userId: "VXNlcjox") {
+      ...ChallengeInvitation
     }
   }
   

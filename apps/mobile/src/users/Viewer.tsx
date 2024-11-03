@@ -1,6 +1,6 @@
 import type { User } from "@o/api";
 import type { PropsWithChildren } from "react";
-import { createContext, useCallback, useContext } from "react";
+import { createContext, useCallback, useContext, useEffect } from "react";
 import {
   graphql,
   useFragment,
@@ -8,10 +8,12 @@ import {
   useRefetchableFragment,
 } from "react-relay";
 
-import type { UserFragment$key } from "../__generated__/UserFragment.graphql";
-import type { ViewerFragment$key } from "../__generated__/ViewerFragment.graphql";
-import type { ViewerQuery } from "../__generated__/ViewerQuery.graphql";
-import type { ViewerRefetchQuery } from "../__generated__/ViewerRefetchQuery.graphql";
+import type { UserFragment$key } from "@/__generated__/UserFragment.graphql";
+import type { ViewerFragment$key } from "@/__generated__/ViewerFragment.graphql";
+import type { ViewerQuery } from "@/__generated__/ViewerQuery.graphql";
+import type { ViewerRefetchQuery } from "@/__generated__/ViewerRefetchQuery.graphql";
+import { useZustStore } from "@/state";
+
 import { USER_FRAGMENT } from "./UserFragment";
 
 const ViewerContext = createContext<{
@@ -42,6 +44,8 @@ const VIEWER_FRAGMENT = graphql`
 `;
 
 export const ViewerProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const { setActiveUser } = useZustStore();
+
   const data = useLazyLoadQuery<ViewerQuery>(
     VIEWER_QUERY,
     {},
@@ -61,6 +65,12 @@ export const ViewerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     USER_FRAGMENT,
     viewerData?.user
   );
+
+  useEffect(() => {
+    if (userFragment) {
+      setActiveUser(userFragment);
+    }
+  }, [setActiveUser, userFragment]);
 
   return (
     <ViewerContext.Provider value={{ viewer: userFragment, refetch }}>

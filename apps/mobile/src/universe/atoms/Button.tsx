@@ -5,7 +5,7 @@ import { Text } from "react-native";
 import { Touchable } from "./Touchable";
 
 type Type = "primary" | "secondary";
-type Variant = "violet" | "red" | "indigo" | "navy";
+type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
 
 type VariantMatrix = {
   [key in Variant]: {
@@ -28,8 +28,12 @@ const primaryVariantMatrix: VariantMatrix = {
     front: "color-navy",
   },
   red: {
-    back: "bg-red-200",
-    front: "color-red-800",
+    back: "bg-red-800",
+    front: "color-white",
+  },
+  gray: {
+    back: "bg-gray-200",
+    front: "color-gray-800",
   },
 };
 
@@ -49,6 +53,10 @@ const secondaryVariantMatrix: VariantMatrix = {
   red: {
     back: "bg-red-200",
     front: "color-red-800",
+  },
+  gray: {
+    back: "bg-gray-300",
+    front: "color-gray-800",
   },
 };
 
@@ -72,19 +80,18 @@ export const Button = ({
 
   return (
     <Touchable
-      className={classNames(
-        "rounded-md py-sm px-md",
-        variantMatrix[variant].back,
-        className
-      )}
+      className={classNames("rounded-md py-sm px-md", className, {
+        [variantMatrix[variant].back]: !props.disabled,
+        "bg-gray-200": props.disabled,
+      })}
       {...props}
     >
       {icon}
       <Text
-        className={classNames(
-          "text-center font-bold",
-          variantMatrix[variant].front
-        )}
+        className={classNames("m-auto text-center font-bold", {
+          [variantMatrix[variant].front]: !props.disabled,
+          "text-gray-500": props.disabled,
+        })}
       >
         {title}
       </Text>

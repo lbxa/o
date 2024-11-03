@@ -20,6 +20,7 @@ export const ChallengesRelations = relations(
     memberships: many(ChallengeMembershipsTable),
     invitations: many(ChallengeInvitationsTable),
     activities: many(ChallengeActivitiesTable),
+    results: many(ChallengeActivityResultsTable),
   })
 );
 
@@ -82,6 +83,10 @@ export const ChallengeActivityResultRelations = relations(
     activity: one(ChallengeActivitiesTable, {
       fields: [ChallengeActivityResultsTable.activityId],
       references: [ChallengeActivitiesTable.id],
+    }),
+    challenge: one(ChallengesTable, {
+      fields: [ChallengeActivityResultsTable.challengeId],
+      references: [ChallengesTable.id],
     }),
   })
 );

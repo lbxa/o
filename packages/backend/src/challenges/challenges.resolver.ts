@@ -1,6 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 
-import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
@@ -10,16 +9,19 @@ import {
   ChallengeCreateInput,
   ChallengeInvitation,
 } from "../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
-import { ChallengeActivityResultsService } from "./challenge-results";
+import { validateAndDecodeGlobalId } from "../utils";
+import { ChallengeActivityResultsService } from "./challenge-activity-results";
+import { ChallengeInvitationsService } from "./challenge-invitations";
+import { ChallengeMembershipsService } from "./challenge-memberships";
 import { ChallengesService } from "./challenges.service";
 
 @Resolver("Challenge")
 export class ChallengesResolver {
   constructor(
-    private dbService: DbService,
     private challengesService: ChallengesService,
-    private challengeActivityResultsService: ChallengeActivityResultsService
+    private challengeActivityResultsService: ChallengeActivityResultsService,
+    private challengeInvitationsService: ChallengeInvitationsService,
+    private challengeMembershipsService: ChallengeMembershipsService
   ) {}
 
   @Query("challenge")
@@ -28,23 +30,9 @@ export class ChallengesResolver {
     return this.challengesService.findOne(challengeId);
   }
 
-  // TODO bench mark this against query builder version
-  // there must be a hidden cost to this syntactical simplicity
   @Query("challenges")
   async challenges(): Promise<Challenge[]> {
-    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
-      with: {
-        community: true,
-      },
-    });
-
-    return challenges.map((challenge) => ({
-      ...this.challengesService.mapper(challenge),
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
-    }));
+    return this.challengesService.findAll();
   }
 
   @Query("userChallenges")
@@ -81,10 +69,15 @@ export class ChallengesResolver {
       resultInput.activityId,
       "ChallengeActivity"
     );
+    const challengeId = validateAndDecodeGlobalId(
+      resultInput.challengeId,
+      "Challenge"
+    );
     return this.challengeActivityResultsService.create({
       ...resultInput,
       activityId,
       userId,
+      challengeId,
     });
   }
 
@@ -99,7 +92,7 @@ export class ChallengesResolver {
       "Challenge"
     );
     const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.challengesService.invite(
+    return this.challengeInvitationsService.invite(
       decodedUserId,
       inviterId,
       decodedChallengeId
@@ -111,19 +104,21 @@ export class ChallengesResolver {
     @Args("userId") userId: string
   ): Promise<ChallengeInvitation[]> {
     const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.challengesService.findUserInvitations(decodedUserId);
+    return this.challengeInvitationsService.findUserInvitationsReceived(
+      decodedUserId
+    );
   }
 
   @Mutation("challengeJoin")
   async challengeJoin(
     @Args("inviteId") inviteId: string,
     @CurrentUser("userId") userId: number
-  ): Promise<Challenge> {
+  ): Promise<boolean> {
     const decodedInviteId = validateAndDecodeGlobalId(
       inviteId,
       "ChallengeInvitation"
     );
-    return this.challengesService.join(userId, decodedInviteId);
+    return this.challengeMembershipsService.join(userId, decodedInviteId);
   }
 
   @Mutation("challengeLeave")
@@ -143,5 +138,18 @@ export class ChallengesResolver {
   ): Promise<boolean> {
     const decodedChallengeId = validateAndDecodeGlobalId(id, "Challenge");
     return this.challengesService.remove(decodedChallengeId, userId);
+  }
+
+  @Query("challengeActivityResults")
+  async challengeActivityResults(
+    @Args("challengeId") challengeId: string
+  ): Promise<ChallengeActivityResult[]> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challengeId,
+      "Challenge"
+    );
+    return this.challengeActivityResultsService.findAll({
+      challengeId: decodedChallengeId,
+    });
   }
 }

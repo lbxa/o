@@ -28,7 +28,7 @@ type AuthLoginResponse {
 }
 
 type Challenge implements Node & Timestamps {
-  activity: ChallengeActivity
+  activity: ChallengeActivity!
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -47,12 +47,12 @@ type Challenge implements Node & Timestamps {
 type ChallengeActivity implements Node & Timestamps {
   challengeId: ID
   createdAt: DateTime
-  goal: ChallengeActivityGoal
+  goal: ChallengeActivityGoal!
   id: ID!
-  measurement: ChallengeActivityMeasurement
+  measurement: ChallengeActivityMeasurement!
   target: Int
-  type: ChallengeActivityType
-  unit: ChallengeActivityUnits
+  type: ChallengeActivityType!
+  unit: ChallengeActivityUnits!
   updatedAt: DateTime
 }
 
@@ -253,6 +253,7 @@ interface Node {
 
 type Query {
   challenge(id: ID!): Challenge
+  challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   challenges: [Challenge!]
   communities: [Community!]

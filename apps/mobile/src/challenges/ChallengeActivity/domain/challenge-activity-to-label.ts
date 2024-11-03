@@ -10,7 +10,7 @@ import type {
   ChallengeActivityLabel,
   ChallengeActivityMeasurementLabel,
   ChallengeActivityUnitLabel,
-} from "./challenge-activity.types";
+} from "../challenge-activity.types";
 
 export const challengeActivityTypeToLabel = (
   activity: ChallengeActivityType
@@ -63,7 +63,7 @@ export const challengeActivityMeasurementToLabel = (
 ): ChallengeActivityMeasurementLabel => {
   switch (measurement) {
     case ChallengeActivityMeasurement.Counting:
-      return "Counting";
+      return "Count-Based";
     case ChallengeActivityMeasurement.Duration:
       return "Duration";
     case ChallengeActivityMeasurement.Improvement:

@@ -24,90 +24,12 @@ type Challenge implements Node & Timestamps {
   cadence: ChallengeCadence
   createdAt: DateTime
   updatedAt: DateTime
-  # TODO the future challenges will support multiple activities
-  activity: ChallengeActivity
+  # TODO future challenges can support multiple activities
+  activity: ChallengeActivity!
 
   members: [User!]
   memberships: [ChallengeMembership!]
   invitations: [ChallengeInvitation!]
-}
-
-enum ChallengeActivityType {
-  REPETITIONS
-  WEIGHTLIFTING
-  TIME_BASED
-  DISTANCE
-  SOCIAL
-}
-
-enum ChallengeActivityUnits {
-  KILOGRAMS
-  POUNDS
-  METRES
-  FEET
-  SECONDS
-  MINUTES
-  HOURS
-  MILES
-  KILOMETRES
-  PERCENT
-  NONE
-}
-
-enum ChallengeActivityMeasurement {
-  COUNTING
-  DURATION
-  IMPROVEMENT
-}
-
-enum ChallengeActivityGoal {
-  LOWEST_NUMBER
-  HIGHEST_NUMBER
-  SPECIFIC_TARGET
-  SHORTEST_TIME
-  LONGEST_TIME
-  MOST_IMPROVED
-}
-
-type ChallengeActivity implements Node & Timestamps {
-  id: ID!
-  challengeId: ID
-  type: ChallengeActivityType
-  measurement: ChallengeActivityMeasurement
-  goal: ChallengeActivityGoal
-  target: Int
-  unit: ChallengeActivityUnits
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-input ChallengeActivityCreateInput {
-  type: ChallengeActivityType!
-  measurement: ChallengeActivityMeasurement!
-  goal: ChallengeActivityGoal!
-  target: Int
-  unit: ChallengeActivityUnits!
-}
-
-"""
-Results for a challenge activity are recorded per user per activity.
-In the future we may want to support multiple activities per challenge.
-
-There can be multiple results per activity per user.
-"""
-type ChallengeActivityResult implements Node & Timestamps {
-  id: ID!
-  user: User!
-  activity: ChallengeActivity!
-  result: Int!
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-input ChallengeActivityResultCreateInput {
-  activityId: ID!
-  userId: ID!
-  result: Int!
 }
 
 type ChallengeMembership implements Node {
@@ -165,7 +87,4 @@ type Mutation {
   challengeInvite(userId: ID!, challengeId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!
   challengeLeave(id: ID!): Boolean!
-  challengeActivityResultCreate(
-    challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!
-  ): ChallengeActivityResult!
 }

@@ -6,52 +6,56 @@ import {
 } from "@nestjs/common";
 import {
   Challenge as PgChallenge,
-  ChallengeInvitationsTable,
+  ChallengeActivitiesTable,
+  ChallengeActivity as PgChallengeActivity,
   ChallengeMembershipsTable,
   ChallengesTable,
-  CommunitiesTable,
   CommunityMembershipsTable,
   NewChallenge,
   NewChallengeActivity,
-  UsersTable,
 } from "@o/db";
-import { aliasedTable, and, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
+import { EntityMapper } from "../entity/entity-mapper";
 import {
-  Challenge,
+  Challenge as GqlChallenge,
   ChallengeCadence,
-  ChallengeInvitation,
   ChallengeMode,
-  InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum } from "../utils";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
-export class ChallengesService {
+export class ChallengesService
+  implements EntityMapper<typeof ChallengesTable, PgChallenge, GqlChallenge>
+{
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
     private dbService: DbService
   ) {}
 
-  // TODO map Db types to GraphQL types
-  // e.g. DrizzleChallenge -> Challenge
-  // add mapper to interface for all services to implement
-  public mapper(challenge: PgChallenge): Challenge {
+  public pg2GqlMapper(
+    challenge: PgChallenge & {
+      activities: PgChallengeActivity[];
+    }
+  ): GqlChallenge {
     return {
       ...challenge,
       mode: mapToEnum(ChallengeMode, challenge.mode),
       cadence: mapToEnum(ChallengeCadence, challenge.cadence),
+      activity: this.challengeActivitiesService.pg2GqlMapper(
+        challenge.activities[0]
+      ),
       id: encodeGlobalId("Challenge", challenge.id),
     };
   }
 
-  async findOne(id: number): Promise<Challenge> {
+  async findOne(id: number): Promise<GqlChallenge> {
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
       where: eq(ChallengesTable.id, id),
       with: {
-        community: true,
+        activities: true,
       },
     });
 
@@ -59,88 +63,23 @@ export class ChallengesService {
       throw new NotFoundException(`Challenge with id ${id} not found`);
     }
 
-    return {
-      ...this.mapper(challenge),
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
-    };
+    return this.pg2GqlMapper(challenge);
   }
 
-  async findAll(): Promise<Challenge[]> {
+  async findAll(): Promise<GqlChallenge[]> {
     const allChallenges =
       await this.dbService.db.query.ChallengesTable.findMany({
-        with: { community: true },
+        with: { activities: true },
       });
 
-    return allChallenges.map((challenge) => ({
-      ...this.mapper(challenge),
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
-    }));
+    return allChallenges.map((challenge) => this.pg2GqlMapper(challenge));
   }
 
-  async findUserInvitations(userId: number): Promise<ChallengeInvitation[]> {
-    const InviterAlias = aliasedTable(UsersTable, "inviter");
-    const InviteeAlias = aliasedTable(UsersTable, "invitee");
-
-    const invitations = await this.dbService.db
-      .select({
-        invitation: ChallengeInvitationsTable,
-        challenge: ChallengesTable,
-        inviter: InviterAlias,
-        invitee: InviteeAlias,
-        community: CommunitiesTable,
-      })
-      .from(ChallengeInvitationsTable)
-      .innerJoin(
-        ChallengesTable,
-        eq(ChallengeInvitationsTable.challengeId, ChallengesTable.id)
-      )
-      .innerJoin(
-        CommunitiesTable,
-        eq(ChallengesTable.communityId, CommunitiesTable.id)
-      )
-      .innerJoin(
-        InviterAlias,
-        eq(InviterAlias.id, ChallengeInvitationsTable.inviterId)
-      )
-      .innerJoin(
-        InviteeAlias,
-        eq(InviteeAlias.id, ChallengeInvitationsTable.inviteeId)
-      )
-      .where(eq(ChallengeInvitationsTable.inviteeId, userId));
-
-    return invitations.map((row) => ({
-      ...row.invitation,
-      id: encodeGlobalId("ChallengeInvitation", row.invitation.id),
-      challenge: {
-        ...this.mapper(row.challenge),
-        community: {
-          ...row.community,
-          id: encodeGlobalId("Community", row.community.id),
-        },
-      },
-      inviter: {
-        ...row.inviter,
-        id: encodeGlobalId("User", row.inviter.id),
-      },
-      invitee: {
-        ...row.invitee,
-        id: encodeGlobalId("User", row.invitee.id),
-      },
-      status: mapToEnum(InvitationStatus, row.invitation.status),
-    }));
-  }
-
-  async findUserChallenges(userId: number): Promise<Challenge[]> {
+  async findUserChallenges(userId: number): Promise<GqlChallenge[]> {
     const challenges = await this.dbService.db
       .select({
         challenge: ChallengesTable,
-        community: CommunitiesTable,
+        activities: ChallengeActivitiesTable,
       })
       .from(ChallengeMembershipsTable)
       .innerJoin(
@@ -148,30 +87,30 @@ export class ChallengesService {
         eq(ChallengesTable.id, ChallengeMembershipsTable.challengeId)
       )
       .innerJoin(
-        CommunitiesTable,
-        eq(CommunitiesTable.id, ChallengeMembershipsTable.communityId)
+        ChallengeActivitiesTable,
+        eq(ChallengesTable.id, ChallengeActivitiesTable.challengeId)
       )
       .where(eq(ChallengeMembershipsTable.userId, userId));
 
     return challenges.map((challenge) => ({
-      ...this.mapper(challenge.challenge),
-      community: {
-        ...challenge.community,
-        id: encodeGlobalId("Community", challenge.community.id),
-      },
+      ...this.pg2GqlMapper({
+        ...challenge.challenge,
+        activities: [challenge.activities], // for now one-to-one
+      }),
     }));
   }
 
-  async findCommunityChallenges(communityId: number): Promise<Challenge[]> {
+  async findCommunityChallenges(communityId: number): Promise<GqlChallenge[]> {
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
       where: eq(ChallengesTable.communityId, communityId),
+      with: { activities: true },
     });
 
     return challenges.map((challenge) => ({
-      ...challenge,
-      mode: mapToEnum(ChallengeMode, challenge.mode),
-      cadence: mapToEnum(ChallengeCadence, challenge.cadence),
-      id: encodeGlobalId("Challenge", challenge.id),
+      ...this.pg2GqlMapper({
+        ...challenge,
+        activities: challenge.activities, // for now one-to-one
+      }),
     }));
   }
 
@@ -179,7 +118,7 @@ export class ChallengesService {
     challengeInput: NewChallenge,
     activityInput: Omit<NewChallengeActivity, "challengeId">,
     userId: number
-  ): Promise<Challenge> {
+  ): Promise<GqlChallenge> {
     const isAdmin =
       await this.dbService.db.query.CommunityMembershipsTable.findFirst({
         where: and(
@@ -211,13 +150,19 @@ export class ChallengesService {
       );
     }
 
-    return this.mapper(challenge);
+    return this.pg2GqlMapper({
+      ...challenge,
+      activities: [challengeActivity],
+    });
   }
 
-  async update(id: number, input: Partial<NewChallenge>): Promise<Challenge> {
+  async update(
+    id: number,
+    challengeInput: Partial<NewChallenge>
+  ): Promise<GqlChallenge> {
     const [updatedChallenge] = await this.dbService.db
       .update(ChallengesTable)
-      .set(input)
+      .set(challengeInput)
       .where(eq(ChallengesTable.id, id))
       .returning();
 
@@ -226,7 +171,20 @@ export class ChallengesService {
       throw new NotFoundException(`Challenge with id ${id} not found`);
     }
 
-    return this.mapper(updatedChallenge);
+    const challengeActivity = await this.challengeActivitiesService.findOne({
+      challengeId: updatedChallenge.id,
+    });
+
+    if (!challengeActivity) {
+      throw new InternalServerErrorException(
+        "Failed to find challenge activity"
+      );
+    }
+
+    return this.pg2GqlMapper({
+      ...updatedChallenge,
+      activities: [challengeActivity],
+    });
   }
 
   async remove(id: number, userId: number): Promise<boolean> {
@@ -259,112 +217,6 @@ export class ChallengesService {
       .where(eq(ChallengesTable.id, id));
 
     return true;
-  }
-
-  async invite(
-    inviteeId: number,
-    inviterId: number,
-    challengeId: number
-  ): Promise<boolean> {
-    if (inviteeId === inviterId) {
-      throw new ForbiddenException("Cannot invite self to a challenge");
-    }
-
-    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, challengeId),
-    });
-
-    if (!challenge) {
-      throw new NotFoundException(`Challenge with id ${challengeId} not found`);
-    }
-
-    // Verify that the inviter is a member of the challenge's community
-    const isMember =
-      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
-        where: and(
-          eq(CommunityMembershipsTable.userId, inviterId),
-          eq(CommunityMembershipsTable.communityId, challenge.communityId)
-        ),
-      });
-
-    if (!isMember) {
-      throw new ForbiddenException(
-        "You must be a member of the community to invite users to this challenge"
-      );
-    }
-
-    // Insert invitation
-    await this.dbService.db.insert(ChallengeInvitationsTable).values({
-      challengeId,
-      inviterId,
-      inviteeId,
-      status: InvitationStatus.PENDING,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-    });
-
-    return true;
-  }
-
-  async join(userId: number, inviteId: number): Promise<Challenge> {
-    const invitation =
-      await this.dbService.db.query.ChallengeInvitationsTable.findFirst({
-        where: and(
-          eq(ChallengeInvitationsTable.id, inviteId),
-          eq(ChallengeInvitationsTable.inviteeId, userId)
-        ),
-      });
-
-    if (!invitation) {
-      throw new ForbiddenException("Invalid invitation");
-    }
-
-    if (invitation.status === InvitationStatus.DECLINED.valueOf()) {
-      throw new ForbiddenException("Invitation has been declined");
-    }
-
-    if (invitation.expiresAt < new Date()) {
-      throw new ForbiddenException("Invitation has expired");
-    }
-
-    // Check if the user is a member of the challenge's community
-    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, invitation.challengeId),
-    });
-
-    if (!challenge) {
-      throw new NotFoundException(
-        `Challenge with id ${invitation.challengeId} not found`
-      );
-    }
-
-    const isCommunityMember =
-      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
-        where: and(
-          eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, challenge.communityId)
-        ),
-      });
-
-    if (!isCommunityMember) {
-      throw new ForbiddenException(
-        "You must be a member of the community to join this challenge"
-      );
-    }
-
-    // Add user to the challenge
-    await this.dbService.db.insert(ChallengeMembershipsTable).values({
-      userId,
-      communityId: challenge.communityId,
-      challengeId: invitation.challengeId,
-    });
-
-    // Update invitation status
-    await this.dbService.db
-      .update(ChallengeInvitationsTable)
-      .set({ status: InvitationStatus.ACCEPTED })
-      .where(eq(ChallengeInvitationsTable.id, inviteId));
-
-    return this.findOne(invitation.challengeId);
   }
 
   async leave(userId: number, challengeId: number): Promise<void> {

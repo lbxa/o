@@ -8,21 +8,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum ChallengeMode {
-    BLIND_TRUST = "BLIND_TRUST",
-    BUDDY_SYSTEM = "BUDDY_SYSTEM",
-    VERIFIED_ONLY = "VERIFIED_ONLY"
-}
-
-export enum ChallengeCadence {
-    NONE = "NONE",
-    DAILY = "DAILY",
-    WEEKLY = "WEEKLY",
-    BIWEEKLY = "BIWEEKLY",
-    MONTHLY = "MONTHLY",
-    YEARLY = "YEARLY"
-}
-
 export enum ChallengeActivityType {
     REPETITIONS = "REPETITIONS",
     WEIGHTLIFTING = "WEIGHTLIFTING",
@@ -60,6 +45,21 @@ export enum ChallengeActivityGoal {
     MOST_IMPROVED = "MOST_IMPROVED"
 }
 
+export enum ChallengeMode {
+    BLIND_TRUST = "BLIND_TRUST",
+    BUDDY_SYSTEM = "BUDDY_SYSTEM",
+    VERIFIED_ONLY = "VERIFIED_ONLY"
+}
+
+export enum ChallengeCadence {
+    NONE = "NONE",
+    DAILY = "DAILY",
+    WEEKLY = "WEEKLY",
+    BIWEEKLY = "BIWEEKLY",
+    MONTHLY = "MONTHLY",
+    YEARLY = "YEARLY"
+}
+
 export enum InvitationStatus {
     PENDING = "PENDING",
     ACCEPTED = "ACCEPTED",
@@ -78,18 +78,19 @@ export interface AuthCreateUserInput {
     password: string;
 }
 
+export interface ChallengeActivityResultCreateInput {
+    challengeId: string;
+    activityId: string;
+    userId: string;
+    result: number;
+}
+
 export interface ChallengeActivityCreateInput {
     type: ChallengeActivityType;
     measurement: ChallengeActivityMeasurement;
     goal: ChallengeActivityGoal;
     target?: Nullable<number>;
     unit: ChallengeActivityUnits;
-}
-
-export interface ChallengeActivityResultCreateInput {
-    activityId: string;
-    userId: string;
-    result: number;
 }
 
 export interface ChallengeCreateInput {
@@ -163,13 +164,13 @@ export interface IMutation {
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
+    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
     challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): Challenge | Promise<Challenge>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
     challengeJoin(inviteId: string): Challenge | Promise<Challenge>;
     challengeLeave(id: string): boolean | Promise<boolean>;
-    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
     communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
@@ -177,6 +178,49 @@ export interface IMutation {
     communityJoin(inviteId: number): Community | Promise<Community>;
     communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
+}
+
+export interface ChallengeActivityResult extends Node, Timestamps {
+    __typename?: 'ChallengeActivityResult';
+    id: string;
+    user: User;
+    activity: ChallengeActivity;
+    result: number;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
+export interface IQuery {
+    __typename?: 'IQuery';
+    challengeActivityResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
+    challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
+    challenges(): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
+    communityChallenges(communityId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
+    userChallenges(userId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
+    challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
+    community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
+    communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
+    health(): string | Promise<string>;
+    node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
+    users(): Nullable<User[]> | Promise<Nullable<User[]>>;
+    userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
+    userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
+    viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
+}
+
+export interface ChallengeActivity extends Node, Timestamps {
+    __typename?: 'ChallengeActivity';
+    id: string;
+    challengeId?: Nullable<string>;
+    type: ChallengeActivityType;
+    measurement: ChallengeActivityMeasurement;
+    goal: ChallengeActivityGoal;
+    target?: Nullable<number>;
+    unit: ChallengeActivityUnits;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export interface Challenge extends Node, Timestamps {
@@ -191,33 +235,10 @@ export interface Challenge extends Node, Timestamps {
     cadence?: Nullable<ChallengeCadence>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    activity?: Nullable<ChallengeActivity>;
+    activity: ChallengeActivity;
     members?: Nullable<User[]>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
-}
-
-export interface ChallengeActivity extends Node, Timestamps {
-    __typename?: 'ChallengeActivity';
-    id: string;
-    challengeId?: Nullable<string>;
-    type?: Nullable<ChallengeActivityType>;
-    measurement?: Nullable<ChallengeActivityMeasurement>;
-    goal?: Nullable<ChallengeActivityGoal>;
-    target?: Nullable<number>;
-    unit?: Nullable<ChallengeActivityUnits>;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-}
-
-export interface ChallengeActivityResult extends Node, Timestamps {
-    __typename?: 'ChallengeActivityResult';
-    id: string;
-    user: User;
-    activity: ChallengeActivity;
-    result: number;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
 }
 
 export interface ChallengeMembership extends Node {
@@ -239,25 +260,6 @@ export interface ChallengeInvitation extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     expiresAt: DateTime;
-}
-
-export interface IQuery {
-    __typename?: 'IQuery';
-    challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
-    challenges(): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    communityChallenges(communityId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    userChallenges(userId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
-    community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    health(): string | Promise<string>;
-    node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
-    users(): Nullable<User[]> | Promise<Nullable<User[]>>;
-    userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
-    userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
-    viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }
 
 export interface Community extends Node, Timestamps {
