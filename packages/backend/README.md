@@ -14,6 +14,35 @@ query {
 
 ID's are formed as base64 encoded `Entity:ID` strings where `Entity` is the name of the type of the object and `ID` is the unique identifier of the object. Refer to `global-id.ts`.
 
+If global object idenfiticaiton has been implemented correctly than the following query should execute without error:
+
+```graphql
+query { 
+  # Challenge:1 === Q2hhbGxlbmdlOjE=
+  challenge: node(id: "Q2hhbGxlbmdlOjE=") {
+    id
+    ... on Challenge {
+      name
+    }
+  }
+  # Community:1 === Q29tbXVuaXR5OjE=   
+  community: node(id: "Q29tbXVuaXR5OjE=") {
+    id
+    ... on Community {
+      name
+    }
+  }
+  # User:1 === VXNlcjox   
+  user: node(id: "VXNlcjox") {
+    id
+    ... on User {
+      firstName
+      lastName
+    }
+  }
+}
+```
+
 ## API DateTime Format
 
 All datetime fields in this API are in UTC and follow the ISO 8601 format: 

@@ -2,6 +2,7 @@ type Viewer {
   user: User
   communities: [Community!]
   challenges(communityId: ID!): [Challenge!]
+  challenge(challengeId: ID!): Challenge
 }
 
 type Query {

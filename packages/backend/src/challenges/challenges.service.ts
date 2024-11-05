@@ -17,7 +17,7 @@ import {
 import { and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityMapper } from "../entity/entity-mapper";
+import { EntityService } from "../entity/entity-service";
 import {
   Challenge as GqlChallenge,
   ChallengeCadence,
@@ -28,12 +28,16 @@ import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengesService
-  implements EntityMapper<typeof ChallengesTable, PgChallenge, GqlChallenge>
+  implements EntityService<typeof ChallengesTable, PgChallenge, GqlChallenge>
 {
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
     private dbService: DbService
   ) {}
+
+  public getTypename(): string {
+    return "Challenge";
+  }
 
   public pg2GqlMapper(
     challenge: PgChallenge & {
@@ -51,7 +55,7 @@ export class ChallengesService
     };
   }
 
-  async findOne(id: number): Promise<GqlChallenge> {
+  async findById(id: number): Promise<GqlChallenge> {
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
       where: eq(ChallengesTable.id, id),
       with: {

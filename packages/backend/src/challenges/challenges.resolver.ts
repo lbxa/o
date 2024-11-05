@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
@@ -27,7 +34,7 @@ export class ChallengesResolver {
   @Query("challenge")
   async challenge(@Args("id") id: string): Promise<Challenge> {
     const challengeId = validateAndDecodeGlobalId(id, "Challenge");
-    return this.challengesService.findOne(challengeId);
+    return this.challengesService.findById(challengeId);
   }
 
   @Query("challenges")
@@ -149,6 +156,33 @@ export class ChallengesResolver {
       "Challenge"
     );
     return this.challengeActivityResultsService.findAll({
+      challengeId: decodedChallengeId,
+    });
+  }
+
+  @Query("challengeActivityTopResults")
+  async challengeActivityTopResults(
+    @Args("challengeId") challengeId: string
+  ): Promise<ChallengeActivityResult[]> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challengeId,
+      "Challenge"
+    );
+    return this.challengeActivityResultsService.fetchTopResults({
+      challengeId: decodedChallengeId,
+    });
+  }
+
+  @ResolveField("activityTopResults")
+  async activityTopResults(
+    @Parent() challenge: Challenge,
+    @Args("challengeId") challengeId?: string
+  ) {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challengeId ?? challenge.id,
+      "Challenge"
+    );
+    return this.challengeActivityResultsService.fetchTopResults({
       challengeId: decodedChallengeId,
     });
   }

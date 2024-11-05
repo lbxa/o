@@ -10,37 +10,51 @@ post {
   auth: bearer
 }
 
-headers {
-  : 
-}
-
 auth:bearer {
   token: {{TOKEN}}
 }
 
 body:graphql {
-  fragment ChallengeFragment on Challenge {
-    id
-    name
-    community {
-      id
-      name
+  fragment TopResults on ChallengeActivityResult {
+    user {
+      firstName
+      lastName
+    }
+    result
+    activity {
+      type
     }
   }
   
+  fragment Challenge on Challenge {
+    id
+    name
+    description
+  }
+  
   query {
-    challenge(id: "Q2hhbGxlbmdlOjE=") {
-      ...ChallengeFragment
+    viewer {
+      # challenges(communityId: "Q29tbXVuaXR5OjE=") {
+      #   id
+      #   name
+      #   activityTopResults {
+      #     user {
+      #       firstName
+      #       lastName
+      #     }
+      #     result
+      #     activity {
+      #       type
+      #     }
+      #   }
+      # }
+      challenge(challengeId: "Q2hhbGxlbmdlOjE=") {
+        ...Challenge
+        activityTopResults {
+        	...TopResults
+        }
+      }
     }
-    userChallenges(userId: "VXNlcjoy") {
-      ...ChallengeFragment
-    }
-    challenges {
-      ...ChallengeFragment
-    }
-    # communities {
-    #   ...Community
-    # }
   }
   
 }

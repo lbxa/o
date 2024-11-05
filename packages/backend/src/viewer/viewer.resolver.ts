@@ -23,7 +23,7 @@ export class ViewerResolver {
     @CurrentUser("userId") userId: number
   ): Promise<Viewer | undefined> {
     const v: Viewer = {
-      user: await this.usersService.findOne(userId),
+      user: await this.usersService.findById(userId),
     };
 
     return v;
@@ -31,7 +31,7 @@ export class ViewerResolver {
 
   @ResolveField()
   async user(@CurrentUser("userId") userId: number): Promise<User | undefined> {
-    return this.usersService.findOne(userId);
+    return this.usersService.findById(userId);
   }
 
   @ResolveField()
@@ -43,7 +43,6 @@ export class ViewerResolver {
 
   @ResolveField()
   async challenges(
-    @CurrentUser("userId") userId: number,
     @Args("communityId") communityGlobalId: string
   ): Promise<Challenge[]> {
     const communityId = validateAndDecodeGlobalId(
@@ -51,5 +50,14 @@ export class ViewerResolver {
       "Community"
     );
     return await this.challengesService.findCommunityChallenges(communityId);
+  }
+
+  @ResolveField()
+  async challenge(@Args("challengeId") challengeGlobalId: string) {
+    const challengeId = validateAndDecodeGlobalId(
+      challengeGlobalId,
+      "Challenge"
+    );
+    return await this.challengesService.findById(challengeId);
   }
 }

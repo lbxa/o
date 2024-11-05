@@ -4,16 +4,20 @@ import { UsersTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityMapper } from "../entity";
+import { EntityService } from "../entity";
 import { User as GqlUser, UserUpdateInput } from "../types/graphql";
 import { encodeGlobalId } from "../utils";
 import { fullTextSearch } from "./utils/full-text-search";
 
 @Injectable()
 export class UsersService
-  implements EntityMapper<typeof UsersTable, PgUser, GqlUser>
+  implements EntityService<typeof UsersTable, PgUser, GqlUser>
 {
   constructor(private dbService: DbService) {}
+
+  public getTypename(): string {
+    return "User";
+  }
 
   public pg2GqlMapper(pgUser: PgUser): GqlUser {
     return {
@@ -47,7 +51,7 @@ export class UsersService
     return users.map((user) => this.pg2GqlMapper(user));
   }
 
-  async findOne(id: number): Promise<GqlUser | undefined> {
+  async findById(id: number): Promise<GqlUser | undefined> {
     const user = await this.dbService.db.query.UsersTable.findFirst({
       where: eq(UsersTable.id, id),
     });

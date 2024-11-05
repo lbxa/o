@@ -11,6 +11,7 @@ import { ChallengesModule } from "./challenges/challenges.module";
 import { CommunitiesModule } from "./communities/communities.module";
 import { DbService } from "./db/db.service";
 import { JwtAuthGuard } from "./guards/jwt.guard";
+import { NodeResolver } from "./node.resolver";
 import { DateTimeScalar } from "./types/datetime";
 import { UsersModule } from "./users/users.module";
 import { envFile } from "./utils";
@@ -32,8 +33,8 @@ import { ViewerModule } from "./viewer/viewer.module";
         return graphQLFormattedError;
       },
     }),
-    UsersModule,
     AuthModule,
+    UsersModule,
     CommunitiesModule,
     ChallengesModule,
     ViewerModule,
@@ -42,6 +43,7 @@ import { ViewerModule } from "./viewer/viewer.module";
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     DateTimeScalar,
     AppResolver,
+    NodeResolver,
     DbService,
   ],
 })

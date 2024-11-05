@@ -35,9 +35,9 @@ export class CommunitiesResolver {
   }
 
   @Query("community")
-  async community(@Args("id") id: string): Promise<Community> {
+  async community(@Args("id") id: string): Promise<Community | undefined> {
     const communityId = validateAndDecodeGlobalId(id, "Community");
-    return this.communitiesService.findOne(communityId);
+    return this.communitiesService.findById(communityId);
   }
 
   @Query("communities")
@@ -90,7 +90,7 @@ export class CommunitiesResolver {
   async communityJoin(
     @Args("inviteId") inviteId: string,
     @CurrentUser("userId") userId: number
-  ): Promise<Community> {
+  ): Promise<Community | undefined> {
     const decodedInviteId = validateAndDecodeGlobalId(
       inviteId,
       "CommunityInvitation"
@@ -126,7 +126,7 @@ export class CommunitiesResolver {
   async communityCreate(
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
-  ): Promise<Community> {
+  ): Promise<Community | undefined> {
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })
@@ -136,6 +136,6 @@ export class CommunitiesResolver {
       .insert(CommunityMembershipsTable)
       .values({ userId, communityId: result.insertedId, isAdmin: true });
 
-    return this.communitiesService.findOne(result.insertedId);
+    return this.communitiesService.findById(result.insertedId);
   }
 }

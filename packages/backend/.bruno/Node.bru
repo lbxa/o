@@ -1,0 +1,38 @@
+meta {
+  name: Node
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{URL}}/graphql
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  query { 
+    # Challenge:1 === Q2hhbGxlbmdlOjE=
+  	challenge: node(id: "Q2hhbGxlbmdlOjE=") {
+      id
+      ... on Challenge {
+        name
+      }
+    }
+    # Community:1 === Q29tbXVuaXR5OjE=   
+  	community: node(id: "Q29tbXVuaXR5OjE=") {
+      id
+      ... on Community {
+        name
+      }
+    }
+    # User:1 === VXNlcjox   
+  	user: node(id: "VXNlcjox") {
+      id
+      ... on User {
+        firstName
+        lastName
+      }
+    }
+  }
+}

@@ -11,18 +11,41 @@ post {
 }
 
 body:graphql {
-  mutation {
-    challengeActivityResultCreate(challengeActivityResultCreateInput: {
-      activityId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==",
-      userId: "VXNlcjox",
-      result: 1
-    }) {
+  # mutation {
+  #   challengeActivityResultCreate(challengeActivityResultCreateInput: {
+  #     activityId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==",
+  #     userId: "VXNlcjox",
+  #     result: 1
+  #   }) {
+  #     user {
+  #       firstName
+  #       lastName
+  #     }
+  #     result
+  #     createdAt
+  #   }
+  # }
+  
+  query {
+    # challengeActivityResults(challengeId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==") {
+    #   user {
+    #     firstName
+    #     lastName
+    #   }
+    #   result
+    # }
+    challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjE=") {
       user {
         firstName
         lastName
       }
       result
-      createdAt
+      activity {
+        type
+        measurement
+        goal
+        challengeId
+      }
     }
   }
   

@@ -20,6 +20,10 @@ import { ChallengesService } from "./challenges.service";
     ChallengeMembershipsService,
     DbService,
   ],
-  exports: [ChallengesService, ChallengeActivitiesService],
+  exports: [
+    ChallengesService,
+    ChallengeActivitiesService,
+    ChallengeActivityResultsService,
+  ],
 })
 export class ChallengesModule {}

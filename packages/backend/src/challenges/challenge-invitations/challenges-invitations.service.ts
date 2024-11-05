@@ -17,7 +17,7 @@ import {
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityMapper } from "../../entity/entity-mapper";
+import { EntityMapper } from "../../entity/entity-service";
 import {
   ChallengeInvitation as GqlChallengeInvitation,
   InvitationStatus,

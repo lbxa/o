@@ -9,5 +9,6 @@ import { CommunitiesService } from "./communities.service";
 @Module({
   imports: [ChallengesModule],
   providers: [CommunitiesService, UsersService, CommunitiesResolver, DbService],
+  exports: [CommunitiesService],
 })
 export class CommunitiesModule {}

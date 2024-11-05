@@ -190,9 +190,30 @@ export interface ChallengeActivityResult extends Node, Timestamps {
     updatedAt?: Nullable<DateTime>;
 }
 
+export interface Challenge extends Node, Timestamps {
+    __typename?: 'Challenge';
+    activityTopResults?: Nullable<ChallengeActivityResult[]>;
+    activityTopMovers?: Nullable<ChallengeActivityResult[]>;
+    id: string;
+    name: string;
+    description?: Nullable<string>;
+    community?: Nullable<Community>;
+    startDate?: Nullable<DateTime>;
+    endDate?: Nullable<DateTime>;
+    mode?: Nullable<ChallengeMode>;
+    cadence?: Nullable<ChallengeCadence>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+    activity: ChallengeActivity;
+    members?: Nullable<User[]>;
+    memberships?: Nullable<ChallengeMembership[]>;
+    invitations?: Nullable<ChallengeInvitation[]>;
+}
+
 export interface IQuery {
     __typename?: 'IQuery';
     challengeActivityResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
+    challengeActivityTopResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
     challenges(): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
     communityChallenges(communityId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
@@ -221,24 +242,6 @@ export interface ChallengeActivity extends Node, Timestamps {
     unit: ChallengeActivityUnits;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-}
-
-export interface Challenge extends Node, Timestamps {
-    __typename?: 'Challenge';
-    id: string;
-    name: string;
-    description?: Nullable<string>;
-    community?: Nullable<Community>;
-    startDate?: Nullable<DateTime>;
-    endDate?: Nullable<DateTime>;
-    mode?: Nullable<ChallengeMode>;
-    cadence?: Nullable<ChallengeCadence>;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-    activity: ChallengeActivity;
-    members?: Nullable<User[]>;
-    memberships?: Nullable<ChallengeMembership[]>;
-    invitations?: Nullable<ChallengeInvitation[]>;
 }
 
 export interface ChallengeMembership extends Node {
@@ -326,6 +329,7 @@ export interface Viewer {
     user?: Nullable<User>;
     communities?: Nullable<Community[]>;
     challenges?: Nullable<Challenge[]>;
+    challenge?: Nullable<Challenge>;
 }
 
 export type DateTime = Date;

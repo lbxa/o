@@ -7,7 +7,7 @@ import {
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityMapper } from "../../entity";
+import { EntityService } from "../../entity";
 import {
   ChallengeActivity as GqlChallengeActivity,
   ChallengeActivityGoal,
@@ -20,13 +20,17 @@ import { encodeGlobalId, mapToEnum } from "../../utils";
 @Injectable()
 export class ChallengeActivitiesService
   implements
-    EntityMapper<
+    EntityService<
       typeof ChallengeActivitiesTable,
       PgChallengeActivity,
       GqlChallengeActivity
     >
 {
   constructor(private dbService: DbService) {}
+
+  public getTypename(): string {
+    return "ChallengeActivity";
+  }
 
   public pg2GqlMapper(
     challengeActivity: PgChallengeActivity
@@ -43,6 +47,15 @@ export class ChallengeActivitiesService
       challengeId: encodeGlobalId("Challenge", challengeActivity.challengeId),
       id: encodeGlobalId("ChallengeActivity", challengeActivity.id),
     };
+  }
+
+  public async findById(id: number): Promise<GqlChallengeActivity | undefined> {
+    const challengeActivity =
+      await this.dbService.db.query.ChallengeActivitiesTable.findFirst({
+        where: eq(ChallengeActivitiesTable.id, id),
+      });
+
+    return challengeActivity ? this.pg2GqlMapper(challengeActivity) : undefined;
   }
 
   public async findOne(params: {

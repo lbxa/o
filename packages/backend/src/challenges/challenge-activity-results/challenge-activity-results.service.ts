@@ -9,16 +9,17 @@ import {
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityMapper } from "../../entity";
+import { EntityService } from "../../entity";
 import { ChallengeActivityResult as GqlChallengeActivityResult } from "../../types/graphql";
 import { UsersService } from "../../users/users.service";
 import { encodeGlobalId } from "../../utils";
 import { ChallengeActivitiesService } from "../challenge-activity";
+import { getRankingStrategy } from "./ranking-strategies";
 
 @Injectable()
 export class ChallengeActivityResultsService
   implements
-    EntityMapper<
+    EntityService<
       typeof ChallengeActivityResultsTable,
       PgChallengeActivityResult,
       GqlChallengeActivityResult
@@ -29,6 +30,10 @@ export class ChallengeActivityResultsService
     private challengeActivitiesService: ChallengeActivitiesService,
     private dbService: DbService
   ) {}
+
+  public getTypename(): string {
+    return "ChallengeActivityResult";
+  }
 
   public pg2GqlMapper(
     challengeActivityResult: PgChallengeActivityResult & {
@@ -44,6 +49,55 @@ export class ChallengeActivityResultsService
       ),
       id: encodeGlobalId("ChallengeActivityResult", challengeActivityResult.id),
     };
+  }
+
+  public async findById(
+    id: number
+  ): Promise<GqlChallengeActivityResult | undefined> {
+    const challengeActivityResult =
+      await this.dbService.db.query.ChallengeActivityResultsTable.findFirst({
+        where: eq(ChallengeActivityResultsTable.id, id),
+        with: {
+          user: true,
+          activity: true,
+        },
+      });
+
+    return challengeActivityResult
+      ? this.pg2GqlMapper(challengeActivityResult)
+      : undefined;
+  }
+
+  public async findOne(params: {
+    activityId?: number;
+    challengeId?: number;
+  }): Promise<GqlChallengeActivityResult | undefined> {
+    const { activityId = undefined, challengeId = undefined } = params;
+
+    const whereClause = challengeId
+      ? eq(ChallengeActivityResultsTable.challengeId, challengeId)
+      : activityId
+        ? eq(ChallengeActivityResultsTable.activityId, activityId)
+        : undefined;
+
+    if (!whereClause) {
+      throw new InternalServerErrorException(
+        "At least one search criterion must be provided."
+      );
+    }
+
+    const challengeActivityResult =
+      await this.dbService.db.query.ChallengeActivityResultsTable.findFirst({
+        where: whereClause,
+        with: {
+          user: true,
+          activity: true,
+        },
+      });
+
+    return challengeActivityResult
+      ? this.pg2GqlMapper(challengeActivityResult)
+      : undefined;
   }
 
   public async findAll(params: {
@@ -98,5 +152,54 @@ export class ChallengeActivityResultsService
     }
 
     return this.pg2GqlMapper(challengeActivityResultWithRelations);
+  }
+
+  public async fetchTopResults(params: {
+    activityId?: number;
+    challengeId?: number;
+  }): Promise<GqlChallengeActivityResult[]> {
+    const { activityId = undefined, challengeId = undefined } = params;
+    const whereClause = challengeId
+      ? eq(ChallengeActivityResultsTable.challengeId, challengeId)
+      : activityId
+        ? eq(ChallengeActivityResultsTable.activityId, activityId)
+        : undefined;
+
+    if (!whereClause) {
+      throw new InternalServerErrorException(
+        "At least one search criterion must be provided."
+      );
+    }
+
+    const challengeActivityResults =
+      await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
+        where: whereClause,
+        with: {
+          user: true,
+          activity: true,
+        },
+      });
+
+    if (challengeActivityResults.length === 0) {
+      // no activity results for this challenge
+      return [];
+    }
+
+    const gqlFormattedResults = challengeActivityResults.map((result) =>
+      this.pg2GqlMapper(result)
+    );
+
+    // assuming all activities in a challenge are of the same type
+    const strategy = getRankingStrategy(
+      challengeActivityResults[0].activity.goal
+    );
+    const rankedResults = strategy.rank(gqlFormattedResults);
+
+    // remove duplicate user entries, keeping only the first occurrence
+    const uniqueResults = Array.from(
+      new Map(rankedResults.map((result) => [result.user.id, result])).values()
+    );
+
+    return uniqueResults;
   }
 }

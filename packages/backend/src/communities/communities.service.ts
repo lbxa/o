@@ -14,7 +14,7 @@ import {
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityMapper } from "../entity/entity-mapper";
+import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
   CommunityInvitation,
@@ -25,9 +25,13 @@ import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
 export class CommunitiesService
-  implements EntityMapper<typeof CommunitiesTable, PgCommunity, GqlCommunity>
+  implements EntityService<typeof CommunitiesTable, PgCommunity, GqlCommunity>
 {
   constructor(private dbService: DbService) {}
+
+  public getTypename(): string {
+    return "Community";
+  }
 
   public pg2GqlMapper(community: PgCommunity): GqlCommunity {
     return {
@@ -36,7 +40,7 @@ export class CommunitiesService
     };
   }
 
-  async findOne(id: number): Promise<GqlCommunity> {
+  async findById(id: number): Promise<GqlCommunity | undefined> {
     const community = await this.dbService.db.query.CommunitiesTable.findFirst({
       where: eq(CommunitiesTable.id, id),
     });
@@ -121,24 +125,31 @@ export class CommunitiesService
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })
-      .returning({ insertedId: CommunitiesTable.id });
+      .returning();
 
     await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.insertedId, isAdmin: true });
+      .values({ userId, communityId: result.id, isAdmin: true });
 
-    return this.findOne(result.insertedId);
+    return this.pg2GqlMapper(result);
   }
 
   async update(
     id: number,
     input: Partial<NewCommunity>
   ): Promise<GqlCommunity> {
-    await this.dbService.db
+    const [updated] = await this.dbService.db
       .update(CommunitiesTable)
       .set(input)
-      .where(eq(CommunitiesTable.id, id));
-    return this.findOne(id);
+      .where(eq(CommunitiesTable.id, id))
+      .returning();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!updated) {
+      throw new NotFoundException(`Community with id ${id} not found`);
+    }
+
+    return this.pg2GqlMapper(updated);
   }
 
   async remove(id: number): Promise<boolean> {
@@ -183,7 +194,10 @@ export class CommunitiesService
     return true;
   }
 
-  async join(userId: number, inviteId: number): Promise<GqlCommunity> {
+  async join(
+    userId: number,
+    inviteId: number
+  ): Promise<GqlCommunity | undefined> {
     const invitations = await this.dbService.db
       .select()
       .from(CommunityInvitationsTable)
@@ -240,7 +254,7 @@ export class CommunitiesService
       .set({ status: InvitationStatus.ACCEPTED })
       .where(eq(CommunityInvitationsTable.id, inviteId));
 
-    return this.findOne(invitation.communityId);
+    return this.findById(invitation.communityId);
   }
 
   async leave(userId: number, communityId: number): Promise<void> {

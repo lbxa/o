@@ -20,8 +20,14 @@ input ChallengeActivityResultCreateInput {
   result: Int!
 }
 
+extend type Challenge {
+  activityTopResults(challengeId: ID): [ChallengeActivityResult!]
+  activityTopMovers(challengeId: ID): [ChallengeActivityResult!]
+}
+
 type Query {
   challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
+  challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
 }
 
 type Mutation {
