@@ -44,6 +44,8 @@ export type AuthLoginResponse = {
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
   activity: ChallengeActivity;
+  activityTopMovers?: Maybe<Array<ChallengeActivityResult>>;
+  activityTopResults?: Maybe<Array<ChallengeActivityResult>>;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -57,6 +59,16 @@ export type Challenge = Node & Timestamps & {
   name: Scalars['String']['output'];
   startDate?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type ChallengeActivityTopMoversArgs = {
+  challengeId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type ChallengeActivityTopResultsArgs = {
+  challengeId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ChallengeActivity = Node & Timestamps & {
@@ -113,6 +125,7 @@ export type ChallengeActivityResult = Node & Timestamps & {
 
 export type ChallengeActivityResultCreateInput = {
   activityId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
   result: Scalars['Int']['input'];
   userId: Scalars['ID']['input'];
 };
@@ -363,6 +376,7 @@ export type Query = {
   __typename?: 'Query';
   challenge?: Maybe<Challenge>;
   challengeActivityResults?: Maybe<Array<ChallengeActivityResult>>;
+  challengeActivityTopResults?: Maybe<Array<ChallengeActivityResult>>;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   challenges?: Maybe<Array<Challenge>>;
   communities?: Maybe<Array<Community>>;
@@ -386,6 +400,11 @@ export type QueryChallengeArgs = {
 
 
 export type QueryChallengeActivityResultsArgs = {
+  challengeId: Scalars['ID']['input'];
+};
+
+
+export type QueryChallengeActivityTopResultsArgs = {
   challengeId: Scalars['ID']['input'];
 };
 
@@ -483,9 +502,15 @@ export type ValidEmailResponse = {
 
 export type Viewer = {
   __typename?: 'Viewer';
+  challenge?: Maybe<Challenge>;
   challenges?: Maybe<Array<Challenge>>;
   communities?: Maybe<Array<Community>>;
   user?: Maybe<User>;
+};
+
+
+export type ViewerChallengeArgs = {
+  challengeId: Scalars['ID']['input'];
 };
 
 

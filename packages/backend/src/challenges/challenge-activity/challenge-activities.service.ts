@@ -86,12 +86,12 @@ export class ChallengeActivitiesService
 
   public async create(
     challengeActivityInput: NewChallengeActivity
-  ): Promise<GqlChallengeActivity | undefined> {
+  ): Promise<PgChallengeActivity | undefined> {
     const [challengeActivity] = await this.dbService.db
       .insert(ChallengeActivitiesTable)
       .values(challengeActivityInput)
       .returning();
 
-    return this.pg2GqlMapper(challengeActivity);
+    return challengeActivity;
   }
 }

@@ -7,8 +7,9 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
-    "build:mobile": "turbo build --filter=\"...{./apps/mobile}\"",
     "dev": "turbo dev gql relay",
+    "dev:backend": "pnpm dev --filter=\"@o/backend...\"",
+    "dev:mobile": "pnpm dev --filter=\"@o/mobile...\"",
     "test": "turbo test",
     "lint": "turbo lint",
     "graph": "turbo build --graph=turbo-graph.svg",

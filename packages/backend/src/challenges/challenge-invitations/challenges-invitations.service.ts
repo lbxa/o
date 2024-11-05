@@ -17,7 +17,7 @@ import {
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityMapper } from "../../entity/entity-service";
+import { EntityService } from "../../entity/entity-service";
 import {
   ChallengeInvitation as GqlChallengeInvitation,
   InvitationStatus,
@@ -29,7 +29,7 @@ import { ChallengesService } from "../challenges.service";
 @Injectable()
 export class ChallengeInvitationsService
   implements
-    EntityMapper<
+    EntityService<
       typeof ChallengeInvitationsTable,
       PgChallengeInvitation,
       GqlChallengeInvitation
@@ -40,6 +40,10 @@ export class ChallengeInvitationsService
     private usersService: UsersService,
     private dbService: DbService
   ) {}
+
+  public getTypename(): string {
+    return "ChallengeInvitation";
+  }
 
   public pg2GqlMapper(
     invitation: PgChallengeInvitation & {
@@ -58,6 +62,41 @@ export class ChallengeInvitationsService
       invitee: this.usersService.pg2GqlMapper(invitation.invitee),
       id: encodeGlobalId("ChallengeInvitation", invitation.id),
     };
+  }
+
+  async findById(id: number): Promise<GqlChallengeInvitation> {
+    const invitation =
+      await this.dbService.db.query.ChallengeInvitationsTable.findFirst({
+        where: eq(ChallengeInvitationsTable.id, id),
+        with: {
+          inviter: true,
+          invitee: true,
+        },
+      });
+
+    if (!invitation) {
+      throw new NotFoundException(
+        `Challenge invitation with id ${id} not found`
+      );
+    }
+
+    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
+      where: eq(ChallengesTable.id, id),
+      with: {
+        activities: true,
+      },
+    });
+
+    if (!challenge) {
+      throw new NotFoundException(
+        `Challenge with id ${invitation.challengeId} not found`
+      );
+    }
+
+    return this.pg2GqlMapper({
+      ...invitation,
+      challenge,
+    });
   }
 
   async findUserInvitationsReceived(

@@ -175,9 +175,10 @@ export class ChallengesService
       throw new NotFoundException(`Challenge with id ${id} not found`);
     }
 
-    const challengeActivity = await this.challengeActivitiesService.findOne({
-      challengeId: updatedChallenge.id,
-    });
+    const challengeActivity =
+      await this.dbService.db.query.ChallengeActivitiesTable.findFirst({
+        where: eq(ChallengeActivitiesTable.challengeId, updatedChallenge.id),
+      });
 
     if (!challengeActivity) {
       throw new InternalServerErrorException(

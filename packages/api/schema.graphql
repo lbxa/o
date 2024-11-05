@@ -29,6 +29,8 @@ type AuthLoginResponse {
 
 type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
+  activityTopMovers(challengeId: ID): [ChallengeActivityResult!]
+  activityTopResults(challengeId: ID): [ChallengeActivityResult!]
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -96,6 +98,7 @@ type ChallengeActivityResult implements Node & Timestamps {
 
 input ChallengeActivityResultCreateInput {
   activityId: ID!
+  challengeId: ID!
   result: Int!
   userId: ID!
 }
@@ -254,6 +257,7 @@ interface Node {
 type Query {
   challenge(id: ID!): Challenge
   challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
+  challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   challenges: [Challenge!]
   communities: [Community!]
@@ -310,6 +314,7 @@ type ValidEmailResponse {
 }
 
 type Viewer {
+  challenge(challengeId: ID!): Challenge
   challenges(communityId: ID!): [Challenge!]
   communities: [Community!]
   user: User
