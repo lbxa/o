@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useLazyLoadQuery, usePreloadedQuery } from "react-relay";
 
@@ -58,11 +57,9 @@ export const CommunityRoot = ({
           ),
         }}
       />
-      <View>
-        {communityRootData.viewer && (
-          <CommunityChallenges fragmentRef={communityRootData.viewer} />
-        )}
-      </View>
+      {communityRootData.viewer && (
+        <CommunityChallenges fragmentRef={communityRootData.viewer} />
+      )}
     </Ozone>
   );
 };

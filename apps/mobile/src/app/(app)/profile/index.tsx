@@ -2,7 +2,7 @@ import CameraIcon from "@assets/icons/camera.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import { Button, Touchable } from "@/universe/atoms";
+import { OButton, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 import { useViewer } from "@/users";
 import { useToken } from "@/utils/useToken";
@@ -16,18 +16,18 @@ export default function Profile() {
     <Ozone>
       <View className="flex">
         <View className="mb-md flex grow bg-ivory p-md">
-          <Touchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
+          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
             </View>
-          </Touchable>
+          </OTouchable>
           <Text className="text-left text-6xl font-bold">
             {viewer?.firstName + " " + viewer?.lastName}
           </Text>
           <Text>{viewer?.email}</Text>
         </View>
         <View className="mx-md">
-          <Button
+          <OButton
             title="Logout"
             onPress={async () => {
               await deleteToken();

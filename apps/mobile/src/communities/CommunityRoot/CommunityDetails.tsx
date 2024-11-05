@@ -3,7 +3,7 @@ import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
-import { Button } from "@/universe/atoms";
+import { OButton } from "@/universe/atoms";
 
 import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 
@@ -29,8 +29,8 @@ export const CommunityDetails = () => {
 
   return (
     <View className="mb-md flex flex-row gap-md pt-sm">
-      <Button title="Share" variant="indigo" className="rounded-xl" />
-      <Button
+      <OButton title="Share" variant="indigo" className="rounded-xl" />
+      <OButton
         title="Invite"
         variant="indigo"
         className="rounded-xl"

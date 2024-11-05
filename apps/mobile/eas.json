@@ -1,12 +1,12 @@
 {
   "cli": {
-    "version": ">= 12.5.1",
+    "version": ">= 12.6.2",
     "appVersionSource": "remote"
   },
   "build": {
     "base": {
       "node": "20.14.0",
-      "pnpm": "9.12.1"
+      "pnpm": "9.12.2"
     },
     "development": {
       "extends": "base",
@@ -25,18 +25,15 @@
     "preview": {
       "extends": "base",
       "distribution": "internal",
+      "resourceClass": "large",
       "env": {
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }
     },
     "production": {
       "extends": "base",
-      "autoIncrement": true,
       "distribution": "store",
-      "resourceClass": "large",
-      "env": {
-        "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {

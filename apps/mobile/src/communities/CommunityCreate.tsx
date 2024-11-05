@@ -4,17 +4,16 @@ import { Controller, useForm } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
 import { graphql, useMutation } from "react-relay";
 
-import {
-  Button,
-  PrimaryTextInputControl,
-  Title,
-  Touchable,
-} from "@/universe/atoms";
-
 import type {
   CommunityCreateInput,
   CommunityCreateMutation,
-} from "../__generated__/CommunityCreateMutation.graphql.ts";
+} from "@/__generated__/CommunityCreateMutation.graphql";
+import {
+  OButton,
+  OTouchable,
+  PrimaryTextInputControl,
+  Title,
+} from "@/universe/atoms";
 
 export const COMMUNITY_CREATE_MUTATION = graphql`
   mutation CommunityCreateMutation(
@@ -100,14 +99,14 @@ export const CommunityCreate = () => {
       </View>
 
       <Title>Invite Members</Title>
-      <Touchable
+      <OTouchable
         onPress={() => router.push("/(app)/community/invite")}
         className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
       >
         <SearchIcon width={25} />
         <Text className="pl-sm">Search</Text>
-      </Touchable>
-      <Button
+      </OTouchable>
+      <OButton
         title={isMutationInFlight ? "Loading..." : "Create"}
         disabled={isMutationInFlight}
         onPress={async (e) => {

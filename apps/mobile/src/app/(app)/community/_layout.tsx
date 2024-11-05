@@ -2,7 +2,7 @@ import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import { Touchable } from "@/universe/atoms";
+import { OTouchable } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
@@ -41,9 +41,9 @@ export default function CommunityRootLayout() {
         options={{
           headerLeft: () => (
             <View className="flex flex-row items-center gap-sm">
-              <Touchable onPress={() => router.back()}>
+              <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
-              </Touchable>
+              </OTouchable>
               <Text className="text-3xl font-bold">New Community</Text>
             </View>
           ),
@@ -60,9 +60,9 @@ export default function CommunityRootLayout() {
         options={{
           headerLeft: () => (
             <View className="flex flex-row items-center gap-sm">
-              <Touchable onPress={() => router.back()}>
+              <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
-              </Touchable>
+              </OTouchable>
               <Text className="text-3xl font-bold">Search</Text>
             </View>
           ),

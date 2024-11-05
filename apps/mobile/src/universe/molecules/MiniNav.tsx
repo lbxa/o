@@ -1,12 +1,13 @@
 import MessageIcon from "@assets/icons/message.svg";
 import PlusIcon from "@assets/icons/plus.svg";
 import SearchIcon from "@assets/icons/search.svg";
-import * as Haptics from "expo-haptics";
 import type { Href } from "expo-router";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
+
+import { OTouchable } from "../atoms";
 
 const ICON_DIM = {
   width: 20,
@@ -21,16 +22,14 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   children,
   href,
 }) => {
-  const onPressHandler = async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
-  };
-
+  const router = useRouter();
   return (
-    <Link href={href} onPress={onPressHandler} asChild>
-      <TouchableOpacity className="rounded-full bg-ivory p-xs">
-        <View>{children}</View>
-      </TouchableOpacity>
-    </Link>
+    <OTouchable
+      onPress={() => router.push(href)}
+      className="rounded-full bg-ivory p-xs"
+    >
+      <View>{children}</View>
+    </OTouchable>
   );
 };
 

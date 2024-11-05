@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Touchable } from "@/universe/atoms";
+import { OButton, OTouchable } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useChallengeActivityResultCreateMutation } from "./mutations";
@@ -47,7 +47,7 @@ const WeightButton = ({
     label: "Unknown",
   };
   return (
-    <Touchable
+    <OTouchable
       onPress={() => onPress?.()}
       className={classNames("flex w-5/12 h-[100px] rounded-xl flex-grow", {
         "bg-black/30": variant === "black",
@@ -70,7 +70,7 @@ const WeightButton = ({
       >
         {label}
       </Text>
-    </Touchable>
+    </OTouchable>
   );
 };
 
@@ -91,7 +91,11 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
   const [commitMutation] = useChallengeActivityResultCreateMutation();
 
   const handleRecord = useCallback(() => {
-    if (!selectedChallenge?.activity.id || !activeUser?.id) {
+    if (
+      !selectedChallenge?.id ||
+      !selectedChallenge.activity.id ||
+      !activeUser?.id
+    ) {
       throw new Error("Challenge results require userId or activityId");
     }
 
@@ -116,9 +120,9 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
     setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
   }, [
-    selectedChallenge.activity.id,
-    selectedChallenge.id,
-    activeUser.id,
+    selectedChallenge?.activity.id,
+    selectedChallenge?.id,
+    activeUser?.id,
     commitMutation,
     count,
     setRecordedChallenge,
@@ -163,19 +167,19 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               )}
             </View>
             <View className="flex flex-row justify-between gap-md">
-              <Button
+              <OButton
                 type="secondary"
                 variant="gray"
                 title="Manual Entry"
                 // onPress={}
               />
-              <Button
+              <OButton
                 type="secondary"
                 variant="gray"
                 title="Reset"
                 onPress={handleReset}
               />
-              <Button
+              <OButton
                 className="grow"
                 type="primary"
                 variant="indigo"

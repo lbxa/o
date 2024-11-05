@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Text, View } from "react-native";
 
-import { Touchable } from "./Touchable";
+import { OTouchable } from "./OTouchable";
 
 interface PillProps {
   onPress?: () => void;
@@ -19,7 +19,7 @@ export const Pill = ({
   className,
 }: PillProps) => {
   return (
-    <Touchable className={className} onPress={() => onPress?.()}>
+    <OTouchable className={className} onPress={() => onPress?.()}>
       <View
         className={classNames("rounded-xl px-md py-sm", {
           "bg-ivory": !selected,
@@ -39,6 +39,6 @@ export const Pill = ({
           {label}
         </Text>
       </View>
-    </Touchable>
+    </OTouchable>
   );
 };

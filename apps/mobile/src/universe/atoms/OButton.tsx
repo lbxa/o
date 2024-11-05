@@ -2,7 +2,7 @@ import classNames from "classnames";
 import type { ButtonProps as ReactNativeButtonProps } from "react-native";
 import { Text } from "react-native";
 
-import { Touchable } from "./Touchable";
+import { OTouchable } from "./OTouchable";
 
 type Type = "primary" | "secondary";
 type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
@@ -60,26 +60,26 @@ const secondaryVariantMatrix: VariantMatrix = {
   },
 };
 
-type ButtonProps = {
+type OButtonProps = {
   type?: Type;
   variant?: Variant;
   icon?: React.ReactElement;
   className?: string;
 } & ReactNativeButtonProps;
 
-export const Button = ({
+export const OButton = ({
   title,
   icon,
   type = "primary",
   variant = "indigo",
   className,
   ...props
-}: ButtonProps) => {
+}: OButtonProps) => {
   const variantMatrix =
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   return (
-    <Touchable
+    <OTouchable
       className={classNames("rounded-md py-sm px-md", className, {
         [variantMatrix[variant].back]: !props.disabled,
         "bg-gray-200": props.disabled,
@@ -95,6 +95,6 @@ export const Button = ({
       >
         {title}
       </Text>
-    </Touchable>
+    </OTouchable>
   );
 };

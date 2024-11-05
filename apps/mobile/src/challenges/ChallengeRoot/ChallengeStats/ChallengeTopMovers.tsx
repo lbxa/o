@@ -3,10 +3,16 @@ import { Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
-import type { ChallengeTopMoversQuery } from "../../__generated__/ChallengeTopMoversQuery.graphql";
-import { intToTimestamp } from "../ChallengeLogger/utils";
+import type { ChallengeTopMoversQuery } from "../../../__generated__/ChallengeTopMoversQuery.graphql";
+import { intToTimestamp } from "../../ChallengeLogger/utils";
 
-const UserResultCard = ({ user, result }: { user: User; result: number }) => {
+const UserChallengeResultCard = ({
+  user,
+  result,
+}: {
+  user: User;
+  result: number;
+}) => {
   return (
     <View className="mt-sm flex-row items-center justify-between">
       <View className="flex flex-col">
@@ -52,16 +58,13 @@ export const ChallengeTopMovers = ({ queryRef }: ChallengeTopMoversProps) => {
       <Text className="text-2xl font-bold">Top Movers</Text>
       {data.challengeActivityResults
         ?.slice(0, 3)
-        .map((item) => (
-          <UserResultCard user={item.user} result={item.result} />
-        ))
-      // <FlatList
-      //   data={data.challengeActivityResults.slice(0, 3)}
-      //   renderItem={({ item }) => (
-      //     <UserResultCard user={item.user} result={item.result} />
-      //   )}
-      // />
-      }
+        .map((item, i) => (
+          <UserChallengeResultCard
+            key={i}
+            user={item.user}
+            result={item.result}
+          />
+        ))}
       <Text className="mt-md underline">View all</Text>
     </View>
   );

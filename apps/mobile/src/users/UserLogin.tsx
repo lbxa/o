@@ -7,8 +7,8 @@ import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
 import {
-  Button,
-  PrimaryPasswordInput,
+  OButton,
+  OPasswordInput,
   PrimaryTextInputControl,
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
@@ -117,7 +117,7 @@ export const UserLogin = () => {
             },
           }}
           render={({ field: { onBlur, onChange, value } }) => (
-            <PrimaryPasswordInput
+            <OPasswordInput
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -129,7 +129,7 @@ export const UserLogin = () => {
           )}
         />
 
-        <Button
+        <OButton
           title={isMutationInFlight ? "Loading..." : "Login"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -138,7 +138,7 @@ export const UserLogin = () => {
             e.persist();
             await handleSubmit(onSubmit)();
           }}
-        ></Button>
+        ></OButton>
         <Link href="/(auth)/sign-up" className="mt-md text-blue-700 underline">
           Create an account
         </Link>

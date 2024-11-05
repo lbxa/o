@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Text } from "react-native";
 
-import { Touchable } from "./Touchable";
+import { OTouchable } from "./OTouchable";
 
 export type TimerButtonVariant = "start" | "stop" | "done";
 
@@ -48,7 +48,7 @@ export const TimerButton = ({
   };
 
   return (
-    <Touchable
+    <OTouchable
       onPress={handlePress}
       className={classNames("mt-auto flex size-[250px] rounded-full ", {
         "bg-green-200": variant === "start",
@@ -65,6 +65,6 @@ export const TimerButton = ({
       >
         {selectVariantText(variant)}
       </Text>
-    </Touchable>
+    </OTouchable>
   );
 };

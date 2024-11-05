@@ -1,4 +1,5 @@
 import "../global.css";
+import "expo-dev-client";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";

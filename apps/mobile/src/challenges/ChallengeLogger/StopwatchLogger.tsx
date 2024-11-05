@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
 import type { TimerButtonVariant } from "@/universe/atoms";
-import { TimerButton, Touchable } from "@/universe/atoms";
+import { OTouchable, TimerButton } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useStopwatch } from "./hooks";
@@ -91,14 +91,14 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
             {time.toString()}
           </Text>
           <View className="flex flex-row justify-around gap-md">
-            <Touchable
+            <OTouchable
               onPress={handleReset}
               className="mt-auto flex size-[100px] rounded-full bg-gray-200"
             >
               <Text className="m-auto text-xl font-bold text-gray-600">
                 Reset
               </Text>
-            </Touchable>
+            </OTouchable>
             <TimerButton
               variant={timerButtonVariant}
               setVariant={setTimerButtonVariant}

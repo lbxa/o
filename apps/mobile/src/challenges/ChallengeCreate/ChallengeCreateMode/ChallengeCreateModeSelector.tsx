@@ -6,7 +6,7 @@ import React from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Subtitle, Title, Touchable } from "@/universe/atoms";
+import { OButton, OTouchable, Subtitle, Title } from "@/universe/atoms";
 
 import type { ChallengeModeLabel } from "../../ChallengeMode";
 
@@ -18,7 +18,7 @@ const DataControl: React.FC<{
   comingSoon?: boolean;
 }> = ({ controlName, controlDescription, selected, onSelect, comingSoon }) => {
   return (
-    <Touchable onPress={onSelect} disabled={comingSoon}>
+    <OTouchable onPress={onSelect} disabled={comingSoon}>
       <View className="flex flex-row items-center gap-md">
         <View className="flex flex-1">
           <Text
@@ -38,7 +38,7 @@ const DataControl: React.FC<{
           onValueChange={onSelect}
         />
       </View>
-    </Touchable>
+    </OTouchable>
   );
 };
 
@@ -90,7 +90,7 @@ export const ChallengeCreateModeSelector: React.FC<{
           />
         ))}
       </View>
-      <Button
+      <OButton
         title={"Done"}
         variant="indigo"
         onPress={() => {

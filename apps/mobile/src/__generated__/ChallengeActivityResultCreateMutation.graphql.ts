@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ddc63ebf0ee2e1d4282e11fdc1a3e319>>
+ * @generated SignedSource<<ba4805ca437f63dc93cd052d45791235>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import type { ConcreteRequest } from 'relay-runtime';
 export type ChallengeActivityResultCreateInput = {
   activityId: string;
+  challengeId: string;
   result: number;
   userId: string;
 };

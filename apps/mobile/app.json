@@ -35,7 +35,16 @@
       "expo-dev-client",
       "expo-router",
       "expo-secure-store",
-      "expo-asset"
+      "expo-asset",
+      ["expo-build-properties", {
+        "ios": {
+          "newArchEnabled": true 
+          },
+          "android": {
+            "newArchEnabled": true 
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

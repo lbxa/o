@@ -9,7 +9,7 @@ import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { useFragment } from "react-relay";
 
-import { Title, Touchable } from "@/universe/atoms";
+import { OTouchable, Title } from "@/universe/atoms";
 
 import type { ChallengeFragment$key } from "../__generated__/ChallengeFragment.graphql";
 import { useZustStore } from "../state";
@@ -51,7 +51,7 @@ export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
   };
 
   return (
-    <Touchable onPress={handlePress}>
+    <OTouchable onPress={handlePress}>
       <View className="relative mb-md rounded-xl bg-ivory p-sm">
         <View className="mb-md flex flex-row items-center justify-between">
           <Title>{challenge.name}</Title>
@@ -63,6 +63,6 @@ export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
         </View>
         <Text>Socials will go here</Text>
       </View>
-    </Touchable>
+    </OTouchable>
   );
 };

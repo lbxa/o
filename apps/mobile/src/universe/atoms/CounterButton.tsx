@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Text } from "react-native";
 
-import { Touchable } from "./Touchable";
+import { OTouchable } from "./OTouchable";
 
 export type CounterButtonVariant = "count" | "done";
 
@@ -43,7 +43,7 @@ export const CounterButton = ({
   };
 
   return (
-    <Touchable
+    <OTouchable
       onPress={handlePress}
       className={classNames("mt-auto flex size-[250px] rounded-full ", {
         "bg-green-200": variant === "count",
@@ -58,6 +58,6 @@ export const CounterButton = ({
       >
         {selectVariantText(variant)}
       </Text>
-    </Touchable>
+    </OTouchable>
   );
 };

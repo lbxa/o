@@ -7,7 +7,7 @@ import { ScrollView, View } from "react-native";
 
 import { useZustStore } from "@/state";
 import {
-  Button,
+  OButton,
   Pill,
   PrimaryTextInputControl,
   Subtitle,
@@ -175,6 +175,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                   <PrimaryTextInputControl
                     className="min-w-12 max-w-20"
                     placeholder="100"
+                    bottomSheet
                     keyboardType="number-pad"
                     inputMode="numeric"
                     autoCapitalize="none"
@@ -226,7 +227,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
         </View>
       )}
       {selectedActivity && selectedMeasurement && selectedGoal && (
-        <Button
+        <OButton
           title="Done"
           variant="indigo"
           onPress={async (e) => {

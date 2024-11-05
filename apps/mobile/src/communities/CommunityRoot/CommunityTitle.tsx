@@ -5,7 +5,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import { useFragment } from "react-relay";
 
-import { Touchable } from "@/universe/atoms";
+import { OTouchable } from "@/universe/atoms";
 
 import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
 import { COMMUNITY_FRAGMENT } from "../CommunityFragment";
@@ -21,10 +21,10 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   const communityFragment = useFragment(COMMUNITY_FRAGMENT, community);
 
   return (
-    <View className="gap-sm flex flex-row items-center">
-      <Touchable onPress={() => router.back()}>
+    <View className="flex flex-row items-center gap-sm">
+      <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon />
-      </Touchable>
+      </OTouchable>
       <Text className="text-3xl font-bold">
         {communityFragment?.name ?? "Loading..."}
       </Text>

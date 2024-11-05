@@ -6,7 +6,7 @@ import type { CommunityChallenges_challenges$key } from "@/__generated__/Communi
 import type { CommunityChallengesRefreshQuery } from "@/__generated__/CommunityChallengesRefreshQuery.graphql";
 import { ChallengeCard } from "@/challenges";
 import { useZustStore } from "@/state";
-import { Button } from "@/universe/atoms";
+import { OButton } from "@/universe/atoms";
 
 import { CommunityDetails } from "./CommunityDetails";
 
@@ -42,30 +42,26 @@ export const CommunityChallenges = ({ fragmentRef }: Props) => {
     });
   }, [refetch, selectedCommunity?.id]);
 
-  console.log("data.id", data.challenges?.length);
-
   return (
-    <View>
-      <FlatList
-        className="min-h-full px-md"
-        data={data.challenges}
-        ListHeaderComponent={
-          <View>
-            <CommunityDetails />
-            <Text className="mb-md text-2xl font-bold">Challenges</Text>
-          </View>
-        }
-        ListEmptyComponent={
-          <Text className="mb-md">
-            No challenges yet. Be the first to create one.
-          </Text>
-        }
-        ListFooterComponent={<Button title="See Past Challenges"></Button>}
-        renderItem={({ item }) => <ChallengeCard challengeFragment={item} />}
-        refreshControl={
-          <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
-        }
-      />
-    </View>
+    <FlatList
+      className="min-h-full px-md"
+      data={data.challenges}
+      ListHeaderComponent={
+        <View>
+          <CommunityDetails />
+          <Text className="mb-md text-2xl font-bold">Challenges</Text>
+        </View>
+      }
+      ListEmptyComponent={
+        <Text className="mb-md">
+          No challenges yet. Be the first to create one.
+        </Text>
+      }
+      ListFooterComponent={<OButton title="See Past Challenges"></OButton>}
+      renderItem={({ item }) => <ChallengeCard challengeFragment={item} />}
+      refreshControl={
+        <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+      }
+    />
   );
 };

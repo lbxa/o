@@ -2,7 +2,7 @@ import CrossIcon from "@assets/icons/cross.svg";
 import React, { useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 
-import { Pill, Touchable } from "../atoms";
+import { OTouchable, Pill } from "../atoms";
 
 interface PillGroupProps {
   group: {
@@ -42,12 +42,12 @@ export const PillGroup = ({
         {group.map(({ label, options }, i) => (
           <View key={i} className="flex flex-row items-center">
             {openIndex === i && (
-              <Touchable
+              <OTouchable
                 className="mr-md rounded-full bg-gray-200 p-xs"
                 onPress={() => setOpenIndex(undefined)}
               >
                 <CrossIcon width={18} height={18} fill={"gray"} />
-              </Touchable>
+              </OTouchable>
             )}
             {(openIndex === i || openIndex === undefined) && (
               <Pill

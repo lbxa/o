@@ -20,10 +20,10 @@ import type {
 } from "@/__generated__/ChallengeCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import {
-  Button,
+  OButton,
+  OTouchable,
   PrimaryTextInputControl,
   Title,
-  Touchable,
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
@@ -127,11 +127,11 @@ export const ChallengeCreate = () => {
       <Ozone>
         <ScrollView>
           <View className="flex-1">
-            <Touchable className="mb-md flex h-[150px] bg-gray-200">
+            <OTouchable className="mb-md flex h-[150px] bg-gray-200">
               <View className="m-auto">
                 <CameraIcon width={45} height={45} fill={"grey"} />
               </View>
-            </Touchable>
+            </OTouchable>
             <View className="mb-md px-md">
               <Title>Name</Title>
               <Controller
@@ -249,14 +249,14 @@ export const ChallengeCreate = () => {
               <ChallengeCreateMode />
 
               <Title>Invite Members</Title>
-              <Touchable
+              <OTouchable
                 onPress={() => router.push("/(app)/community/invite")}
                 className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>
-              </Touchable>
-              <Button
+              </OTouchable>
+              <OButton
                 title={isMutationInFlight ? "Loading..." : "Create"}
                 disabled={isMutationInFlight}
                 onPress={async (e) => {

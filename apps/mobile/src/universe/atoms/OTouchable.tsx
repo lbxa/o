@@ -12,11 +12,11 @@ import { TouchableOpacity } from "react-native";
  * Simply a wrapper for haptics providing clicking consistency across
  * the entire application.
  */
-type TouchableProps = {
+type OTouchableProps = {
   variant?: ImpactFeedbackStyle;
 } & TouchableOpacityProps;
 
-export const Touchable: React.FC<PropsWithChildren<TouchableProps>> = ({
+export const OTouchable: React.FC<PropsWithChildren<OTouchableProps>> = ({
   variant = Haptics.ImpactFeedbackStyle.Rigid,
   onPress,
   children,

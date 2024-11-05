@@ -8,8 +8,8 @@ import type { PreloadedQuery } from "react-relay";
 import { useMutation, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { graphql } from "react-relay";
 
-import { Button, PrimaryTextInputControl } from "@/universe/atoms";
-import { PrimaryPasswordInput } from "@/universe/atoms/PrimaryPasswordInput";
+import { OButton, PrimaryTextInputControl } from "@/universe/atoms";
+import { OPasswordInput } from "@/universe/atoms/OPasswordInput";
 import { Ozone } from "@/universe/molecules";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
@@ -187,7 +187,7 @@ export const UserCreate = () => {
             },
           }}
           render={({ field: { onBlur, onChange, value } }) => (
-            <PrimaryPasswordInput
+            <OPasswordInput
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -198,7 +198,7 @@ export const UserCreate = () => {
           )}
         />
 
-        <Button
+        <OButton
           title={isMutationInFlight ? "Loading..." : "Join the community"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -207,7 +207,7 @@ export const UserCreate = () => {
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
             await handleSubmit(onSubmit)();
           }}
-        ></Button>
+        ></OButton>
         <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>

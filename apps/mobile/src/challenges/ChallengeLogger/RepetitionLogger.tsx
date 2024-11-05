@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Touchable } from "@/universe/atoms";
+import { OButton, OTouchable } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useChallengeActivityResultCreateMutation } from "./mutations";
@@ -27,7 +27,11 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
   const [commitMutation] = useChallengeActivityResultCreateMutation();
 
   const handleRecord = useCallback(() => {
-    if (!selectedChallenge?.activity.id || !activeUser?.id) {
+    if (
+      !selectedChallenge?.id ||
+      !selectedChallenge.activity.id ||
+      !activeUser?.id
+    ) {
       throw new Error("Challenge results require userId or activityId");
     }
 
@@ -53,9 +57,9 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
     setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
   }, [
-    selectedChallenge.activity.id,
-    selectedChallenge.id,
-    activeUser.id,
+    selectedChallenge?.activity.id,
+    selectedChallenge?.id,
+    activeUser?.id,
     commitMutation,
     count,
     setRecordedChallenge,
@@ -89,24 +93,24 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
           <View className="flex flex-col gap-xl">
             <View className="flex flex-row justify-around gap-md">
               <View className="flex flex-col justify-between">
-                <Touchable
+                <OTouchable
                   onPress={handleReset}
                   className="flex size-[100px] rounded-full bg-gray-200"
                 >
                   <Text className="m-auto text-xl font-bold text-gray-600">
                     Manual
                   </Text>
-                </Touchable>
-                <Touchable
+                </OTouchable>
+                <OTouchable
                   onPress={handleReset}
                   className="flex size-[100px] rounded-full bg-gray-200"
                 >
                   <Text className="m-auto text-xl font-bold text-gray-600">
                     Reset
                   </Text>
-                </Touchable>
+                </OTouchable>
               </View>
-              <Touchable
+              <OTouchable
                 onPress={() => setCount((prev) => prev + 1)}
                 className={classNames(
                   "mt-auto flex size-[250px] rounded-full bg-green-200"
@@ -119,9 +123,9 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
                 >
                   Count+
                 </Text>
-              </Touchable>
+              </OTouchable>
             </View>
-            <Button
+            <OButton
               type="primary"
               variant="indigo"
               title="Done"
