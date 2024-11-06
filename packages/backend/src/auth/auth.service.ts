@@ -7,6 +7,7 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { User, UsersTable } from "@o/db";
+import * as schema from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -21,7 +22,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private usersService: UsersService,
-    private dbService: DbService
+    private dbService: DbService<typeof schema>
   ) {}
 
   private readonly logger = new Logger(AuthService.name);

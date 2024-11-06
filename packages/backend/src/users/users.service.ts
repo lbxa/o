@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import type { NewUser, User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
+import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -13,7 +14,7 @@ import { fullTextSearch } from "./utils/full-text-search";
 export class UsersService
   implements EntityService<typeof UsersTable, PgUser, GqlUser>
 {
-  constructor(private dbService: DbService) {}
+  constructor(private dbService: DbService<typeof schema>) {}
 
   public getTypename(): string {
     return "User";

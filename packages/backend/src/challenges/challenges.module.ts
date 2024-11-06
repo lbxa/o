@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 
-import { DbService } from "../db/db.service";
 import { UsersModule } from "../users/users.module";
 import { ChallengeActivitiesService } from "./challenge-activity";
 import { ChallengeActivityResultsService } from "./challenge-activity-results";
@@ -18,7 +17,6 @@ import { ChallengesService } from "./challenges.service";
     ChallengeActivityResultsService,
     ChallengeInvitationsService,
     ChallengeMembershipsService,
-    DbService,
   ],
   exports: [
     ChallengesService,

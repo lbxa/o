@@ -12,6 +12,7 @@ import {
   CommunityMembershipsTable,
   NewCommunity,
 } from "@o/db";
+import * as schema from "@o/db";
 
 import { ChallengesService } from "../challenges/challenges.service";
 import { DbService } from "../db/db.service";
@@ -23,7 +24,7 @@ import { CommunitiesService } from "./communities.service";
 @Resolver("Community")
 export class CommunitiesResolver {
   constructor(
-    private dbService: DbService,
+    private dbService: DbService<typeof schema>,
     private communitiesService: CommunitiesService,
     private challengesService: ChallengesService
   ) {}

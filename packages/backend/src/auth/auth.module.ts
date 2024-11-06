@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
-import { DbService } from "../db/db.service";
 import { UsersModule } from "../users/users.module";
 import { UsersService } from "../users/users.service";
 import { CryptoService } from "../utils";
@@ -40,7 +39,6 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     RefreshTokenStrategy,
     JwtStrategy,
     JwtService,
-    DbService,
   ],
   exports: [JwtStrategy, JwtModule],
 })

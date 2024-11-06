@@ -14,6 +14,7 @@ import {
   User as PgUser,
   UsersTable,
 } from "@o/db";
+import * as schema from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
@@ -38,7 +39,7 @@ export class ChallengeInvitationsService
   constructor(
     private challengesService: ChallengesService,
     private usersService: UsersService,
-    private dbService: DbService
+    private dbService: DbService<typeof schema>
   ) {}
 
   public getTypename(): string {

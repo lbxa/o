@@ -4,6 +4,7 @@ import {
   ChallengeActivity as PgChallengeActivity,
   NewChallengeActivity,
 } from "@o/db";
+import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
@@ -26,7 +27,7 @@ export class ChallengeActivitiesService
       GqlChallengeActivity
     >
 {
-  constructor(private dbService: DbService) {}
+  constructor(private dbService: DbService<typeof schema>) {}
 
   public getTypename(): string {
     return "ChallengeActivity";

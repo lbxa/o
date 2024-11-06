@@ -4,12 +4,13 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { GraphQLModule } from "@nestjs/graphql";
+import * as schema from "@o/db";
 
 import { AppResolver } from "./app.resolver";
 import { AuthModule } from "./auth/auth.module";
 import { ChallengesModule } from "./challenges/challenges.module";
 import { CommunitiesModule } from "./communities/communities.module";
-import { DbService } from "./db/db.service";
+import { DbModule } from "./db/db.module";
 import { JwtAuthGuard } from "./guards/jwt.guard";
 import { NodeResolver } from "./node.resolver";
 import { DateTimeScalar } from "./types/datetime";
@@ -20,6 +21,7 @@ import { ViewerModule } from "./viewer/viewer.module";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
+    DbModule.forRoot(() => ({ schema: schema })),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
@@ -44,7 +46,6 @@ import { ViewerModule } from "./viewer/viewer.module";
     DateTimeScalar,
     AppResolver,
     NodeResolver,
-    DbService,
   ],
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import {
   NewChallengeActivityResult,
   User as PgUser,
 } from "@o/db";
+import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
@@ -28,7 +29,7 @@ export class ChallengeActivityResultsService
   constructor(
     private usersService: UsersService,
     private challengeActivitiesService: ChallengeActivitiesService,
-    private dbService: DbService
+    private dbService: DbService<typeof schema>
   ) {}
 
   public getTypename(): string {

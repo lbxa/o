@@ -9,6 +9,7 @@ import {
   ChallengesTable,
   CommunityMembershipsTable,
 } from "@o/db";
+import * as schema from "@o/db";
 import { and, eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
@@ -16,7 +17,7 @@ import { InvitationStatus } from "../../types/graphql";
 
 @Injectable()
 export class ChallengeMembershipsService {
-  constructor(private dbService: DbService) {}
+  constructor(private dbService: DbService<typeof schema>) {}
 
   async join(userId: number, inviteId: number): Promise<boolean> {
     const invitation =

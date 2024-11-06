@@ -11,6 +11,7 @@ import {
   NewCommunity,
   UsersTable,
 } from "@o/db";
+import * as schema from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -27,7 +28,7 @@ import { mapToEnum } from "../utils/map-to-enum";
 export class CommunitiesService
   implements EntityService<typeof CommunitiesTable, PgCommunity, GqlCommunity>
 {
-  constructor(private dbService: DbService) {}
+  constructor(private dbService: DbService<typeof schema>) {}
 
   public getTypename(): string {
     return "Community";
