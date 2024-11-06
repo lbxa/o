@@ -37,6 +37,7 @@ import {
   NewChallengeActivity,
   UsersTable,
 } from "@o/db";
+import * as schema from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -57,7 +58,7 @@ export class ChallengesService
 {
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
-    private dbService: DbService
+    private dbService: DbService<typeof schema>
   ) {}
 
   // TODO map Db types to GraphQL types
