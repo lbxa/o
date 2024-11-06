@@ -17,8 +17,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@o/eslint": "workspace:*",
-    "@o/tailwind": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
+    "@ocorp/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@types/three": "^0.166.0",
     "autoprefixer": "^10.4.19",

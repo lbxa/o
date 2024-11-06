@@ -1,4 +1,4 @@
-import type { Tokens } from "@o/api";
+import type { Tokens } from "@ocorp/api";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import type {

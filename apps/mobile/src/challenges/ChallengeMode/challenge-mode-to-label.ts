@@ -1,4 +1,4 @@
-import { ChallengeMode } from "@o/api";
+import { ChallengeMode } from "@ocorp/api";
 
 import type { ChallengeModeLabel } from "./challenge-mode.types";
 

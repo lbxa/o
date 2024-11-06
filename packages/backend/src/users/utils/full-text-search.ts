@@ -1,4 +1,5 @@
 /* eslint-disable @stylistic/js/max-len */
+import type * as schema from "@o/db";
 import { UsersTable } from "@o/db";
 import { or, sql } from "drizzle-orm";
 
@@ -70,7 +71,7 @@ import { encodeGlobalId } from "../../utils";
 //     score_full_name DESC;
 
 export const fullTextSearch = async (
-  dbService: DbService,
+  dbService: DbService<typeof schema>,
   searchTerm: string
 ) => {
   const matchExpression = (field: string) =>

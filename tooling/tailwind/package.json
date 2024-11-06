@@ -1,7 +1,13 @@
 {
-  "name": "@o/tailwind",
+  "name": "@ocorp/tailwind",
   "version": "1.0.0",
+  "description": "Tailwind CSS configuration for the oNex platform",
+  "author": "Lucas <lucas@onex.com>",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lbxa/o.git"
+  },
   "scripts": {
     "lint": "eslint .",
     "type-check": "tsc --noEmit"
@@ -15,7 +21,7 @@
     "tailwindcss": "3.4.4"
   },
   "devDependencies": {
-    "@o/eslint": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "eslint": "^9.5.0",
     "typescript": "~5.4.5"

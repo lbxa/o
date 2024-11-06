@@ -1,4 +1,4 @@
-import { ChallengeCadence } from "@o/api";
+import { ChallengeCadence } from "@ocorp/api";
 
 import type { ChallengeCadenceLabel } from "./challenge-cadence.types";
 

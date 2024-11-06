@@ -1,7 +1,10 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { ChallengeActivityUnits } from "@o/api";
-import { ChallengeActivityGoal, ChallengeActivityMeasurement } from "@o/api";
-import { ChallengeActivityType } from "@o/api";
+import { ChallengeActivityUnits } from "@ocorp/api";
+import {
+  ChallengeActivityGoal,
+  ChallengeActivityMeasurement,
+} from "@ocorp/api";
+import { ChallengeActivityType } from "@ocorp/api";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, View } from "react-native";
 

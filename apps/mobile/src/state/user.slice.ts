@@ -1,4 +1,4 @@
-import type { User } from "@o/api";
+import type { User } from "@ocorp/api";
 import type { StateCreator } from "zustand";
 
 import type { ChallengeSlice } from "./challenge.slice";

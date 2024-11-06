@@ -3,7 +3,7 @@ import {
   ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@o/api";
+} from "@ocorp/api";
 
 export const ChallengeActivityToMeasurementMap = new Map<
   ChallengeActivityType,

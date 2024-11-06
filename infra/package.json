@@ -1,6 +1,7 @@
 {
   "name": "@o/infra",
   "main": "index.ts",
+  "private": true,
   "scripts": {
     "sso": "aws sso login --sso-session=onex",
     "db:pwd": "pulumi stack output dbRandomPassword --show-secrets",
@@ -12,7 +13,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@o/eslint": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@pulumi/aws": "^6.0.0",
     "@pulumi/awsx": "^2.0.2",

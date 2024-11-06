@@ -2,8 +2,8 @@ import type {
   ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@o/api";
-import type { ChallengeActivityGoal } from "@o/api";
+} from "@ocorp/api";
+import type { ChallengeActivityGoal } from "@ocorp/api";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";

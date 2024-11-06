@@ -1,4 +1,4 @@
-import type { Community } from "@o/api";
+import type { Community } from "@ocorp/api";
 import type { StateCreator } from "zustand";
 
 import type { ChallengeSlice } from "./challenge.slice";

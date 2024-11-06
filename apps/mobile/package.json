@@ -1,7 +1,8 @@
 {
   "name": "@o/mobile",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "main": "entry.ts",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "expo start -c",
@@ -25,9 +26,9 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "5.0.5",
     "@hookform/resolvers": "^3.9.0",
-    "@o/api": "workspace:*",
-    "@o/eslint": "workspace:*",
-    "@o/tailwind": "workspace:*",
+    "@ocorp/api": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
+    "@ocorp/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-native/assets-registry": "0.76.1",

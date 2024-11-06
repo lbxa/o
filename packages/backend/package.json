@@ -1,7 +1,8 @@
 {
   "name": "@o/backend",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "build": "nest build",
     "start": "nest start",
@@ -28,7 +29,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.4.4",
     "@o/db": "workspace:*",
-    "@o/eslint": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "argon2": "^0.41.1",
     "class-transformer": "^0.5.1",

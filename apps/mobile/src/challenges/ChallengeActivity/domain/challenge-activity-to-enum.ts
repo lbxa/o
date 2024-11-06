@@ -1,4 +1,7 @@
-import { ChallengeActivityGoal, ChallengeActivityMeasurement } from "@o/api";
+import {
+  ChallengeActivityGoal,
+  ChallengeActivityMeasurement,
+} from "@ocorp/api";
 
 import type {
   ChallengeActivityGoalLabel,

@@ -2,7 +2,7 @@ import CrossIcon from "@assets/icons/cross.svg";
 import OnexIcon from "@assets/icons/onex.svg";
 import RecordIcon from "@assets/icons/record.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeActivityType } from "@o/api";
+import { ChallengeActivityType } from "@ocorp/api";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Text, View } from "react-native";

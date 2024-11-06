@@ -1,7 +1,8 @@
 {
   "name": "@o/db",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "UNLICENSED",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -22,7 +23,7 @@
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@o/eslint": "workspace:*",
+    "@ocorp/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "drizzle-orm": "^0.34.1",
     "mysql2": "^3.11.3",

@@ -1,4 +1,4 @@
-import type { AuthLoginInput } from "@o/api";
+import type { AuthLoginInput } from "@ocorp/api";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";

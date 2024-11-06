@@ -1,4 +1,4 @@
-import type { User } from "@o/api";
+import type { User } from "@ocorp/api";
 import { Text, View } from "react-native";
 
 import type { ChallengeActivityMeasurement } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
