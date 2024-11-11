@@ -13,7 +13,7 @@
     "build": "yes | pnpm expo export --output-dir ./dist --platform all",
     "relay": "relay-compiler --watch",
     "type-check": "tsc --noEmit",
-    "start:prod": "expo start -c --no-dev --minify",
+    "expo:prod": "expo start -c --no-dev --minify",
     "prebuild": "expo prebuild --clean",
     "pod-install": "npx pod-install",
     "eas:build": "pnpx eas-cli@latest build",
