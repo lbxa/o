@@ -6,7 +6,7 @@
   "build": {
     "base": {
       "node": "20.14.0",
-      "pnpm": "9.12.2"
+      "pnpm": "9.12.3"
     },
     "development": {
       "extends": "base",
@@ -33,7 +33,11 @@
     "production": {
       "extends": "base",
       "distribution": "store",
-      "autoIncrement": true
+      "resourceClass": "large",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
+      }
     }
   },
   "submit": {
