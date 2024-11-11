@@ -1,4 +1,4 @@
-import { ValidationPipe } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import compression from "compression";
@@ -20,6 +20,8 @@ async function bootstrap() {
   const port = configService.get<number>("BACKEND_PORT") ?? 6969;
 
   await app.listen(port);
+
+  Logger.log(`Server is running on port ${port}`);
 }
 
 void bootstrap();

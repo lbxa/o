@@ -103,6 +103,5 @@ const finalConfig = makeMetroConfig(mergeConfig(defaultConfig, monorepoConfig, s
 module.exports = withNativeWind(finalConfig, {
   input: path.join(projectDir, "src", "global.css"),
   configPath: path.join(projectDir, "tailwind.config.ts"),
-  projectRoot: projectDir,
-  forceWriteFileSystem: true
+  projectRoot: projectDir
 }); 

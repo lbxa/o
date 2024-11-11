@@ -5,6 +5,7 @@
     "build": {
       "cache": false,
       "inputs": ["$TURBO_DEFAULT$", ".env.*", "drizzle.config.ts", "src/**"],
+      "outputs": ["$TURBO_DEFAULT$", "dist/**"],
       "env": [
         "DB_HOSTNAME",
         "DB_USER",
