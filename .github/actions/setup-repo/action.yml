@@ -26,6 +26,7 @@ runs:
         # Extract the pnpm version from package.json
         pnpm_version=$(jq -r '.packageManager | select(startswith("pnpm@")) | split("@")[1]' package.json)
         echo "pnpm-version=$pnpm_version" >> $GITHUB_ENV
+      shell: bash
 
     - name: 🏗 Setup pnpm
       uses: pnpm/action-setup@v4
