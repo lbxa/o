@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f17b2408faf5924faaa1a711a0599f96>>
+ * @generated SignedSource<<99d820bce72e604fd63ab7c876fd69cc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,15 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityChallenges_challenges$data = {
+export type ChallengeList_challenges$data = {
   readonly challenges: ReadonlyArray<{
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment">;
   }> | null | undefined;
-  readonly " $fragmentType": "CommunityChallenges_challenges";
+  readonly " $fragmentType": "ChallengeList_challenges";
 };
-export type CommunityChallenges_challenges$key = {
-  readonly " $data"?: CommunityChallenges_challenges$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
+export type ChallengeList_challenges$key = {
+  readonly " $data"?: ChallengeList_challenges$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_challenges">;
 };
 
 const node: ReaderFragment = {
@@ -36,10 +36,10 @@ const node: ReaderFragment = {
       "fragmentPathInResult": [
         "viewer"
       ],
-      "operation": require('./CommunityChallengesRefreshQuery.graphql')
+      "operation": require('./ChallengeListRefreshQuery.graphql')
     }
   },
-  "name": "CommunityChallenges_challenges",
+  "name": "ChallengeList_challenges",
   "selections": [
     {
       "alias": null,
@@ -68,6 +68,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "a2716b030b1dbbdaa5b0c15a62b37c72";
+(node as any).hash = "243029b73c8fd58d978f8e29a1366d57";
 
 export default node;

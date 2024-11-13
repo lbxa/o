@@ -38,6 +38,6 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     JwtStrategy,
     JwtService,
   ],
-  exports: [JwtStrategy, JwtModule],
+  exports: [JwtStrategy, JwtModule, CryptoService],
 })
 export class AuthModule {}

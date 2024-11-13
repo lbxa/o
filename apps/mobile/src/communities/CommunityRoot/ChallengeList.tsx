@@ -2,17 +2,17 @@ import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 import { graphql, useRefetchableFragment } from "react-relay";
 
-import type { CommunityChallenges_challenges$key } from "@/__generated__/CommunityChallenges_challenges.graphql";
-import type { CommunityChallengesRefreshQuery } from "@/__generated__/CommunityChallengesRefreshQuery.graphql";
+import type { ChallengeList_challenges$key } from "@/__generated__/ChallengeList_challenges.graphql";
+import type { ChallengeListRefreshQuery } from "@/__generated__/ChallengeListRefreshQuery.graphql";
 import { ChallengeCard } from "@/challenges";
 import { useZustStore } from "@/state";
 import { OButton } from "@/universe/atoms";
 
 import { CommunityDetails } from "./CommunityDetails";
 
-export const COMMUNITY_CHALLENGES_FRAGMENT = graphql`
-  fragment CommunityChallenges_challenges on Viewer
-  @refetchable(queryName: "CommunityChallengesRefreshQuery")
+export const CHALLENGE_LIST_FRAGMENT = graphql`
+  fragment ChallengeList_challenges on Viewer
+  @refetchable(queryName: "ChallengeListRefreshQuery")
   @argumentDefinitions(communityId: { type: "ID!" }) {
     challenges(communityId: $communityId) {
       ...ChallengeFragment
@@ -21,24 +21,21 @@ export const COMMUNITY_CHALLENGES_FRAGMENT = graphql`
 `;
 
 interface Props {
-  fragmentRef: CommunityChallenges_challenges$key;
+  fragmentRef: ChallengeList_challenges$key;
 }
 
-export const CommunityChallenges = ({ fragmentRef }: Props) => {
+export const ChallengeList = ({ fragmentRef }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { selectedCommunity } = useZustStore();
 
   const [data, refetch] = useRefetchableFragment<
-    CommunityChallengesRefreshQuery,
-    CommunityChallenges_challenges$key
-  >(COMMUNITY_CHALLENGES_FRAGMENT, fragmentRef);
+    ChallengeListRefreshQuery,
+    ChallengeList_challenges$key
+  >(CHALLENGE_LIST_FRAGMENT, fragmentRef);
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch(
-        { communityId: selectedCommunity?.id },
-        { fetchPolicy: "store-and-network" }
-      );
+      refetch({ communityId: selectedCommunity?.id });
     });
   }, [refetch, selectedCommunity?.id]);
 

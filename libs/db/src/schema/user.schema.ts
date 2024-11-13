@@ -8,7 +8,6 @@ export const UsersTable = UserSchema.table("users", {
   ...withIdPk,
   firstName: text().notNull(),
   lastName: text().notNull(),
-  fullName: text().notNull(),
   email: varchar({ length: 255 }).unique().notNull(),
   handle: varchar({ length: 255 }).unique(),
   password: varchar({ length: 255 }).notNull(),

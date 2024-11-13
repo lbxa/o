@@ -2,7 +2,7 @@
 // import { createParamDecorator } from "@nestjs/common";
 // import { GqlExecutionContext } from "@nestjs/graphql";
 
-import { InvalidIdError } from "../errors";
+import { InvalidIdError } from "./errors";
 
 // export const DecodeGlobalId = createParamDecorator(
 //   (data: string, ctx: ExecutionContext) => {

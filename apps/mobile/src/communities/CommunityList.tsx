@@ -46,7 +46,7 @@ export const CommunityList = ({ queryRef }: Props) => {
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({}, { fetchPolicy: "store-and-network" });
+      refetch({});
     });
   }, [refetch]);
 

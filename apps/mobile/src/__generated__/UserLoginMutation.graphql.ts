@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<67b7a92df652fd1734a817ba0281dfae>>
+ * @generated SignedSource<<7cfb1606e0d3a54c63d5275f3c36b76c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,6 +25,7 @@ export type UserLoginMutation$data = {
     readonly user: {
       readonly email: string | null | undefined;
       readonly firstName: string | null | undefined;
+      readonly id: string;
       readonly lastName: string | null | undefined;
     };
   };
@@ -44,91 +45,94 @@ var v0 = [
 ],
 v1 = [
   {
-    "kind": "Variable",
-    "name": "authLoginInput",
-    "variableName": "authLoginInput"
-  }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Tokens",
-  "kind": "LinkedField",
-  "name": "tokens",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "accessToken",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "refreshToken",
-      "storageKey": null
-    }
-  ],
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "lastName",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "email",
-  "storageKey": null
-};
-return {
-  "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "UserLoginMutation",
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "authLoginInput",
+        "variableName": "authLoginInput"
+      }
+    ],
+    "concreteType": "AuthLoginPayload",
+    "kind": "LinkedField",
+    "name": "authLogin",
+    "plural": false,
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "AuthLoginPayload",
+        "args": null,
+        "concreteType": "Tokens",
         "kind": "LinkedField",
-        "name": "authLogin",
+        "name": "tokens",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v3/*: any*/),
-              (v4/*: any*/),
-              (v5/*: any*/)
-            ],
+            "kind": "ScalarField",
+            "name": "accessToken",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "refreshToken",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "firstName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "email",
             "storageKey": null
           }
         ],
         "storageKey": null
       }
     ],
+    "storageKey": null
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "UserLoginMutation",
+    "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -137,53 +141,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserLoginMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "AuthLoginPayload",
-        "kind": "LinkedField",
-        "name": "authLogin",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v3/*: any*/),
-              (v4/*: any*/),
-              (v5/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "33c567009fcf6681d5133513d5893d02",
+    "cacheID": "605e7e1ce9aa4b43cea69d01b85c8f41",
     "id": null,
     "metadata": {},
     "name": "UserLoginMutation",
     "operationKind": "mutation",
-    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    tokens {\n      accessToken\n      refreshToken\n    }\n    user {\n      firstName\n      lastName\n      email\n      id\n    }\n  }\n}\n"
+    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    tokens {\n      accessToken\n      refreshToken\n    }\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1294887f116fb8e03996f58ec22a62fe";
+(node as any).hash = "ee3346ff9041d821e038cfca3f73db48";
 
 export default node;

@@ -3,17 +3,23 @@ import { Args, Mutation, Resolver } from "@nestjs/graphql";
 
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { NotFoundError, UnauthorizedError } from "../errors";
 import { RefreshTokenGuard } from "../guards/refresh-token.guard";
 import { AuthCreateUserInput, AuthLoginInput, Tokens } from "../types/graphql";
 import { UserService } from "../user/user.service";
+import { CryptoService } from "../utils";
+import {
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/errors";
 import { AuthService } from "./auth.service";
 
 @Resolver("Auth")
 export class AuthResolver {
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private cryptoService: CryptoService
   ) {}
 
   @Public()
@@ -22,15 +28,13 @@ export class AuthResolver {
     const user = await this.userService.findByEmail(authLoginInput.email);
 
     if (!user) {
-      throw new NotFoundError("User with this email does not exist");
+      throw new NotFoundError("Invalid or incorrect email");
     }
 
-    // const match = await this.cryptoService.verifyArgonHash(
-    //   hashedPassword, // absolute hack atm! need to fix this
-    //   password
-    // );
-
-    const match = user.password === authLoginInput.password; // TODO fix this asap
+    const match = await this.cryptoService.verifyArgonHash(
+      user.password,
+      authLoginInput.password
+    );
 
     if (!match) {
       throw new UnauthorizedError("Password is incorrect");
@@ -39,7 +43,19 @@ export class AuthResolver {
     const { accessToken, refreshToken } =
       this.authService.createSignedTokenPair(user.id, authLoginInput.email);
 
-    await this.authService.updateRefreshToken(user.id, refreshToken);
+    const updated = await this.authService.updateRefreshToken(
+      user.id,
+      refreshToken
+    );
+
+    if (!updated) {
+      throw new InternalServerError(
+        [
+          "Unable to update refresh token for user account.",
+          "Please try again or contact support if the issue persists.",
+        ].join(" ")
+      );
+    }
 
     return {
       tokens: {
@@ -55,7 +71,7 @@ export class AuthResolver {
   create(
     @Args("authCreateUserInput") authCreateUserInput: AuthCreateUserInput
   ) {
-    return this.authService.createNewUser(authCreateUserInput);
+    return this.authService.registerUser(authCreateUserInput);
   }
 
   @Public()

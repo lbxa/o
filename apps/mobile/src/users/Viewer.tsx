@@ -46,11 +46,7 @@ const VIEWER_FRAGMENT = graphql`
 export const ViewerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { setActiveUser } = useZustStore();
 
-  const data = useLazyLoadQuery<ViewerQuery>(
-    VIEWER_QUERY,
-    {},
-    { fetchPolicy: "store-or-network" }
-  );
+  const data = useLazyLoadQuery<ViewerQuery>(VIEWER_QUERY, {});
 
   const [viewerData, refetchUser] = useRefetchableFragment<
     ViewerRefetchQuery,

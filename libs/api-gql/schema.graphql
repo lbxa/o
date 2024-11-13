@@ -252,6 +252,7 @@ type Mutation {
   communityJoin(inviteId: Int!): Community!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  """Update a user"""
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
 
@@ -273,8 +274,11 @@ type Query {
   node(id: ID!): Node
   userChallenges(userId: ID!): [Challenge!]
   userCommunities(userId: ID!): [Community!]
+  """Search for users by name"""
   userSearch(searchTerm: String): [User!]
-  userValidateEmail(email: String!): ValidEmailResponse
+  """Validate if an email is already taken"""
+  userValidateEmail(email: String!): ValidEmailResponse!
+  """All users"""
   users: [User!]
   viewer: Viewer
 }
@@ -292,11 +296,13 @@ type Tokens {
   refreshToken: String!
 }
 
+"""A user of the app"""
 type User implements Node & Timestamps {
   communities: [Community!]
   createdAt: DateTime
   email: String
   firstName: String
+  """If they have any..."""
   friends: [User!]
   handle: String
   id: ID!

@@ -7,14 +7,17 @@ import { eq } from "drizzle-orm";
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity";
 import { User as GqlUser, UserUpdateInput } from "../types/graphql";
-import { encodeGlobalId } from "../utils";
+import { CryptoService, encodeGlobalId } from "../utils";
 import { fullTextSearch } from "./utils/full-text-search";
 
 @Injectable()
 export class UserService
   implements EntityService<typeof UsersTable, PgUser, GqlUser>
 {
-  constructor(private dbService: DbService<typeof schema>) {}
+  constructor(
+    private dbService: DbService<typeof schema>,
+    private cryptoService: CryptoService
+  ) {}
 
   public getTypename(): string {
     return "User";
@@ -27,18 +30,15 @@ export class UserService
     };
   }
 
-  async createUser(newUser: Omit<NewUser, "fullName">): Promise<PgUser> {
+  async create(newUser: NewUser): Promise<PgUser> {
     const { password, ...restOfUser } = newUser;
-    // const passwordHash =
-    //   await this.cryptoService.generatePasswordHash(password);
-    const passwordHash = password; // TODO NEED TO GET THIS E2E WORKING ASAP
+    const passwordHash = await this.cryptoService.generateArgonHash(password);
 
     const [result] = await this.dbService.db
       .insert(UsersTable)
       .values({
         ...restOfUser,
         password: passwordHash,
-        fullName: restOfUser.firstName + " " + restOfUser.lastName,
       })
       .returning();
 

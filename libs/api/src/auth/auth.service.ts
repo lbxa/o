@@ -6,10 +6,10 @@ import * as schema from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { ForbiddenError } from "../errors";
 import { AuthCreateUserInput, AuthCreateUserPayload } from "../types/graphql";
 import { UserService } from "../user/user.service";
 import { CryptoService } from "../utils";
+import { ConflictError, InternalServerError } from "../utils/errors";
 
 @Injectable()
 export class AuthService {
@@ -23,13 +23,22 @@ export class AuthService {
 
   private readonly logger = new Logger(AuthService.name);
 
-  async createNewUser(
+  async registerUser(
     newUserInput: AuthCreateUserInput
   ): Promise<AuthCreateUserPayload | undefined> {
-    const newUser = await this.userService.createUser(newUserInput);
+    const existingUser = await this.userService.findByEmail(newUserInput.email);
+
+    if (existingUser) {
+      throw new ConflictError("Email already taken");
+    }
+
+    const newUser = await this.userService.create(newUserInput);
 
     if (!newUser.id) {
-      throw new ForbiddenError("User creation failed");
+      throw new InternalServerError(
+        "User creation failed: Unable to generate new user account.",
+        { customerSupport: true }
+      );
     }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
@@ -37,7 +46,14 @@ export class AuthService {
       newUserInput.email
     );
 
-    await this.updateRefreshToken(newUser.id, refreshToken);
+    const updated = await this.updateRefreshToken(newUser.id, refreshToken);
+
+    if (!updated) {
+      throw new InternalServerError(
+        "Unable to update refresh token for new user account.",
+        { customerSupport: true }
+      );
+    }
 
     return {
       tokens: {
@@ -47,20 +63,6 @@ export class AuthService {
       user: this.userService.pg2GqlMapper(newUser),
     };
   }
-
-  // async validateUser(
-  //   email: string
-  // ): Promise<Pick<User, "id" | "password"> | undefined> {
-  //   const user = await this.dbService.db.query.UsersTable.findFirst({
-  //     where: eq(UsersTable.email, email),
-  //     columns: {
-  //       id: true,
-  //       password: true,
-  //     },
-  //   });
-
-  //   return user;
-  // }
 
   createSignedTokenPair(userId: number, email: string) {
     const accessTokenSecret = this.configService.getOrThrow<string>(
@@ -88,16 +90,21 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async updateRefreshToken(userId: number, refreshToken: string) {
+  async updateRefreshToken(
+    userId: number,
+    refreshToken: string
+  ): Promise<boolean> {
     const hashedRefreshToken =
       await this.cryptoService.generateArgonHash(refreshToken);
 
-    return await this.dbService.db
+    const result = await this.dbService.db
       .update(UsersTable)
       .set({
         refreshToken: hashedRefreshToken,
       })
       .where(eq(UsersTable.id, userId));
+
+    return !!result.rowCount;
   }
 
   async invalidateRefreshToken(userId: number): Promise<void> {

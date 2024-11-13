@@ -1,0 +1,34 @@
+meta {
+  name: ValEmail
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  query { 
+  	userValidateEmail(email: "lucasbrsa@hotmail.com") {
+      alreadyTaken
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

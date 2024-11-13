@@ -9,7 +9,7 @@ const config = {
   watch: true,
   // only execute codegen on specific subset of files
   // to avoid unnecessary re-generation
-  documents: ["../backend/src/**/*.graphql"],
+  documents: ["../api/src/**/*.graphql"],
   generates: {
     "./gql/types.ts": {
       plugins: ["typescript"],

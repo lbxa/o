@@ -82,7 +82,6 @@ export const fullTextSearch = async (
       id: UsersTable.id,
       email: UsersTable.email,
       handle: UsersTable.handle,
-      fullName: UsersTable.fullName,
       firstName: UsersTable.firstName,
       lastName: UsersTable.lastName,
       scoreHandle: matchExpression("handle").as("score_handle"),

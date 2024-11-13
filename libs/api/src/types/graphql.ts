@@ -224,7 +224,7 @@ export interface IQuery {
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     users(): Nullable<User[]> | Promise<Nullable<User[]>>;
-    userValidateEmail(email: string): Nullable<ValidEmailResponse> | Promise<Nullable<ValidEmailResponse>>;
+    userValidateEmail(email: string): ValidEmailResponse | Promise<ValidEmailResponse>;
     userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
     viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }

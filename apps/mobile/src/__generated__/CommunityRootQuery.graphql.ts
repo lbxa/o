@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0d68b9e360b64da0f04849411bb19787>>
+ * @generated SignedSource<<33c9aecc42b881ebd8fae157c27a1fa9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type CommunityRootQuery$variables = {
 };
 export type CommunityRootQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_challenges">;
   } | null | undefined;
 };
 export type CommunityRootQuery = {
@@ -63,7 +63,7 @@ return {
           {
             "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "CommunityChallenges_challenges"
+            "name": "ChallengeList_challenges"
           }
         ],
         "storageKey": null
@@ -179,16 +179,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b756d38e268848071371684dca9ca5de",
+    "cacheID": "434bf24913ad151d93ffb375614003fd",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...CommunityChallenges_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment CommunityChallenges_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "68c0c84e0e1cec53a10270e6c2eb7b0b";
+(node as any).hash = "b54cf4bed5fce86d277af06af652c57e";
 
 export default node;

@@ -1,8 +1,9 @@
 import type { AuthLoginInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
+import { Text } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
@@ -24,6 +25,7 @@ const userLoginMutation = graphql`
         refreshToken
       }
       user {
+        id
         firstName
         lastName
         email
@@ -35,6 +37,7 @@ const userLoginMutation = graphql`
 export const UserLogin = () => {
   const router = useRouter();
   const { setStoreItem } = useSecureStore();
+  const [error, setError] = useState<string | null>(null);
   const [commitMutation, isMutationInFlight] =
     useMutation<UserLoginMutation>(userLoginMutation);
 
@@ -59,21 +62,16 @@ export const UserLogin = () => {
         },
       },
       onError: (e) => {
-        console.log("error", e);
+        setError(e.message.split("\n")[1]);
       },
       updater: (store, data) => {
-        console.log("data", data);
-        if (data?.authLogin.tokens) {
-          const { accessToken, refreshToken } = data.authLogin.tokens;
-          setStoreItem("ACCESS_TOKEN", accessToken);
-          setStoreItem("REFRESH_TOKEN", refreshToken);
+        if (!data?.authLogin) return;
 
-          console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
-          console.log("refreshToken", SecureStore.getItem("REFRESH_TOKEN"));
-          router.replace("/(app)/home");
-        }
-        // store.get("id");
-        // data?.login.accessToken;
+        const { accessToken, refreshToken } = data.authLogin.tokens;
+        setStoreItem("ACCESS_TOKEN", accessToken);
+        setStoreItem("REFRESH_TOKEN", refreshToken);
+
+        router.replace("/(app)/home");
       },
     });
   };
@@ -130,7 +128,9 @@ export const UserLogin = () => {
             />
           )}
         />
-
+        {error && (
+          <Text className="mb-md text-center text-red-900">{error}</Text>
+        )}
         <OButton
           title={isMutationInFlight ? "Loading..." : "Login"}
           disabled={isMutationInFlight}

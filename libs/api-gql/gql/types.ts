@@ -282,6 +282,7 @@ export type Mutation = {
   communityJoin: Community;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
+  /** Update a user */
   userUpdate: User;
 };
 
@@ -392,8 +393,11 @@ export type Query = {
   node?: Maybe<Node>;
   userChallenges?: Maybe<Array<Challenge>>;
   userCommunities?: Maybe<Array<Community>>;
+  /** Search for users by name */
   userSearch?: Maybe<Array<User>>;
-  userValidateEmail?: Maybe<ValidEmailResponse>;
+  /** Validate if an email is already taken */
+  userValidateEmail: ValidEmailResponse;
+  /** All users */
   users?: Maybe<Array<User>>;
   viewer?: Maybe<Viewer>;
 };
@@ -472,12 +476,14 @@ export type Tokens = {
   refreshToken: Scalars['String']['output'];
 };
 
+/** A user of the app */
 export type User = Node & Timestamps & {
   __typename?: 'User';
   communities?: Maybe<Array<Community>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
+  /** If they have any... */
   friends?: Maybe<Array<User>>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -491,6 +497,7 @@ export type User = Node & Timestamps & {
 };
 
 
+/** A user of the app */
 export type UserSearchFriendsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };

@@ -52,7 +52,7 @@ export const ChallengeActivity = ({
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({ challengeId }, { fetchPolicy: "store-and-network" });
+      refetch({ challengeId });
     });
   }, [refetch, challengeId]);
 
@@ -97,9 +97,7 @@ export const ChallengeActivity = ({
         )}
         renderSectionFooter={({ section }) => (
           <OTouchable
-            onPress={() =>
-              sectionModalLookup[section.title]?.current?.present()
-            }
+            onPress={() => sectionModalLookup[section.title].current?.present()}
           >
             <Text className="my-md underline">View all</Text>
           </OTouchable>

@@ -1,5 +1,4 @@
 import CrossIcon from "@assets/icons/cross.svg";
-import OnexIcon from "@assets/icons/onex.svg";
 import RecordIcon from "@assets/icons/record.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ChallengeActivityType } from "@o/api-gql";
@@ -69,11 +68,10 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-col">
       {showDescription && (
-        <View className="flex-row rounded-xl bg-ivory p-sm">
-          <OnexIcon width={20} height={20} />
-          <Text className="mx-sm flex-1">{challenge.description}</Text>
+        <View className="gap-sm bg-ivory px-md py-sm flex-row items-center rounded-xl">
+          <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} />
           </OTouchable>
@@ -82,7 +80,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton
           title="Invite"
@@ -95,7 +93,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
           type="secondary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
-          className="ml-auto flex flex-row items-center gap-sm rounded-xl"
+          className="gap-sm ml-auto flex flex-row items-center rounded-xl"
           onPress={handleRecord}
         />
       </View>

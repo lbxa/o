@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8798d94ec8117944551f49556674f6fa>>
+ * @generated SignedSource<<1523167fb7a217aff11dcf8649a49657>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,17 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityChallengesRefreshQuery$variables = {
+export type ChallengeListRefreshQuery$variables = {
   communityId: string;
 };
-export type CommunityChallengesRefreshQuery$data = {
+export type ChallengeListRefreshQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_challenges">;
   } | null | undefined;
 };
-export type CommunityChallengesRefreshQuery = {
-  response: CommunityChallengesRefreshQuery$data;
-  variables: CommunityChallengesRefreshQuery$variables;
+export type ChallengeListRefreshQuery = {
+  response: ChallengeListRefreshQuery$data;
+  variables: ChallengeListRefreshQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -50,7 +50,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityChallengesRefreshQuery",
+    "name": "ChallengeListRefreshQuery",
     "selections": [
       {
         "alias": null,
@@ -63,7 +63,7 @@ return {
           {
             "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "CommunityChallenges_challenges"
+            "name": "ChallengeList_challenges"
           }
         ],
         "storageKey": null
@@ -76,7 +76,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "CommunityChallengesRefreshQuery",
+    "name": "ChallengeListRefreshQuery",
     "selections": [
       {
         "alias": null,
@@ -179,16 +179,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1deb93963690c8fab88347c423fe9778",
+    "cacheID": "e07ac9d70b2682b235d7636abfe5b38b",
     "id": null,
     "metadata": {},
-    "name": "CommunityChallengesRefreshQuery",
+    "name": "ChallengeListRefreshQuery",
     "operationKind": "query",
-    "text": "query CommunityChallengesRefreshQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...CommunityChallenges_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment CommunityChallenges_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query ChallengeListRefreshQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a2716b030b1dbbdaa5b0c15a62b37c72";
+(node as any).hash = "243029b73c8fd58d978f8e29a1366d57";
 
 export default node;

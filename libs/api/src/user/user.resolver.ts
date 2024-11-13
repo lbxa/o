@@ -48,8 +48,8 @@ export class UserResolver {
 
   @Public()
   @Query("userValidateEmail")
-  validateEmail(@Args("email") email: string) {
-    return { alreadyTaken: this.userService.findByEmail(email) };
+  async validateEmail(@Args("email") email: string) {
+    return { alreadyTaken: !!(await this.userService.findByEmail(email)) };
   }
 
   @Mutation("userUpdate")
