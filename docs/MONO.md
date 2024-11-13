@@ -79,3 +79,11 @@ EXPOSE <port>
  
 CMD node dist/main.js
 ```
+
+## Node Linker
+
+The node linker is set to `hoisted` in the root `package.json`. This means that all the dependencies of the monorepo will be hoisted to the root level. This sadly makes pnpm's symlinking mechanism useless.
+
+We finally got this working with metro for development, but EAS was the final showstopper.
+
+As soon as we can fix this we can remove the `node-linker=hoisted` like from the `.npmrc` file.

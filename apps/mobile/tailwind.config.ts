@@ -4,6 +4,6 @@ import nativewindPreset from "nativewind/preset";
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./src/**/*.{ts,tsx}"],
+  content: [...nativeConfig.content],
   presets: [nativeConfig, nativewindPreset],
 } satisfies Config;

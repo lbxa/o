@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8ae055563bb5c3154eeff4a38fbd4e63>>
+ * @generated SignedSource<<6c5f18928fd721b5d56a1762b78a6dbb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type UserSearchFriendsFragment$data = {
   readonly user: {
     readonly searchFriends: ReadonlyArray<{

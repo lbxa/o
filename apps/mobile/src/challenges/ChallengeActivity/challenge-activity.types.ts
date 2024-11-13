@@ -19,7 +19,7 @@ export type ChallengeActivityUnitLabel =
   | "None";
 
 export type ChallengeActivityMeasurementLabel =
-  | "Counting"
+  | "Count-Based"
   | "Duration"
   | "Improvement";
 

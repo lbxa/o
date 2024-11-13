@@ -1,0 +1,49 @@
+"""
+A user of the app
+"""
+type User implements Node & Timestamps {
+  id: ID!
+  handle: String
+  firstName: String
+  lastName: String 
+  email: String
+  password: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  "If they have any..."
+  friends: [User!]
+  communities: [Community!]
+  searchFriends(searchTerm: String): [User!]
+
+  # TODO
+  memberships: [CommunityMembership!]
+  sentInvitations: [CommunityInvitation!]
+  receivedInvitations: [CommunityInvitation!]
+}
+
+input UserUpdateInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  handle: String
+  email: String
+}
+
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
+}
+
+type Query {
+  "All users"
+  users: [User!]
+  "Validate if an email is already taken"
+  userValidateEmail(email: String!): ValidEmailResponse!
+  "Search for users by name"
+  userSearch(searchTerm: String): [User!]
+}
+
+type Mutation {
+  "Update a user"
+  userUpdate(userUpdateInput: UserUpdateInput!): User!
+  # removeUser(id: Int!): User
+}

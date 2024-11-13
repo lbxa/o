@@ -1,7 +1,13 @@
 {
   "name": "@o/tailwind",
   "version": "1.0.0",
+  "description": "Tailwind CSS configuration for the oNex platform",
+  "author": "Lucas <lucas@onex.com>",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lbxa/o.git"
+  },
   "scripts": {
     "lint": "eslint .",
     "type-check": "tsc --noEmit"

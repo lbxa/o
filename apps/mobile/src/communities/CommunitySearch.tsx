@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { graphql } from "react-relay";
 
-import { Button, PrimaryTextInput } from "@/universe/atoms";
+import { OButton, PrimaryTextInput } from "@/universe/atoms";
 
 export const COMMUNITY_SEARCH_QUERY = graphql`
   query CommunitySearchQuery($id: ID!) {
@@ -15,7 +15,7 @@ export const CommunitySearch = () => {
   return (
     <View className="mb-md">
       <PrimaryTextInput className="mb-md" placeholder="Community name" />
-      <Button title="Search" />
+      <OButton title="Search" />
     </View>
   );
 };

@@ -1,33 +1,43 @@
 {
   "cli": {
-    "version": ">= 12.5.1",
+    "version": ">= 12.6.2",
     "appVersionSource": "remote"
   },
   "build": {
     "base": {
       "node": "20.14.0",
-      "pnpm": "9.12.1"
+      "pnpm": "9.12.3"
     },
     "development": {
       "extends": "base",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://localhost:6969/graphql"
+      }
     },
     "development:simulator": {
-      "extends": "base",
-      "developmentClient": true,
-      "distribution": "internal",
+      "extends": "development",
       "ios": {
         "simulator": true
       }
     },
     "preview": {
       "extends": "base",
-      "distribution": "store"
+      "distribution": "internal",
+      "resourceClass": "large",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
+      }
     },
     "production": {
       "extends": "base",
-      "autoIncrement": true
+      "distribution": "store",
+      "resourceClass": "large",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
+      }
     }
   },
   "submit": {

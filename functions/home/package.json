@@ -1,5 +1,6 @@
 {
   "name": "@o/home-functions",
+  "private": true,
   "scripts": {
     "firebase": "firebase",
     "build": "tsc",

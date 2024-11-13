@@ -1,0 +1,71 @@
+meta {
+  name: UserChallenges
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment TopResults on ChallengeActivityResult {
+    user {
+      firstName
+      lastName
+    }
+    result
+    activity {
+      type
+    }
+  }
+  
+  fragment Challenge on Challenge {
+    id
+    name
+    description
+  }
+  
+  query {
+    viewer {
+      # challenges(communityId: "Q29tbXVuaXR5OjE=") {
+      #   id
+      #   name
+      #   activityTopResults {
+      #     user {
+      #       firstName
+      #       lastName
+      #     }
+      #     result
+      #     activity {
+      #       type
+      #     }
+      #   }
+      # }
+      challenge(challengeId: "Q2hhbGxlbmdlOjE=") {
+        ...Challenge
+        activityTopResults {
+        	...TopResults
+        }
+      }
+    }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

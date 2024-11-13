@@ -1,0 +1,17 @@
+meta {
+  name: AuthLogout
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{URL}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  mutation Logout {
+    authLogout(id: 1)
+  }
+}

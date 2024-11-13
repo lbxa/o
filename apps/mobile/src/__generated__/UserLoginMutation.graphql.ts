@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<be3c320f4d75284517f7c1922ece4af0>>
+ * @generated SignedSource<<7cfb1606e0d3a54c63d5275f3c36b76c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
 export type AuthLoginInput = {
   email: string;
   password: string;
@@ -18,11 +18,14 @@ export type UserLoginMutation$variables = {
 };
 export type UserLoginMutation$data = {
   readonly authLogin: {
-    readonly accessToken: string;
-    readonly refreshToken: string;
+    readonly tokens: {
+      readonly accessToken: string;
+      readonly refreshToken: string;
+    };
     readonly user: {
       readonly email: string | null | undefined;
       readonly firstName: string | null | undefined;
+      readonly id: string;
       readonly lastName: string | null | undefined;
     };
   };
@@ -42,81 +45,94 @@ var v0 = [
 ],
 v1 = [
   {
-    "kind": "Variable",
-    "name": "authLoginInput",
-    "variableName": "authLoginInput"
-  }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "accessToken",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "refreshToken",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "lastName",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "email",
-  "storageKey": null
-};
-return {
-  "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "UserLoginMutation",
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "authLoginInput",
+        "variableName": "authLoginInput"
+      }
+    ],
+    "concreteType": "AuthLoginPayload",
+    "kind": "LinkedField",
+    "name": "authLogin",
+    "plural": false,
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "AuthLoginResponse",
+        "args": null,
+        "concreteType": "Tokens",
         "kind": "LinkedField",
-        "name": "authLogin",
+        "name": "tokens",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v4/*: any*/),
-              (v5/*: any*/),
-              (v6/*: any*/)
-            ],
+            "kind": "ScalarField",
+            "name": "accessToken",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "refreshToken",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "firstName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "email",
             "storageKey": null
           }
         ],
         "storageKey": null
       }
     ],
+    "storageKey": null
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "UserLoginMutation",
+    "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -125,54 +141,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserLoginMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "AuthLoginResponse",
-        "kind": "LinkedField",
-        "name": "authLogin",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v4/*: any*/),
-              (v5/*: any*/),
-              (v6/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "619ee82fb0445da500bed7506c47d417",
+    "cacheID": "605e7e1ce9aa4b43cea69d01b85c8f41",
     "id": null,
     "metadata": {},
     "name": "UserLoginMutation",
     "operationKind": "mutation",
-    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    accessToken\n    refreshToken\n    user {\n      firstName\n      lastName\n      email\n      id\n    }\n  }\n}\n"
+    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    tokens {\n      accessToken\n      refreshToken\n    }\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "555361e7e3a6641d5984d8cb08246557";
+(node as any).hash = "ee3346ff9041d821e038cfca3f73db48";
 
 export default node;

@@ -8,7 +8,7 @@ import {
   challengeActivityMeasurementToLabel,
   challengeActivityTypeToLabel,
   challengeActivityUnitToLabel,
-} from "../../ChallengeActivity";
+} from "../../ChallengeActivity/domain";
 
 export const ChallengeCreateActivitySummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);

@@ -1,0 +1,46 @@
+input AuthLoginInput {
+  email: String!
+  password: String!
+}
+"""
+Tokens are the access and refresh tokens for the user
+"""
+type Tokens {
+  "Access tokens expire more frequently for stronger security measures"
+  accessToken: String!
+  "Refresh token is stored safely for user to refresh access token"
+  refreshToken: String!
+}
+
+"""
+Login payload
+"""
+type AuthLoginPayload {
+  "Access to the refresh tokens"
+  tokens: Tokens!
+  "The user that has been logged in"
+  user: User!
+}
+
+input AuthCreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+type AuthCreateUserPayload {
+  tokens: Tokens!
+  user: User!
+}
+
+type Mutation {
+  "Login to the application"
+  authLogin(authLoginInput: AuthLoginInput!): AuthLoginPayload!
+  "Logout from the application"
+  authLogout(id: Int!): Boolean!
+  "Create a new user"
+  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserPayload!
+  "Refresh the access and refresh tokens"
+  authRefreshTokens: Tokens!
+}

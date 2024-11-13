@@ -1,12 +1,12 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { ChallengeMode } from "@o/api";
+import { ChallengeMode } from "@o/api-gql";
 import classNames from "classnames";
 import CheckBox from "expo-checkbox";
 import React from "react";
 import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Subtitle, Title } from "@/universe/atoms";
+import { OButton, OTouchable, Subtitle, Title } from "@/universe/atoms";
 
 import type { ChallengeModeLabel } from "../../ChallengeMode";
 
@@ -18,25 +18,27 @@ const DataControl: React.FC<{
   comingSoon?: boolean;
 }> = ({ controlName, controlDescription, selected, onSelect, comingSoon }) => {
   return (
-    <View className="flex flex-row items-center gap-md">
-      <View className="flex flex-1">
-        <Text
-          className={classNames("mb-sm text-xl", {
-            "text-gray-500": comingSoon,
-          })}
-        >
-          {controlName}
-          {comingSoon && " (Coming Soon)"}
-        </Text>
-        <Text>{controlDescription}</Text>
+    <OTouchable onPress={onSelect} disabled={comingSoon}>
+      <View className="flex flex-row items-center gap-md">
+        <View className="flex flex-1">
+          <Text
+            className={classNames("mb-sm text-xl", {
+              "text-gray-500": comingSoon,
+            })}
+          >
+            {controlName}
+            {comingSoon && " (Coming Soon)"}
+          </Text>
+          <Text>{controlDescription}</Text>
+        </View>
+        <CheckBox
+          value={selected}
+          color="black"
+          disabled={comingSoon}
+          onValueChange={onSelect}
+        />
       </View>
-      <CheckBox
-        value={selected}
-        color="black"
-        disabled={comingSoon}
-        onValueChange={onSelect}
-      />
-    </View>
+    </OTouchable>
   );
 };
 
@@ -45,7 +47,7 @@ export const ChallengeCreateModeSelector: React.FC<{
 }> = ({ modalRef }) => {
   const { setChallengeFormField, challengeForm } = useZustStore();
 
-  const selectedControl = challengeForm.mode ?? ChallengeMode.BlindTrust;
+  const selectedControl = challengeForm.mode;
 
   const controls: {
     controlId: ChallengeMode;
@@ -88,7 +90,7 @@ export const ChallengeCreateModeSelector: React.FC<{
           />
         ))}
       </View>
-      <Button
+      <OButton
         title={"Done"}
         variant="indigo"
         onPress={() => {

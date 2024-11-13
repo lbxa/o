@@ -1,6 +1,7 @@
 {
   "name": "@o/infra",
   "main": "index.ts",
+  "private": true,
   "scripts": {
     "sso": "aws sso login --sso-session=onex",
     "db:pwd": "pulumi stack output dbRandomPassword --show-secrets",

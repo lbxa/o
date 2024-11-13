@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f0dfe0ec37952cb2d05375b330526a1d>>
+ * @generated SignedSource<<617ed912c2b821ce82bc7f693153c780>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ConcreteRequest } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type ChallengeDetailsQuery$variables = {
   id: string;
 };
@@ -44,6 +44,13 @@ v2 = {
   "args": null,
   "kind": "ScalarField",
   "name": "name",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
   "storageKey": null
 };
 return {
@@ -89,13 +96,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -116,6 +117,53 @@ return {
             "kind": "ScalarField",
             "name": "endDate",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "ChallengeActivity",
+            "kind": "LinkedField",
+            "name": "activity",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "type",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "measurement",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "goal",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "unit",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "target",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -123,12 +171,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "94009cccbdcaafb4ab2df89dac209ca4",
+    "cacheID": "8fe418ff5a8c1b4914de5413ff90ab57",
     "id": null,
     "metadata": {},
     "name": "ChallengeDetailsQuery",
     "operationKind": "query",
-    "text": "query ChallengeDetailsQuery(\n  $id: ID!\n) {\n  challenge(id: $id) {\n    name\n    ...ChallengeFragment\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n"
+    "text": "query ChallengeDetailsQuery(\n  $id: ID!\n) {\n  challenge(id: $id) {\n    name\n    ...ChallengeFragment\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n"
   }
 };
 })();

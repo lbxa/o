@@ -1,0 +1,12 @@
+{
+  "extends": "@o/tsconfig/base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+  },
+  "include": [
+    "./index.ts",
+    "./index.d.ts",
+    "./codegen.ts",
+    "./gql/**/*.ts"
+  ]
+}

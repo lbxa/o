@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5d5081caa8904349eff51639a0c9088a>>
+ * @generated SignedSource<<58bb98c0249a45826db7145740c7038a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type CommunityListFragment$data = {
   readonly communities: ReadonlyArray<{
     readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;

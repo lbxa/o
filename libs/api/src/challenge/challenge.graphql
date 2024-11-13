@@ -1,0 +1,90 @@
+enum ChallengeMode {
+  BLIND_TRUST
+  BUDDY_SYSTEM
+  VERIFIED_ONLY
+}
+
+enum ChallengeCadence {
+  NONE
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  YEARLY
+}
+
+type Challenge implements Node & Timestamps {
+  id: ID!
+  name: String!
+  description: String
+  community: Community
+  startDate: DateTime
+  endDate: DateTime
+  mode: ChallengeMode
+  cadence: ChallengeCadence
+  createdAt: DateTime
+  updatedAt: DateTime
+  # TODO future challenges can support multiple activities
+  activity: ChallengeActivity!
+
+  members: [User!]
+  memberships: [ChallengeMembership!]
+  invitations: [ChallengeInvitation!]
+}
+
+type ChallengeMembership implements Node {
+  id: ID!
+  user: User!
+  community: Community!
+  challenge: Challenge!
+  joinedAt: DateTime!
+}
+
+type ChallengeInvitation implements Node & Timestamps {
+  id: ID!
+  challenge: Challenge!
+  inviter: User!
+  invitee: User!
+  status: InvitationStatus!
+  createdAt: DateTime
+  updatedAt: DateTime
+  expiresAt: DateTime!
+}
+
+input ChallengeCreateInput {
+  name: String!
+  description: String!
+  communityId: ID!
+  startDate: DateTime!
+  endDate: DateTime!
+  mode: ChallengeMode!
+  cadence: ChallengeCadence!
+}
+
+input ChallengeUpdateInput {
+  id: ID!
+  name: String
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+type Query {
+  challenge(id: ID!): Challenge
+  challenges: [Challenge!]
+  communityChallenges(communityId: ID!): [Challenge!]
+  userChallenges(userId: ID!): [Challenge!]
+  challengeInvitations(userId: ID!): [ChallengeInvitation!]
+}
+
+type Mutation {
+  challengeCreate(
+    challengeCreateInput: ChallengeCreateInput!
+    challengeActivityCreateInput: ChallengeActivityCreateInput!
+  ): Challenge!
+  challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
+  challengeDelete(id: ID!): Boolean!
+  challengeInvite(userId: ID!, challengeId: ID!): Boolean!
+  challengeJoin(inviteId: ID!): Challenge!
+  challengeLeave(id: ID!): Boolean!
+}

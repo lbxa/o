@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<865dc1e58cc02c870c6535146dc182f9>>
+ * @generated SignedSource<<6699b3b2177b92125792119545089e55>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type CommunityFragment$data = {
   readonly id: string;
   readonly isVerified: boolean | null | undefined;

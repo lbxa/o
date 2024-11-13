@@ -1,4 +1,4 @@
-import type { Community } from "@o/api";
+import type { Community } from "@o/api-gql";
 import type { StateCreator } from "zustand";
 
 import type { ChallengeSlice } from "./challenge.slice";

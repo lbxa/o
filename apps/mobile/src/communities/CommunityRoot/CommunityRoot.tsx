@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useLazyLoadQuery, usePreloadedQuery } from "react-relay";
 
@@ -7,7 +6,7 @@ import { MiniNav, Ozone } from "@/universe/molecules";
 
 import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 import type { CommunityRootQuery } from "../../__generated__/CommunityRootQuery.graphql";
-import { CommunityChallenges } from "./CommunityChallenges";
+import { ChallengeList } from "./ChallengeList";
 import { COMMUNITY_DETAILS_QUERY } from "./CommunityDetails";
 import { CommunityTitle } from "./CommunityTitle";
 
@@ -17,7 +16,7 @@ export const COMMUNITY_ROOT_QUERY = graphql`
     #   ...CommunityChallenges_community
     # }
     viewer {
-      ...CommunityChallenges_challenges @arguments(communityId: $communityId)
+      ...ChallengeList_challenges @arguments(communityId: $communityId)
     }
   }
 `;
@@ -37,8 +36,7 @@ export const CommunityRoot = ({
 
   const query = useLazyLoadQuery<CommunityDetailsQuery>(
     COMMUNITY_DETAILS_QUERY,
-    { id: communityId },
-    { fetchPolicy: "store-and-network" }
+    { id: communityId }
   );
 
   return (
@@ -58,11 +56,9 @@ export const CommunityRoot = ({
           ),
         }}
       />
-      <View>
-        {communityRootData.viewer && (
-          <CommunityChallenges fragmentRef={communityRootData.viewer} />
-        )}
-      </View>
+      {communityRootData.viewer && (
+        <ChallengeList fragmentRef={communityRootData.viewer} />
+      )}
     </Ozone>
   );
 };

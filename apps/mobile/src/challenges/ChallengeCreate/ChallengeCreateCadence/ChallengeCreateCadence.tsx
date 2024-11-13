@@ -3,7 +3,8 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
-import { Title, Touchable } from "../../../universe/atoms";
+import { OTouchable, Title } from "@/universe/atoms";
+
 import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateCadenceSelector } from "./ChallengeCreateCadenceSelector";
 import { ChallengeCreateCadenceSummary } from "./ChallengeCreateCadenceSummary";
@@ -17,7 +18,7 @@ export const ChallengeCreateCadence = () => {
   return (
     <View>
       <Title>Cadence</Title>
-      <Touchable
+      <OTouchable
         onPress={handleModal}
         className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
       >
@@ -25,7 +26,7 @@ export const ChallengeCreateCadence = () => {
           <ChallengeCreateCadenceSummary />
         </View>
         <ChevronRightIcon width={25} />
-      </Touchable>
+      </OTouchable>
 
       <BottomSheetModal
         ref={modalRef}

@@ -1,12 +1,12 @@
-import type { User } from "@o/api";
+import type { User } from "@o/api-gql";
 import type { StateCreator } from "zustand";
 
 import type { ChallengeSlice } from "./challenge.slice";
 import type { CommunitySlice } from "./community.slice";
 
 export interface UserSlice {
-  user: User | null;
-  setUser: (user: User) => void;
+  activeUser: User | null;
+  setActiveUser: (user: User) => void;
   logoutUser: () => void;
 }
 
@@ -16,7 +16,7 @@ export const createUserSlice: StateCreator<
   [],
   UserSlice
 > = (set) => ({
-  user: null,
-  setUser: (user: User) => set({ user }),
-  logoutUser: () => set({ user: null }),
+  activeUser: null,
+  setActiveUser: (user: User) => set({ activeUser: user }),
+  logoutUser: () => set({ activeUser: null }),
 });

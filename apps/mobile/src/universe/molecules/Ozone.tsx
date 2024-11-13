@@ -7,8 +7,8 @@ interface Props {
 
 export const Ozone: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
-    <SafeAreaView>
-      <View className="h-full bg-white">{children}</View>
+    <SafeAreaView className="bg-white">
+      <View className="h-full">{children}</View>
     </SafeAreaView>
   );
 };

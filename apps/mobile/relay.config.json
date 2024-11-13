@@ -2,8 +2,9 @@
   "$schema": null,
   "src": "./src",
   "language": "typescript",
-  "schema": "../../packages/api/schema.graphql",
+  "schema": "../../libs/api-gql/schema.graphql",
   "artifactDirectory": "./src/__generated__",
+  "useImportTypeSyntax": true,
   "customScalarTypes": {
     "DateTime": "Date"
   }

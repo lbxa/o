@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b9e3ffc0fb493feb1714cb71fe1ff67e>>
+ * @generated SignedSource<<d148495d6d8920b78e5ba9adf2670fa3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ReaderFragment } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type ViewerFragment$data = {
   readonly user: {
     readonly " $fragmentSpreads": FragmentRefs<"UserFragment">;

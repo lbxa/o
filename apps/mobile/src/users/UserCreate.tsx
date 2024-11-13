@@ -1,19 +1,17 @@
-import type { AuthCreateUserInput } from "@o/api";
+import type { AuthCreateUserInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { View } from "react-native";
-import type { PreloadedQuery } from "react-relay";
-import { useMutation, usePreloadedQuery, useQueryLoader } from "react-relay";
+import { Text, View } from "react-native";
+import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
-import { Button, PrimaryTextInputControl } from "@/universe/atoms";
-import { PrimaryPasswordInput } from "@/universe/atoms/PrimaryPasswordInput";
+import { OButton, PrimaryTextInputControl } from "@/universe/atoms";
+import { OPasswordInput } from "@/universe/atoms/OPasswordInput";
 import { Ozone } from "@/universe/molecules";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
-import type { UserCreateValidateEmailQuery } from "../__generated__/UserCreateValidateEmailQuery.graphql";
 
 export const USER_VALIDATE_EMAIL_QUERY = graphql`
   query UserCreateValidateEmailQuery($email: String!) {
@@ -29,49 +27,46 @@ const USER_CREATE_MUTATION = graphql`
       user {
         ...UserFragment
       }
-      accessToken
+      tokens {
+        accessToken
+        refreshToken
+      }
     }
   }
 `;
 
-const EmailCheckMessage = ({
-  queryRef,
-}: {
-  queryRef: PreloadedQuery<UserCreateValidateEmailQuery>;
-}) => {
-  const data = usePreloadedQuery(USER_VALIDATE_EMAIL_QUERY, queryRef);
+// const EmailCheckMessage = ({
+//   queryRef,
+// }: {
+//   queryRef: PreloadedQuery<UserCreateValidateEmailQuery>;
+// }) => {
+//   const data = usePreloadedQuery(USER_VALIDATE_EMAIL_QUERY, queryRef);
 
-  return (
-    <View>
-      {data.userValidateEmail?.alreadyTaken ? "Email already taken" : ""}
-    </View>
-  );
-};
+//   return (
+//     <View>
+//       <Text>
+//         {data.userValidateEmail?.alreadyTaken ? "Email already taken" : ""}
+//       </Text>
+//     </View>
+//   );
+// };
 
 export const UserCreate = () => {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
   const [commitMutation, isMutationInFlight] =
     useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
 
   // TODO finish dup email check
   // const [isPending, startTransition] = useTransition();
   // const [email, setEmail] = useState<string>("");
-
-  // const something = useLazyLoadQuery<UserCreateValidateEmailQuery>(
-  //   USER_VALIDATE_EMAIL_QUERY,
-  //   { email: "hello" },
-  //   { fetchPolicy: "network-only" }
-  // );
-
-  const [queryRef, loadQuery] = useQueryLoader<UserCreateValidateEmailQuery>(
-    USER_VALIDATE_EMAIL_QUERY
-  );
+  // const [queryRef, loadQuery, disposeQuery] =
+  //   useQueryLoader<UserCreateValidateEmailQuery>(USER_VALIDATE_EMAIL_QUERY);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<AuthCreateUserInput>({
     defaultValues: {
       firstName: "",
@@ -94,13 +89,19 @@ export const UserCreate = () => {
       },
       updater: (store, data) => {
         if (data?.authCreateUser.user) {
-          SecureStore.setItem("ACCESS_TOKEN", data.authCreateUser.accessToken);
+          SecureStore.setItem(
+            "ACCESS_TOKEN",
+            data.authCreateUser.tokens.accessToken
+          );
+          SecureStore.setItem(
+            "REFRESH_TOKEN",
+            data.authCreateUser.tokens.refreshToken
+          );
           router.replace("/(app)/home");
         }
       },
       onError: (e) => {
-        console.log(1, e.name);
-        console.log(2, e.message);
+        setError(e.message.split("\n")[1]);
       },
     });
   };
@@ -108,7 +109,7 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <View className="mb-md flex flex-row justify-between gap-md">
+        <View className="mb-md gap-md flex flex-row justify-between">
           <Controller
             name="firstName"
             control={control}
@@ -174,7 +175,8 @@ export const UserCreate = () => {
             />
           )}
         />
-        {queryRef && <EmailCheckMessage queryRef={queryRef} />}
+
+        {/* {queryRef && <EmailCheckMessage queryRef={queryRef} />} */}
 
         <Controller
           name="password"
@@ -187,7 +189,7 @@ export const UserCreate = () => {
             },
           }}
           render={({ field: { onBlur, onChange, value } }) => (
-            <PrimaryPasswordInput
+            <OPasswordInput
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -198,7 +200,11 @@ export const UserCreate = () => {
           )}
         />
 
-        <Button
+        {error && (
+          <Text className="mb-md text-center text-red-900">{error}</Text>
+        )}
+
+        <OButton
           title={isMutationInFlight ? "Loading..." : "Join the community"}
           disabled={isMutationInFlight}
           onPress={async (e) => {
@@ -207,7 +213,7 @@ export const UserCreate = () => {
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
             await handleSubmit(onSubmit)();
           }}
-        ></Button>
+        ></OButton>
         <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>

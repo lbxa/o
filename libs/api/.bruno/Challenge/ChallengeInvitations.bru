@@ -1,0 +1,37 @@
+meta {
+  name: ChallengeInvitations
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment UserFragment on User {
+    firstName
+    lastName
+  }
+  
+  fragment ChallengeInvitation on ChallengeInvitation {
+    id
+    inviter {
+      ...UserFragment
+    }
+  }
+  
+  query {
+    challengeInvitations(userId: "VXNlcjox") {
+      ...ChallengeInvitation
+    }
+  }
+  
+  
+}

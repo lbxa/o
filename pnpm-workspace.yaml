@@ -1,22 +1,8 @@
 packages:
   - "apps/*"
-  - "packages/*"
+  - "libs/*"
   - "tooling/*"
   - "functions/*"
   - "infra"
   - "!scripts"
-  - '!out/**'
-
-# TODO add these into each package.json
-# waiting on support for pnpm up -i -L --filter <package>
-# right now these catalogs must be updated manually
-catalog:
-  typescript: ^5.3.3
-  eslint: ^9.11.0
-  "@swc/cli": ^0.3.14
-  "@types/node": ^20.11.18
-
-catalogs:
-  drizzle:
-    drizzle-kit: ^0.22.8
-    drizzle-orm: ^0.33.0
+  - "!out/**"

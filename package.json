@@ -1,6 +1,5 @@
 {
   "name": "o",
-  "private": true,
   "engines": {
     "node": ">=20.14"
   },
@@ -8,16 +7,22 @@
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
     "dev": "turbo dev gql relay",
+    "dev:api": "pnpm dev --filter=\"@o/api...\"",
+    "dev:mobile": "pnpm dev --filter=\"@o/mobile...\"",
     "test": "turbo test",
     "lint": "turbo lint",
     "graph": "turbo build --graph=turbo-graph.svg",
     "type-check": "turbo type-check",
-    "circular": "pnpx madge --circular --extensions ts ./"
+    "circular": "pnpx madge --circular --extensions ts ./",
+    "changeset": "changeset",
+    "bump": "changeset version",
+    "release": "pnpm publish -r --access public"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.9",
     "turbo": "^2.2.3"
   },
-  "packageManager": "pnpm@9.12.2",
+  "packageManager": "pnpm@9.12.3",
   "pnpm": {
     "overrides": {
       "react-native-reanimated": "3.10.1"

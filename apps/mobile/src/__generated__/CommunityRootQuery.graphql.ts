@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c6d3a70e8dbaac5fa13b40cf1bfdfec>>
+ * @generated SignedSource<<33c9aecc42b881ebd8fae157c27a1fa9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,14 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import type { ConcreteRequest } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type CommunityRootQuery$variables = {
   communityId: string;
 };
 export type CommunityRootQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityChallenges_challenges">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_challenges">;
   } | null | undefined;
 };
 export type CommunityRootQuery = {
@@ -37,7 +37,14 @@ v1 = [
     "name": "communityId",
     "variableName": "communityId"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -56,7 +63,7 @@ return {
           {
             "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "CommunityChallenges_challenges"
+            "name": "ChallengeList_challenges"
           }
         ],
         "storageKey": null
@@ -87,13 +94,7 @@ return {
             "name": "challenges",
             "plural": true,
             "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              },
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -121,6 +122,53 @@ return {
                 "kind": "ScalarField",
                 "name": "endDate",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ChallengeActivity",
+                "kind": "LinkedField",
+                "name": "activity",
+                "plural": false,
+                "selections": [
+                  (v2/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "type",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "measurement",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "goal",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "unit",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "target",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -131,16 +179,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f96c74bbf3b533b21bfaa931173b36c4",
+    "cacheID": "434bf24913ad151d93ffb375614003fd",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...CommunityChallenges_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n}\n\nfragment CommunityChallenges_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "68c0c84e0e1cec53a10270e6c2eb7b0b";
+(node as any).hash = "b54cf4bed5fce86d277af06af652c57e";
 
 export default node;

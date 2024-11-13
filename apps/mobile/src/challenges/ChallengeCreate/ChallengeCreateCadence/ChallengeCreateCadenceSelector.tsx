@@ -1,9 +1,9 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeCadence } from "@o/api";
+import { ChallengeCadence } from "@o/api-gql";
 import { View } from "react-native";
 
 import { useZustStore } from "@/state";
-import { Button, Pill, Subtitle, Title } from "@/universe/atoms";
+import { OButton, Pill, Subtitle, Title } from "@/universe/atoms";
 
 import { challengeCadenceToLabel } from "../../ChallengeCadence";
 
@@ -37,7 +37,7 @@ export const ChallengeCreateCadenceSelector: React.FC<{
           />
         ))}
       </View>
-      <Button
+      <OButton
         title={"Done"}
         variant="indigo"
         onPress={() => {

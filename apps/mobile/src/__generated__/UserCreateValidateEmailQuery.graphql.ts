@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e2717d2c0170abe339da69f03446e663>>
+ * @generated SignedSource<<04776c2cd92a868839a4a51f108b8f34>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,14 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
 export type UserCreateValidateEmailQuery$variables = {
   email: string;
 };
 export type UserCreateValidateEmailQuery$data = {
   readonly userValidateEmail: {
     readonly alreadyTaken: boolean;
-  } | null | undefined;
+  };
 };
 export type UserCreateValidateEmailQuery = {
   response: UserCreateValidateEmailQuery$data;

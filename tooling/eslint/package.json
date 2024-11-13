@@ -1,8 +1,13 @@
 {
   "name": "@o/eslint",
   "version": "1.0.0",
-  "license": "ISC",
+  "description": "ESLint configuration for the oNex platform",
+  "author": "Lucas <lucas@onex.com>",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lbxa/o.git"
+  },
   "exports": {
     "./base": "./base.js"
   },

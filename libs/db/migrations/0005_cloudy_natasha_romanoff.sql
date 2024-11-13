@@ -1,0 +1,1 @@
+ALTER TABLE "user"."users" DROP COLUMN IF EXISTS "full_name";

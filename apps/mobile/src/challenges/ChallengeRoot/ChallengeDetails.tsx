@@ -1,12 +1,22 @@
+import CrossIcon from "@assets/icons/cross.svg";
 import RecordIcon from "@assets/icons/record.svg";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { ChallengeActivityType } from "@o/api-gql";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
-import type { PreloadedQuery } from "react-relay";
-import { graphql, useLazyLoadQuery } from "react-relay";
+import { useRef, useState } from "react";
+import { Text, View } from "react-native";
+import { graphql, useFragment } from "react-relay";
 
-import { Button } from "@/universe/atoms";
+import type { ChallengeFragment$key } from "@/__generated__/ChallengeFragment.graphql";
+import { useZustStore } from "@/state";
+import { OButton, OTouchable } from "@/universe/atoms";
 
-import type { ChallengeDetailsQuery } from "../../__generated__/ChallengeDetailsQuery.graphql";
+import { CHALLENGE_FRAGMENT } from "../ChallengeFragment";
+import {
+  RepetitionLogger,
+  StopwatchLogger,
+  WeightLogger,
+} from "../ChallengeLogger";
 
 export const CHALLENGE_DETAILS_QUERY = graphql`
   query ChallengeDetailsQuery($id: ID!) {
@@ -18,39 +28,75 @@ export const CHALLENGE_DETAILS_QUERY = graphql`
 `;
 
 interface Props {
-  challengeId: string;
   // queryRef: PreloadedQuery<ChallengeDetailsQuery>;
+  fragmentRef: ChallengeFragment$key;
 }
 
-export const ChallengeDetails = ({ challengeId }: Props) => {
+export const ChallengeDetails = ({ fragmentRef }: Props) => {
   const router = useRouter();
-  // const query = usePreloadedQuery<ChallengeDetailsQuery>(
-  //   CHALLENGE_DETAILS_QUERY,
-  //   queryRef
-  // );
+  const { setRecordedChallenge } = useZustStore();
 
-  const query = useLazyLoadQuery<ChallengeDetailsQuery>(
-    CHALLENGE_DETAILS_QUERY,
-    { id: challengeId },
-    { fetchPolicy: "store-and-network" }
+  const weightModalRef = useRef<BottomSheetModal>(null);
+  const stopwatchModalRef = useRef<BottomSheetModal>(null);
+  const repetitionModalRef = useRef<BottomSheetModal>(null);
+
+  const [showDescription, setShowDescription] = useState(true);
+
+  const challenge = useFragment<ChallengeFragment$key>(
+    CHALLENGE_FRAGMENT,
+    fragmentRef
   );
 
+  const handleRecord = () => {
+    setRecordedChallenge(challenge);
+    switch (challenge.activity.type) {
+      case ChallengeActivityType.Weightlifting:
+        weightModalRef.current?.present();
+        break;
+      case ChallengeActivityType.Repetitions:
+        repetitionModalRef.current?.present();
+        break;
+      case ChallengeActivityType.TimeBased:
+        stopwatchModalRef.current?.present();
+        break;
+      case ChallengeActivityType.Social:
+      case ChallengeActivityType.Distance:
+      default:
+        // TODO what should we do with distance?
+        return;
+    }
+  };
+
   return (
-    <View className="mb-md flex flex-row gap-md pt-sm">
-      <Button title="Share" variant="indigo" className="rounded-xl" />
-      <Button
-        title="Invite"
-        variant="indigo"
-        className="rounded-xl"
-        onPress={() => router.push("/(app)/community/challenge/invite")}
-      />
-      <Button
-        title="Record"
-        type="secondary"
-        variant="navy"
-        icon={<RecordIcon width={20} fill="ivory" />}
-        className="ml-auto flex flex-row items-center gap-sm rounded-xl"
-      />
+    <View className="mb-md gap-md pt-sm flex flex-col">
+      {showDescription && (
+        <View className="gap-sm bg-ivory px-md py-sm flex-row items-center rounded-xl">
+          <Text className="flex-1 text-lg">{challenge.description}</Text>
+          <OTouchable onPress={() => setShowDescription(false)}>
+            <CrossIcon width={15} height={15} />
+          </OTouchable>
+        </View>
+      )}
+      <StopwatchLogger modalRef={stopwatchModalRef} />
+      <RepetitionLogger modalRef={repetitionModalRef} />
+      <WeightLogger modalRef={weightModalRef} />
+      <View className="gap-md flex flex-row">
+        <OButton title="Share" variant="indigo" className="rounded-xl" />
+        <OButton
+          title="Invite"
+          variant="indigo"
+          className="rounded-xl"
+          onPress={() => router.push("/(app)/community/challenge/invite")}
+        />
+        <OButton
+          title="Record"
+          type="secondary"
+          variant="navy"
+          icon={<RecordIcon width={20} fill="ivory" />}
+          className="gap-sm ml-auto flex flex-row items-center rounded-xl"
+          onPress={handleRecord}
+        />
+      </View>
     </View>
   );
 };

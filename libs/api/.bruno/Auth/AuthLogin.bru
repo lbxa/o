@@ -1,0 +1,55 @@
+meta {
+  name: AuthLogin
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  mutation Login {
+    authLogin(authLoginInput: {
+      email: "lucasbrsa@hotmail.com",
+      password: "Password",
+    }) {
+      tokens {
+        accessToken
+        refreshToken
+      }
+      user {
+        firstName
+        lastName
+      }
+    }
+  }
+  
+  # mutation Login {
+  #   authLogin(authLoginInput: {
+  #     email: "gabbycard@hotmail.com",
+  #     password: "Password1",
+  #   }) {
+  # 		refreshToken
+  #     accessToken
+  #     user {
+  #       id
+  #       email
+  #     }
+  #   }
+  # }
+  
+  
+  # mutation Login($input: UserLoginInput!) {
+  #   login(userLoginInput: $input) {
+  #     accessToken
+  #   }
+  # }
+}
+
+vars:post-response {
+  TOKEN: res.body.data.authLogin.accessToken
+  REFRESH_TOKEN: res.body.data.authLogin.refreshToken
+}
