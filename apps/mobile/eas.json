@@ -42,6 +42,11 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "lucas.chu.barbosa@icloud.com",
+        "ascAppId": "6737490649"
+      }
+    }
   }
 }
