@@ -6,10 +6,6 @@ inputs:
     description: Version of Node to use
     default: 20.x
 
-  pnpm-version:
-    description: Version of pnpm to use
-    default: 9.x
-
   eas-version:
     description: Version of EAS CLI to use
     default: latest
@@ -21,10 +17,20 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: 🏗 Setup repository
+      uses: actions/checkout@v4
+
+    - name: Extract pnpm version
+      id: extract_pnpm_version
+      run: |
+        # Extract the pnpm version from package.json
+        pnpm_version=$(jq -r '.packageManager | select(startswith("pnpm@")) | split("@")[1]' package.json)
+        echo "pnpm-version=$pnpm_version" >> $GITHUB_ENV
+
     - name: 🏗 Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: ${{ inputs.pnpm-version }}
+        version: ${{ env.pnpm-version }}
 
     - name: 🏗 Setup Node
       uses: actions/setup-node@v4
