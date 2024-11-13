@@ -1,32 +1,32 @@
 import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { UserService } from "../user/user.service";
-import { CommunityResolver } from "./community.resolver";
-import { CommunityService } from "./community.service";
+import { CryptoService } from "../utils";
+import { AuthService } from "./auth.service";
 
-describe("CommunityResolver", () => {
-  let resolver: CommunityResolver;
+describe("AuthService", () => {
+  let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ConfigService,
-        CommunityResolver,
-        CommunityService,
-        ChallengeService,
+        AuthService,
+        CryptoService,
+        JwtService,
         UserService,
         DbService,
       ],
     }).compile();
 
-    resolver = module.get<CommunityResolver>(CommunityResolver);
+    service = module.get<AuthService>(AuthService);
   });
 
   it("should be defined", () => {
-    expect(resolver).toBeDefined();
+    expect(service).toBeDefined();
   });
 });

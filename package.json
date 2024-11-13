@@ -7,7 +7,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
     "dev": "turbo dev gql relay",
-    "dev:backend": "pnpm dev --filter=\"@o/backend...\"",
+    "dev:api": "pnpm dev --filter=\"@o/api...\"",
     "dev:mobile": "pnpm dev --filter=\"@o/mobile...\"",
     "test": "turbo test",
     "lint": "turbo lint",

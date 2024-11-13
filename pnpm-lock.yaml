@@ -33,15 +33,15 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@o/tailwind':
+        specifier: workspace:*
+        version: link:../../tooling/tailwind
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@ocorp/tailwind':
-        specifier: workspace:*
-        version: link:../../tooling/tailwind
       '@types/three':
         specifier: ^0.166.0
         version: 0.166.0
@@ -81,18 +81,18 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.1(react-hook-form@7.52.0(react@18.2.0))
+      '@o/api-gql':
+        specifier: workspace:*
+        version: link:../../libs/api-gql
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@o/tailwind':
+        specifier: workspace:*
+        version: link:../../tooling/tailwind
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@ocorp/api':
-        specifier: workspace:*
-        version: link:../../libs/api
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@ocorp/tailwind':
-        specifier: workspace:*
-        version: link:../../tooling/tailwind
       '@react-native-community/datetimepicker':
         specifier: 8.0.1
         version: 8.0.1(react-native@0.74.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -284,12 +284,12 @@ importers:
 
   infra:
     dependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../tooling/eslint
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../tooling/typescript
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../tooling/eslint
       '@pulumi/aws':
         specifier: ^6.0.0
         version: 6.58.0(ts-node@10.9.2(@swc/core@1.9.1)(@types/node@18.19.64)(typescript@5.6.3))(typescript@5.6.3)
@@ -317,28 +317,6 @@ importers:
         version: 5.6.3
 
   libs/api:
-    dependencies:
-      '@o/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-    devDependencies:
-      '@graphql-codegen/cli':
-        specifier: ^5.0.2
-        version: 5.0.3(@parcel/watcher@2.5.0)(@types/node@22.9.0)(encoding@0.1.13)(enquirer@2.4.1)(graphql@16.9.0)(typescript@5.6.3)
-      '@graphql-codegen/schema-ast':
-        specifier: ^4.0.2
-        version: 4.1.0(graphql@16.9.0)
-      '@parcel/watcher':
-        specifier: ^2.4.1
-        version: 2.5.0
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
-  libs/backend:
     dependencies:
       '@apollo/server':
         specifier: ^4.10.4
@@ -370,12 +348,12 @@ importers:
       '@o/db':
         specifier: workspace:*
         version: link:../db
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
       argon2:
         specifier: ^0.41.1
         version: 0.41.1
@@ -495,14 +473,36 @@ importers:
         specifier: ^5.1.3
         version: 5.6.3
 
-  libs/db:
+  libs/api-gql:
     dependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@ocorp/eslint':
+    devDependencies:
+      '@graphql-codegen/cli':
+        specifier: ^5.0.2
+        version: 5.0.3(@parcel/watcher@2.5.0)(@types/node@22.9.0)(encoding@0.1.13)(enquirer@2.4.1)(graphql@16.9.0)(typescript@5.6.3)
+      '@graphql-codegen/schema-ast':
+        specifier: ^4.0.2
+        version: 4.1.0(graphql@16.9.0)
+      '@parcel/watcher':
+        specifier: ^2.4.1
+        version: 2.5.0
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  libs/db:
+    dependencies:
+      '@o/eslint':
         specifier: workspace:*
         version: link:../../tooling/eslint
+      '@o/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       drizzle-orm:
         specifier: ^0.34.1
         version: 0.34.1(@electric-sql/pglite@0.2.12)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.2.79)(mysql2@3.11.4)(pg@8.13.1)(react@18.2.0)
@@ -586,12 +586,12 @@ importers:
         specifier: 3.4.4
         version: 3.4.4(ts-node@10.9.2(@swc/core@1.9.1)(@types/node@22.9.0)(typescript@5.4.5))
     devDependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../eslint
       '@o/tsconfig':
         specifier: workspace:*
         version: link:../typescript
-      '@ocorp/eslint':
-        specifier: workspace:*
-        version: link:../eslint
       eslint:
         specifier: ^9.5.0
         version: 9.14.0(jiti@2.4.0)

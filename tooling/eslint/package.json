@@ -1,5 +1,5 @@
 {
-  "name": "@ocorp/eslint",
+  "name": "@o/eslint",
   "version": "1.0.0",
   "description": "ESLint configuration for the oNex platform",
   "author": "Lucas <lucas@onex.com>",

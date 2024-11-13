@@ -2,7 +2,7 @@ import { ConfigService } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { CommunitiesService } from "../communities/communities.service";
+import { CommunityService } from "../community/community.service";
 import { DbService } from "../db/db.service";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
@@ -15,7 +15,7 @@ describe("UserResolver", () => {
       providers: [
         ConfigService,
         UserResolver,
-        CommunitiesService,
+        CommunityService,
         UserService,
         DbService,
       ],

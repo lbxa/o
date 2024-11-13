@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
-import { CommunitiesService } from "../communities/communities.service";
+import { CommunityService } from "../community/community.service";
 import { CryptoService } from "../utils";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
@@ -10,7 +10,7 @@ import { UserService } from "./user.service";
   providers: [
     UserResolver,
     UserService,
-    CommunitiesService,
+    CommunityService,
     CryptoService,
     JwtService,
   ],

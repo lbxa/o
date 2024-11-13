@@ -13,7 +13,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@ocorp/eslint": "workspace:*",
+    "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@pulumi/aws": "^6.0.0",
     "@pulumi/awsx": "^2.0.2",

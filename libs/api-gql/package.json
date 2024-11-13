@@ -1,0 +1,41 @@
+{
+  "name": "@o/api-gql",
+  "version": "1.0.0",
+  "description": "A GraphQL API for oNex platform",
+  "author": "Lucas <lucas@onex.com>",
+  "type": "module",
+  "types": "./index.d.ts",
+  "main": "./index.ts",
+  "keywords": [
+    "oNex",
+    "api",
+    "graphql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lbxa/o.git"
+  },
+  "files": [
+    "README.md",
+    "LICENSE"
+  ],
+  "bugs": {
+    "url": "https://github.com/lbxa/o/issues"
+  },
+  "homepage": "https://github.com/lbxa/o#readme",
+  "scripts": {
+    "lint": "eslint --fix .",
+    "gql": "gql-gen --config codegen.ts --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@o/tsconfig": "workspace:*",
+    "@o/eslint": "workspace:*"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/schema-ast": "^4.0.2",
+    "@parcel/watcher": "^2.4.1",
+    "typescript": "^5.6.3"
+  }
+}

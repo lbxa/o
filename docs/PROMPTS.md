@@ -53,7 +53,7 @@ import { encodeGlobalId, mapToEnum } from "../utils";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
-export class ChallengesService
+export class ChallengeService
   implements EntityMapper<typeof ChallengesTable, PgChallenge, GqlChallenge>
 {
   constructor(

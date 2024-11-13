@@ -1,4 +1,4 @@
-import baseConfig from "@o/eslint/base";
+import baseConfig from "@o/eslint/base"
 
 /** @type {import('typescript-eslint').Config} */
 export default [
@@ -6,4 +6,9 @@ export default [
     ignores: ["dist/**", "node_modules"],
   },
   ...baseConfig,
-];
+  {
+    rules: {
+      '@typescript-eslint/interface-name-prefix': 'off',
+    }
+  }
+]

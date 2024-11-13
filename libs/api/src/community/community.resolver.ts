@@ -14,7 +14,7 @@ import {
 } from "@o/db";
 import * as schema from "@o/db";
 
-import { ChallengesService } from "../challenges/challenges.service";
+import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Challenge, Community, CommunityInvitation } from "../types/graphql";
@@ -26,13 +26,13 @@ export class CommunityResolver {
   constructor(
     private dbService: DbService<typeof schema>,
     private communityService: CommunityService,
-    private challengesService: ChallengesService
+    private challengeService: ChallengeService
   ) {}
 
   @ResolveField()
   async challenges(@Parent() community: Community): Promise<Challenge[]> {
     const communityId = validateAndDecodeGlobalId(community.id, "Community");
-    return this.challengesService.findCommunityChallenges(communityId);
+    return this.challengeService.findCommunityChallenges(communityId);
   }
 
   @Query("community")
