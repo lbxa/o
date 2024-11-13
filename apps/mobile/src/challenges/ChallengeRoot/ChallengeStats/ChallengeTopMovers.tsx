@@ -1,4 +1,4 @@
-import type { User } from "@ocorp/api";
+import type { User } from "@o/api-gql";
 import { Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";

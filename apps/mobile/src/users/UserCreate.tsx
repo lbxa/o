@@ -1,4 +1,4 @@
-import type { AuthCreateUserInput } from "@ocorp/api";
+import type { AuthCreateUserInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React from "react";

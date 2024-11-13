@@ -1,4 +1,4 @@
-import type { AuthLoginInput } from "@ocorp/api";
+import type { AuthLoginInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Controller, useForm } from "react-hook-form";
@@ -63,10 +63,10 @@ export const UserLogin = () => {
       },
       updater: (store, data) => {
         console.log("data", data);
-        if (data?.authLogin.accessToken) {
-          // SecureStore.setItem("ACCESS_TOKEN", data.authLogin.accessToken);
-          setStoreItem("ACCESS_TOKEN", data.authLogin.accessToken);
-          setStoreItem("REFRESH_TOKEN", data.authLogin.refreshToken);
+        if (data?.authLogin.tokens) {
+          const { accessToken, refreshToken } = data.authLogin.tokens;
+          setStoreItem("ACCESS_TOKEN", accessToken);
+          setStoreItem("REFRESH_TOKEN", refreshToken);
 
           console.log("accessToken", SecureStore.getItem("ACCESS_TOKEN"));
           console.log("refreshToken", SecureStore.getItem("REFRESH_TOKEN"));

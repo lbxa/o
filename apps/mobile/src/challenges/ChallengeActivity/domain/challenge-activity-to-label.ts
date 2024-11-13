@@ -3,7 +3,7 @@ import {
   ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@ocorp/api";
+} from "@o/api-gql";
 
 import type {
   ChallengeActivityGoalLabel,

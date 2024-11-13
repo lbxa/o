@@ -4,7 +4,7 @@ import {
   ChallengeActivityUnits,
   ChallengeCadence,
   ChallengeMode,
-} from "@ocorp/api";
+} from "@o/api-gql";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";

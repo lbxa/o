@@ -3,7 +3,7 @@ import {
   ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@ocorp/api";
+} from "@o/api-gql";
 
 export const ChallengeActivityToMeasurementMap = new Map<
   ChallengeActivityType,

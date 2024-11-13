@@ -1,5 +1,5 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeCadence } from "@ocorp/api";
+import { ChallengeCadence } from "@o/api-gql";
 import { View } from "react-native";
 
 import { useZustStore } from "@/state";

@@ -1,4 +1,4 @@
-import type { User } from "@ocorp/api";
+import type { User } from "@o/api-gql";
 import type { PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useEffect } from "react";
 import {
