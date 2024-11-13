@@ -5,7 +5,13 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: {{URL}}
+  body: graphql
   auth: none
+}
+
+body:graphql {
+  mutation Logout {
+    authLogout(id: 1)
+  }
 }

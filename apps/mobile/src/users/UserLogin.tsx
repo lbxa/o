@@ -19,8 +19,10 @@ import { useSecureStore } from "../utils/useSecureStore";
 const userLoginMutation = graphql`
   mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
     authLogin(authLoginInput: $authLoginInput) {
-      accessToken
-      refreshToken
+      tokens {
+        accessToken
+        refreshToken
+      }
       user {
         firstName
         lastName

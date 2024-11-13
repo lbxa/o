@@ -29,7 +29,10 @@ const USER_CREATE_MUTATION = graphql`
       user {
         ...UserFragment
       }
-      accessToken
+      tokens {
+        accessToken
+        refreshToken
+      }
     }
   }
 `;

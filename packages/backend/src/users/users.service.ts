@@ -27,9 +27,7 @@ export class UsersService
     };
   }
 
-  async createUser(
-    newUser: Omit<NewUser, "fullName">
-  ): Promise<Pick<NewUser, "id">> {
+  async createUser(newUser: Omit<NewUser, "fullName">): Promise<PgUser> {
     const { password, ...restOfUser } = newUser;
     // const passwordHash =
     //   await this.cryptoService.generatePasswordHash(password);
@@ -42,9 +40,9 @@ export class UsersService
         password: passwordHash,
         fullName: restOfUser.firstName + " " + restOfUser.lastName,
       })
-      .returning({ insertedId: UsersTable.id });
+      .returning();
 
-    return { id: result.insertedId };
+    return result;
   }
 
   async findAll(): Promise<GqlUser[]> {
@@ -64,13 +62,10 @@ export class UsersService
     return this.pg2GqlMapper(user);
   }
 
-  // TODO replace for full text search :)
-  async findByEmail(email: string): Promise<boolean> {
-    const user = await this.dbService.db.query.UsersTable.findFirst({
+  async findByEmail(email: string): Promise<PgUser | undefined> {
+    return this.dbService.db.query.UsersTable.findFirst({
       where: eq(UsersTable.email, email),
     });
-
-    return !!user;
   }
 
   async userSearch(searchTerm: string): Promise<GqlUser[]> {

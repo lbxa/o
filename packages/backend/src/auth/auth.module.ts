@@ -4,7 +4,6 @@ import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
 import { UsersModule } from "../users/users.module";
-import { UsersService } from "../users/users.service";
 import { CryptoService } from "../utils";
 import { AuthResolver } from "./auth.resolver";
 import { AuthService } from "./auth.service";
@@ -34,7 +33,6 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     AuthResolver,
     AuthService,
     CryptoService,
-    UsersService,
     LocalStrategy,
     RefreshTokenStrategy,
     JwtStrategy,

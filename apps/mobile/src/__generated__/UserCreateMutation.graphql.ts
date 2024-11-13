@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9949e3de087ac10f8fc49288f1619653>>
+ * @generated SignedSource<<a9ec6510335b145a7729214260e83f7f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,7 +21,10 @@ export type UserCreateMutation$variables = {
 };
 export type UserCreateMutation$data = {
   readonly authCreateUser: {
-    readonly accessToken: string;
+    readonly tokens: {
+      readonly accessToken: string;
+      readonly refreshToken: string;
+    };
     readonly user: {
       readonly " $fragmentSpreads": FragmentRefs<"UserFragment">;
     };
@@ -50,8 +53,26 @@ v1 = [
 v2 = {
   "alias": null,
   "args": null,
-  "kind": "ScalarField",
-  "name": "accessToken",
+  "concreteType": "Tokens",
+  "kind": "LinkedField",
+  "name": "tokens",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "accessToken",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "refreshToken",
+      "storageKey": null
+    }
+  ],
   "storageKey": null
 };
 return {
@@ -64,7 +85,7 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "AuthCreateUserResponse",
+        "concreteType": "AuthCreateUserPayload",
         "kind": "LinkedField",
         "name": "authCreateUser",
         "plural": false,
@@ -102,7 +123,7 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "AuthCreateUserResponse",
+        "concreteType": "AuthCreateUserPayload",
         "kind": "LinkedField",
         "name": "authCreateUser",
         "plural": false,
@@ -160,16 +181,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9f7956ae6863d6793e6dd10197e2a364",
+    "cacheID": "f42856b200199e4005dbe5ac9982e06e",
     "id": null,
     "metadata": {},
     "name": "UserCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n      id\n    }\n    accessToken\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n"
+    "text": "mutation UserCreateMutation(\n  $userInput: AuthCreateUserInput!\n) {\n  authCreateUser(authCreateUserInput: $userInput) {\n    user {\n      ...UserFragment\n      id\n    }\n    tokens {\n      accessToken\n      refreshToken\n    }\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n"
   }
 };
 })();
 
-(node as any).hash = "89310fd9e7112420ce2f783218a058e8";
+(node as any).hash = "a0050c837947a131865451aeb0fd937b";
 
 export default node;

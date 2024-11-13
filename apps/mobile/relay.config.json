@@ -2,7 +2,7 @@
   "$schema": null,
   "src": "./src",
   "language": "typescript",
-  "schema": "../../packages/api/schema.graphql",
+  "schema": "../../packages/backend/schema.graphql",
   "artifactDirectory": "./src/__generated__",
   "useImportTypeSyntax": true,
   "customScalarTypes": {

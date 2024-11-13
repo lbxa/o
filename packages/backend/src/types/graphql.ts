@@ -138,31 +138,29 @@ export interface Timestamps {
     updatedAt?: Nullable<DateTime>;
 }
 
-export interface AuthLoginResponse {
-    __typename?: 'AuthLoginResponse';
-    accessToken: string;
-    refreshToken: string;
-    user: User;
-}
-
-export interface AuthCreateUserResponse {
-    __typename?: 'AuthCreateUserResponse';
-    accessToken: string;
-    refreshToken: string;
-    user: User;
-}
-
 export interface Tokens {
     __typename?: 'Tokens';
     accessToken: string;
     refreshToken: string;
 }
 
+export interface AuthLoginPayload {
+    __typename?: 'AuthLoginPayload';
+    tokens: Tokens;
+    user: User;
+}
+
+export interface AuthCreateUserPayload {
+    __typename?: 'AuthCreateUserPayload';
+    tokens: Tokens;
+    user: User;
+}
+
 export interface IMutation {
     __typename?: 'IMutation';
-    authLogin(authLoginInput: AuthLoginInput): AuthLoginResponse | Promise<AuthLoginResponse>;
+    authLogin(authLoginInput: AuthLoginInput): AuthLoginPayload | Promise<AuthLoginPayload>;
     authLogout(id: number): boolean | Promise<boolean>;
-    authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserResponse | Promise<AuthCreateUserResponse>;
+    authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserPayload | Promise<AuthCreateUserPayload>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
     challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
     challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): Challenge | Promise<Challenge>;

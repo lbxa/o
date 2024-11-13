@@ -3,6 +3,8 @@
   "version": "1.0.2",
   "license": "UNLICENSED",
   "private": true,
+  "types": "./src/index.d.ts",
+  "main": "./src/main.ts",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

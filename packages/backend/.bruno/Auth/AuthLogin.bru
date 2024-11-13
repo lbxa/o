@@ -7,20 +7,22 @@ meta {
 post {
   url: {{URL}}/
   body: graphql
-  auth: inherit
+  auth: none
 }
 
 body:graphql {
   mutation Login {
     authLogin(authLoginInput: {
       email: "lucasbrsa@hotmail.com",
-      password: "Password1",
+      password: "Password",
     }) {
-  		refreshToken
-      accessToken
+      tokens {
+        accessToken
+        refreshToken
+      }
       user {
-        id
-        email
+        firstName
+        lastName
       }
     }
   }

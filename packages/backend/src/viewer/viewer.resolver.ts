@@ -1,16 +1,13 @@
-import { UseFilters } from "@nestjs/common";
 import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { ChallengesService } from "../challenges/challenges.service";
 import { CommunitiesService } from "../communities/communities.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { HttpExceptionFilter } from "../error";
 import { Challenge, Community, User, Viewer } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { validateAndDecodeGlobalId } from "../utils";
 
 @Resolver("Viewer")
-@UseFilters(HttpExceptionFilter)
 export class ViewerResolver {
   constructor(
     private usersService: UsersService,

@@ -1,17 +1,13 @@
-import {
-  ForbiddenException,
-  Injectable,
-  Logger,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { User, UsersTable } from "@o/db";
+import { UsersTable } from "@o/db";
 import * as schema from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { AuthCreateUserInput, AuthCreateUserResponse } from "../types/graphql";
+import { ForbiddenError } from "../errors";
+import { AuthCreateUserInput, AuthCreateUserPayload } from "../types/graphql";
 import { UsersService } from "../users/users.service";
 import { CryptoService } from "../utils";
 
@@ -29,11 +25,11 @@ export class AuthService {
 
   async createNewUser(
     newUserInput: AuthCreateUserInput
-  ): Promise<AuthCreateUserResponse | undefined> {
+  ): Promise<AuthCreateUserPayload | undefined> {
     const newUser = await this.usersService.createUser(newUserInput);
 
     if (!newUser.id) {
-      throw new ForbiddenException("User creation failed");
+      throw new ForbiddenError("User creation failed");
     }
 
     const { accessToken, refreshToken } = this.createSignedTokenPair(
@@ -44,29 +40,27 @@ export class AuthService {
     await this.updateRefreshToken(newUser.id, refreshToken);
 
     return {
-      accessToken,
-      refreshToken,
-      user: { id: newUser.id.toString(), email: newUserInput.email },
+      tokens: {
+        accessToken,
+        refreshToken,
+      },
+      user: this.usersService.pg2GqlMapper(newUser),
     };
   }
 
-  async validateUser(
-    email: string
-  ): Promise<Pick<User, "id" | "password"> | undefined> {
-    const user = await this.dbService.db.query.UsersTable.findFirst({
-      where: eq(UsersTable.email, email),
-      columns: {
-        id: true,
-        password: true,
-      },
-    });
+  // async validateUser(
+  //   email: string
+  // ): Promise<Pick<User, "id" | "password"> | undefined> {
+  //   const user = await this.dbService.db.query.UsersTable.findFirst({
+  //     where: eq(UsersTable.email, email),
+  //     columns: {
+  //       id: true,
+  //       password: true,
+  //     },
+  //   });
 
-    if (!user) {
-      throw new ForbiddenException(`User data for ${email} not found`);
-    }
-
-    return user;
-  }
+  //   return user;
+  // }
 
   createSignedTokenPair(userId: number, email: string) {
     const accessTokenSecret = this.configService.getOrThrow<string>(

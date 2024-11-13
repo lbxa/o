@@ -22,10 +22,9 @@ export type AuthCreateUserInput = {
   password: Scalars['String']['input'];
 };
 
-export type AuthCreateUserResponse = {
-  __typename?: 'AuthCreateUserResponse';
-  accessToken: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
+export type AuthCreateUserPayload = {
+  __typename?: 'AuthCreateUserPayload';
+  tokens: Tokens;
   user: User;
 };
 
@@ -34,10 +33,12 @@ export type AuthLoginInput = {
   password: Scalars['String']['input'];
 };
 
-export type AuthLoginResponse = {
-  __typename?: 'AuthLoginResponse';
-  accessToken: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
+/** Login payload */
+export type AuthLoginPayload = {
+  __typename?: 'AuthLoginPayload';
+  /** Access to the refresh tokens */
+  tokens: Tokens;
+  /** The user that has been logged in */
   user: User;
 };
 
@@ -260,9 +261,13 @@ export enum InvitationStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  authCreateUser: AuthCreateUserResponse;
-  authLogin: AuthLoginResponse;
+  /** Create a new user */
+  authCreateUser: AuthCreateUserPayload;
+  /** Login to the application */
+  authLogin: AuthLoginPayload;
+  /** Logout from the application */
   authLogout: Scalars['Boolean']['output'];
+  /** Refresh the access and refresh tokens */
   authRefreshTokens: Tokens;
   challengeActivityResultCreate: ChallengeActivityResult;
   challengeCreate: Challenge;
@@ -458,9 +463,12 @@ export type Timestamps = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+/** Tokens are the access and refresh tokens for the user */
 export type Tokens = {
   __typename?: 'Tokens';
+  /** Access tokens expire more frequently for stronger security measures */
   accessToken: Scalars['String']['output'];
+  /** Refresh token is stored safely for user to refresh access token */
   refreshToken: Scalars['String']['output'];
 };
 

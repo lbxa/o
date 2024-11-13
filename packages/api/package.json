@@ -23,11 +23,7 @@
     "url": "https://github.com/lbxa/o/issues"
   },
   "homepage": "https://github.com/lbxa/o#readme",
-  "scripts": {
-    "lint": "eslint --fix .",
-    "gql": "gql-gen --config codegen.ts --watch",
-    "type-check": "tsc --noEmit"
-  },
+  "scripts": {},
   "dependencies": {
     "@o/tsconfig": "workspace:*",
     "@ocorp/eslint": "workspace:*"

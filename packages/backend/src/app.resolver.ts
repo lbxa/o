@@ -2,7 +2,7 @@ import { Query, Resolver } from "@nestjs/graphql";
 
 @Resolver()
 export class AppResolver {
-  @Query()
+  @Query("health")
   health(): string {
     return "All systems healthy";
   }

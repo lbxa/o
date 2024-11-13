@@ -22,8 +22,10 @@ body:graphql {
       email: "lucas@onex.com",
       password: "Password1",
     }) {
-      accessToken
-      refreshToken
+      tokens {
+        accessToken
+        refreshToken
+      }
       user {
         id
         email

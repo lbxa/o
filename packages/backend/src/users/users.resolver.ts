@@ -1,4 +1,3 @@
-import { ParseIntPipe, UseFilters } from "@nestjs/common";
 import {
   Args,
   Mutation,
@@ -10,13 +9,11 @@ import {
 
 import { CommunitiesService } from "../communities/communities.service";
 import { Public } from "../decorators";
-import { HttpExceptionFilter } from "../error";
 import { Community, User, UserUpdateInput } from "../types/graphql";
 import { validateAndDecodeGlobalId } from "../utils";
 import { UsersService } from "./users.service";
 
 @Resolver("User")
-@UseFilters(HttpExceptionFilter)
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,

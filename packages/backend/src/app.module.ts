@@ -27,10 +27,13 @@ import { ViewerModule } from "./viewer/viewer.module";
       typePaths: ["./**/*.graphql"],
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      autoTransformHttpErrors: true,
       formatError: (error) => {
         const graphQLFormattedError = {
           code: error.extensions?.code || "INTERNAL_SERVER_ERROR",
           message: error.message,
+          locations: error.locations,
+          path: error.path,
         };
         return graphQLFormattedError;
       },

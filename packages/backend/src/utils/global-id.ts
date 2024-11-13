@@ -2,6 +2,8 @@
 // import { createParamDecorator } from "@nestjs/common";
 // import { GqlExecutionContext } from "@nestjs/graphql";
 
+import { InvalidIdError } from "../errors";
+
 // export const DecodeGlobalId = createParamDecorator(
 //   (data: string, ctx: ExecutionContext) => {
 //     const gqlContext = GqlExecutionContext.create(ctx);
@@ -44,7 +46,7 @@ export function decodeGlobalId(globalId: string): {
   const [type, id] = decoded.split(":");
 
   if (isNaN(Number(id))) {
-    throw new Error("Invalid ID. Expected a number.");
+    throw new InvalidIdError("Invalid ID. Expected a number.");
   }
 
   return {
@@ -59,7 +61,9 @@ export function validateAndDecodeGlobalId(
 ): number {
   const { type, id } = decodeGlobalId(globalId);
   if (type !== expectedType) {
-    throw new Error(`Invalid ID type. Expected ${expectedType}, got ${type}`);
+    throw new InvalidIdError(
+      `Invalid ID type. Expected ${expectedType}, got ${type}`
+    );
   }
   return id;
 }

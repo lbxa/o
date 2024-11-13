@@ -10,9 +10,8 @@ input AuthCreateUserInput {
   password: String!
 }
 
-type AuthCreateUserResponse {
-  accessToken: String!
-  refreshToken: String!
+type AuthCreateUserPayload {
+  tokens: Tokens!
   user: User!
 }
 
@@ -21,9 +20,11 @@ input AuthLoginInput {
   password: String!
 }
 
-type AuthLoginResponse {
-  accessToken: String!
-  refreshToken: String!
+"""Login payload"""
+type AuthLoginPayload {
+  """Access to the refresh tokens"""
+  tokens: Tokens!
+  """The user that has been logged in"""
   user: User!
 }
 
@@ -230,9 +231,13 @@ enum InvitationStatus {
 }
 
 type Mutation {
-  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserResponse!
-  authLogin(authLoginInput: AuthLoginInput!): AuthLoginResponse!
+  """Create a new user"""
+  authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserPayload!
+  """Login to the application"""
+  authLogin(authLoginInput: AuthLoginInput!): AuthLoginPayload!
+  """Logout from the application"""
   authLogout(id: Int!): Boolean!
+  """Refresh the access and refresh tokens"""
   authRefreshTokens: Tokens!
   challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): ChallengeActivityResult!
   challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): Challenge!
@@ -279,8 +284,11 @@ interface Timestamps {
   updatedAt: DateTime
 }
 
+"""Tokens are the access and refresh tokens for the user"""
 type Tokens {
+  """Access tokens expire more frequently for stronger security measures"""
   accessToken: String!
+  """Refresh token is stored safely for user to refresh access token"""
   refreshToken: String!
 }
 

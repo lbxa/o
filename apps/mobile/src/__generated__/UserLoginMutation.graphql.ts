@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8a7bbe4461032e7e9687f99b1bbfa58b>>
+ * @generated SignedSource<<67b7a92df652fd1734a817ba0281dfae>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,8 +18,10 @@ export type UserLoginMutation$variables = {
 };
 export type UserLoginMutation$data = {
   readonly authLogin: {
-    readonly accessToken: string;
-    readonly refreshToken: string;
+    readonly tokens: {
+      readonly accessToken: string;
+      readonly refreshToken: string;
+    };
     readonly user: {
       readonly email: string | null | undefined;
       readonly firstName: string | null | undefined;
@@ -50,32 +52,43 @@ v1 = [
 v2 = {
   "alias": null,
   "args": null,
-  "kind": "ScalarField",
-  "name": "accessToken",
+  "concreteType": "Tokens",
+  "kind": "LinkedField",
+  "name": "tokens",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "accessToken",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "refreshToken",
+      "storageKey": null
+    }
+  ],
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "refreshToken",
+  "name": "firstName",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "lastName",
   "storageKey": null
 },
-v6 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -92,13 +105,12 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "AuthLoginResponse",
+        "concreteType": "AuthLoginPayload",
         "kind": "LinkedField",
         "name": "authLogin",
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -107,9 +119,9 @@ return {
             "name": "user",
             "plural": false,
             "selections": [
+              (v3/*: any*/),
               (v4/*: any*/),
-              (v5/*: any*/),
-              (v6/*: any*/)
+              (v5/*: any*/)
             ],
             "storageKey": null
           }
@@ -129,13 +141,12 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "AuthLoginResponse",
+        "concreteType": "AuthLoginPayload",
         "kind": "LinkedField",
         "name": "authLogin",
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -144,9 +155,9 @@ return {
             "name": "user",
             "plural": false,
             "selections": [
+              (v3/*: any*/),
               (v4/*: any*/),
               (v5/*: any*/),
-              (v6/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -163,16 +174,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "619ee82fb0445da500bed7506c47d417",
+    "cacheID": "33c567009fcf6681d5133513d5893d02",
     "id": null,
     "metadata": {},
     "name": "UserLoginMutation",
     "operationKind": "mutation",
-    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    accessToken\n    refreshToken\n    user {\n      firstName\n      lastName\n      email\n      id\n    }\n  }\n}\n"
+    "text": "mutation UserLoginMutation(\n  $authLoginInput: AuthLoginInput!\n) {\n  authLogin(authLoginInput: $authLoginInput) {\n    tokens {\n      accessToken\n      refreshToken\n    }\n    user {\n      firstName\n      lastName\n      email\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "555361e7e3a6641d5984d8cb08246557";
+(node as any).hash = "1294887f116fb8e03996f58ec22a62fe";
 
 export default node;
