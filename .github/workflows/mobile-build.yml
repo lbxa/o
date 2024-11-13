@@ -1,4 +1,4 @@
-name: mobile build
+name: Mobile Build
 
 on:
   workflow_dispatch:
@@ -38,8 +38,8 @@ jobs:
         with:
           expo-token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 👷 Build packages for mobile
-        run: pnpm run -w build:mobile
+      # - name: 👷 Build packages for mobile
+      #   run: pnpm run build
 
       # # You can remove this step if you already configured this
       # # This project shouldn't be pre-configured with this ID, that's why its omitted
