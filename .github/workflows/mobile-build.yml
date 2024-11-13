@@ -28,6 +28,7 @@ on:
 jobs:
   mobile:
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v4
