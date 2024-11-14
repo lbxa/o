@@ -24,9 +24,8 @@
   },
   "homepage": "https://github.com/lbxa/o#readme",
   "scripts": {
-    "lint": "eslint --fix .",
     "gql": "gql-gen --config codegen.ts --watch",
-    "type-check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@o/tsconfig": "workspace:*",

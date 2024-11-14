@@ -12,8 +12,11 @@
     "development": {
       "extends": "base",
       "developmentClient": true,
+      "channel": "development",
       "distribution": "internal",
       "env": {
+        "NODE_ENV": "development",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://localhost:6969/graphql"
       }
     },
@@ -25,18 +28,23 @@
     },
     "preview": {
       "extends": "base",
+      "channel": "preview",
       "distribution": "internal",
-      "resourceClass": "large",
       "env": {
+        "NODE_ENV": "production",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }
     },
     "production": {
       "extends": "base",
+      "developmentClient": false,
       "distribution": "store",
-      "resourceClass": "large",
+      "channel": "production",
       "autoIncrement": true,
       "env": {
+        "NODE_ENV": "production",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }
     }

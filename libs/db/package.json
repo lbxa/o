@@ -13,7 +13,7 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "type-check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "build": "tsc",
     "dev": "tsc --watch",
     "migrate:g": "drizzle-kit generate",

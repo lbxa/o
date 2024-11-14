@@ -12,7 +12,7 @@
     "lint": "eslint . --fix",
     "build": "yes | pnpm expo export --output-dir ./dist --platform all",
     "relay": "relay-compiler --watch",
-    "type-check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "expo:prod": "expo start -c --no-dev --minify",
     "prebuild": "expo prebuild --clean",
     "pod-install": "npx pod-install",
@@ -20,6 +20,7 @@
     "eas:build:simulator": "pnpx eas-cli@latest build --profile development:simulator --platform ios",
     "eas:build:ios": "pnpx eas-cli@latest build --profile development --platform ios",
     "eas:device:create": "pnpx eas-cli@latest device:create",
+    "eas:submit": "pnpx eas-cli@latest submit",
     "expo:doctor": "pnpx expo-doctor@latest",
     "expo:fix": "pnpx expo install --check"
   },
