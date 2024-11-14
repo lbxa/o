@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -10,7 +9,6 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { withIdPk, withModificationDates } from "../helpers";
-import { ChallengesTable } from "./challenge.schema";
 import { InvitationStatus } from "./shared/invitation-status-enum";
 import { UsersTable } from "./user.schema";
 
@@ -33,19 +31,6 @@ export const CommunitiesTable = CommunitySchema.table(
   })
 );
 
-// export const CommunitiesRelations = relations(
-//   CommunitiesTable,
-//   ({ one, many }) => ({
-//     owner: one(UsersTable, {
-//       fields: [CommunitiesTable.ownerId],
-//       references: [UsersTable.id],
-//     }),
-//     memberships: many(CommunityMembershipsTable),
-//     invitations: many(CommunityInvitationsTable),
-//     challenges: many(ChallengesTable),
-//   })
-// );
-
 export const CommunityMembershipsTable = CommunitySchema.table(
   "memberships",
   {
@@ -63,20 +48,6 @@ export const CommunityMembershipsTable = CommunitySchema.table(
     userCommunityMembershipIdx: index().on(table.userId, table.communityId),
   })
 );
-
-// export const CommunityMembershipsRelations = relations(
-//   CommunityMembershipsTable,
-//   ({ one }) => ({
-//     user: one(UsersTable, {
-//       fields: [CommunityMembershipsTable.userId],
-//       references: [UsersTable.id],
-//     }),
-//     community: one(CommunitiesTable, {
-//       fields: [CommunityMembershipsTable.communityId],
-//       references: [CommunitiesTable.id],
-//     }),
-//   })
-// );
 
 export const CommunityInvitationsTable = CommunitySchema.table(
   "invitations",
@@ -103,26 +74,6 @@ export const CommunityInvitationsTable = CommunitySchema.table(
     ),
   })
 );
-
-// export const CommunityInvitationsRelations = relations(
-//   CommunityInvitationsTable,
-//   ({ one }) => ({
-//     community: one(CommunitiesTable, {
-//       fields: [CommunityInvitationsTable.communityId],
-//       references: [CommunitiesTable.id],
-//     }),
-//     inviter: one(UsersTable, {
-//       fields: [CommunityInvitationsTable.inviterId],
-//       references: [UsersTable.id],
-//       relationName: "inviter",
-//     }),
-//     invitee: one(UsersTable, {
-//       fields: [CommunityInvitationsTable.inviteeId],
-//       references: [UsersTable.id],
-//       relationName: "invitee",
-//     }),
-//   })
-// );
 
 export type Community = typeof CommunitiesTable.$inferSelect;
 export type NewCommunity = typeof CommunitiesTable.$inferInsert;

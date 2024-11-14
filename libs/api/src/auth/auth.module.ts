@@ -8,7 +8,6 @@ import { CryptoService } from "../utils";
 import { AuthResolver } from "./auth.resolver";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
-import { LocalStrategy } from "./local.strategy";
 import { RefreshTokenStrategy } from "./refresh-token.strategy";
 
 @Module({
@@ -33,7 +32,6 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     AuthResolver,
     AuthService,
     CryptoService,
-    LocalStrategy,
     RefreshTokenStrategy,
     JwtStrategy,
     JwtService,

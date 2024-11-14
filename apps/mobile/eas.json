@@ -12,7 +12,6 @@
     "development": {
       "extends": "base",
       "developmentClient": true,
-      "channel": "development",
       "distribution": "internal",
       "env": {
         "NODE_ENV": "development",
@@ -28,10 +27,9 @@
     },
     "preview": {
       "extends": "base",
-      "channel": "preview",
       "distribution": "internal",
       "env": {
-        "NODE_ENV": "production",
+        "NODE_ENV": "development",
         "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }
@@ -40,10 +38,9 @@
       "extends": "base",
       "developmentClient": false,
       "distribution": "store",
-      "channel": "production",
       "autoIncrement": true,
       "env": {
-        "NODE_ENV": "production",
+        "NODE_ENV": "development",
         "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://onex-lb-608034758.ap-southeast-2.elb.amazonaws.com/graphql"
       }

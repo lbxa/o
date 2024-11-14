@@ -1,14 +1,16 @@
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
+import { useMutation } from "react-relay";
 
 import { useZustStore } from "@/state";
 import type { TimerButtonVariant } from "@/universe/atoms";
 import { OTouchable, TimerButton } from "@/universe/atoms";
 
+import type { ChallengeActivityResultCreateMutation } from "../../__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useStopwatch } from "./hooks";
-import { useChallengeActivityResultCreateMutation } from "./mutations";
+import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
 
 interface StopwatchLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
@@ -26,7 +28,9 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
     useState<TimerButtonVariant>("start");
   const [attempts, setAttempts] = useState(0);
 
-  const [commitMutation] = useChallengeActivityResultCreateMutation();
+  const [commitMutation] = useMutation<ChallengeActivityResultCreateMutation>(
+    CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION
+  );
 
   const handleRecord = useCallback(() => {
     console.log("selectedChallenge", selectedChallenge);

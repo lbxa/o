@@ -27,7 +27,7 @@ export class UserResolver {
 
   // TODO actually implement this
   @ResolveField()
-  async friends(@Parent() user: User): Promise<User[]> {
+  async friends(): Promise<User[]> {
     return this.userService.findAll();
   }
 

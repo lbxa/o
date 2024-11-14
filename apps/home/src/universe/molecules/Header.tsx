@@ -15,8 +15,8 @@ export const Header = () => {
   // });
 
   return (
-    <div class="mb-xl bg-indigo py-sm z-10 mx-auto flex w-full flex-col justify-around rounded-b-3xl text-center lg:fixed lg:top-0 lg:rounded-none">
-      <h1 class="text-ivory inline bg-contain bg-clip-text bg-center text-6xl font-black md:text-7xl">
+    <div class="z-10 mx-auto mb-xl flex w-full flex-col justify-around rounded-b-3xl bg-indigo py-sm text-center lg:fixed lg:top-0 lg:rounded-none">
+      <h1 class="inline bg-contain bg-clip-text bg-center text-6xl font-black text-ivory md:text-7xl">
         oNex
       </h1>
     </div>

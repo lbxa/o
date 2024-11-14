@@ -1,29 +1,23 @@
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
+import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { ChallengeService } from "../challenge/challenge.service";
-import { DbService } from "../db/db.service";
-import { UserService } from "../user/user.service";
-import { CryptoService } from "../utils";
+import { DbModule } from "../db/db.module";
+import { envFile } from "../utils";
+import { AuthModule } from "./auth.module";
 import { AuthResolver } from "./auth.resolver";
-import { AuthService } from "./auth.service";
 
 describe("AuthResolver", () => {
   let resolver: AuthResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConfigService,
-        AuthResolver,
-        AuthService,
-        UserService,
-        CryptoService,
-        ChallengeService,
-        JwtService,
-        DbService,
+      imports: [
+        DbModule.forRoot(() => ({
+          schema: {},
+        })),
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
+        AuthModule,
       ],
     }).compile();
 

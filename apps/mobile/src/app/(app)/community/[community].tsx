@@ -21,7 +21,7 @@ export default function CommunityDetailsRoute() {
     loadCommunityRootQuery({ communityId: communityId });
 
     return () => disposeCommunityRootQuery();
-  }, [communityId]);
+  }, [communityId, disposeCommunityRootQuery, loadCommunityRootQuery]);
 
   return (
     <View>

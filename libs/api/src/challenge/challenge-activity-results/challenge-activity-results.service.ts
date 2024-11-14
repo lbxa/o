@@ -192,7 +192,8 @@ export class ChallengeActivityResultsService
 
     // assuming all activities in a challenge are of the same type
     const strategy = getRankingStrategy(
-      challengeActivityResults[0].activity.goal
+      challengeActivityResults[0].activity.goal,
+      challengeActivityResults[0].activity.target ?? undefined
     );
     const rankedResults = strategy.rank(gqlFormattedResults);
 

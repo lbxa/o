@@ -1,23 +1,23 @@
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { CommunityService } from "../community/community.service";
-import { DbService } from "../db/db.service";
+import { DbModule } from "../db/db.module";
+import { envFile } from "../utils";
+import { UserModule } from "./user.module";
 import { UserResolver } from "./user.resolver";
-import { UserService } from "./user.service";
 
 describe("UserResolver", () => {
   let resolver: UserResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConfigService,
-        UserResolver,
-        CommunityService,
-        UserService,
-        DbService,
+      imports: [
+        DbModule.forRoot(() => ({
+          schema: {},
+        })),
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
+        UserModule,
       ],
     }).compile();
 

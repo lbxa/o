@@ -1,8 +1,10 @@
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { DbService } from "../db/db.service";
+import { DbModule } from "../db/db.module";
+import { envFile } from "../utils";
+import { ChallengeModule } from "./challenge.module";
 import { ChallengeService } from "./challenge.service";
 
 describe("ChallengeService", () => {
@@ -10,7 +12,13 @@ describe("ChallengeService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ChallengeService, DbService, ConfigService],
+      imports: [
+        DbModule.forRoot(() => ({
+          schema: {},
+        })),
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
+        ChallengeModule,
+      ],
     }).compile();
 
     service = module.get<ChallengeService>(ChallengeService);

@@ -1,10 +1,6 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import SearchIcon from "@assets/icons/search.svg";
-import {
-  ChallengeActivityUnits,
-  ChallengeCadence,
-  ChallengeMode,
-} from "@o/api-gql";
+import { ChallengeCadence, ChallengeMode } from "@o/api-gql";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";
@@ -81,11 +77,7 @@ export const ChallengeCreate = () => {
       throw new Error("No community selected");
     }
 
-    if (
-      !challengeForm.activity?.goal ||
-      !challengeForm.activity.measurement ||
-      !challengeForm.activity.type
-    ) {
+    if (!challengeForm.activity?.goal) {
       // TODO throw a toast!
       throw new Error("Missing challenge activity data");
     }
@@ -108,7 +100,7 @@ export const ChallengeCreate = () => {
           measurement: challengeForm.activity.measurement,
           goal: challengeForm.activity.goal,
           target: challengeForm.activity.target,
-          unit: challengeForm.activity.unit ?? ChallengeActivityUnits.None,
+          unit: challengeForm.activity.unit,
         },
       },
       onCompleted: (data) => {

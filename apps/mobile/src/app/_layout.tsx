@@ -46,6 +46,7 @@ export default function RootLayout() {
     void SplashScreen.preventAutoHideAsync();
     setPreloadedProfileQuery(preloadedUserProfileQuery);
     setPreloadedCommunityListQuery(preloadedCommunityListQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

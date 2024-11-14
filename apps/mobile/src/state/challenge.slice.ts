@@ -6,8 +6,7 @@ import type { StateCreator } from "zustand";
 import type { CommunitySlice } from "./community.slice";
 import type { UserSlice } from "./user.slice";
 
-type ChallengeForm = Partial<Challenge>;
-
+type ChallengeForm = Partial<Challenge> & Partial<ChallengeActivity>;
 type RecordedChallenge = Pick<Challenge, "id" | "name"> &
   Partial<{
     time: number | undefined;
@@ -62,9 +61,11 @@ export const createChallengeSlice: StateCreator<
     set(
       produce((state: Draft<ChallengeSlice>) => {
         if (!state.challengeForm.activity) {
-          state.challengeForm.activity ??= { id: "-1" }; // TODO how do I get rid of this?
+          state.challengeForm = {
+            id: "-1",
+          }; // TODO how do I get rid of this?
         }
-        state.challengeForm.activity[field] = value;
+        state.challengeForm[field] = value;
       })
     ),
 });
