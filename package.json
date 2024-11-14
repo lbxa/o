@@ -9,6 +9,7 @@
     "dev": "turbo dev gql relay",
     "dev:api": "pnpm dev --filter=\"@o/api...\"",
     "dev:mobile": "pnpm dev --filter=\"@o/mobile...\"",
+    "every": "turbo build lint typecheck test",
     "test": "turbo test",
     "lint": "turbo lint",
     "graph": "turbo build --graph=turbo-graph.svg",

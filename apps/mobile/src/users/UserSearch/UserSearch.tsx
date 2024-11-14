@@ -1,6 +1,6 @@
 import SearchIcon from "@assets/icons/search.svg";
 import { Link } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useTransition } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import {
@@ -40,7 +40,7 @@ interface UserListProps {
   viewer: UserSearchFriendsFragment$key;
 }
 const UserList = ({ viewer }: UserListProps) => {
-  // const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [data, refetch] = useRefetchableFragment<
     UserSearchRefetchQuery,
