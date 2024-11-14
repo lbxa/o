@@ -14,14 +14,11 @@ export const ChallengeCreateActivitySummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);
 
   const fields = [
-    challengeForm.activity?.type &&
-      challengeActivityTypeToLabel(challengeForm.activity.type),
-    challengeForm.activity?.measurement &&
-      challengeActivityMeasurementToLabel(challengeForm.activity.measurement),
-    challengeForm.activity?.goal &&
-      challengeActivityGoalToLabel(challengeForm.activity.goal),
-    challengeForm.activity?.unit &&
-      challengeActivityUnitToLabel(challengeForm.activity.unit),
+    challengeForm.type && challengeActivityTypeToLabel(challengeForm.type),
+    challengeForm.measurement &&
+      challengeActivityMeasurementToLabel(challengeForm.measurement),
+    challengeForm.goal && challengeActivityGoalToLabel(challengeForm.goal),
+    challengeForm.unit && challengeActivityUnitToLabel(challengeForm.unit),
   ];
 
   const [first, second, third, fourth] = fields;

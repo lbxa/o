@@ -42,14 +42,14 @@ interface Props {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }
 export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
-  const { setChallengeFormActivityField } = useZustStore();
+  const { setChallengeFormField } = useZustStore();
 
   const challengeForm = useZustStore((state) => state.challengeForm);
 
-  const selectedActivity = challengeForm.activity?.type;
-  const selectedMeasurement = challengeForm.activity?.measurement;
-  const selectedGoal = challengeForm.activity?.goal;
-  const selectedUnit = challengeForm.activity?.unit;
+  const selectedActivity = challengeForm.type;
+  const selectedMeasurement = challengeForm.measurement;
+  const selectedGoal = challengeForm.goal;
+  const selectedUnit = challengeForm.unit;
 
   const activities = Object.values(ChallengeActivityType);
 
@@ -89,7 +89,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   );
 
   const onSubmit = (data: ChallengeActivityForm) => {
-    setChallengeFormActivityField("target", Number(data.target));
+    setChallengeFormField("target", Number(data.target));
   };
 
   const {
@@ -98,7 +98,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
     formState: { errors },
   } = useForm<ChallengeActivityForm>({
     defaultValues: {
-      target: challengeForm.activity?.target?.toString() ?? "",
+      target: challengeForm.target?.toString() ?? "",
     },
   });
 
@@ -110,7 +110,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
         {activities.map((c) => (
           <Pill
             key={c}
-            onPress={() => setChallengeFormActivityField("type", c)}
+            onPress={() => setChallengeFormField("type", c)}
             label={challengeActivityTypeToLabel(c)}
             selected={selectedActivity === c}
           />
@@ -135,7 +135,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                   : undefined
               }
               onOptionPress={(option) =>
-                setChallengeFormActivityField(
+                setChallengeFormField(
                   "goal",
                   challengeActivityGoalLabelToEnum(
                     option as ChallengeActivityGoalLabel
@@ -148,7 +148,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                   : undefined
               }
               onGroupPress={(group) =>
-                setChallengeFormActivityField(
+                setChallengeFormField(
                   "measurement",
                   challengeActivityMeasurementLabelToEnum(
                     group as ChallengeActivityMeasurementLabel
@@ -184,7 +184,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     autoCapitalize="none"
                     onBlur={onBlur}
                     onChangeText={(text) => {
-                      // setChallengeFormActivityField("target", Number(text));
+                      // setChallengeFormField("target", Number(text));
                       onChange(text);
                     }}
                     autoCorrect={false}
@@ -205,7 +205,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                       label={challengeActivityUnitToLabel(u)}
                       key={u}
                       selected={u === selectedUnit}
-                      onPress={() => setChallengeFormActivityField("unit", u)}
+                      onPress={() => setChallengeFormField("unit", u)}
                     />
                   ))}
                 {selectedMeasurement ===
@@ -217,7 +217,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     key={ChallengeActivityUnits.Percent}
                     selected={selectedUnit === ChallengeActivityUnits.Percent}
                     onPress={() =>
-                      setChallengeFormActivityField(
+                      setChallengeFormField(
                         "unit",
                         ChallengeActivityUnits.Percent
                       )
