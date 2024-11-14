@@ -1,11 +1,10 @@
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
+import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
 
-import { DbService } from "../db/db.service";
-import { UserService } from "../user/user.service";
-import { CryptoService } from "../utils";
+import { DbModule } from "../db/db.module";
+import { envFile } from "../utils";
+import { AuthModule } from "./auth.module";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {
@@ -13,13 +12,12 @@ describe("AuthService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConfigService,
-        AuthService,
-        CryptoService,
-        JwtService,
-        UserService,
-        DbService,
+      imports: [
+        DbModule.forRoot(() => ({
+          schema: {},
+        })),
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
+        AuthModule,
       ],
     }).compile();
 

@@ -32,7 +32,7 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
   }
 
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [_, setError] = useState(false);
 
   const onSubmit = useCallback(() => {
     commitMutation({
@@ -40,11 +40,11 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
         userId: user.id,
         communityId: selectedCommunity.id,
       },
-      onCompleted: (response) => {
+      onCompleted: () => {
         setSuccess(true);
         setError(false);
       },
-      onError: (error) => {
+      onError: () => {
         setError(true);
         setSuccess(false);
       },

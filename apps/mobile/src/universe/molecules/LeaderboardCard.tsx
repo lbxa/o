@@ -9,7 +9,7 @@ interface Props {
 
 export const LeaderboardCard = ({ rank, name, time, icon }: Props) => {
   return (
-    <View className="flex flex-row w-full justify-between bg-white px-2 py-2">
+    <View className="flex w-full flex-row justify-between bg-white p-2">
       <View className="flex flex-row gap-3">
         <Text>{rank}</Text>
         <Text>{name}</Text>

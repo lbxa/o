@@ -1,11 +1,8 @@
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import type { PreloadedQuery } from "react-relay";
-import { graphql, usePreloadedQuery } from "react-relay";
+import { graphql } from "react-relay";
 
 import { OButton } from "@/universe/atoms";
-
-import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 
 export const COMMUNITY_DETAILS_QUERY = graphql`
   query CommunityDetailsQuery($id: ID!) {

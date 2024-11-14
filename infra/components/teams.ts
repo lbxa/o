@@ -19,36 +19,34 @@ const devs = new aws.iam.Group("devs", {
   path: "/users/",
 });
 
-const devGroupPolicyAttachments = [
-  new aws.iam.GroupPolicyAttachment("devs-ec2Policy", {
-    group: devs.name,
-    policyArn: ec2Policy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-ecsPolicy", {
-    group: devs.name,
-    policyArn: ecsPolicy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-elbPolicy", {
-    group: devs.name,
-    policyArn: elbPolicy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-rdsPolicy", {
-    group: devs.name,
-    policyArn: rdsPolicy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-ecrPolicy", {
-    group: devs.name,
-    policyArn: ecrPolicy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-logsPolicy", {
-    group: devs.name,
-    policyArn: logsPolicy.arn,
-  }),
-  new aws.iam.GroupPolicyAttachment("devs-passRolePolicy", {
-    group: devs.name,
-    policyArn: passRolePolicy.arn,
-  }),
-];
+new aws.iam.GroupPolicyAttachment("devs-ec2Policy", {
+  group: devs.name,
+  policyArn: ec2Policy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-ecsPolicy", {
+  group: devs.name,
+  policyArn: ecsPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-elbPolicy", {
+  group: devs.name,
+  policyArn: elbPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-rdsPolicy", {
+  group: devs.name,
+  policyArn: rdsPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-ecrPolicy", {
+  group: devs.name,
+  policyArn: ecrPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-logsPolicy", {
+  group: devs.name,
+  policyArn: logsPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-passRolePolicy", {
+  group: devs.name,
+  policyArn: passRolePolicy.arn,
+});
 
 // !Note: aws.iam.GroupMembership will conflict with itself
 // if used more than once with the same group. To
