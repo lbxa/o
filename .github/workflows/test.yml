@@ -33,7 +33,7 @@ jobs:
         run: pnpm run build
 
       - name: 🔍 Typecheck packages
-        run: pnpm run type-check
+        run: pnpm run typecheck
 
       - name: 🧪 Test packages
         run: pnpm run test

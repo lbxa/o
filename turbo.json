@@ -16,9 +16,9 @@
       "cache": true,
       "dependsOn": ["^lint", "^build"]
     },
-    "type-check": {
+    "typecheck": {
       "cache": true,
-      "dependsOn": ["^type-check"]
+      "dependsOn": ["^typecheck"]
     },
     "dev": {
       "cache": false,

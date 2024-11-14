@@ -86,7 +86,7 @@ export const CommunityCreate = () => {
         )}
       />
 
-      <Title>Data Controls</Title>
+      {/* <Title>Data Controls</Title>
       <Text>Who can invite members?</Text>
       <View className="pl-md">
         <Text>Admins only</Text>
@@ -96,7 +96,7 @@ export const CommunityCreate = () => {
       <View className="pl-md">
         <Text>Admins only</Text>
         <Text>Everyone</Text>
-      </View>
+      </View> */}
 
       <Title>Invite Members</Title>
       <OTouchable

@@ -1,17 +1,16 @@
-import { useCallback, useTransition } from "react";
+import { useCallback, useEffect, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
-import type { PreloadedQuery } from "react-relay";
 import {
   graphql,
   usePreloadedQuery,
   useRefetchableFragment,
 } from "react-relay";
 
+import type { CommunityListFragment$key } from "@/__generated__/CommunityListFragment.graphql";
+import type { CommunityListRefetchQuery } from "@/__generated__/CommunityListRefetchQuery.graphql";
 import { CommunityCard } from "@/universe/molecules";
 
-import type { CommunityListFragment$key } from "../__generated__/CommunityListFragment.graphql";
-import type { CommunityListQuery } from "../__generated__/CommunityListQuery.graphql";
-import type { CommunityListRefetchQuery } from "../__generated__/CommunityListRefetchQuery.graphql";
+import { useZustStore } from "../state";
 
 const COMMUNITY_LIST_FRAGMENT = graphql`
   fragment CommunityListFragment on Viewer
@@ -22,7 +21,6 @@ const COMMUNITY_LIST_FRAGMENT = graphql`
   }
 `;
 
-// TODO moved to the parent component
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     viewer {
@@ -31,12 +29,13 @@ export const COMMUNITY_LIST_QUERY = graphql`
   }
 `;
 
-interface Props {
-  queryRef: PreloadedQuery<CommunityListQuery>;
-}
-
-export const CommunityList = ({ queryRef }: Props) => {
-  const query = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
+export const CommunityList = () => {
+  const { preloadedCommunityListQuery } = useZustStore();
+  const query = usePreloadedQuery(
+    COMMUNITY_LIST_QUERY,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    preloadedCommunityListQuery!
+  );
   const [isPending, startTransition] = useTransition();
 
   const [data, refetch] = useRefetchableFragment<
@@ -49,6 +48,10 @@ export const CommunityList = ({ queryRef }: Props) => {
       refetch({});
     });
   }, [refetch]);
+
+  useEffect(() => {
+    return () => preloadedCommunityListQuery?.dispose();
+  }, [preloadedCommunityListQuery]);
 
   return (
     <View className="h-full">

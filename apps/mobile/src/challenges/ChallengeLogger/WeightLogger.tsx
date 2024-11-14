@@ -167,12 +167,12 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               )}
             </View>
             <View className="flex flex-row justify-between gap-md">
-              <OButton
+              {/* <OButton
                 type="secondary"
                 variant="gray"
                 title="Manual Entry"
                 // onPress={}
-              />
+              /> */}
               <OButton
                 type="secondary"
                 variant="gray"

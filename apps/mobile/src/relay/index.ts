@@ -1,1 +1,1 @@
-export * from "./RelayEnvironment";
+export * from "./useRelayEnvironment";

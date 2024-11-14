@@ -1,11 +1,17 @@
 meta {
   name: HEALTHCHECK
-  type: http
+  type: graphql
   seq: 3
 }
 
-get {
-  url: {{URL}}/health
-  body: none
+post {
+  url: {{URL}}/
+  body: graphql
   auth: none
+}
+
+body:graphql {
+  query {
+    health
+  }
 }

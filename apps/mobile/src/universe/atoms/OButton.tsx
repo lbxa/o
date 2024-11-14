@@ -80,7 +80,7 @@ export const OButton = ({
 
   return (
     <OTouchable
-      className={classNames("rounded-md py-sm px-md", className, {
+      className={classNames("rounded-xl py-sm px-md", className, {
         [variantMatrix[variant].back]: !props.disabled,
         "bg-gray-200": props.disabled,
       })}

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<173e40c66f7015e1548e5557446a7280>>
+ * @generated SignedSource<<baa4b0ead0649da90c1068379d14c0f6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type ViewerQuery$variables = Record<PropertyKey, never>;
-export type ViewerQuery$data = {
+export type UserProfileQuery$variables = Record<PropertyKey, never>;
+export type UserProfileQuery$data = {
   readonly viewer: {
     readonly user: {
       readonly email: string | null | undefined;
@@ -20,9 +20,9 @@ export type ViewerQuery$data = {
     } | null | undefined;
   } | null | undefined;
 };
-export type ViewerQuery = {
-  response: ViewerQuery$data;
-  variables: ViewerQuery$variables;
+export type UserProfileQuery = {
+  response: UserProfileQuery$data;
+  variables: UserProfileQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -83,7 +83,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "ViewerQuery",
+    "name": "UserProfileQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -92,20 +92,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "ViewerQuery",
+    "name": "UserProfileQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "6c5976735691ed28de4b702d3509afd5",
+    "cacheID": "3e315e1c7b73613dab715299078d23d0",
     "id": null,
     "metadata": {},
-    "name": "ViewerQuery",
+    "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query ViewerQuery {\n  viewer {\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n"
+    "text": "query UserProfileQuery {\n  viewer {\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c8aea321e2d44d829236f4e6eaaa4c1f";
+(node as any).hash = "bd5259815a8d4c3c36c18bdd1b54cb8b";
 
 export default node;
