@@ -4,6 +4,7 @@ import * as random from "@pulumi/random";
 
 // import { ClusterComponent } from "./components/cluster";
 import { Db } from "./components/db";
+import { devTeam } from "./components/teams";
 // import { Repo } from "./components/repo";
 
 const config = new pulumi.Config();
@@ -46,6 +47,8 @@ const db = new Db(
 
 export const dbHostname = db.dbHostname;
 export const dbRandomPassword = dbPassword;
+
+export const devTeamName = devTeam.name;
 
 // const backendRepo = new Repo("onex-backend");
 

@@ -42,14 +42,14 @@ interface Props {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }
 export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
-  const { setChallengeFormActivityField } = useZustStore();
+  const { setChallengeFormField } = useZustStore();
 
   const challengeForm = useZustStore((state) => state.challengeForm);
 
-  const selectedActivity = challengeForm.activity?.type;
-  const selectedMeasurement = challengeForm.activity?.measurement;
-  const selectedGoal = challengeForm.activity?.goal;
-  const selectedUnit = challengeForm.activity?.unit;
+  const selectedActivity = challengeForm.type;
+  const selectedMeasurement = challengeForm.measurement;
+  const selectedGoal = challengeForm.goal;
+  const selectedUnit = challengeForm.unit;
 
   const activities = Object.values(ChallengeActivityType);
 
@@ -89,7 +89,9 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   );
 
   const onSubmit = (data: ChallengeActivityForm) => {
-    setChallengeFormActivityField("target", Number(data.target));
+    if (data.target) {
+      setChallengeFormField("target", Number(data.target));
+    }
   };
 
   const {
@@ -98,19 +100,19 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
     formState: { errors },
   } = useForm<ChallengeActivityForm>({
     defaultValues: {
-      target: challengeForm.activity?.target?.toString() ?? "",
+      target: "",
     },
   });
 
   return (
-    <View className="flex h-full flex-col bg-white px-md pb-10">
+    <View className="px-md flex h-full flex-col bg-white pb-10">
       <Title>Select an activity</Title>
       <Subtitle>What type of activity is this challenge?</Subtitle>
-      <View className="mb-lg flex flex-row flex-wrap gap-md">
+      <View className="mb-lg gap-md flex flex-row flex-wrap">
         {activities.map((c) => (
           <Pill
             key={c}
-            onPress={() => setChallengeFormActivityField("type", c)}
+            onPress={() => setChallengeFormField("type", c)}
             label={challengeActivityTypeToLabel(c)}
             selected={selectedActivity === c}
           />
@@ -121,7 +123,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
         <View>
           <Title>Select a measurement</Title>
           <Subtitle>How will participants measure their progress?</Subtitle>
-          <View className="mb-lg flex flex-row flex-wrap gap-md">
+          <View className="mb-lg gap-md flex flex-row flex-wrap">
             <PillGroup
               group={allowedMeasurementGoals.map(({ measurement, goals }) => ({
                 label: challengeActivityMeasurementToLabel(
@@ -135,7 +137,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                   : undefined
               }
               onOptionPress={(option) =>
-                setChallengeFormActivityField(
+                setChallengeFormField(
                   "goal",
                   challengeActivityGoalLabelToEnum(
                     option as ChallengeActivityGoalLabel
@@ -148,7 +150,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                   : undefined
               }
               onGroupPress={(group) =>
-                setChallengeFormActivityField(
+                setChallengeFormField(
                   "measurement",
                   challengeActivityMeasurementLabelToEnum(
                     group as ChallengeActivityMeasurementLabel
@@ -166,8 +168,8 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
           <Subtitle>
             What is the target participants should aim to achieve?
           </Subtitle>
-          <View className="flex flex-row items-center gap-md">
-            <View className="flex flex-row gap-md">
+          <View className="gap-md flex flex-row items-center">
+            <View className="gap-md flex flex-row">
               <Controller
                 name="target"
                 control={control}
@@ -184,7 +186,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     autoCapitalize="none"
                     onBlur={onBlur}
                     onChangeText={(text) => {
-                      // setChallengeFormActivityField("target", Number(text));
+                      // setChallengeFormField("target", Number(text));
                       onChange(text);
                     }}
                     autoCorrect={false}
@@ -198,14 +200,14 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View className="flex flex-row gap-md">
+              <View className="gap-md flex flex-row">
                 {selectedActivity &&
                   units[selectedActivity].map((u) => (
                     <Pill
                       label={challengeActivityUnitToLabel(u)}
                       key={u}
                       selected={u === selectedUnit}
-                      onPress={() => setChallengeFormActivityField("unit", u)}
+                      onPress={() => setChallengeFormField("unit", u)}
                     />
                   ))}
                 {selectedMeasurement ===
@@ -217,7 +219,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     key={ChallengeActivityUnits.Percent}
                     selected={selectedUnit === ChallengeActivityUnits.Percent}
                     onPress={() =>
-                      setChallengeFormActivityField(
+                      setChallengeFormField(
                         "unit",
                         ChallengeActivityUnits.Percent
                       )

@@ -6,6 +6,7 @@ import type { StateCreator } from "zustand";
 import type { CommunitySlice } from "./community.slice";
 import type { UserSlice } from "./user.slice";
 
+// merge the objects because nested nullable state is verbose
 type ChallengeForm = Partial<Challenge> & Partial<ChallengeActivity>;
 type RecordedChallenge = Pick<Challenge, "id" | "name"> &
   Partial<{
@@ -27,10 +28,10 @@ export interface ChallengeSlice {
     field: K,
     value: ChallengeForm[K]
   ) => void;
-  setChallengeFormActivityField: <K extends keyof ChallengeActivity>(
-    field: K,
-    value: ChallengeActivity[K]
-  ) => void;
+  // setChallengeFormActivityField: <K extends keyof ChallengeActivity>(
+  //   field: K,
+  //   value: ChallengeActivity[K]
+  // ) => void;
 }
 
 export const createChallengeSlice: StateCreator<
@@ -57,15 +58,15 @@ export const createChallengeSlice: StateCreator<
         state.challengeForm[field] = value;
       })
     ),
-  setChallengeFormActivityField: (field, value) =>
-    set(
-      produce((state: Draft<ChallengeSlice>) => {
-        if (!state.challengeForm.activity) {
-          state.challengeForm = {
-            id: "-1",
-          }; // TODO how do I get rid of this?
-        }
-        state.challengeForm[field] = value;
-      })
-    ),
+  // setChallengeFormActivityField: (field, value) =>
+  //   set(
+  //     produce((state: Draft<ChallengeSlice>) => {
+  //       if (!state.challengeForm.activity) {
+  //         state.challengeForm = {
+  //           id: "-1",
+  //         }; // TODO how do I get rid of this?
+  //       }
+  //       state.challengeForm[field] = value;
+  //     })
+  //   ),
 });

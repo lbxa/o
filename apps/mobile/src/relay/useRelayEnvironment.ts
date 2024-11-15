@@ -1,5 +1,5 @@
 import type { Tokens } from "@o/api-gql";
-import { useRouter } from "expo-router";
+import { useRootNavigationState, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import type {
   FetchFunction,
@@ -25,6 +25,13 @@ export const useRelayEnvironment = (): {
 } => {
   const router = useRouter();
   const { getStoreItem, deleteStoreItem, setStoreItem } = useSecureStore();
+  /**
+   * There is an edge case when the user's token has expired
+   * however the root navigation is not mounted yet. Avoid
+   * calling router.* without certainty the root navigation
+   * is mounted.
+   */
+  const rootNavigation = useRootNavigationState();
 
   const formatRequestHeader = useCallback((token: string | null) => {
     return {
@@ -51,6 +58,12 @@ export const useRelayEnvironment = (): {
             variables,
           }),
         });
+
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
 
         return (await response.json()) as GraphQLResponseWithData;
       };
@@ -107,19 +120,30 @@ export const useRelayEnvironment = (): {
             await deleteStoreItem("ACCESS_TOKEN");
             await deleteStoreItem("REFRESH_TOKEN");
 
-            router.replace("(auth)/login");
+            if (rootNavigation.key) {
+              router.replace("(auth)/login");
+            }
           }
         } else {
           await deleteStoreItem("ACCESS_TOKEN");
           await deleteStoreItem("REFRESH_TOKEN");
 
-          router.replace("(auth)/login");
+          if (rootNavigation.key) {
+            router.replace("(auth)/login");
+          }
         }
       }
 
       return data;
     },
-    [deleteStoreItem, formatRequestHeader, getStoreItem, router, setStoreItem]
+    [
+      deleteStoreItem,
+      formatRequestHeader,
+      getStoreItem,
+      rootNavigation.key,
+      router,
+      setStoreItem,
+    ]
   );
 
   const createEnvironment = useCallback((): IEnvironment => {

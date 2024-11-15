@@ -1,6 +1,10 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import SearchIcon from "@assets/icons/search.svg";
-import { ChallengeCadence, ChallengeMode } from "@o/api-gql";
+import {
+  ChallengeActivityUnits,
+  ChallengeCadence,
+  ChallengeMode,
+} from "@o/api-gql";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";
@@ -77,7 +81,11 @@ export const ChallengeCreate = () => {
       throw new Error("No community selected");
     }
 
-    if (!challengeForm.activity?.goal) {
+    if (
+      !challengeForm.goal ||
+      !challengeForm.measurement ||
+      !challengeForm.type
+    ) {
       // TODO throw a toast!
       throw new Error("Missing challenge activity data");
     }
@@ -96,11 +104,11 @@ export const ChallengeCreate = () => {
           endDate,
         },
         challengeActivityCreateInput: {
-          type: challengeForm.activity.type,
-          measurement: challengeForm.activity.measurement,
-          goal: challengeForm.activity.goal,
-          target: challengeForm.activity.target,
-          unit: challengeForm.activity.unit,
+          type: challengeForm.type,
+          measurement: challengeForm.measurement,
+          goal: challengeForm.goal,
+          target: challengeForm.target,
+          unit: challengeForm.unit ?? ChallengeActivityUnits.None,
         },
       },
       onCompleted: (data) => {
@@ -243,7 +251,7 @@ export const ChallengeCreate = () => {
               <Title>Invite Members</Title>
               <OTouchable
                 onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
               >
                 <SearchIcon width={25} />
                 <Text className="pl-sm">Search</Text>
