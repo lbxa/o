@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6699b3b2177b92125792119545089e55>>
+ * @generated SignedSource<<1d9ef0cc7fb1e2e781796a48e1e4e2c8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,22 +10,23 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityFragment$data = {
+export type UserProfileFragment$data = {
+  readonly email: string | null | undefined;
+  readonly firstName: string | null | undefined;
   readonly id: string;
-  readonly isVerified: boolean | null | undefined;
-  readonly name: string;
-  readonly " $fragmentType": "CommunityFragment";
+  readonly lastName: string | null | undefined;
+  readonly " $fragmentType": "UserProfileFragment";
 };
-export type CommunityFragment$key = {
-  readonly " $data"?: CommunityFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
+export type UserProfileFragment$key = {
+  readonly " $data"?: UserProfileFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserProfileFragment">;
 };
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "CommunityFragment",
+  "name": "UserProfileFragment",
   "selections": [
     {
       "alias": null,
@@ -38,21 +39,28 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "name",
+      "name": "firstName",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "isVerified",
+      "name": "lastName",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "email",
       "storageKey": null
     }
   ],
-  "type": "Community",
+  "type": "User",
   "abstractKey": null
 };
 
-(node as any).hash = "c52ffab5abed2c65900eaed434fdf855";
+(node as any).hash = "038a932b74a4fe66949f432fe371d37a";
 
 export default node;
