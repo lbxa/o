@@ -5,7 +5,7 @@ FROM base AS builder
   RUN apk add --no-cache libc6-compat
   WORKDIR /app
 
-  RUN yarn global add turbo@2.2.3 
+  RUN yarn global add turbo@2.3.0
   COPY . .
   
   # Generate a partial monorepo with a pruned lockfile for a target workspace.
