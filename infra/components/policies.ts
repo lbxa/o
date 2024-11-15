@@ -45,6 +45,7 @@ export const ecsPolicy = new aws.iam.Policy("ecsPolicy", {
           "ecs:RunTask",
           "ecs:StartTask",
           "ecs:StopTask",
+          "acm:*",
           // Add other ECS actions as needed
         ],
         Resource: "*",
@@ -52,6 +53,39 @@ export const ecsPolicy = new aws.iam.Policy("ecsPolicy", {
     ],
   }),
 });
+
+export const certificateManagerPolicy = new aws.iam.Policy(
+  "certificateManagerPolicy",
+  {
+    description: "Certificate Manager permissions for developers",
+    policy: pulumi.output({
+      Version: "2012-10-17",
+      Statement: [
+        {
+          Effect: "Allow",
+          Action: [
+            "acm:ListCertificates",
+            "acm:DescribeCertificate",
+            "acm:ExportCertificate",
+            "acm:GetAccountConfiguration",
+            "acm:GetCertificate",
+            "acm:ListTagsForCertificate",
+            "acm:DeleteCertificate",
+            "acm:ImportCertificate",
+            "acm:PutAccountConfiguration",
+            "acm:RenewCertificate",
+            "acm:RequestCertificate",
+            "acm:ResendValidationEmail",
+            "acm:UpdateCertificateOptions",
+            "acm:AddTagsToCertificate",
+            "acm:RemoveTagsFromCertificate",
+          ],
+          Resource: "*",
+        },
+      ],
+    }),
+  }
+);
 
 // **Elastic Load Balancing Permissions Policy**
 export const elbPolicy = new aws.iam.Policy("elbPolicy", {

@@ -1,6 +1,7 @@
 import * as aws from "@pulumi/aws";
 
 import {
+  certificateManagerPolicy,
   ec2Policy,
   ecrPolicy,
   ecsPolicy,
@@ -26,6 +27,10 @@ new aws.iam.GroupPolicyAttachment("devs-ec2Policy", {
 new aws.iam.GroupPolicyAttachment("devs-ecsPolicy", {
   group: devs.name,
   policyArn: ecsPolicy.arn,
+});
+new aws.iam.GroupPolicyAttachment("devs-certificateManagerPolicy", {
+  group: devs.name,
+  policyArn: certificateManagerPolicy.arn,
 });
 new aws.iam.GroupPolicyAttachment("devs-elbPolicy", {
   group: devs.name,
