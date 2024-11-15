@@ -12,10 +12,10 @@ export const useToken = (): F => {
 
   const token = !!getStoreItem("ACCESS_TOKEN");
 
-  const deleteToken = useCallback(
-    async () => await deleteStoreItem("ACCESS_TOKEN"),
-    [deleteStoreItem]
-  );
+  const deleteToken = useCallback(async () => {
+    await deleteStoreItem("ACCESS_TOKEN");
+    await deleteStoreItem("REFRESH_TOKEN");
+  }, [deleteStoreItem]);
 
   return useMemo(() => ({ token, deleteToken }), [deleteToken, token]);
 };

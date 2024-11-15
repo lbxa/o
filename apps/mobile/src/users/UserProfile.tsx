@@ -1,30 +1,21 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { graphql, useFragment, usePreloadedQuery } from "react-relay";
+import { graphql } from "react-relay";
 
-import type { UserProfileQuery } from "@/__generated__/UserProfileQuery.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-import { useToken } from "@/utils/useToken";
-
-import type { UserProfileFragment$key } from "../__generated__/UserProfileFragment.graphql";
-
-export const USER_PROFILE_FRAGMENT = graphql`
-  fragment UserProfileFragment on User {
-    id
-    firstName
-    lastName
-    email
-  }
-`;
+import { useToken } from "@/utils";
 
 export const USER_PROFILE_QUERY = graphql`
   query UserProfileQuery {
     viewer {
       user {
-        ...UserProfileFragment
+        id
+        firstName
+        lastName
+        email
       }
     }
   }
@@ -33,19 +24,7 @@ export const USER_PROFILE_QUERY = graphql`
 export const UserProfile: React.FC = () => {
   const router = useRouter();
   const { deleteToken } = useToken();
-
-  const { preloadedProfileQuery } = useZustStore();
-
-  const data = usePreloadedQuery<UserProfileQuery>(
-    USER_PROFILE_QUERY,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    preloadedProfileQuery!
-  );
-
-  const userProfile = useFragment<UserProfileFragment$key>(
-    USER_PROFILE_FRAGMENT,
-    data.viewer?.user
-  );
+  const { activeUser, removeActiveUser } = useZustStore();
 
   return (
     <Ozone>
@@ -57,15 +36,16 @@ export const UserProfile: React.FC = () => {
             </View>
           </OTouchable>
           <Text className="text-left text-6xl font-bold">
-            {userProfile?.firstName + " " + userProfile?.lastName}
+            {activeUser?.firstName + " " + activeUser?.lastName}
           </Text>
-          <Text>{userProfile?.email}</Text>
+          <Text>{activeUser?.email}</Text>
         </View>
         <View className="mx-md">
           <OButton
             title="Logout"
             onPress={async () => {
               await deleteToken();
+              removeActiveUser();
               router.replace("/(auth)/login");
             }}
           />

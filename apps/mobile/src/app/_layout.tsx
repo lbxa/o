@@ -13,7 +13,6 @@ import type { PreloadedQuery } from "react-relay";
 import {
   loadQuery,
   RelayEnvironmentProvider,
-  useFragment,
   usePreloadedQuery,
 } from "react-relay";
 
@@ -22,9 +21,7 @@ import type { UserProfileQuery } from "@/__generated__/UserProfileQuery.graphql"
 import { COMMUNITY_LIST_QUERY } from "@/communities";
 import { useRelayEnvironment } from "@/relay";
 import { useZustStore } from "@/state";
-import { USER_PROFILE_FRAGMENT, USER_PROFILE_QUERY } from "@/users";
-
-import type { UserProfileFragment$key } from "../__generated__/UserProfileFragment.graphql";
+import { USER_PROFILE_QUERY } from "@/users";
 
 export default function RootLayout() {
   if (__DEV__) {
@@ -81,14 +78,9 @@ const RootContent = ({ preloadedProfileQuery }: RootContentProps) => {
     preloadedProfileQuery
   );
 
-  const activeUser = useFragment<UserProfileFragment$key>(
-    USER_PROFILE_FRAGMENT,
-    user.viewer?.user
-  );
-
   useEffect(() => {
-    if (activeUser) {
-      setActiveUser(activeUser);
+    if (user.viewer?.user) {
+      setActiveUser(user.viewer.user);
     }
     void SplashScreen.hideAsync();
   }, []);

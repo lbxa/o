@@ -13,6 +13,7 @@ export interface UserSlice {
   setPreloadedProfileQuery: (query: PreloadedQuery<UserProfileQuery>) => void;
   activeUser: User | null;
   setActiveUser: (user: User) => void;
+  removeActiveUser: () => void;
   logoutUser: () => void;
 }
 
@@ -27,5 +28,6 @@ export const createUserSlice: StateCreator<
     set({ preloadedProfileQuery: query }),
   activeUser: null,
   setActiveUser: (user: User) => set({ activeUser: user }),
+  removeActiveUser: () => set({ activeUser: null }),
   logoutUser: () => set({ activeUser: null }),
 });
