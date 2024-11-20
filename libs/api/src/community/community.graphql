@@ -43,10 +43,19 @@ input CommunityUpdateInput {
   name: String
 }
 
+type CommunityEdge {
+  cursor: String!
+  node: Community!
+}
+
+type CommunityConnection {
+  edges: [CommunityEdge!]
+  pageInfo: PageInfo!
+}
+
 type Query {
   community(id: ID!): Community
   communities: [Community!]
-  userCommunities(userId: ID!): [Community!]
   communityInvitations(userId: ID!): [Community!]
 }
 

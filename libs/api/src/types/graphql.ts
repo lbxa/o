@@ -219,7 +219,6 @@ export interface IQuery {
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
@@ -299,6 +298,26 @@ export interface CommunityInvitation extends Node, Timestamps {
     expiresAt: DateTime;
 }
 
+export interface CommunityEdge {
+    __typename?: 'CommunityEdge';
+    cursor: string;
+    node: Community;
+}
+
+export interface CommunityConnection {
+    __typename?: 'CommunityConnection';
+    edges?: Nullable<CommunityEdge[]>;
+    pageInfo: PageInfo;
+}
+
+export interface PageInfo {
+    __typename?: 'PageInfo';
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor?: Nullable<string>;
+    endCursor?: Nullable<string>;
+}
+
 export interface User extends Node, Timestamps {
     __typename?: 'User';
     id: string;
@@ -325,7 +344,7 @@ export interface ValidEmailResponse {
 export interface Viewer {
     __typename?: 'Viewer';
     user?: Nullable<User>;
-    communities?: Nullable<Community[]>;
+    communities?: CommunityConnection;
     challenges?: Nullable<Challenge[]>;
     challenge?: Nullable<Challenge>;
 }

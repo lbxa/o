@@ -13,12 +13,15 @@ import {
   NewCommunity,
 } from "@o/db";
 import * as schema from "@o/db";
+import dayjs from "dayjs";
+import { eq } from "drizzle-orm";
 
 import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Challenge, Community, CommunityInvitation } from "../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { validateAndDecodeGlobalId } from "../utils";
+import { ConflictError } from "../utils/errors";
 import { CommunityService } from "./community.service";
 
 @Resolver("Community")
@@ -42,23 +45,17 @@ export class CommunityResolver {
   }
 
   @Query("communities")
-  async communities(): Promise<Community[]> {
-    return (await this.dbService.db.select().from(CommunitiesTable)).map(
-      (community) => ({
-        ...community,
-        id: encodeGlobalId("Community", community.id),
-        name: community.name,
-        isVerified: community.isVerified,
-      })
-    );
-  }
-
-  @Query("userCommunities")
-  userCommunities(
-    @Args("userId", ParseIntPipe) userId: number
+  async communities(
+    @CurrentUser("userId") userId: number
   ): Promise<Community[]> {
-    // const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.communityService.findUserCommunities(userId);
+    const userCommunities =
+      await this.communityService.findUserCommunities(userId);
+
+    return userCommunities.sort((a, b) => {
+      const dateA = dayjs(a.createdAt);
+      const dateB = dayjs(b.createdAt);
+      return dateB.valueOf() - dateA.valueOf();
+    });
   }
 
   @Mutation("communityInvite")
@@ -128,6 +125,14 @@ export class CommunityResolver {
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
   ): Promise<Community | undefined> {
+    const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
+      where: eq(CommunitiesTable.name, input.name),
+    });
+
+    if (existing) {
+      throw new ConflictError("Community name already taken");
+    }
+
     const [result] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })

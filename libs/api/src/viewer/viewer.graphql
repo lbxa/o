@@ -1,6 +1,6 @@
 type Viewer {
   user: User
-  communities: [Community!]
+  communities(first: Int!, after: String): CommunityConnection!
   challenges(communityId: ID!): [Challenge!]
   challenge(challengeId: ID!): Challenge
 }

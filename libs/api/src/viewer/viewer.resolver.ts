@@ -3,7 +3,7 @@ import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { ChallengeService } from "../challenge/challenge.service";
 import { CommunityService } from "../community/community.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, Community, User, Viewer } from "../types/graphql";
+import { Challenge, CommunityConnection, User, Viewer } from "../types/graphql";
 import { UserService } from "../user/user.service";
 import { validateAndDecodeGlobalId } from "../utils";
 
@@ -21,6 +21,7 @@ export class ViewerResolver {
   ): Promise<Viewer | undefined> {
     const v: Viewer = {
       user: await this.userService.findById(userId),
+      communities: await this.communityService.findUserCommunities(userId, 0),
     };
 
     return v;
@@ -33,9 +34,17 @@ export class ViewerResolver {
 
   @ResolveField()
   async communities(
-    @CurrentUser("userId") userId: number
-  ): Promise<Community[]> {
-    return this.communityService.findUserCommunities(userId);
+    @CurrentUser("userId") userId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<CommunityConnection> {
+    const userCommunities = await this.communityService.findUserCommunities(
+      userId,
+      first,
+      after
+    );
+
+    return userCommunities;
   }
 
   @ResolveField()

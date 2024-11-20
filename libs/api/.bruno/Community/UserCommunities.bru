@@ -11,7 +11,7 @@ post {
 }
 
 auth:bearer {
-  token: {{TOKEN}}
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibHVjYXNicnNhQGhvdG1haWwuY29tIiwiaWF0IjoxNzMyMDU5MTk0LCJleHAiOjE3MzIwNjI3OTR9.yDQk2HpLeeraabiHhrPo2jJLENlwr5IIbHlVR2tYdmQ
 }
 
 body:graphql {
@@ -23,26 +23,22 @@ body:graphql {
   }
   
   query {
-    # userCommunities(userId: 1) {
-    #   ...Community
-    # }
     viewer {
-      communities {
-        ...Community
+      communities(first: 10) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            ...Community
+          }
+        }
       }
     }
-  
   }
   
-}
-
-body:graphql:vars {
-  {
-    "intput": {
-      "firstName": "Marry",
-      "lastName": "Roberts",
-      "email": "MarryRobert@hotmail.com",
-      "password": "Marry"
-    }
-  }
 }

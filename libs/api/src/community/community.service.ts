@@ -12,16 +12,17 @@ import {
   UsersTable,
 } from "@o/db";
 import * as schema from "@o/db";
-import { aliasedTable, and, eq } from "drizzle-orm";
+import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
+  CommunityConnection,
   CommunityInvitation,
   InvitationStatus,
 } from "../types/graphql";
-import { encodeGlobalId } from "../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { mapToEnum } from "../utils/map-to-enum";
 
 @Injectable()
@@ -105,7 +106,15 @@ export class CommunityService
     }));
   }
 
-  async findUserCommunities(userId: number): Promise<GqlCommunity[]> {
+  async findUserCommunities(
+    userId: number,
+    first: number,
+    after?: string
+  ): Promise<CommunityConnection> {
+    const startCursorId = after
+      ? validateAndDecodeGlobalId(after, "Community")
+      : 0;
+
     const communities = await this.dbService.db
       .select({
         userCommunity: CommunitiesTable,
@@ -115,11 +124,30 @@ export class CommunityService
         CommunitiesTable,
         eq(CommunitiesTable.id, CommunityMembershipsTable.communityId)
       )
-      .where(eq(CommunityMembershipsTable.userId, userId));
+      .where(eq(CommunityMembershipsTable.userId, userId))
+      .orderBy(desc(CommunitiesTable.createdAt))
+      .offset(startCursorId)
+      .limit(first + 1); // Fetch one extra to check for next page
 
-    return communities.map((community) =>
-      this.pg2GqlMapper(community.userCommunity)
-    );
+    const edges = communities.slice(0, first).map((community) => ({
+      node: this.pg2GqlMapper(community.userCommunity),
+      cursor: encodeGlobalId("Community", community.userCommunity.id),
+    }));
+
+    // Determine if there is a next page
+    const hasNextPage = communities.length > first;
+    const endCursor = edges.length > 0 ? edges[edges.length - 1].cursor : null;
+    const startCursor = edges.length > 0 ? edges[0].cursor : null;
+
+    return {
+      edges,
+      pageInfo: {
+        startCursor,
+        endCursor,
+        hasNextPage,
+        hasPreviousPage: startCursorId > 0,
+      },
+    };
   }
 
   async create(input: NewCommunity, userId: number): Promise<GqlCommunity> {
