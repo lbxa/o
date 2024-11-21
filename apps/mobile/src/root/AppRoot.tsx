@@ -1,33 +1,37 @@
 import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
-import { graphql, useQueryLoader } from "react-relay";
+import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";
-
-import { useToken } from "../utils";
+import { useZustStore } from "@/state";
+import { useToken } from "@/utils";
 
 const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
       ...CommunityList_viewer @arguments(count: 5)
-      ...UserProfile_viewer
+      # ...UserProfile_viewer
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
     }
   }
 `;
 
 export const AppRoot: React.FC<PropsWithChildren> = ({ children }) => {
-  const [_, loadQuery, disposeQuery] =
-    useQueryLoader<AppRootQuery>(APP_ROOT_QUERY);
+  const data = useLazyLoadQuery<AppRootQuery>(APP_ROOT_QUERY, {});
+  const { setActiveUser } = useZustStore();
 
   const { token } = useToken();
 
   useEffect(() => {
-    if (token) {
-      loadQuery({});
+    if (token && data.viewer?.user) {
+      setActiveUser(data.viewer.user);
     }
-
-    return () => disposeQuery();
-  }, [token, loadQuery, disposeQuery]);
+  }, [token, data, setActiveUser]);
 
   return <>{children}</>;
 };

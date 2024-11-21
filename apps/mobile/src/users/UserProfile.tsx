@@ -11,9 +11,7 @@ import { useToken } from "@/utils";
 export const USER_PROFILE_QUERY = graphql`
   query UserProfileQuery {
     viewer {
-      user {
-        ...UserProfileFragment
-      }
+      ...UserProfile_viewer
     }
   }
 `;
@@ -23,7 +21,7 @@ export const UserProfile: React.FC = () => {
   const { deleteToken } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
-  const data = useFragment(
+  const _ = useFragment(
     graphql`
       fragment UserProfile_viewer on Viewer {
         user {

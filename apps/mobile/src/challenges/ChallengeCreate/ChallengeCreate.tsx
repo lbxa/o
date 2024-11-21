@@ -305,8 +305,8 @@ export const ChallengeCreate = () => {
               </View>
             ) : (
               <OTouchable
-                onPress={() => router.push("/(app)/community/invite")}
-                className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+                onPress={() => setChallengeFormField("advancedMode", true)}
+                className="mb-lg gap-sm flex flex-row items-center"
               >
                 <Title>More Settings</Title>
                 <ChevronDownIcon width={22} height={22} />
