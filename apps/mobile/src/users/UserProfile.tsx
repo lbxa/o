@@ -12,10 +12,7 @@ export const USER_PROFILE_QUERY = graphql`
   query UserProfileQuery {
     viewer {
       user {
-        id
-        firstName
-        lastName
-        email
+        ...UserProfileFragment
       }
     }
   }
