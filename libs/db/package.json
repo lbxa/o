@@ -17,7 +17,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "migrate:g": "drizzle-kit generate",
-    "migrate:g:custom": "drizzle-kit generate --custom",
+    "migrate:g:custom": "drizzle-kit generate --custom --name",
     "migrate:push": "drizzle-kit migrate",
     "migrate:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"

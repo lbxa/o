@@ -11,7 +11,9 @@ import { CurrentUser } from "../../decorators/current-user.decorator";
 import {
   Challenge,
   ChallengeActivityResult,
+  ChallengeActivityResultConnection,
   ChallengeActivityResultCreateInput,
+  CreateChallengeActivityResultPayload,
 } from "../../types/graphql";
 import { validateAndDecodeGlobalId } from "../../utils";
 import { ChallengeActivityResultsService } from "./challenge-activity-results.service";
@@ -41,29 +43,41 @@ export class ChallengeActivityResultsResolver {
 
   @Query("challengeActivityTopResults")
   async challengeActivityTopResults(
-    @Args("challengeId") challengeId: string
-  ): Promise<ChallengeActivityResult[]> {
+    @Args("challengeId") challengeId: string,
+    @Args("first") first: number,
+    @Args("after") after: string
+  ): Promise<ChallengeActivityResultConnection> {
     const decodedChallengeId = validateAndDecodeGlobalId(
       challengeId,
       "Challenge"
     );
-    return this.challengeActivityResultsService.fetchTopResults({
-      challengeId: decodedChallengeId,
-    });
+    return this.challengeActivityResultsService.fetchTopResults(
+      {
+        challengeId: decodedChallengeId,
+      },
+      first,
+      after
+    );
   }
 
   @ResolveField("activityTopResults")
   async activityTopResults(
     @Parent() challenge: Challenge,
+    @Args("first") first: number,
+    @Args("after") after?: string,
     @Args("challengeId") challengeId?: string
-  ) {
+  ): Promise<ChallengeActivityResultConnection> {
     const decodedChallengeId = validateAndDecodeGlobalId(
       challengeId ?? challenge.id,
       "Challenge"
     );
-    return this.challengeActivityResultsService.fetchTopResults({
-      challengeId: decodedChallengeId,
-    });
+    return this.challengeActivityResultsService.fetchTopResults(
+      {
+        challengeId: decodedChallengeId,
+      },
+      first,
+      after
+    );
   }
 
   @Mutation("challengeActivityResultCreate")
@@ -71,7 +85,7 @@ export class ChallengeActivityResultsResolver {
     @Args("challengeActivityResultCreateInput")
     resultInput: ChallengeActivityResultCreateInput,
     @CurrentUser("userId") userId: number
-  ): Promise<ChallengeActivityResult> {
+  ): Promise<CreateChallengeActivityResultPayload> {
     const activityId = validateAndDecodeGlobalId(
       resultInput.activityId,
       "ChallengeActivity"
@@ -80,11 +94,20 @@ export class ChallengeActivityResultsResolver {
       resultInput.challengeId,
       "Challenge"
     );
-    return this.challengeActivityResultsService.create({
-      ...resultInput,
-      activityId,
-      userId,
-      challengeId,
-    });
+
+    const challengeActivityResult =
+      await this.challengeActivityResultsService.create({
+        ...resultInput,
+        activityId,
+        userId,
+        challengeId,
+      });
+
+    return {
+      challengeActivityResultEdge: {
+        node: challengeActivityResult,
+        cursor: challengeActivityResult.id,
+      },
+    };
   }
 }

@@ -30,8 +30,8 @@ type AuthLoginPayload {
 
 type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
-  activityTopMovers(challengeId: ID): [ChallengeActivityResult!]
-  activityTopResults(challengeId: ID): [ChallengeActivityResult!]
+  activityTopMovers(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
+  activityTopResults(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -97,11 +97,21 @@ type ChallengeActivityResult implements Node & Timestamps {
   user: User!
 }
 
+type ChallengeActivityResultConnection {
+  edges: [ChallengeActivityResultEdge!]
+  pageInfo: PageInfo!
+}
+
 input ChallengeActivityResultCreateInput {
   activityId: ID!
   challengeId: ID!
   result: Int!
   userId: ID!
+}
+
+type ChallengeActivityResultEdge {
+  cursor: String!
+  node: ChallengeActivityResult!
 }
 
 enum ChallengeActivityType {
@@ -193,7 +203,7 @@ input ChallengeUpdateInput {
 }
 
 type Community implements Node & Timestamps {
-  challenges: [Challenge!]
+  challenges(after: String, first: Int): ChallengeConnection!
   createdAt: DateTime
   id: ID!
   invitations: [CommunityInvitation!]
@@ -249,6 +259,10 @@ input CommunityUpdateInput {
   name: String
 }
 
+type CreateChallengeActivityResultPayload {
+  challengeActivityResultEdge: ChallengeActivityResultEdge!
+}
+
 """Date custom scalar type"""
 scalar DateTime
 
@@ -267,7 +281,7 @@ type Mutation {
   authLogout(id: Int!): Boolean!
   """Refresh the access and refresh tokens"""
   authRefreshTokens: Tokens!
-  challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): ChallengeActivityResult!
+  challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): CreateChallengeActivityResultPayload!
   challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): ChallengeCreatePayload!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
@@ -303,8 +317,8 @@ type PageInfo {
 
 type Query {
   challenge(id: ID!): Challenge
-  challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
-  challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
+  challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
+  challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   community(id: ID!): Community
   communityInvitations(userId: ID!): [Community!]

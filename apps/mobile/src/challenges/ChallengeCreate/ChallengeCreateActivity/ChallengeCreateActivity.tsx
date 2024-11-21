@@ -4,8 +4,8 @@ import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
 import { OTouchable, Subtitle, Title } from "@/universe/atoms";
+import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateActivitySelector } from "./ChallengeCreateActivitySelector";
 import { ChallengeCreateActivitySummary } from "./ChallengeCreateActivitySummary";
 
@@ -32,7 +32,7 @@ export const ChallengeCreateActivity = () => {
 
       <BottomSheetModal
         ref={modalRef}
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+        backdropComponent={(props) => <OBackdrop {...props} />}
         enableDynamicSizing
         maxDynamicContentSize={700}
         enablePanDownToClose

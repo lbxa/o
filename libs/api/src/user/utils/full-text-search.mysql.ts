@@ -70,7 +70,7 @@ import { encodeGlobalId } from "../../utils";
 //     score_email DESC,
 //     score_full_name DESC;
 
-export const fullTextSearch = async (
+const fullTextSearch = async (
   dbService: DbService<typeof schema>,
   searchTerm: string
 ) => {

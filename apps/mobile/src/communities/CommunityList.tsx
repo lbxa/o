@@ -68,7 +68,7 @@ export const CommunityList = ({
   }, [refetch]);
 
   return (
-    <View className="h-full pb-md">
+    <View className="pb-md h-full">
       <FlatList
         className="px-md"
         data={data?.communities.edges?.map((edge) => edge.node)}
@@ -76,11 +76,15 @@ export const CommunityList = ({
         ListHeaderComponent={<></>}
         ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
         ListFooterComponent={
-          <OButton
-            title={isLoadingNext ? "Loading..." : "Load more"}
-            disabled={!hasNext}
-            onPress={() => loadNext(10)}
-          />
+          <View className="pb-md">
+            {hasNext && (
+              <OButton
+                title={isLoadingNext ? "Loading..." : "Load more"}
+                disabled={!hasNext}
+                onPress={() => loadNext(10)}
+              />
+            )}
+          </View>
         }
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />

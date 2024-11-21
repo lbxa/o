@@ -8,7 +8,7 @@ import { DbService } from "../db/db.service";
 import { EntityService } from "../entity";
 import { User as GqlUser, UserUpdateInput } from "../types/graphql";
 import { CryptoService, encodeGlobalId } from "../utils";
-import { fullTextSearch } from "./utils/full-text-search";
+import { fullTextSearch } from "./utils/full-text-search.pg";
 
 @Injectable()
 export class UserService

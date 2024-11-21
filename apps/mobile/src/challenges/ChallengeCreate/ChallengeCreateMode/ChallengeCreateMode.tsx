@@ -4,8 +4,8 @@ import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
 import { OTouchable, Subtitle, Title } from "@/universe/atoms";
+import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateModeSelector } from "./ChallengeCreateModeSelector";
 import { ChallengeCreateModeSummary } from "./ChallengeCreateModeSummary";
 
@@ -33,7 +33,7 @@ export const ChallengeCreateMode: React.FC = () => {
         ref={modalRef}
         enableDynamicSizing
         enablePanDownToClose
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+        backdropComponent={(props) => <OBackdrop {...props} />}
       >
         <BottomSheetScrollView>
           <ChallengeCreateModeSelector modalRef={modalRef} />

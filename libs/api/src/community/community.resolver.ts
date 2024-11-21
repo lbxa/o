@@ -18,7 +18,7 @@ import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
-  Challenge,
+  ChallengeConnection,
   Community,
   CommunityCreatePayload,
   CommunityInvitation,
@@ -36,9 +36,17 @@ export class CommunityResolver {
   ) {}
 
   @ResolveField()
-  async challenges(@Parent() community: Community): Promise<Challenge[]> {
+  async challenges(
+    @Parent() community: Community,
+    @Args("first") first: number,
+    @Args("after") after: string
+  ): Promise<ChallengeConnection> {
     const communityId = validateAndDecodeGlobalId(community.id, "Community");
-    return this.challengeService.findCommunityChallenges(communityId);
+    return this.challengeService.findCommunityChallenges(
+      communityId,
+      first,
+      after
+    );
   }
 
   @Query("community")

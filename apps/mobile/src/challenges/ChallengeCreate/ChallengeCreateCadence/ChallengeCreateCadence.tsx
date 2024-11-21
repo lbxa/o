@@ -4,8 +4,8 @@ import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
 import { OTouchable, Subtitle, Title } from "@/universe/atoms";
+import { OBackdrop } from "@/universe/molecules";
 
-import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateCadenceSelector } from "./ChallengeCreateCadenceSelector";
 import { ChallengeCreateCadenceSummary } from "./ChallengeCreateCadenceSummary";
 
@@ -31,7 +31,7 @@ export const ChallengeCreateCadence = () => {
 
       <BottomSheetModal
         ref={modalRef}
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+        backdropComponent={(props) => <OBackdrop {...props} />}
         enablePanDownToClose
       >
         <BottomSheetView>

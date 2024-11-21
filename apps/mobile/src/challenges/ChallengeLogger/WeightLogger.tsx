@@ -4,11 +4,11 @@ import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
 
+import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
+import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import type { ChallengeActivityResultCreateMutation } from "../../__generated__/ChallengeActivityResultCreateMutation.graphql";
-import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
 
 type WeightButtonVariants =
@@ -144,7 +144,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+      backdropComponent={(props) => <OBackdrop {...props} />}
       enablePanDownToClose
       enableDynamicSizing
       maxDynamicContentSize={900}

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ba4805ca437f63dc93cd052d45791235>>
+ * @generated SignedSource<<5a8f4dddc07760f30ae44cce03c52198>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,8 +20,12 @@ export type ChallengeActivityResultCreateMutation$variables = {
 };
 export type ChallengeActivityResultCreateMutation$data = {
   readonly challengeActivityResultCreate: {
-    readonly id: string;
-    readonly result: number;
+    readonly challengeActivityResultEdge: {
+      readonly node: {
+        readonly id: string;
+        readonly result: number;
+      };
+    };
   };
 };
 export type ChallengeActivityResultCreateMutation = {
@@ -47,7 +51,7 @@ v1 = [
         "variableName": "input"
       }
     ],
-    "concreteType": "ChallengeActivityResult",
+    "concreteType": "CreateChallengeActivityResultPayload",
     "kind": "LinkedField",
     "name": "challengeActivityResultCreate",
     "plural": false,
@@ -55,15 +59,37 @@ v1 = [
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "result",
+        "concreteType": "ChallengeActivityResultEdge",
+        "kind": "LinkedField",
+        "name": "challengeActivityResultEdge",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "ChallengeActivityResult",
+            "kind": "LinkedField",
+            "name": "node",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "result",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
         "storageKey": null
       }
     ],
@@ -88,16 +114,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "a5b05fc9b80ff94bdbb757ac6d110d79",
+    "cacheID": "13c3792abd5fe5ea3fed586c236fabfd",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityResultCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeActivityResultCreateMutation(\n  $input: ChallengeActivityResultCreateInput!\n) {\n  challengeActivityResultCreate(challengeActivityResultCreateInput: $input) {\n    id\n    result\n  }\n}\n"
+    "text": "mutation ChallengeActivityResultCreateMutation(\n  $input: ChallengeActivityResultCreateInput!\n) {\n  challengeActivityResultCreate(challengeActivityResultCreateInput: $input) {\n    challengeActivityResultEdge {\n      node {\n        id\n        result\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "8fd65c2d83e5d12a9facbaea023288fb";
+(node as any).hash = "938f0de5994e8cee6c241e44ab673de7";
 
 export default node;

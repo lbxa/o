@@ -3,12 +3,12 @@ import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
 
+import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import type { TimerButtonVariant } from "@/universe/atoms";
 import { OTouchable, TimerButton } from "@/universe/atoms";
+import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import type { ChallengeActivityResultCreateMutation } from "../../__generated__/ChallengeActivityResultCreateMutation.graphql";
-import { BottomSheetBackdrop } from "../BottomSheetBackdrop";
 import { useStopwatch } from "./hooks";
 import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
 
@@ -81,7 +81,7 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+      backdropComponent={(props) => <OBackdrop {...props} />}
       enablePanDownToClose
       enableDynamicSizing
       maxDynamicContentSize={900}

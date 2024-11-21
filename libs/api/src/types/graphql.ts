@@ -162,7 +162,7 @@ export interface IMutation {
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserPayload | Promise<AuthCreateUserPayload>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
-    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
+    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): CreateChallengeActivityResultPayload | Promise<CreateChallengeActivityResultPayload>;
     challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): ChallengeCreatePayload | Promise<ChallengeCreatePayload>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
@@ -188,10 +188,22 @@ export interface ChallengeActivityResult extends Node, Timestamps {
     updatedAt?: Nullable<DateTime>;
 }
 
+export interface ChallengeActivityResultEdge {
+    __typename?: 'ChallengeActivityResultEdge';
+    node: ChallengeActivityResult;
+    cursor: string;
+}
+
+export interface ChallengeActivityResultConnection {
+    __typename?: 'ChallengeActivityResultConnection';
+    edges?: Nullable<ChallengeActivityResultEdge[]>;
+    pageInfo: PageInfo;
+}
+
 export interface Challenge extends Node, Timestamps {
     __typename?: 'Challenge';
-    activityTopResults?: Nullable<ChallengeActivityResult[]>;
-    activityTopMovers?: Nullable<ChallengeActivityResult[]>;
+    activityTopResults?: ChallengeActivityResultConnection;
+    activityTopMovers?: ChallengeActivityResultConnection;
     id: string;
     name: string;
     description?: Nullable<string>;
@@ -208,10 +220,15 @@ export interface Challenge extends Node, Timestamps {
     invitations?: Nullable<ChallengeInvitation[]>;
 }
 
+export interface CreateChallengeActivityResultPayload {
+    __typename?: 'CreateChallengeActivityResultPayload';
+    challengeActivityResultEdge: ChallengeActivityResultEdge;
+}
+
 export interface IQuery {
     __typename?: 'IQuery';
-    challengeActivityResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
-    challengeActivityTopResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
+    challengeActivityResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
+    challengeActivityTopResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
@@ -285,7 +302,7 @@ export interface Community extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
-    challenges?: Nullable<Challenge[]>;
+    challenges?: ChallengeConnection;
     memberships?: Nullable<CommunityMembership[]>;
     invitations?: Nullable<CommunityInvitation[]>;
 }

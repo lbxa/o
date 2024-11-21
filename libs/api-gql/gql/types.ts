@@ -45,8 +45,8 @@ export type AuthLoginPayload = {
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
   activity: ChallengeActivity;
-  activityTopMovers?: Maybe<Array<ChallengeActivityResult>>;
-  activityTopResults?: Maybe<Array<ChallengeActivityResult>>;
+  activityTopMovers: ChallengeActivityResultConnection;
+  activityTopResults: ChallengeActivityResultConnection;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -64,12 +64,16 @@ export type Challenge = Node & Timestamps & {
 
 
 export type ChallengeActivityTopMoversArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
   challengeId?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type ChallengeActivityTopResultsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
   challengeId?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ChallengeActivity = Node & Timestamps & {
@@ -124,11 +128,23 @@ export type ChallengeActivityResult = Node & Timestamps & {
   user: User;
 };
 
+export type ChallengeActivityResultConnection = {
+  __typename?: 'ChallengeActivityResultConnection';
+  edges?: Maybe<Array<ChallengeActivityResultEdge>>;
+  pageInfo: PageInfo;
+};
+
 export type ChallengeActivityResultCreateInput = {
   activityId: Scalars['ID']['input'];
   challengeId: Scalars['ID']['input'];
   result: Scalars['Int']['input'];
   userId: Scalars['ID']['input'];
+};
+
+export type ChallengeActivityResultEdge = {
+  __typename?: 'ChallengeActivityResultEdge';
+  cursor: Scalars['String']['output'];
+  node: ChallengeActivityResult;
 };
 
 export enum ChallengeActivityType {
@@ -226,7 +242,7 @@ export type ChallengeUpdateInput = {
 
 export type Community = Node & Timestamps & {
   __typename?: 'Community';
-  challenges?: Maybe<Array<Challenge>>;
+  challenges: ChallengeConnection;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<CommunityInvitation>>;
@@ -237,6 +253,12 @@ export type Community = Node & Timestamps & {
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   users?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type CommunityChallengesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CommunityConnection = {
@@ -287,6 +309,11 @@ export type CommunityUpdateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateChallengeActivityResultPayload = {
+  __typename?: 'CreateChallengeActivityResultPayload';
+  challengeActivityResultEdge: ChallengeActivityResultEdge;
+};
+
 export enum InvitationStatus {
   Accepted = 'ACCEPTED',
   Declined = 'DECLINED',
@@ -303,7 +330,7 @@ export type Mutation = {
   authLogout: Scalars['Boolean']['output'];
   /** Refresh the access and refresh tokens */
   authRefreshTokens: Tokens;
-  challengeActivityResultCreate: ChallengeActivityResult;
+  challengeActivityResultCreate: CreateChallengeActivityResultPayload;
   challengeCreate: ChallengeCreatePayload;
   challengeDelete: Scalars['Boolean']['output'];
   challengeInvite: Scalars['Boolean']['output'];
@@ -429,8 +456,8 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   challenge?: Maybe<Challenge>;
-  challengeActivityResults?: Maybe<Array<ChallengeActivityResult>>;
-  challengeActivityTopResults?: Maybe<Array<ChallengeActivityResult>>;
+  challengeActivityResults: ChallengeActivityResultConnection;
+  challengeActivityTopResults: ChallengeActivityResultConnection;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   community?: Maybe<Community>;
   communityInvitations?: Maybe<Array<Community>>;
@@ -452,12 +479,16 @@ export type QueryChallengeArgs = {
 
 
 export type QueryChallengeActivityResultsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
   challengeId: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryChallengeActivityTopResultsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
   challengeId: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 

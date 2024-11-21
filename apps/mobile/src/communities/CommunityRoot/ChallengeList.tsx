@@ -61,7 +61,7 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
 
   return (
     <FlatList
-      className="min-h-full px-md"
+      className="min-h-full px-md pb-md"
       data={data.challenges.edges?.map((edge) => edge.node)}
       ListHeaderComponent={
         <View>

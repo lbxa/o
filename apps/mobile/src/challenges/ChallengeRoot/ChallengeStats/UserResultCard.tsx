@@ -1,20 +1,41 @@
-import type { User } from "@o/api-gql";
 import { Text, View } from "react-native";
+import { graphql, useFragment } from "react-relay";
 
-import type { ChallengeActivityMeasurement } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
+import type {
+  ChallengeActivityMeasurement,
+  UserResultCard_challenge$key,
+} from "@/__generated__/UserResultCard_challenge.graphql";
 
 import { intToTimestamp } from "../../ChallengeLogger/utils";
 
 export const UserResultCard = ({
-  user,
   result,
-  measurement,
 }: {
-  user: User;
-  result: number;
-  measurement: ChallengeActivityMeasurement;
+  result: UserResultCard_challenge$key;
 }) => {
-  const displayResult = (result: number) => {
+  const userResult = useFragment(
+    graphql`
+      fragment UserResultCard_challenge on ChallengeActivityResult {
+        id
+        user {
+          id
+          firstName
+          lastName
+        }
+        result
+        activity {
+          id
+          measurement
+        }
+      }
+    `,
+    result
+  );
+
+  const displayResult = (
+    result: number,
+    measurement: ChallengeActivityMeasurement
+  ) => {
     switch (measurement) {
       case "COUNTING":
         return result.toString();
@@ -28,9 +49,12 @@ export const UserResultCard = ({
   return (
     <View className="mt-sm flex-row items-center justify-between">
       <View className="flex flex-col">
-        <Text className="text-xl">{user.firstName + " " + user.lastName}</Text>
+        <Text className="text-xl">
+          {userResult.user.firstName + " " + userResult.user.lastName}
+        </Text>
         <Text className="text-sm">
-          Friends with <Text className="font-bold">{user.firstName}</Text> and{" "}
+          Friends with{" "}
+          <Text className="font-bold">{userResult.user.firstName}</Text> and{" "}
           <Text className="font-bold">2 others</Text>
         </Text>
       </View>
@@ -38,7 +62,7 @@ export const UserResultCard = ({
         className="text-3xl font-bold"
         style={{ fontVariant: ["tabular-nums"] }}
       >
-        {displayResult(result)}
+        {displayResult(userResult.result, userResult.activity.measurement)}
       </Text>
     </View>
   );

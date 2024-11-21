@@ -4,6 +4,8 @@ import { graphql, useQueryLoader } from "react-relay";
 
 import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";
 
+import { useToken } from "../utils";
+
 const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
@@ -17,11 +19,15 @@ export const AppRoot: React.FC<PropsWithChildren> = ({ children }) => {
   const [_, loadQuery, disposeQuery] =
     useQueryLoader<AppRootQuery>(APP_ROOT_QUERY);
 
+  const { token } = useToken();
+
   useEffect(() => {
-    loadQuery({});
+    if (token) {
+      loadQuery({});
+    }
 
     return () => disposeQuery();
-  }, [loadQuery, disposeQuery]);
+  }, [token, loadQuery, disposeQuery]);
 
   return <>{children}</>;
 };

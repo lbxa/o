@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e6d2d27925c15dcf28dc0395c069ff9d>>
+ * @generated SignedSource<<54718d6463ed074b42b9020a1c64fc17>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,16 +11,28 @@
 import type { ConcreteRequest } from 'relay-runtime';
 export type ChallengeTopMoversQuery$variables = {
   challengeId: string;
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
 };
 export type ChallengeTopMoversQuery$data = {
-  readonly challengeActivityResults: ReadonlyArray<{
-    readonly result: number;
-    readonly user: {
-      readonly firstName: string | null | undefined;
-      readonly id: string;
-      readonly lastName: string | null | undefined;
+  readonly challengeActivityResults: {
+    readonly edges: ReadonlyArray<{
+      readonly cursor: string;
+      readonly node: {
+        readonly result: number;
+        readonly user: {
+          readonly firstName: string | null | undefined;
+          readonly id: string;
+          readonly lastName: string | null | undefined;
+        };
+      };
+    }> | null | undefined;
+    readonly pageInfo: {
+      readonly endCursor: string | null | undefined;
+      readonly hasNextPage: boolean;
+      readonly startCursor: string | null | undefined;
     };
-  }> | null | undefined;
+  };
 };
 export type ChallengeTopMoversQuery = {
   response: ChallengeTopMoversQuery$data;
@@ -33,23 +45,38 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "challengeId"
-  }
-],
-v1 = [
+  },
   {
-    "kind": "Variable",
-    "name": "challengeId",
-    "variableName": "challengeId"
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
   }
 ],
+v1 = {
+  "kind": "Variable",
+  "name": "challengeId",
+  "variableName": "challengeId"
+},
 v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v3 = {
+v4 = {
   "alias": null,
   "args": null,
   "concreteType": "User",
@@ -57,7 +84,7 @@ v3 = {
   "name": "user",
   "plural": false,
   "selections": [
-    (v2/*: any*/),
+    (v3/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -75,13 +102,65 @@ v3 = {
   ],
   "storageKey": null
 },
-v4 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "result",
   "storageKey": null
-};
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "PageInfo",
+  "kind": "LinkedField",
+  "name": "pageInfo",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "hasNextPage",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "startCursor",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "endCursor",
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
+},
+v8 = [
+  {
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
+  },
+  (v1/*: any*/),
+  {
+    "kind": "Variable",
+    "name": "first",
+    "variableName": "count"
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -90,15 +169,42 @@ return {
     "name": "ChallengeTopMoversQuery",
     "selections": [
       {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "ChallengeActivityResult",
+        "alias": "challengeActivityResults",
+        "args": [
+          (v1/*: any*/)
+        ],
+        "concreteType": "ChallengeActivityResultConnection",
         "kind": "LinkedField",
-        "name": "challengeActivityResults",
-        "plural": true,
+        "name": "__ChallengeTopMoversQuery_challengeActivityResults_connection",
+        "plural": false,
         "selections": [
-          (v3/*: any*/),
-          (v4/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "ChallengeActivityResultEdge",
+            "kind": "LinkedField",
+            "name": "edges",
+            "plural": true,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ChallengeActivityResult",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  (v4/*: any*/),
+                  (v5/*: any*/),
+                  (v6/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          (v7/*: any*/)
         ],
         "storageKey": null
       }
@@ -114,31 +220,78 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "ChallengeActivityResult",
+        "args": (v8/*: any*/),
+        "concreteType": "ChallengeActivityResultConnection",
         "kind": "LinkedField",
         "name": "challengeActivityResults",
-        "plural": true,
+        "plural": false,
         "selections": [
-          (v3/*: any*/),
-          (v4/*: any*/),
-          (v2/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "ChallengeActivityResultEdge",
+            "kind": "LinkedField",
+            "name": "edges",
+            "plural": true,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ChallengeActivityResult",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  (v4/*: any*/),
+                  (v5/*: any*/),
+                  (v3/*: any*/),
+                  (v6/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          (v7/*: any*/)
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v8/*: any*/),
+        "filters": [
+          "challengeId"
+        ],
+        "handle": "connection",
+        "key": "ChallengeTopMoversQuery_challengeActivityResults",
+        "kind": "LinkedHandle",
+        "name": "challengeActivityResults"
       }
     ]
   },
   "params": {
-    "cacheID": "8180b257f3069efd8db0909e1a7fd95d",
+    "cacheID": "b9848b688b22accaa178f2783b690843",
     "id": null,
-    "metadata": {},
+    "metadata": {
+      "connection": [
+        {
+          "count": "count",
+          "cursor": "cursor",
+          "direction": "forward",
+          "path": [
+            "challengeActivityResults"
+          ]
+        }
+      ]
+    },
     "name": "ChallengeTopMoversQuery",
     "operationKind": "query",
-    "text": "query ChallengeTopMoversQuery(\n  $challengeId: ID!\n) {\n  challengeActivityResults(challengeId: $challengeId) {\n    user {\n      id\n      firstName\n      lastName\n    }\n    result\n    id\n  }\n}\n"
+    "text": "query ChallengeTopMoversQuery(\n  $challengeId: ID!\n  $count: Int\n  $cursor: String\n) {\n  challengeActivityResults(challengeId: $challengeId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        user {\n          id\n          firstName\n          lastName\n        }\n        result\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "44231a699e85671ae6fe9f9fffcf28f2";
+(node as any).hash = "dbd860730c9cae23707810169cc3a037";
 
 export default node;
