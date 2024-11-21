@@ -30,8 +30,8 @@ type AuthLoginPayload {
 
 type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
-  activityTopMovers(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
-  activityTopResults(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
+  activityTopMovers(challengeId: ID): [ChallengeActivityResult!]
+  activityTopResults(challengeId: ID): [ChallengeActivityResult!]
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -97,21 +97,11 @@ type ChallengeActivityResult implements Node & Timestamps {
   user: User!
 }
 
-type ChallengeActivityResultConnection {
-  edges: [ChallengeActivityResultEdge!]
-  pageInfo: PageInfo!
-}
-
 input ChallengeActivityResultCreateInput {
   activityId: ID!
   challengeId: ID!
   result: Int!
   userId: ID!
-}
-
-type ChallengeActivityResultEdge {
-  cursor: String!
-  node: ChallengeActivityResult!
 }
 
 enum ChallengeActivityType {
@@ -145,11 +135,6 @@ enum ChallengeCadence {
   YEARLY
 }
 
-type ChallengeConnection {
-  edges: [ChallengeEdge!]
-  pageInfo: PageInfo!
-}
-
 input ChallengeCreateInput {
   cadence: ChallengeCadence!
   communityId: ID!
@@ -158,15 +143,6 @@ input ChallengeCreateInput {
   mode: ChallengeMode!
   name: String!
   startDate: DateTime!
-}
-
-type ChallengeCreatePayload {
-  challengeEdge: ChallengeEdge!
-}
-
-type ChallengeEdge {
-  cursor: String!
-  node: Challenge!
 }
 
 type ChallengeInvitation implements Node & Timestamps {
@@ -203,7 +179,7 @@ input ChallengeUpdateInput {
 }
 
 type Community implements Node & Timestamps {
-  challenges(after: String, first: Int): ChallengeConnection!
+  challenges: [Challenge!]
   createdAt: DateTime
   id: ID!
   invitations: [CommunityInvitation!]
@@ -216,23 +192,9 @@ type Community implements Node & Timestamps {
   users: [User]
 }
 
-type CommunityConnection {
-  edges: [CommunityEdge!]
-  pageInfo: PageInfo!
-}
-
 input CommunityCreateInput {
   isPublic: Boolean!
   name: String!
-}
-
-type CommunityCreatePayload {
-  communityEdge: CommunityEdge!
-}
-
-type CommunityEdge {
-  cursor: String!
-  node: Community!
 }
 
 type CommunityInvitation implements Node & Timestamps {
@@ -259,10 +221,6 @@ input CommunityUpdateInput {
   name: String
 }
 
-type CreateChallengeActivityResultPayload {
-  challengeActivityResultEdge: ChallengeActivityResultEdge!
-}
-
 """Date custom scalar type"""
 scalar DateTime
 
@@ -281,14 +239,14 @@ type Mutation {
   authLogout(id: Int!): Boolean!
   """Refresh the access and refresh tokens"""
   authRefreshTokens: Tokens!
-  challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): CreateChallengeActivityResultPayload!
-  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): ChallengeCreatePayload!
+  challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): ChallengeActivityResult!
+  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!
   challengeLeave(id: ID!): Boolean!
   challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
-  communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
+  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
   communityDelete(id: ID!): Boolean!
   communityInvite(communityId: ID!, userId: ID!): Boolean!
   communityJoin(inviteId: Int!): Community!
@@ -302,28 +260,20 @@ interface Node {
   id: ID!
 }
 
-"""
-GraphQL Spec pagination information
-https://relay.dev/graphql/connections.htm#sec-Connection-Types.Fields.PageInfo
-"""
-type PageInfo {
-  """Last node of the edges"""
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  """First node of the edges"""
-  startCursor: String
-}
-
 type Query {
   challenge(id: ID!): Challenge
-  challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
-  challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
+  challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
+  challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
+  challenges: [Challenge!]
+  communities: [Community!]
   community(id: ID!): Community
+  communityChallenges(communityId: ID!): [Challenge!]
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
+  userChallenges(userId: ID!): [Challenge!]
+  userCommunities(userId: ID!): [Community!]
   """Search for users by name"""
   userSearch(searchTerm: String): [User!]
   """Validate if an email is already taken"""
@@ -348,6 +298,7 @@ type Tokens {
 
 """A user of the app"""
 type User implements Node & Timestamps {
+  communities: [Community!]
   createdAt: DateTime
   email: String
   firstName: String
@@ -376,13 +327,9 @@ type ValidEmailResponse {
   alreadyTaken: Boolean!
 }
 
-"""The currently logged in user"""
-type Viewer implements Node {
+type Viewer {
   challenge(challengeId: ID!): Challenge
-  challenges(after: String, communityId: ID!, first: Int!): ChallengeConnection!
-  communities(after: String, first: Int!): CommunityConnection!
-  """Alias for user id"""
-  id: ID!
-  """Only one active user can be logged in at a time"""
+  challenges(communityId: ID!): [Challenge!]
+  communities: [Community!]
   user: User
 }

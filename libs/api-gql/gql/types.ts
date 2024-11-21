@@ -45,8 +45,8 @@ export type AuthLoginPayload = {
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
   activity: ChallengeActivity;
-  activityTopMovers: ChallengeActivityResultConnection;
-  activityTopResults: ChallengeActivityResultConnection;
+  activityTopMovers?: Maybe<Array<ChallengeActivityResult>>;
+  activityTopResults?: Maybe<Array<ChallengeActivityResult>>;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -64,16 +64,12 @@ export type Challenge = Node & Timestamps & {
 
 
 export type ChallengeActivityTopMoversArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
   challengeId?: InputMaybe<Scalars['ID']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type ChallengeActivityTopResultsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
   challengeId?: InputMaybe<Scalars['ID']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ChallengeActivity = Node & Timestamps & {
@@ -128,23 +124,11 @@ export type ChallengeActivityResult = Node & Timestamps & {
   user: User;
 };
 
-export type ChallengeActivityResultConnection = {
-  __typename?: 'ChallengeActivityResultConnection';
-  edges?: Maybe<Array<ChallengeActivityResultEdge>>;
-  pageInfo: PageInfo;
-};
-
 export type ChallengeActivityResultCreateInput = {
   activityId: Scalars['ID']['input'];
   challengeId: Scalars['ID']['input'];
   result: Scalars['Int']['input'];
   userId: Scalars['ID']['input'];
-};
-
-export type ChallengeActivityResultEdge = {
-  __typename?: 'ChallengeActivityResultEdge';
-  cursor: Scalars['String']['output'];
-  node: ChallengeActivityResult;
 };
 
 export enum ChallengeActivityType {
@@ -178,12 +162,6 @@ export enum ChallengeCadence {
   Yearly = 'YEARLY'
 }
 
-export type ChallengeConnection = {
-  __typename?: 'ChallengeConnection';
-  edges?: Maybe<Array<ChallengeEdge>>;
-  pageInfo: PageInfo;
-};
-
 export type ChallengeCreateInput = {
   cadence: ChallengeCadence;
   communityId: Scalars['ID']['input'];
@@ -192,17 +170,6 @@ export type ChallengeCreateInput = {
   mode: ChallengeMode;
   name: Scalars['String']['input'];
   startDate: Scalars['DateTime']['input'];
-};
-
-export type ChallengeCreatePayload = {
-  __typename?: 'ChallengeCreatePayload';
-  challengeEdge: ChallengeEdge;
-};
-
-export type ChallengeEdge = {
-  __typename?: 'ChallengeEdge';
-  cursor: Scalars['String']['output'];
-  node: Challenge;
 };
 
 export type ChallengeInvitation = Node & Timestamps & {
@@ -242,7 +209,7 @@ export type ChallengeUpdateInput = {
 
 export type Community = Node & Timestamps & {
   __typename?: 'Community';
-  challenges: ChallengeConnection;
+  challenges?: Maybe<Array<Challenge>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<CommunityInvitation>>;
@@ -255,32 +222,9 @@ export type Community = Node & Timestamps & {
   users?: Maybe<Array<Maybe<User>>>;
 };
 
-
-export type CommunityChallengesArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export type CommunityConnection = {
-  __typename?: 'CommunityConnection';
-  edges?: Maybe<Array<CommunityEdge>>;
-  pageInfo: PageInfo;
-};
-
 export type CommunityCreateInput = {
   isPublic: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
-};
-
-export type CommunityCreatePayload = {
-  __typename?: 'CommunityCreatePayload';
-  communityEdge: CommunityEdge;
-};
-
-export type CommunityEdge = {
-  __typename?: 'CommunityEdge';
-  cursor: Scalars['String']['output'];
-  node: Community;
 };
 
 export type CommunityInvitation = Node & Timestamps & {
@@ -309,11 +253,6 @@ export type CommunityUpdateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CreateChallengeActivityResultPayload = {
-  __typename?: 'CreateChallengeActivityResultPayload';
-  challengeActivityResultEdge: ChallengeActivityResultEdge;
-};
-
 export enum InvitationStatus {
   Accepted = 'ACCEPTED',
   Declined = 'DECLINED',
@@ -330,14 +269,14 @@ export type Mutation = {
   authLogout: Scalars['Boolean']['output'];
   /** Refresh the access and refresh tokens */
   authRefreshTokens: Tokens;
-  challengeActivityResultCreate: CreateChallengeActivityResultPayload;
-  challengeCreate: ChallengeCreatePayload;
+  challengeActivityResultCreate: ChallengeActivityResult;
+  challengeCreate: Challenge;
   challengeDelete: Scalars['Boolean']['output'];
   challengeInvite: Scalars['Boolean']['output'];
   challengeJoin: Challenge;
   challengeLeave: Scalars['Boolean']['output'];
   challengeUpdate: Challenge;
-  communityCreate: CommunityCreatePayload;
+  communityCreate: Community;
   communityDelete: Scalars['Boolean']['output'];
   communityInvite: Scalars['Boolean']['output'];
   communityJoin: Community;
@@ -439,30 +378,21 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
-/**
- * GraphQL Spec pagination information
- * https://relay.dev/graphql/connections.htm#sec-Connection-Types.Fields.PageInfo
- */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** Last node of the edges */
-  endCursor?: Maybe<Scalars['String']['output']>;
-  hasNextPage: Scalars['Boolean']['output'];
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** First node of the edges */
-  startCursor?: Maybe<Scalars['String']['output']>;
-};
-
 export type Query = {
   __typename?: 'Query';
   challenge?: Maybe<Challenge>;
-  challengeActivityResults: ChallengeActivityResultConnection;
-  challengeActivityTopResults: ChallengeActivityResultConnection;
+  challengeActivityResults?: Maybe<Array<ChallengeActivityResult>>;
+  challengeActivityTopResults?: Maybe<Array<ChallengeActivityResult>>;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
+  challenges?: Maybe<Array<Challenge>>;
+  communities?: Maybe<Array<Community>>;
   community?: Maybe<Community>;
+  communityChallenges?: Maybe<Array<Challenge>>;
   communityInvitations?: Maybe<Array<Community>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
+  userChallenges?: Maybe<Array<Challenge>>;
+  userCommunities?: Maybe<Array<Community>>;
   /** Search for users by name */
   userSearch?: Maybe<Array<User>>;
   /** Validate if an email is already taken */
@@ -479,16 +409,12 @@ export type QueryChallengeArgs = {
 
 
 export type QueryChallengeActivityResultsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
   challengeId: Scalars['ID']['input'];
-  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryChallengeActivityTopResultsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
   challengeId: Scalars['ID']['input'];
-  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -502,6 +428,11 @@ export type QueryCommunityArgs = {
 };
 
 
+export type QueryCommunityChallengesArgs = {
+  communityId: Scalars['ID']['input'];
+};
+
+
 export type QueryCommunityInvitationsArgs = {
   userId: Scalars['ID']['input'];
 };
@@ -509,6 +440,16 @@ export type QueryCommunityInvitationsArgs = {
 
 export type QueryNodeArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryUserChallengesArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
+export type QueryUserCommunitiesArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -538,6 +479,7 @@ export type Tokens = {
 /** A user of the app */
 export type User = Node & Timestamps & {
   __typename?: 'User';
+  communities?: Maybe<Array<Community>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
@@ -573,35 +515,20 @@ export type ValidEmailResponse = {
   alreadyTaken: Scalars['Boolean']['output'];
 };
 
-/** The currently logged in user */
-export type Viewer = Node & {
+export type Viewer = {
   __typename?: 'Viewer';
   challenge?: Maybe<Challenge>;
-  challenges: ChallengeConnection;
-  communities: CommunityConnection;
-  /** Alias for user id */
-  id: Scalars['ID']['output'];
-  /** Only one active user can be logged in at a time */
+  challenges?: Maybe<Array<Challenge>>;
+  communities?: Maybe<Array<Community>>;
   user?: Maybe<User>;
 };
 
 
-/** The currently logged in user */
 export type ViewerChallengeArgs = {
   challengeId: Scalars['ID']['input'];
 };
 
 
-/** The currently logged in user */
 export type ViewerChallengesArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
   communityId: Scalars['ID']['input'];
-  first: Scalars['Int']['input'];
-};
-
-
-/** The currently logged in user */
-export type ViewerCommunitiesArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  first: Scalars['Int']['input'];
 };
