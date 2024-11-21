@@ -53,14 +53,17 @@ type CommunityConnection {
   pageInfo: PageInfo!
 }
 
+type CommunityCreatePayload {
+  communityEdge: CommunityEdge!
+}
+
 type Query {
   community(id: ID!): Community
-  communities: [Community!]
   communityInvitations(userId: ID!): [Community!]
 }
 
 type Mutation {
-  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
+  communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Boolean! 
   communityInvite(userId: ID!, communityId: ID!): Boolean!

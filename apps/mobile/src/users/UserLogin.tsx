@@ -65,8 +65,17 @@ export const UserLogin = () => {
       onError: (e) => {
         setError(e.message.split("\n")[1]);
       },
-      updater: (_, data) => {
+      updater: (proxyStore, data) => {
         if (!data?.authLogin) return;
+
+        const newUser = proxyStore
+          .getRootField("authLogin")
+          .getLinkedRecord("user");
+        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
+        if (viewer) {
+          console.log("Viewer has been updated in the cache!");
+          viewer.setLinkedRecord(newUser, "user");
+        }
 
         const { accessToken, refreshToken } = data.authLogin.tokens;
         setStoreItem("ACCESS_TOKEN", accessToken);

@@ -1,23 +1,25 @@
-import { View } from "react-native";
+import { useEffect } from "react";
+import { useQueryLoader } from "react-relay";
 
-import { CommunityList } from "@/communities";
+import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.graphql";
+import { COMMUNITY_LIST_QUERY, CommunityList } from "@/communities";
 import { Ozone } from "@/universe/molecules";
 
 export default function CommunityHomeRoute() {
-  // const [communityListQueryRef, loadCommunityList, disposeCommunityList] =
-  //   useQueryLoader<CommunityListQuery>(COMMUNITY_LIST_QUERY);
+  const [communityListQueryRef, loadCommunityList, disposeCommunityList] =
+    useQueryLoader<CommunityListQuery>(COMMUNITY_LIST_QUERY);
 
-  // useEffect(() => {
-  //   loadCommunityList({});
+  useEffect(() => {
+    loadCommunityList({});
 
-  //   return () => disposeCommunityList();
-  // }, []);
+    return () => disposeCommunityList();
+  }, [disposeCommunityList, loadCommunityList]);
 
   return (
     <Ozone>
-      <View>
-        <CommunityList />
-      </View>
+      {communityListQueryRef && (
+        <CommunityList communityListQueryRef={communityListQueryRef} />
+      )}
     </Ozone>
   );
 }

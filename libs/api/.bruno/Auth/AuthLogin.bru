@@ -50,6 +50,6 @@ body:graphql {
 }
 
 vars:post-response {
-  TOKEN: res.body.data.authLogin.accessToken
-  REFRESH_TOKEN: res.body.data.authLogin.refreshToken
+  TOKEN: res.body.data.authLogin.tokens.accessToken
+  REFRESH_TOKEN: res.body.data.authLogin.tokens.refreshToken
 }

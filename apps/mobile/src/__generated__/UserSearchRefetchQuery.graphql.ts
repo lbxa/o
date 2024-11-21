@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c78f41266a6d7bac89ba90e6bbc1d4f4>>
+ * @generated SignedSource<<93d39b12a50865a36987f6c2445ee0c2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -137,19 +137,20 @@ return {
               (v2/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "a7a866d1b6f132bc7fa9f07b7368f51a",
+    "cacheID": "3b1c2db8250efeb80d47d9de7483ae09",
     "id": null,
     "metadata": {},
     "name": "UserSearchRefetchQuery",
     "operationKind": "query",
-    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n    id\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();

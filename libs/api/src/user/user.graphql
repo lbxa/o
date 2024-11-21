@@ -12,7 +12,6 @@ type User implements Node & Timestamps {
   updatedAt: DateTime
   "If they have any..."
   friends: [User!]
-  communities: [Community!]
   searchFriends(searchTerm: String): [User!]
 
   # TODO

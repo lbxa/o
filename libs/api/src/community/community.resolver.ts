@@ -1,4 +1,3 @@
-import { ParseIntPipe } from "@nestjs/common";
 import {
   Args,
   Mutation,
@@ -13,15 +12,19 @@ import {
   NewCommunity,
 } from "@o/db";
 import * as schema from "@o/db";
-import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
 import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, Community, CommunityInvitation } from "../types/graphql";
-import { validateAndDecodeGlobalId } from "../utils";
-import { ConflictError } from "../utils/errors";
+import {
+  Challenge,
+  Community,
+  CommunityCreatePayload,
+  CommunityInvitation,
+} from "../types/graphql";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { ConflictError, InternalServerError } from "../utils/errors";
 import { CommunityService } from "./community.service";
 
 @Resolver("Community")
@@ -42,20 +45,6 @@ export class CommunityResolver {
   async community(@Args("id") id: string): Promise<Community | undefined> {
     const communityId = validateAndDecodeGlobalId(id, "Community");
     return this.communityService.findById(communityId);
-  }
-
-  @Query("communities")
-  async communities(
-    @CurrentUser("userId") userId: number
-  ): Promise<Community[]> {
-    const userCommunities =
-      await this.communityService.findUserCommunities(userId);
-
-    return userCommunities.sort((a, b) => {
-      const dateA = dayjs(a.createdAt);
-      const dateB = dayjs(b.createdAt);
-      return dateB.valueOf() - dateA.valueOf();
-    });
   }
 
   @Mutation("communityInvite")
@@ -124,7 +113,7 @@ export class CommunityResolver {
   async communityCreate(
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
-  ): Promise<Community | undefined> {
+  ): Promise<CommunityCreatePayload | undefined> {
     const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
       where: eq(CommunitiesTable.name, input.name),
     });
@@ -133,15 +122,26 @@ export class CommunityResolver {
       throw new ConflictError("Community name already taken");
     }
 
-    const [result] = await this.dbService.db
+    const [newCommunity] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })
-      .returning({ insertedId: CommunitiesTable.id });
+      .returning();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!newCommunity) {
+      throw new InternalServerError("Failed to create community membership");
+    }
 
     await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.insertedId, isAdmin: true });
+      .values({ userId, communityId: newCommunity.id, isAdmin: true });
 
-    return this.communityService.findById(result.insertedId);
+    return {
+      communityEdge: {
+        __typename: "CommunityEdge",
+        cursor: encodeGlobalId("Community", newCommunity.id),
+        node: this.communityService.pg2GqlMapper(newCommunity),
+      },
+    };
   }
 }

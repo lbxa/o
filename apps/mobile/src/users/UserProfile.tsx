@@ -1,7 +1,7 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
@@ -26,10 +26,24 @@ export const UserProfile: React.FC = () => {
   const { deleteToken } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
+  const data = useFragment(
+    graphql`
+      fragment UserProfile_viewer on Viewer {
+        user {
+          id
+          firstName
+          lastName
+          email
+        }
+      }
+    `,
+    null
+  );
+
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md flex grow bg-ivory p-md">
+        <View className="mb-md bg-ivory p-md flex grow">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />

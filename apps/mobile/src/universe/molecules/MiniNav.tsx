@@ -38,7 +38,7 @@ type NavItemType = "create" | "search" | "message";
 const DEFAULT_PATHS: Record<NavItemType, Href<string>> = {
   create: "/(app)/community/create",
   search: "/(app)/community/search",
-  message: "/",
+  message: "/(app)/home/message",
 };
 
 const NAV_ICONS: Record<NavItemType, React.ReactElement> = {

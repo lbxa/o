@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ebb1979c0551cf004f5861c9ac646844>>
+ * @generated SignedSource<<601647e2b2c5320b643cae7850f2cbe4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,9 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityCardFragment$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityFragment">;
+  readonly id: string;
+  readonly isVerified: boolean | null | undefined;
+  readonly name: string;
   readonly " $fragmentType": "CommunityCardFragment";
 };
 export type CommunityCardFragment$key = {
@@ -26,15 +28,31 @@ const node: ReaderFragment = {
   "name": "CommunityCardFragment",
   "selections": [
     {
+      "alias": null,
       "args": null,
-      "kind": "FragmentSpread",
-      "name": "CommunityFragment"
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "isVerified",
+      "storageKey": null
     }
   ],
   "type": "Community",
   "abstractKey": null
 };
 
-(node as any).hash = "b45053723117c5d0493969705c7a4a06";
+(node as any).hash = "ec00877557a50e5ce9ba3dfd1d1b8451";
 
 export default node;

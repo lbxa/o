@@ -1,16 +1,8 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from "@nestjs/graphql";
+import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { CommunityService } from "../community/community.service";
 import { Public } from "../decorators";
-import { Community, User, UserUpdateInput } from "../types/graphql";
-import { validateAndDecodeGlobalId } from "../utils";
+import { User, UserUpdateInput } from "../types/graphql";
 import { UserService } from "./user.service";
 
 @Resolver("User")
@@ -29,12 +21,6 @@ export class UserResolver {
   @ResolveField()
   async friends(): Promise<User[]> {
     return this.userService.findAll();
-  }
-
-  @ResolveField()
-  async communities(@Parent() user: User): Promise<Community[]> {
-    const userId = validateAndDecodeGlobalId(user.id, "User");
-    return this.communityService.findUserCommunities(userId);
   }
 
   // TODO implement this

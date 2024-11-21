@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5885a952640caf35cbaa3b406076a50a>>
+ * @generated SignedSource<<53bb82292121ace0d753713f7e7e8123>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,58 +10,38 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityListPaginationQuery$variables = {
-  count?: number | null | undefined;
-  cursor?: string | null | undefined;
-};
-export type CommunityListPaginationQuery$data = {
+export type AppRootQuery$variables = Record<PropertyKey, never>;
+export type AppRootQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer">;
+    readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer" | "UserProfile_viewer">;
   } | null | undefined;
 };
-export type CommunityListPaginationQuery = {
-  response: CommunityListPaginationQuery$data;
-  variables: CommunityListPaginationQuery$variables;
+export type AppRootQuery = {
+  response: AppRootQuery$data;
+  variables: AppRootQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": 10,
-    "kind": "LocalArgument",
-    "name": "count"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "cursor"
-  }
-],
-v1 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v2 = [
+v1 = [
   {
-    "kind": "Variable",
-    "name": "after",
-    "variableName": "cursor"
-  },
-  {
-    "kind": "Variable",
+    "kind": "Literal",
     "name": "first",
-    "variableName": "count"
+    "value": 10
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityListPaginationQuery",
+    "name": "AppRootQuery",
     "selections": [
       {
         "alias": null,
@@ -74,18 +54,18 @@ return {
           {
             "args": [
               {
-                "kind": "Variable",
+                "kind": "Literal",
                 "name": "count",
-                "variableName": "count"
-              },
-              {
-                "kind": "Variable",
-                "name": "cursor",
-                "variableName": "cursor"
+                "value": 10
               }
             ],
             "kind": "FragmentSpread",
             "name": "CommunityList_viewer"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "UserProfile_viewer"
           }
         ],
         "storageKey": null
@@ -96,9 +76,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "CommunityListPaginationQuery",
+    "name": "AppRootQuery",
     "selections": [
       {
         "alias": null,
@@ -108,10 +88,10 @@ return {
         "name": "viewer",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
+          (v0/*: any*/),
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v1/*: any*/),
             "concreteType": "CommunityConnection",
             "kind": "LinkedField",
             "name": "communities",
@@ -172,7 +152,7 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v1/*: any*/),
+                      (v0/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -201,16 +181,49 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": null
+            "storageKey": "communities(first:10)"
           },
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v1/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "CommunityList_viewer_communities",
             "kind": "LinkedHandle",
             "name": "communities"
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
+              (v0/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "firstName",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "lastName",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "email",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -218,16 +231,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bc741f6fe2a906830724794e928ebf38",
+    "cacheID": "7ccb7fe627c63fd1e62bbababd9be40a",
     "id": null,
     "metadata": {},
-    "name": "CommunityListPaginationQuery",
+    "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCardFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCardFragment\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    ...CommunityList_viewer_1KmBw7\n    ...UserProfile_viewer\n    id\n  }\n}\n\nfragment CommunityCardFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCardFragment\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    email\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f18fe98723bf14c89572c161bcc58f93";
+(node as any).hash = "251e05c284e8cd3cd8d72afed584bb5c";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ad9063467c64af96610b3ff2012b7001>>
+ * @generated SignedSource<<c7a21ea679a51091500244184426e1cb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -249,19 +249,20 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "d5639c8d27b9ea78f3cc1ec2ee06b526",
+    "cacheID": "33c1f8d757fc6ba15d938213f9f797bc",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeFragment\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults {\n    id\n    user {\n      id\n      firstName\n      lastName\n    }\n    result\n    activity {\n      id\n      measurement\n    }\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeFragment\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults {\n    id\n    user {\n      id\n      firstName\n      lastName\n    }\n    result\n    activity {\n      id\n      measurement\n    }\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n"
   }
 };
 })();

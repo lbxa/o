@@ -41,7 +41,7 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
 
   return (
     <FlatList
-      className="min-h-full px-md"
+      className="px-md min-h-full"
       data={data.challenges}
       ListHeaderComponent={
         <View>

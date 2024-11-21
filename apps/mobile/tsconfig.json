@@ -35,7 +35,7 @@
     "expo-env.d.ts",
     "nativewind-env.d.ts", 
     "metro.config.cjs"
-  ],
+, "eslint.config.cjs"  ],
   "exclude": [
     ".expo"
   ]

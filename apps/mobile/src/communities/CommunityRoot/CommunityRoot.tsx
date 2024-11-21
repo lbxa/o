@@ -12,9 +12,6 @@ import { CommunityTitle } from "./CommunityTitle";
 
 export const COMMUNITY_ROOT_QUERY = graphql`
   query CommunityRootQuery($communityId: ID!) {
-    # community(id: $communityId) {
-    #   ...CommunityChallenges_community
-    # }
     viewer {
       ...ChallengeList_challenges @arguments(communityId: $communityId)
     }

@@ -1,8 +1,9 @@
 import SearchIcon from "@assets/icons/search.svg";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
-import { graphql, useMutation } from "react-relay";
+import { ConnectionHandler, graphql, useMutation } from "react-relay";
 
 import type {
   CommunityCreateInput,
@@ -15,19 +16,29 @@ import {
   Title,
 } from "@/universe/atoms";
 
+import { useZustStore } from "../state";
+
 export const COMMUNITY_CREATE_MUTATION = graphql`
   mutation CommunityCreateMutation(
     $communityCreateInput: CommunityCreateInput!
   ) {
     communityCreate(communityCreateInput: $communityCreateInput) {
-      name
-      isPublic
+      communityEdge {
+        cursor
+        node {
+          id
+          name
+          isPublic
+        }
+      }
     }
   }
 `;
 
 export const CommunityCreate = () => {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const { activeUser } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<CommunityCreateMutation>(COMMUNITY_CREATE_MUTATION);
 
@@ -43,7 +54,12 @@ export const CommunityCreate = () => {
   });
 
   const onSubmit = (data: CommunityCreateInput) => {
+    if (!activeUser) {
+      throw new Error("Active user not found");
+    }
+
     const { name, isPublic } = data;
+
     commitMutation({
       variables: {
         communityCreateInput: {
@@ -51,40 +67,78 @@ export const CommunityCreate = () => {
           isPublic,
         },
       },
+      updater: (proxyStore, data) => {
+        if (!data) return;
+
+        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
+        if (!viewer) {
+          throw new Error("Viewer not found");
+        }
+
+        const connectionRecord = ConnectionHandler.getConnection(
+          viewer,
+          "CommunityList_viewer_communities"
+        );
+
+        if (!connectionRecord) {
+          throw new Error("Connection record not found");
+        }
+
+        const payload = proxyStore.getRootField("communityCreate");
+        const communityEdge = payload.getLinkedRecord("communityEdge");
+
+        const newEdge = ConnectionHandler.createEdge(
+          proxyStore,
+          connectionRecord,
+          communityEdge,
+          "CommunityEdge"
+        );
+
+        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
+      },
       onError: (error) => {
-        console.error(error.message);
+        setError(error.message.split("\n")[1]);
+      },
+      onCompleted() {
+        setError(null);
+        router.push("/(app)/community");
       },
     });
   };
 
   return (
-    <View className="mb-md">
-      <Title>Name</Title>
-      <Controller
-        name="name"
-        control={control}
-        rules={{ required: { value: true, message: "Required field" } }}
-        render={({ field: { onBlur, onChange, value } }) => (
-          <PrimaryTextInputControl
-            className="mb-md"
-            placeholder="Community name"
-            inputMode="text"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            error={!!errors.name}
-            errorMessage={errors.name?.message}
-          />
-        )}
-      />
-      <Title>Public</Title>
-      <Controller
-        name="isPublic"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Switch className="mb-md" onValueChange={onChange} value={value} />
-        )}
-      />
+    <View className="flex h-full flex-col gap-md">
+      <View>
+        <Title>Name</Title>
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: { value: true, message: "Required field" } }}
+          render={({ field: { onBlur, onChange, value } }) => (
+            <PrimaryTextInputControl
+              className="mb-md"
+              placeholder="Community name"
+              inputMode="text"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              error={!!error || !!errors.name}
+              errorMessage={error ?? errors.name?.message}
+            />
+          )}
+        />
+      </View>
+
+      <View>
+        <Title>Public</Title>
+        <Controller
+          name="isPublic"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Switch className="mb-md" onValueChange={onChange} value={value} />
+          )}
+        />
+      </View>
 
       {/* <Title>Data Controls</Title>
       <Text>Who can invite members?</Text>
@@ -98,17 +152,21 @@ export const CommunityCreate = () => {
         <Text>Everyone</Text>
       </View> */}
 
-      <Title>Invite Members</Title>
-      <OTouchable
-        onPress={() => router.push("/(app)/community/invite")}
-        className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
-      >
-        <SearchIcon width={25} />
-        <Text className="pl-sm">Search</Text>
-      </OTouchable>
+      <View>
+        <Title>Invite Members</Title>
+        <OTouchable
+          onPress={() => router.push("/(app)/community/invite")}
+          className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+        >
+          <SearchIcon width={25} />
+          <Text className="pl-sm">Search</Text>
+        </OTouchable>
+      </View>
+
       <OButton
         title={isMutationInFlight ? "Loading..." : "Create"}
         disabled={isMutationInFlight}
+        className="mb-[200px]"
         onPress={async (e) => {
           // Read more about event pooling
           // https://legacy.reactjs.org/docs/legacy-event-pooling.html

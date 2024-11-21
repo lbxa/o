@@ -81,6 +81,7 @@ export const ChallengeActivity = ({
         modalRef={topResultsModalRef}
         results={data?.activityTopResults?.slice(3)}
       />
+
       <SectionList
         className="min-h-full px-md"
         sections={sections}

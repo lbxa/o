@@ -1,6 +1,5 @@
 import type { AuthCreateUserInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -12,6 +11,8 @@ import { OPasswordInput } from "@/universe/atoms/OPasswordInput";
 import { Ozone } from "@/universe/molecules";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
+import { useZustStore } from "../state";
+import { useSecureStore } from "../utils";
 
 export const USER_VALIDATE_EMAIL_QUERY = graphql`
   query UserCreateValidateEmailQuery($email: String!) {
@@ -25,7 +26,10 @@ const USER_CREATE_MUTATION = graphql`
   mutation UserCreateMutation($userInput: AuthCreateUserInput!) {
     authCreateUser(authCreateUserInput: $userInput) {
       user {
-        ...UserFragment
+        id
+        firstName
+        lastName
+        email
       }
       tokens {
         accessToken
@@ -54,6 +58,8 @@ const USER_CREATE_MUTATION = graphql`
 export const UserCreate = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const { setActiveUser } = useZustStore();
+  const { setStoreItem } = useSecureStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
 
@@ -87,21 +93,18 @@ export const UserCreate = () => {
           password,
         },
       },
-      updater: (store, data) => {
-        if (data?.authCreateUser.user) {
-          SecureStore.setItem(
-            "ACCESS_TOKEN",
-            data.authCreateUser.tokens.accessToken
-          );
-          SecureStore.setItem(
-            "REFRESH_TOKEN",
-            data.authCreateUser.tokens.refreshToken
-          );
-          router.replace("/(app)/home");
-        }
-      },
       onError: (e) => {
         setError(e.message.split("\n")[1]);
+      },
+      updater: (store, data) => {
+        if (!data?.authCreateUser.user) return;
+
+        const { accessToken, refreshToken } = data.authCreateUser.tokens;
+        setStoreItem("ACCESS_TOKEN", accessToken);
+        setStoreItem("REFRESH_TOKEN", refreshToken);
+        setActiveUser(data.authCreateUser.user);
+
+        router.replace("/(app)/home");
       },
     });
   };

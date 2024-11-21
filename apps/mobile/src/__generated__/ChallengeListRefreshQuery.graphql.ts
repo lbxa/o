@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1523167fb7a217aff11dcf8649a49657>>
+ * @generated SignedSource<<2f142107dfae1c5ef490ab7e2c2ef464>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -172,19 +172,20 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "e07ac9d70b2682b235d7636abfe5b38b",
+    "cacheID": "96cc8fa9781c60f31697ee2396ec6c5c",
     "id": null,
     "metadata": {},
     "name": "ChallengeListRefreshQuery",
     "operationKind": "query",
-    "text": "query ChallengeListRefreshQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query ChallengeListRefreshQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n    id\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
   }
 };
 })();

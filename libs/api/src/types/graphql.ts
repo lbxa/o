@@ -169,7 +169,7 @@ export interface IMutation {
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
     challengeJoin(inviteId: string): Challenge | Promise<Challenge>;
     challengeLeave(id: string): boolean | Promise<boolean>;
-    communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
+    communityCreate(communityCreateInput: CommunityCreateInput): CommunityCreatePayload | Promise<CommunityCreatePayload>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
     communityInvite(userId: string, communityId: string): boolean | Promise<boolean>;
@@ -218,7 +218,6 @@ export interface IQuery {
     userChallenges(userId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
@@ -310,6 +309,11 @@ export interface CommunityConnection {
     pageInfo: PageInfo;
 }
 
+export interface CommunityCreatePayload {
+    __typename?: 'CommunityCreatePayload';
+    communityEdge: CommunityEdge;
+}
+
 export interface PageInfo {
     __typename?: 'PageInfo';
     hasNextPage: boolean;
@@ -329,7 +333,6 @@ export interface User extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     friends?: Nullable<User[]>;
-    communities?: Nullable<Community[]>;
     searchFriends?: Nullable<User[]>;
     memberships?: Nullable<CommunityMembership[]>;
     sentInvitations?: Nullable<CommunityInvitation[]>;
@@ -341,8 +344,9 @@ export interface ValidEmailResponse {
     alreadyTaken: boolean;
 }
 
-export interface Viewer {
+export interface Viewer extends Node {
     __typename?: 'Viewer';
+    id: string;
     user?: Nullable<User>;
     communities?: CommunityConnection;
     challenges?: Nullable<Challenge[]>;

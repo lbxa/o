@@ -5,7 +5,7 @@ import { CommunityService } from "../community/community.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Challenge, CommunityConnection, User, Viewer } from "../types/graphql";
 import { UserService } from "../user/user.service";
-import { validateAndDecodeGlobalId } from "../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 
 @Resolver("Viewer")
 export class ViewerResolver {
@@ -20,6 +20,7 @@ export class ViewerResolver {
     @CurrentUser("userId") userId: number
   ): Promise<Viewer | undefined> {
     const v: Viewer = {
+      id: encodeGlobalId("Viewer", userId),
       user: await this.userService.findById(userId),
       communities: await this.communityService.findUserCommunities(userId, 0),
     };

@@ -1,66 +1,87 @@
-import { useCallback, useEffect, useTransition } from "react";
+import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
-import {
-  graphql,
-  usePreloadedQuery,
-  useRefetchableFragment,
-} from "react-relay";
+import type { PreloadedQuery } from "react-relay";
+import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
 
-import type { CommunityListFragment$key } from "@/__generated__/CommunityListFragment.graphql";
-import type { CommunityListRefetchQuery } from "@/__generated__/CommunityListRefetchQuery.graphql";
+import type { CommunityList_viewer$key } from "@/__generated__/CommunityList_viewer.graphql";
+import type { CommunityListPaginationQuery } from "@/__generated__/CommunityListPaginationQuery.graphql";
+import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.graphql";
+import { OButton } from "@/universe/atoms";
 import { CommunityCard } from "@/universe/molecules";
-
-import { useZustStore } from "../state";
-
-const COMMUNITY_LIST_FRAGMENT = graphql`
-  fragment CommunityListFragment on Viewer
-  @refetchable(queryName: "CommunityListRefetchQuery") {
-    communities {
-      ...CommunityFragment
-    }
-  }
-`;
 
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     viewer {
-      ...CommunityListFragment
+      id
+      ...CommunityList_viewer @arguments(count: 10)
     }
   }
 `;
 
-export const CommunityList = () => {
-  const { preloadedCommunityListQuery } = useZustStore();
-  const query = usePreloadedQuery(
-    COMMUNITY_LIST_QUERY,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    preloadedCommunityListQuery!
-  );
+interface CommunityListProps {
+  communityListQueryRef: PreloadedQuery<CommunityListQuery>;
+}
+
+export const CommunityList = ({
+  communityListQueryRef,
+}: CommunityListProps) => {
+  const query = usePreloadedQuery(COMMUNITY_LIST_QUERY, communityListQueryRef);
+
   const [isPending, startTransition] = useTransition();
 
-  const [data, refetch] = useRefetchableFragment<
-    CommunityListRefetchQuery,
-    CommunityListFragment$key
-  >(COMMUNITY_LIST_FRAGMENT, query.viewer);
+  const { data, loadNext, hasNext, isLoadingNext, refetch } =
+    usePaginationFragment<
+      CommunityListPaginationQuery,
+      CommunityList_viewer$key
+    >(
+      graphql`
+        fragment CommunityList_viewer on Viewer
+        @refetchable(queryName: "CommunityListPaginationQuery")
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "String" }
+        ) {
+          id
+          communities(first: $count, after: $cursor)
+            @connection(key: "CommunityList_viewer_communities") {
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                ...CommunityCardFragment
+              }
+            }
+          }
+        }
+      `,
+      query.viewer
+    );
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({});
+      refetch({}, { fetchPolicy: "store-and-network" });
     });
   }, [refetch]);
 
-  useEffect(() => {
-    return () => preloadedCommunityListQuery?.dispose();
-  }, [preloadedCommunityListQuery]);
-
   return (
-    <View className="h-full">
+    <View className="h-full pb-md">
       <FlatList
         className="px-md"
-        data={data?.communities}
+        data={data?.communities.edges?.map((edge) => edge.node)}
         renderItem={({ item }) => <CommunityCard community={item} />}
         ListHeaderComponent={<></>}
         ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
+        ListFooterComponent={
+          <OButton
+            title={isLoadingNext ? "Loading..." : "Load more"}
+            disabled={!hasNext}
+            onPress={() => loadNext(10)}
+          />
+        }
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
         }

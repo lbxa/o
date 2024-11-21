@@ -192,9 +192,23 @@ type Community implements Node & Timestamps {
   users: [User]
 }
 
+type CommunityConnection {
+  edges: [CommunityEdge!]
+  pageInfo: PageInfo!
+}
+
 input CommunityCreateInput {
   isPublic: Boolean!
   name: String!
+}
+
+type CommunityCreatePayload {
+  communityEdge: CommunityEdge!
+}
+
+type CommunityEdge {
+  cursor: String!
+  node: Community!
 }
 
 type CommunityInvitation implements Node & Timestamps {
@@ -246,7 +260,7 @@ type Mutation {
   challengeJoin(inviteId: ID!): Challenge!
   challengeLeave(id: ID!): Boolean!
   challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
-  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
+  communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
   communityDelete(id: ID!): Boolean!
   communityInvite(communityId: ID!, userId: ID!): Boolean!
   communityJoin(inviteId: Int!): Community!
@@ -260,20 +274,31 @@ interface Node {
   id: ID!
 }
 
+"""
+GraphQL Spec pagination information
+https://relay.dev/graphql/connections.htm#sec-Connection-Types.Fields.PageInfo
+"""
+type PageInfo {
+  """Last node of the edges"""
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  """First node of the edges"""
+  startCursor: String
+}
+
 type Query {
   challenge(id: ID!): Challenge
   challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   challenges: [Challenge!]
-  communities: [Community!]
   community(id: ID!): Community
   communityChallenges(communityId: ID!): [Challenge!]
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
   userChallenges(userId: ID!): [Challenge!]
-  userCommunities(userId: ID!): [Community!]
   """Search for users by name"""
   userSearch(searchTerm: String): [User!]
   """Validate if an email is already taken"""
@@ -298,7 +323,6 @@ type Tokens {
 
 """A user of the app"""
 type User implements Node & Timestamps {
-  communities: [Community!]
   createdAt: DateTime
   email: String
   firstName: String
@@ -327,9 +351,13 @@ type ValidEmailResponse {
   alreadyTaken: Boolean!
 }
 
-type Viewer {
+"""The currently logged in user"""
+type Viewer implements Node {
   challenge(challengeId: ID!): Challenge
   challenges(communityId: ID!): [Challenge!]
-  communities: [Community!]
+  communities(after: String, first: Int!): CommunityConnection!
+  """Alias for user id"""
+  id: ID!
+  """Only one active user can be logged in at a time"""
   user: User
 }
