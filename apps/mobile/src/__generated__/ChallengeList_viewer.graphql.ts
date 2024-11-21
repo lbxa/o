@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<daef201ab53f67e057db028af16bb1dc>>
+ * @generated SignedSource<<dec90e61d9f75d5339f20c54052b8e93>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,12 +10,12 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityList_viewer$data = {
-  readonly communities: {
+export type ChallengeList_viewer$data = {
+  readonly challenges: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly " $fragmentSpreads": FragmentRefs<"CommunityCard_community">;
+        readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenges">;
       };
     }> | null | undefined;
     readonly pageInfo: {
@@ -24,20 +24,24 @@ export type CommunityList_viewer$data = {
       readonly startCursor: string | null | undefined;
     };
   };
-  readonly id: string;
-  readonly " $fragmentType": "CommunityList_viewer";
+  readonly " $fragmentType": "ChallengeList_viewer";
 };
-export type CommunityList_viewer$key = {
-  readonly " $data"?: CommunityList_viewer$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer">;
+export type ChallengeList_viewer$key = {
+  readonly " $data"?: ChallengeList_viewer$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_viewer">;
 };
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "communities"
+  "challenges"
 ];
 return {
   "argumentDefinitions": [
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "communityId"
+    },
     {
       "defaultValue": 10,
       "kind": "LocalArgument",
@@ -71,26 +75,66 @@ return {
       "fragmentPathInResult": [
         "viewer"
       ],
-      "operation": require('./CommunityListPaginationQuery.graphql')
+      "operation": require('./ChallengeListPaginationQuery.graphql')
     }
   },
-  "name": "CommunityList_viewer",
+  "name": "ChallengeList_viewer",
   "selections": [
     {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
-    {
-      "alias": "communities",
-      "args": null,
-      "concreteType": "CommunityConnection",
+      "alias": "challenges",
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "communityId",
+          "variableName": "communityId"
+        }
+      ],
+      "concreteType": "ChallengeConnection",
       "kind": "LinkedField",
-      "name": "__CommunityList_viewer_communities_connection",
+      "name": "__ChallengeList_viewer_challenges_connection",
       "plural": false,
       "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ChallengeEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "cursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": "Challenge",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "ChallengeCard_challenges"
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
+                }
+              ],
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
+        },
         {
           "alias": null,
           "args": null,
@@ -122,47 +166,6 @@ return {
             }
           ],
           "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "CommunityEdge",
-          "kind": "LinkedField",
-          "name": "edges",
-          "plural": true,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "cursor",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "concreteType": "Community",
-              "kind": "LinkedField",
-              "name": "node",
-              "plural": false,
-              "selections": [
-                {
-                  "args": null,
-                  "kind": "FragmentSpread",
-                  "name": "CommunityCard_community"
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "__typename",
-                  "storageKey": null
-                }
-              ],
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
         }
       ],
       "storageKey": null
@@ -173,6 +176,6 @@ return {
 };
 })();
 
-(node as any).hash = "f67eccd9b3e0408f1bb13c348edd885d";
+(node as any).hash = "5a8449993c2d3c7f71cbfbecb8b93651";
 
 export default node;

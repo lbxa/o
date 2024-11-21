@@ -7,7 +7,7 @@ import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";
 const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
-      ...CommunityList_viewer @arguments(count: 10)
+      ...CommunityList_viewer @arguments(count: 5)
       ...UserProfile_viewer
     }
   }

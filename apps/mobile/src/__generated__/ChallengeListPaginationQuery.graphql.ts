@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fd8b95f4cda61b95db00d5626a1c1b6e>>
+ * @generated SignedSource<<be04be6e20053818b1999aa7da82f02e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,19 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityRootQuery$variables = {
+export type ChallengeListPaginationQuery$variables = {
   communityId: string;
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
 };
-export type CommunityRootQuery$data = {
+export type ChallengeListPaginationQuery$data = {
   readonly viewer: {
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_viewer">;
   } | null | undefined;
 };
-export type CommunityRootQuery = {
-  response: CommunityRootQuery$data;
-  variables: CommunityRootQuery$variables;
+export type ChallengeListPaginationQuery = {
+  response: ChallengeListPaginationQuery$data;
+  variables: ChallengeListPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -29,6 +31,16 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "communityId"
+  },
+  {
+    "defaultValue": 10,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
   }
 ],
 v1 = {
@@ -37,11 +49,16 @@ v1 = {
   "variableName": "communityId"
 },
 v2 = [
+  {
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
+  },
   (v1/*: any*/),
   {
-    "kind": "Literal",
+    "kind": "Variable",
     "name": "first",
-    "value": 10
+    "variableName": "count"
   }
 ],
 v3 = {
@@ -56,7 +73,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityRootQuery",
+    "name": "ChallengeListPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -70,9 +87,14 @@ return {
             "args": [
               (v1/*: any*/),
               {
-                "kind": "Literal",
+                "kind": "Variable",
                 "name": "count",
-                "value": 10
+                "variableName": "count"
+              },
+              {
+                "kind": "Variable",
+                "name": "cursor",
+                "variableName": "cursor"
               }
             ],
             "kind": "FragmentSpread",
@@ -89,7 +111,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "CommunityRootQuery",
+    "name": "ChallengeListPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -272,16 +294,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "fb557f50f6efb7ff8df81e193a1ad682",
+    "cacheID": "0e148ce65e34ee3939f0f3152dc17cd0",
     "id": null,
     "metadata": {},
-    "name": "CommunityRootQuery",
+    "name": "ChallengeListPaginationQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    id\n  }\n}\n\nfragment ChallengeCard_challenges on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenges\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeCard_challenges on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenges\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "22a2003d3f86b8e4a9f237a069ade9f4";
+(node as any).hash = "5a8449993c2d3c7f71cbfbecb8b93651";
 
 export default node;

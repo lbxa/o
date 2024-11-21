@@ -3,7 +3,12 @@ import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { ChallengeService } from "../challenge/challenge.service";
 import { CommunityService } from "../community/community.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, CommunityConnection, User, Viewer } from "../types/graphql";
+import {
+  ChallengeConnection,
+  CommunityConnection,
+  User,
+  Viewer,
+} from "../types/graphql";
 import { UserService } from "../user/user.service";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 
@@ -50,13 +55,19 @@ export class ViewerResolver {
 
   @ResolveField()
   async challenges(
-    @Args("communityId") communityGlobalId: string
-  ): Promise<Challenge[]> {
+    @Args("communityId") communityGlobalId: string,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<ChallengeConnection> {
     const communityId = validateAndDecodeGlobalId(
       communityGlobalId,
       "Community"
     );
-    return await this.challengeService.findCommunityChallenges(communityId);
+    return await this.challengeService.findCommunityChallenges(
+      communityId,
+      first,
+      after
+    );
   }
 
   @ResolveField()

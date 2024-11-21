@@ -15,16 +15,17 @@ import {
   NewChallengeActivity,
 } from "@o/db";
 import * as schema from "@o/db";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
   Challenge as GqlChallenge,
   ChallengeCadence,
+  ChallengeConnection,
   ChallengeMode,
 } from "../types/graphql";
-import { encodeGlobalId, mapToEnum } from "../utils";
+import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
@@ -105,18 +106,44 @@ export class ChallengeService
     }));
   }
 
-  async findCommunityChallenges(communityId: number): Promise<GqlChallenge[]> {
+  async findCommunityChallenges(
+    communityId: number,
+    first: number,
+    after?: string
+  ): Promise<ChallengeConnection> {
+    const startCursorId = after
+      ? validateAndDecodeGlobalId(after, "Challenge")
+      : 0;
+
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
       where: eq(ChallengesTable.communityId, communityId),
+      limit: first + 1,
+      offset: startCursorId,
+      orderBy: desc(ChallengesTable.createdAt),
       with: { activities: true },
     });
 
-    return challenges.map((challenge) => ({
-      ...this.pg2GqlMapper({
+    const edges = challenges.slice(0, first).map((challenge) => ({
+      node: this.pg2GqlMapper({
         ...challenge,
         activities: challenge.activities, // for now one-to-one
       }),
+      cursor: encodeGlobalId("Challenge", challenge.id),
     }));
+
+    const hasNextPage = challenges.length > first;
+    const endCursor = edges.length > 0 ? edges[edges.length - 1].cursor : null;
+    const startCursor = edges.length > 0 ? edges[0].cursor : null;
+
+    return {
+      edges,
+      pageInfo: {
+        startCursor,
+        endCursor,
+        hasNextPage,
+        hasPreviousPage: startCursorId > 0,
+      },
+    };
   }
 
   async create(

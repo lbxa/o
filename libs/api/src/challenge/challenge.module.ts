@@ -4,7 +4,10 @@ import { UserModule } from "../user/user.module";
 import { ChallengeResolver } from "./challenge.resolver";
 import { ChallengeService } from "./challenge.service";
 import { ChallengeActivitiesService } from "./challenge-activity";
-import { ChallengeActivityResultsService } from "./challenge-activity-results";
+import {
+  ChallengeActivityResultsResolver,
+  ChallengeActivityResultsService,
+} from "./challenge-activity-results";
 import { ChallengeInvitationsService } from "./challenge-invitations";
 import { ChallengeMembershipsService } from "./challenge-memberships";
 
@@ -12,6 +15,7 @@ import { ChallengeMembershipsService } from "./challenge-memberships";
   imports: [UserModule],
   providers: [
     ChallengeResolver,
+    ChallengeActivityResultsResolver,
     ChallengeService,
     ChallengeActivitiesService,
     ChallengeActivityResultsService,

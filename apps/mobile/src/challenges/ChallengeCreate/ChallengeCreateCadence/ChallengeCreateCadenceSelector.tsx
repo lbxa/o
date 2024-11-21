@@ -25,8 +25,8 @@ export const ChallengeCreateCadenceSelector: React.FC<{
 
   return (
     <View className="flex flex-col px-md pb-10">
-      <Title>Repeat</Title>
-      <Subtitle>How often will users need to post their progress?</Subtitle>
+      <Title>Frequency</Title>
+      <Subtitle>How often will you be required to post your progress?</Subtitle>
       <View className="mb-lg flex flex-row flex-wrap gap-md">
         {cadences.map((c) => (
           <Pill

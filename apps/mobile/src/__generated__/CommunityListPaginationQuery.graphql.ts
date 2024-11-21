@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5885a952640caf35cbaa3b406076a50a>>
+ * @generated SignedSource<<fff7f30f82918129356dedf62a4e1d10>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -218,16 +218,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bc741f6fe2a906830724794e928ebf38",
+    "cacheID": "1cc78fede0b56e0afda74098ff6e0057",
     "id": null,
     "metadata": {},
     "name": "CommunityListPaginationQuery",
     "operationKind": "query",
-    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCardFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCardFragment\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f18fe98723bf14c89572c161bcc58f93";
+(node as any).hash = "f67eccd9b3e0408f1bb13c348edd885d";
 
 export default node;

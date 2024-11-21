@@ -3,7 +3,7 @@ import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
-import { OTouchable, Title } from "@/universe/atoms";
+import { OTouchable, Subtitle, Title } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateActivitySelector } from "./ChallengeCreateActivitySelector";
@@ -19,9 +19,10 @@ export const ChallengeCreateActivity = () => {
   return (
     <View>
       <Title>Type</Title>
+      <Subtitle>Select the type of challenge you want to create</Subtitle>
       <OTouchable
         onPress={handleModal}
-        className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+        className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
       >
         <View className="flex flex-1 flex-row items-center">
           <ChallengeCreateActivitySummary />
@@ -31,13 +32,10 @@ export const ChallengeCreateActivity = () => {
 
       <BottomSheetModal
         ref={modalRef}
-        // index={0}
-        // snapPoints={["45%"]}
         backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
         enableDynamicSizing
         maxDynamicContentSize={700}
-        // enablePanDownToClose
-        // maxDynamicContentSize={700}
+        enablePanDownToClose
       >
         <BottomSheetScrollView>
           <ChallengeCreateActivitySelector modalRef={modalRef} />

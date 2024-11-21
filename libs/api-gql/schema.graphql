@@ -135,6 +135,11 @@ enum ChallengeCadence {
   YEARLY
 }
 
+type ChallengeConnection {
+  edges: [ChallengeEdge!]
+  pageInfo: PageInfo!
+}
+
 input ChallengeCreateInput {
   cadence: ChallengeCadence!
   communityId: ID!
@@ -143,6 +148,15 @@ input ChallengeCreateInput {
   mode: ChallengeMode!
   name: String!
   startDate: DateTime!
+}
+
+type ChallengeCreatePayload {
+  challengeEdge: ChallengeEdge!
+}
+
+type ChallengeEdge {
+  cursor: String!
+  node: Challenge!
 }
 
 type ChallengeInvitation implements Node & Timestamps {
@@ -254,7 +268,7 @@ type Mutation {
   """Refresh the access and refresh tokens"""
   authRefreshTokens: Tokens!
   challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): ChallengeActivityResult!
-  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): Challenge!
+  challengeCreate(challengeActivityCreateInput: ChallengeActivityCreateInput!, challengeCreateInput: ChallengeCreateInput!): ChallengeCreatePayload!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(challengeId: ID!, userId: ID!): Boolean!
   challengeJoin(inviteId: ID!): Challenge!
@@ -292,13 +306,10 @@ type Query {
   challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
-  challenges: [Challenge!]
   community(id: ID!): Community
-  communityChallenges(communityId: ID!): [Challenge!]
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
-  userChallenges(userId: ID!): [Challenge!]
   """Search for users by name"""
   userSearch(searchTerm: String): [User!]
   """Validate if an email is already taken"""
@@ -354,7 +365,7 @@ type ValidEmailResponse {
 """The currently logged in user"""
 type Viewer implements Node {
   challenge(challengeId: ID!): Challenge
-  challenges(communityId: ID!): [Challenge!]
+  challenges(after: String, communityId: ID!, first: Int!): ChallengeConnection!
   communities(after: String, first: Int!): CommunityConnection!
   """Alias for user id"""
   id: ID!

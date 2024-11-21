@@ -101,7 +101,7 @@ export const CommunityCreate = () => {
       },
       onCompleted() {
         setError(null);
-        router.push("/(app)/community");
+        router.replace("/(app)/community");
       },
     });
   };

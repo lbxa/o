@@ -3,7 +3,7 @@ import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
 
-import { OTouchable, Title } from "@/universe/atoms";
+import { OTouchable, Subtitle, Title } from "@/universe/atoms";
 
 import { BottomSheetBackdrop } from "../../BottomSheetBackdrop";
 import { ChallengeCreateModeSelector } from "./ChallengeCreateModeSelector";
@@ -18,7 +18,8 @@ export const ChallengeCreateMode: React.FC = () => {
 
   return (
     <View>
-      <Title>Mode</Title>
+      <Title className="text-xl">Mode</Title>
+      <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <OTouchable
         onPress={handleModal}
         className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
@@ -28,7 +29,6 @@ export const ChallengeCreateMode: React.FC = () => {
         </View>
         <ChevronRightIcon width={25} />
       </OTouchable>
-
       <BottomSheetModal
         ref={modalRef}
         enableDynamicSizing

@@ -7,7 +7,7 @@ type Viewer implements Node {
   "Only one active user can be logged in at a time"
   user: User
   communities(first: Int!, after: String): CommunityConnection!
-  challenges(communityId: ID!): [Challenge!]
+  challenges(communityId: ID!, first: Int!, after: String): ChallengeConnection!
   challenge(challengeId: ID!): Challenge
 }
 

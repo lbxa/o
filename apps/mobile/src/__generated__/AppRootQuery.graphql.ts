@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53bb82292121ace0d753713f7e7e8123>>
+ * @generated SignedSource<<6ec17f53c13acc17d25ae9e68aced3f7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -33,7 +33,7 @@ v1 = [
   {
     "kind": "Literal",
     "name": "first",
-    "value": 10
+    "value": 5
   }
 ];
 return {
@@ -56,7 +56,7 @@ return {
               {
                 "kind": "Literal",
                 "name": "count",
-                "value": 10
+                "value": 5
               }
             ],
             "kind": "FragmentSpread",
@@ -181,7 +181,7 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "communities(first:10)"
+            "storageKey": "communities(first:5)"
           },
           {
             "alias": null,
@@ -231,16 +231,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7ccb7fe627c63fd1e62bbababd9be40a",
+    "cacheID": "ecd8d9a444307916aa5b1248a8316848",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    ...CommunityList_viewer_1KmBw7\n    ...UserProfile_viewer\n    id\n  }\n}\n\nfragment CommunityCardFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCardFragment\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    email\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    ...CommunityList_viewer_VbLdN\n    ...UserProfile_viewer\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_VbLdN on Viewer {\n  id\n  communities(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    email\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "251e05c284e8cd3cd8d72afed584bb5c";
+(node as any).hash = "78e1100342cfe7d9f9afe1d7185d99cc";
 
 export default node;

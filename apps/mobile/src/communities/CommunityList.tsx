@@ -52,7 +52,7 @@ export const CommunityList = ({
             edges {
               cursor
               node {
-                ...CommunityCardFragment
+                ...CommunityCard_community
               }
             }
           }

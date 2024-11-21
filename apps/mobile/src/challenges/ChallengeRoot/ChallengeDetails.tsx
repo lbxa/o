@@ -70,9 +70,12 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   return (
     <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
+        <View className="flex-row  gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
-          <OTouchable onPress={() => setShowDescription(false)}>
+          <OTouchable
+            className="mt-sm"
+            onPress={() => setShowDescription(false)}
+          >
             <CrossIcon width={15} height={15} />
           </OTouchable>
         </View>

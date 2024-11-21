@@ -7,7 +7,12 @@ import type { CommunitySlice } from "./community.slice";
 import type { UserSlice } from "./user.slice";
 
 // merge the objects because nested nullable state is verbose
-type ChallengeForm = Partial<Challenge> & Partial<ChallengeActivity>;
+interface ChallengeFormOptions {
+  advancedMode?: boolean;
+}
+type ChallengeForm = Partial<Challenge> &
+  Partial<ChallengeActivity> &
+  ChallengeFormOptions;
 type RecordedChallenge = Pick<Challenge, "id" | "name"> &
   Partial<{
     time: number | undefined;

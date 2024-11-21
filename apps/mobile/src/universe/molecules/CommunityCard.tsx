@@ -4,13 +4,13 @@ import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
-import type { CommunityCardFragment$key } from "@/__generated__/CommunityCardFragment.graphql";
+import type { CommunityCard_community$key } from "@/__generated__/CommunityCard_community.graphql";
 import { useZustStore } from "@/state";
 
 import { OTouchable } from "../atoms";
 
 interface Props {
-  community: CommunityCardFragment$key;
+  community: CommunityCard_community$key;
   onPress?: () => void;
 }
 
@@ -19,7 +19,7 @@ export const CommunityCard = ({ community }: Props) => {
   const { setSelectedCommunity } = useZustStore();
   const communityFragment = useFragment(
     graphql`
-      fragment CommunityCardFragment on Community {
+      fragment CommunityCard_community on Community {
         id
         name
         isVerified
@@ -35,14 +35,14 @@ export const CommunityCard = ({ community }: Props) => {
 
   return (
     <OTouchable onPress={onPress}>
-      <View className="mb-md bg-ivory pb-md rounded-xl">
+      <View className="mb-md rounded-xl bg-ivory pb-md">
         <View className="mb-sm flex h-[200px] w-full rounded-t-xl bg-gray-300">
           <View className="m-auto">
             <CameraIcon width={40} height={40} fill="gray" />
           </View>
         </View>
         <View className="px-sm">
-          <View className="gap-sm pb-sm flex flex-row items-center">
+          <View className="flex flex-row items-center gap-sm pb-sm">
             <Text className="text-3xl font-bold">{communityFragment.name}</Text>
             {communityFragment.isVerified && <VerifiedBadgeIcon width={20} />}
           </View>

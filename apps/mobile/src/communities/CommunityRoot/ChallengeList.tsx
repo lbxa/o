@@ -1,48 +1,68 @@
 import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
-import { graphql, useRefetchableFragment } from "react-relay";
+import { graphql, usePaginationFragment } from "react-relay";
 
-import type { ChallengeList_challenges$key } from "@/__generated__/ChallengeList_challenges.graphql";
-import type { ChallengeListRefreshQuery } from "@/__generated__/ChallengeListRefreshQuery.graphql";
 import { ChallengeCard } from "@/challenges";
 import { useZustStore } from "@/state";
 import { OButton } from "@/universe/atoms";
 
+import type { ChallengeList_viewer$key } from "../../__generated__/ChallengeList_viewer.graphql";
+import type { ChallengeListPaginationQuery } from "../../__generated__/ChallengeListPaginationQuery.graphql";
 import { CommunityDetails } from "./CommunityDetails";
 
-export const CHALLENGE_LIST_FRAGMENT = graphql`
-  fragment ChallengeList_challenges on Viewer
-  @refetchable(queryName: "ChallengeListRefreshQuery")
-  @argumentDefinitions(communityId: { type: "ID!" }) {
-    challenges(communityId: $communityId) {
-      ...ChallengeFragment
-    }
-  }
-`;
-
 interface Props {
-  fragmentRef: ChallengeList_challenges$key;
+  fragmentRef: ChallengeList_viewer$key;
 }
 
 export const ChallengeList = ({ fragmentRef }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { selectedCommunity } = useZustStore();
 
-  const [data, refetch] = useRefetchableFragment<
-    ChallengeListRefreshQuery,
-    ChallengeList_challenges$key
-  >(CHALLENGE_LIST_FRAGMENT, fragmentRef);
+  const { data, loadNext, hasNext, isLoadingNext, refetch } =
+    usePaginationFragment<
+      ChallengeListPaginationQuery,
+      ChallengeList_viewer$key
+    >(
+      graphql`
+        fragment ChallengeList_viewer on Viewer
+        @refetchable(queryName: "ChallengeListPaginationQuery")
+        @argumentDefinitions(
+          communityId: { type: "ID!" }
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "String" }
+        ) {
+          challenges(communityId: $communityId, first: $count, after: $cursor)
+            @connection(key: "ChallengeList_viewer_challenges") {
+            edges {
+              cursor
+              node {
+                ...ChallengeCard_challenges
+              }
+            }
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+            }
+          }
+        }
+      `,
+      fragmentRef
+    );
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({ communityId: selectedCommunity?.id });
+      refetch(
+        { communityId: selectedCommunity?.id },
+        { fetchPolicy: "store-and-network" }
+      );
     });
   }, [refetch, selectedCommunity?.id]);
 
   return (
     <FlatList
-      className="px-md min-h-full"
-      data={data.challenges}
+      className="min-h-full px-md"
+      data={data.challenges.edges?.map((edge) => edge.node)}
       ListHeaderComponent={
         <View>
           <CommunityDetails />
@@ -54,8 +74,19 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
           No challenges yet. Be the first to create one.
         </Text>
       }
-      ListFooterComponent={<OButton title="See Past Challenges"></OButton>}
-      renderItem={({ item }) => <ChallengeCard challengeFragment={item} />}
+      renderItem={({ item }) => <ChallengeCard fragmentKey={item} />}
+      ListFooterComponent={
+        <View className="flex flex-col gap-md">
+          {hasNext && (
+            <OButton
+              title={isLoadingNext ? "Loading..." : "Load more"}
+              disabled={!hasNext}
+              onPress={() => loadNext(10)}
+            />
+          )}
+          <OButton title="See Past Challenges" />
+        </View>
+      }
       refreshControl={
         <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
       }

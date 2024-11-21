@@ -12,7 +12,7 @@ export const ChallengeCreateModeSummary = () => {
     return (
       <>
         <VerifiedBadgeIcon width={20} height={20} fill="black" />
-        <Text className="pl-sm">What proof is needed?</Text>
+        <Text className="pl-sm">Select a mode</Text>
       </>
     );
   }

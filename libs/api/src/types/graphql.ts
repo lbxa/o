@@ -163,7 +163,7 @@ export interface IMutation {
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserPayload | Promise<AuthCreateUserPayload>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
     challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
-    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): Challenge | Promise<Challenge>;
+    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): ChallengeCreatePayload | Promise<ChallengeCreatePayload>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
@@ -213,9 +213,6 @@ export interface IQuery {
     challengeActivityResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
     challengeActivityTopResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
-    challenges(): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    communityChallenges(communityId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    userChallenges(userId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
@@ -259,6 +256,23 @@ export interface ChallengeInvitation extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     expiresAt: DateTime;
+}
+
+export interface ChallengeEdge {
+    __typename?: 'ChallengeEdge';
+    cursor: string;
+    node: Challenge;
+}
+
+export interface ChallengeConnection {
+    __typename?: 'ChallengeConnection';
+    edges?: Nullable<ChallengeEdge[]>;
+    pageInfo: PageInfo;
+}
+
+export interface ChallengeCreatePayload {
+    __typename?: 'ChallengeCreatePayload';
+    challengeEdge: ChallengeEdge;
 }
 
 export interface Community extends Node, Timestamps {
@@ -349,7 +363,7 @@ export interface Viewer extends Node {
     id: string;
     user?: Nullable<User>;
     communities?: CommunityConnection;
-    challenges?: Nullable<Challenge[]>;
+    challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;
 }
 

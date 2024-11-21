@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b62c25b5917969c04192398133bf3643>>
+ * @generated SignedSource<<e0e62e701c3cf61a985b85f2c6b3764c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -195,12 +195,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4256fdff2d29aab0c824651a053bd7a4",
+    "cacheID": "7b4bb30e813159ccaa266937b9edfa2e",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n  }\n}\n\nfragment CommunityCardFragment on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCardFragment\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

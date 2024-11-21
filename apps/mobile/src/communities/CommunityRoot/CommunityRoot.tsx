@@ -13,7 +13,7 @@ import { CommunityTitle } from "./CommunityTitle";
 export const COMMUNITY_ROOT_QUERY = graphql`
   query CommunityRootQuery($communityId: ID!) {
     viewer {
-      ...ChallengeList_challenges @arguments(communityId: $communityId)
+      ...ChallengeList_viewer @arguments(communityId: $communityId, count: 10)
     }
   }
 `;
