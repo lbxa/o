@@ -2,18 +2,15 @@ import CameraIcon from "@assets/icons/camera.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
-import { graphql, useFragment } from "react-relay";
 
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 import { useToken } from "@/utils";
-import { useToken } from "@/utils";
 
 export const USER_PROFILE_QUERY = graphql`
   query UserProfileQuery {
     viewer {
-      ...UserProfile_viewer
       ...UserProfile_viewer
     }
   }
@@ -24,18 +21,6 @@ export const UserProfile: React.FC = () => {
   const { deleteTokens } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
-  const _ = useFragment(
-    graphql`
-      fragment UserProfile_viewer on Viewer {
-        user {
-          id
-          firstName
-          lastName
-          email
-        }
-      }
-    `,
-    null
   const _ = useFragment(
     graphql`
       fragment UserProfile_viewer on Viewer {
@@ -61,9 +46,7 @@ export const UserProfile: React.FC = () => {
           </OTouchable>
           <Text className="text-left text-6xl font-bold">
             {activeUser?.firstName + " " + activeUser?.lastName}
-            {activeUser?.firstName + " " + activeUser?.lastName}
           </Text>
-          <Text>{activeUser?.email}</Text>
           <Text>{activeUser?.email}</Text>
         </View>
         <View className="mx-md">

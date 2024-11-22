@@ -25,7 +25,6 @@
         "src/utils/*"
       ]
     }
-    }
   },
   "include": [
     "src",
@@ -39,9 +38,6 @@
     ".expo/types/**/*.ts"
   ],
   "exclude": [
-    ".expo",
-    "ios",
-    "android"
     ".expo",
     "ios",
     "android"

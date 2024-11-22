@@ -4,48 +4,23 @@ import type {
   ChallengeActivityUnits,
 } from "@o/api-gql";
 import type { ChallengeActivityGoal } from "@o/api-gql";
-// import dayjs from "dayjs";
-// import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { graphql, useFragment } from "react-relay";
 import { graphql, useFragment } from "react-relay";
 
 import { OTouchable, Title } from "@/universe/atoms";
 
 import type { ChallengeCard_challenges$key } from "../__generated__/ChallengeCard_challenges.graphql";
-import type { ChallengeCard_challenges$key } from "../__generated__/ChallengeCard_challenges.graphql";
 import { useZustStore } from "../state";
 
 interface ChallengeCardProps {
   fragmentKey: ChallengeCard_challenges$key;
-  fragmentKey: ChallengeCard_challenges$key;
 }
 
-export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
 export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
   const router = useRouter();
   const { setSelectedChallenge } = useZustStore();
 
-  const challenge = useFragment<ChallengeCard_challenges$key>(
-    graphql`
-      fragment ChallengeCard_challenges on Challenge {
-        id
-        name
-        description
-        startDate
-        endDate
-        activity {
-          id
-          type
-          measurement
-          goal
-          unit
-          target
-        }
-      }
-    `,
-    fragmentKey
   const challenge = useFragment<ChallengeCard_challenges$key>(
     graphql`
       fragment ChallengeCard_challenges on Challenge {

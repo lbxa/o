@@ -7,14 +7,11 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { verifyInstallation } from "nativewind";
 import { useEffect } from "react";
-import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { loadQuery, RelayEnvironmentProvider } from "react-relay";
-import { loadQuery, RelayEnvironmentProvider } from "react-relay";
 
 import { useRelayEnvironment } from "@/relay";
-import { APP_ROOT_QUERY } from "@/root";
 import { APP_ROOT_QUERY } from "@/root";
 
 export default function RootLayout() {
@@ -32,11 +29,6 @@ export default function RootLayout() {
    */
   useEffect(() => {
     void SplashScreen.preventAutoHideAsync();
-    const appRoot = loadQuery(environment, APP_ROOT_QUERY, {});
-    void SplashScreen.hideAsync();
-
-    return () => appRoot.dispose();
-  }, [environment]);
     const appRoot = loadQuery(environment, APP_ROOT_QUERY, {});
     void SplashScreen.hideAsync();
 
