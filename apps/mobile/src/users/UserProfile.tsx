@@ -18,7 +18,7 @@ export const USER_PROFILE_QUERY = graphql`
 
 export const UserProfile: React.FC = () => {
   const router = useRouter();
-  const { deleteToken } = useToken();
+  const { deleteTokens } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
   const _ = useFragment(
@@ -53,7 +53,7 @@ export const UserProfile: React.FC = () => {
           <OButton
             title="Logout"
             onPress={async () => {
-              await deleteToken();
+              await deleteTokens();
               removeActiveUser();
               router.replace("/(auth)/login");
             }}

@@ -17,20 +17,11 @@ import {
 import { Ozone } from "@/universe/molecules";
 import { useSecureStore } from "@/utils";
 
-const userLoginMutation = graphql`
-  mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
-    authLogin(authLoginInput: $authLoginInput) {
-      tokens {
-        accessToken
-        refreshToken
-      }
-      user {
-        id
-        firstName
-        lastName
-        email
-      }
-    }
+import type { UserLoginUpdatableQuery } from "../__generated__/UserLoginUpdatableQuery.graphql";
+
+const _ = graphql`
+  fragment UserLoginFragment_viewer_assignable on User @assignable {
+    __typename
   }
 `;
 
@@ -39,8 +30,25 @@ export const UserLogin = () => {
   const { setActiveUser } = useZustStore();
   const { setStoreItem } = useSecureStore();
   const [error, setError] = useState<string | null>(null);
-  const [commitMutation, isMutationInFlight] =
-    useMutation<UserLoginMutation>(userLoginMutation);
+  const [commitMutation, isMutationInFlight] = useMutation<UserLoginMutation>(
+    graphql`
+      mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
+        authLogin(authLoginInput: $authLoginInput) {
+          tokens {
+            accessToken
+            refreshToken
+          }
+          user {
+            ...UserLoginFragment_viewer_assignable
+            id
+            firstName
+            lastName
+            email
+          }
+        }
+      }
+    `
+  );
 
   const {
     control,
@@ -66,23 +74,37 @@ export const UserLogin = () => {
         setError(e.message.split("\n")[1]);
       },
       updater: (proxyStore, data) => {
-        if (!data?.authLogin) return;
+        if (!data?.authLogin) {
+          throw new Error("No data returned from user login");
+        }
+        proxyStore.invalidateStore();
 
-        const newUser = proxyStore
-          .getRootField("authLogin")
-          .getLinkedRecord("user");
-        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
-        if (viewer) {
+        const { updatableData } =
+          proxyStore.readUpdatableQuery<UserLoginUpdatableQuery>(
+            graphql`
+              query UserLoginUpdatableQuery @updatable {
+                viewer {
+                  user {
+                    ...UserLoginFragment_viewer_assignable
+                  }
+                }
+              }
+            `,
+            {}
+          );
+
+        if (updatableData.viewer) {
           console.log("Viewer has been updated in the cache!");
-          viewer.setLinkedRecord(newUser, "user");
+          updatableData.viewer.user = data.authLogin.user;
         }
 
         const { accessToken, refreshToken } = data.authLogin.tokens;
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
         setActiveUser(data.authLogin.user);
+        setActiveUser(data.authLogin.user);
 
-        router.replace("/(app)/home");
+        router.replace("/(root)/home");
       },
     });
   };

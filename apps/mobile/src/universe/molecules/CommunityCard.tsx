@@ -29,7 +29,7 @@ export const CommunityCard = ({ community }: Props) => {
   );
 
   const onPress = () => {
-    router.push(`/(app)/community/${communityFragment.id}`);
+    router.push(`/(root)/community/${communityFragment.id}`);
     setSelectedCommunity(communityFragment);
   };
 

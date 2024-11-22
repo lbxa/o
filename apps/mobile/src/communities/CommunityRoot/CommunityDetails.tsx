@@ -31,7 +31,7 @@ export const CommunityDetails = () => {
         title="Invite"
         variant="indigo"
         className="rounded-xl"
-        onPress={() => router.push("/(app)/community/invite")}
+        onPress={() => router.push("/(root)/community/invite")}
       />
     </View>
   );

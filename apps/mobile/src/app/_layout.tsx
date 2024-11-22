@@ -21,6 +21,12 @@ export default function RootLayout() {
 
   const { environment } = useRelayEnvironment();
 
+  /**
+   * The splash screen is the best opportunity
+   * to load as much content as possible to keep
+   * all user journeys snappy and smooth. All subsequent
+   * loading will be cached by relay.
+   */
   useEffect(() => {
     void SplashScreen.preventAutoHideAsync();
     const appRoot = loadQuery(environment, APP_ROOT_QUERY, {});
@@ -40,7 +46,7 @@ export default function RootLayout() {
                   headerShown: false,
                 }}
               >
-                <Stack.Screen name="(app)" />
+                <Stack.Screen name="(root)" />
                 <Stack.Screen name="(auth)" />
               </Stack>
             </BottomSheetModalProvider>

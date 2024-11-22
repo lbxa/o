@@ -31,6 +31,14 @@ export const COMMUNITY_CREATE_MUTATION = graphql`
           isPublic
         }
       }
+      communityEdge {
+        cursor
+        node {
+          id
+          name
+          isPublic
+        }
+      }
     }
   }
 `;
@@ -101,7 +109,7 @@ export const CommunityCreate = () => {
       },
       onCompleted() {
         setError(null);
-        router.replace("/(app)/community");
+        router.replace("/(root)/community");
       },
     });
   };
@@ -155,7 +163,7 @@ export const CommunityCreate = () => {
       <View>
         <Title>Invite Members</Title>
         <OTouchable
-          onPress={() => router.push("/(app)/community/invite")}
+          onPress={() => router.push("/(root)/community/invite")}
           className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
         >
           <SearchIcon width={25} />

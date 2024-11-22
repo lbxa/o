@@ -14,15 +14,6 @@
       ],
       "@assets/*": [
         "assets/*"
-      ],
-      "@state/*": [
-        "src/state/*"
-      ],
-      "@universe/*": [
-        "src/universe/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
       ]
     }
   },
@@ -32,13 +23,13 @@
     "*.tsx",
     "*.js",
     "expo-env.d.ts",
-    "nativewind-env.d.ts", 
+    "nativewind-env.d.ts",
     "metro.config.cjs",
-    "eslint.config.cjs"
+    "eslint.config.cjs",
   ],
   "exclude": [
-    ".expo",
-    "ios",
-    "android"
+    ".expo/*",
+    "ios/",
+    "android/",
   ]
 }

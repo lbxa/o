@@ -4,7 +4,6 @@ import type {
   ChallengeActivityUnits,
 } from "@o/api-gql";
 import type { ChallengeActivityGoal } from "@o/api-gql";
-// import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
@@ -45,7 +44,11 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
 
   // const endDate = dayjs(challenge.endDate);
   // const today = dayjs();
+  // const endDate = dayjs(challenge.endDate);
+  // const today = dayjs();
 
+  // // Calculate the difference in days
+  // const daysLeft = endDate.diff(today, "day");
   // // Calculate the difference in days
   // const daysLeft = endDate.diff(today, "day");
 
@@ -62,7 +65,7 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
         target: challenge.activity.target,
       },
     });
-    router.push(`/(app)/community/challenge/${challenge.id}`);
+    router.push(`/(root)/community/challenge/${challenge.id}`);
   };
 
   return (
@@ -72,6 +75,11 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
           <Title>{challenge.name}</Title>
         </View>
         <Text>Socials will go here</Text>
+        {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
+          <Text className="text-xl font-bold text-indigo">
+            {daysLeft + " days"}
+          </Text>
+        </View> */}
         {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
           <Text className="text-xl font-bold text-indigo">
             {daysLeft + " days"}

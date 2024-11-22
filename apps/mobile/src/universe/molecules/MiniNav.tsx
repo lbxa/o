@@ -36,15 +36,15 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
 type NavItemType = "create" | "search" | "message";
 
 const DEFAULT_PATHS: Record<NavItemType, Href<string>> = {
-  create: "/(app)/community/create",
-  search: "/(app)/community/search",
-  message: "/(app)/home/message",
+  create: "/(root)/community/create",
+  search: "/(root)/community/search",
+  message: "/(root)/home/message",
 };
 
 const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
   create: <PlusIcon {...ICON_DIM} />,
-  search: <SearchIcon {...ICON_DIM} />,
-  message: <MessageIcon {...ICON_DIM} />,
+  search: <SearchIcon width={18} height={18} />,
+  message: <MessageIcon width={19} height={19} />,
 };
 
 interface NavItemConfig {

@@ -70,7 +70,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   return (
     <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
-        <View className="flex-row  gap-sm rounded-xl bg-ivory px-md py-sm">
+        <View className="flex-row  items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable
             className="mt-sm"
@@ -89,7 +89,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
           title="Invite"
           variant="indigo"
           className="rounded-xl"
-          onPress={() => router.push("/(app)/community/challenge/invite")}
+          onPress={() => router.push("/(root)/community/challenge/invite")}
         />
         <OButton
           title="Record"

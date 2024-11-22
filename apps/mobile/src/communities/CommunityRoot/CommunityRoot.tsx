@@ -46,7 +46,7 @@ export const CommunityRoot = ({
               items={["create"]}
               itemConfigs={{
                 create: {
-                  href: "/(app)/community/challenge/create",
+                  href: "/(root)/community/challenge/create",
                 },
               }}
             />

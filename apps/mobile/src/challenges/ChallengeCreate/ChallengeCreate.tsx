@@ -116,7 +116,7 @@ export const ChallengeCreate = () => {
         },
       },
       onCompleted: () => {
-        router.replace(`/(app)/community/${selectedCommunity.id}`);
+        router.replace(`/(root)/community/${selectedCommunity.id}`);
       },
       onError: (error) => {
         console.error(error.message);
@@ -244,7 +244,7 @@ export const ChallengeCreate = () => {
             <Title>Invite Members</Title>
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
-              onPress={() => router.push("/(app)/community/invite")}
+              onPress={() => router.push("/(root)/community/invite")}
               className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
             >
               <SearchIcon width={25} />
