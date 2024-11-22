@@ -13,5 +13,5 @@ export default function App() {
     return <Redirect href="/(auth)/login" />;
   }
 
-  return <Redirect href="/(app)/home" />;
+  return <Redirect href="/(root)/home" />;
 }

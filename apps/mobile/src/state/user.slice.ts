@@ -8,7 +8,6 @@ export interface UserSlice {
   activeUser: User | null;
   setActiveUser: (user: User) => void;
   removeActiveUser: () => void;
-  logoutUser: () => void;
 }
 
 export const createUserSlice: StateCreator<
@@ -20,5 +19,4 @@ export const createUserSlice: StateCreator<
   activeUser: null,
   setActiveUser: (user: User) => set({ activeUser: user }),
   removeActiveUser: () => set({ activeUser: null }),
-  logoutUser: () => set({ activeUser: null }),
 });

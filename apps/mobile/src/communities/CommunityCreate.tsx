@@ -101,13 +101,13 @@ export const CommunityCreate = () => {
       },
       onCompleted() {
         setError(null);
-        router.replace("/(app)/community");
+        router.replace("/(root)/community");
       },
     });
   };
 
   return (
-    <View className="flex h-full flex-col gap-md">
+    <View className="gap-md flex h-full flex-col">
       <View>
         <Title>Name</Title>
         <Controller
@@ -155,8 +155,8 @@ export const CommunityCreate = () => {
       <View>
         <Title>Invite Members</Title>
         <OTouchable
-          onPress={() => router.push("/(app)/community/invite")}
-          className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+          onPress={() => router.push("/(root)/community/invite")}
+          className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
         >
           <SearchIcon width={25} />
           <Text className="pl-sm">Search</Text>

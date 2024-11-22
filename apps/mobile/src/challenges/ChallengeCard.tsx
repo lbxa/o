@@ -62,12 +62,12 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
         target: challenge.activity.target,
       },
     });
-    router.push(`/(app)/community/challenge/${challenge.id}`);
+    router.push(`/(root)/community/challenge/${challenge.id}`);
   };
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md flex flex-col gap-sm rounded-xl bg-ivory p-sm">
+      <View className="mb-md gap-sm bg-ivory p-sm flex flex-col rounded-xl">
         <View className="flex flex-row items-center justify-between">
           <Title>{challenge.name}</Title>
         </View>

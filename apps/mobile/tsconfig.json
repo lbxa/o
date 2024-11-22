@@ -32,9 +32,10 @@
     "*.tsx",
     "*.js",
     "expo-env.d.ts",
-    "nativewind-env.d.ts", 
+    "nativewind-env.d.ts",
     "metro.config.cjs",
-    "eslint.config.cjs"
+    "eslint.config.cjs",
+    ".expo/types/**/*.ts"
   ],
   "exclude": [
     ".expo",

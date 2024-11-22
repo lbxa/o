@@ -4,7 +4,7 @@ import { useSecureStore } from "./useSecureStore";
 
 interface F {
   token: boolean;
-  deleteToken: () => Promise<void>;
+  deleteTokens: () => Promise<void>;
 }
 
 export const useToken = (): F => {
@@ -12,10 +12,10 @@ export const useToken = (): F => {
 
   const token = !!getStoreItem("ACCESS_TOKEN");
 
-  const deleteToken = useCallback(async () => {
+  const deleteTokens = useCallback(async () => {
     await deleteStoreItem("ACCESS_TOKEN");
     await deleteStoreItem("REFRESH_TOKEN");
   }, [deleteStoreItem]);
 
-  return useMemo(() => ({ token, deleteToken }), [deleteToken, token]);
+  return useMemo(() => ({ token, deleteTokens }), [deleteTokens, token]);
 };

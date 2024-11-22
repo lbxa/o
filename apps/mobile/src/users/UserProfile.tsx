@@ -18,7 +18,7 @@ export const USER_PROFILE_QUERY = graphql`
 
 export const UserProfile: React.FC = () => {
   const router = useRouter();
-  const { deleteToken } = useToken();
+  const { deleteTokens } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
   const _ = useFragment(
@@ -38,7 +38,7 @@ export const UserProfile: React.FC = () => {
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md flex grow bg-ivory p-md">
+        <View className="mb-md bg-ivory p-md flex grow">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
@@ -53,7 +53,7 @@ export const UserProfile: React.FC = () => {
           <OButton
             title="Logout"
             onPress={async () => {
-              await deleteToken();
+              await deleteTokens();
               removeActiveUser();
               router.replace("/(auth)/login");
             }}

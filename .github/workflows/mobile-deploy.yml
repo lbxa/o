@@ -1,4 +1,4 @@
-name: Mobile build
+name: Mobile deploy 
 
 on:
   workflow_dispatch:
@@ -50,11 +50,11 @@ jobs:
       #     echo $(jq '.expo.runtimeVersion.policy = "sdkVersion"' app.json) > app.json
 
       - name: 🚀 Build mobile
-        if: ${{ !github.event.inputs.submit || github.event.inputs.profile != 'production' }}
+        if: ${{ !github.event.inputs.submit }}
         working-directory: apps/mobile
         run: eas build --non-interactive --wait --platform=${{ github.event.inputs.platform }} --profile=${{ github.event.inputs.profile }}
 
       - name: 🚀 Build & submit mobile
-        if: ${{ github.event.inputs.submit && github.event.inputs.profile != 'production' }}
+        if: ${{ github.event.inputs.submit }}
         working-directory: apps/mobile
         run: eas build --non-interactive --wait --auto-submit --platform=${{ github.event.inputs.platform }} --profile=${{ github.event.inputs.profile }}

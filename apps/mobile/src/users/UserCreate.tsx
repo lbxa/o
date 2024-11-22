@@ -11,33 +11,17 @@ import { OPasswordInput } from "@/universe/atoms/OPasswordInput";
 import { Ozone } from "@/universe/molecules";
 
 import type { UserCreateMutation } from "../__generated__/UserCreateMutation.graphql";
+import type { UserCreateUpdatableQuery } from "../__generated__/UserCreateUpdatableQuery.graphql";
 import { useZustStore } from "../state";
 import { useSecureStore } from "../utils";
 
-export const USER_VALIDATE_EMAIL_QUERY = graphql`
-  query UserCreateValidateEmailQuery($email: String!) {
-    userValidateEmail(email: $email) {
-      alreadyTaken
-    }
-  }
-`;
-
-const USER_CREATE_MUTATION = graphql`
-  mutation UserCreateMutation($userInput: AuthCreateUserInput!) {
-    authCreateUser(authCreateUserInput: $userInput) {
-      user {
-        id
-        firstName
-        lastName
-        email
-      }
-      tokens {
-        accessToken
-        refreshToken
-      }
-    }
-  }
-`;
+// export const USER_VALIDATE_EMAIL_QUERY = graphql`
+//   query UserCreateValidateEmailQuery($email: String!) {
+//     userValidateEmail(email: $email) {
+//       alreadyTaken
+//     }
+//   }
+// `;
 
 // const EmailCheckMessage = ({
 //   queryRef,
@@ -55,13 +39,36 @@ const USER_CREATE_MUTATION = graphql`
 //   );
 // };
 
+const _ = graphql`
+  fragment UserCreateFragment_viewer_assignable on User @assignable {
+    __typename
+  }
+`;
+
 export const UserCreate = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const { setActiveUser } = useZustStore();
   const { setStoreItem } = useSecureStore();
-  const [commitMutation, isMutationInFlight] =
-    useMutation<UserCreateMutation>(USER_CREATE_MUTATION);
+  const [commitMutation, isMutationInFlight] = useMutation<UserCreateMutation>(
+    graphql`
+      mutation UserCreateMutation($userInput: AuthCreateUserInput!) {
+        authCreateUser(authCreateUserInput: $userInput) {
+          user {
+            ...UserCreateFragment_viewer_assignable
+            id
+            firstName
+            lastName
+            email
+          }
+          tokens {
+            accessToken
+            refreshToken
+          }
+        }
+      }
+    `
+  );
 
   // TODO finish dup email check
   // const [isPending, startTransition] = useTransition();
@@ -96,15 +103,37 @@ export const UserCreate = () => {
       onError: (e) => {
         setError(e.message.split("\n")[1]);
       },
-      updater: (store, data) => {
-        if (!data?.authCreateUser.user) return;
+      updater: (proxyStore, data) => {
+        if (!data?.authCreateUser) {
+          throw new Error("No data returned from user registration");
+        }
+        proxyStore.invalidateStore();
+
+        const { updatableData } =
+          proxyStore.readUpdatableQuery<UserCreateUpdatableQuery>(
+            graphql`
+              query UserCreateUpdatableQuery @updatable {
+                viewer {
+                  user {
+                    ...UserCreateFragment_viewer_assignable
+                  }
+                }
+              }
+            `,
+            {}
+          );
+
+        if (updatableData.viewer) {
+          console.log("Viewer has been updated in the cache!");
+          updatableData.viewer.user = data.authCreateUser.user;
+        }
 
         const { accessToken, refreshToken } = data.authCreateUser.tokens;
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
         setActiveUser(data.authCreateUser.user);
 
-        router.replace("/(app)/home");
+        router.replace("/(root)/home");
       },
     });
   };
@@ -112,7 +141,7 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <View className="mb-md flex flex-row justify-between gap-md">
+        <View className="mb-md gap-md flex flex-row justify-between">
           <Controller
             name="firstName"
             control={control}

@@ -25,13 +25,13 @@ export const CommunityDetails = () => {
   // );
 
   return (
-    <View className="mb-md flex flex-row gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-row">
       <OButton title="Share" variant="indigo" className="rounded-xl" />
       <OButton
         title="Invite"
         variant="indigo"
         className="rounded-xl"
-        onPress={() => router.push("/(app)/community/invite")}
+        onPress={() => router.push("/(root)/community/invite")}
       />
     </View>
   );
