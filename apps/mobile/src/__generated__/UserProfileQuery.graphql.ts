@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<b0a9a95aea388d80cc5df4c5374418eb>>
+ * @generated SignedSource<<ab2addb20832e68bf60d47aed8a4cd08>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -13,9 +12,7 @@ import type { FragmentRefs } from "relay-runtime";
 export type UserProfileQuery$variables = Record<PropertyKey, never>;
 export type UserProfileQuery$data = {
   readonly viewer: {
-    readonly user: {
-      readonly " $fragmentSpreads": FragmentRefs<"UserProfileFragment">;
-    } | null | undefined;
+    readonly " $fragmentSpreads": FragmentRefs<"UserProfile_viewer">;
   } | null | undefined;
 };
 export type UserProfileQuery = {
@@ -23,7 +20,15 @@ export type UserProfileQuery = {
   variables: UserProfileQuery$variables;
 };
 
-const node: ConcreteRequest = {
+const node: ConcreteRequest = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
@@ -39,20 +44,9 @@ const node: ConcreteRequest = {
         "plural": false,
         "selections": [
           {
-            "alias": null,
             "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "UserProfileFragment"
-              }
-            ],
-            "storageKey": null
+            "kind": "FragmentSpread",
+            "name": "UserProfile_viewer"
           }
         ],
         "storageKey": null
@@ -83,13 +77,7 @@ const node: ConcreteRequest = {
             "name": "user",
             "plural": false,
             "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              },
+              (v0/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -113,22 +101,24 @@ const node: ConcreteRequest = {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v0/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "1f4515a7ab22485f0736ff0c39ad760e",
+    "cacheID": "02486347224ba0f6ac11e78c70fb05f8",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery {\n  viewer {\n    user {\n      ...UserProfileFragment\n      id\n    }\n  }\n}\n\nfragment UserProfileFragment on User {\n  id\n  firstName\n  lastName\n  email\n}\n"
+    "text": "query UserProfileQuery {\n  viewer {\n    ...UserProfile_viewer\n    id\n  }\n}\n\nfragment UserProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    email\n  }\n}\n"
   }
 };
+})();
 
-(node as any).hash = "7710bf7b9163e3d2f8716c42235560b4";
+(node as any).hash = "6c86c2f80596041b06ed490ff0d130a5";
 
 export default node;

@@ -3,9 +3,14 @@ import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { ChallengeService } from "../challenge/challenge.service";
 import { CommunityService } from "../community/community.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, Community, User, Viewer } from "../types/graphql";
+import {
+  ChallengeConnection,
+  CommunityConnection,
+  User,
+  Viewer,
+} from "../types/graphql";
 import { UserService } from "../user/user.service";
-import { validateAndDecodeGlobalId } from "../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 
 @Resolver("Viewer")
 export class ViewerResolver {
@@ -20,7 +25,9 @@ export class ViewerResolver {
     @CurrentUser("userId") userId: number
   ): Promise<Viewer | undefined> {
     const v: Viewer = {
+      id: encodeGlobalId("Viewer", userId),
       user: await this.userService.findById(userId),
+      communities: await this.communityService.findUserCommunities(userId, 0),
     };
 
     return v;
@@ -33,20 +40,34 @@ export class ViewerResolver {
 
   @ResolveField()
   async communities(
-    @CurrentUser("userId") userId: number
-  ): Promise<Community[]> {
-    return this.communityService.findUserCommunities(userId);
+    @CurrentUser("userId") userId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<CommunityConnection> {
+    const userCommunities = await this.communityService.findUserCommunities(
+      userId,
+      first,
+      after
+    );
+
+    return userCommunities;
   }
 
   @ResolveField()
   async challenges(
-    @Args("communityId") communityGlobalId: string
-  ): Promise<Challenge[]> {
+    @Args("communityId") communityGlobalId: string,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<ChallengeConnection> {
     const communityId = validateAndDecodeGlobalId(
       communityGlobalId,
       "Community"
     );
-    return await this.challengeService.findCommunityChallenges(communityId);
+    return await this.challengeService.findCommunityChallenges(
+      communityId,
+      first,
+      after
+    );
   }
 
   @ResolveField()

@@ -33,6 +33,7 @@ export class NodeResolver {
     const { type: entityType } = decodeGlobalId(node.id);
     switch (entityType) {
       case "User":
+      case "Viewer":
         return this.userService.getTypename();
       case "Community":
         return this.communityService.getTypename();
@@ -53,6 +54,7 @@ export class NodeResolver {
 
     switch (entityType) {
       case "User":
+      case "Viewer":
         return this.userService.findById(decodedId);
       case "Community":
         return this.communityService.findById(decodedId);

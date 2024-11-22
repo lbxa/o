@@ -37,6 +37,9 @@ export const ChallengesTable = ChallengeSchema.table(
     ...withIdPk,
     name: varchar({ length: 255 }).notNull(),
     description: text().notNull(),
+    ownerId: integer()
+      .notNull()
+      .references(() => UsersTable.id),
     communityId: integer()
       .notNull()
       .references(() => CommunitiesTable.id),

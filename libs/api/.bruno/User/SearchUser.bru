@@ -15,31 +15,17 @@ auth:bearer {
 }
 
 body:graphql {
-  fragment User on User {
-    id
-    firstName
-    lastName
-    handle
-    email
-  }
-  
-  # fragment UserFriends on User {
-  #   friends {
-  #     ...User
-  #   }
-  # }
-  
   query { 
-    user {
-      # ...UserFriends
-      searchFriends(searchTerm: null) {
-        id
-        ...User
+    viewer {
+      user {
+        searchFriends(searchTerm: "lbx") {
+          id
+          firstName
+          lastName
+          handle
+        }
       }
     }
-    # userSearch(searchTerm: "barbosa") {
-    #   ...User
-    # }
   }
 }
 

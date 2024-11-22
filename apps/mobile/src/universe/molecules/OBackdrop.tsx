@@ -10,7 +10,7 @@ interface CustomBackdropProps extends BottomSheetBackdropProps {
   snapPoints?: (number | string)[]; // Accept snap points as a prop
 }
 
-export const BottomSheetBackdrop = ({
+export const OBackdrop = ({
   animatedIndex,
   style,
   snapPoints,

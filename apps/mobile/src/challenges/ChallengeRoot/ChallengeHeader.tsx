@@ -27,7 +27,13 @@ export const ChallengeHeader: React.FC<{
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon />
       </OTouchable>
-      <Text className="text-3xl font-bold">{challenge.name}</Text>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        className="flex-1 text-3xl font-bold"
+      >
+        {challenge.name}
+      </Text>
     </View>
   );
 };

@@ -2,23 +2,31 @@ import CameraIcon from "@assets/icons/camera.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { useFragment } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { COMMUNITY_FRAGMENT } from "@/communities/CommunityFragment";
+import type { CommunityCard_community$key } from "@/__generated__/CommunityCard_community.graphql";
 import { useZustStore } from "@/state";
 
-import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
 import { OTouchable } from "../atoms";
 
 interface Props {
-  community: CommunityFragment$key;
+  community: CommunityCard_community$key;
   onPress?: () => void;
 }
 
 export const CommunityCard = ({ community }: Props) => {
   const router = useRouter();
   const { setSelectedCommunity } = useZustStore();
-  const communityFragment = useFragment(COMMUNITY_FRAGMENT, community);
+  const communityFragment = useFragment(
+    graphql`
+      fragment CommunityCard_community on Community {
+        id
+        name
+        isVerified
+      }
+    `,
+    community
+  );
 
   const onPress = () => {
     router.push(`/(app)/community/${communityFragment.id}`);

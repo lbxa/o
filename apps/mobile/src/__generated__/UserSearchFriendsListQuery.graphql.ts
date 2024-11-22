@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<2ec393a7acabd373992da6f508d595a5>>
+ * @generated SignedSource<<e23ca3b982f84f2f7b39cb19ba61deef>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -137,19 +136,20 @@ return {
               (v2/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "6f08db30f7ea1a150eb42c4c0054d283",
+    "cacheID": "242d36427447671158bcfe6854054d5e",
     "id": null,
     "metadata": {},
     "name": "UserSearchFriendsListQuery",
     "operationKind": "query",
-    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n    id\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();

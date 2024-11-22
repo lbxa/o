@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<33c9aecc42b881ebd8fae157c27a1fa9>>
+ * @generated SignedSource<<fd8b95f4cda61b95db00d5626a1c1b6e>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -15,7 +14,7 @@ export type CommunityRootQuery$variables = {
 };
 export type CommunityRootQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_challenges">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_viewer">;
   } | null | undefined;
 };
 export type CommunityRootQuery = {
@@ -31,14 +30,20 @@ var v0 = [
     "name": "communityId"
   }
 ],
-v1 = [
+v1 = {
+  "kind": "Variable",
+  "name": "communityId",
+  "variableName": "communityId"
+},
+v2 = [
+  (v1/*: any*/),
   {
-    "kind": "Variable",
-    "name": "communityId",
-    "variableName": "communityId"
+    "kind": "Literal",
+    "name": "first",
+    "value": 10
   }
 ],
-v2 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -61,9 +66,16 @@ return {
         "plural": false,
         "selections": [
           {
-            "args": (v1/*: any*/),
+            "args": [
+              (v1/*: any*/),
+              {
+                "kind": "Literal",
+                "name": "count",
+                "value": 10
+              }
+            ],
             "kind": "FragmentSpread",
-            "name": "ChallengeList_challenges"
+            "name": "ChallengeList_viewer"
           }
         ],
         "storageKey": null
@@ -88,83 +100,151 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
-            "concreteType": "Challenge",
+            "args": (v2/*: any*/),
+            "concreteType": "ChallengeConnection",
             "kind": "LinkedField",
             "name": "challenges",
-            "plural": true,
+            "plural": false,
             "selections": [
-              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "description",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "startDate",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "endDate",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "ChallengeActivity",
+                "concreteType": "ChallengeEdge",
                 "kind": "LinkedField",
-                "name": "activity",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "cursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Challenge",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v3/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "description",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "startDate",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "endDate",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "ChallengeActivity",
+                        "kind": "LinkedField",
+                        "name": "activity",
+                        "plural": false,
+                        "selections": [
+                          (v3/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "type",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "measurement",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "goal",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "unit",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "target",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "__typename",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "type",
+                    "name": "startCursor",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "measurement",
+                    "name": "endCursor",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "goal",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "unit",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "target",
+                    "name": "hasNextPage",
                     "storageKey": null
                   }
                 ],
@@ -172,23 +252,35 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          {
+            "alias": null,
+            "args": (v2/*: any*/),
+            "filters": [
+              "communityId"
+            ],
+            "handle": "connection",
+            "key": "ChallengeList_viewer_challenges",
+            "kind": "LinkedHandle",
+            "name": "challenges"
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "434bf24913ad151d93ffb375614003fd",
+    "cacheID": "fb557f50f6efb7ff8df81e193a1ad682",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_challenges_160FAT\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_challenges_160FAT on Viewer {\n  challenges(communityId: $communityId) {\n    ...ChallengeFragment\n    id\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    id\n  }\n}\n\nfragment ChallengeCard_challenges on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenges\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b54cf4bed5fce86d277af06af652c57e";
+(node as any).hash = "22a2003d3f86b8e4a9f237a069ade9f4";
 
 export default node;

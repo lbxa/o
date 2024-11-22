@@ -7,25 +7,23 @@ meta {
 post {
   url: {{URL}}/
   body: graphql
-  auth: bearer
-}
-
-headers {
-  : 
-}
-
-auth:bearer {
-  token: {{TOKEN}}
+  auth: inherit
 }
 
 body:graphql {
   mutation {
     communityCreate(communityCreateInput: {
-      name: "The Yard",
+      name: "The New Gym",
       isPublic: false
     }) {
-      name
-      isPublic
+      communityEdge {
+        node {
+          id
+          name
+        	isPublic
+        }
+        cursor
+      } 
     }
   }
   

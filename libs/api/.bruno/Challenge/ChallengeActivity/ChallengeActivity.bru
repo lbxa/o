@@ -34,17 +34,22 @@ body:graphql {
     #   }
     #   result
     # }
-    challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjE=") {
-      user {
-        firstName
-        lastName
-      }
-      result
-      activity {
-        type
-        measurement
-        goal
-        challengeId
+    challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjI2", first: 5) {
+      edges {
+       	cursor
+        node {
+          user {
+            firstName
+            lastName
+          }
+          result
+          activity {
+            type
+            measurement
+            goal
+            challengeId
+          }
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ type Community implements Node & Timestamps {
 
   # TODO
   members: [User!]
-  challenges: [Challenge!]
+  challenges(first: Int, after: String): ChallengeConnection
   memberships: [CommunityMembership!]
   invitations: [CommunityInvitation!]
 }
@@ -43,15 +43,27 @@ input CommunityUpdateInput {
   name: String
 }
 
+type CommunityEdge {
+  cursor: String!
+  node: Community!
+}
+
+type CommunityConnection {
+  edges: [CommunityEdge!]
+  pageInfo: PageInfo!
+}
+
+type CommunityCreatePayload {
+  communityEdge: CommunityEdge!
+}
+
 type Query {
   community(id: ID!): Community
-  communities: [Community!]
-  userCommunities(userId: ID!): [Community!]
   communityInvitations(userId: ID!): [Community!]
 }
 
 type Mutation {
-  communityCreate(communityCreateInput: CommunityCreateInput!): Community!
+  communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Boolean! 
   communityInvite(userId: ID!, communityId: ID!): Boolean!

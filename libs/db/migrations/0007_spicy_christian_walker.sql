@@ -1,0 +1,1 @@
+ALTER TABLE "challenge"."challenges" ALTER COLUMN "owner_id" DROP DEFAULT;

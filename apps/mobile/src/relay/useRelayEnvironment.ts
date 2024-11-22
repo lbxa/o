@@ -10,6 +10,14 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 import { useSecureStore } from "../utils/useSecureStore";
 
+const createEnvironment = (fetchFn: FetchFunction): IEnvironment => {
+  const network = Network.create(fetchFn);
+  const store = new Store(new RecordSource());
+  return new Environment({ store, network });
+  // keep the deps empty: tearing down the environment on every fetchFn
+  // invocation will catastrophically destroy the in memory cache
+};
+
 /**
  * Relay environment has been setup to work authTokens that can
  * be replenished with a refreshToken until that has expired.
@@ -21,7 +29,7 @@ import { useSecureStore } from "../utils/useSecureStore";
  */
 export const useRelayEnvironment = (): {
   fetchFn: FetchFunction;
-  createEnvironment: () => IEnvironment;
+  environment: IEnvironment;
 } => {
   const router = useRouter();
   const { getStoreItem, deleteStoreItem, setStoreItem } = useSecureStore();
@@ -146,17 +154,7 @@ export const useRelayEnvironment = (): {
     ]
   );
 
-  const createEnvironment = useCallback((): IEnvironment => {
-    const network = Network.create(fetchFn);
-    const store = new Store(new RecordSource());
-    return new Environment({ store, network });
-    // keep the deps empty: tearing down the environment on every fetchFn
-    // invocation will catastrophically destroy the in memory cache
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const environment = useMemo(() => createEnvironment(fetchFn), [fetchFn]);
 
-  return useMemo(
-    () => ({ fetchFn, createEnvironment }),
-    [createEnvironment, fetchFn]
-  );
+  return { fetchFn, environment };
 };

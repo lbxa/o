@@ -12,7 +12,7 @@ export const ChallengeCreateCadenceSummary = () => {
     return (
       <>
         <StopwatchIcon width={20} />
-        <Text className="pl-sm">How often will you post your progress?</Text>
+        <Text className="pl-sm">Select the frequency</Text>
       </>
     );
   }

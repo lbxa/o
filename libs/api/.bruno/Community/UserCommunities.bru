@@ -7,11 +7,7 @@ meta {
 post {
   url: {{URL}}/
   body: graphql
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{TOKEN}}
+  auth: inherit
 }
 
 body:graphql {
@@ -23,26 +19,22 @@ body:graphql {
   }
   
   query {
-    # userCommunities(userId: 1) {
-    #   ...Community
-    # }
     viewer {
-      communities {
-        ...Community
+      communities(first: 10) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            ...Community
+          }
+        }
       }
     }
-  
   }
   
-}
-
-body:graphql:vars {
-  {
-    "intput": {
-      "firstName": "Marry",
-      "lastName": "Roberts",
-      "email": "MarryRobert@hotmail.com",
-      "password": "Marry"
-    }
-  }
 }

@@ -20,18 +20,32 @@ input ChallengeActivityResultCreateInput {
   result: Int!
 }
 
+type ChallengeActivityResultEdge {
+  node: ChallengeActivityResult!
+  cursor: String!
+}
+
+type ChallengeActivityResultConnection {
+  edges: [ChallengeActivityResultEdge!]
+  pageInfo: PageInfo!
+}
+
 extend type Challenge {
-  activityTopResults(challengeId: ID): [ChallengeActivityResult!]
-  activityTopMovers(challengeId: ID): [ChallengeActivityResult!]
+  activityTopResults(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
+  activityTopMovers(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
+}
+
+type CreateChallengeActivityResultPayload {
+  challengeActivityResultEdge: ChallengeActivityResultEdge!
 }
 
 type Query {
-  challengeActivityResults(challengeId: ID!): [ChallengeActivityResult!]
-  challengeActivityTopResults(challengeId: ID!): [ChallengeActivityResult!]
+  challengeActivityResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
+  challengeActivityTopResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
 }
 
 type Mutation {
   challengeActivityResultCreate(
     challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!
-  ): ChallengeActivityResult!
+  ): CreateChallengeActivityResultPayload!
 }

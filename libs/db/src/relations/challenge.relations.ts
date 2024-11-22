@@ -17,6 +17,10 @@ export const ChallengesRelations = relations(
       fields: [ChallengesTable.communityId],
       references: [CommunitiesTable.id],
     }),
+    owner: one(UsersTable, {
+      fields: [ChallengesTable.ownerId],
+      references: [UsersTable.id],
+    }),
     memberships: many(ChallengeMembershipsTable),
     invitations: many(ChallengeInvitationsTable),
     activities: many(ChallengeActivitiesTable),

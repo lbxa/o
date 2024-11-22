@@ -1,30 +1,29 @@
 /**
- * @generated SignedSource<<aa5b6482813e680f6e49df66127ff61c>>
+ * @generated SignedSource<<90cf593ad6b32e039504ec10533a52a7>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
 import type { ReaderFragment } from 'relay-runtime';
-export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
 export type ChallengeActivityTopResultsFragment_challenge$data = {
-  readonly activityTopResults: ReadonlyArray<{
-    readonly activity: {
-      readonly id: string;
-      readonly measurement: ChallengeActivityMeasurement;
+  readonly activityTopResults: {
+    readonly edges: ReadonlyArray<{
+      readonly cursor: string;
+      readonly node: {
+        readonly id: string;
+        readonly " $fragmentSpreads": FragmentRefs<"UserResultCard_challenge">;
+      };
+    }> | null | undefined;
+    readonly pageInfo: {
+      readonly endCursor: string | null | undefined;
+      readonly hasNextPage: boolean;
+      readonly startCursor: string | null | undefined;
     };
-    readonly id: string;
-    readonly result: number;
-    readonly user: {
-      readonly firstName: string | null | undefined;
-      readonly id: string;
-      readonly lastName: string | null | undefined;
-    };
-  }> | null | undefined;
+  } | null | undefined;
   readonly id: string;
   readonly " $fragmentType": "ChallengeActivityTopResultsFragment_challenge";
 };
@@ -34,7 +33,10 @@ export type ChallengeActivityTopResultsFragment_challenge$key = {
 };
 
 const node: ReaderFragment = (function(){
-var v0 = {
+var v0 = [
+  "activityTopResults"
+],
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -47,16 +49,41 @@ return {
       "defaultValue": null,
       "kind": "LocalArgument",
       "name": "challengeId"
+    },
+    {
+      "defaultValue": 10,
+      "kind": "LocalArgument",
+      "name": "count"
+    },
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "cursor"
     }
   ],
   "kind": "Fragment",
   "metadata": {
+    "connection": [
+      {
+        "count": "count",
+        "cursor": "cursor",
+        "direction": "forward",
+        "path": (v0/*: any*/)
+      }
+    ],
     "refetch": {
-      "connection": null,
+      "connection": {
+        "forward": {
+          "count": "count",
+          "cursor": "cursor"
+        },
+        "backward": null,
+        "path": (v0/*: any*/)
+      },
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./ChallengeActivityTopResultsRefetchQuery.graphql'),
+      "operation": require('./ChallengeActivityTopResultsPaginationQuery.graphql'),
       "identifierInfo": {
         "identifierField": "id",
         "identifierQueryVariableName": "id"
@@ -65,9 +92,8 @@ return {
   },
   "name": "ChallengeActivityTopResultsFragment_challenge",
   "selections": [
-    (v0/*: any*/),
     {
-      "alias": null,
+      "alias": "activityTopResults",
       "args": [
         {
           "kind": "Variable",
@@ -75,33 +101,48 @@ return {
           "variableName": "challengeId"
         }
       ],
-      "concreteType": "ChallengeActivityResult",
+      "concreteType": "ChallengeActivityResultConnection",
       "kind": "LinkedField",
-      "name": "activityTopResults",
-      "plural": true,
+      "name": "__ChallengeActivityTopResultsFragment_activityTopResults_connection",
+      "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
-          "concreteType": "User",
+          "concreteType": "ChallengeActivityResultEdge",
           "kind": "LinkedField",
-          "name": "user",
-          "plural": false,
+          "name": "edges",
+          "plural": true,
           "selections": [
-            (v0/*: any*/),
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "firstName",
+              "name": "cursor",
               "storageKey": null
             },
             {
               "alias": null,
               "args": null,
-              "kind": "ScalarField",
-              "name": "lastName",
+              "concreteType": "ChallengeActivityResult",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                (v1/*: any*/),
+                {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "UserResultCard_challenge"
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
+                }
+              ],
               "storageKey": null
             }
           ],
@@ -110,24 +151,30 @@ return {
         {
           "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "result",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "ChallengeActivity",
+          "concreteType": "PageInfo",
           "kind": "LinkedField",
-          "name": "activity",
+          "name": "pageInfo",
           "plural": false,
           "selections": [
-            (v0/*: any*/),
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "measurement",
+              "name": "hasNextPage",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "startCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "endCursor",
               "storageKey": null
             }
           ],
@@ -135,13 +182,14 @@ return {
         }
       ],
       "storageKey": null
-    }
+    },
+    (v1/*: any*/)
   ],
   "type": "Challenge",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "d36d60effacf3061970e47b3d611b842";
+(node as any).hash = "cb194bcb8c16bc778bececbbfe6c64ca";
 
 export default node;

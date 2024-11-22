@@ -4,35 +4,50 @@ import type {
   ChallengeActivityUnits,
 } from "@o/api-gql";
 import type { ChallengeActivityGoal } from "@o/api-gql";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { useFragment } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { OTouchable, Title } from "@/universe/atoms";
 
-import type { ChallengeFragment$key } from "../__generated__/ChallengeFragment.graphql";
+import type { ChallengeCard_challenges$key } from "../__generated__/ChallengeCard_challenges.graphql";
 import { useZustStore } from "../state";
-import { CHALLENGE_FRAGMENT } from "./ChallengeFragment";
 
 interface ChallengeCardProps {
-  challengeFragment: ChallengeFragment$key;
+  fragmentKey: ChallengeCard_challenges$key;
 }
 
-export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
+export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
   const router = useRouter();
   const { setSelectedChallenge } = useZustStore();
 
-  const challenge = useFragment<ChallengeFragment$key>(
-    CHALLENGE_FRAGMENT,
-    challengeFragment
+  const challenge = useFragment<ChallengeCard_challenges$key>(
+    graphql`
+      fragment ChallengeCard_challenges on Challenge {
+        id
+        name
+        description
+        startDate
+        endDate
+        activity {
+          id
+          type
+          measurement
+          goal
+          unit
+          target
+        }
+      }
+    `,
+    fragmentKey
   );
 
-  const endDate = dayjs(challenge.endDate);
-  const today = dayjs();
+  // const endDate = dayjs(challenge.endDate);
+  // const today = dayjs();
 
-  // Calculate the difference in days
-  const daysLeft = endDate.diff(today, "day");
+  // // Calculate the difference in days
+  // const daysLeft = endDate.diff(today, "day");
 
   const handlePress = () => {
     setSelectedChallenge({
@@ -52,16 +67,16 @@ export const ChallengeCard = ({ challengeFragment }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="relative mb-md rounded-xl bg-ivory p-sm">
-        <View className="mb-md flex flex-row items-center justify-between">
+      <View className="mb-md flex flex-col gap-sm rounded-xl bg-ivory p-sm">
+        <View className="flex flex-row items-center justify-between">
           <Title>{challenge.name}</Title>
-          <View className="absolute right-0 top-0 rounded-xl bg-indigo/30 px-sm">
-            <Text className="text-xl font-bold text-indigo">
-              {daysLeft + " days"}
-            </Text>
-          </View>
         </View>
         <Text>Socials will go here</Text>
+        {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
+          <Text className="text-xl font-bold text-indigo">
+            {daysLeft + " days"}
+          </Text>
+        </View> */}
       </View>
     </OTouchable>
   );

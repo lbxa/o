@@ -1,7 +1,11 @@
 import { Redirect } from "expo-router";
 
-import { useToken } from "../utils/useToken";
+import { useToken } from "@/utils";
 
+// TODO
+/**Remove this component, create auth route instead,
+ * it causes a screen redirect for no reason.
+ */
 export default function App() {
   const { token } = useToken();
 

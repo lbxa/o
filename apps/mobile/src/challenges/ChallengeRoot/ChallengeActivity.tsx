@@ -4,34 +4,13 @@ import { RefreshControl, SectionList, Text, View } from "react-native";
 import { graphql, useRefetchableFragment } from "react-relay";
 
 import type { ChallengeActivityTopResultsFragment_challenge$key } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
-import type { ChallengeActivityTopResultsRefetchQuery } from "@/__generated__/ChallengeActivityTopResultsRefetchQuery.graphql";
 import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery.graphql";
 import { OTouchable } from "@/universe/atoms";
 
+import type { ChallengeActivityTopResultsPaginationQuery } from "../../__generated__/ChallengeActivityTopResultsPaginationQuery.graphql";
 import { ChallengeDetails } from "./ChallengeDetails";
 import { UserResultCard } from "./ChallengeStats";
 import { ChallengeTopResultsList } from "./ChallengeStats/ChallengeTopResultsList";
-
-export const CHALLENGE_ACTIVITY_TOP_RESULTS_FRAGMENT = graphql`
-  fragment ChallengeActivityTopResultsFragment_challenge on Challenge
-  @refetchable(queryName: "ChallengeActivityTopResultsRefetchQuery")
-  @argumentDefinitions(challengeId: { type: "ID", defaultValue: null }) {
-    id
-    activityTopResults(challengeId: $challengeId) {
-      id
-      user {
-        id
-        firstName
-        lastName
-      }
-      result
-      activity {
-        id
-        measurement
-      }
-    }
-  }
-`;
 
 interface ChallengeActivityProps {
   challengeId: string;
@@ -43,16 +22,49 @@ export const ChallengeActivity = ({
 }: ChallengeActivityProps) => {
   const [isPending, startTransition] = useTransition();
   const [data, refetch] = useRefetchableFragment<
-    ChallengeActivityTopResultsRefetchQuery,
+    ChallengeActivityTopResultsPaginationQuery,
     ChallengeActivityTopResultsFragment_challenge$key
-  >(CHALLENGE_ACTIVITY_TOP_RESULTS_FRAGMENT, challengeRoot.viewer?.challenge);
+  >(
+    graphql`
+      fragment ChallengeActivityTopResultsFragment_challenge on Challenge
+      @refetchable(queryName: "ChallengeActivityTopResultsPaginationQuery")
+      @argumentDefinitions(
+        challengeId: { type: "ID", defaultValue: null }
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String" }
+      ) {
+        activityTopResults(
+          challengeId: $challengeId
+          first: $count
+          after: $cursor
+        )
+          @connection(
+            key: "ChallengeActivityTopResultsFragment_activityTopResults"
+          ) {
+          edges {
+            cursor
+            node {
+              id
+              ...UserResultCard_challenge
+            }
+          }
+          pageInfo {
+            hasNextPage
+            startCursor
+            endCursor
+          }
+        }
+      }
+    `,
+    challengeRoot.viewer?.challenge
+  );
 
   const topResultsModalRef = useRef<BottomSheetModal>(null);
   const topMoversModalRef = useRef<BottomSheetModal>(null);
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({ challengeId });
+      refetch({ challengeId }, { fetchPolicy: "store-and-network" });
     });
   }, [refetch, challengeId]);
 
@@ -68,7 +80,10 @@ export const ChallengeActivity = ({
     () => [
       {
         title: "Top Results",
-        data: data?.activityTopResults?.slice(0, 3) ?? [],
+        data:
+          data?.activityTopResults?.edges
+            ?.slice(0, 3)
+            .map((edge) => edge.node) ?? [],
       },
       { title: "Top Movers", data: [] },
     ],
@@ -79,19 +94,16 @@ export const ChallengeActivity = ({
     <>
       <ChallengeTopResultsList
         modalRef={topResultsModalRef}
-        results={data?.activityTopResults?.slice(3)}
+        results={
+          data?.activityTopResults?.edges?.map((edge) => edge.node).slice(3) ??
+          []
+        }
       />
       <SectionList
         className="min-h-full px-md"
         sections={sections}
         keyExtractor={(item, index) => [item.id, index].join("-")}
-        renderItem={({ item }) => (
-          <UserResultCard
-            user={item.user}
-            result={item.result}
-            measurement={item.activity.measurement}
-          />
-        )}
+        renderItem={({ item }) => <UserResultCard result={item} />}
         renderSectionHeader={({ section }) => (
           <Text className="text-2xl font-bold">{section.title}</Text>
         )}

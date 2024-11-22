@@ -1,4 +1,3 @@
-import { ParseIntPipe } from "@nestjs/common";
 import {
   Args,
   Mutation,
@@ -13,12 +12,19 @@ import {
   NewCommunity,
 } from "@o/db";
 import * as schema from "@o/db";
+import { eq } from "drizzle-orm";
 
 import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { Challenge, Community, CommunityInvitation } from "../types/graphql";
+import {
+  ChallengeConnection,
+  Community,
+  CommunityCreatePayload,
+  CommunityInvitation,
+} from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { ConflictError, InternalServerError } from "../utils/errors";
 import { CommunityService } from "./community.service";
 
 @Resolver("Community")
@@ -30,35 +36,23 @@ export class CommunityResolver {
   ) {}
 
   @ResolveField()
-  async challenges(@Parent() community: Community): Promise<Challenge[]> {
+  async challenges(
+    @Parent() community: Community,
+    @Args("first") first: number,
+    @Args("after") after: string
+  ): Promise<ChallengeConnection> {
     const communityId = validateAndDecodeGlobalId(community.id, "Community");
-    return this.challengeService.findCommunityChallenges(communityId);
+    return this.challengeService.findCommunityChallenges(
+      communityId,
+      first,
+      after
+    );
   }
 
   @Query("community")
   async community(@Args("id") id: string): Promise<Community | undefined> {
     const communityId = validateAndDecodeGlobalId(id, "Community");
     return this.communityService.findById(communityId);
-  }
-
-  @Query("communities")
-  async communities(): Promise<Community[]> {
-    return (await this.dbService.db.select().from(CommunitiesTable)).map(
-      (community) => ({
-        ...community,
-        id: encodeGlobalId("Community", community.id),
-        name: community.name,
-        isVerified: community.isVerified,
-      })
-    );
-  }
-
-  @Query("userCommunities")
-  userCommunities(
-    @Args("userId", ParseIntPipe) userId: number
-  ): Promise<Community[]> {
-    // const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.communityService.findUserCommunities(userId);
   }
 
   @Mutation("communityInvite")
@@ -127,16 +121,35 @@ export class CommunityResolver {
   async communityCreate(
     @Args("communityCreateInput") input: NewCommunity,
     @CurrentUser("userId") userId: number
-  ): Promise<Community | undefined> {
-    const [result] = await this.dbService.db
+  ): Promise<CommunityCreatePayload | undefined> {
+    const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
+      where: eq(CommunitiesTable.name, input.name),
+    });
+
+    if (existing) {
+      throw new ConflictError("Community name already taken");
+    }
+
+    const [newCommunity] = await this.dbService.db
       .insert(CommunitiesTable)
       .values({ ...input, ownerId: userId })
-      .returning({ insertedId: CommunitiesTable.id });
+      .returning();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!newCommunity) {
+      throw new InternalServerError("Failed to create community membership");
+    }
 
     await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.insertedId, isAdmin: true });
+      .values({ userId, communityId: newCommunity.id, isAdmin: true });
 
-    return this.communityService.findById(result.insertedId);
+    return {
+      communityEdge: {
+        __typename: "CommunityEdge",
+        cursor: encodeGlobalId("Community", newCommunity.id),
+        node: this.communityService.pg2GqlMapper(newCommunity),
+      },
+    };
   }
 }

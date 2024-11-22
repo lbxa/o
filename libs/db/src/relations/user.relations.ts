@@ -4,6 +4,7 @@ import {
   ChallengeActivityResultsTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
+  ChallengesTable,
 } from "../schema/challenge.schema";
 import {
   CommunitiesTable,
@@ -21,6 +22,7 @@ export const UsersRelations = relations(UsersTable, ({ many }) => ({
   communityInvitationsReceived: many(CommunityInvitationsTable, {
     relationName: "invitee",
   }),
+  challengesOwned: many(ChallengesTable),
   challengeMemberships: many(ChallengeMembershipsTable),
   challengeInvitationsSent: many(ChallengeInvitationsTable, {
     relationName: "inviter",

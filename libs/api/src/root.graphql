@@ -15,6 +15,19 @@ enum InvitationStatus {
   DECLINED
 }
 
+"""
+GraphQL Spec pagination information
+https://relay.dev/graphql/connections.htm#sec-Connection-Types.Fields.PageInfo
+"""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  "First node of the edges"
+  startCursor: String
+  "Last node of the edges"
+  endCursor: String
+}
+
 type Query {
   health: String! 
   node(id: ID!): Node # relay compliant  

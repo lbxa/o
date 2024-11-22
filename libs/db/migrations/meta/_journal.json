@@ -43,6 +43,34 @@
       "when": 1731469364145,
       "tag": "0005_cloudy_natasha_romanoff",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732164723052,
+      "tag": "0006_tiny_scarlet_spider",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1732164740333,
+      "tag": "0007_spicy_christian_walker",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1732177983934,
+      "tag": "0008_fine_brother_voodoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1732179110831,
+      "tag": "0009_add_pg_trgm_extension",
+      "breakpoints": true
     }
   ]
 }

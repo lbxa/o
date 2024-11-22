@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<93d43e8f8afcf672e20aec7508aef498>>
+ * @generated SignedSource<<2dca7f74ad672561a9de39909eb083c7>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -37,9 +36,14 @@ export type ChallengeCreateMutation$variables = {
 };
 export type ChallengeCreateMutation$data = {
   readonly challengeCreate: {
-    readonly description: string | null | undefined;
-    readonly id: string;
-    readonly name: string;
+    readonly challengeEdge: {
+      readonly cursor: string;
+      readonly node: {
+        readonly description: string | null | undefined;
+        readonly id: string;
+        readonly name: string;
+      };
+    };
   };
 };
 export type ChallengeCreateMutation = {
@@ -73,7 +77,7 @@ v2 = [
         "variableName": "challengeCreateInput"
       }
     ],
-    "concreteType": "Challenge",
+    "concreteType": "ChallengeCreatePayload",
     "kind": "LinkedField",
     "name": "challengeCreate",
     "plural": false,
@@ -81,22 +85,51 @@ v2 = [
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "description",
+        "concreteType": "ChallengeEdge",
+        "kind": "LinkedField",
+        "name": "challengeEdge",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "cursor",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Challenge",
+            "kind": "LinkedField",
+            "name": "node",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "name",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "description",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
         "storageKey": null
       }
     ],
@@ -127,16 +160,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "f188236629b728a5e0584fbfe8947ac3",
+    "cacheID": "a7e19c83429883f90612139836299d79",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    id\n    name\n    description\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "684afccb39cb6dd80d1ff702c3d6c87c";
+(node as any).hash = "8e6d1e3b1889b559b57fc9b75a3e3961";
 
 export default node;

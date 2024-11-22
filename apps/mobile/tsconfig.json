@@ -24,19 +24,21 @@
       "@utils/*": [
         "src/utils/*"
       ]
-    },
+    }
   },
   "include": [
     "src",
     "*.ts",
     "*.tsx",
     "*.js",
-    ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts", 
-    "metro.config.cjs"
+    "metro.config.cjs",
+    "eslint.config.cjs"
   ],
   "exclude": [
-    ".expo"
+    ".expo",
+    "ios",
+    "android"
   ]
 }

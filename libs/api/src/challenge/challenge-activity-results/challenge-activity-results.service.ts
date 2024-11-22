@@ -11,9 +11,12 @@ import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
 import { EntityService } from "../../entity";
-import { ChallengeActivityResult as GqlChallengeActivityResult } from "../../types/graphql";
+import {
+  ChallengeActivityResult as GqlChallengeActivityResult,
+  ChallengeActivityResultConnection,
+} from "../../types/graphql";
 import { UserService } from "../../user/user.service";
-import { encodeGlobalId } from "../../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../../utils";
 import { ChallengeActivitiesService } from "../challenge-activity";
 import { getRankingStrategy } from "./ranking-strategies";
 
@@ -155,11 +158,23 @@ export class ChallengeActivityResultsService
     return this.pg2GqlMapper(challengeActivityResultWithRelations);
   }
 
-  public async fetchTopResults(params: {
-    activityId?: number;
-    challengeId?: number;
-  }): Promise<GqlChallengeActivityResult[]> {
+  public async fetchTopResults(
+    params: {
+      activityId?: number;
+      challengeId?: number;
+    },
+    first: number,
+    after?: string
+  ): Promise<ChallengeActivityResultConnection> {
     const { activityId = undefined, challengeId = undefined } = params;
+
+    const startCursorId = after
+      ? validateAndDecodeGlobalId(
+          after,
+          challengeId ? "Challenge" : "ChallengeActivity"
+        )
+      : 0;
+
     const whereClause = challengeId
       ? eq(ChallengeActivityResultsTable.challengeId, challengeId)
       : activityId
@@ -183,7 +198,16 @@ export class ChallengeActivityResultsService
 
     if (challengeActivityResults.length === 0) {
       // no activity results for this challenge
-      return [];
+      return {
+        __typename: "ChallengeActivityResultConnection",
+        edges: [],
+        pageInfo: {
+          startCursor: null,
+          endCursor: null,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        },
+      };
     }
 
     const gqlFormattedResults = challengeActivityResults.map((result) =>
@@ -202,6 +226,18 @@ export class ChallengeActivityResultsService
       new Map(rankedResults.map((result) => [result.user.id, result])).values()
     );
 
-    return uniqueResults;
+    return {
+      __typename: "ChallengeActivityResultConnection",
+      edges: uniqueResults.slice(0, first).map((result) => ({
+        node: result,
+        cursor: result.id,
+      })),
+      pageInfo: {
+        startCursor: uniqueResults[0].id,
+        endCursor: uniqueResults[uniqueResults.length - 1].id,
+        hasNextPage: uniqueResults.length > first,
+        hasPreviousPage: startCursorId > 0,
+      },
+    };
   }
 }

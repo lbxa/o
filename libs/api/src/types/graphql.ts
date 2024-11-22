@@ -1,11 +1,9 @@
-
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
  */
 
-/* tslint:disable */
 /* eslint-disable */
 
 export enum ChallengeActivityType {
@@ -162,14 +160,14 @@ export interface IMutation {
     authLogout(id: number): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserPayload | Promise<AuthCreateUserPayload>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
-    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): ChallengeActivityResult | Promise<ChallengeActivityResult>;
-    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): Challenge | Promise<Challenge>;
+    challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): CreateChallengeActivityResultPayload | Promise<CreateChallengeActivityResultPayload>;
+    challengeCreate(challengeCreateInput: ChallengeCreateInput, challengeActivityCreateInput: ChallengeActivityCreateInput): ChallengeCreatePayload | Promise<ChallengeCreatePayload>;
     challengeUpdate(challengeUpdateInput: ChallengeUpdateInput): Challenge | Promise<Challenge>;
     challengeDelete(id: string): boolean | Promise<boolean>;
     challengeInvite(userId: string, challengeId: string): boolean | Promise<boolean>;
     challengeJoin(inviteId: string): Challenge | Promise<Challenge>;
     challengeLeave(id: string): boolean | Promise<boolean>;
-    communityCreate(communityCreateInput: CommunityCreateInput): Community | Promise<Community>;
+    communityCreate(communityCreateInput: CommunityCreateInput): CommunityCreatePayload | Promise<CommunityCreatePayload>;
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
     communityInvite(userId: string, communityId: string): boolean | Promise<boolean>;
@@ -188,10 +186,22 @@ export interface ChallengeActivityResult extends Node, Timestamps {
     updatedAt?: Nullable<DateTime>;
 }
 
+export interface ChallengeActivityResultEdge {
+    __typename?: 'ChallengeActivityResultEdge';
+    node: ChallengeActivityResult;
+    cursor: string;
+}
+
+export interface ChallengeActivityResultConnection {
+    __typename?: 'ChallengeActivityResultConnection';
+    edges?: Nullable<ChallengeActivityResultEdge[]>;
+    pageInfo: PageInfo;
+}
+
 export interface Challenge extends Node, Timestamps {
     __typename?: 'Challenge';
-    activityTopResults?: Nullable<ChallengeActivityResult[]>;
-    activityTopMovers?: Nullable<ChallengeActivityResult[]>;
+    activityTopResults?: Nullable<ChallengeActivityResultConnection>;
+    activityTopMovers?: Nullable<ChallengeActivityResultConnection>;
     id: string;
     name: string;
     description?: Nullable<string>;
@@ -208,18 +218,18 @@ export interface Challenge extends Node, Timestamps {
     invitations?: Nullable<ChallengeInvitation[]>;
 }
 
+export interface CreateChallengeActivityResultPayload {
+    __typename?: 'CreateChallengeActivityResultPayload';
+    challengeActivityResultEdge: ChallengeActivityResultEdge;
+}
+
 export interface IQuery {
     __typename?: 'IQuery';
-    challengeActivityResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
-    challengeActivityTopResults(challengeId: string): Nullable<ChallengeActivityResult[]> | Promise<Nullable<ChallengeActivityResult[]>>;
+    challengeActivityResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
+    challengeActivityTopResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
-    challenges(): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    communityChallenges(communityId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
-    userChallenges(userId: string): Nullable<Challenge[]> | Promise<Nullable<Challenge[]>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
     community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
-    communities(): Nullable<Community[]> | Promise<Nullable<Community[]>>;
-    userCommunities(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
@@ -263,6 +273,23 @@ export interface ChallengeInvitation extends Node, Timestamps {
     expiresAt: DateTime;
 }
 
+export interface ChallengeEdge {
+    __typename?: 'ChallengeEdge';
+    cursor: string;
+    node: Challenge;
+}
+
+export interface ChallengeConnection {
+    __typename?: 'ChallengeConnection';
+    edges?: Nullable<ChallengeEdge[]>;
+    pageInfo: PageInfo;
+}
+
+export interface ChallengeCreatePayload {
+    __typename?: 'ChallengeCreatePayload';
+    challengeEdge: ChallengeEdge;
+}
+
 export interface Community extends Node, Timestamps {
     __typename?: 'Community';
     id: string;
@@ -273,7 +300,7 @@ export interface Community extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
-    challenges?: Nullable<Challenge[]>;
+    challenges?: Nullable<ChallengeConnection>;
     memberships?: Nullable<CommunityMembership[]>;
     invitations?: Nullable<CommunityInvitation[]>;
 }
@@ -299,6 +326,31 @@ export interface CommunityInvitation extends Node, Timestamps {
     expiresAt: DateTime;
 }
 
+export interface CommunityEdge {
+    __typename?: 'CommunityEdge';
+    cursor: string;
+    node: Community;
+}
+
+export interface CommunityConnection {
+    __typename?: 'CommunityConnection';
+    edges?: Nullable<CommunityEdge[]>;
+    pageInfo: PageInfo;
+}
+
+export interface CommunityCreatePayload {
+    __typename?: 'CommunityCreatePayload';
+    communityEdge: CommunityEdge;
+}
+
+export interface PageInfo {
+    __typename?: 'PageInfo';
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor?: Nullable<string>;
+    endCursor?: Nullable<string>;
+}
+
 export interface User extends Node, Timestamps {
     __typename?: 'User';
     id: string;
@@ -310,7 +362,6 @@ export interface User extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     friends?: Nullable<User[]>;
-    communities?: Nullable<Community[]>;
     searchFriends?: Nullable<User[]>;
     memberships?: Nullable<CommunityMembership[]>;
     sentInvitations?: Nullable<CommunityInvitation[]>;
@@ -322,11 +373,12 @@ export interface ValidEmailResponse {
     alreadyTaken: boolean;
 }
 
-export interface Viewer {
+export interface Viewer extends Node {
     __typename?: 'Viewer';
+    id: string;
     user?: Nullable<User>;
-    communities?: Nullable<Community[]>;
-    challenges?: Nullable<Challenge[]>;
+    communities?: CommunityConnection;
+    challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;
 }
 

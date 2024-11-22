@@ -24,6 +24,7 @@ import { InvalidIdError } from "./errors";
 // );
 
 type EntityIdentifiers =
+  | "Viewer"
   | "Community"
   | "User"
   | "Challenge"

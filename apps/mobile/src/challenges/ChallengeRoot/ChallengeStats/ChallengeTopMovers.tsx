@@ -33,14 +33,32 @@ const UserChallengeResultCard = ({
 };
 
 export const CHALLENGE_TOP_MOVERS_QUERY = graphql`
-  query ChallengeTopMoversQuery($challengeId: ID!) {
-    challengeActivityResults(challengeId: $challengeId) {
-      user {
-        id
-        firstName
-        lastName
+  query ChallengeTopMoversQuery(
+    $challengeId: ID!
+    $count: Int
+    $cursor: String
+  ) {
+    challengeActivityResults(
+      challengeId: $challengeId
+      first: $count
+      after: $cursor
+    ) @connection(key: "ChallengeTopMoversQuery_challengeActivityResults") {
+      edges {
+        cursor
+        node {
+          user {
+            id
+            firstName
+            lastName
+          }
+          result
+        }
       }
-      result
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
     }
   }
 `;
@@ -56,13 +74,13 @@ export const ChallengeTopMovers = ({ queryRef }: ChallengeTopMoversProps) => {
   return (
     <View className="mb-md">
       <Text className="text-2xl font-bold">Top Movers</Text>
-      {data.challengeActivityResults
+      {data.challengeActivityResults.edges
         ?.slice(0, 3)
         .map((item, i) => (
           <UserChallengeResultCard
             key={i}
-            user={item.user}
-            result={item.result}
+            user={item.node.user}
+            result={item.node.result}
           />
         ))}
       <Text className="mt-md underline">View all</Text>

@@ -10,10 +10,6 @@ post {
   auth: bearer
 }
 
-headers {
-  : 
-}
-
 auth:bearer {
   token: {{TOKEN}}
 }
@@ -35,17 +31,14 @@ body:graphql {
       goal: SHORTEST_TIME,
       unit: MILES,
     }) {
-      name
-      description
+      challengeEdge {
+        node {
+          id
+         	name
+          description
+        }  
+      }
     }
   }
-  
-  # query {
-  #   communities {
-  #     id
-  #     name
-  #     isPublic
-  #   }
-  # }
   
 }

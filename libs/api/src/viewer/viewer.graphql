@@ -1,7 +1,13 @@
-type Viewer {
+"""
+The currently logged in user
+""" 
+type Viewer implements Node {
+  "Alias for user id"
+  id: ID!
+  "Only one active user can be logged in at a time"
   user: User
-  communities: [Community!]
-  challenges(communityId: ID!): [Challenge!]
+  communities(first: Int!, after: String): CommunityConnection!
+  challenges(communityId: ID!, first: Int!, after: String): ChallengeConnection!
   challenge(challengeId: ID!): Challenge
 }
 

@@ -69,11 +69,22 @@ input ChallengeUpdateInput {
   endDate: DateTime
 }
 
+type ChallengeEdge {
+  cursor: String!
+  node: Challenge!
+}
+
+type ChallengeConnection {
+  edges: [ChallengeEdge!]
+  pageInfo: PageInfo!
+}
+
+type ChallengeCreatePayload {
+  challengeEdge: ChallengeEdge!
+}
+
 type Query {
   challenge(id: ID!): Challenge
-  challenges: [Challenge!]
-  communityChallenges(communityId: ID!): [Challenge!]
-  userChallenges(userId: ID!): [Challenge!]
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
 }
 
@@ -81,7 +92,7 @@ type Mutation {
   challengeCreate(
     challengeCreateInput: ChallengeCreateInput!
     challengeActivityCreateInput: ChallengeActivityCreateInput!
-  ): Challenge!
+  ): ChallengeCreatePayload!
   challengeUpdate(challengeUpdateInput: ChallengeUpdateInput!): Challenge!
   challengeDelete(id: ID!): Boolean!
   challengeInvite(userId: ID!, challengeId: ID!): Boolean!

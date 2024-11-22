@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<ad9063467c64af96610b3ff2012b7001>>
+ * @generated SignedSource<<c3474510e589e4b9a110479ea4f193b3>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -53,7 +52,14 @@ v3 = {
   "kind": "ScalarField",
   "name": "measurement",
   "storageKey": null
-};
+},
+v4 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 10
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -191,34 +197,90 @@ return {
               },
               {
                 "alias": null,
-                "args": null,
-                "concreteType": "ChallengeActivityResult",
+                "args": (v4/*: any*/),
+                "concreteType": "ChallengeActivityResultConnection",
                 "kind": "LinkedField",
                 "name": "activityTopResults",
-                "plural": true,
+                "plural": false,
                 "selections": [
-                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "User",
+                    "concreteType": "ChallengeActivityResultEdge",
                     "kind": "LinkedField",
-                    "name": "user",
-                    "plural": false,
+                    "name": "edges",
+                    "plural": true,
                     "selections": [
-                      (v2/*: any*/),
                       {
                         "alias": null,
                         "args": null,
                         "kind": "ScalarField",
-                        "name": "firstName",
+                        "name": "cursor",
                         "storageKey": null
                       },
                       {
                         "alias": null,
                         "args": null,
-                        "kind": "ScalarField",
-                        "name": "lastName",
+                        "concreteType": "ChallengeActivityResult",
+                        "kind": "LinkedField",
+                        "name": "node",
+                        "plural": false,
+                        "selections": [
+                          (v2/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "user",
+                            "plural": false,
+                            "selections": [
+                              (v2/*: any*/),
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "firstName",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "lastName",
+                                "storageKey": null
+                              }
+                            ],
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "result",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "ChallengeActivity",
+                            "kind": "LinkedField",
+                            "name": "activity",
+                            "plural": false,
+                            "selections": [
+                              (v2/*: any*/),
+                              (v3/*: any*/)
+                            ],
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "__typename",
+                            "storageKey": null
+                          }
+                        ],
                         "storageKey": null
                       }
                     ],
@@ -227,41 +289,65 @@ return {
                   {
                     "alias": null,
                     "args": null,
-                    "kind": "ScalarField",
-                    "name": "result",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "ChallengeActivity",
+                    "concreteType": "PageInfo",
                     "kind": "LinkedField",
-                    "name": "activity",
+                    "name": "pageInfo",
                     "plural": false,
                     "selections": [
-                      (v2/*: any*/),
-                      (v3/*: any*/)
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "hasNextPage",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "startCursor",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "endCursor",
+                        "storageKey": null
+                      }
                     ],
                     "storageKey": null
                   }
                 ],
-                "storageKey": null
+                "storageKey": "activityTopResults(first:10)"
+              },
+              {
+                "alias": null,
+                "args": (v4/*: any*/),
+                "filters": [
+                  "challengeId"
+                ],
+                "handle": "connection",
+                "key": "ChallengeActivityTopResultsFragment_activityTopResults",
+                "kind": "LinkedHandle",
+                "name": "activityTopResults"
               }
             ],
             "storageKey": null
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "d5639c8d27b9ea78f3cc1ec2ee06b526",
+    "cacheID": "3fac6a804473e3573a052d00ab2d5034",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeFragment\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults {\n    id\n    user {\n      id\n      firstName\n      lastName\n    }\n    result\n    activity {\n      id\n      measurement\n    }\n  }\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeFragment\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  activityTopResults(first: 10) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment ChallengeFragment on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    measurement\n  }\n}\n"
   }
 };
 })();

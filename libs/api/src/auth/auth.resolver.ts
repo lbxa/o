@@ -37,7 +37,7 @@ export class AuthResolver {
     );
 
     if (!match) {
-      throw new UnauthorizedError("Password is incorrect");
+      throw new UnauthorizedError("Email or password are incorrect");
     }
 
     const { accessToken, refreshToken } =

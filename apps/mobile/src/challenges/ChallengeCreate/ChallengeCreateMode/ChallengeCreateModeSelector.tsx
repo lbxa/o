@@ -78,7 +78,7 @@ export const ChallengeCreateModeSelector: React.FC<{
 
   return (
     <View className="flex flex-col bg-white px-md pb-10">
-      <Title>Proof of Workout</Title>
+      <Title>Challenge Mode</Title>
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <View className="mb-lg flex flex-col gap-md">
         {controls.map((c) => (

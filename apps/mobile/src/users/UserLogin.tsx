@@ -7,15 +7,15 @@ import { Text } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
+import type { UserLoginMutation } from "@/__generated__/UserLoginMutation.graphql";
+import { useZustStore } from "@/state";
 import {
   OButton,
   OPasswordInput,
   PrimaryTextInputControl,
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-
-import type { UserLoginMutation } from "../__generated__/UserLoginMutation.graphql";
-import { useSecureStore } from "../utils/useSecureStore";
+import { useSecureStore } from "@/utils";
 
 const userLoginMutation = graphql`
   mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
@@ -36,6 +36,7 @@ const userLoginMutation = graphql`
 
 export const UserLogin = () => {
   const router = useRouter();
+  const { setActiveUser } = useZustStore();
   const { setStoreItem } = useSecureStore();
   const [error, setError] = useState<string | null>(null);
   const [commitMutation, isMutationInFlight] =
@@ -64,12 +65,22 @@ export const UserLogin = () => {
       onError: (e) => {
         setError(e.message.split("\n")[1]);
       },
-      updater: (store, data) => {
+      updater: (proxyStore, data) => {
         if (!data?.authLogin) return;
+
+        const newUser = proxyStore
+          .getRootField("authLogin")
+          .getLinkedRecord("user");
+        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
+        if (viewer) {
+          console.log("Viewer has been updated in the cache!");
+          viewer.setLinkedRecord(newUser, "user");
+        }
 
         const { accessToken, refreshToken } = data.authLogin.tokens;
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
+        setActiveUser(data.authLogin.user);
 
         router.replace("/(app)/home");
       },
