@@ -1,8 +1,10 @@
 import SearchIcon from "@assets/icons/search.svg";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
+import { ConnectionHandler, graphql, useMutation } from "react-relay";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
 
 import type {
@@ -16,6 +18,7 @@ import {
   Title,
 } from "@/universe/atoms";
 
+import { useZustStore } from "../state";
 import { useZustStore } from "../state";
 
 export const COMMUNITY_CREATE_MUTATION = graphql`
@@ -31,12 +34,22 @@ export const COMMUNITY_CREATE_MUTATION = graphql`
           isPublic
         }
       }
+      communityEdge {
+        cursor
+        node {
+          id
+          name
+          isPublic
+        }
+      }
     }
   }
 `;
 
 export const CommunityCreate = () => {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const { activeUser } = useZustStore();
   const [error, setError] = useState<string | null>(null);
   const { activeUser } = useZustStore();
   const [commitMutation, isMutationInFlight] =
@@ -58,6 +71,10 @@ export const CommunityCreate = () => {
       throw new Error("Active user not found");
     }
 
+    if (!activeUser) {
+      throw new Error("Active user not found");
+    }
+
     const { name, isPublic } = data;
 
     commitMutation({
@@ -66,6 +83,35 @@ export const CommunityCreate = () => {
           name,
           isPublic,
         },
+      },
+      updater: (proxyStore, data) => {
+        if (!data) return;
+
+        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
+        if (!viewer) {
+          throw new Error("Viewer not found");
+        }
+
+        const connectionRecord = ConnectionHandler.getConnection(
+          viewer,
+          "CommunityList_viewer_communities"
+        );
+
+        if (!connectionRecord) {
+          throw new Error("Connection record not found");
+        }
+
+        const payload = proxyStore.getRootField("communityCreate");
+        const communityEdge = payload.getLinkedRecord("communityEdge");
+
+        const newEdge = ConnectionHandler.createEdge(
+          proxyStore,
+          connectionRecord,
+          communityEdge,
+          "CommunityEdge"
+        );
+
+        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
       },
       updater: (proxyStore, data) => {
         if (!data) return;
@@ -166,6 +212,7 @@ export const CommunityCreate = () => {
       <OButton
         title={isMutationInFlight ? "Loading..." : "Create"}
         disabled={isMutationInFlight}
+        className="mb-[200px]"
         className="mb-[200px]"
         onPress={async (e) => {
           // Read more about event pooling

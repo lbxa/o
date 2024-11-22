@@ -9,6 +9,8 @@ import { graphql } from "react-relay";
 
 import type { UserLoginMutation } from "@/__generated__/UserLoginMutation.graphql";
 import { useZustStore } from "@/state";
+import type { UserLoginMutation } from "@/__generated__/UserLoginMutation.graphql";
+import { useZustStore } from "@/state";
 import {
   OButton,
   OPasswordInput,
@@ -101,6 +103,7 @@ export const UserLogin = () => {
         const { accessToken, refreshToken } = data.authLogin.tokens;
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
+        setActiveUser(data.authLogin.user);
         setActiveUser(data.authLogin.user);
 
         router.replace("/(root)/home");

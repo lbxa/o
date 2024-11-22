@@ -1,6 +1,8 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import ChevronDownIcon from "@assets/icons/chevron-down.svg";
 import ChevronUpIcon from "@assets/icons/chevron-up.svg";
+import ChevronDownIcon from "@assets/icons/chevron-down.svg";
+import ChevronUpIcon from "@assets/icons/chevron-up.svg";
 import SearchIcon from "@assets/icons/search.svg";
 import {
   ChallengeActivityUnits,
@@ -14,6 +16,7 @@ import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
+import { ConnectionHandler, graphql, useMutation } from "react-relay";
 
 import type {
   ChallengeCreateInput,
@@ -24,6 +27,7 @@ import {
   OButton,
   OTouchable,
   PrimaryTextInputControl,
+  Subtitle,
   Subtitle,
   Title,
 } from "@/universe/atoms";
@@ -50,12 +54,22 @@ export const CHALLENGE_CREATE_MUTATION = graphql`
           description
         }
       }
+      challengeEdge {
+        cursor
+        node {
+          id
+          name
+          description
+        }
+      }
     }
   }
 `;
 
 export const ChallengeCreate = () => {
   const router = useRouter();
+  const { selectedCommunity, challengeForm, setChallengeFormField } =
+    useZustStore();
   const { selectedCommunity, challengeForm, setChallengeFormField } =
     useZustStore();
   const [commitMutation, isMutationInFlight] =
@@ -153,6 +167,38 @@ export const ChallengeCreate = () => {
 
         ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
       },
+      updater: (store, data) => {
+        if (!data) {
+          throw new Error("No data returned from mutation");
+        }
+
+        const viewer = store.getRoot().getLinkedRecord("viewer");
+        if (!viewer) {
+          throw new Error("Viewer not found");
+        }
+
+        const connectionRecord = ConnectionHandler.getConnection(
+          viewer,
+          "ChallengeList_viewer_challenges",
+          { communityId: selectedCommunity.id }
+        );
+
+        if (!connectionRecord) {
+          throw new Error("Connection record not found");
+        }
+
+        const payload = store.getRootField("challengeCreate");
+        const challengeEdge = payload.getLinkedRecord("challengeEdge");
+
+        const newEdge = ConnectionHandler.createEdge(
+          store,
+          connectionRecord,
+          challengeEdge,
+          "ChallengeEdge"
+        );
+
+        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
+      },
     });
   };
 
@@ -208,7 +254,59 @@ export const ChallengeCreate = () => {
                 />
               )}
             />
+    <Ozone>
+      <ScrollView>
+        <View className="flex-1">
+          <OTouchable className="mb-md flex h-[150px] bg-gray-200">
+            <View className="m-auto">
+              <CameraIcon width={45} height={45} fill={"grey"} />
+            </View>
+          </OTouchable>
+          <View className="mb-md px-md">
+            <Title>Name</Title>
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: { value: true, message: "Required" } }}
+              render={({ field: { onBlur, onChange, value } }) => (
+                <PrimaryTextInputControl
+                  className="mb-lg"
+                  placeholder="What's your challenge called?"
+                  inputMode="text"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  error={!!errors.name}
+                  errorMessage={errors.name?.message}
+                />
+              )}
+            />
+            <Title>Description</Title>
+            <Controller
+              name="description"
+              control={control}
+              rules={{ required: { value: true, message: "Required" } }}
+              render={({ field: { onBlur, onChange, value } }) => (
+                <PrimaryTextInputControl
+                  className="mb-lg"
+                  placeholder="Describe your challenge and its goals..."
+                  inputMode="text"
+                  editable
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  multiline
+                  blurOnSubmit
+                  // numberOfLines={10}
+                  value={value}
+                  error={!!errors.name}
+                  style={{ height: 100 }}
+                  errorMessage={errors.name?.message}
+                  textAlignVertical="top"
+                />
+              )}
+            />
 
+            <ChallengeCreateActivity />
             <ChallengeCreateActivity />
 
             <Title>Date</Title>
@@ -266,11 +364,14 @@ export const ChallengeCreate = () => {
                 <View
                   className={classNames(
                     "flex flex-col justify-between rounded-lg mb-sm",
+                    "flex flex-col justify-between rounded-lg mb-sm",
                     {
                       "bg-red-200 text-red-800": !!errors.endDate,
                     }
                   )}
                 >
+                  <Title className="text-xl">End</Title>
+                  <Subtitle>When should the challenge officially end?</Subtitle>
                   <Title className="text-xl">End</Title>
                   <Subtitle>When should the challenge officially end?</Subtitle>
                   <Controller
@@ -298,11 +399,14 @@ export const ChallengeCreate = () => {
                 </View>
                 {!!errors.endDate && (
                   <Text className="mb-md pl-sm text-red-900">
+                  <Text className="mb-md pl-sm text-red-900">
                     End date must be after start date
                   </Text>
                 )}
                 <ChallengeCreateMode />
+                <ChallengeCreateMode />
               </View>
+            ) : (
             ) : (
               <OTouchable
                 onPress={() => setChallengeFormField("advancedMode", true)}
@@ -310,7 +414,25 @@ export const ChallengeCreate = () => {
               >
                 <Title>More Settings</Title>
                 <ChevronDownIcon width={22} height={22} />
+                <Title>More Settings</Title>
+                <ChevronDownIcon width={22} height={22} />
               </OTouchable>
+            )}
+
+            <OButton
+              title={isMutationInFlight ? "Loading..." : "Create"}
+              disabled={isMutationInFlight}
+              onPress={async (e) => {
+                // Read more about event pooling
+                // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+                e.persist();
+                await handleSubmit(onSubmit)();
+              }}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </Ozone>
             )}
 
             <OButton
