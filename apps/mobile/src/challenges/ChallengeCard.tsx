@@ -70,7 +70,7 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md gap-sm bg-ivory p-sm flex flex-col rounded-xl">
+      <View className="mb-md flex flex-col gap-sm rounded-xl bg-ivory p-sm">
         <View className="flex flex-row items-center justify-between">
           <Title>{challenge.name}</Title>
         </View>

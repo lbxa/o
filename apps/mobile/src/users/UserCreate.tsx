@@ -141,7 +141,7 @@ export const UserCreate = () => {
   return (
     <Ozone>
       <View className="px-md">
-        <View className="mb-md gap-md flex flex-row justify-between">
+        <View className="mb-md flex flex-row justify-between gap-md">
           <Controller
             name="firstName"
             control={control}

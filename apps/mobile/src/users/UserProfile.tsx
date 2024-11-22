@@ -38,7 +38,7 @@ export const UserProfile: React.FC = () => {
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md bg-ivory p-md flex grow">
+        <View className="mb-md flex grow bg-ivory p-md">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />

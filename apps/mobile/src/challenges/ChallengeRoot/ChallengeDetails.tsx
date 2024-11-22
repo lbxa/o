@@ -68,9 +68,9 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   };
 
   return (
-    <View className="mb-md gap-md pt-sm flex flex-col">
+    <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
-        <View className="gap-sm  bg-ivory px-md py-sm flex-row items-center rounded-xl">
+        <View className="flex-row  items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable
             className="mt-sm"
@@ -83,7 +83,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="gap-md flex flex-row">
+      <View className="flex flex-row gap-md">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton
           title="Invite"
@@ -96,7 +96,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
           type="secondary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
-          className="gap-sm ml-auto flex flex-row items-center rounded-xl"
+          className="ml-auto flex flex-row items-center gap-sm rounded-xl"
           onPress={handleRecord}
         />
       </View>

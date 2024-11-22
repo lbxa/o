@@ -25,7 +25,7 @@ export const CommunityDetails = () => {
   // );
 
   return (
-    <View className="mb-md gap-md pt-sm flex flex-row">
+    <View className="mb-md flex flex-row gap-md pt-sm">
       <OButton title="Share" variant="indigo" className="rounded-xl" />
       <OButton
         title="Invite"

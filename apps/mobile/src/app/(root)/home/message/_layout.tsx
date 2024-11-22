@@ -3,7 +3,6 @@ import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
 import { OTouchable } from "@/universe/atoms";
-import { MiniNav } from "@/universe/molecules";
 
 export default function MessageLayout() {
   const router = useRouter();
@@ -23,7 +22,7 @@ export default function MessageLayout() {
         name="message"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </OTouchable>
@@ -36,7 +35,7 @@ export default function MessageLayout() {
         name="message"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </OTouchable>
