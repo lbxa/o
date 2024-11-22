@@ -81,7 +81,7 @@ export const ChallengeActivity = ({
       {
         title: "Top Results",
         data:
-          data?.activityTopResults.edges
+          data?.activityTopResults?.edges
             ?.slice(0, 3)
             .map((edge) => edge.node) ?? [],
       },
@@ -94,9 +94,11 @@ export const ChallengeActivity = ({
     <>
       <ChallengeTopResultsList
         modalRef={topResultsModalRef}
-        results={data?.activityTopResults.edges?.slice(3) ?? []}
+        results={
+          data?.activityTopResults?.edges?.map((edge) => edge.node).slice(3) ??
+          []
+        }
       />
-
       <SectionList
         className="min-h-full px-md"
         sections={sections}

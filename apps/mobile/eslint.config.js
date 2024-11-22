@@ -13,9 +13,11 @@ export default [
     ignores: [
       "dist/**", 
       "node_modules", 
-      "./expo/**", 
+      ".expo/**", 
       "src/__generated__/**",
-      ".expo/types/router.d.ts"
+      "ios/**",
+      "android/**",
+      ".expo/types/router.d.ts",
     ],
   },
 ];

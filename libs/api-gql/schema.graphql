@@ -30,8 +30,8 @@ type AuthLoginPayload {
 
 type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
-  activityTopMovers(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
-  activityTopResults(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection!
+  activityTopMovers(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection
+  activityTopResults(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -203,7 +203,7 @@ input ChallengeUpdateInput {
 }
 
 type Community implements Node & Timestamps {
-  challenges(after: String, first: Int): ChallengeConnection!
+  challenges(after: String, first: Int): ChallengeConnection
   createdAt: DateTime
   id: ID!
   invitations: [CommunityInvitation!]

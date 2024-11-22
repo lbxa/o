@@ -9,7 +9,7 @@ type Community implements Node & Timestamps {
 
   # TODO
   members: [User!]
-  challenges(first: Int, after: String): ChallengeConnection!
+  challenges(first: Int, after: String): ChallengeConnection
   memberships: [CommunityMembership!]
   invitations: [CommunityInvitation!]
 }

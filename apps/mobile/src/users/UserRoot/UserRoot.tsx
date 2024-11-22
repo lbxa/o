@@ -1,5 +1,4 @@
 import { Text } from "react-native";
-import { graphql } from "react-relay";
 
 // export const USER_ROOT_QUERY = graphql`
 //   fragemnt UserRootQuery {

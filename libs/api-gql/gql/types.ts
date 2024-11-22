@@ -45,8 +45,8 @@ export type AuthLoginPayload = {
 export type Challenge = Node & Timestamps & {
   __typename?: 'Challenge';
   activity: ChallengeActivity;
-  activityTopMovers: ChallengeActivityResultConnection;
-  activityTopResults: ChallengeActivityResultConnection;
+  activityTopMovers?: Maybe<ChallengeActivityResultConnection>;
+  activityTopResults?: Maybe<ChallengeActivityResultConnection>;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -242,7 +242,7 @@ export type ChallengeUpdateInput = {
 
 export type Community = Node & Timestamps & {
   __typename?: 'Community';
-  challenges: ChallengeConnection;
+  challenges?: Maybe<ChallengeConnection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<CommunityInvitation>>;

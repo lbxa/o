@@ -4,7 +4,7 @@ import type {
   ChallengeActivityUnits,
 } from "@o/api-gql";
 import type { ChallengeActivityGoal } from "@o/api-gql";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
@@ -43,11 +43,11 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
     fragmentKey
   );
 
-  const endDate = dayjs(challenge.endDate);
-  const today = dayjs();
+  // const endDate = dayjs(challenge.endDate);
+  // const today = dayjs();
 
-  // Calculate the difference in days
-  const daysLeft = endDate.diff(today, "day");
+  // // Calculate the difference in days
+  // const daysLeft = endDate.diff(today, "day");
 
   const handlePress = () => {
     setSelectedChallenge({

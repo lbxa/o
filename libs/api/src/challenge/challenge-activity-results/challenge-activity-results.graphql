@@ -31,8 +31,8 @@ type ChallengeActivityResultConnection {
 }
 
 extend type Challenge {
-  activityTopResults(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection!
-  activityTopMovers(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection!
+  activityTopResults(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
+  activityTopMovers(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
 }
 
 type CreateChallengeActivityResultPayload {

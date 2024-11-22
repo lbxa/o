@@ -1,10 +1,9 @@
 /**
- * @generated SignedSource<<a6abccf425cb3559cba7b3998985b398>>
+ * @generated SignedSource<<90cf593ad6b32e039504ec10533a52a7>>
  * @lightSyntaxTransform
  * @nogrep
  */
 
-/* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
@@ -24,7 +23,7 @@ export type ChallengeActivityTopResultsFragment_challenge$data = {
       readonly hasNextPage: boolean;
       readonly startCursor: string | null | undefined;
     };
-  };
+  } | null | undefined;
   readonly id: string;
   readonly " $fragmentType": "ChallengeActivityTopResultsFragment_challenge";
 };

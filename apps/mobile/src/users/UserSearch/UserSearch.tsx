@@ -51,10 +51,10 @@ export const UserSearch = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="px-md flex-1">
+      <View className="flex-1 px-md">
         <View className="h-full">
           <View className="mb-sm flex w-full flex-row items-center">
-            <View className="mb-md bg-ivory px-sm flex w-full flex-1 flex-row items-center rounded-lg">
+            <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
               <SearchIcon width={20} />
               <PrimaryTextInputControl
                 className="flex-1"

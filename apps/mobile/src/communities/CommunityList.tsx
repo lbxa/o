@@ -68,7 +68,7 @@ export const CommunityList = ({
   }, [refetch]);
 
   return (
-    <View className="pb-md h-full">
+    <View className="h-full pb-md">
       <FlatList
         className="px-md"
         data={data?.communities.edges?.map((edge) => edge.node)}

@@ -1,11 +1,9 @@
-
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
  */
 
-/* tslint:disable */
 /* eslint-disable */
 
 export enum ChallengeActivityType {
@@ -202,8 +200,8 @@ export interface ChallengeActivityResultConnection {
 
 export interface Challenge extends Node, Timestamps {
     __typename?: 'Challenge';
-    activityTopResults?: ChallengeActivityResultConnection;
-    activityTopMovers?: ChallengeActivityResultConnection;
+    activityTopResults?: Nullable<ChallengeActivityResultConnection>;
+    activityTopMovers?: Nullable<ChallengeActivityResultConnection>;
     id: string;
     name: string;
     description?: Nullable<string>;
@@ -302,7 +300,7 @@ export interface Community extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<User[]>;
-    challenges?: ChallengeConnection;
+    challenges?: Nullable<ChallengeConnection>;
     memberships?: Nullable<CommunityMembership[]>;
     invitations?: Nullable<CommunityInvitation[]>;
 }

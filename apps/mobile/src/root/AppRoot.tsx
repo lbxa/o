@@ -6,7 +6,7 @@ import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";
 import { useZustStore } from "@/state";
 import { useToken } from "@/utils";
 
-const APP_ROOT_QUERY = graphql`
+export const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
       ...CommunityList_viewer @arguments(count: 5)
