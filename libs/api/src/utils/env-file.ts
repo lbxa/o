@@ -3,7 +3,11 @@ export const envFile = () => {
     case "local":
       return ".env.local";
     case "development":
-      return ".env.dev";
+      return ".env.development";
+    case "production":
+      return ".env.production";
+    case "test":
+      return ".env.test";
     default:
       return ".env.local";
   }
