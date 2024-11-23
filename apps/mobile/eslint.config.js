@@ -4,19 +4,20 @@ import baseConfig from "@o/eslint/base";
 export default [
   ...baseConfig,
   {
-    // https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/241#issuecomment-1537851714
     settings: {
       tailwindcss: {
         config: "tailwind.config.ts",
       },
     },
+  },
+  {
     ignores: [
       "dist", 
       "node_modules", 
       ".expo", 
-      "src/__generated__",
+      "src/__generated__/**/*.ts",
       "ios",
       "android",
     ],
-  },
+  }
 ];

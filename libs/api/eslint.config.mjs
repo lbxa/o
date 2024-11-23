@@ -3,7 +3,7 @@ import baseConfig from "@o/eslint/base"
 /** @type {import('typescript-eslint').Config} */
 export default [
   {
-    ignores: ["dist/**", "node_modules"],
+    ignores: ["dist/**", "node_modules", "src/types/graphql.ts"],
   },
   ...baseConfig,
   {

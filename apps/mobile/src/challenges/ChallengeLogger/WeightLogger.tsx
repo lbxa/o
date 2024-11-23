@@ -50,7 +50,7 @@ const WeightButton = ({
   };
   return (
     <OTouchable
-      onPress={() => onPress?.()}
+      onPress={onPress}
       className={classNames("flex w-5/12 h-[100px] rounded-xl flex-grow", {
         "bg-black/30": variant === "black",
         "bg-yellow-300/50": variant === "yellow",

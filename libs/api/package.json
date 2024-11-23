@@ -10,7 +10,7 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main.js",
     "gql": "nodemon --watch 'src/**/*.graphql' --ext graphql --exec 'node generate-types.mjs'",

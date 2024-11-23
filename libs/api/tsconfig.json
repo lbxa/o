@@ -25,4 +25,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
+  "exclude": [
+    "src/types/**/graphql.ts"
+  ]
 }

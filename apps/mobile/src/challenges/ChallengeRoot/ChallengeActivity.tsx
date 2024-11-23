@@ -95,7 +95,7 @@ export const ChallengeActivity = ({
       <ChallengeTopResultsList
         modalRef={topResultsModalRef}
         results={
-          data?.activityTopResults?.edges?.map((edge) => edge.node).slice(3) ??
+          data?.activityTopResults?.edges?.slice(3).map((edge) => edge.node) ??
           []
         }
       />

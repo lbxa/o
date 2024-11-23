@@ -25,11 +25,14 @@
     "expo-env.d.ts",
     "nativewind-env.d.ts",
     "metro.config.cjs",
-    "eslint.config.cjs",
+    "eslint.config.js",
   ],
   "exclude": [
-    ".expo/*",
-    "ios/",
-    "android/",
+    "dist", 
+    "node_modules", 
+    ".expo", 
+    "src/__generated__/**/*.ts",
+    "ios",
+    "android",
   ]
 }
