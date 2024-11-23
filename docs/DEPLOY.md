@@ -16,7 +16,7 @@ Follow [these instructions](https://docs.expo.dev/submit/ios/).
 1. From the root of the monorepo:
 
     ```bash
-    docker build -t onex-backend:latest -f libs/api/backend.Dockerfile .
+    docker build -t onex-backend:latest -f libs/api/api.Dockerfile .
     ```
 
 2. Copy-paste the credentials from the access portal with ECR pull/push permissions:

@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM --platform=linux/arm64 node:20-alpine AS base
  
 FROM base AS builder
   RUN apk update
