@@ -201,9 +201,9 @@ export const ChallengeCreate = () => {
                   blurOnSubmit
                   // numberOfLines={10}
                   value={value}
-                  error={!!errors.name}
+                  error={!!errors.description}
                   style={{ height: 100 }}
-                  errorMessage={errors.name?.message}
+                  errorMessage={errors.description?.message}
                   textAlignVertical="top"
                 />
               )}

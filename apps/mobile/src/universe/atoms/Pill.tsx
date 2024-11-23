@@ -19,7 +19,7 @@ export const Pill = ({
   className,
 }: PillProps) => {
   return (
-    <OTouchable className={className} onPress={() => onPress?.()}>
+    <OTouchable className={className} onPress={onPress}>
       <View
         className={classNames("rounded-xl px-md py-sm", {
           "bg-ivory": !selected,
