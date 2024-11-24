@@ -16,8 +16,9 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "dev": "tsc --watch",
-    "migrate:g": "drizzle-kit generate",
-    "migrate:g:custom": "drizzle-kit generate --custom --name",
+    "migrate:check": "drizzle-kit check",
+    "migrate:generate": "drizzle-kit generate",
+    "migrate:generate:custom": "drizzle-kit generate --custom --name",
     "migrate:push": "drizzle-kit migrate",
     "migrate:drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio"
@@ -26,7 +27,6 @@
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "drizzle-orm": "^0.34.1",
-    "mysql2": "^3.11.3",
     "pg": "^8.13.0"
   },
   "devDependencies": {

@@ -26,6 +26,6 @@
     "noFallthroughCasesInSwitch": false
   },
   "exclude": [
-    "src/types/**/graphql.ts"
+    "src/types/graphql.ts"
   ]
 }

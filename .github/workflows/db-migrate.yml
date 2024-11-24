@@ -1,0 +1,24 @@
+name: Migrate Postgres Database
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  migrate:
+    name: Migrate
+    runs-on: ubuntu-latest
+    environment: development 
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup monorepo
+        uses: ./.github/actions/setup-repo
+
+      - name: Run migration workflow
+        run: pnpm turbo migrate:check migrate:generate migrate:push
+        shell: bash
