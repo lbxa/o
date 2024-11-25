@@ -13,8 +13,10 @@ export const CHALLENGE_ROOT_QUERY = graphql`
   query ChallengeRootQuery($challengeId: ID!) {
     viewer {
       challenge(challengeId: $challengeId) {
-        ...ChallengeFragment
+        ...ChallengeHeader_challenge
+        ...ChallengeDetails_challenge
         ...ChallengeActivityTopResultsFragment_challenge
+          @arguments(challengeId: $challengeId, count: 10)
       }
     }
   }

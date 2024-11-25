@@ -1,14 +1,15 @@
 {
   "expo": {
     "name": "oNex",
-    "slug": "o",
-    "scheme": "rn",
+    "slug": "onex",
+    "scheme": "onex",
     "version": "1.0.0",
     "owner": "lbxa",
     "orientation": "portrait",
     "jsEngine": "hermes",
     "icon": "./assets/onex-icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/onex-splash.png",
       "resizeMode": "contain",
@@ -18,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.oCorp.oNex",
       "config": {
         "usesNonExemptEncryption": false
@@ -31,24 +32,11 @@
       },
       "package": "com.oCorp.oNex"
     },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/favicon.png"
-    },
     "plugins": [
       "expo-dev-client",
       "expo-router",
       "expo-secure-store",
-      "expo-asset",
-      ["expo-build-properties", {
-        "ios": {
-          "newArchEnabled": false 
-          },
-          "android": {
-            "newArchEnabled": false 
-          }
-        }
-      ]
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true

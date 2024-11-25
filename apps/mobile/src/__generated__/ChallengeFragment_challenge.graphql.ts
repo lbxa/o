@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f714182eef2d4c1fb0bcd934a552f5a8>>
+ * @generated SignedSource<<579f558e33ba171d58e6a231cd85519e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMEN
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeFragment$data = {
+export type ChallengeFragment_challenge$data = {
   readonly activity: {
     readonly goal: ChallengeActivityGoal;
     readonly id: string;
@@ -28,11 +28,11 @@ export type ChallengeFragment$data = {
   readonly id: string;
   readonly name: string;
   readonly startDate: Date | null | undefined;
-  readonly " $fragmentType": "ChallengeFragment";
+  readonly " $fragmentType": "ChallengeFragment_challenge";
 };
-export type ChallengeFragment$key = {
-  readonly " $data"?: ChallengeFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment">;
+export type ChallengeFragment_challenge$key = {
+  readonly " $data"?: ChallengeFragment_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeFragment_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -47,7 +47,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ChallengeFragment",
+  "name": "ChallengeFragment_challenge",
   "selections": [
     (v0/*: any*/),
     {
@@ -131,6 +131,6 @@ return {
 };
 })();
 
-(node as any).hash = "f482b2aa2237e5af26e8bbb0c6028373";
+(node as any).hash = "1523b7467e7789eeb95e60ff67c0f9d0";
 
 export default node;

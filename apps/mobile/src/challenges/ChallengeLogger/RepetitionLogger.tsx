@@ -2,7 +2,7 @@ import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
-import { useMutation } from "react-relay";
+import { graphql, useMutation } from "react-relay";
 
 import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
@@ -14,6 +14,12 @@ import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
 interface RepetitionLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
 }
+
+const _ = graphql`
+  fragment RepetitionLogger_challenge_assignable on Challenge @assignable {
+    __typename
+  }
+`;
 
 export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
   const [count, setCount] = useState(0);
@@ -53,6 +59,37 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       },
       onCompleted: () => {
         console.log("result logged!");
+      },
+      updater: (proxyStore, data) => {
+        if (!data?.challengeActivityResultCreate) {
+          throw new Error("Failed to log result");
+        }
+
+        // TODO: optimistic updates for new results.
+        // TODO: rank relative to cached results
+        // TODO: bubble out common logic to all 3x loggers
+
+        // const { updatableData } =
+        //   proxyStore.readUpdatableQuery<RepetitionLoggerUpdatableQuery>(
+        //     graphql`
+        //       query RepetitionLoggerUpdatableQuery($challengeId: ID!)
+        //       @updatable {
+        //         viewer {
+        //           challenge(challengeId: $challengeId) {
+        //             ...RepetitionLogger_challenge_assignable
+        //           }
+        //         }
+        //       }
+        //     `,
+        //     {
+        //       challengeId: selectedChallenge.id,
+        //     }
+        //   );
+
+        // if (updatableData.viewer?.challenge) {
+        //   updatableData.viewer.challenge =
+        //     data.challengeActivityResultCreate.challengeActivityResultEdge.node;
+        // }
       },
     });
 

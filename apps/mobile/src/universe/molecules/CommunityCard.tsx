@@ -1,6 +1,7 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import { useRouter } from "expo-router";
+import { memo } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
@@ -14,7 +15,7 @@ interface Props {
   onPress?: () => void;
 }
 
-export const CommunityCard = ({ community }: Props) => {
+const CommunityCardComponent = ({ community }: Props) => {
   const router = useRouter();
   const { setSelectedCommunity } = useZustStore();
   const communityFragment = useFragment(
@@ -52,3 +53,5 @@ export const CommunityCard = ({ community }: Props) => {
     </OTouchable>
   );
 };
+
+export const CommunityCard = memo(CommunityCardComponent);

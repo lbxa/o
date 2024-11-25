@@ -1,5 +1,5 @@
 import type { Tokens } from "@o/api-gql";
-import { useRootNavigationState, useRouter } from "expo-router";
+import { useNavigationContainerRef, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import type {
   FetchFunction,
@@ -14,8 +14,6 @@ const createEnvironment = (fetchFn: FetchFunction): IEnvironment => {
   const network = Network.create(fetchFn);
   const store = new Store(new RecordSource());
   return new Environment({ store, network });
-  // keep the deps empty: tearing down the environment on every fetchFn
-  // invocation will catastrophically destroy the in memory cache
 };
 
 /**
@@ -39,7 +37,11 @@ export const useRelayEnvironment = (): {
    * calling router.* without certainty the root navigation
    * is mounted.
    */
-  const rootNavigation = useRootNavigationState();
+  const rootNavigationRef = useNavigationContainerRef();
+  const rootNavigationState = useMemo(
+    () => rootNavigationRef.getRootState(),
+    [rootNavigationRef]
+  );
 
   const formatRequestHeader = useCallback((token: string | null) => {
     return {
@@ -53,7 +55,9 @@ export const useRelayEnvironment = (): {
     async (request, variables) => {
       const accessToken = getStoreItem("ACCESS_TOKEN");
       const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-      if (!apiUrl) throw new Error("API URL is not configured");
+      if (!apiUrl) {
+        throw new Error("API URL is not configured");
+      }
 
       const makeRequest = async (
         token: string | null
@@ -128,7 +132,7 @@ export const useRelayEnvironment = (): {
             await deleteStoreItem("ACCESS_TOKEN");
             await deleteStoreItem("REFRESH_TOKEN");
 
-            if (rootNavigation.key) {
+            if (rootNavigationState.key) {
               router.replace("(auth)/login");
             }
           }
@@ -136,7 +140,7 @@ export const useRelayEnvironment = (): {
           await deleteStoreItem("ACCESS_TOKEN");
           await deleteStoreItem("REFRESH_TOKEN");
 
-          if (rootNavigation.key) {
+          if (rootNavigationState.key) {
             router.replace("(auth)/login");
           }
         }
@@ -148,7 +152,7 @@ export const useRelayEnvironment = (): {
       deleteStoreItem,
       formatRequestHeader,
       getStoreItem,
-      rootNavigation.key,
+      rootNavigationState,
       router,
       setStoreItem,
     ]

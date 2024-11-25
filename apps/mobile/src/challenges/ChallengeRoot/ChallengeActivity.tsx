@@ -8,6 +8,7 @@ import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery
 import { OTouchable } from "@/universe/atoms";
 
 import type { ChallengeActivityTopResultsPaginationQuery } from "../../__generated__/ChallengeActivityTopResultsPaginationQuery.graphql";
+import type { UserResultCard_challenge$key } from "../../__generated__/UserResultCard_challenge.graphql";
 import { ChallengeDetails } from "./ChallengeDetails";
 import { UserResultCard } from "./ChallengeStats";
 import { ChallengeTopResultsList } from "./ChallengeStats/ChallengeTopResultsList";
@@ -76,19 +77,25 @@ export const ChallengeActivity = ({
     "Top Movers": topMoversModalRef,
   };
 
-  const sections = useMemo(
-    () => [
-      {
+  const sectionList = useMemo(() => {
+    const sections: {
+      title: string;
+      data: UserResultCard_challenge$key[];
+    }[] = [];
+
+    if (
+      data?.activityTopResults?.edges &&
+      data.activityTopResults.edges.length > 0
+    ) {
+      sections.push({
         title: "Top Results",
-        data:
-          data?.activityTopResults?.edges
-            ?.slice(0, 3)
-            .map((edge) => edge.node) ?? [],
-      },
-      { title: "Top Movers", data: [] },
-    ],
-    [data]
-  );
+        data: data.activityTopResults.edges
+          .slice(0, 3)
+          .map((edge) => edge.node),
+      });
+    }
+    return sections;
+  }, [data]);
 
   return (
     <>
@@ -101,18 +108,24 @@ export const ChallengeActivity = ({
       />
       <SectionList
         className="min-h-full px-md"
-        sections={sections}
-        keyExtractor={(item, index) => [item.id, index].join("-")}
+        sections={sectionList}
+        keyExtractor={(item, index) => ["X", index].join("-")}
         renderItem={({ item }) => <UserResultCard result={item} />}
         renderSectionHeader={({ section }) => (
           <Text className="text-2xl font-bold">{section.title}</Text>
         )}
         renderSectionFooter={({ section }) => (
-          <OTouchable
-            onPress={() => sectionModalLookup[section.title].current?.present()}
-          >
-            <Text className="my-md underline">View all</Text>
-          </OTouchable>
+          <View className="mb-md">
+            {section.data.length > 3 && (
+              <OTouchable
+                onPress={() =>
+                  sectionModalLookup[section.title].current?.present()
+                }
+              >
+                <Text className="my-md underline">View all</Text>
+              </OTouchable>
+            )}
+          </View>
         )}
         ListHeaderComponent={
           <View>
@@ -121,6 +134,7 @@ export const ChallengeActivity = ({
             )}
           </View>
         }
+        ListEmptyComponent={<Text>No results posted yet.</Text>}
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
         }
