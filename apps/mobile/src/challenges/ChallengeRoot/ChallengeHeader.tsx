@@ -2,23 +2,21 @@ import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
 import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import { useFragment } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
+import type { ChallengeHeader_challenge$key } from "@/__generated__/ChallengeHeader_challenge.graphql";
 import { OTouchable } from "@/universe/atoms";
 
-import type { ChallengeFragment$key } from "../../__generated__/ChallengeFragment.graphql";
-import { CHALLENGE_FRAGMENT } from "../ChallengeFragment";
-
 export const ChallengeHeader: React.FC<{
-  fragmentRef: ChallengeFragment$key;
+  fragmentRef: ChallengeHeader_challenge$key;
 }> = ({ fragmentRef }) => {
-  // const query = usePreloadedQuery<ChallengeRootQuery>(
-  //   CHALLENGE_DETAILS_QUERY,
-  //   queryRef
-  // );
-
-  const challenge = useFragment<ChallengeFragment$key>(
-    CHALLENGE_FRAGMENT,
+  const challenge = useFragment<ChallengeHeader_challenge$key>(
+    graphql`
+      fragment ChallengeHeader_challenge on Challenge {
+        id
+        name
+      }
+    `,
     fragmentRef
   );
 

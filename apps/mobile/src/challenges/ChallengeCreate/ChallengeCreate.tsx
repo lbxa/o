@@ -11,6 +11,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
@@ -33,33 +34,33 @@ import { ChallengeCreateActivity } from "./ChallengeCreateActivity";
 import { ChallengeCreateCadence } from "./ChallengeCreateCadence";
 import { ChallengeCreateMode } from "./ChallengeCreateMode";
 
-export const CHALLENGE_CREATE_MUTATION = graphql`
-  mutation ChallengeCreateMutation(
-    $challengeCreateInput: ChallengeCreateInput!
-    $challengeActivityCreateInput: ChallengeActivityCreateInput!
-  ) {
-    challengeCreate(
-      challengeCreateInput: $challengeCreateInput
-      challengeActivityCreateInput: $challengeActivityCreateInput
-    ) {
-      challengeEdge {
-        cursor
-        node {
-          id
-          name
-          description
-        }
-      }
-    }
-  }
-`;
-
 export const ChallengeCreate = () => {
   const router = useRouter();
   const { selectedCommunity, challengeForm, setChallengeFormField } =
     useZustStore();
   const [commitMutation, isMutationInFlight] =
-    useMutation<ChallengeCreateMutation>(CHALLENGE_CREATE_MUTATION);
+    useMutation<ChallengeCreateMutation>(graphql`
+      mutation ChallengeCreateMutation(
+        $challengeCreateInput: ChallengeCreateInput!
+        $challengeActivityCreateInput: ChallengeActivityCreateInput!
+      ) {
+        challengeCreate(
+          challengeCreateInput: $challengeCreateInput
+          challengeActivityCreateInput: $challengeActivityCreateInput
+        ) {
+          challengeEdge {
+            cursor
+            node {
+              id
+              name
+              description
+            }
+          }
+        }
+      }
+    `);
+
+  const scrollViewRef = useRef<ScrollView | null>(null);
 
   const {
     control,
@@ -158,7 +159,12 @@ export const ChallengeCreate = () => {
 
   return (
     <Ozone>
-      <ScrollView>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() => {
+          scrollViewRef.current?.scrollToEnd({ animated: true });
+        }}
+      >
         <View className="flex-1">
           <OTouchable className="mb-md flex h-[150px] bg-gray-200">
             <View className="m-auto">

@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 
 export const CHALLENGE_FRAGMENT = graphql`
-  fragment ChallengeFragment on Challenge {
+  fragment ChallengeFragment_challenge on Challenge {
     id
     name
     description

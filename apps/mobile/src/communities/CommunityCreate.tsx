@@ -31,14 +31,6 @@ export const COMMUNITY_CREATE_MUTATION = graphql`
           isPublic
         }
       }
-      communityEdge {
-        cursor
-        node {
-          id
-          name
-          isPublic
-        }
-      }
     }
   }
 `;

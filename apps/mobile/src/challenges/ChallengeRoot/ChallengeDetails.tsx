@@ -7,11 +7,10 @@ import { useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
-import type { ChallengeFragment$key } from "@/__generated__/ChallengeFragment.graphql";
+import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDetails_challenge.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 
-import { CHALLENGE_FRAGMENT } from "../ChallengeFragment";
 import {
   RepetitionLogger,
   StopwatchLogger,
@@ -21,15 +20,16 @@ import {
 export const CHALLENGE_DETAILS_QUERY = graphql`
   query ChallengeDetailsQuery($id: ID!) {
     challenge(id: $id) {
+      id
       name
-      ...ChallengeFragment
+      description
     }
   }
 `;
 
 interface Props {
   // queryRef: PreloadedQuery<ChallengeDetailsQuery>;
-  fragmentRef: ChallengeFragment$key;
+  fragmentRef: ChallengeDetails_challenge$key;
 }
 
 export const ChallengeDetails = ({ fragmentRef }: Props) => {
@@ -42,8 +42,18 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
 
   const [showDescription, setShowDescription] = useState(true);
 
-  const challenge = useFragment<ChallengeFragment$key>(
-    CHALLENGE_FRAGMENT,
+  const challenge = useFragment<ChallengeDetails_challenge$key>(
+    graphql`
+      fragment ChallengeDetails_challenge on Challenge {
+        id
+        name
+        description
+        activity {
+          id
+          type
+        }
+      }
+    `,
     fragmentRef
   );
 

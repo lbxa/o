@@ -15,7 +15,6 @@
       "distribution": "internal",
       "env": {
         "NODE_ENV": "development",
-        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "http://localhost:6969/graphql"
       }
     },
@@ -30,7 +29,6 @@
       "distribution": "internal",
       "env": {
         "NODE_ENV": "development",
-        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "https://www.onex.social/graphql"
       }
     },
@@ -41,7 +39,6 @@
       "autoIncrement": true,
       "env": {
         "NODE_ENV": "development",
-        "EXPO_USE_METRO_WORKSPACE_ROOT": "1",
         "EXPO_PUBLIC_API_URL": "https://www.onex.social/graphql"
       }
     }
