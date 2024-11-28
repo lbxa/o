@@ -10,7 +10,7 @@ export const challengeActivityGoalLabelToEnum = (
       return ChallengeActivityGoal.LowestNumber;
     case "Highest Number":
       return ChallengeActivityGoal.HighestNumber;
-    case "Specific Target":
+    case "Target":
       return ChallengeActivityGoal.SpecificTarget;
     case "Shortest Time":
       return ChallengeActivityGoal.ShortestTime;

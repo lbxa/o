@@ -65,7 +65,7 @@ export const challengeActivityGoalToLabel = (
     case ChallengeActivityGoal.HighestNumber:
       return "Highest Number";
     case ChallengeActivityGoal.SpecificTarget:
-      return "Specific Target";
+      return "Target";
     case ChallengeActivityGoal.ShortestTime:
       return "Shortest Time";
     case ChallengeActivityGoal.LongestTime:

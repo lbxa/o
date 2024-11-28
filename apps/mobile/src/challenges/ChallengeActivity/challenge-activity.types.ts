@@ -26,7 +26,7 @@ export type ChallengeActivityMeasurementLabel =
 export type ChallengeActivityGoalLabel =
   | "Lowest Number"
   | "Highest Number"
-  | "Specific Target"
+  | "Target"
   | "Shortest Time"
   | "Most Improved"
   | "Longest Time";

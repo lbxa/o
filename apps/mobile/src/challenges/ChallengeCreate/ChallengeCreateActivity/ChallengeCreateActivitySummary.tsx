@@ -39,17 +39,17 @@ export const ChallengeCreateActivitySummary = () => {
     >
       <View className="flex flex-row">
         {first && (
-          <View className="bg-navy px-md py-sm z-50 rounded-xl">
+          <View className="z-50 rounded-xl bg-navy px-md py-sm">
             <Text className="font-bold text-indigo-100">{first}</Text>
           </View>
         )}
         {second && (
-          <View className="-ml-md bg-indigo py-sm pl-lg pr-md z-40 rounded-xl">
+          <View className="z-40 -ml-md rounded-xl bg-indigo py-sm pl-lg pr-md">
             <Text className="font-bold text-indigo-100">{second}</Text>
           </View>
         )}
         {third && (
-          <View className="-ml-md bg-violet py-sm pl-lg pr-md z-30 rounded-xl">
+          <View className="z-30 -ml-md rounded-xl bg-violet py-sm pl-lg pr-md">
             <Text className="font-bold text-indigo-100">
               {third + " " + (fourth === "None" || !fourth ? "" : fourth)}
             </Text>

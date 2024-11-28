@@ -22,7 +22,7 @@ export default function MessageLayout() {
         name="message"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </OTouchable>

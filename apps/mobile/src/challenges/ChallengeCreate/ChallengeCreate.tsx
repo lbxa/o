@@ -260,17 +260,17 @@ export const ChallengeCreate = () => {
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
               onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
+              className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
             >
               <SearchIcon width={25} />
               <Text className="pl-sm">Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (
-              <View className="gap-sm flex flex-col">
+              <View className="flex flex-col gap-sm">
                 <View className="flex flex-row items-center justify-between">
                   <OTouchable
-                    className="gap-sm flex flex-row items-center"
+                    className="flex flex-row items-center gap-sm"
                     onPress={() => setChallengeFormField("advancedMode", false)}
                   >
                     <Title>More Settings</Title>
@@ -323,7 +323,7 @@ export const ChallengeCreate = () => {
             ) : (
               <OTouchable
                 onPress={() => setChallengeFormField("advancedMode", true)}
-                className="mb-lg gap-sm flex flex-row items-center"
+                className="mb-lg flex flex-row items-center gap-sm"
               >
                 <Title>More Settings</Title>
                 <ChevronDownIcon width={22} height={22} />
