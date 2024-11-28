@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<419b8f8261f85f4669d6aebe01f4e8c6>>
+ * @generated SignedSource<<7de9e443c0e1f3e887273f7fe3bc55da>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMEN
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeCard_challenges$data = {
+export type ChallengeCard_challenge$data = {
   readonly activity: {
     readonly goal: ChallengeActivityGoal;
     readonly id: string;
@@ -28,11 +28,12 @@ export type ChallengeCard_challenges$data = {
   readonly id: string;
   readonly name: string;
   readonly startDate: Date | null | undefined;
-  readonly " $fragmentType": "ChallengeCard_challenges";
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge">;
+  readonly " $fragmentType": "ChallengeCard_challenge";
 };
-export type ChallengeCard_challenges$key = {
-  readonly " $data"?: ChallengeCard_challenges$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenges">;
+export type ChallengeCard_challenge$key = {
+  readonly " $data"?: ChallengeCard_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -47,7 +48,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ChallengeCard_challenges",
+  "name": "ChallengeCard_challenge",
   "selections": [
     (v0/*: any*/),
     {
@@ -124,6 +125,11 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "ChallengeActivityPills_challenge"
     }
   ],
   "type": "Challenge",
@@ -131,6 +137,6 @@ return {
 };
 })();
 
-(node as any).hash = "55ad27aa62c21d8537e8ec232a8fa274";
+(node as any).hash = "882ea84e2a5b1e83afcf100f1578d9bc";
 
 export default node;

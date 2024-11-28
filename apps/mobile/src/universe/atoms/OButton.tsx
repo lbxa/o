@@ -7,12 +7,13 @@ import { OTouchable } from "./OTouchable";
 type Type = "primary" | "secondary";
 type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
 
-type VariantMatrix = {
-  [key in Variant]: {
+type VariantMatrix = Record<
+  Variant,
+  {
     back: string;
     front: string;
-  };
-};
+  }
+>;
 
 const primaryVariantMatrix: VariantMatrix = {
   violet: {

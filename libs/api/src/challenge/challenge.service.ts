@@ -1,9 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
   Challenge as PgChallenge,
   ChallengeActivitiesTable,
@@ -26,6 +21,11 @@ import {
   ChallengeMode,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
+import {
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/errors";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
@@ -66,7 +66,7 @@ export class ChallengeService
     });
 
     if (!challenge) {
-      throw new NotFoundException(`Challenge with id ${id} not found`);
+      throw new NotFoundError(`Challenge with id ${id} not found`);
     }
 
     return this.pg2GqlMapper(challenge);
@@ -161,7 +161,7 @@ export class ChallengeService
       });
 
     if (!isAdmin) {
-      throw new ForbiddenException(
+      throw new UnauthorizedError(
         "Only community admins can create challenges"
       );
     }
@@ -177,9 +177,7 @@ export class ChallengeService
     });
 
     if (!challengeActivity) {
-      throw new InternalServerErrorException(
-        "Failed to create challenge activity"
-      );
+      throw new InternalServerError("Failed to create challenge activity");
     }
 
     return this.pg2GqlMapper({
@@ -200,7 +198,7 @@ export class ChallengeService
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!updatedChallenge) {
-      throw new NotFoundException(`Challenge with id ${id} not found`);
+      throw new NotFoundError(`Challenge with id ${id} not found`);
     }
 
     const challengeActivity =
@@ -209,9 +207,7 @@ export class ChallengeService
       });
 
     if (!challengeActivity) {
-      throw new InternalServerErrorException(
-        "Failed to find challenge activity"
-      );
+      throw new InternalServerError("Failed to find challenge activity");
     }
 
     return this.pg2GqlMapper({
@@ -227,7 +223,7 @@ export class ChallengeService
     });
 
     if (!challenge) {
-      throw new NotFoundException(`Challenge with id ${id} not found`);
+      throw new NotFoundError(`Challenge with id ${id} not found`);
     }
 
     const isAdmin =
@@ -240,7 +236,7 @@ export class ChallengeService
       });
 
     if (isAdmin) {
-      throw new ForbiddenException(
+      throw new UnauthorizedError(
         "Only community admins can delete challenges"
       );
     }

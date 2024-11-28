@@ -19,7 +19,7 @@ export const challengeActivityTypeToLabel = (
     case ChallengeActivityType.Repetitions:
       return "Repetitions";
     case ChallengeActivityType.TimeBased:
-      return "Time-Based";
+      return "Time";
     case ChallengeActivityType.Weightlifting:
       return "Weightlifting";
     case ChallengeActivityType.Distance:

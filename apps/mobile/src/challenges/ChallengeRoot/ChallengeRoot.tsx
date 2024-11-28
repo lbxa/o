@@ -15,6 +15,7 @@ export const CHALLENGE_ROOT_QUERY = graphql`
       challenge(challengeId: $challengeId) {
         ...ChallengeHeader_challenge
         ...ChallengeDetails_challenge
+        ...ChallengeActivityPills_challenge
         ...ChallengeActivityTopResultsFragment_challenge
           @arguments(challengeId: $challengeId, count: 10)
       }

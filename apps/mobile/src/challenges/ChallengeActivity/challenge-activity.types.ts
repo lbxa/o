@@ -1,6 +1,6 @@
 export type ChallengeActivityLabel =
   | "Repetitions"
-  | "Time-Based"
+  | "Time"
   | "Weightlifting"
   | "Distance"
   | "Social";

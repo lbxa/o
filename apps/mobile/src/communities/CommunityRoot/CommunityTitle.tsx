@@ -3,22 +3,29 @@ import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import { useFragment } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
+import type { CommunityTitle_community$key } from "@/__generated__/CommunityTitle_community.graphql";
 import { OTouchable } from "@/universe/atoms";
 
-import type { CommunityFragment$key } from "../../__generated__/CommunityFragment.graphql";
-import { COMMUNITY_FRAGMENT } from "../CommunityFragment";
-
 interface CommunityTitleProps {
-  community: CommunityFragment$key | undefined | null;
+  community: CommunityTitle_community$key | undefined | null;
 }
 
 export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   community,
 }) => {
   const router = useRouter();
-  const communityFragment = useFragment(COMMUNITY_FRAGMENT, community);
+  const communityFragment = useFragment<CommunityTitle_community$key>(
+    graphql`
+      fragment CommunityTitle_community on Community {
+        id
+        name
+        isVerified
+      }
+    `,
+    community
+  );
 
   return (
     <View className="flex flex-row items-center gap-sm">

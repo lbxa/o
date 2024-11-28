@@ -130,7 +130,12 @@ export const ChallengeActivity = ({
         ListHeaderComponent={
           <View>
             {challengeRoot.viewer?.challenge && (
-              <ChallengeDetails fragmentRef={challengeRoot.viewer.challenge} />
+              <ChallengeDetails
+                challengeFragmentRef={challengeRoot.viewer.challenge}
+                challengeActivityPillsFragmentRef={
+                  challengeRoot.viewer.challenge
+                }
+              />
             )}
           </View>
         }

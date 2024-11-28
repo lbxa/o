@@ -231,7 +231,6 @@ export interface IQuery {
     challengeActivityTopResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
-    community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
@@ -379,6 +378,7 @@ export interface Viewer extends Node {
     __typename?: 'Viewer';
     id: string;
     user?: Nullable<User>;
+    community?: Nullable<Community>;
     communities?: CommunityConnection;
     challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;

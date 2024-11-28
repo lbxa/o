@@ -11,28 +11,24 @@ import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDe
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 
+import type { ChallengeActivityPills_challenge$key } from "../../__generated__/ChallengeActivityPills_challenge.graphql";
+import { ChallengeActivityPills } from "../ChallengeActivity";
 import {
   RepetitionLogger,
   StopwatchLogger,
   WeightLogger,
 } from "../ChallengeLogger";
-
-export const CHALLENGE_DETAILS_QUERY = graphql`
-  query ChallengeDetailsQuery($id: ID!) {
-    challenge(id: $id) {
-      id
-      name
-      description
-    }
-  }
-`;
+import { ChallengeSocials } from "../ChallengeSocials";
 
 interface Props {
-  // queryRef: PreloadedQuery<ChallengeDetailsQuery>;
-  fragmentRef: ChallengeDetails_challenge$key;
+  challengeFragmentRef: ChallengeDetails_challenge$key;
+  challengeActivityPillsFragmentRef: ChallengeActivityPills_challenge$key;
 }
 
-export const ChallengeDetails = ({ fragmentRef }: Props) => {
+export const ChallengeDetails = ({
+  challengeFragmentRef,
+  challengeActivityPillsFragmentRef,
+}: Props) => {
   const router = useRouter();
   const { setRecordedChallenge } = useZustStore();
 
@@ -54,7 +50,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
         }
       }
     `,
-    fragmentRef
+    challengeFragmentRef
   );
 
   const handleRecord = () => {
@@ -78,7 +74,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md flex flex-col gap-md">
       {showDescription && (
         <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
@@ -87,6 +83,8 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
           </OTouchable>
         </View>
       )}
+      <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
+      <ChallengeSocials />
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />

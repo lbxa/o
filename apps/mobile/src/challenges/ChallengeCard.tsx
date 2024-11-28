@@ -1,29 +1,32 @@
 import type {
+  ChallengeActivityGoal,
   ChallengeActivityMeasurement,
   ChallengeActivityType,
-  ChallengeActivityUnits,
 } from "@o/api-gql";
-import type { ChallengeActivityGoal } from "@o/api-gql";
+import type { ChallengeActivityUnits } from "@o/api-gql";
 import { useRouter } from "expo-router";
+import { Suspense } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
-import { OTouchable, Title } from "@/universe/atoms";
+import type { ChallengeCard_challenge$key } from "@/__generated__/ChallengeCard_challenge.graphql";
+import { OTouchable } from "@/universe/atoms";
 
-import type { ChallengeCard_challenges$key } from "../__generated__/ChallengeCard_challenges.graphql";
 import { useZustStore } from "../state";
+import { ChallengeActivityPills } from "./ChallengeActivity";
+import { ChallengeSocials } from "./ChallengeSocials";
 
 interface ChallengeCardProps {
-  fragmentKey: ChallengeCard_challenges$key;
+  fragmentRef: ChallengeCard_challenge$key;
 }
 
-export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
+export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
   const router = useRouter();
   const { setSelectedChallenge } = useZustStore();
 
-  const challenge = useFragment<ChallengeCard_challenges$key>(
+  const challenge = useFragment<ChallengeCard_challenge$key>(
     graphql`
-      fragment ChallengeCard_challenges on Challenge {
+      fragment ChallengeCard_challenge on Challenge {
         id
         name
         description
@@ -37,9 +40,10 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
           unit
           target
         }
+        ...ChallengeActivityPills_challenge
       }
     `,
-    fragmentKey
+    fragmentRef
   );
 
   // const endDate = dayjs(challenge.endDate);
@@ -70,11 +74,12 @@ export const ChallengeCard = ({ fragmentKey }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md flex flex-col gap-sm rounded-xl bg-ivory p-sm">
-        <View className="flex flex-row items-center justify-between">
-          <Title>{challenge.name}</Title>
-        </View>
-        <Text>Socials will go here</Text>
+      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm">
+        <Text className="text-3xl font-bold">{challenge.name}</Text>
+        <Suspense fallback={<Text>Loading...</Text>}>
+          <ChallengeActivityPills fragmentRef={challenge} />
+        </Suspense>
+        <ChallengeSocials />
         {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
           <Text className="text-xl font-bold text-indigo">
             {daysLeft + " days"}

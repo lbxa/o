@@ -54,6 +54,16 @@ export const ChallengeCreate = () => {
               id
               name
               description
+              startDate
+              endDate
+              activity {
+                id
+                type
+                measurement
+                goal
+                unit
+                target
+              }
             }
           }
         }
@@ -279,28 +289,30 @@ export const ChallengeCreate = () => {
                 >
                   <Title className="text-xl">End</Title>
                   <Subtitle>When should the challenge officially end?</Subtitle>
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    rules={{
-                      required: { value: true, message: "Required field" },
-                      validate: (endDate) => {
-                        if (dayjs(endDate).isBefore(dayjs(startDate))) {
-                          return "End date must be after start date";
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field: { onChange, value } }) => (
-                      <RNDateTimePicker
-                        mode="datetime"
-                        value={value}
-                        onChange={(_, selectedDate) => {
-                          onChange(selectedDate);
-                        }}
-                      />
-                    )}
-                  />
+                  <View className="ml-auto">
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: { value: true, message: "Required field" },
+                        validate: (endDate) => {
+                          if (dayjs(endDate).isBefore(dayjs(startDate))) {
+                            return "End date must be after start date";
+                          }
+                          return true;
+                        },
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <RNDateTimePicker
+                          mode="datetime"
+                          value={value}
+                          onChange={(_, selectedDate) => {
+                            onChange(selectedDate);
+                          }}
+                        />
+                      )}
+                    />
+                  </View>
                 </View>
                 {!!errors.endDate && (
                   <Text className="mb-md pl-sm text-red-900">

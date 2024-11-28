@@ -320,7 +320,6 @@ type Query {
   challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
-  community(id: ID!): Community
   communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
@@ -381,6 +380,7 @@ type Viewer implements Node {
   challenge(challengeId: ID!): Challenge
   challenges(after: String, communityId: ID!, first: Int!): ChallengeConnection!
   communities(after: String, first: Int!): CommunityConnection!
+  community(communityId: ID!): Community
   """Alias for user id"""
   id: ID!
   """Only one active user can be logged in at a time"""

@@ -459,7 +459,6 @@ export type Query = {
   challengeActivityResults: ChallengeActivityResultConnection;
   challengeActivityTopResults: ChallengeActivityResultConnection;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
-  community?: Maybe<Community>;
   communityInvitations?: Maybe<Array<Community>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
@@ -494,11 +493,6 @@ export type QueryChallengeActivityTopResultsArgs = {
 
 export type QueryChallengeInvitationsArgs = {
   userId: Scalars['ID']['input'];
-};
-
-
-export type QueryCommunityArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -579,6 +573,7 @@ export type Viewer = Node & {
   challenge?: Maybe<Challenge>;
   challenges: ChallengeConnection;
   communities: CommunityConnection;
+  community?: Maybe<Community>;
   /** Alias for user id */
   id: Scalars['ID']['output'];
   /** Only one active user can be logged in at a time */
@@ -604,4 +599,10 @@ export type ViewerChallengesArgs = {
 export type ViewerCommunitiesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first: Scalars['Int']['input'];
+};
+
+
+/** The currently logged in user */
+export type ViewerCommunityArgs = {
+  communityId: Scalars['ID']['input'];
 };

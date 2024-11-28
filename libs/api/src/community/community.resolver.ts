@@ -49,12 +49,6 @@ export class CommunityResolver {
     );
   }
 
-  @Query("community")
-  async community(@Args("id") id: string): Promise<Community | undefined> {
-    const communityId = validateAndDecodeGlobalId(id, "Community");
-    return this.communityService.findById(communityId);
-  }
-
   @Mutation("communityInvite")
   async communityInvite(
     @Args("communityId") communityId: string,

@@ -68,28 +68,26 @@ export const CommunityList = ({
   }, [refetch]);
 
   return (
-    <View className="h-full pb-md">
-      <FlatList
-        className="px-md"
-        data={data?.communities.edges?.map((edge) => edge.node)}
-        renderItem={({ item }) => <CommunityCard community={item} />}
-        ListHeaderComponent={<></>}
-        ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
-        ListFooterComponent={
-          <View className="pb-md">
-            {hasNext && (
-              <OButton
-                title={isLoadingNext ? "Loading..." : "Load more"}
-                disabled={!hasNext}
-                onPress={() => loadNext(10)}
-              />
-            )}
-          </View>
-        }
-        refreshControl={
-          <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
-        }
-      />
-    </View>
+    <FlatList
+      className="min-h-full px-sm"
+      data={data?.communities.edges?.map((edge) => edge.node)}
+      renderItem={({ item }) => <CommunityCard community={item} />}
+      ListHeaderComponent={<></>}
+      ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
+      ListFooterComponent={
+        <View className="pb-md">
+          {hasNext && (
+            <OButton
+              title={isLoadingNext ? "Loading..." : "Load more"}
+              disabled={!hasNext}
+              onPress={() => loadNext(10)}
+            />
+          )}
+        </View>
+      }
+      refreshControl={
+        <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+      }
+    />
   );
 };

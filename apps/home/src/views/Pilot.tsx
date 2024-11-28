@@ -42,7 +42,10 @@ export const Pilot = () => {
 
       setComplete(true);
       return response.text();
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new FormError<PilotForm>(error.message);
+      }
       throw new FormError<PilotForm>("An error has occurred.");
     }
   };

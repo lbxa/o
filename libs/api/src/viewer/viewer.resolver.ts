@@ -5,6 +5,7 @@ import { CommunityService } from "../community/community.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   ChallengeConnection,
+  Community,
   CommunityConnection,
   User,
   Viewer,
@@ -36,6 +37,14 @@ export class ViewerResolver {
   @ResolveField()
   async user(@CurrentUser("userId") userId: number): Promise<User | undefined> {
     return this.userService.findById(userId);
+  }
+
+  @ResolveField()
+  async community(
+    @Args("communityId") communityId: string
+  ): Promise<Community | undefined> {
+    const id = validateAndDecodeGlobalId(communityId, "Community");
+    return this.communityService.findById(id);
   }
 
   @ResolveField()

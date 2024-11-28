@@ -1,46 +1,40 @@
 import { Stack } from "expo-router";
 import type { PreloadedQuery } from "react-relay";
-import { graphql, useLazyLoadQuery, usePreloadedQuery } from "react-relay";
+import { graphql, usePreloadedQuery } from "react-relay";
 
 import { MiniNav, Ozone } from "@/universe/molecules";
 
-import type { CommunityDetailsQuery } from "../../__generated__/CommunityDetailsQuery.graphql";
 import type { CommunityRootQuery } from "../../__generated__/CommunityRootQuery.graphql";
 import { ChallengeList } from "./ChallengeList";
-import { COMMUNITY_DETAILS_QUERY } from "./CommunityDetails";
 import { CommunityTitle } from "./CommunityTitle";
 
 export const COMMUNITY_ROOT_QUERY = graphql`
   query CommunityRootQuery($communityId: ID!) {
     viewer {
       ...ChallengeList_viewer @arguments(communityId: $communityId, count: 10)
+      community(communityId: $communityId) {
+        ...CommunityTitle_community
+      }
     }
   }
 `;
 
 interface CommunityRootProps {
-  communityId: string;
-  communityRootQueryRef: PreloadedQuery<CommunityRootQuery>;
+  queryRef: PreloadedQuery<CommunityRootQuery>;
 }
-export const CommunityRoot = ({
-  communityId,
-  communityRootQueryRef,
-}: CommunityRootProps) => {
+export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
   const communityRootData = usePreloadedQuery<CommunityRootQuery>(
     COMMUNITY_ROOT_QUERY,
-    communityRootQueryRef
-  );
-
-  const query = useLazyLoadQuery<CommunityDetailsQuery>(
-    COMMUNITY_DETAILS_QUERY,
-    { id: communityId }
+    queryRef
   );
 
   return (
     <Ozone>
       <Stack.Screen
         options={{
-          headerLeft: () => <CommunityTitle community={query.community} />,
+          headerLeft: () => (
+            <CommunityTitle community={communityRootData.viewer?.community} />
+          ),
           headerRight: () => (
             <MiniNav
               items={["create"]}
@@ -54,7 +48,7 @@ export const CommunityRoot = ({
         }}
       />
       {communityRootData.viewer && (
-        <ChallengeList fragmentRef={communityRootData.viewer} />
+        <ChallengeList challengeListFragmentRef={communityRootData.viewer} />
       )}
     </Ozone>
   );
