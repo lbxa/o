@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a01eede94ba897e8f90641ce060e25fc>>
+ * @generated SignedSource<<817fd9b7a21ff65ee7d1cd9cb7185aa2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,12 @@
 // @ts-nocheck
 
 import type { ReaderFragment } from 'relay-runtime';
+export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
 export type ChallengeDetails_challenge$data = {
   readonly activity: {
+    readonly goal: ChallengeActivityGoal;
     readonly id: string;
     readonly type: ChallengeActivityType;
   };
@@ -70,6 +72,13 @@ return {
           "kind": "ScalarField",
           "name": "type",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "goal",
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -80,6 +89,6 @@ return {
 };
 })();
 
-(node as any).hash = "751fc8b2d8c943683720354c32ab07ff";
+(node as any).hash = "c6842736d0d7dd25bd8428e1e9387ea7";
 
 export default node;

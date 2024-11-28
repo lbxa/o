@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fd8b95f4cda61b95db00d5626a1c1b6e>>
+ * @generated SignedSource<<fae249a10dd1f0f73c1c14a60d2a49ac>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,9 @@ export type CommunityRootQuery$variables = {
 };
 export type CommunityRootQuery$data = {
   readonly viewer: {
+    readonly community: {
+      readonly " $fragmentSpreads": FragmentRefs<"CommunityTitle_community">;
+    } | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"ChallengeList_viewer">;
   } | null | undefined;
 };
@@ -37,6 +40,9 @@ v1 = {
   "variableName": "communityId"
 },
 v2 = [
+  (v1/*: any*/)
+],
+v3 = [
   (v1/*: any*/),
   {
     "kind": "Literal",
@@ -44,11 +50,18 @@ v2 = [
     "value": 10
   }
 ],
-v3 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
   "storageKey": null
 };
 return {
@@ -77,6 +90,22 @@ return {
             ],
             "kind": "FragmentSpread",
             "name": "ChallengeList_viewer"
+          },
+          {
+            "alias": null,
+            "args": (v2/*: any*/),
+            "concreteType": "Community",
+            "kind": "LinkedField",
+            "name": "community",
+            "plural": false,
+            "selections": [
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "CommunityTitle_community"
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -101,7 +130,7 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v3/*: any*/),
             "concreteType": "ChallengeConnection",
             "kind": "LinkedField",
             "name": "challenges",
@@ -130,14 +159,8 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v3/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "name",
-                        "storageKey": null
-                      },
+                      (v4/*: any*/),
+                      (v5/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -167,19 +190,12 @@ return {
                         "name": "activity",
                         "plural": false,
                         "selections": [
-                          (v3/*: any*/),
+                          (v4/*: any*/),
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
                             "name": "type",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "measurement",
                             "storageKey": null
                           },
                           {
@@ -256,7 +272,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v3/*: any*/),
             "filters": [
               "communityId"
             ],
@@ -265,23 +281,43 @@ return {
             "kind": "LinkedHandle",
             "name": "challenges"
           },
-          (v3/*: any*/)
+          {
+            "alias": null,
+            "args": (v2/*: any*/),
+            "concreteType": "Community",
+            "kind": "LinkedField",
+            "name": "community",
+            "plural": false,
+            "selections": [
+              (v4/*: any*/),
+              (v5/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isVerified",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "fb557f50f6efb7ff8df81e193a1ad682",
+    "cacheID": "374aa4eb68cf862bb09e0f554879c46b",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    id\n  }\n}\n\nfragment ChallengeCard_challenges on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    measurement\n    goal\n    unit\n    target\n  }\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenges\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    community(communityId: $communityId) {\n      ...CommunityTitle_community\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment CommunityTitle_community on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();
 
-(node as any).hash = "22a2003d3f86b8e4a9f237a069ade9f4";
+(node as any).hash = "c26b700db812b4a7cd9e9aa522414a40";
 
 export default node;

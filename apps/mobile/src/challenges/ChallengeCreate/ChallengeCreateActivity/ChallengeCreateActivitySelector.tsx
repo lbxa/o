@@ -1,9 +1,6 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { ChallengeActivityUnits } from "@o/api-gql";
-import {
-  ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
-} from "@o/api-gql";
+import { ChallengeActivityGoal } from "@o/api-gql";
 import { ChallengeActivityType } from "@o/api-gql";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, View } from "react-native";
@@ -16,19 +13,10 @@ import {
   Subtitle,
   Title,
 } from "@/universe/atoms";
-import { PillGroup } from "@/universe/molecules";
 
-import type {
-  ChallengeActivityGoalLabel,
-  ChallengeActivityMeasurementLabel,
-} from "../../ChallengeActivity/domain";
 import {
-  challengeActivityGoalLabelToEnum,
   challengeActivityGoalToLabel,
-  challengeActivityMeasurementLabelToEnum,
-  ChallengeActivityMeasurementToGoalMap,
-  challengeActivityMeasurementToLabel,
-  ChallengeActivityToMeasurementMap,
+  ChallengeActivityTypeToGoalMap,
   challengeActivityTypeToLabel,
   ChallengeActivityTypeToUnitsMap,
   challengeActivityUnitToLabel,
@@ -42,40 +30,30 @@ interface Props {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }
 export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
-  const { setChallengeFormField } = useZustStore();
+  const { setChallengeFormField, clearChallengeForm } = useZustStore();
 
   const challengeForm = useZustStore((state) => state.challengeForm);
 
   const selectedActivity = challengeForm.type;
-  const selectedMeasurement = challengeForm.measurement;
   const selectedGoal = challengeForm.goal;
   const selectedUnit = challengeForm.unit;
 
   const activities = Object.values(ChallengeActivityType);
 
-  const measurements = [...ChallengeActivityToMeasurementMap].reduce(
-    (acc, [activity, measurements]) => {
-      acc[activity] = measurements;
+  const goals = [...ChallengeActivityTypeToGoalMap].reduce(
+    (acc, [activity, goals]) => {
+      acc[activity] = goals;
       return acc;
     },
-    {} as Record<ChallengeActivityType, ChallengeActivityMeasurement[]>
+    {} as Record<ChallengeActivityType, ChallengeActivityGoal[]>
   );
 
-  const allowedMeasurements = selectedActivity
-    ? measurements[selectedActivity]
-    : [];
+  const allowedGoals = selectedActivity ? goals[selectedActivity] : [];
 
-  const allowedMeasurementGoals = allowedMeasurements.map(
-    (allowedMeasurement) => ({
-      measurement: allowedMeasurement,
-      goals: ChallengeActivityMeasurementToGoalMap.get(allowedMeasurement),
-    })
-  );
-
-  const hasSpecificTargetGoal = selectedMeasurement
-    ? allowedMeasurementGoals.find(
+  const hasSpecificTargetGoal = selectedGoal
+    ? allowedGoals.find(
         (goal) =>
-          goal.goals?.includes(ChallengeActivityGoal.SpecificTarget) &&
+          goal.includes(ChallengeActivityGoal.SpecificTarget) &&
           selectedGoal === ChallengeActivityGoal.SpecificTarget
       )
     : false;
@@ -89,7 +67,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   );
 
   const isFinished =
-    (selectedActivity && selectedMeasurement && selectedGoal) ??
+    (selectedActivity && selectedGoal) ??
     selectedActivity === ChallengeActivityType.Social;
 
   const onSubmit = (data: ChallengeActivityForm) => {
@@ -104,7 +82,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
     formState: { errors },
   } = useForm<ChallengeActivityForm>({
     defaultValues: {
-      target: "",
+      target: challengeForm.target?.toString(),
     },
   });
 
@@ -116,52 +94,29 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
         {activities.map((c) => (
           <Pill
             key={c}
-            onPress={() => setChallengeFormField("type", c)}
+            onPress={() => {
+              clearChallengeForm();
+              setChallengeFormField("type", c);
+            }}
             label={challengeActivityTypeToLabel(c)}
             selected={selectedActivity === c}
           />
         ))}
       </View>
 
-      {allowedMeasurements.length > 0 && (
+      {allowedGoals.length > 0 && (
         <View>
-          <Title>Select a measurement</Title>
+          <Title>Select a goal</Title>
           <Subtitle>How will participants measure their progress?</Subtitle>
           <View className="mb-lg flex flex-row flex-wrap gap-md">
-            <PillGroup
-              group={allowedMeasurementGoals.map(({ measurement, goals }) => ({
-                label: challengeActivityMeasurementToLabel(
-                  measurement
-                ) as string,
-                options: goals?.map(challengeActivityGoalToLabel) ?? [],
-              }))}
-              optionSelected={
-                selectedGoal
-                  ? challengeActivityGoalToLabel(selectedGoal)
-                  : undefined
-              }
-              onOptionPress={(option) =>
-                setChallengeFormField(
-                  "goal",
-                  challengeActivityGoalLabelToEnum(
-                    option as ChallengeActivityGoalLabel
-                  )
-                )
-              }
-              groupSelected={
-                selectedMeasurement
-                  ? challengeActivityMeasurementToLabel(selectedMeasurement)
-                  : undefined
-              }
-              onGroupPress={(group) =>
-                setChallengeFormField(
-                  "measurement",
-                  challengeActivityMeasurementLabelToEnum(
-                    group as ChallengeActivityMeasurementLabel
-                  )
-                )
-              }
-            />
+            {allowedGoals.map((c) => (
+              <Pill
+                key={c}
+                onPress={() => setChallengeFormField("goal", c)}
+                label={challengeActivityGoalToLabel(c)}
+                selected={selectedGoal === c}
+              />
+            ))}
           </View>
         </View>
       )}
@@ -214,22 +169,25 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                       onPress={() => setChallengeFormField("unit", u)}
                     />
                   ))}
-                {selectedMeasurement ===
-                  ChallengeActivityMeasurement.Improvement && (
-                  <Pill
-                    label={challengeActivityUnitToLabel(
-                      ChallengeActivityUnits.Percent
-                    )}
-                    key={ChallengeActivityUnits.Percent}
-                    selected={selectedUnit === ChallengeActivityUnits.Percent}
-                    onPress={() =>
-                      setChallengeFormField(
-                        "unit",
+                {selectedGoal &&
+                  [
+                    ChallengeActivityGoal.MostImproved,
+                    ChallengeActivityGoal.SpecificTarget,
+                  ].includes(selectedGoal) && (
+                    <Pill
+                      label={challengeActivityUnitToLabel(
                         ChallengeActivityUnits.Percent
-                      )
-                    }
-                  />
-                )}
+                      )}
+                      key={ChallengeActivityUnits.Percent}
+                      selected={selectedUnit === ChallengeActivityUnits.Percent}
+                      onPress={() =>
+                        setChallengeFormField(
+                          "unit",
+                          ChallengeActivityUnits.Percent
+                        )
+                      }
+                    />
+                  )}
               </View>
             </ScrollView>
           </View>

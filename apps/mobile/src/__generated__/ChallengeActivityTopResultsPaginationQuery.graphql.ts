@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c8e874fc8ef0469ae9b865e399042108>>
+ * @generated SignedSource<<8768692571517981c37b7dc1e428f632>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -224,7 +224,7 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "measurement",
+                                "name": "goal",
                                 "storageKey": null
                               }
                             ],
@@ -293,12 +293,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bbfc5e965cd1f17887cc605e27bf3e71",
+    "cacheID": "4da81a4c5fa6cede2a37fb909ac9f584",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $challengeId: ID = null\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_t5aav\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_t5aav on Challenge {\n  activityTopResults(challengeId: $challengeId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    measurement\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $challengeId: ID = null\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_t5aav\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_t5aav on Challenge {\n  activityTopResults(challengeId: $challengeId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n  }\n}\n"
   }
 };
 })();

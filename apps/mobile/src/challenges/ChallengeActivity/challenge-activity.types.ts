@@ -1,6 +1,6 @@
 export type ChallengeActivityLabel =
   | "Repetitions"
-  | "Time-Based"
+  | "Time"
   | "Weightlifting"
   | "Distance"
   | "Social";
@@ -26,7 +26,7 @@ export type ChallengeActivityMeasurementLabel =
 export type ChallengeActivityGoalLabel =
   | "Lowest Number"
   | "Highest Number"
-  | "Specific Target"
+  | "Target"
   | "Shortest Time"
   | "Most Improved"
   | "Longest Time";

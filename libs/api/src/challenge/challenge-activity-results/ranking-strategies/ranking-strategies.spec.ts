@@ -4,7 +4,6 @@ import type {
 } from "../../../types/graphql";
 import {
   ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
 } from "../../../types/graphql";
@@ -25,7 +24,6 @@ describe("Ranking Strategies", () => {
     const fakeActivity: ChallengeActivity = {
       id: "a1",
       type: ChallengeActivityType.SOCIAL,
-      measurement: ChallengeActivityMeasurement.COUNTING,
       goal: ChallengeActivityGoal.LONGEST_TIME,
       unit: ChallengeActivityUnits.MINUTES,
     };

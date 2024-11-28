@@ -26,10 +26,7 @@ export default function CommunityDetailsRoute() {
   return (
     <View>
       {communityRootQueryRef && (
-        <CommunityRoot
-          communityId={communityId}
-          communityRootQueryRef={communityRootQueryRef}
-        />
+        <CommunityRoot queryRef={communityRootQueryRef} />
       )}
     </View>
   );

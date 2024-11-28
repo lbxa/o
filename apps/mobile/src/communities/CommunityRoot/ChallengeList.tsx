@@ -11,10 +11,10 @@ import type { ChallengeListPaginationQuery } from "../../__generated__/Challenge
 import { CommunityDetails } from "./CommunityDetails";
 
 interface Props {
-  fragmentRef: ChallengeList_viewer$key;
+  challengeListFragmentRef: ChallengeList_viewer$key;
 }
 
-export const ChallengeList = ({ fragmentRef }: Props) => {
+export const ChallengeList = ({ challengeListFragmentRef }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { selectedCommunity } = useZustStore();
 
@@ -36,7 +36,7 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
             edges {
               cursor
               node {
-                ...ChallengeCard_challenges
+                ...ChallengeCard_challenge
               }
             }
             pageInfo {
@@ -47,7 +47,7 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
           }
         }
       `,
-      fragmentRef
+      challengeListFragmentRef
     );
 
   const handleRefresh = useCallback(() => {
@@ -61,10 +61,10 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
 
   return (
     <FlatList
-      className="min-h-full px-md pb-md"
+      className="min-h-full px-sm pb-md"
       data={data.challenges.edges?.map((edge) => edge.node)}
       ListHeaderComponent={
-        <View>
+        <View className="px-sm">
           <CommunityDetails />
           <Text className="mb-md text-2xl font-bold">Challenges</Text>
         </View>
@@ -74,9 +74,9 @@ export const ChallengeList = ({ fragmentRef }: Props) => {
           No challenges yet. Be the first to create one.
         </Text>
       }
-      renderItem={({ item }) => <ChallengeCard fragmentKey={item} />}
+      renderItem={({ item }) => <ChallengeCard fragmentRef={item} />}
       ListFooterComponent={
-        <View className="flex flex-col gap-md">
+        <View className="flex flex-col gap-md pb-md">
           {hasNext && (
             <OButton
               title={isLoadingNext ? "Loading..." : "Load more"}

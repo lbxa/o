@@ -6,3 +6,10 @@ packages:
   - "infra"
   - "!scripts"
   - "!out/**"
+
+catalogs:
+  eslint9: 
+    eslint: ^9.15.0
+
+  typescript5:
+    typescript: ^5.7.2

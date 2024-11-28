@@ -36,8 +36,12 @@ import { ChallengeCreateMode } from "./ChallengeCreateMode";
 
 export const ChallengeCreate = () => {
   const router = useRouter();
-  const { selectedCommunity, challengeForm, setChallengeFormField } =
-    useZustStore();
+  const {
+    selectedCommunity,
+    challengeForm,
+    setChallengeFormField,
+    clearChallengeForm,
+  } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(graphql`
       mutation ChallengeCreateMutation(
@@ -54,6 +58,15 @@ export const ChallengeCreate = () => {
               id
               name
               description
+              startDate
+              endDate
+              activity {
+                id
+                type
+                goal
+                unit
+                target
+              }
             }
           }
         }
@@ -86,11 +99,7 @@ export const ChallengeCreate = () => {
       throw new Error("No community selected");
     }
 
-    if (
-      !challengeForm.goal ||
-      !challengeForm.measurement ||
-      !challengeForm.type
-    ) {
+    if (!challengeForm.goal || !challengeForm.type) {
       // TODO throw a toast!
       throw new Error("Missing challenge activity data");
     }
@@ -110,13 +119,13 @@ export const ChallengeCreate = () => {
         },
         challengeActivityCreateInput: {
           type: challengeForm.type,
-          measurement: challengeForm.measurement,
           goal: challengeForm.goal,
           target: challengeForm.target,
           unit: challengeForm.unit ?? ChallengeActivityUnits.None,
         },
       },
       onCompleted: () => {
+        clearChallengeForm();
         router.replace(`/(root)/community/${selectedCommunity.id}`);
       },
       onError: (error) => {
@@ -279,28 +288,30 @@ export const ChallengeCreate = () => {
                 >
                   <Title className="text-xl">End</Title>
                   <Subtitle>When should the challenge officially end?</Subtitle>
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    rules={{
-                      required: { value: true, message: "Required field" },
-                      validate: (endDate) => {
-                        if (dayjs(endDate).isBefore(dayjs(startDate))) {
-                          return "End date must be after start date";
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field: { onChange, value } }) => (
-                      <RNDateTimePicker
-                        mode="datetime"
-                        value={value}
-                        onChange={(_, selectedDate) => {
-                          onChange(selectedDate);
-                        }}
-                      />
-                    )}
-                  />
+                  <View className="ml-auto">
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: { value: true, message: "Required field" },
+                        validate: (endDate) => {
+                          if (dayjs(endDate).isBefore(dayjs(startDate))) {
+                            return "End date must be after start date";
+                          }
+                          return true;
+                        },
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <RNDateTimePicker
+                          mode="datetime"
+                          value={value}
+                          onChange={(_, selectedDate) => {
+                            onChange(selectedDate);
+                          }}
+                        />
+                      )}
+                    />
+                  </View>
                 </View>
                 {!!errors.endDate && (
                   <Text className="mb-md pl-sm text-red-900">

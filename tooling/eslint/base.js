@@ -70,6 +70,13 @@ export default tseslint.config(
           allowConstantLoopConditions: true,
         },
       ],
+      "@typescript-eslint/no-unused-expressions": [
+        "error",
+        {
+          allowShortCircuit: true,
+          allowTernary: true
+        },
+      ],
       "@typescript-eslint/no-non-null-assertion": "error",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
       'simple-import-sort/imports': 'error',

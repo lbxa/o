@@ -27,7 +27,6 @@ body:graphql {
     },
     challengeActivityCreateInput: {
       type: TIME_BASED,
-      measurement: DURATION,
       goal: SHORTEST_TIME,
       unit: MILES,
     }) {
@@ -36,6 +35,10 @@ body:graphql {
           id
          	name
           description
+          activity {
+            id
+            type
+          }
         }  
       }
     }

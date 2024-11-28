@@ -1,7 +1,7 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import RecordIcon from "@assets/icons/record.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeActivityType } from "@o/api-gql";
+import { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Text, View } from "react-native";
@@ -11,28 +11,24 @@ import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDe
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 
+import type { ChallengeActivityPills_challenge$key } from "../../__generated__/ChallengeActivityPills_challenge.graphql";
+import { ChallengeActivityPills } from "../ChallengeActivity";
 import {
   RepetitionLogger,
   StopwatchLogger,
   WeightLogger,
 } from "../ChallengeLogger";
-
-export const CHALLENGE_DETAILS_QUERY = graphql`
-  query ChallengeDetailsQuery($id: ID!) {
-    challenge(id: $id) {
-      id
-      name
-      description
-    }
-  }
-`;
+import { ChallengeSocials } from "../ChallengeSocials";
 
 interface Props {
-  // queryRef: PreloadedQuery<ChallengeDetailsQuery>;
-  fragmentRef: ChallengeDetails_challenge$key;
+  challengeFragmentRef: ChallengeDetails_challenge$key;
+  challengeActivityPillsFragmentRef: ChallengeActivityPills_challenge$key;
 }
 
-export const ChallengeDetails = ({ fragmentRef }: Props) => {
+export const ChallengeDetails = ({
+  challengeFragmentRef,
+  challengeActivityPillsFragmentRef,
+}: Props) => {
   const router = useRouter();
   const { setRecordedChallenge } = useZustStore();
 
@@ -51,10 +47,11 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
         activity {
           id
           type
+          goal
         }
       }
     `,
-    fragmentRef
+    challengeFragmentRef
   );
 
   const handleRecord = () => {
@@ -69,8 +66,15 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
       case ChallengeActivityType.TimeBased:
         stopwatchModalRef.current?.present();
         break;
-      case ChallengeActivityType.Social:
       case ChallengeActivityType.Distance:
+        switch (challenge.activity.goal) {
+          case ChallengeActivityGoal.ShortestTime:
+          case ChallengeActivityGoal.LongestTime:
+            stopwatchModalRef.current?.present();
+            break;
+        }
+        break;
+      case ChallengeActivityType.Social:
       default:
         // TODO what should we do with distance?
         return;
@@ -78,7 +82,7 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md flex flex-col gap-md">
       {showDescription && (
         <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
@@ -87,6 +91,8 @@ export const ChallengeDetails = ({ fragmentRef }: Props) => {
           </OTouchable>
         </View>
       )}
+      <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
+      <ChallengeSocials />
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />

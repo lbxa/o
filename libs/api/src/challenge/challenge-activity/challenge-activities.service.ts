@@ -12,7 +12,6 @@ import { EntityService } from "../../entity";
 import {
   ChallengeActivity as GqlChallengeActivity,
   ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
 } from "../../types/graphql";
@@ -39,10 +38,6 @@ export class ChallengeActivitiesService
     return {
       ...challengeActivity,
       type: mapToEnum(ChallengeActivityType, challengeActivity.type),
-      measurement: mapToEnum(
-        ChallengeActivityMeasurement,
-        challengeActivity.measurement
-      ),
       goal: mapToEnum(ChallengeActivityGoal, challengeActivity.goal),
       unit: mapToEnum(ChallengeActivityUnits, challengeActivity.unit),
       challengeId: encodeGlobalId("Challenge", challengeActivity.challengeId),

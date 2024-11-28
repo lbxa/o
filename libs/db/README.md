@@ -123,8 +123,8 @@ erDiagram
         number challengeId FK
         string type
         string goal
-        string objective
         string unit
+        string target
         datetime created_at
         datetime updated_at
     }
@@ -179,15 +179,9 @@ const activityUnitsMap = {
 };
 ```
 
-#### Activity Measurements
+#### Activity Goals
 
-Measurements are how communities quantify the success of a challenge. We currently offer the following measurement types:
-
-- Counting
-- Duration
-- Improvement
-
-Each measurement has specific goals:
+Goals are how communities quantify the success of a challenge. We currently offer the following goal types:
 
 - Lowest Number
 - Highest Number
@@ -196,23 +190,25 @@ Each measurement has specific goals:
 - Most Improved
 - Specific Target
 
-Similarly this is our internal mapping to ensure the correct goals are linked to the correct goal types:
+This is our internal mapping to ensure the correct goals are linked to the correct activity types:
 
 ```ts
-const measurementGoalsMap = {
-  "Counting": ["Lowest Number", "Highest Number", "Specific Target"],
-  "Duration": ["Shortest Time", "Longest Time"],
-  "Improvement": ["Most Improved", "Specific Target"],
+const activityGoalsMap = {
+  "Repetitions": ["Lowest Number", "Highest Number", "Specific Target"],
+  "Time-Based": ["Shortest Time", "Longest Time"],
+  "Weightlifting": ["Most Improved", "Specific Target"],
+  "Distance": ["Most Improved", "Specific Target"],
+  "Social": [],
 };
 ```
 
 This information gives us the ability to offer a dynamic set of options for users to choose from when creating a challenge. Here are some examples:
 
-- "The One Rep Max": Repetitions, Count-Based, Highest Number
-- "The Fastest 5k": Time-Based, Duration, Shortest Time
-- "The Heaviest Deadlift": Weightlifting, Count-Based, Specific Target, 100 kg
-- "The Intense Run": Distance, Improvement Over Time, Most Improved
-- "The Most Improved Bench Press": Weightlifting, Improvement Over Time, Specific Target, 30 %
+- "The One Rep Max": Repetitions, Highest Number
+- "The Fastest 5k": Time-Based, Shortest Time
+- "The Heaviest Deadlift": Weightlifting, Specific Target, 100 kg
+- "The Intense Run": Distance, Most Improved
+- "The Most Improved Bench Press": Weightlifting, Most Improved, 30 %
 - "The Coffee Run": Social
 
 #### Results

@@ -1,6 +1,5 @@
 import {
   ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
 } from "@o/api-gql";
@@ -8,7 +7,6 @@ import {
 import type {
   ChallengeActivityGoalLabel,
   ChallengeActivityLabel,
-  ChallengeActivityMeasurementLabel,
   ChallengeActivityUnitLabel,
 } from "../challenge-activity.types";
 
@@ -19,7 +17,7 @@ export const challengeActivityTypeToLabel = (
     case ChallengeActivityType.Repetitions:
       return "Repetitions";
     case ChallengeActivityType.TimeBased:
-      return "Time-Based";
+      return "Time";
     case ChallengeActivityType.Weightlifting:
       return "Weightlifting";
     case ChallengeActivityType.Distance:
@@ -58,19 +56,6 @@ export const challengeActivityUnitToLabel = (
   }
 };
 
-export const challengeActivityMeasurementToLabel = (
-  measurement: ChallengeActivityMeasurement
-): ChallengeActivityMeasurementLabel => {
-  switch (measurement) {
-    case ChallengeActivityMeasurement.Counting:
-      return "Count-Based";
-    case ChallengeActivityMeasurement.Duration:
-      return "Duration";
-    case ChallengeActivityMeasurement.Improvement:
-      return "Improvement";
-  }
-};
-
 export const challengeActivityGoalToLabel = (
   goal: ChallengeActivityGoal
 ): ChallengeActivityGoalLabel => {
@@ -80,7 +65,7 @@ export const challengeActivityGoalToLabel = (
     case ChallengeActivityGoal.HighestNumber:
       return "Highest Number";
     case ChallengeActivityGoal.SpecificTarget:
-      return "Specific Target";
+      return "Target";
     case ChallengeActivityGoal.ShortestTime:
       return "Shortest Time";
     case ChallengeActivityGoal.LongestTime:

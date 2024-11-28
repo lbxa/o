@@ -71,6 +71,20 @@
       "when": 1732179110831,
       "tag": "0009_add_pg_trgm_extension",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1732760611257,
+      "tag": "0010_jittery_doctor_doom",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1732760774881,
+      "tag": "0011_gray_rockslide",
+      "breakpoints": true
     }
   ]
 }

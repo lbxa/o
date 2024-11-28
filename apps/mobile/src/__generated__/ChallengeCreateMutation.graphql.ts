@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2dca7f74ad672561a9de39909eb083c7>>
+ * @generated SignedSource<<53afe941fb7bcf863e52d7151b3d2053>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,6 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
-export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 export type ChallengeCadence = "BIWEEKLY" | "DAILY" | "MONTHLY" | "NONE" | "WEEKLY" | "YEARLY" | "%future added value";
@@ -26,7 +25,6 @@ export type ChallengeCreateInput = {
 };
 export type ChallengeActivityCreateInput = {
   goal: ChallengeActivityGoal;
-  measurement: ChallengeActivityMeasurement;
   target?: number | null | undefined;
   type: ChallengeActivityType;
   unit: ChallengeActivityUnits;
@@ -40,9 +38,18 @@ export type ChallengeCreateMutation$data = {
     readonly challengeEdge: {
       readonly cursor: string;
       readonly node: {
+        readonly activity: {
+          readonly goal: ChallengeActivityGoal;
+          readonly id: string;
+          readonly target: number | null | undefined;
+          readonly type: ChallengeActivityType;
+          readonly unit: ChallengeActivityUnits;
+        };
         readonly description: string | null | undefined;
+        readonly endDate: Date | null | undefined;
         readonly id: string;
         readonly name: string;
+        readonly startDate: Date | null | undefined;
       };
     };
   };
@@ -63,7 +70,14 @@ v1 = {
   "kind": "LocalArgument",
   "name": "challengeCreateInput"
 },
-v2 = [
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = [
   {
     "alias": null,
     "args": [
@@ -106,13 +120,7 @@ v2 = [
             "name": "node",
             "plural": false,
             "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              },
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -125,6 +133,60 @@ v2 = [
                 "args": null,
                 "kind": "ScalarField",
                 "name": "description",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "startDate",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "endDate",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ChallengeActivity",
+                "kind": "LinkedField",
+                "name": "activity",
+                "plural": false,
+                "selections": [
+                  (v2/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "type",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "goal",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "unit",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "target",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               }
             ],
@@ -146,7 +208,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ChallengeCreateMutation",
-    "selections": (v2/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -158,19 +220,19 @@ return {
     ],
     "kind": "Operation",
     "name": "ChallengeCreateMutation",
-    "selections": (v2/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "a7e19c83429883f90612139836299d79",
+    "cacheID": "02c30ede1cf8d1f4d342ad41559c43fe",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n      }\n    }\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n        startDate\n        endDate\n        activity {\n          id\n          type\n          goal\n          unit\n          target\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "8e6d1e3b1889b559b57fc9b75a3e3961";
+(node as any).hash = "5ed1f53bc70d70a489d27c15c990b8cc";
 
 export default node;

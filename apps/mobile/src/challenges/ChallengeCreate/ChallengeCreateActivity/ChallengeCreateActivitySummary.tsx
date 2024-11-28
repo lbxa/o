@@ -1,11 +1,11 @@
 import CrissCrossIcon from "@assets/icons/criss-cross.svg";
+import React from "react";
 import { ScrollView, Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
 
 import {
   challengeActivityGoalToLabel,
-  challengeActivityMeasurementToLabel,
   challengeActivityTypeToLabel,
   challengeActivityUnitToLabel,
 } from "../../ChallengeActivity/domain";
@@ -15,9 +15,8 @@ export const ChallengeCreateActivitySummary = () => {
 
   const fields = [
     challengeForm.type && challengeActivityTypeToLabel(challengeForm.type),
-    challengeForm.measurement &&
-      challengeActivityMeasurementToLabel(challengeForm.measurement),
     challengeForm.goal && challengeActivityGoalToLabel(challengeForm.goal),
+    challengeForm.target?.toString(),
     challengeForm.unit && challengeActivityUnitToLabel(challengeForm.unit),
   ];
 
@@ -51,12 +50,9 @@ export const ChallengeCreateActivitySummary = () => {
         )}
         {third && (
           <View className="z-30 -ml-md rounded-xl bg-violet py-sm pl-lg pr-md">
-            <Text className="font-bold text-indigo-100">{third}</Text>
-          </View>
-        )}
-        {fourth && (
-          <View className="z-20 -ml-md rounded-xl bg-indigo/20 py-sm pl-lg pr-md">
-            <Text className="font-bold text-indigo-100">{fourth}</Text>
+            <Text className="font-bold text-indigo-100">
+              {third + " " + (fourth === "None" || !fourth ? "" : fourth)}
+            </Text>
           </View>
         )}
       </View>

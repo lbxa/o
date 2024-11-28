@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dec90e61d9f75d5339f20c54052b8e93>>
+ * @generated SignedSource<<6fff7ff2d6a89b442cb3d5e63b664d1e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type ChallengeList_viewer$data = {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenges">;
+        readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenge">;
       };
     }> | null | undefined;
     readonly pageInfo: {
@@ -120,7 +120,7 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "ChallengeCard_challenges"
+                  "name": "ChallengeCard_challenge"
                 },
                 {
                   "alias": null,
@@ -176,6 +176,6 @@ return {
 };
 })();
 
-(node as any).hash = "5a8449993c2d3c7f71cbfbecb8b93651";
+(node as any).hash = "4cf5a5f93bfbaa898acbf5086fdf417b";
 
 export default node;

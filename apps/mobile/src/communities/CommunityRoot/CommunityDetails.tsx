@@ -1,38 +1,39 @@
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { graphql } from "react-relay";
 
 import { OButton } from "@/universe/atoms";
 
-export const COMMUNITY_DETAILS_QUERY = graphql`
-  query CommunityDetailsQuery($id: ID!) {
-    community(id: $id) {
-      name
-      ...CommunityFragment
-    }
-  }
-`;
+import { CommunitySocials } from "../CommunitySocials";
 
 // interface Props {
-//   queryRef: PreloadedQuery<CommunityDetailsQuery>;
+//   // communityRef: CommunityDetails_community$key;
 // }
 
 export const CommunityDetails = () => {
   const router = useRouter();
-  // const query = usePreloadedQuery<CommunityDetailsQuery>(
-  //   COMMUNITY_DETAILS_QUERY,
-  //   queryRef
+
+  // const _ = useFragment<CommunityDetails_community$key>(
+  //   graphql`
+  //     fragment CommunityDetails_community on Community {
+  //       id
+  //       name
+  //     }
+  //   `,
+  //   communityRef
   // );
 
   return (
-    <View className="mb-md flex flex-row gap-md pt-sm">
-      <OButton title="Share" variant="indigo" className="rounded-xl" />
-      <OButton
-        title="Invite"
-        variant="indigo"
-        className="rounded-xl"
-        onPress={() => router.push("/(root)/community/invite")}
-      />
+    <View className="mb-md flex flex-col gap-md pt-sm">
+      <CommunitySocials />
+      <View className="flex flex-row gap-md">
+        <OButton title="Share" variant="indigo" className="rounded-xl" />
+        <OButton
+          title="Invite"
+          variant="indigo"
+          className="rounded-xl"
+          onPress={() => router.push("/(root)/community/invite")}
+        />
+      </View>
     </View>
   );
 };

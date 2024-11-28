@@ -30,12 +30,6 @@ export enum ChallengeActivityUnits {
     NONE = "NONE"
 }
 
-export enum ChallengeActivityMeasurement {
-    COUNTING = "COUNTING",
-    DURATION = "DURATION",
-    IMPROVEMENT = "IMPROVEMENT"
-}
-
 export enum ChallengeActivityGoal {
     LOWEST_NUMBER = "LOWEST_NUMBER",
     HIGHEST_NUMBER = "HIGHEST_NUMBER",
@@ -87,7 +81,6 @@ export interface ChallengeActivityResultCreateInput {
 
 export interface ChallengeActivityCreateInput {
     type: ChallengeActivityType;
-    measurement: ChallengeActivityMeasurement;
     goal: ChallengeActivityGoal;
     target?: Nullable<number>;
     unit: ChallengeActivityUnits;
@@ -231,7 +224,6 @@ export interface IQuery {
     challengeActivityTopResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
-    community(id: string): Nullable<Community> | Promise<Nullable<Community>>;
     communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
@@ -246,7 +238,6 @@ export interface ChallengeActivity extends Node, Timestamps {
     id: string;
     challengeId?: Nullable<string>;
     type: ChallengeActivityType;
-    measurement: ChallengeActivityMeasurement;
     goal: ChallengeActivityGoal;
     target?: Nullable<number>;
     unit: ChallengeActivityUnits;
@@ -379,6 +370,7 @@ export interface Viewer extends Node {
     __typename?: 'Viewer';
     id: string;
     user?: Nullable<User>;
+    community?: Nullable<Community>;
     communities?: CommunityConnection;
     challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;

@@ -58,7 +58,6 @@ type CommunityCreatePayload {
 }
 
 type Query {
-  community(id: ID!): Community
   communityInvitations(userId: ID!): [Community!]
 }
 

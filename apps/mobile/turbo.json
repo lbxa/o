@@ -1,0 +1,15 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "expo:doctor": {
+      "inputs": ["$TURBO_DEFAULT$", ".env.*", "package.json"]
+    },
+    "build": {
+      "dependsOn": ["expo:doctor"],
+      "inputs": ["$TURBO_DEFAULT$", ".env.*", "src/**"],
+      "outputs": ["$TURBO_DEFAULT$", "dist/**", "ios/**", "android/**"],
+      "env": ["NODE_ENV", "EXPO_PUBLIC_API_URL"]
+    }
+  }
+}

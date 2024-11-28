@@ -31,19 +31,6 @@ export default function MessageLayout() {
           ),
         }}
       />
-      <Stack.Screen
-        name="message"
-        options={{
-          headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <OTouchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </OTouchable>
-              <Text className="text-3xl font-bold">Messages</Text>
-            </View>
-          ),
-        }}
-      />
     </Stack>
   );
 }

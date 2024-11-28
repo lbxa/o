@@ -36,7 +36,10 @@ export const Waitlist = () => {
 
       setComplete(true);
       return response.text();
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new FormError<WaitlistForm>(error.message);
+      }
       throw new FormError<WaitlistForm>("An error has occurred.");
     }
   };

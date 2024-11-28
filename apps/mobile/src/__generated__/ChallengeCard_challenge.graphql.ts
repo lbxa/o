@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<419b8f8261f85f4669d6aebe01f4e8c6>>
+ * @generated SignedSource<<955eb2adc91026185fc5ed5900abf727>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,13 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
-export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeCard_challenges$data = {
+export type ChallengeCard_challenge$data = {
   readonly activity: {
     readonly goal: ChallengeActivityGoal;
     readonly id: string;
-    readonly measurement: ChallengeActivityMeasurement;
     readonly target: number | null | undefined;
     readonly type: ChallengeActivityType;
     readonly unit: ChallengeActivityUnits;
@@ -28,11 +26,12 @@ export type ChallengeCard_challenges$data = {
   readonly id: string;
   readonly name: string;
   readonly startDate: Date | null | undefined;
-  readonly " $fragmentType": "ChallengeCard_challenges";
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge">;
+  readonly " $fragmentType": "ChallengeCard_challenge";
 };
-export type ChallengeCard_challenges$key = {
-  readonly " $data"?: ChallengeCard_challenges$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenges">;
+export type ChallengeCard_challenge$key = {
+  readonly " $data"?: ChallengeCard_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -47,7 +46,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ChallengeCard_challenges",
+  "name": "ChallengeCard_challenge",
   "selections": [
     (v0/*: any*/),
     {
@@ -98,13 +97,6 @@ return {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "measurement",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
           "name": "goal",
           "storageKey": null
         },
@@ -124,6 +116,11 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "ChallengeActivityPills_challenge"
     }
   ],
   "type": "Challenge",
@@ -131,6 +128,6 @@ return {
 };
 })();
 
-(node as any).hash = "55ad27aa62c21d8537e8ec232a8fa274";
+(node as any).hash = "93229c24b9b6ed4b23a7e555bcfc3cfb";
 
 export default node;

@@ -11,18 +11,6 @@ import { PrimaryTextInputControl } from "@/universe/atoms";
 
 import { UserInviteCard } from "./UserInviteCard";
 
-const USER_FRIENDS_LIST_FRAGMENT = graphql`
-  fragment UserSearchFriendsFragment on Viewer
-  @refetchable(queryName: "UserSearchRefetchQuery")
-  @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
-    user {
-      searchFriends(searchTerm: $searchTerm) {
-        ...UserFragment
-      }
-    }
-  }
-`;
-
 export const UserSearch = () => {
   const query = useLazyLoadQuery<UserSearchFriendsListQuery>(
     graphql`
@@ -39,7 +27,20 @@ export const UserSearch = () => {
   const [data, refetch] = useRefetchableFragment<
     UserSearchRefetchQuery,
     UserSearchFriendsFragment$key
-  >(USER_FRIENDS_LIST_FRAGMENT, query.viewer);
+  >(
+    graphql`
+      fragment UserSearchFriendsFragment on Viewer
+      @refetchable(queryName: "UserSearchRefetchQuery")
+      @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
+        user {
+          searchFriends(searchTerm: $searchTerm) {
+            ...UserFragment
+          }
+        }
+      }
+    `,
+    query.viewer
+  );
 
   const handleSearchChange = useCallback(
     (term: string) => {
@@ -50,7 +51,7 @@ export const UserSearch = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-yellow-200">
       <View className="flex-1 px-md">
         <View className="h-full">
           <View className="mb-sm flex w-full flex-row items-center">
@@ -70,7 +71,7 @@ export const UserSearch = () => {
           </View>
           <Suspense
             fallback={
-              <View className="flex-1 items-center justify-center">
+              <View className="h-full flex-1 items-center justify-center">
                 <Text className="bg-red-200 text-center">Loading...</Text>
               </View>
             }
