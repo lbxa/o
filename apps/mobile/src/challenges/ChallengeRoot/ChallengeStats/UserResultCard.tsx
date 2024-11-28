@@ -2,7 +2,7 @@ import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type {
-  ChallengeActivityMeasurement,
+  ChallengeActivityGoal,
   UserResultCard_challenge$key,
 } from "@/__generated__/UserResultCard_challenge.graphql";
 
@@ -25,23 +25,23 @@ export const UserResultCard = ({
         result
         activity {
           id
-          measurement
+          goal
         }
       }
     `,
     result
   );
 
-  const displayResult = (
-    result: number,
-    measurement: ChallengeActivityMeasurement
-  ) => {
-    switch (measurement) {
-      case "COUNTING":
+  const displayResult = (result: number, goal: ChallengeActivityGoal) => {
+    switch (goal) {
+      case "HIGHEST_NUMBER":
+      case "LOWEST_NUMBER":
+      case "SPECIFIC_TARGET":
         return result.toString();
-      case "DURATION":
+      case "SHORTEST_TIME":
+      case "LONGEST_TIME":
         return intToTimestamp(result).toString();
-      case "IMPROVEMENT":
+      case "MOST_IMPROVED":
         return `${result}%`;
     }
   };
@@ -62,7 +62,7 @@ export const UserResultCard = ({
         className="text-3xl font-bold"
         style={{ fontVariant: ["tabular-nums"] }}
       >
-        {displayResult(userResult.result, userResult.activity.measurement)}
+        {displayResult(userResult.result, userResult.activity.goal)}
       </Text>
     </View>
   );

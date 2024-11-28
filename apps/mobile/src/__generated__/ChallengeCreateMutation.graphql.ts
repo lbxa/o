@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5374551a1c9e7c9c85c11dc63922c7a8>>
+ * @generated SignedSource<<53afe941fb7bcf863e52d7151b3d2053>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,6 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
-export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 export type ChallengeCadence = "BIWEEKLY" | "DAILY" | "MONTHLY" | "NONE" | "WEEKLY" | "YEARLY" | "%future added value";
@@ -26,7 +25,6 @@ export type ChallengeCreateInput = {
 };
 export type ChallengeActivityCreateInput = {
   goal: ChallengeActivityGoal;
-  measurement: ChallengeActivityMeasurement;
   target?: number | null | undefined;
   type: ChallengeActivityType;
   unit: ChallengeActivityUnits;
@@ -43,7 +41,6 @@ export type ChallengeCreateMutation$data = {
         readonly activity: {
           readonly goal: ChallengeActivityGoal;
           readonly id: string;
-          readonly measurement: ChallengeActivityMeasurement;
           readonly target: number | null | undefined;
           readonly type: ChallengeActivityType;
           readonly unit: ChallengeActivityUnits;
@@ -172,13 +169,6 @@ v3 = [
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "measurement",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
                     "name": "goal",
                     "storageKey": null
                   },
@@ -233,16 +223,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "5cfbbe3f68050f38ce3628ac01ee5d03",
+    "cacheID": "02c30ede1cf8d1f4d342ad41559c43fe",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n        startDate\n        endDate\n        activity {\n          id\n          type\n          measurement\n          goal\n          unit\n          target\n        }\n      }\n    }\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n        startDate\n        endDate\n        activity {\n          id\n          type\n          goal\n          unit\n          target\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "02aff33a7227c808935944a5d71270de";
+(node as any).hash = "5ed1f53bc70d70a489d27c15c990b8cc";
 
 export default node;

@@ -1,7 +1,7 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import RecordIcon from "@assets/icons/record.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeActivityType } from "@o/api-gql";
+import { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Text, View } from "react-native";
@@ -47,6 +47,7 @@ export const ChallengeDetails = ({
         activity {
           id
           type
+          goal
         }
       }
     `,
@@ -65,8 +66,15 @@ export const ChallengeDetails = ({
       case ChallengeActivityType.TimeBased:
         stopwatchModalRef.current?.present();
         break;
-      case ChallengeActivityType.Social:
       case ChallengeActivityType.Distance:
+        switch (challenge.activity.goal) {
+          case ChallengeActivityGoal.ShortestTime:
+          case ChallengeActivityGoal.LongestTime:
+            stopwatchModalRef.current?.present();
+            break;
+        }
+        break;
+      case ChallengeActivityType.Social:
       default:
         // TODO what should we do with distance?
         return;
@@ -74,9 +82,9 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md">
+    <View className="mb-md gap-md flex flex-col">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
+        <View className="gap-sm bg-ivory px-md py-sm flex-row items-center rounded-xl">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} />
@@ -88,7 +96,7 @@ export const ChallengeDetails = ({
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton
           title="Invite"
@@ -101,7 +109,7 @@ export const ChallengeDetails = ({
           type="secondary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
-          className="ml-auto flex flex-row items-center gap-sm rounded-xl"
+          className="gap-sm ml-auto flex flex-row items-center rounded-xl"
           onPress={handleRecord}
         />
       </View>

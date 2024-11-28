@@ -20,12 +20,6 @@ enum ChallengeActivityUnits {
   NONE
 }
 
-enum ChallengeActivityMeasurement {
-  COUNTING
-  DURATION
-  IMPROVEMENT
-}
-
 enum ChallengeActivityGoal {
   LOWEST_NUMBER
   HIGHEST_NUMBER
@@ -39,7 +33,6 @@ type ChallengeActivity implements Node & Timestamps {
   id: ID!
   challengeId: ID
   type: ChallengeActivityType!
-  measurement: ChallengeActivityMeasurement!
   goal: ChallengeActivityGoal!
   target: Int
   unit: ChallengeActivityUnits!
@@ -49,7 +42,6 @@ type ChallengeActivity implements Node & Timestamps {
 
 input ChallengeActivityCreateInput {
   type: ChallengeActivityType!
-  measurement: ChallengeActivityMeasurement!
   goal: ChallengeActivityGoal!
   target: Int
   unit: ChallengeActivityUnits!

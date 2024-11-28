@@ -36,8 +36,12 @@ import { ChallengeCreateMode } from "./ChallengeCreateMode";
 
 export const ChallengeCreate = () => {
   const router = useRouter();
-  const { selectedCommunity, challengeForm, setChallengeFormField } =
-    useZustStore();
+  const {
+    selectedCommunity,
+    challengeForm,
+    setChallengeFormField,
+    clearChallengeForm,
+  } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<ChallengeCreateMutation>(graphql`
       mutation ChallengeCreateMutation(
@@ -59,7 +63,6 @@ export const ChallengeCreate = () => {
               activity {
                 id
                 type
-                measurement
                 goal
                 unit
                 target
@@ -96,11 +99,7 @@ export const ChallengeCreate = () => {
       throw new Error("No community selected");
     }
 
-    if (
-      !challengeForm.goal ||
-      !challengeForm.measurement ||
-      !challengeForm.type
-    ) {
+    if (!challengeForm.goal || !challengeForm.type) {
       // TODO throw a toast!
       throw new Error("Missing challenge activity data");
     }
@@ -120,13 +119,13 @@ export const ChallengeCreate = () => {
         },
         challengeActivityCreateInput: {
           type: challengeForm.type,
-          measurement: challengeForm.measurement,
           goal: challengeForm.goal,
           target: challengeForm.target,
           unit: challengeForm.unit ?? ChallengeActivityUnits.None,
         },
       },
       onCompleted: () => {
+        clearChallengeForm();
         router.replace(`/(root)/community/${selectedCommunity.id}`);
       },
       onError: (error) => {
@@ -261,17 +260,17 @@ export const ChallengeCreate = () => {
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
               onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+              className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
             >
               <SearchIcon width={25} />
               <Text className="pl-sm">Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (
-              <View className="flex flex-col gap-sm">
+              <View className="gap-sm flex flex-col">
                 <View className="flex flex-row items-center justify-between">
                   <OTouchable
-                    className="flex flex-row items-center gap-sm"
+                    className="gap-sm flex flex-row items-center"
                     onPress={() => setChallengeFormField("advancedMode", false)}
                   >
                     <Title>More Settings</Title>
@@ -324,7 +323,7 @@ export const ChallengeCreate = () => {
             ) : (
               <OTouchable
                 onPress={() => setChallengeFormField("advancedMode", true)}
-                className="mb-lg flex flex-row items-center gap-sm"
+                className="mb-lg gap-sm flex flex-row items-center"
               >
                 <Title>More Settings</Title>
                 <ChevronDownIcon width={22} height={22} />

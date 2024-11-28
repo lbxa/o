@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7de9e443c0e1f3e887273f7fe3bc55da>>
+ * @generated SignedSource<<955eb2adc91026185fc5ed5900abf727>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,6 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
-export type ChallengeActivityMeasurement = "COUNTING" | "DURATION" | "IMPROVEMENT" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
@@ -18,7 +17,6 @@ export type ChallengeCard_challenge$data = {
   readonly activity: {
     readonly goal: ChallengeActivityGoal;
     readonly id: string;
-    readonly measurement: ChallengeActivityMeasurement;
     readonly target: number | null | undefined;
     readonly type: ChallengeActivityType;
     readonly unit: ChallengeActivityUnits;
@@ -99,13 +97,6 @@ return {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "measurement",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
           "name": "goal",
           "storageKey": null
         },
@@ -137,6 +128,6 @@ return {
 };
 })();
 
-(node as any).hash = "882ea84e2a5b1e83afcf100f1578d9bc";
+(node as any).hash = "93229c24b9b6ed4b23a7e555bcfc3cfb";
 
 export default node;

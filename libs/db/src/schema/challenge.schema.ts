@@ -114,11 +114,6 @@ export const ChallengeActivityUnits = ChallengeSchema.enum("activity_units", [
   "NONE",
 ]);
 
-export const ChallengeActivityMeasurement = ChallengeSchema.enum(
-  "activity_measurement",
-  ["COUNTING", "DURATION", "IMPROVEMENT"]
-);
-
 export const ChallengeActivityGoal = ChallengeSchema.enum("activity_goal", [
   "LOWEST_NUMBER",
   "HIGHEST_NUMBER",
@@ -136,7 +131,7 @@ export const ChallengeActivitiesTable = ChallengeSchema.table(
       .notNull()
       .references(() => ChallengesTable.id),
     type: ChallengeActivityType().notNull(),
-    measurement: ChallengeActivityMeasurement().notNull(),
+    // measurement: ChallengeActivityMeasurement().notNull(),
     goal: ChallengeActivityGoal().notNull(),
     target: integer(),
     unit: ChallengeActivityUnits().notNull(),
@@ -195,14 +190,14 @@ export const ActivityUnitTable = ChallengeSchema.table(
   })
 );
 
-export const MeasurementGoalTable = ChallengeSchema.table(
-  "measurement_goal",
+export const ActivityTypeGoalTable = ChallengeSchema.table(
+  "activity_type_goal",
   {
-    measurement: ChallengeActivityMeasurement().notNull(),
+    type: ChallengeActivityType().notNull(),
     goal: ChallengeActivityGoal().notNull(),
   },
   (table) => ({
-    pk: primaryKey({ columns: [table.measurement, table.goal] }),
+    pk: primaryKey({ columns: [table.type, table.goal] }),
   })
 );
 

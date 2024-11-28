@@ -52,7 +52,6 @@ type ChallengeActivity implements Node & Timestamps {
   createdAt: DateTime
   goal: ChallengeActivityGoal!
   id: ID!
-  measurement: ChallengeActivityMeasurement!
   target: Int
   type: ChallengeActivityType!
   unit: ChallengeActivityUnits!
@@ -61,7 +60,6 @@ type ChallengeActivity implements Node & Timestamps {
 
 input ChallengeActivityCreateInput {
   goal: ChallengeActivityGoal!
-  measurement: ChallengeActivityMeasurement!
   target: Int
   type: ChallengeActivityType!
   unit: ChallengeActivityUnits!
@@ -74,12 +72,6 @@ enum ChallengeActivityGoal {
   MOST_IMPROVED
   SHORTEST_TIME
   SPECIFIC_TARGET
-}
-
-enum ChallengeActivityMeasurement {
-  COUNTING
-  DURATION
-  IMPROVEMENT
 }
 
 """

@@ -82,7 +82,6 @@ export type ChallengeActivity = Node & Timestamps & {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   goal: ChallengeActivityGoal;
   id: Scalars['ID']['output'];
-  measurement: ChallengeActivityMeasurement;
   target?: Maybe<Scalars['Int']['output']>;
   type: ChallengeActivityType;
   unit: ChallengeActivityUnits;
@@ -91,7 +90,6 @@ export type ChallengeActivity = Node & Timestamps & {
 
 export type ChallengeActivityCreateInput = {
   goal: ChallengeActivityGoal;
-  measurement: ChallengeActivityMeasurement;
   target?: InputMaybe<Scalars['Int']['input']>;
   type: ChallengeActivityType;
   unit: ChallengeActivityUnits;
@@ -104,12 +102,6 @@ export enum ChallengeActivityGoal {
   MostImproved = 'MOST_IMPROVED',
   ShortestTime = 'SHORTEST_TIME',
   SpecificTarget = 'SPECIFIC_TARGET'
-}
-
-export enum ChallengeActivityMeasurement {
-  Counting = 'COUNTING',
-  Duration = 'DURATION',
-  Improvement = 'IMPROVEMENT'
 }
 
 /**

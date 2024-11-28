@@ -33,6 +33,7 @@ export interface ChallengeSlice {
     field: K,
     value: ChallengeForm[K]
   ) => void;
+  clearChallengeForm: () => void;
   // setChallengeFormActivityField: <K extends keyof ChallengeActivity>(
   //   field: K,
   //   value: ChallengeActivity[K]
@@ -65,6 +66,12 @@ export const createChallengeSlice: StateCreator<
     set(
       produce((state: Draft<ChallengeSlice>) => {
         state.challengeForm[field] = value;
+      })
+    ),
+  clearChallengeForm: () =>
+    set(
+      produce((state: Draft<ChallengeSlice>) => {
+        state.challengeForm = {};
       })
     ),
   // setChallengeFormActivityField: (field, value) =>

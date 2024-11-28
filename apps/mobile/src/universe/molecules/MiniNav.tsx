@@ -26,7 +26,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   return (
     <OTouchable
       onPress={() => router.push(href)}
-      className="rounded-full bg-ivory p-xs"
+      className="bg-ivory p-xs rounded-full"
     >
       <View>{children}</View>
     </OTouchable>
@@ -64,7 +64,7 @@ export const MiniNav: React.FC<MiniNavProps> = ({
     items === "all" ? (Object.keys(NAV_ICONS) as NavItemType[]) : items;
 
   return (
-    <View className="flex flex-row items-center gap-md">
+    <View className="gap-md flex flex-row items-center">
       {itemsToRender.map((item) => {
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (

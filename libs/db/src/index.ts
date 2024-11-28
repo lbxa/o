@@ -61,11 +61,10 @@ export {
   ChallengeActivityType,
   ChallengeActivityUnits,
   ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
+  ActivityUnitTable,
+  ActivityTypeGoalTable,
   ChallengeActivitiesTable,
   ChallengeActivityResultsTable,
-  ActivityUnitTable,
-  MeasurementGoalTable,
 } from "./schema/challenge.schema";
 export {
   ChallengesRelations,

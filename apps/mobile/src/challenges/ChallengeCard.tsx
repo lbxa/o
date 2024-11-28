@@ -1,8 +1,4 @@
-import type {
-  ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
-  ChallengeActivityType,
-} from "@o/api-gql";
+import type { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
 import type { ChallengeActivityUnits } from "@o/api-gql";
 import { useRouter } from "expo-router";
 import { Suspense } from "react";
@@ -35,7 +31,6 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         activity {
           id
           type
-          measurement
           goal
           unit
           target
@@ -63,8 +58,6 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         id: challenge.activity.id,
         goal: challenge.activity.goal as unknown as ChallengeActivityGoal,
         type: challenge.activity.type as unknown as ChallengeActivityType,
-        measurement: challenge.activity
-          .measurement as unknown as ChallengeActivityMeasurement,
         unit: challenge.activity.unit as unknown as ChallengeActivityUnits,
         target: challenge.activity.target,
       },

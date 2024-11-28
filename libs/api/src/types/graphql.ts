@@ -30,12 +30,6 @@ export enum ChallengeActivityUnits {
     NONE = "NONE"
 }
 
-export enum ChallengeActivityMeasurement {
-    COUNTING = "COUNTING",
-    DURATION = "DURATION",
-    IMPROVEMENT = "IMPROVEMENT"
-}
-
 export enum ChallengeActivityGoal {
     LOWEST_NUMBER = "LOWEST_NUMBER",
     HIGHEST_NUMBER = "HIGHEST_NUMBER",
@@ -87,7 +81,6 @@ export interface ChallengeActivityResultCreateInput {
 
 export interface ChallengeActivityCreateInput {
     type: ChallengeActivityType;
-    measurement: ChallengeActivityMeasurement;
     goal: ChallengeActivityGoal;
     target?: Nullable<number>;
     unit: ChallengeActivityUnits;
@@ -245,7 +238,6 @@ export interface ChallengeActivity extends Node, Timestamps {
     id: string;
     challengeId?: Nullable<string>;
     type: ChallengeActivityType;
-    measurement: ChallengeActivityMeasurement;
     goal: ChallengeActivityGoal;
     target?: Nullable<number>;
     unit: ChallengeActivityUnits;

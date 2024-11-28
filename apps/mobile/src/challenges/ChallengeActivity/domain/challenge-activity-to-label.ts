@@ -1,6 +1,5 @@
 import {
   ChallengeActivityGoal,
-  ChallengeActivityMeasurement,
   ChallengeActivityType,
   ChallengeActivityUnits,
 } from "@o/api-gql";
@@ -8,7 +7,6 @@ import {
 import type {
   ChallengeActivityGoalLabel,
   ChallengeActivityLabel,
-  ChallengeActivityMeasurementLabel,
   ChallengeActivityUnitLabel,
 } from "../challenge-activity.types";
 
@@ -55,19 +53,6 @@ export const challengeActivityUnitToLabel = (
       return "%";
     case ChallengeActivityUnits.None:
       return "None";
-  }
-};
-
-export const challengeActivityMeasurementToLabel = (
-  measurement: ChallengeActivityMeasurement
-): ChallengeActivityMeasurementLabel => {
-  switch (measurement) {
-    case ChallengeActivityMeasurement.Counting:
-      return "Count-Based";
-    case ChallengeActivityMeasurement.Duration:
-      return "Duration";
-    case ChallengeActivityMeasurement.Improvement:
-      return "Improvement";
   }
 };
 
