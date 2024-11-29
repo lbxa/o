@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3d2e9f648623a9e4be7dfec138230c66>>
+ * @generated SignedSource<<c25741dcf15d84a0d89ffa5eecb9eb0b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,11 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityCreateInput = {
-  isPublic: boolean;
-  name: string;
+export type CommunityInvitationAcceptCard_communityJoinMutation$variables = {
+  inviteId: string;
 };
-export type CommunityCreateMutation$variables = {
-  communityCreateInput: CommunityCreateInput;
-};
-export type CommunityCreateMutation$data = {
-  readonly communityCreate: {
+export type CommunityInvitationAcceptCard_communityJoinMutation$data = {
+  readonly communityJoin: {
     readonly communityEdge: {
       readonly cursor: string;
       readonly node: {
@@ -27,9 +23,9 @@ export type CommunityCreateMutation$data = {
     };
   };
 };
-export type CommunityCreateMutation = {
-  response: CommunityCreateMutation$data;
-  variables: CommunityCreateMutation$variables;
+export type CommunityInvitationAcceptCard_communityJoinMutation = {
+  response: CommunityInvitationAcceptCard_communityJoinMutation$data;
+  variables: CommunityInvitationAcceptCard_communityJoinMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -37,14 +33,14 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "communityCreateInput"
+    "name": "inviteId"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "communityCreateInput",
-    "variableName": "communityCreateInput"
+    "name": "inviteId",
+    "variableName": "inviteId"
   }
 ],
 v2 = {
@@ -59,14 +55,14 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "CommunityCreateMutation",
+    "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CommunityCreatePayload",
+        "concreteType": "CommunityJoinPayload",
         "kind": "LinkedField",
-        "name": "communityCreate",
+        "name": "communityJoin",
         "plural": false,
         "selections": [
           {
@@ -108,14 +104,14 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "CommunityCreateMutation",
+    "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CommunityCreatePayload",
+        "concreteType": "CommunityJoinPayload",
         "kind": "LinkedField",
-        "name": "communityCreate",
+        "name": "communityJoin",
         "plural": false,
         "selections": [
           {
@@ -168,16 +164,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "15ca94a145b9cc7e2966a668303e28d7",
+    "cacheID": "12717b0ea13bfc83548f2cc963877a64",
     "id": null,
     "metadata": {},
-    "name": "CommunityCreateMutation",
+    "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
+    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();
 
-(node as any).hash = "bcbd75ca1e407f43d369753b33afd33b";
+(node as any).hash = "f96ae4713ad9798d7765066ed38b39be";
 
 export default node;

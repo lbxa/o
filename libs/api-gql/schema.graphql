@@ -198,7 +198,7 @@ type Community implements Node & Timestamps {
   challenges(after: String, first: Int): ChallengeConnection
   createdAt: DateTime
   id: ID!
-  invitations: [CommunityInvitation!]
+  invitations(after: String, first: Int): CommunityInvitationConnection
   isPublic: Boolean
   isVerified: Boolean
   members: [User!]
@@ -236,6 +236,20 @@ type CommunityInvitation implements Node & Timestamps {
   inviter: User!
   status: InvitationStatus!
   updatedAt: DateTime
+}
+
+type CommunityInvitationConnection {
+  edges: [CommunityInvitationEdge!]
+  pageInfo: PageInfo!
+}
+
+type CommunityInvitationEdge {
+  cursor: String!
+  node: CommunityInvitation!
+}
+
+type CommunityJoinPayload {
+  communityEdge: CommunityEdge!
 }
 
 type CommunityMembership implements Node {
@@ -283,7 +297,7 @@ type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
   communityDelete(id: ID!): Boolean!
   communityInvite(communityId: ID!, userId: ID!): Boolean!
-  communityJoin(inviteId: Int!): Community!
+  communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   """Update a user"""
@@ -312,7 +326,6 @@ type Query {
   challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
-  communityInvitations(userId: ID!): [Community!]
   health: String!
   node(id: ID!): Node
   """Search for users by name"""
@@ -373,6 +386,7 @@ type Viewer implements Node {
   challenges(after: String, communityId: ID!, first: Int!): ChallengeConnection!
   communities(after: String, first: Int!): CommunityConnection!
   community(communityId: ID!): Community
+  communityInvitations(after: String, first: Int!): CommunityInvitationConnection!
   """Alias for user id"""
   id: ID!
   """Only one active user can be logged in at a time"""

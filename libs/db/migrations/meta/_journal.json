@@ -85,6 +85,13 @@
       "when": 1732760774881,
       "tag": "0011_gray_rockslide",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1732848553446,
+      "tag": "0012_tiresome_magus",
+      "breakpoints": true
     }
   ]
 }

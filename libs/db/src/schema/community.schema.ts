@@ -46,6 +46,7 @@ export const CommunityMembershipsTable = CommunitySchema.table(
   },
   (table) => ({
     userCommunityMembershipIdx: index().on(table.userId, table.communityId),
+    idempotentJoin: unique().on(table.userId, table.communityId),
   })
 );
 

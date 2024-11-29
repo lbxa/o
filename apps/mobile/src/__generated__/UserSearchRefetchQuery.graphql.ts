@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<93d39b12a50865a36987f6c2445ee0c2>>
+ * @generated SignedSource<<a7db58f9e1886d173593a7f3d4c9d76d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type UserSearchRefetchQuery$variables = {
 };
 export type UserSearchRefetchQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriendsFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriends_viewer">;
   } | null | undefined;
 };
 export type UserSearchRefetchQuery = {
@@ -63,7 +63,7 @@ return {
           {
             "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "UserSearchFriendsFragment"
+            "name": "UserSearchFriends_viewer"
           }
         ],
         "storageKey": null
@@ -121,13 +121,6 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "email",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
                     "name": "handle",
                     "storageKey": null
                   }
@@ -145,16 +138,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3b1c2db8250efeb80d47d9de7483ae09",
+    "cacheID": "1ac7ec2df06b2b45ae6afdb778a37c06",
     "id": null,
     "metadata": {},
     "name": "UserSearchRefetchQuery",
     "operationKind": "query",
-    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriendsFragment_1CW4ID\n    id\n  }\n}\n\nfragment UserFragment on User {\n  id\n  firstName\n  lastName\n  email\n  handle\n}\n\nfragment UserSearchFriendsFragment_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserFragment\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserInviteCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserInviteCard_user\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "97aa3055a937414e98a0efdd692967e7";
+(node as any).hash = "54d571a44dc3c53ae15a03e6104e1945";
 
 export default node;

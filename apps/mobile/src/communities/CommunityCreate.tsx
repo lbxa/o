@@ -18,29 +18,25 @@ import {
 
 import { useZustStore } from "../state";
 
-export const COMMUNITY_CREATE_MUTATION = graphql`
-  mutation CommunityCreateMutation(
-    $communityCreateInput: CommunityCreateInput!
-  ) {
-    communityCreate(communityCreateInput: $communityCreateInput) {
-      communityEdge {
-        cursor
-        node {
-          id
-          name
-          isPublic
-        }
-      }
-    }
-  }
-`;
-
 export const CommunityCreate = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const { activeUser } = useZustStore();
   const [commitMutation, isMutationInFlight] =
-    useMutation<CommunityCreateMutation>(COMMUNITY_CREATE_MUTATION);
+    useMutation<CommunityCreateMutation>(graphql`
+      mutation CommunityCreateMutation(
+        $communityCreateInput: CommunityCreateInput!
+      ) {
+        communityCreate(communityCreateInput: $communityCreateInput) {
+          communityEdge {
+            cursor
+            node {
+              ...CommunityCard_community
+            }
+          }
+        }
+      }
+    `);
 
   const {
     control,
@@ -107,7 +103,7 @@ export const CommunityCreate = () => {
   };
 
   return (
-    <View className="flex h-full flex-col gap-md">
+    <View className="gap-md flex h-full flex-col">
       <View>
         <Title>Name</Title>
         <Controller
@@ -156,7 +152,7 @@ export const CommunityCreate = () => {
         <Title>Invite Members</Title>
         <OTouchable
           onPress={() => router.push("/(root)/community/invite")}
-          className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+          className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
         >
           <SearchIcon width={25} />
           <Text className="pl-sm">Search</Text>

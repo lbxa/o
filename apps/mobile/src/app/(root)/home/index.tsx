@@ -1,3 +1,4 @@
+import Nature from "@assets/images/nature.svg";
 import React from "react";
 import { Text, View } from "react-native";
 
@@ -8,8 +9,11 @@ export default function Home() {
   return (
     <AppRoot>
       <Ozone>
-        <View className="px-md">
-          <Text>More to come...</Text>
+        <View className="gap-md pt-md flex flex-col">
+          <View className="mx-auto">
+            <Nature width={150} height={150} />
+          </View>
+          <Text className="text-center">It's time to get outside</Text>
         </View>
       </Ozone>
     </AppRoot>

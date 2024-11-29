@@ -1,0 +1,1 @@
+ALTER TABLE "community"."memberships" ADD CONSTRAINT "memberships_userId_communityId_unique" UNIQUE("user_id","community_id");

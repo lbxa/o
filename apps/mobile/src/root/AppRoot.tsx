@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";

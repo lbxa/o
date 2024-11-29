@@ -1,29 +1,24 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   CommunitiesTable,
   Community as PgCommunity,
   CommunityInvitationsTable,
   CommunityMembershipsTable,
   NewCommunity,
-  UsersTable,
 } from "@o/db";
 import * as schema from "@o/db";
-import { aliasedTable, and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, getTableColumns } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
   CommunityConnection,
-  CommunityInvitation,
+  CommunityJoinPayload,
   InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
-import { mapToEnum } from "../utils/map-to-enum";
+import { ForbiddenError, InternalServerError } from "../utils/errors";
 
 @Injectable()
 export class CommunityService
@@ -59,51 +54,6 @@ export class CommunityService
       await this.dbService.db.query.CommunitiesTable.findMany();
 
     return allCommunities.map((community) => this.pg2GqlMapper(community));
-  }
-
-  async findUserInvitations(userId: number): Promise<CommunityInvitation[]> {
-    const InviterAlias = aliasedTable(UsersTable, "inviter");
-    const InviteeAlias = aliasedTable(UsersTable, "invitee");
-
-    const invitations = await this.dbService.db
-      .select({
-        invitation: CommunityInvitationsTable,
-        community: CommunitiesTable,
-        inviter: InviterAlias,
-        invitee: InviteeAlias,
-      })
-      .from(CommunityInvitationsTable)
-      .innerJoin(
-        CommunitiesTable,
-        eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
-      )
-      .innerJoin(
-        InviterAlias,
-        eq(InviterAlias.id, CommunityInvitationsTable.inviterId)
-      )
-      .innerJoin(
-        InviteeAlias,
-        eq(InviteeAlias.id, CommunityInvitationsTable.inviteeId)
-      )
-      .where(eq(CommunityInvitationsTable.inviteeId, userId));
-
-    return invitations.map((row) => ({
-      ...row.invitation,
-      id: encodeGlobalId("CommunityInvitation", row.invitation.id),
-      community: {
-        ...row.community,
-        id: encodeGlobalId("Community", row.community.id),
-      },
-      inviter: {
-        ...row.inviter,
-        id: encodeGlobalId("User", row.inviter.id),
-      },
-      invitee: {
-        ...row.invitee,
-        id: encodeGlobalId("User", row.invitee.id),
-      },
-      status: mapToEnum(InvitationStatus, row.invitation.status),
-    }));
   }
 
   async findUserCommunities(
@@ -188,48 +138,21 @@ export class CommunityService
     return true;
   }
 
-  async invite(
-    inviteeId: number,
-    inviterId: number,
-    communityId: number
-  ): Promise<boolean> {
-    if (inviteeId === inviterId) {
-      throw new ForbiddenException("Cannot invite self to a community");
-    }
-
-    const [result] = await this.dbService.db
-      .insert(CommunityInvitationsTable)
-      .values({
-        communityId,
-        inviterId,
-        inviteeId: inviteeId,
-        status: InvitationStatus.PENDING,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-      })
-      .returning({ insertedId: CommunityInvitationsTable.id });
-
-    const invitation = await this.dbService.db
-      .select()
-      .from(CommunityInvitationsTable)
-      .where(eq(CommunityInvitationsTable.id, result.insertedId))
-      .limit(1);
-
-    if (!invitation[0]) {
-      throw new NotFoundException(
-        `Invitation with ID ${result.insertedId} not found`
-      );
-    }
-
-    return true;
-  }
-
   async join(
     userId: number,
     inviteId: number
-  ): Promise<GqlCommunity | undefined> {
-    const invitations = await this.dbService.db
-      .select()
+  ): Promise<CommunityJoinPayload | undefined> {
+    // again what a shame the relations API is letting us down here
+    const [invitation] = await this.dbService.db
+      .select({
+        ...getTableColumns(CommunityInvitationsTable),
+        community: CommunitiesTable,
+      })
       .from(CommunityInvitationsTable)
+      .innerJoin(
+        CommunitiesTable,
+        eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
+      )
       .where(
         and(
           eq(CommunityInvitationsTable.id, inviteId),
@@ -238,13 +161,12 @@ export class CommunityService
       )
       .limit(1);
 
-    if (!invitations[0] || invitations[0].inviteeId !== userId) {
-      throw new ForbiddenException("Invalid invitation");
+    if (!invitation || invitation.inviteeId !== userId) {
+      throw new ForbiddenError("Invalid invitation");
     }
 
-    const invitation = invitations[0];
-
     // TODO is this good design?
+    // no! I already programmed idempotency into the pg layer
     // const alreadyMember = await this.dbService.db
     //   .select()
     //   .from(CommunityMembershipsTable)
@@ -261,7 +183,7 @@ export class CommunityService
 
     switch (invitation.status) {
       case InvitationStatus.DECLINED.valueOf():
-        throw new ForbiddenException("Invitation has been declined");
+        throw new ForbiddenError("Invitation has been declined");
       case InvitationStatus.ACCEPTED.valueOf():
       case InvitationStatus.PENDING.valueOf():
         // users can re-join communities the have already been invited to
@@ -271,19 +193,35 @@ export class CommunityService
     }
 
     if (invitation.expiresAt < new Date()) {
-      throw new ForbiddenException("Invitation has expired");
+      throw new ForbiddenError("Invitation has expired");
     }
 
-    await this.dbService.db
+    const [membership] = await this.dbService.db
       .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: invitation.communityId });
+      .values({ userId, communityId: invitation.communityId })
+      .returning();
 
-    await this.dbService.db
+    if (!membership) {
+      throw new InternalServerError("Failed to join community");
+    }
+
+    const [updatedInvitation] = await this.dbService.db
       .update(CommunityInvitationsTable)
       .set({ status: InvitationStatus.ACCEPTED })
-      .where(eq(CommunityInvitationsTable.id, inviteId));
+      .where(eq(CommunityInvitationsTable.id, inviteId))
+      .returning();
 
-    return this.findById(invitation.communityId);
+    if (!updatedInvitation) {
+      throw new InternalServerError("Failed to update invitation record");
+    }
+
+    return {
+      communityEdge: {
+        __typename: "CommunityEdge",
+        cursor: encodeGlobalId("Community", invitation.communityId),
+        node: this.pg2GqlMapper(invitation.community),
+      },
+    };
   }
 
   async leave(userId: number, communityId: number): Promise<void> {

@@ -166,7 +166,7 @@ export interface IMutation {
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
     communityInvite(userId: string, communityId: string): boolean | Promise<boolean>;
-    communityJoin(inviteId: number): Community | Promise<Community>;
+    communityJoin(inviteId: string): CommunityJoinPayload | Promise<CommunityJoinPayload>;
     communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
 }
@@ -224,7 +224,6 @@ export interface IQuery {
     challengeActivityTopResults(challengeId: string, first?: Nullable<number>, after?: Nullable<string>): ChallengeActivityResultConnection | Promise<ChallengeActivityResultConnection>;
     challenge(id: string): Nullable<Challenge> | Promise<Nullable<Challenge>>;
     challengeInvitations(userId: string): Nullable<ChallengeInvitation[]> | Promise<Nullable<ChallengeInvitation[]>>;
-    communityInvitations(userId: string): Nullable<Community[]> | Promise<Nullable<Community[]>>;
     health(): string | Promise<string>;
     node(id: string): Nullable<Node> | Promise<Nullable<Node>>;
     users(): Nullable<User[]> | Promise<Nullable<User[]>>;
@@ -295,7 +294,7 @@ export interface Community extends Node, Timestamps {
     members?: Nullable<User[]>;
     challenges?: Nullable<ChallengeConnection>;
     memberships?: Nullable<CommunityMembership[]>;
-    invitations?: Nullable<CommunityInvitation[]>;
+    invitations?: Nullable<CommunityInvitationConnection>;
 }
 
 export interface CommunityMembership extends Node {
@@ -331,8 +330,25 @@ export interface CommunityConnection {
     pageInfo: PageInfo;
 }
 
+export interface CommunityInvitationEdge {
+    __typename?: 'CommunityInvitationEdge';
+    cursor: string;
+    node: CommunityInvitation;
+}
+
+export interface CommunityInvitationConnection {
+    __typename?: 'CommunityInvitationConnection';
+    edges?: Nullable<CommunityInvitationEdge[]>;
+    pageInfo: PageInfo;
+}
+
 export interface CommunityCreatePayload {
     __typename?: 'CommunityCreatePayload';
+    communityEdge: CommunityEdge;
+}
+
+export interface CommunityJoinPayload {
+    __typename?: 'CommunityJoinPayload';
     communityEdge: CommunityEdge;
 }
 
@@ -372,6 +388,7 @@ export interface Viewer extends Node {
     user?: Nullable<User>;
     community?: Nullable<Community>;
     communities?: CommunityConnection;
+    communityInvitations?: CommunityInvitationConnection;
     challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;
 }
