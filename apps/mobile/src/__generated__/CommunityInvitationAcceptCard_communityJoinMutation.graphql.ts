@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c25741dcf15d84a0d89ffa5eecb9eb0b>>
+ * @generated SignedSource<<15f6f587c78a53a9308082f419683021>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,8 @@
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityInvitationAcceptCard_communityJoinMutation$variables = {
+  communityConnections: ReadonlyArray<string>;
+  inviteConnections: ReadonlyArray<string>;
   inviteId: string;
 };
 export type CommunityInvitationAcceptCard_communityJoinMutation$data = {
@@ -21,6 +23,7 @@ export type CommunityInvitationAcceptCard_communityJoinMutation$data = {
         readonly " $fragmentSpreads": FragmentRefs<"CommunityCard_community">;
       };
     };
+    readonly invitationId: string;
   };
 };
 export type CommunityInvitationAcceptCard_communityJoinMutation = {
@@ -29,21 +32,36 @@ export type CommunityInvitationAcceptCard_communityJoinMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "inviteId"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "communityConnections"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "inviteConnections"
+},
+v2 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "inviteId"
+},
+v3 = [
   {
     "kind": "Variable",
     "name": "inviteId",
     "variableName": "inviteId"
   }
 ],
-v2 = {
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "invitationId",
+  "storageKey": null
+},
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -52,19 +70,24 @@ v2 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/),
+      (v2/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v3/*: any*/),
         "concreteType": "CommunityJoinPayload",
         "kind": "LinkedField",
         "name": "communityJoin",
         "plural": false,
         "selections": [
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -73,7 +96,7 @@ return {
             "name": "communityEdge",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -102,18 +125,39 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v2/*: any*/),
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v3/*: any*/),
         "concreteType": "CommunityJoinPayload",
         "kind": "LinkedField",
         "name": "communityJoin",
         "plural": false,
         "selections": [
+          (v4/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "deleteEdge",
+            "key": "",
+            "kind": "ScalarHandle",
+            "name": "invitationId",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "inviteConnections"
+              }
+            ]
+          },
           {
             "alias": null,
             "args": null,
@@ -122,7 +166,7 @@ return {
             "name": "communityEdge",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -157,6 +201,22 @@ return {
               }
             ],
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "prependEdge",
+            "key": "",
+            "kind": "LinkedHandle",
+            "name": "communityEdge",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "communityConnections"
+              }
+            ]
           }
         ],
         "storageKey": null
@@ -164,16 +224,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "12717b0ea13bfc83548f2cc963877a64",
+    "cacheID": "8a9405da7328c3005232f5a230d88d75",
     "id": null,
     "metadata": {},
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
+    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f96ae4713ad9798d7765066ed38b39be";
+(node as any).hash = "0bf311502b17e1de4699865c0c337323";
 
 export default node;

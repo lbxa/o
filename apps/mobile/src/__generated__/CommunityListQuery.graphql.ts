@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7612836ff30e1320f654f2772ecf4b80>>
+ * @generated SignedSource<<7774617dd4f2c136b658481f3b96eb6e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -294,7 +294,7 @@ return {
             "args": (v7/*: any*/),
             "filters": null,
             "handle": "connection",
-            "key": "ViewerCommunityInvitations_viewer_communityInvitations",
+            "key": "ViewerCommunityInvitationList_communityInvitations",
             "kind": "LinkedHandle",
             "name": "communityInvitations"
           }

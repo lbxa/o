@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5dbf126ae3e17ab5125ededd11d2c036>>
+ * @generated SignedSource<<c947867b73d5cfe2c76ae3bb645e9d05>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ import type { FragmentRefs } from "relay-runtime";
 export type AppRootQuery$variables = Record<PropertyKey, never>;
 export type AppRootQuery$data = {
   readonly viewer: {
+    readonly id: string;
     readonly user: {
       readonly email: string | null | undefined;
       readonly firstName: string | null | undefined;
@@ -90,6 +91,7 @@ return {
         "name": "viewer",
         "plural": false,
         "selections": [
+          (v0/*: any*/),
           {
             "args": [
               {
@@ -234,16 +236,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d7115ffc2d7886fc46955d4b270edee1",
+    "cacheID": "71dc915ad3e72b2137c00ab596c346b9",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    ...CommunityList_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_VbLdN on Viewer {\n  id\n  communities(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_VbLdN on Viewer {\n  id\n  communities(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2dcf23a381d91b90428bef757669a8c2";
+(node as any).hash = "5fededc40f8227e2dd189529a07b1e7c";
 
 export default node;

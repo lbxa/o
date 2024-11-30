@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9bf32565d1d9909ad9a499f35dd077f7>>
+ * @generated SignedSource<<0e6f0a0b767e9196eadc2f96b06333d6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -245,7 +245,7 @@ return {
             "args": (v1/*: any*/),
             "filters": null,
             "handle": "connection",
-            "key": "ViewerCommunityInvitations_viewer_communityInvitations",
+            "key": "ViewerCommunityInvitationList_communityInvitations",
             "kind": "LinkedHandle",
             "name": "communityInvitations"
           },
@@ -266,6 +266,6 @@ return {
 };
 })();
 
-(node as any).hash = "0c53d94ff7844b31657cfd06c31ff67f";
+(node as any).hash = "40a244ca6e15603aad1cdb8efa8be0ac";
 
 export default node;

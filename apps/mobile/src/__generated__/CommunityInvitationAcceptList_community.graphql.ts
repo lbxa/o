@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<476e5152cca495ca603dc7b77e67381a>>
+ * @generated SignedSource<<a6edb0d8fdf5ee0cac8d62acb6829c29>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type CommunityInvitationAcceptList_community$data = {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly " $fragmentSpreads": FragmentRefs<"CommunityInvitationAcceptCard_communityInvitation">;
+        readonly " $fragmentSpreads": FragmentRefs<"CommunityInvitationAcceptCard_invitations">;
       };
     }> | null | undefined;
     readonly pageInfo: {
@@ -39,7 +39,7 @@ var v0 = [
 return {
   "argumentDefinitions": [
     {
-      "defaultValue": 5,
+      "defaultValue": 1,
       "kind": "LocalArgument",
       "name": "count"
     },
@@ -85,7 +85,7 @@ return {
       "args": null,
       "concreteType": "CommunityInvitationConnection",
       "kind": "LinkedField",
-      "name": "__CommunityInvitations_viewer_invitations_connection",
+      "name": "__CommunityInvitationsAcceptList_invitations_connection",
       "plural": false,
       "selections": [
         {
@@ -146,7 +146,7 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "CommunityInvitationAcceptCard_communityInvitation"
+                  "name": "CommunityInvitationAcceptCard_invitations"
                 },
                 {
                   "alias": null,
@@ -177,6 +177,6 @@ return {
 };
 })();
 
-(node as any).hash = "741c35a2fa50aeae1a69a4ebcd5b877b";
+(node as any).hash = "a202bd2a264a8059becadc15eb0ca83d";
 
 export default node;

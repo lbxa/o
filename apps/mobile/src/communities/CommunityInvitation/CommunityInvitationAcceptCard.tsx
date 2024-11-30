@@ -1,5 +1,4 @@
 /* eslint-disable @stylistic/js/max-len */
-
 import CrossIcon from "@assets/icons/cross.svg";
 import { Text, View } from "react-native";
 import {
@@ -9,24 +8,29 @@ import {
   useMutation,
 } from "react-relay";
 
-import type { CommunityInvitationAcceptCard_communityInvitation$key } from "@/__generated__/CommunityInvitationAcceptCard_communityInvitation.graphql";
 import type { CommunityInvitationAcceptCard_communityJoinMutation } from "@/__generated__/CommunityInvitationAcceptCard_communityJoinMutation.graphql";
+import type { CommunityInvitationAcceptCard_invitations$key } from "@/__generated__/CommunityInvitationAcceptCard_invitations.graphql";
 import { OTouchable } from "@/universe/atoms";
+import { useViewerId } from "@/users/hooks";
 
 interface CommunityInvitationAcceptCardProps {
-  fragmentRef: CommunityInvitationAcceptCard_communityInvitation$key;
+  fragmentRef: CommunityInvitationAcceptCard_invitations$key;
 }
 
 export const CommunityInvitationAcceptCard = ({
   fragmentRef,
 }: CommunityInvitationAcceptCardProps) => {
+  const viewerId = useViewerId();
   const [commitMutation, isMutationInFlight] =
     useMutation<CommunityInvitationAcceptCard_communityJoinMutation>(graphql`
       mutation CommunityInvitationAcceptCard_communityJoinMutation(
         $inviteId: ID!
+        $inviteConnections: [ID!]!
+        $communityConnections: [ID!]!
       ) {
         communityJoin(inviteId: $inviteId) {
-          communityEdge {
+          invitationId @deleteEdge(connections: $inviteConnections)
+          communityEdge @prependEdge(connections: $communityConnections) {
             cursor
             node {
               ...CommunityCard_community
@@ -38,14 +42,11 @@ export const CommunityInvitationAcceptCard = ({
 
   const invitation = useFragment(
     graphql`
-      fragment CommunityInvitationAcceptCard_communityInvitation on CommunityInvitation {
+      fragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {
         id
         invitee {
           id
           firstName
-        }
-        inviter {
-          id
         }
         community {
           id
@@ -60,75 +61,33 @@ export const CommunityInvitationAcceptCard = ({
     commitMutation({
       variables: {
         inviteId: invitation.id,
+        inviteConnections: [
+          ConnectionHandler.getConnectionID(
+            invitation.community.id,
+            "CommunityInvitationsAcceptList_invitations"
+          ),
+          ConnectionHandler.getConnectionID(
+            viewerId,
+            "ViewerCommunityInvitationList_communityInvitations"
+          ),
+        ],
+        communityConnections: [
+          ConnectionHandler.getConnectionID(
+            viewerId,
+            "CommunityList_viewer_communities"
+          ),
+        ],
       },
       // onCompleted: () => {
       //   router.replace("/(root)/community");
       // },
+      onError: (error) => {
+        console.error(error);
+      },
       updater: (proxyStore, data) => {
         if (!data?.communityJoin.communityEdge) {
           throw new Error("No community edge created");
         }
-
-        const viewer = proxyStore.getRoot().getLinkedRecord("viewer");
-        if (!viewer) {
-          throw new Error("Viewer not found");
-        }
-
-        const connectionRecord = ConnectionHandler.getConnection(
-          viewer,
-          "CommunityList_viewer_communities"
-        );
-
-        if (!connectionRecord) {
-          throw new Error("Connection record not found");
-        }
-
-        const payload = proxyStore.getRootField("communityJoin");
-        const communityEdge = payload.getLinkedRecord("communityEdge");
-
-        const newEdge = ConnectionHandler.createEdge(
-          proxyStore,
-          connectionRecord,
-          communityEdge,
-          "CommunityEdge"
-        );
-
-        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
-
-        /**
-         * Remove the invitations from the cache once the user accepts
-         */
-        // const ViewerCommunityInvitationsConnectionRecord =
-        //   ConnectionHandler.getConnection(
-        //     viewer,
-        //     "ViewerCommunityInvitations_viewer_communityInvitations"
-        //   );
-
-        // if (!ViewerCommunityInvitationsConnectionRecord) {
-        //   throw new Error(
-        //     "Viewer community invitations connection record not found"
-        //   );
-        // }
-
-        // ConnectionHandler.deleteNode(
-        //   ViewerCommunityInvitationsConnectionRecord,
-        //   invitation.id
-        // );
-
-        // const CommunityInvitationsConnectionRecord =
-        //   ConnectionHandler.getConnection(
-        //     viewer,
-        //     "CommunityInvitations_viewer_invitations"
-        //   );
-
-        // if (!CommunityInvitationsConnectionRecord) {
-        //   throw new Error("Community invitations connection record not found");
-        // }
-
-        // ConnectionHandler.deleteNode(
-        //   CommunityInvitationsConnectionRecord,
-        //   invitation.id
-        // );
       },
     });
   };
@@ -136,6 +95,10 @@ export const CommunityInvitationAcceptCard = ({
   const handleDeny = () => {
     console.log("deny");
   };
+
+  const acceptButtonText = isMutationInFlight
+    ? "Accepting..."
+    : "Accept invitation";
 
   return (
     <OTouchable
@@ -150,7 +113,7 @@ export const CommunityInvitationAcceptCard = ({
             <Text className="font-bold">{invitation.invitee.firstName}</Text>
           </Text>
           <Text className="text-ivory text-2xl font-bold">
-            Accept invitation
+            {acceptButtonText}
           </Text>
         </View>
       </View>

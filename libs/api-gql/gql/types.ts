@@ -308,6 +308,7 @@ export type CommunityInvitationEdge = {
 export type CommunityJoinPayload = {
   __typename?: 'CommunityJoinPayload';
   communityEdge: CommunityEdge;
+  invitationId: Scalars['ID']['output'];
 };
 
 export type CommunityMembership = Node & {
@@ -370,11 +371,6 @@ export type MutationAuthCreateUserArgs = {
 
 export type MutationAuthLoginArgs = {
   authLoginInput: AuthLoginInput;
-};
-
-
-export type MutationAuthLogoutArgs = {
-  id: Scalars['Int']['input'];
 };
 
 

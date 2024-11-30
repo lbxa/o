@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0a44a873658f60ef5eb9d64fb34c2fc2>>
+ * @generated SignedSource<<0904762563fbbad154ce7e5c1baf94e8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type CommunityInvitationAcceptCard_communityInvitation$data = {
+export type CommunityInvitationAcceptCard_invitations$data = {
   readonly community: {
     readonly id: string;
     readonly name: string;
@@ -20,14 +20,11 @@ export type CommunityInvitationAcceptCard_communityInvitation$data = {
     readonly firstName: string | null | undefined;
     readonly id: string;
   };
-  readonly inviter: {
-    readonly id: string;
-  };
-  readonly " $fragmentType": "CommunityInvitationAcceptCard_communityInvitation";
+  readonly " $fragmentType": "CommunityInvitationAcceptCard_invitations";
 };
-export type CommunityInvitationAcceptCard_communityInvitation$key = {
-  readonly " $data"?: CommunityInvitationAcceptCard_communityInvitation$data;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunityInvitationAcceptCard_communityInvitation">;
+export type CommunityInvitationAcceptCard_invitations$key = {
+  readonly " $data"?: CommunityInvitationAcceptCard_invitations$data;
+  readonly " $fragmentSpreads": FragmentRefs<"CommunityInvitationAcceptCard_invitations">;
 };
 
 const node: ReaderFragment = (function(){
@@ -42,7 +39,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "CommunityInvitationAcceptCard_communityInvitation",
+  "name": "CommunityInvitationAcceptCard_invitations",
   "selections": [
     (v0/*: any*/),
     {
@@ -61,18 +58,6 @@ return {
           "name": "firstName",
           "storageKey": null
         }
-      ],
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "User",
-      "kind": "LinkedField",
-      "name": "inviter",
-      "plural": false,
-      "selections": [
-        (v0/*: any*/)
       ],
       "storageKey": null
     },
@@ -101,6 +86,6 @@ return {
 };
 })();
 
-(node as any).hash = "9b0d0a9deafab1c1e5136c1b7cc750f3";
+(node as any).hash = "a19bc4d9e4d625f8586ccc42f5542fca";
 
 export default node;

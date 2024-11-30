@@ -102,7 +102,6 @@ export const UserLogin = () => {
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
         setActiveUser(data.authLogin.user);
-        setActiveUser(data.authLogin.user);
 
         router.replace("/(root)/home");
       },

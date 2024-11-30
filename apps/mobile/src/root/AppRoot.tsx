@@ -9,6 +9,7 @@ import { useToken } from "@/utils";
 export const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
+      id
       ...CommunityList_viewer @arguments(count: 5)
       # ...UserProfile_viewer
       user {

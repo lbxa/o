@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a84076dbb0800f534f5f1dc3c94b97d7>>
+ * @generated SignedSource<<a1b64e9436525c6b516fcabedaa072c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,7 +28,7 @@ export type CommunityInvitationsPaginationQuery = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": 5,
+    "defaultValue": 1,
     "kind": "LocalArgument",
     "name": "count"
   },
@@ -219,18 +219,6 @@ return {
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "User",
-                            "kind": "LinkedField",
-                            "name": "inviter",
-                            "plural": false,
-                            "selections": [
-                              (v3/*: any*/)
-                            ],
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
                             "concreteType": "Community",
                             "kind": "LinkedField",
                             "name": "community",
@@ -262,7 +250,7 @@ return {
                 "args": (v4/*: any*/),
                 "filters": null,
                 "handle": "connection",
-                "key": "CommunityInvitations_viewer_invitations",
+                "key": "CommunityInvitationsAcceptList_invitations",
                 "kind": "LinkedHandle",
                 "name": "invitations"
               }
@@ -276,16 +264,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9c7f57aad219a1642b3d936cfcacf16f",
+    "cacheID": "37a247bed90c15e9aa24401aaa9b5c54",
     "id": null,
     "metadata": {},
     "name": "CommunityInvitationsPaginationQuery",
     "operationKind": "query",
-    "text": "query CommunityInvitationsPaginationQuery(\n  $count: Int = 5\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...CommunityInvitationAcceptList_community_1G22uz\n    id\n  }\n}\n\nfragment CommunityInvitationAcceptCard_communityInvitation on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  inviter {\n    id\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_1G22uz on Community {\n  invitations(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
+    "text": "query CommunityInvitationsPaginationQuery(\n  $count: Int = 1\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...CommunityInvitationAcceptList_community_1G22uz\n    id\n  }\n}\n\nfragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_1G22uz on Community {\n  invitations(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_invitations\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "741c35a2fa50aeae1a69a4ebcd5b877b";
+(node as any).hash = "a202bd2a264a8059becadc15eb0ca83d";
 
 export default node;

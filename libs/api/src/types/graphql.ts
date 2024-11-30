@@ -152,7 +152,7 @@ export interface AuthCreateUserPayload {
 export interface IMutation {
     __typename?: 'IMutation';
     authLogin(authLoginInput: AuthLoginInput): AuthLoginPayload | Promise<AuthLoginPayload>;
-    authLogout(id: number): boolean | Promise<boolean>;
+    authLogout(): boolean | Promise<boolean>;
     authCreateUser(authCreateUserInput: AuthCreateUserInput): AuthCreateUserPayload | Promise<AuthCreateUserPayload>;
     authRefreshTokens(): Tokens | Promise<Tokens>;
     challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput): CreateChallengeActivityResultPayload | Promise<CreateChallengeActivityResultPayload>;
@@ -349,6 +349,7 @@ export interface CommunityCreatePayload {
 
 export interface CommunityJoinPayload {
     __typename?: 'CommunityJoinPayload';
+    invitationId: string;
     communityEdge: CommunityEdge;
 }
 

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7cf2d8a0df2e4c30430834b86c5bc1a5>>
+ * @generated SignedSource<<0fc14c48479e4be4e02e088051d60c82>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -80,7 +80,7 @@ return {
       "args": null,
       "concreteType": "CommunityInvitationConnection",
       "kind": "LinkedField",
-      "name": "__ViewerCommunityInvitations_viewer_communityInvitations_connection",
+      "name": "__ViewerCommunityInvitationList_communityInvitations_connection",
       "plural": false,
       "selections": [
         {
@@ -165,6 +165,6 @@ return {
 };
 })();
 
-(node as any).hash = "0c53d94ff7844b31657cfd06c31ff67f";
+(node as any).hash = "40a244ca6e15603aad1cdb8efa8be0ac";
 
 export default node;

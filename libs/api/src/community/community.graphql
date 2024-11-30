@@ -68,6 +68,7 @@ type CommunityCreatePayload {
 }
 
 type CommunityJoinPayload {
+  invitationId: ID!
   communityEdge: CommunityEdge!
 }
 

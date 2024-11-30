@@ -1,8 +1,9 @@
 import CameraIcon from "@assets/icons/camera.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { graphql, useFragment } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
 
+import type { UserProfileLogoutMutation } from "@/__generated__/UserProfileLogoutMutation.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
@@ -21,6 +22,13 @@ export const UserProfile: React.FC = () => {
   const { deleteTokens } = useToken();
   const { activeUser, removeActiveUser } = useZustStore();
 
+  const [commitMutation, isMutationInFlight] =
+    useMutation<UserProfileLogoutMutation>(graphql`
+      mutation UserProfileLogoutMutation {
+        authLogout
+      }
+    `);
+
   const _ = useFragment(
     graphql`
       fragment UserProfile_viewer on Viewer {
@@ -38,7 +46,7 @@ export const UserProfile: React.FC = () => {
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md flex grow bg-ivory p-md">
+        <View className="mb-md bg-ivory p-md flex grow">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
@@ -51,10 +59,16 @@ export const UserProfile: React.FC = () => {
         </View>
         <View className="mx-md">
           <OButton
-            title="Logout"
+            title={isMutationInFlight ? "Logging out..." : "Logout"}
             onPress={async () => {
               await deleteTokens();
               removeActiveUser();
+              commitMutation({
+                variables: {},
+                updater: (proxyStore) => {
+                  proxyStore.invalidateStore();
+                },
+              });
               router.replace("/(auth)/login");
             }}
           />

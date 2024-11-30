@@ -27,12 +27,14 @@ import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { ConflictError, InternalServerError } from "../utils/errors";
 import { CommunityService } from "./community.service";
 import { CommunityInvitationsService } from "./community-invitations";
+import { CommunityMembershipsService } from "./community-memberships";
 
 @Resolver("Community")
 export class CommunityResolver {
   constructor(
     private dbService: DbService<typeof schema>,
     private communityService: CommunityService,
+    private communityMembershipsService: CommunityMembershipsService,
     private communityInvitationsService: CommunityInvitationsService,
     private challengeService: ChallengeService
   ) {}
@@ -97,7 +99,7 @@ export class CommunityResolver {
       inviteId,
       "CommunityInvitation"
     );
-    return this.communityService.join(userId, decodedInviteId);
+    return this.communityMembershipsService.join(userId, decodedInviteId);
   }
 
   @Mutation("communityLeave")
@@ -106,7 +108,7 @@ export class CommunityResolver {
     @CurrentUser("userId") userId: number
   ): Promise<boolean> {
     const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
-    await this.communityService.leave(userId, decodedCommunityId);
+    await this.communityMembershipsService.leave(userId, decodedCommunityId);
     return true;
   }
 
@@ -120,7 +122,7 @@ export class CommunityResolver {
     @CurrentUser("userId") userId: number
   ): Promise<boolean> {
     const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
-    await this.communityService.leave(userId, decodedCommunityId);
+    await this.communityMembershipsService.leave(userId, decodedCommunityId);
     return this.communityService.remove(decodedCommunityId);
   }
 

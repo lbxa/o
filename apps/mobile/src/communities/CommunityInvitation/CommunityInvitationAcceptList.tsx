@@ -22,11 +22,11 @@ export const CommunityInvitationAcceptList = ({
       fragment CommunityInvitationAcceptList_community on Community
       @refetchable(queryName: "CommunityInvitationsPaginationQuery")
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 5 }
+        count: { type: "Int", defaultValue: 1 }
         cursor: { type: "String" }
       ) {
         invitations(first: $count, after: $cursor)
-          @connection(key: "CommunityInvitations_viewer_invitations") {
+          @connection(key: "CommunityInvitationsAcceptList_invitations") {
           pageInfo {
             startCursor
             endCursor
@@ -35,7 +35,7 @@ export const CommunityInvitationAcceptList = ({
           edges {
             cursor
             node {
-              ...CommunityInvitationAcceptCard_communityInvitation
+              ...CommunityInvitationAcceptCard_invitations
             }
           }
         }
@@ -47,7 +47,7 @@ export const CommunityInvitationAcceptList = ({
   return (
     <View>
       {data.invitations?.edges && data.invitations.edges.length > 0 && (
-        <View className="py-sm">
+        <View className="gap-md py-sm pb-mb flex flex-col">
           {data.invitations.edges.map((node) => (
             <CommunityInvitationAcceptCard
               key={node.cursor}

@@ -1,2 +1,5 @@
-watchman shutdown-server
-watchman watchman watch-del '~/u/o' ; watchman watch-project '~/u/o'
+# run this at the monorepo root
+# watchman shutdown-server
+watchman watch-del /Users/lchubarbos001/u/o
+watchman watch-project /Users/lchubarbos001/u/o
+watchman

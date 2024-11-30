@@ -43,8 +43,8 @@ const DEFAULT_PATHS: Record<NavItemType, Href> = {
 
 const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
   create: <PlusIcon {...ICON_DIM} />,
-  search: <SearchIcon width={18} height={18} />,
-  message: <MessageIcon width={19} height={19} />,
+  search: <SearchIcon {...ICON_DIM} />,
+  message: <MessageIcon {...ICON_DIM} />,
 };
 
 interface NavItemConfig {

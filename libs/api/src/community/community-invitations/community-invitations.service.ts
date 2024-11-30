@@ -8,7 +8,7 @@ import {
   UsersTable,
 } from "@o/db";
 import * as schema from "@o/db";
-import { aliasedTable, desc, eq } from "drizzle-orm";
+import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
 import { EntityService } from "../../entity/entity-service";
@@ -132,7 +132,12 @@ export class CommunityInvitationsService
         InviteeAlias,
         eq(InviteeAlias.id, CommunityInvitationsTable.inviteeId)
       )
-      .where(eq(CommunityInvitationsTable.inviteeId, userId))
+      .where(
+        and(
+          eq(CommunityInvitationsTable.inviteeId, userId),
+          eq(CommunityInvitationsTable.status, InvitationStatus.PENDING)
+        )
+      )
       .orderBy(desc(CommunityInvitationsTable.createdAt))
       .offset(startCursorId)
       .limit(first + 1)

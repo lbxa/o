@@ -250,6 +250,7 @@ type CommunityInvitationEdge {
 
 type CommunityJoinPayload {
   communityEdge: CommunityEdge!
+  invitationId: ID!
 }
 
 type CommunityMembership implements Node {
@@ -284,7 +285,7 @@ type Mutation {
   """Login to the application"""
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginPayload!
   """Logout from the application"""
-  authLogout(id: Int!): Boolean!
+  authLogout: Boolean!
   """Refresh the access and refresh tokens"""
   authRefreshTokens: Tokens!
   challengeActivityResultCreate(challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!): CreateChallengeActivityResultPayload!

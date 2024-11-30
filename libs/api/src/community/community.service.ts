@@ -2,23 +2,19 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   CommunitiesTable,
   Community as PgCommunity,
-  CommunityInvitationsTable,
   CommunityMembershipsTable,
   NewCommunity,
 } from "@o/db";
 import * as schema from "@o/db";
-import { and, desc, eq, getTableColumns } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
   CommunityConnection,
-  CommunityJoinPayload,
-  InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
-import { ForbiddenError, InternalServerError } from "../utils/errors";
 
 @Injectable()
 export class CommunityService
@@ -136,102 +132,5 @@ export class CommunityService
       .delete(CommunitiesTable)
       .where(eq(CommunitiesTable.id, id));
     return true;
-  }
-
-  async join(
-    userId: number,
-    inviteId: number
-  ): Promise<CommunityJoinPayload | undefined> {
-    // again what a shame the relations API is letting us down here
-    const [invitation] = await this.dbService.db
-      .select({
-        ...getTableColumns(CommunityInvitationsTable),
-        community: CommunitiesTable,
-      })
-      .from(CommunityInvitationsTable)
-      .innerJoin(
-        CommunitiesTable,
-        eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
-      )
-      .where(
-        and(
-          eq(CommunityInvitationsTable.id, inviteId),
-          eq(CommunityInvitationsTable.inviteeId, userId)
-        )
-      )
-      .limit(1);
-
-    if (!invitation || invitation.inviteeId !== userId) {
-      throw new ForbiddenError("Invalid invitation");
-    }
-
-    // TODO is this good design?
-    // no! I already programmed idempotency into the pg layer
-    // const alreadyMember = await this.dbService.db
-    //   .select()
-    //   .from(CommunityMembershipsTable)
-    //   .where(
-    //     and(
-    //       eq(CommunityMembershipsTable.userId, userId),
-    //       eq(CommunityMembershipsTable.communityId, invitation.communityId)
-    //     )
-    //   );
-
-    // if (alreadyMember.length != 0) {
-    //   throw new ForbiddenException("User already joined community");
-    // }
-
-    switch (invitation.status) {
-      case InvitationStatus.DECLINED.valueOf():
-        throw new ForbiddenError("Invitation has been declined");
-      case InvitationStatus.ACCEPTED.valueOf():
-      case InvitationStatus.PENDING.valueOf():
-        // users can re-join communities the have already been invited to
-        // does this mean the expiry is ignored for the invite
-        break;
-      default:
-    }
-
-    if (invitation.expiresAt < new Date()) {
-      throw new ForbiddenError("Invitation has expired");
-    }
-
-    const [membership] = await this.dbService.db
-      .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: invitation.communityId })
-      .returning();
-
-    if (!membership) {
-      throw new InternalServerError("Failed to join community");
-    }
-
-    const [updatedInvitation] = await this.dbService.db
-      .update(CommunityInvitationsTable)
-      .set({ status: InvitationStatus.ACCEPTED })
-      .where(eq(CommunityInvitationsTable.id, inviteId))
-      .returning();
-
-    if (!updatedInvitation) {
-      throw new InternalServerError("Failed to update invitation record");
-    }
-
-    return {
-      communityEdge: {
-        __typename: "CommunityEdge",
-        cursor: encodeGlobalId("Community", invitation.communityId),
-        node: this.pg2GqlMapper(invitation.community),
-      },
-    };
-  }
-
-  async leave(userId: number, communityId: number): Promise<void> {
-    await this.dbService.db
-      .delete(CommunityMembershipsTable)
-      .where(
-        and(
-          eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, communityId)
-        )
-      );
   }
 }

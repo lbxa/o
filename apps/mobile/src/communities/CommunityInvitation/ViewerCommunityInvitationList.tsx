@@ -27,7 +27,7 @@ export const ViewerCommunityInvitationList = ({
       ) {
         communityInvitations(first: $count, after: $cursor)
           @connection(
-            key: "ViewerCommunityInvitations_viewer_communityInvitations"
+            key: "ViewerCommunityInvitationList_communityInvitations"
           ) {
           pageInfo {
             startCursor
@@ -48,16 +48,17 @@ export const ViewerCommunityInvitationList = ({
 
   return (
     <View>
-      {data.communityInvitations.edges?.length && (
-        <View className="py-sm">
-          {data.communityInvitations.edges.map((node) => (
-            <CommunityInvitationCard
-              key={node.cursor}
-              fragmentRef={node.node}
-            />
-          ))}
-        </View>
-      )}
+      {data.communityInvitations.edges &&
+        data.communityInvitations.edges.length > 0 && (
+          <View className="gap-md py-sm pb-md flex flex-col">
+            {data.communityInvitations.edges.map((node) => (
+              <CommunityInvitationCard
+                key={node.cursor}
+                fragmentRef={node.node}
+              />
+            ))}
+          </View>
+        )}
     </View>
   );
 };
