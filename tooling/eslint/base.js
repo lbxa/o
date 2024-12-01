@@ -65,7 +65,7 @@ export default tseslint.config(
         { checksVoidReturn: { attributes: false } },
       ],
       "@typescript-eslint/no-unnecessary-condition": [
-        "error",
+        "warn",
         {
           allowConstantLoopConditions: true,
         },

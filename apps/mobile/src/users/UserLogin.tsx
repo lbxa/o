@@ -102,7 +102,6 @@ export const UserLogin = () => {
         setStoreItem("ACCESS_TOKEN", accessToken);
         setStoreItem("REFRESH_TOKEN", refreshToken);
         setActiveUser(data.authLogin.user);
-        setActiveUser(data.authLogin.user);
 
         router.replace("/(root)/home");
       },
@@ -165,7 +164,8 @@ export const UserLogin = () => {
           <Text className="mb-md text-center text-red-900">{error}</Text>
         )}
         <OButton
-          title={isMutationInFlight ? "Loading..." : "Login"}
+          title="Login"
+          loading={isMutationInFlight}
           disabled={isMutationInFlight}
           onPress={async (e) => {
             // Read more about event pooling
@@ -173,8 +173,8 @@ export const UserLogin = () => {
             e.persist();
             await handleSubmit(onSubmit)();
           }}
-        ></OButton>
-        <Link href="/(auth)/sign-up" className="mt-md text-blue-700 underline">
+        />
+        <Link href="/auth/sign-up" className="mt-md text-blue-700 underline">
           Create an account
         </Link>
       </View>

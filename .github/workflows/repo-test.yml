@@ -4,6 +4,14 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
+    paths-ignore:
+      - '**.md'
+      - '**.mdx'
+      - 'docs/**'
+      - '**.txt'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.env.example'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}

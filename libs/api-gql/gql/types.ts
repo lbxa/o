@@ -237,7 +237,7 @@ export type Community = Node & Timestamps & {
   challenges?: Maybe<ChallengeConnection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
-  invitations?: Maybe<Array<CommunityInvitation>>;
+  invitations?: Maybe<CommunityInvitationConnection>;
   isPublic?: Maybe<Scalars['Boolean']['output']>;
   isVerified?: Maybe<Scalars['Boolean']['output']>;
   members?: Maybe<Array<User>>;
@@ -249,6 +249,12 @@ export type Community = Node & Timestamps & {
 
 
 export type CommunityChallengesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type CommunityInvitationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -285,6 +291,29 @@ export type CommunityInvitation = Node & Timestamps & {
   inviter: User;
   status: InvitationStatus;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type CommunityInvitationConnection = {
+  __typename?: 'CommunityInvitationConnection';
+  edges?: Maybe<Array<CommunityInvitationEdge>>;
+  pageInfo: PageInfo;
+};
+
+export type CommunityInvitationEdge = {
+  __typename?: 'CommunityInvitationEdge';
+  cursor: Scalars['String']['output'];
+  node: CommunityInvitation;
+};
+
+export type CommunityInviteDenyPayload = {
+  __typename?: 'CommunityInviteDenyPayload';
+  invitationId: Scalars['ID']['output'];
+};
+
+export type CommunityJoinPayload = {
+  __typename?: 'CommunityJoinPayload';
+  communityEdge: CommunityEdge;
+  invitationId: Scalars['ID']['output'];
 };
 
 export type CommunityMembership = Node & {
@@ -332,7 +361,8 @@ export type Mutation = {
   communityCreate: CommunityCreatePayload;
   communityDelete: Scalars['Boolean']['output'];
   communityInvite: Scalars['Boolean']['output'];
-  communityJoin: Community;
+  communityInviteDeny: CommunityInviteDenyPayload;
+  communityJoin: CommunityJoinPayload;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
   /** Update a user */
@@ -347,11 +377,6 @@ export type MutationAuthCreateUserArgs = {
 
 export type MutationAuthLoginArgs = {
   authLoginInput: AuthLoginInput;
-};
-
-
-export type MutationAuthLogoutArgs = {
-  id: Scalars['Int']['input'];
 };
 
 
@@ -408,8 +433,13 @@ export type MutationCommunityInviteArgs = {
 };
 
 
+export type MutationCommunityInviteDenyArgs = {
+  inviteId: Scalars['ID']['input'];
+};
+
+
 export type MutationCommunityJoinArgs = {
-  inviteId: Scalars['Int']['input'];
+  inviteId: Scalars['ID']['input'];
 };
 
 
@@ -451,7 +481,6 @@ export type Query = {
   challengeActivityResults: ChallengeActivityResultConnection;
   challengeActivityTopResults: ChallengeActivityResultConnection;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
-  communityInvitations?: Maybe<Array<Community>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
   /** Search for users by name */
@@ -484,11 +513,6 @@ export type QueryChallengeActivityTopResultsArgs = {
 
 
 export type QueryChallengeInvitationsArgs = {
-  userId: Scalars['ID']['input'];
-};
-
-
-export type QueryCommunityInvitationsArgs = {
   userId: Scalars['ID']['input'];
 };
 
@@ -566,6 +590,7 @@ export type Viewer = Node & {
   challenges: ChallengeConnection;
   communities: CommunityConnection;
   community?: Maybe<Community>;
+  communityInvitations: CommunityInvitationConnection;
   /** Alias for user id */
   id: Scalars['ID']['output'];
   /** Only one active user can be logged in at a time */
@@ -597,4 +622,11 @@ export type ViewerCommunitiesArgs = {
 /** The currently logged in user */
 export type ViewerCommunityArgs = {
   communityId: Scalars['ID']['input'];
+};
+
+
+/** The currently logged in user */
+export type ViewerCommunityInvitationsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first: Scalars['Int']['input'];
 };

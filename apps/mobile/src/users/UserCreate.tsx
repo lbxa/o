@@ -237,7 +237,8 @@ export const UserCreate = () => {
         )}
 
         <OButton
-          title={isMutationInFlight ? "Loading..." : "Join the community"}
+          title="Join the community"
+          loading={isMutationInFlight}
           disabled={isMutationInFlight}
           onPress={async (e) => {
             e.persist();
@@ -245,8 +246,8 @@ export const UserCreate = () => {
             // https://legacy.reactjs.org/docs/legacy-event-pooling.html
             await handleSubmit(onSubmit)();
           }}
-        ></OButton>
-        <Link href="/(auth)/login" className="mt-md text-blue-700 underline">
+        />
+        <Link href="/auth/login" className="mt-md text-blue-700 underline">
           Already have an account
         </Link>
       </View>

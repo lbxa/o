@@ -4,6 +4,7 @@ import { ChallengeService } from "./challenge/challenge.service";
 import { ChallengeActivitiesService } from "./challenge/challenge-activity";
 import { ChallengeActivityResultsService } from "./challenge/challenge-activity-results";
 import { CommunityService } from "./community/community.service";
+import { CommunityInvitationsService } from "./community/community-invitations";
 import type { Node } from "./types/graphql";
 import { UserService } from "./user/user.service";
 import { decodeGlobalId } from "./utils";
@@ -25,18 +26,22 @@ export class NodeResolver {
     private readonly challengeService: ChallengeService,
     private readonly challengesActivitiesService: ChallengeActivitiesService,
     // eslint-disable-next-line @stylistic/js/max-len
-    private readonly challengeActivityResultsService: ChallengeActivityResultsService
+    private readonly challengeActivityResultsService: ChallengeActivityResultsService,
+    private readonly communityInvitationsService: CommunityInvitationsService
   ) {}
 
   @ResolveField()
   __resolveType(node: Node): string {
     const { type: entityType } = decodeGlobalId(node.id);
     switch (entityType) {
-      case "User":
       case "Viewer":
+        return "Viewer";
+      case "User":
         return this.userService.getTypename();
       case "Community":
         return this.communityService.getTypename();
+      case "CommunityInvitation":
+        return this.communityInvitationsService.getTypename();
       case "Challenge":
         return this.challengeService.getTypename();
       case "ChallengeActivity":
@@ -53,11 +58,14 @@ export class NodeResolver {
     const { id: decodedId, type: entityType } = decodeGlobalId(id);
 
     switch (entityType) {
-      case "User":
       case "Viewer":
+        return { id };
+      case "User":
         return this.userService.findById(decodedId);
       case "Community":
         return this.communityService.findById(decodedId);
+      case "CommunityInvitation":
+        return this.communityInvitationsService.findById(decodedId);
       case "Challenge":
         return this.challengeService.findById(decodedId);
       case "ChallengeActivity":

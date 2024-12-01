@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6c5f18928fd721b5d56a1762b78a6dbb>>
+ * @generated SignedSource<<02f7be352d3ab9d33492f238054a7a91>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,17 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserSearchFriendsFragment$data = {
+export type UserSearchFriends_viewer$data = {
   readonly user: {
     readonly searchFriends: ReadonlyArray<{
-      readonly " $fragmentSpreads": FragmentRefs<"UserFragment">;
+      readonly " $fragmentSpreads": FragmentRefs<"UserInviteCard_user">;
     }> | null | undefined;
   } | null | undefined;
-  readonly " $fragmentType": "UserSearchFriendsFragment";
+  readonly " $fragmentType": "UserSearchFriends_viewer";
 };
-export type UserSearchFriendsFragment$key = {
-  readonly " $data"?: UserSearchFriendsFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriendsFragment">;
+export type UserSearchFriends_viewer$key = {
+  readonly " $data"?: UserSearchFriends_viewer$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriends_viewer">;
 };
 
 const node: ReaderFragment = {
@@ -41,7 +41,7 @@ const node: ReaderFragment = {
       "operation": require('./UserSearchRefetchQuery.graphql')
     }
   },
-  "name": "UserSearchFriendsFragment",
+  "name": "UserSearchFriends_viewer",
   "selections": [
     {
       "alias": null,
@@ -68,7 +68,7 @@ const node: ReaderFragment = {
             {
               "args": null,
               "kind": "FragmentSpread",
-              "name": "UserFragment"
+              "name": "UserInviteCard_user"
             }
           ],
           "storageKey": null
@@ -81,6 +81,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "97aa3055a937414e98a0efdd692967e7";
+(node as any).hash = "54d571a44dc3c53ae15a03e6104e1945";
 
 export default node;

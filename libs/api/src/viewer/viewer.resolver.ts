@@ -2,11 +2,13 @@ import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { ChallengeService } from "../challenge/challenge.service";
 import { CommunityService } from "../community/community.service";
+import { CommunityInvitationsService } from "../community/community-invitations";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   ChallengeConnection,
   Community,
   CommunityConnection,
+  CommunityInvitationConnection,
   User,
   Viewer,
 } from "../types/graphql";
@@ -18,6 +20,7 @@ export class ViewerResolver {
   constructor(
     private userService: UserService,
     private communityService: CommunityService,
+    private communityInvitationsService: CommunityInvitationsService,
     private challengeService: ChallengeService
   ) {}
 
@@ -60,6 +63,19 @@ export class ViewerResolver {
     );
 
     return userCommunities;
+  }
+
+  @ResolveField()
+  async communityInvitations(
+    @CurrentUser("userId") userId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<CommunityInvitationConnection> {
+    return this.communityInvitationsService.findUserInvitationsReceived({
+      userId,
+      first,
+      after,
+    });
   }
 
   @ResolveField()

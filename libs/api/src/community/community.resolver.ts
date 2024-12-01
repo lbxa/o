@@ -2,7 +2,6 @@ import {
   Args,
   Mutation,
   Parent,
-  Query,
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
@@ -21,17 +20,23 @@ import {
   ChallengeConnection,
   Community,
   CommunityCreatePayload,
-  CommunityInvitation,
+  CommunityInvitationConnection,
+  CommunityInviteDenyPayload,
+  CommunityJoinPayload,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { ConflictError, InternalServerError } from "../utils/errors";
 import { CommunityService } from "./community.service";
+import { CommunityInvitationsService } from "./community-invitations";
+import { CommunityMembershipsService } from "./community-memberships";
 
 @Resolver("Community")
 export class CommunityResolver {
   constructor(
     private dbService: DbService<typeof schema>,
     private communityService: CommunityService,
+    private communityMembershipsService: CommunityMembershipsService,
+    private communityInvitationsService: CommunityInvitationsService,
     private challengeService: ChallengeService
   ) {}
 
@@ -60,31 +65,42 @@ export class CommunityResolver {
       "Community"
     );
     const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.communityService.invite(
-      decodedUserId,
-      decodedCommunityId,
-      inviterId
-    );
+    return this.communityInvitationsService.invite({
+      inviteeId: decodedUserId,
+      inviterId,
+      communityId: decodedCommunityId,
+    });
   }
 
-  @Query("communityInvitations")
-  async communityInvitations(
-    @Args("userId") userId: string
-  ): Promise<CommunityInvitation[]> {
-    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
-    return this.communityService.findUserInvitations(decodedUserId);
+  @ResolveField()
+  async invitations(
+    @CurrentUser("userId") userId: number,
+    @Parent() community: Community,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<CommunityInvitationConnection> {
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+    return this.communityInvitationsService.findUserInvitationsReceived({
+      userId,
+      forCommunityId: decodedCommunityId,
+      first,
+      after,
+    });
   }
 
   @Mutation("communityJoin")
   async communityJoin(
     @Args("inviteId") inviteId: string,
     @CurrentUser("userId") userId: number
-  ): Promise<Community | undefined> {
+  ): Promise<CommunityJoinPayload | undefined> {
     const decodedInviteId = validateAndDecodeGlobalId(
       inviteId,
       "CommunityInvitation"
     );
-    return this.communityService.join(userId, decodedInviteId);
+    return this.communityMembershipsService.join(userId, decodedInviteId);
   }
 
   @Mutation("communityLeave")
@@ -93,7 +109,7 @@ export class CommunityResolver {
     @CurrentUser("userId") userId: number
   ): Promise<boolean> {
     const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
-    await this.communityService.leave(userId, decodedCommunityId);
+    await this.communityMembershipsService.leave(userId, decodedCommunityId);
     return true;
   }
 
@@ -107,7 +123,7 @@ export class CommunityResolver {
     @CurrentUser("userId") userId: number
   ): Promise<boolean> {
     const decodedCommunityId = validateAndDecodeGlobalId(id, "Community");
-    await this.communityService.leave(userId, decodedCommunityId);
+    await this.communityMembershipsService.leave(userId, decodedCommunityId);
     return this.communityService.remove(decodedCommunityId);
   }
 
@@ -145,5 +161,20 @@ export class CommunityResolver {
         node: this.communityService.pg2GqlMapper(newCommunity),
       },
     };
+  }
+
+  @Mutation("communityInviteDeny")
+  async communityInviteDeny(
+    @Args("inviteId") inviteId: string,
+    @CurrentUser("userId") userId: number
+  ): Promise<CommunityInviteDenyPayload> {
+    const decodedInviteId = validateAndDecodeGlobalId(
+      inviteId,
+      "CommunityInvitation"
+    );
+    return this.communityInvitationsService.denyInvitation(
+      userId,
+      decodedInviteId
+    );
   }
 }

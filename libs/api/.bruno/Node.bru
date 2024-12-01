@@ -13,6 +13,15 @@ post {
 body:graphql {
   query { 
     # Challenge:1 === Q2hhbGxlbmdlOjE=
+    viewer: node(id: "Vmlld2VyOjI5") {
+    	id
+      ... on Viewer {
+        id
+        user {
+          firstName
+        }
+      }
+    }
   	challenge: node(id: "Q2hhbGxlbmdlOjE=") {
       id
       ... on Challenge {

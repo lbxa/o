@@ -8,6 +8,7 @@ type Viewer implements Node {
   user: User
   community(communityId: ID!): Community
   communities(first: Int!, after: String): CommunityConnection!
+  communityInvitations(first: Int!, after: String): CommunityInvitationConnection!
   challenges(communityId: ID!, first: Int!, after: String): ChallengeConnection!
   challenge(challengeId: ID!): Challenge
 }

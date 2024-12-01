@@ -269,13 +269,20 @@ export const ChallengeCreate = () => {
             {challengeForm.advancedMode ? (
               <View className="flex flex-col gap-sm">
                 <View className="flex flex-row items-center justify-between">
-                  <OTouchable
-                    className="flex flex-row items-center gap-sm"
-                    onPress={() => setChallengeFormField("advancedMode", false)}
-                  >
-                    <Title>More Settings</Title>
-                    <ChevronUpIcon width={22} height={22} />
-                  </OTouchable>
+                  <View>
+                    <OTouchable
+                      onPress={() =>
+                        setChallengeFormField("advancedMode", false)
+                      }
+                      className="flex flex-row items-center gap-sm"
+                    >
+                      <Title>Less Settings</Title>
+                      <ChevronUpIcon width={22} height={22} />
+                    </OTouchable>
+                    <Subtitle>
+                      Select more settings for advanced customization
+                    </Subtitle>
+                  </View>
                 </View>
                 <ChallengeCreateCadence />
                 <View
@@ -321,17 +328,23 @@ export const ChallengeCreate = () => {
                 <ChallengeCreateMode />
               </View>
             ) : (
-              <OTouchable
-                onPress={() => setChallengeFormField("advancedMode", true)}
-                className="mb-lg flex flex-row items-center gap-sm"
-              >
-                <Title>More Settings</Title>
-                <ChevronDownIcon width={22} height={22} />
-              </OTouchable>
+              <View className="mb-lg">
+                <OTouchable
+                  onPress={() => setChallengeFormField("advancedMode", true)}
+                  className="flex flex-row items-center gap-sm"
+                >
+                  <Title>More Settings</Title>
+                  <ChevronDownIcon width={22} height={22} />
+                </OTouchable>
+                <Subtitle>
+                  Select more settings for advanced customization
+                </Subtitle>
+              </View>
             )}
 
             <OButton
-              title={isMutationInFlight ? "Loading..." : "Create"}
+              title="Create"
+              loading={isMutationInFlight}
               disabled={isMutationInFlight}
               onPress={async (e) => {
                 // Read more about event pooling

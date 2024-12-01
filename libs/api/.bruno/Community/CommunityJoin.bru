@@ -1,0 +1,29 @@
+meta {
+  name: CommunityJoin
+  type: graphql
+  seq: 7
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    communityJoin(inviteId: "Q29tbXVuaXR5SW52aXRhdGlvbjoxMQ==") {
+      communityEdge {
+        node {
+          id
+          name
+          isPublic
+        }
+      }
+    }
+  }
+}

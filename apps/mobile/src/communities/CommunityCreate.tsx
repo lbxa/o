@@ -18,29 +18,25 @@ import {
 
 import { useZustStore } from "../state";
 
-export const COMMUNITY_CREATE_MUTATION = graphql`
-  mutation CommunityCreateMutation(
-    $communityCreateInput: CommunityCreateInput!
-  ) {
-    communityCreate(communityCreateInput: $communityCreateInput) {
-      communityEdge {
-        cursor
-        node {
-          id
-          name
-          isPublic
-        }
-      }
-    }
-  }
-`;
-
 export const CommunityCreate = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const { activeUser } = useZustStore();
   const [commitMutation, isMutationInFlight] =
-    useMutation<CommunityCreateMutation>(COMMUNITY_CREATE_MUTATION);
+    useMutation<CommunityCreateMutation>(graphql`
+      mutation CommunityCreateMutation(
+        $communityCreateInput: CommunityCreateInput!
+      ) {
+        communityCreate(communityCreateInput: $communityCreateInput) {
+          communityEdge {
+            cursor
+            node {
+              ...CommunityCard_community
+            }
+          }
+        }
+      }
+    `);
 
   const {
     control,
@@ -164,8 +160,9 @@ export const CommunityCreate = () => {
       </View>
 
       <OButton
-        title={isMutationInFlight ? "Loading..." : "Create"}
+        title="Create"
         disabled={isMutationInFlight}
+        loading={isMutationInFlight}
         className="mb-[200px]"
         onPress={async (e) => {
           // Read more about event pooling

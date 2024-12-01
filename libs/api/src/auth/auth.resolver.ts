@@ -86,8 +86,7 @@ export class AuthResolver {
   }
 
   @Mutation("authLogout")
-  async logout(@Args("id") id: number) {
-    const loggedOut = await this.authService.invalidateRefreshToken(id);
-    return loggedOut;
+  async logout(@CurrentUser("userId") userId: number) {
+    return this.authService.invalidateRefreshToken(userId);
   }
 }

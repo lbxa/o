@@ -3,28 +3,35 @@ import React, { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
-import type { UserFragment$key } from "@/__generated__/UserFragment.graphql";
+import type { UserInviteCard_user$key } from "@/__generated__/UserInviteCard_user.graphql";
 import type { UserInviteCardMutation } from "@/__generated__/UserInviteCardMutation.graphql";
 import { useZustStore } from "@/state";
 import { OTouchable } from "@/universe/atoms";
 
-import { USER_FRAGMENT } from "../UserFragment";
-
-const USER_COMMUNITY_INVITE_MUTATION = graphql`
-  mutation UserInviteCardMutation($userId: ID!, $communityId: ID!) {
-    communityInvite(userId: $userId, communityId: $communityId)
-  }
-`;
-
 interface UserInviteCardProps {
-  userFragment: UserFragment$key;
+  fragmentRef: UserInviteCard_user$key;
 }
 
-export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
-  const [commitMutation, mutationInFlight] =
-    useMutation<UserInviteCardMutation>(USER_COMMUNITY_INVITE_MUTATION);
-  const user = useFragment(USER_FRAGMENT, userFragment);
+export const UserInviteCard = ({ fragmentRef }: UserInviteCardProps) => {
   const { selectedCommunity } = useZustStore();
+  const [commitMutation, mutationInFlight] =
+    useMutation<UserInviteCardMutation>(graphql`
+      mutation UserInviteCardMutation($userId: ID!, $communityId: ID!) {
+        communityInvite(userId: $userId, communityId: $communityId)
+      }
+    `);
+
+  const user = useFragment<UserInviteCard_user$key>(
+    graphql`
+      fragment UserInviteCard_user on User {
+        id
+        firstName
+        lastName
+        handle
+      }
+    `,
+    fragmentRef
+  );
 
   if (!selectedCommunity) {
     throw new Error("ERR: no active community");
@@ -44,7 +51,8 @@ export const UserInviteCard = ({ userFragment }: UserInviteCardProps) => {
         setSuccess(true);
         setError(false);
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("Error inviting user to community", error);
         setError(true);
         setSuccess(false);
       },

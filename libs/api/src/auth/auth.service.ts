@@ -107,15 +107,15 @@ export class AuthService {
     return !!result.rowCount;
   }
 
-  async invalidateRefreshToken(userId: number): Promise<void> {
-    await this.dbService.db
+  async invalidateRefreshToken(userId: number): Promise<boolean> {
+    const result = await this.dbService.db
       .update(UsersTable)
       .set({ refreshToken: null })
       .where(
         and(eq(UsersTable.id, userId), isNotNull(UsersTable.refreshToken))
       );
 
-    // TODO add some smarter login here maybe?
+    return !!result.rowCount;
   }
 
   async validateRefreshToken(userId: number, refreshToken: string) {

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<449b159aa85042b4d726c41f52d59152>>
+ * @generated SignedSource<<3d2e9f648623a9e4be7dfec138230c66>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type CommunityCreateInput = {
   isPublic: boolean;
   name: string;
@@ -21,9 +22,7 @@ export type CommunityCreateMutation$data = {
     readonly communityEdge: {
       readonly cursor: string;
       readonly node: {
-        readonly id: string;
-        readonly isPublic: boolean | null | undefined;
-        readonly name: string;
+        readonly " $fragmentSpreads": FragmentRefs<"CommunityCard_community">;
       };
     };
   };
@@ -43,61 +42,56 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "communityCreateInput",
-        "variableName": "communityCreateInput"
-      }
-    ],
-    "concreteType": "CommunityCreatePayload",
-    "kind": "LinkedField",
-    "name": "communityCreate",
-    "plural": false,
+    "kind": "Variable",
+    "name": "communityCreateInput",
+    "variableName": "communityCreateInput"
+  }
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+};
+return {
+  "fragment": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "CommunityCreateMutation",
     "selections": [
       {
         "alias": null,
-        "args": null,
-        "concreteType": "CommunityEdge",
+        "args": (v1/*: any*/),
+        "concreteType": "CommunityCreatePayload",
         "kind": "LinkedField",
-        "name": "communityEdge",
+        "name": "communityCreate",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "cursor",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Community",
+            "concreteType": "CommunityEdge",
             "kind": "LinkedField",
-            "name": "node",
+            "name": "communityEdge",
             "plural": false,
             "selections": [
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "isPublic",
+                "concreteType": "Community",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  {
+                    "args": null,
+                    "kind": "FragmentSpread",
+                    "name": "CommunityCard_community"
+                  }
+                ],
                 "storageKey": null
               }
             ],
@@ -107,16 +101,6 @@ v1 = [
         "storageKey": null
       }
     ],
-    "storageKey": null
-  }
-];
-return {
-  "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "CommunityCreateMutation",
-    "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -125,19 +109,75 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "CommunityCreateMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CommunityCreatePayload",
+        "kind": "LinkedField",
+        "name": "communityCreate",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "CommunityEdge",
+            "kind": "LinkedField",
+            "name": "communityEdge",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Community",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "isVerified",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "3b8e3212fc4320e693046d42c577c8cf",
+    "cacheID": "15ca94a145b9cc7e2966a668303e28d7",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        id\n        name\n        isPublic\n      }\n    }\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f4ea58b0dae6dfc1e07fe520a66f25b1";
+(node as any).hash = "bcbd75ca1e407f43d369753b33afd33b";
 
 export default node;

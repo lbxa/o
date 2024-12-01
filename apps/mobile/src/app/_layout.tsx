@@ -14,6 +14,8 @@ import { loadQuery, RelayEnvironmentProvider } from "react-relay";
 import { useRelayEnvironment } from "@/relay";
 import { APP_ROOT_QUERY } from "@/root";
 
+void SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   if (__DEV__) {
     verifyInstallation();
@@ -28,7 +30,6 @@ export default function RootLayout() {
    * loading will be cached by relay.
    */
   useEffect(() => {
-    void SplashScreen.preventAutoHideAsync();
     const appRoot = loadQuery(environment, APP_ROOT_QUERY, {});
     void SplashScreen.hideAsync();
 
@@ -45,9 +46,10 @@ export default function RootLayout() {
                 screenOptions={{
                   headerShown: false,
                 }}
+                initialRouteName="(root)"
               >
                 <Stack.Screen name="(root)" />
-                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="auth/login" />
               </Stack>
             </BottomSheetModalProvider>
           </SafeAreaProvider>

@@ -7,11 +7,11 @@ meta {
 post {
   url: {{URL}}
   body: graphql
-  auth: none
+  auth: inherit
 }
 
 body:graphql {
   mutation Logout {
-    authLogout(id: 1)
+    authLogout
   }
 }

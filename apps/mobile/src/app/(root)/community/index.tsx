@@ -18,7 +18,7 @@ export default function CommunityHomeRoute() {
   return (
     <Ozone>
       {communityListQueryRef && (
-        <CommunityList communityListQueryRef={communityListQueryRef} />
+        <CommunityList queryRef={communityListQueryRef} />
       )}
     </Ozone>
   );

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { ButtonProps as ReactNativeButtonProps } from "react-native";
-import { Text } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 import { OTouchable } from "./OTouchable";
 
@@ -65,6 +65,7 @@ type OButtonProps = {
   type?: Type;
   variant?: Variant;
   icon?: React.ReactElement;
+  loading?: boolean;
   className?: string;
 } & ReactNativeButtonProps;
 
@@ -73,20 +74,15 @@ export const OButton = ({
   icon,
   type = "primary",
   variant = "indigo",
+  loading = false,
   className,
   ...props
 }: OButtonProps) => {
   const variantMatrix =
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
-  return (
-    <OTouchable
-      className={classNames("rounded-xl py-sm px-md", className, {
-        [variantMatrix[variant].back]: !props.disabled,
-        "bg-gray-200": props.disabled,
-      })}
-      {...props}
-    >
+  const buttonContent = (
+    <View>
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {
@@ -96,6 +92,22 @@ export const OButton = ({
       >
         {title}
       </Text>
+    </View>
+  );
+
+  return (
+    <OTouchable
+      className={classNames("rounded-xl py-sm px-md", className, {
+        [variantMatrix[variant].back]: !props.disabled,
+        "bg-gray-200": props.disabled,
+      })}
+      {...props}
+    >
+      {loading ? (
+        <ActivityIndicator color={variantMatrix[variant].front} />
+      ) : (
+        buttonContent
+      )}
     </OTouchable>
   );
 };

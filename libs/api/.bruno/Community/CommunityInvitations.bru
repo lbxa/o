@@ -15,11 +15,49 @@ auth:bearer {
 }
 
 body:graphql {
+  # mutation {
+  #   communityInvite(userId: "VXNlcjoyOQ==", communityId: "Q29tbXVuaXR5OjUx")
+  # }
+  
   query {
-    community(id: "Q29tbXVuaXR5OjIy") {
-      name
+    viewer {
+      community(communityId: "Q29tbXVuaXR5OjUx") {
+        invitations(first:10) {
+          edges {
+            node {
+              id
+              community {
+                name
+              }
+              inviter {
+                firstName
+                lastName
+              }
+            }
+          }
+        }
+      }
+      communityInvitations(first: 5) {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+            inviter {
+              firstName
+              lastName
+            }
+            community {
+              id
+              name
+            }
+          }
+        }
+      }
     }
   }
-  
   
 }

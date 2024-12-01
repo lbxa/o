@@ -2,9 +2,9 @@ import { Stack } from "expo-router";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
+import type { CommunityRootQuery } from "@/__generated__/CommunityRootQuery.graphql";
 import { MiniNav, Ozone } from "@/universe/molecules";
 
-import type { CommunityRootQuery } from "../../__generated__/CommunityRootQuery.graphql";
 import { ChallengeList } from "./ChallengeList";
 import { CommunityTitle } from "./CommunityTitle";
 
@@ -14,6 +14,7 @@ export const COMMUNITY_ROOT_QUERY = graphql`
       ...ChallengeList_viewer @arguments(communityId: $communityId, count: 10)
       community(communityId: $communityId) {
         ...CommunityTitle_community
+        ...CommunityInvitationAcceptList_community @arguments(count: 5)
       }
     }
   }
@@ -47,8 +48,11 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
           ),
         }}
       />
-      {communityRootData.viewer && (
-        <ChallengeList challengeListFragmentRef={communityRootData.viewer} />
+      {communityRootData.viewer?.community && (
+        <ChallengeList
+          challengeListFragmentRef={communityRootData.viewer}
+          communityFragmentRef={communityRootData.viewer.community}
+        />
       )}
     </Ozone>
   );

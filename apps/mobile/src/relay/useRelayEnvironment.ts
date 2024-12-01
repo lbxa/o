@@ -38,8 +38,8 @@ export const useRelayEnvironment = (): {
    * is mounted.
    */
   const rootNavigationRef = useNavigationContainerRef();
-  const rootNavigationState = useMemo(
-    () => rootNavigationRef.getRootState(),
+  const rootNavigationKey = useMemo(
+    () => rootNavigationRef.current,
     [rootNavigationRef]
   );
 
@@ -132,16 +132,16 @@ export const useRelayEnvironment = (): {
             await deleteStoreItem("ACCESS_TOKEN");
             await deleteStoreItem("REFRESH_TOKEN");
 
-            if (rootNavigationState.key) {
-              router.replace("(auth)/login");
+            if (rootNavigationKey) {
+              router.replace("auth/login");
             }
           }
         } else {
           await deleteStoreItem("ACCESS_TOKEN");
           await deleteStoreItem("REFRESH_TOKEN");
 
-          if (rootNavigationState.key) {
-            router.replace("(auth)/login");
+          if (rootNavigationKey) {
+            router.replace("auth/login");
           }
         }
       }
@@ -152,7 +152,7 @@ export const useRelayEnvironment = (): {
       deleteStoreItem,
       formatRequestHeader,
       getStoreItem,
-      rootNavigationState,
+      rootNavigationKey,
       router,
       setStoreItem,
     ]

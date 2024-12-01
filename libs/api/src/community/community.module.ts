@@ -5,10 +5,21 @@ import { ChallengeModule } from "../challenge/challenge.module";
 import { UserModule } from "../user/user.module";
 import { CommunityResolver } from "./community.resolver";
 import { CommunityService } from "./community.service";
+import { CommunityInvitationsService } from "./community-invitations/community-invitations.service";
+import { CommunityMembershipsService } from "./community-memberships/community-memberships.service";
 
 @Module({
   imports: [ChallengeModule, UserModule, AuthModule],
-  providers: [CommunityService, CommunityResolver],
-  exports: [CommunityService],
+  providers: [
+    CommunityService,
+    CommunityResolver,
+    CommunityInvitationsService,
+    CommunityMembershipsService,
+  ],
+  exports: [
+    CommunityService,
+    CommunityInvitationsService,
+    CommunityMembershipsService,
+  ],
 })
 export class CommunityModule {}

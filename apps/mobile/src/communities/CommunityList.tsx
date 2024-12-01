@@ -1,4 +1,5 @@
-import { useCallback, useTransition } from "react";
+import Beach from "@assets/images/beach.svg";
+import React, { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
@@ -9,23 +10,24 @@ import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.grap
 import { OButton } from "@/universe/atoms";
 import { CommunityCard } from "@/universe/molecules";
 
+import { ViewerCommunityInvitationList } from "./CommunityInvitation";
+
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     viewer {
       id
       ...CommunityList_viewer @arguments(count: 10)
+      ...ViewerCommunityInvitationList_viewer @arguments(count: 5)
     }
   }
 `;
 
 interface CommunityListProps {
-  communityListQueryRef: PreloadedQuery<CommunityListQuery>;
+  queryRef: PreloadedQuery<CommunityListQuery>;
 }
 
-export const CommunityList = ({
-  communityListQueryRef,
-}: CommunityListProps) => {
-  const query = usePreloadedQuery(COMMUNITY_LIST_QUERY, communityListQueryRef);
+export const CommunityList = ({ queryRef }: CommunityListProps) => {
+  const query = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
 
   const [isPending, startTransition] = useTransition();
 
@@ -72,13 +74,27 @@ export const CommunityList = ({
       className="min-h-full px-sm"
       data={data?.communities.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <CommunityCard community={item} />}
-      ListHeaderComponent={<></>}
-      ListEmptyComponent={<Text>Looking a little quiet here...</Text>}
+      ListHeaderComponent={
+        <View>
+          {query.viewer && (
+            <ViewerCommunityInvitationList fragmentRef={query.viewer} />
+          )}
+        </View>
+      }
+      ListEmptyComponent={
+        <View className="flex flex-col gap-md pt-md">
+          <View className="mx-auto">
+            <Beach width={150} height={150} />
+          </View>
+          <Text className="text-center">Looking a little quiet here</Text>
+        </View>
+      }
       ListFooterComponent={
         <View className="pb-md">
           {hasNext && (
             <OButton
-              title={isLoadingNext ? "Loading..." : "Load more"}
+              title="Load more"
+              loading={isLoadingNext}
               disabled={!hasNext}
               onPress={() => loadNext(10)}
             />

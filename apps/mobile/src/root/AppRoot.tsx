@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { AppRootQuery } from "@/__generated__/AppRootQuery.graphql";
@@ -9,8 +9,8 @@ import { useToken } from "@/utils";
 export const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
+      id
       ...CommunityList_viewer @arguments(count: 5)
-      # ...UserProfile_viewer
       user {
         id
         firstName

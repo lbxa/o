@@ -38,7 +38,7 @@ type Mutation {
   "Login to the application"
   authLogin(authLoginInput: AuthLoginInput!): AuthLoginPayload!
   "Logout from the application"
-  authLogout(id: Int!): Boolean!
+  authLogout: Boolean!
   "Create a new user"
   authCreateUser(authCreateUserInput: AuthCreateUserInput!): AuthCreateUserPayload!
   "Refresh the access and refresh tokens"
