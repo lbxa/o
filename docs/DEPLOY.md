@@ -13,6 +13,12 @@ Follow [these instructions](https://docs.expo.dev/submit/ios/).
 > [!NOTE]
 > These are temporary instructions until the DevOps workflow gets streamlined.
 
+0. Ensure the database migrations are up to date (after whitelisting current IP):
+
+    ```bash
+    NODE_ENV=<env> pnpm turbo migrate:push
+    ```
+
 1. From the root of the monorepo:
 
     ```bash
