@@ -5,8 +5,13 @@ on:
   pull_request:
     types: [opened, synchronize]
     paths-ignore:
-      - "docs/**"
-      - "*.md"
+      - '**.md'
+      - '**.mdx'
+      - 'docs/**'
+      - '**.txt'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.env.example'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
