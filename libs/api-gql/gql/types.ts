@@ -305,6 +305,11 @@ export type CommunityInvitationEdge = {
   node: CommunityInvitation;
 };
 
+export type CommunityInviteDenyPayload = {
+  __typename?: 'CommunityInviteDenyPayload';
+  invitationId: Scalars['ID']['output'];
+};
+
 export type CommunityJoinPayload = {
   __typename?: 'CommunityJoinPayload';
   communityEdge: CommunityEdge;
@@ -356,6 +361,7 @@ export type Mutation = {
   communityCreate: CommunityCreatePayload;
   communityDelete: Scalars['Boolean']['output'];
   communityInvite: Scalars['Boolean']['output'];
+  communityInviteDeny: CommunityInviteDenyPayload;
   communityJoin: CommunityJoinPayload;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
@@ -424,6 +430,11 @@ export type MutationCommunityDeleteArgs = {
 export type MutationCommunityInviteArgs = {
   communityId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
+};
+
+
+export type MutationCommunityInviteDenyArgs = {
+  inviteId: Scalars['ID']['input'];
 };
 
 

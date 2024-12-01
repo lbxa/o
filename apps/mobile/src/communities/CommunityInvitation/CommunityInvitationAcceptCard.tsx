@@ -1,5 +1,6 @@
 /* eslint-disable @stylistic/js/max-len */
 import CrossIcon from "@assets/icons/cross.svg";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import {
   ConnectionHandler,
@@ -13,6 +14,8 @@ import type { CommunityInvitationAcceptCard_invitations$key } from "@/__generate
 import { OTouchable } from "@/universe/atoms";
 import { useViewerId } from "@/users/hooks";
 
+import { useCommunityInviteDeny } from "./hooks";
+
 interface CommunityInvitationAcceptCardProps {
   fragmentRef: CommunityInvitationAcceptCard_invitations$key;
 }
@@ -21,7 +24,8 @@ export const CommunityInvitationAcceptCard = ({
   fragmentRef,
 }: CommunityInvitationAcceptCardProps) => {
   const viewerId = useViewerId();
-  const [commitMutation, isMutationInFlight] =
+  const router = useRouter();
+  const [commitJoinMutation, isJoinMutationInFlight] =
     useMutation<CommunityInvitationAcceptCard_communityJoinMutation>(graphql`
       mutation CommunityInvitationAcceptCard_communityJoinMutation(
         $inviteId: ID!
@@ -40,6 +44,11 @@ export const CommunityInvitationAcceptCard = ({
       }
     `);
 
+  const {
+    commitMutation: commitDenyMutation,
+    isMutationInFlight: isDenyMutationInFlight,
+  } = useCommunityInviteDeny();
+
   const invitation = useFragment(
     graphql`
       fragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {
@@ -57,20 +66,22 @@ export const CommunityInvitationAcceptCard = ({
     fragmentRef
   );
 
+  const inviteConnections = [
+    ConnectionHandler.getConnectionID(
+      invitation.community.id,
+      "CommunityInvitationsAcceptList_invitations"
+    ),
+    ConnectionHandler.getConnectionID(
+      viewerId,
+      "ViewerCommunityInvitationList_communityInvitations"
+    ),
+  ];
+
   const handleClick = () => {
-    commitMutation({
+    commitJoinMutation({
       variables: {
         inviteId: invitation.id,
-        inviteConnections: [
-          ConnectionHandler.getConnectionID(
-            invitation.community.id,
-            "CommunityInvitationsAcceptList_invitations"
-          ),
-          ConnectionHandler.getConnectionID(
-            viewerId,
-            "ViewerCommunityInvitationList_communityInvitations"
-          ),
-        ],
+        inviteConnections,
         communityConnections: [
           ConnectionHandler.getConnectionID(
             viewerId,
@@ -78,43 +89,46 @@ export const CommunityInvitationAcceptCard = ({
           ),
         ],
       },
-      // onCompleted: () => {
-      //   router.replace("/(root)/community");
-      // },
       onError: (error) => {
         console.error(error);
-      },
-      updater: (proxyStore, data) => {
-        if (!data?.communityJoin.communityEdge) {
-          throw new Error("No community edge created");
-        }
       },
     });
   };
 
   const handleDeny = () => {
-    console.log("deny");
+    return commitDenyMutation({
+      variables: {
+        inviteId: invitation.id,
+        inviteConnections,
+      },
+      onCompleted: () => {
+        router.replace("/(root)/community");
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
-  const acceptButtonText = isMutationInFlight
+  const buttonText = isJoinMutationInFlight
     ? "Accepting..."
-    : "Accept invitation";
+    : isDenyMutationInFlight
+      ? "Denying..."
+      : "Accept invitation";
 
   return (
     <OTouchable
-      className="bg-indigo p-sm z-10 flex-row items-center justify-between rounded-3xl"
+      className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm"
       onPress={handleClick}
     >
-      <View className="gap-sm flex flex-1 flex-row items-center">
-        <View className="border-ivory size-12 rounded-full border bg-gray-400"></View>
+      <View className="flex flex-1 flex-row items-center gap-sm">
+        <View className="size-12 rounded-full border border-ivory bg-gray-400"></View>
         <View className="flex flex-col">
           <Text className="text-ivory">
             Welcome{" "}
             <Text className="font-bold">{invitation.invitee.firstName}</Text>
           </Text>
-          <Text className="text-ivory text-2xl font-bold">
-            {acceptButtonText}
-          </Text>
+          <Text className="text-2xl font-bold text-ivory">{buttonText}</Text>
         </View>
       </View>
       <OTouchable className="z-20" onPress={handleDeny}>

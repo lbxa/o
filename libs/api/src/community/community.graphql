@@ -72,11 +72,16 @@ type CommunityJoinPayload {
   communityEdge: CommunityEdge!
 }
 
+type CommunityInviteDenyPayload {
+  invitationId: ID!
+}
+
 type Mutation {
   communityCreate(communityCreateInput: CommunityCreateInput!): CommunityCreatePayload!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   communityDelete(id: ID!): Boolean! 
   communityInvite(userId: ID!, communityId: ID!): Boolean!
+  communityInviteDeny(inviteId: ID!): CommunityInviteDenyPayload!
   communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
 }

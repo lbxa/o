@@ -21,6 +21,7 @@ import {
   Community,
   CommunityCreatePayload,
   CommunityInvitationConnection,
+  CommunityInviteDenyPayload,
   CommunityJoinPayload,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
@@ -160,5 +161,20 @@ export class CommunityResolver {
         node: this.communityService.pg2GqlMapper(newCommunity),
       },
     };
+  }
+
+  @Mutation("communityInviteDeny")
+  async communityInviteDeny(
+    @Args("inviteId") inviteId: string,
+    @CurrentUser("userId") userId: number
+  ): Promise<CommunityInviteDenyPayload> {
+    const decodedInviteId = validateAndDecodeGlobalId(
+      inviteId,
+      "CommunityInvitation"
+    );
+    return this.communityInvitationsService.denyInvitation(
+      userId,
+      decodedInviteId
+    );
   }
 }

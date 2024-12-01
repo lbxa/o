@@ -15,6 +15,7 @@ import { EntityService } from "../../entity/entity-service";
 import {
   CommunityInvitation as GqlCommunityInvitation,
   CommunityInvitationConnection,
+  CommunityInviteDenyPayload,
   InvitationStatus,
 } from "../../types/graphql";
 import { UserService } from "../../user/user.service";
@@ -23,7 +24,11 @@ import {
   mapToEnum,
   validateAndDecodeGlobalId,
 } from "../../utils";
-import { ForbiddenError, NotFoundError } from "../../utils/errors";
+import {
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+} from "../../utils/errors";
 import { CommunityService } from "../community.service";
 
 @Injectable()
@@ -206,5 +211,40 @@ export class CommunityInvitationsService
     }
 
     return true;
+  }
+
+  async denyInvitation(
+    userId: number,
+    inviteId: number
+  ): Promise<CommunityInviteDenyPayload> {
+    const invitation =
+      await this.dbService.db.query.CommunityInvitationsTable.findFirst({
+        where: and(
+          eq(CommunityInvitationsTable.id, inviteId),
+          eq(CommunityInvitationsTable.inviteeId, userId)
+        ),
+      });
+
+    if (!invitation) {
+      throw new ForbiddenError("Invalid invitation");
+    }
+
+    if (invitation.status !== InvitationStatus.PENDING.valueOf()) {
+      throw new ForbiddenError("Invitation is not pending");
+    }
+
+    const [updatedInvitation] = await this.dbService.db
+      .update(CommunityInvitationsTable)
+      .set({ status: "DENIED" })
+      .where(eq(CommunityInvitationsTable.id, inviteId))
+      .returning();
+
+    if (!updatedInvitation) {
+      throw new InternalServerError("Failed to update invitation record");
+    }
+
+    return {
+      invitationId: encodeGlobalId("CommunityInvitation", inviteId),
+    };
   }
 }
