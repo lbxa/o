@@ -133,7 +133,7 @@ export const useRelayEnvironment = (): {
             await deleteStoreItem("REFRESH_TOKEN");
 
             if (rootNavigationKey) {
-              router.replace("(auth)/login");
+              router.replace("auth/login");
             }
           }
         } else {
@@ -141,7 +141,7 @@ export const useRelayEnvironment = (): {
           await deleteStoreItem("REFRESH_TOKEN");
 
           if (rootNavigationKey) {
-            router.replace("(auth)/login");
+            router.replace("auth/login");
           }
         }
       }

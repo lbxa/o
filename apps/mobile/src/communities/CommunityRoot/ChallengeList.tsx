@@ -90,7 +90,8 @@ export const ChallengeList = ({
         <View className="flex flex-col gap-md pb-md">
           {hasNext && (
             <OButton
-              title={isLoadingNext ? "Loading..." : "Load more"}
+              title="Load more"
+              loading={isLoadingNext}
               disabled={!hasNext}
               onPress={() => loadNext(10)}
             />

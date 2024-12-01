@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
-const AuthLayout = () => {
+export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{
@@ -26,6 +26,4 @@ const AuthLayout = () => {
       />
     </Stack>
   );
-};
-
-export default AuthLayout;
+}

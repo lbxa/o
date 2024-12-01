@@ -11,7 +11,6 @@ export const APP_ROOT_QUERY = graphql`
     viewer {
       id
       ...CommunityList_viewer @arguments(count: 5)
-      # ...UserProfile_viewer
       user {
         id
         firstName

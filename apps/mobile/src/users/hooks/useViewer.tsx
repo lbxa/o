@@ -23,7 +23,7 @@ export const useViewerId = (): string => {
 
   if (!viewer.viewer) {
     // there must always be a viewer logged in!
-    router.replace("/(auth)/login");
+    router.replace("/auth/login");
     throw new Error("Viewer not found");
   }
 

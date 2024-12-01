@@ -13,7 +13,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!token) {
-      router.replace("/(auth)/login");
+      router.replace("/auth/login");
     }
   }, [router, token]);
 
