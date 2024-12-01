@@ -50,7 +50,7 @@ export const ViewerCommunityInvitationList = ({
     <View>
       {data.communityInvitations.edges &&
         data.communityInvitations.edges.length > 0 && (
-          <View className="gap-md py-sm pb-md flex flex-col">
+          <View className="flex flex-col gap-md py-sm pb-md">
             {data.communityInvitations.edges.map((node) => (
               <CommunityInvitationCard
                 key={node.cursor}

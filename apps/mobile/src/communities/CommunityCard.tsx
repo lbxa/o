@@ -37,14 +37,14 @@ const CommunityCardComponent = ({ community }: Props) => {
 
   return (
     <OTouchable onPress={onPress}>
-      <View className="mb-md bg-ivory pb-md rounded-3xl">
+      <View className="mb-md rounded-3xl bg-ivory pb-md">
         <View className="mb-sm flex h-[200px] w-full rounded-t-3xl bg-gray-300">
           <View className="m-auto">
             <CameraIcon width={40} height={40} fill="gray" />
           </View>
         </View>
         <View className="px-md">
-          <View className="gap-sm pb-sm flex flex-row items-center">
+          <View className="flex flex-row items-center gap-sm pb-sm">
             <Text className="text-3xl font-bold">{communityFragment.name}</Text>
             {communityFragment.isVerified && <VerifiedBadgeIcon width={20} />}
           </View>

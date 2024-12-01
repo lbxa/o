@@ -6,6 +6,7 @@
       "cache": false,
       "inputs": ["$TURBO_DEFAULT$", ".env.*", "drizzle.config.ts", "src/**"],
       "outputs": ["$TURBO_DEFAULT$", "dist/**"],
+      "dependsOn": ["migrate:check"],
       "env": [
         "DB_HOSTNAME",
         "DB_USER",

@@ -47,7 +47,7 @@ export const CommunityInvitationAcceptList = ({
   return (
     <View>
       {data.invitations?.edges && data.invitations.edges.length > 0 && (
-        <View className="gap-md py-sm pb-mb flex flex-col">
+        <View className="pb-mb flex flex-col gap-md py-sm">
           {data.invitations.edges.map((node) => (
             <CommunityInvitationAcceptCard
               key={node.cursor}
