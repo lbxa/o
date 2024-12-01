@@ -46,7 +46,7 @@ export const UserProfile: React.FC = () => {
   return (
     <Ozone>
       <View className="flex">
-        <View className="mb-md bg-ivory p-md flex grow">
+        <View className="mb-md flex grow bg-ivory p-md">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
@@ -59,7 +59,8 @@ export const UserProfile: React.FC = () => {
         </View>
         <View className="mx-md">
           <OButton
-            title={isMutationInFlight ? "Logging out..." : "Logout"}
+            title="Logout"
+            loading={isMutationInFlight}
             onPress={async () => {
               await deleteTokens();
               removeActiveUser();
@@ -69,7 +70,7 @@ export const UserProfile: React.FC = () => {
                   proxyStore.invalidateStore();
                 },
               });
-              router.replace("/(auth)/login");
+              router.replace("/auth/login");
             }}
           />
         </View>
