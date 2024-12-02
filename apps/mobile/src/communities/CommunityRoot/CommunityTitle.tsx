@@ -28,7 +28,7 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   );
 
   return (
-    <View className="gap-sm mr-auto flex flex-row items-center">
+    <View className="mr-auto flex flex-row items-center gap-sm">
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon />
       </OTouchable>

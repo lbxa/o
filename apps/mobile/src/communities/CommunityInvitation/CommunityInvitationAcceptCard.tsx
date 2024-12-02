@@ -118,17 +118,17 @@ export const CommunityInvitationAcceptCard = ({
 
   return (
     <OTouchable
-      className="bg-indigo p-sm z-10 flex-row items-center justify-between rounded-3xl"
+      className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm"
       onPress={handleClick}
     >
-      <View className="gap-sm flex flex-1 flex-row items-center">
-        <View className="border-ivory size-12 rounded-full border bg-gray-400"></View>
+      <View className="flex flex-1 flex-row items-center gap-sm">
+        <View className="size-12 rounded-full border border-ivory bg-gray-400"></View>
         <View className="flex flex-col">
           <Text className="text-ivory">
             Welcome{" "}
             <Text className="font-bold">{invitation.invitee.firstName}</Text>
           </Text>
-          <Text className="text-ivory text-2xl font-bold">{buttonText}</Text>
+          <Text className="text-2xl font-bold text-ivory">{buttonText}</Text>
         </View>
       </View>
       <CommunityInvitationDeclineButton onDecline={handleDeny} />

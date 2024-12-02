@@ -108,7 +108,7 @@ export const ChallengeActivity = ({
         }
       />
       <SectionList
-        className="px-md min-h-full"
+        className="min-h-full px-md"
         sections={sectionList}
         keyExtractor={(item, index) => ["X", index].join("-")}
         renderItem={({ item }) => <UserResultCard result={item} />}
@@ -141,7 +141,7 @@ export const ChallengeActivity = ({
           </View>
         }
         ListEmptyComponent={
-          <View className="gap-md flex flex-col items-center justify-center">
+          <View className="flex flex-col items-center justify-center gap-md">
             <Void width={150} height={150} />
             <Text>Where are the results? It's time to get to work!</Text>
           </View>

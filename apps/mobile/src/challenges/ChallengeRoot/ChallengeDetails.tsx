@@ -82,9 +82,9 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md gap-md flex flex-col">
+    <View className="mb-md flex flex-col gap-md">
       {showDescription && (
-        <View className="gap-sm bg-ivory px-md py-sm flex-row items-center rounded-xl">
+        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} />
@@ -96,7 +96,7 @@ export const ChallengeDetails = ({
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="gap-md flex flex-row">
+      <View className="flex flex-row gap-md">
         <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"

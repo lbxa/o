@@ -82,7 +82,7 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View className="gap-sm flex flex-row items-center rounded-xl">
+    <View className="flex flex-row items-center gap-sm rounded-xl">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {
