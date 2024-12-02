@@ -23,7 +23,9 @@ export default function CommunityRootLayout() {
           headerLeft: () => (
             <Text className="text-3xl font-bold">Community</Text>
           ),
-          headerRight: () => <MiniNav />,
+          headerRight: () => (
+            <MiniNav items={["create", "search", "message"]} />
+          ),
         }}
       />
       <Stack.Screen
@@ -32,6 +34,14 @@ export default function CommunityRootLayout() {
           headerLeft: () => (
             <Text className="text-xl font-bold">Invite your friends</Text>
           ),
+          headerBackVisible: true,
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="manage"
+        options={{
+          headerLeft: () => <Text className="text-xl font-bold">Manage</Text>,
           headerBackVisible: true,
           presentation: "modal",
         }}

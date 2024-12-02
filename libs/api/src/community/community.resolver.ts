@@ -21,7 +21,7 @@ import {
   Community,
   CommunityCreatePayload,
   CommunityInvitationConnection,
-  CommunityInviteDenyPayload,
+  CommunityInviteDeclinePayload,
   CommunityJoinPayload,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
@@ -163,16 +163,16 @@ export class CommunityResolver {
     };
   }
 
-  @Mutation("communityInviteDeny")
-  async communityInviteDeny(
+  @Mutation("communityInviteDecline")
+  async communityInviteDecline(
     @Args("inviteId") inviteId: string,
     @CurrentUser("userId") userId: number
-  ): Promise<CommunityInviteDenyPayload> {
+  ): Promise<CommunityInviteDeclinePayload> {
     const decodedInviteId = validateAndDecodeGlobalId(
       inviteId,
       "CommunityInvitation"
     );
-    return this.communityInvitationsService.denyInvitation(
+    return this.communityInvitationsService.declineInvitation(
       userId,
       decodedInviteId
     );

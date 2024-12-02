@@ -1,3 +1,4 @@
+import Void from "@assets/images/void.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useTransition } from "react";
 import { RefreshControl, SectionList, Text, View } from "react-native";
@@ -139,7 +140,12 @@ export const ChallengeActivity = ({
             )}
           </View>
         }
-        ListEmptyComponent={<Text>No results posted yet.</Text>}
+        ListEmptyComponent={
+          <View className="flex flex-col items-center justify-center gap-md">
+            <Void width={150} height={150} />
+            <Text>Where are the results? It's time to get to work!</Text>
+          </View>
+        }
         refreshControl={
           <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
         }

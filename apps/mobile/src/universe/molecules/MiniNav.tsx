@@ -1,3 +1,4 @@
+import MenuIcon from "@assets/icons/menu.svg";
 import MessageIcon from "@assets/icons/message.svg";
 import PlusIcon from "@assets/icons/plus.svg";
 import SearchIcon from "@assets/icons/search.svg";
@@ -33,18 +34,20 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   );
 };
 
-type NavItemType = "create" | "search" | "message";
+type NavItemType = "create" | "search" | "message" | "manage";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
   create: "/(root)/community/create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
+  manage: "/(root)/community/manage",
 };
 
 const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
   create: <PlusIcon {...ICON_DIM} />,
   search: <SearchIcon {...ICON_DIM} />,
   message: <MessageIcon {...ICON_DIM} />,
+  manage: <MenuIcon {...ICON_DIM} />,
 };
 
 interface NavItemConfig {

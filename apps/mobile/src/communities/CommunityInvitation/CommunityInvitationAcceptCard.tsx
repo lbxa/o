@@ -1,5 +1,4 @@
 /* eslint-disable @stylistic/js/max-len */
-import CrossIcon from "@assets/icons/cross.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import {
@@ -14,7 +13,8 @@ import type { CommunityInvitationAcceptCard_invitations$key } from "@/__generate
 import { OTouchable } from "@/universe/atoms";
 import { useViewerId } from "@/users/hooks";
 
-import { useCommunityInviteDeny } from "./hooks";
+import { CommunityInvitationDeclineButton } from "./CommunityInvitationDeclineButton";
+import { useCommunityInviteDecline } from "./hooks";
 
 interface CommunityInvitationAcceptCardProps {
   fragmentRef: CommunityInvitationAcceptCard_invitations$key;
@@ -45,9 +45,9 @@ export const CommunityInvitationAcceptCard = ({
     `);
 
   const {
-    commitMutation: commitDenyMutation,
-    isMutationInFlight: isDenyMutationInFlight,
-  } = useCommunityInviteDeny();
+    commitMutation: commitDeclineMutation,
+    isMutationInFlight: isDeclineMutationInFlight,
+  } = useCommunityInviteDecline();
 
   const invitation = useFragment(
     graphql`
@@ -96,7 +96,7 @@ export const CommunityInvitationAcceptCard = ({
   };
 
   const handleDeny = () => {
-    return commitDenyMutation({
+    return commitDeclineMutation({
       variables: {
         inviteId: invitation.id,
         inviteConnections,
@@ -112,7 +112,7 @@ export const CommunityInvitationAcceptCard = ({
 
   const buttonText = isJoinMutationInFlight
     ? "Accepting..."
-    : isDenyMutationInFlight
+    : isDeclineMutationInFlight
       ? "Denying..."
       : "Accept invitation";
 
@@ -131,9 +131,7 @@ export const CommunityInvitationAcceptCard = ({
           <Text className="text-2xl font-bold text-ivory">{buttonText}</Text>
         </View>
       </View>
-      <OTouchable className="z-20" onPress={handleDeny}>
-        <CrossIcon width={24} height={24} fill="ivory" />
-      </OTouchable>
+      <CommunityInvitationDeclineButton onDecline={handleDeny} />
     </OTouchable>
   );
 };

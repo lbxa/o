@@ -29,6 +29,7 @@ import {
   Title,
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
+import { useViewerId } from "@/users/hooks";
 
 import { ChallengeCreateActivity } from "./ChallengeCreateActivity";
 import { ChallengeCreateCadence } from "./ChallengeCreateCadence";
@@ -36,6 +37,7 @@ import { ChallengeCreateMode } from "./ChallengeCreateMode";
 
 export const ChallengeCreate = () => {
   const router = useRouter();
+  const viewerId = useViewerId();
   const {
     selectedCommunity,
     challengeForm,
@@ -47,26 +49,16 @@ export const ChallengeCreate = () => {
       mutation ChallengeCreateMutation(
         $challengeCreateInput: ChallengeCreateInput!
         $challengeActivityCreateInput: ChallengeActivityCreateInput!
+        $connections: [ID!]!
       ) {
         challengeCreate(
           challengeCreateInput: $challengeCreateInput
           challengeActivityCreateInput: $challengeActivityCreateInput
         ) {
-          challengeEdge {
+          challengeEdge @prependEdge(connections: $connections) {
             cursor
             node {
-              id
-              name
-              description
-              startDate
-              endDate
-              activity {
-                id
-                type
-                goal
-                unit
-                target
-              }
+              ...ChallengeCard_challenge
             }
           }
         }
@@ -123,6 +115,13 @@ export const ChallengeCreate = () => {
           target: challengeForm.target,
           unit: challengeForm.unit ?? ChallengeActivityUnits.None,
         },
+        connections: [
+          ConnectionHandler.getConnectionID(
+            viewerId,
+            "ChallengeList_viewer_challenges",
+            { communityId: selectedCommunity.id }
+          ),
+        ],
       },
       onCompleted: () => {
         clearChallengeForm();
@@ -130,38 +129,6 @@ export const ChallengeCreate = () => {
       },
       onError: (error) => {
         console.error(error.message);
-      },
-      updater: (store, data) => {
-        if (!data) {
-          throw new Error("No data returned from mutation");
-        }
-
-        const viewer = store.getRoot().getLinkedRecord("viewer");
-        if (!viewer) {
-          throw new Error("Viewer not found");
-        }
-
-        const connectionRecord = ConnectionHandler.getConnection(
-          viewer,
-          "ChallengeList_viewer_challenges",
-          { communityId: selectedCommunity.id }
-        );
-
-        if (!connectionRecord) {
-          throw new Error("Connection record not found");
-        }
-
-        const payload = store.getRootField("challengeCreate");
-        const challengeEdge = payload.getLinkedRecord("challengeEdge");
-
-        const newEdge = ConnectionHandler.createEdge(
-          store,
-          connectionRecord,
-          challengeEdge,
-          "ChallengeEdge"
-        );
-
-        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
       },
     });
   };

@@ -49,7 +49,7 @@ export default function RootLayout() {
                 initialRouteName="(root)"
               >
                 <Stack.Screen name="(root)" />
-                <Stack.Screen name="auth/login" />
+                <Stack.Screen name="auth" />
               </Stack>
             </BottomSheetModalProvider>
           </SafeAreaProvider>

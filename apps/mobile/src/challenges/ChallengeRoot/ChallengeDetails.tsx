@@ -97,11 +97,10 @@ export const ChallengeDetails = ({
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
       <View className="flex flex-row gap-md">
-        <OButton title="Share" variant="indigo" className="rounded-xl" />
+        <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"
           variant="indigo"
-          className="rounded-xl"
           onPress={() => router.push("/(root)/community/challenge/invite")}
         />
         <OButton
@@ -109,7 +108,7 @@ export const ChallengeDetails = ({
           type="secondary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
-          className="ml-auto flex flex-row items-center gap-sm rounded-xl"
+          className="ml-auto"
           onPress={handleRecord}
         />
       </View>

@@ -148,23 +148,24 @@ export class ChallengeService
 
   async create(
     challengeInput: NewChallenge,
-    activityInput: Omit<NewChallengeActivity, "challengeId">,
-    userId: number
+    activityInput: Omit<NewChallengeActivity, "challengeId">
+    // userId: number
   ): Promise<GqlChallenge> {
-    const isAdmin =
-      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
-        where: and(
-          eq(CommunityMembershipsTable.userId, userId),
-          eq(CommunityMembershipsTable.communityId, challengeInput.communityId),
-          eq(CommunityMembershipsTable.isAdmin, true)
-        ),
-      });
+    // for now anyone can create a challenge... otherwise communities are just boring
+    // const isAdmin =
+    //   await this.dbService.db.query.CommunityMembershipsTable.findFirst({
+    //     where: and(
+    //       eq(CommunityMembershipsTable.userId, userId),
+    //       eq(CommunityMembershipsTable.communityId, challengeInput.communityId),
+    //       eq(CommunityMembershipsTable.isAdmin, true)
+    //     ),
+    //   });
 
-    if (!isAdmin) {
-      throw new UnauthorizedError(
-        "Only community admins can create challenges"
-      );
-    }
+    // if (!isAdmin) {
+    //   throw new UnauthorizedError(
+    //     "Only community admins can create challenges"
+    //   );
+    // }
 
     const [challenge] = await this.dbService.db
       .insert(ChallengesTable)

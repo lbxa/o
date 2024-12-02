@@ -40,8 +40,7 @@ export class ChallengeResolver {
     );
     const newChallenge = await this.challengeService.create(
       { ...challengeInput, communityId, ownerId: userId },
-      { ...activityInput },
-      userId
+      { ...activityInput }
     );
 
     return {
