@@ -210,6 +210,7 @@ export interface Challenge extends Node, Timestamps {
     updatedAt?: Nullable<DateTime>;
     activity: ChallengeActivity;
     members?: Nullable<User[]>;
+    memberCount?: Nullable<number>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
 }
@@ -292,7 +293,8 @@ export interface Community extends Node, Timestamps {
     users?: Nullable<Nullable<User>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    members?: Nullable<User[]>;
+    members?: Nullable<UserConnection>;
+    memberCount?: Nullable<number>;
     challenges?: Nullable<ChallengeConnection>;
     memberships?: Nullable<CommunityMembership[]>;
     invitations?: Nullable<CommunityInvitationConnection>;
@@ -387,6 +389,18 @@ export interface User extends Node, Timestamps {
 export interface ValidEmailResponse {
     __typename?: 'ValidEmailResponse';
     alreadyTaken: boolean;
+}
+
+export interface UserEdge {
+    __typename?: 'UserEdge';
+    cursor: string;
+    node: User;
+}
+
+export interface UserConnection {
+    __typename?: 'UserConnection';
+    edges: UserEdge[];
+    pageInfo: PageInfo;
 }
 
 export interface Viewer extends Node {

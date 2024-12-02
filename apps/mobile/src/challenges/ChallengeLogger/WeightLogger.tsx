@@ -115,9 +115,6 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
       onError: (error) => {
         console.error(error);
       },
-      onCompleted: () => {
-        console.log("result logged!");
-      },
     });
     setCount(0);
     setRecordedChallenge(null);

@@ -25,6 +25,7 @@ const CommunityCardComponent = ({ community }: Props) => {
         id
         name
         isVerified
+        memberCount
       }
     `,
     community
@@ -48,7 +49,7 @@ const CommunityCardComponent = ({ community }: Props) => {
             <Text className="text-3xl font-bold">{communityFragment.name}</Text>
             {communityFragment.isVerified && <VerifiedBadgeIcon width={20} />}
           </View>
-          <CommunitySocials />
+          <CommunitySocials memberCount={communityFragment.memberCount ?? 0} />
         </View>
       </View>
     </OTouchable>

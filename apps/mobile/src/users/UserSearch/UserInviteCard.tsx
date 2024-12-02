@@ -1,6 +1,6 @@
 import PaperPlaneIcon from "@assets/icons/paper-plane.svg";
 import React, { useCallback, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
 import type { UserInviteCard_user$key } from "@/__generated__/UserInviteCard_user.graphql";
@@ -60,16 +60,16 @@ export const UserInviteCard = ({ fragmentRef }: UserInviteCardProps) => {
   }, [commitMutation, selectedCommunity.id, user.id]);
 
   return (
-    <View className="mb-lg flex w-full flex-row items-center px-md">
+    <View className="mb-sm flex min-h-12 w-full flex-row items-center">
       <View className="flex flex-1 flex-col">
         <Text>
           {user.firstName} {user.lastName}
         </Text>
-        <Text>{user.handle}</Text>
+        {user.handle && <Text>{user.handle}</Text>}
       </View>
       <OTouchable onPress={onSubmit} disabled={mutationInFlight || !!success}>
         {mutationInFlight ? (
-          <Text>Sending...</Text>
+          <ActivityIndicator />
         ) : (
           <PaperPlaneIcon fill={success ? "#cccccc" : "#5955eb"} />
         )}

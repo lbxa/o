@@ -124,7 +124,6 @@ export const UserCreate = () => {
           );
 
         if (updatableData.viewer) {
-          console.log("Viewer has been updated in the cache!");
           updatableData.viewer.user = data.authCreateUser.user;
         }
 

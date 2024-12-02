@@ -11,14 +11,14 @@ import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDe
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 
-import type { ChallengeActivityPills_challenge$key } from "../../__generated__/ChallengeActivityPills_challenge.graphql";
-import { ChallengeActivityPills } from "../ChallengeActivity";
+import type { ChallengeActivityPills_challenge$key } from "../../../__generated__/ChallengeActivityPills_challenge.graphql";
+import { ChallengeActivityPills } from "../../ChallengeActivity";
 import {
   RepetitionLogger,
   StopwatchLogger,
   WeightLogger,
-} from "../ChallengeLogger";
-import { ChallengeSocials } from "../ChallengeSocials";
+} from "../../ChallengeLogger";
+import { ChallengeSocials } from "../../ChallengeSocials/ChallengeSocials";
 
 interface Props {
   challengeFragmentRef: ChallengeDetails_challenge$key;
@@ -44,6 +44,7 @@ export const ChallengeDetails = ({
         id
         name
         description
+        memberCount
         activity {
           id
           type
@@ -82,7 +83,7 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md">
+    <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
         <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
@@ -92,7 +93,7 @@ export const ChallengeDetails = ({
         </View>
       )}
       <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
-      <ChallengeSocials />
+      <ChallengeSocials memberCount={challenge.memberCount ?? 0} />
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />

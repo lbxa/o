@@ -28,6 +28,7 @@ type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
 
   members: [User!]
+  memberCount: Int
   memberships: [ChallengeMembership!]
   invitations: [ChallengeInvitation!]
 }

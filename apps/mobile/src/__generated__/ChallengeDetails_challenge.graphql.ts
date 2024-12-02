@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<817fd9b7a21ff65ee7d1cd9cb7185aa2>>
+ * @generated SignedSource<<d5b70eb3d1971aa37adb64ed12781a83>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,6 +20,7 @@ export type ChallengeDetails_challenge$data = {
   };
   readonly description: string | null | undefined;
   readonly id: string;
+  readonly memberCount: number | null | undefined;
   readonly name: string;
   readonly " $fragmentType": "ChallengeDetails_challenge";
 };
@@ -60,6 +61,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "memberCount",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "ChallengeActivity",
       "kind": "LinkedField",
       "name": "activity",
@@ -89,6 +97,6 @@ return {
 };
 })();
 
-(node as any).hash = "c6842736d0d7dd25bd8428e1e9387ea7";
+(node as any).hash = "209c87559ed917999bd549a329ba4240";
 
 export default node;

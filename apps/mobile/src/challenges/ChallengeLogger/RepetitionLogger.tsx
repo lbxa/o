@@ -57,9 +57,6 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       onError: (error) => {
         console.error(error);
       },
-      onCompleted: () => {
-        console.log("result logged!");
-      },
       updater: (proxyStore, data) => {
         if (!data?.challengeActivityResultCreate) {
           throw new Error("Failed to log result");

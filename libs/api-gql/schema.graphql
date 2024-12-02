@@ -39,6 +39,7 @@ type Challenge implements Node & Timestamps {
   endDate: DateTime
   id: ID!
   invitations: [ChallengeInvitation!]
+  memberCount: Int
   members: [User!]
   memberships: [ChallengeMembership!]
   mode: ChallengeMode
@@ -201,7 +202,8 @@ type Community implements Node & Timestamps {
   invitations(after: String, first: Int): CommunityInvitationConnection
   isPublic: Boolean
   isVerified: Boolean
-  members: [User!]
+  memberCount: Int
+  members: UserConnection
   memberships: [CommunityMembership!]
   name: String!
   updatedAt: DateTime
@@ -372,6 +374,16 @@ type User implements Node & Timestamps {
   searchFriends(searchTerm: String): [User!]
   sentInvitations: [CommunityInvitation!]
   updatedAt: DateTime
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
 }
 
 input UserUpdateInput {

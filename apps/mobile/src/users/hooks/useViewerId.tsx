@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
-import type { useViewerQuery } from "@/__generated__/useViewerQuery.graphql";
+import type { useViewerIdQuery } from "@/__generated__/useViewerIdQuery.graphql";
 
 /**
  * The idea of this is that its run after the viewer is cached
@@ -10,9 +10,9 @@ import type { useViewerQuery } from "@/__generated__/useViewerQuery.graphql";
  */
 export const useViewerId = (): string => {
   const router = useRouter();
-  const viewer = useLazyLoadQuery<useViewerQuery>(
+  const viewer = useLazyLoadQuery<useViewerIdQuery>(
     graphql`
-      query useViewerQuery {
+      query useViewerIdQuery {
         viewer {
           id @required(action: THROW)
         }

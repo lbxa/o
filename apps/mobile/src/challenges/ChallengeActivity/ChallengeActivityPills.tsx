@@ -35,20 +35,20 @@ export const ChallengeActivityPills = ({
 
   return (
     <View className="flex flex-row gap-sm">
-      <Text className="z-30 rounded-xl bg-navy px-md py-sm font-bold text-ivory">
+      <Text className="z-30 rounded-xl bg-navy px-md py-sm font-bold text-white">
         {challenge?.activity?.type &&
           challengeActivityTypeToLabel(
             challenge.activity.type as ChallengeActivityType
           )}
       </Text>
-      <Text className="z-20 -ml-lg rounded-r-xl bg-indigo px-md py-sm pl-lg font-bold text-ivory">
+      <Text className="z-20 -ml-lg rounded-r-xl bg-indigo px-md py-sm pl-lg font-bold text-white">
         {challenge?.activity?.goal &&
           challengeActivityGoalToLabel(
             challenge.activity.goal as ChallengeActivityGoal
           )}
       </Text>
       {challenge?.activity?.target && (
-        <Text className="z-10 -ml-lg rounded-r-xl bg-violet px-md py-sm pl-lg font-bold text-ivory">
+        <Text className="z-10 -ml-lg rounded-r-xl bg-violet px-md py-sm pl-lg font-bold text-white">
           {[
             challenge.activity.target,
             challengeActivityUnitToLabel(

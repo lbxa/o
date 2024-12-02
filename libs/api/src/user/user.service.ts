@@ -69,7 +69,8 @@ export class UserService
   }
 
   async userSearch(searchTerm: string): Promise<GqlUser[]> {
-    return await fullTextSearch(this.dbService, searchTerm);
+    const results = await fullTextSearch(this.dbService, searchTerm);
+    return results.map((result) => this.pg2GqlMapper(result));
   }
 
   update(updateUserInput: UserUpdateInput) {

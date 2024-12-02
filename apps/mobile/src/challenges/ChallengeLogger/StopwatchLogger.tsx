@@ -33,8 +33,6 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
   );
 
   const handleRecord = useCallback(() => {
-    console.log("selectedChallenge", selectedChallenge);
-    console.log("activeUser", activeUser);
     if (!selectedChallenge?.activity.id || !activeUser?.id) {
       throw new Error("Challenge results require userId or activityId");
     }
@@ -50,9 +48,6 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
       },
       onError: (error) => {
         console.error(error);
-      },
-      onCompleted: () => {
-        console.log("result logged!");
       },
     });
     reset();

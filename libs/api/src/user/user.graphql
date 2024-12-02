@@ -32,6 +32,16 @@ type ValidEmailResponse {
   alreadyTaken: Boolean!
 }
 
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   "All users"
   users: [User!]

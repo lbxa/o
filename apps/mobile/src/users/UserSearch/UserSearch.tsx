@@ -1,27 +1,41 @@
 import SearchIcon from "@assets/icons/search.svg";
+import debounce from "debounce";
 import { Link } from "expo-router";
-import React, { Suspense, useCallback, useState } from "react";
-import { FlatList, Text, View } from "react-native";
-import type { PreloadedQuery } from "react-relay";
+import React, {
+  Suspense,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import {
-  graphql,
-  usePreloadedQuery,
-  useRefetchableFragment,
-} from "react-relay";
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
+import { graphql, useLazyLoadQuery, useRefetchableFragment } from "react-relay";
 
 import type { UserSearchFriends_viewer$key } from "@/__generated__/UserSearchFriends_viewer.graphql";
 import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFriendsListQuery.graphql";
 import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
-import { PrimaryTextInputControl } from "@/universe/atoms";
+import { PrimaryTextInputControl, Skeleton } from "@/universe/atoms";
 
 import { UserInviteCard } from "./UserInviteCard";
 
 interface SearchBarProps {
+  loading?: boolean;
   searchQuery: string;
   onSearchChange: (term: string) => void;
 }
 
-const SearchBar = ({ searchQuery, onSearchChange }: SearchBarProps) => {
+const SearchBar = ({
+  searchQuery,
+  onSearchChange,
+  loading,
+}: SearchBarProps) => {
   const handleChange = useCallback(
     (term: string) => {
       onSearchChange(term);
@@ -30,9 +44,9 @@ const SearchBar = ({ searchQuery, onSearchChange }: SearchBarProps) => {
   );
 
   return (
-    <View className="mb-sm flex w-full flex-row items-center">
+    <View className="flex w-full flex-row items-center">
       <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
-        <SearchIcon width={20} />
+        {loading ? <ActivityIndicator /> : <SearchIcon width={20} />}
         <PrimaryTextInputControl
           className="flex-1"
           placeholder="Search Users"
@@ -56,15 +70,17 @@ export const USER_SEARCH_QUERY = graphql`
   }
 `;
 
-interface UserSearchProps {
-  queryRef: PreloadedQuery<UserSearchFriendsListQuery>;
+interface UserSearchResultsProps {
+  searchTerm: string;
 }
 
-export const UserSearch = ({ queryRef }: UserSearchProps) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const query = usePreloadedQuery<UserSearchFriendsListQuery>(
+const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
+  const [_, startTransition] = useTransition();
+  const query = useLazyLoadQuery<UserSearchFriendsListQuery>(
     USER_SEARCH_QUERY,
-    queryRef
+    {
+      searchTerm: "",
+    }
   );
 
   const [data, refetch] = useRefetchableFragment<
@@ -85,28 +101,58 @@ export const UserSearch = ({ queryRef }: UserSearchProps) => {
     query.viewer
   );
 
-  const handleSearchChange = (term: string) => {
-    setSearchQuery(term);
-    refetch({ searchTerm: term }, { fetchPolicy: "store-and-network" });
-  };
+  useEffect(() => {
+    const debouncedRefetch = debounce(() => {
+      startTransition(() => {
+        refetch(
+          { searchTerm },
+          { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy: "partial" }
+        );
+      });
+    }, 300);
+
+    debouncedRefetch();
+
+    return () => debouncedRefetch.clear();
+  }, [refetch, searchTerm]);
 
   return (
-    <View className="flex-1 bg-white px-md">
-      <View className="h-full">
-        <SearchBar
-          searchQuery={searchQuery}
-          onSearchChange={handleSearchChange}
-        />
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <FlatList
-            data={data?.user?.searchFriends}
-            renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
-            ListEmptyComponent={
-              <Text className="text-center">No users found.</Text>
-            }
-          />
-        </Suspense>
-      </View>
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      className="px-sm"
+      data={data?.user?.searchFriends}
+      renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
+      ListEmptyComponent={
+        <Text className="pt-md text-center">No users found</Text>
+      }
+    />
+  );
+};
+
+export const UserSearch = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
+  return (
+    <View className="h-full flex-1 px-md">
+      <SearchBar
+        // loading={searchQuery !== deferredSearchQuery}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
+      <Suspense
+        fallback={
+          <ScrollView>
+            <View className="flex flex-col gap-sm">
+              {Array.from({ length: 20 }).map((_, index) => (
+                <Skeleton key={index} className="h-12 w-full rounded-xl" />
+              ))}
+            </View>
+          </ScrollView>
+        }
+      >
+        <UserSearchResults searchTerm={deferredSearchQuery} />
+      </Suspense>
     </View>
   );
 };

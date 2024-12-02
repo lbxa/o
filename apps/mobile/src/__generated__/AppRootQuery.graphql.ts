@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c947867b73d5cfe2c76ae3bb645e9d05>>
+ * @generated SignedSource<<6019118ff33f0b6b790bbe80921dcc51>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -208,6 +208,13 @@ return {
                         "alias": null,
                         "args": null,
                         "kind": "ScalarField",
+                        "name": "memberCount",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
                       }
@@ -236,12 +243,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "71dc915ad3e72b2137c00ab596c346b9",
+    "cacheID": "78c7d94786c2f42658ba1716f74af71b",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n\nfragment CommunityList_viewer_VbLdN on Viewer {\n  id\n  communities(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityList_viewer_VbLdN on Viewer {\n  id\n  communities(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

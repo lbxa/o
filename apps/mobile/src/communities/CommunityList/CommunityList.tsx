@@ -10,7 +10,7 @@ import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.grap
 import { OButton } from "@/universe/atoms";
 import { CommunityCard } from "@/universe/molecules";
 
-import { ViewerCommunityInvitationList } from "./CommunityInvitation";
+import { ViewerCommunityInvitationList } from "../CommunityInvitation";
 
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
