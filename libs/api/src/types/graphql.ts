@@ -166,7 +166,7 @@ export interface IMutation {
     communityUpdate(communityUpdateInput: CommunityUpdateInput): Community | Promise<Community>;
     communityDelete(id: string): boolean | Promise<boolean>;
     communityInvite(userId: string, communityId: string): boolean | Promise<boolean>;
-    communityInviteDeny(inviteId: string): CommunityInviteDenyPayload | Promise<CommunityInviteDenyPayload>;
+    communityInviteDecline(inviteId: string): CommunityInviteDeclinePayload | Promise<CommunityInviteDeclinePayload>;
     communityJoin(inviteId: string): CommunityJoinPayload | Promise<CommunityJoinPayload>;
     communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
@@ -354,8 +354,8 @@ export interface CommunityJoinPayload {
     communityEdge: CommunityEdge;
 }
 
-export interface CommunityInviteDenyPayload {
-    __typename?: 'CommunityInviteDenyPayload';
+export interface CommunityInviteDeclinePayload {
+    __typename?: 'CommunityInviteDeclinePayload';
     invitationId: string;
 }
 

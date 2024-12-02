@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53afe941fb7bcf863e52d7151b3d2053>>
+ * @generated SignedSource<<a82ce43efe5213f48e0d08da3366df4c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
+import type { FragmentRefs } from "relay-runtime";
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
 export type ChallengeActivityType = "DISTANCE" | "REPETITIONS" | "SOCIAL" | "TIME_BASED" | "WEIGHTLIFTING" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
@@ -32,24 +33,14 @@ export type ChallengeActivityCreateInput = {
 export type ChallengeCreateMutation$variables = {
   challengeActivityCreateInput: ChallengeActivityCreateInput;
   challengeCreateInput: ChallengeCreateInput;
+  connections: ReadonlyArray<string>;
 };
 export type ChallengeCreateMutation$data = {
   readonly challengeCreate: {
     readonly challengeEdge: {
       readonly cursor: string;
       readonly node: {
-        readonly activity: {
-          readonly goal: ChallengeActivityGoal;
-          readonly id: string;
-          readonly target: number | null | undefined;
-          readonly type: ChallengeActivityType;
-          readonly unit: ChallengeActivityUnits;
-        };
-        readonly description: string | null | undefined;
-        readonly endDate: Date | null | undefined;
-        readonly id: string;
-        readonly name: string;
-        readonly startDate: Date | null | undefined;
+        readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenge">;
       };
     };
   };
@@ -71,120 +62,76 @@ v1 = {
   "name": "challengeCreateInput"
 },
 v2 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "connections"
+},
+v3 = [
+  {
+    "kind": "Variable",
+    "name": "challengeActivityCreateInput",
+    "variableName": "challengeActivityCreateInput"
+  },
+  {
+    "kind": "Variable",
+    "name": "challengeCreateInput",
+    "variableName": "challengeCreateInput"
+  }
+],
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-},
-v3 = [
-  {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "challengeActivityCreateInput",
-        "variableName": "challengeActivityCreateInput"
-      },
-      {
-        "kind": "Variable",
-        "name": "challengeCreateInput",
-        "variableName": "challengeCreateInput"
-      }
+};
+return {
+  "fragment": {
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/),
+      (v2/*: any*/)
     ],
-    "concreteType": "ChallengeCreatePayload",
-    "kind": "LinkedField",
-    "name": "challengeCreate",
-    "plural": false,
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "ChallengeCreateMutation",
     "selections": [
       {
         "alias": null,
-        "args": null,
-        "concreteType": "ChallengeEdge",
+        "args": (v3/*: any*/),
+        "concreteType": "ChallengeCreatePayload",
         "kind": "LinkedField",
-        "name": "challengeEdge",
+        "name": "challengeCreate",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "cursor",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Challenge",
+            "concreteType": "ChallengeEdge",
             "kind": "LinkedField",
-            "name": "node",
+            "name": "challengeEdge",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
+              (v4/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "description",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "startDate",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "endDate",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "ChallengeActivity",
+                "concreteType": "Challenge",
                 "kind": "LinkedField",
-                "name": "activity",
+                "name": "node",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
                   {
-                    "alias": null,
                     "args": null,
-                    "kind": "ScalarField",
-                    "name": "type",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "goal",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "unit",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "target",
-                    "storageKey": null
+                    "kind": "FragmentSpread",
+                    "name": "ChallengeCard_challenge"
                   }
                 ],
                 "storageKey": null
@@ -196,19 +143,6 @@ v3 = [
         "storageKey": null
       }
     ],
-    "storageKey": null
-  }
-];
-return {
-  "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/)
-    ],
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "ChallengeCreateMutation",
-    "selections": (v3/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -216,23 +150,144 @@ return {
   "operation": {
     "argumentDefinitions": [
       (v1/*: any*/),
-      (v0/*: any*/)
+      (v0/*: any*/),
+      (v2/*: any*/)
     ],
     "kind": "Operation",
     "name": "ChallengeCreateMutation",
-    "selections": (v3/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v3/*: any*/),
+        "concreteType": "ChallengeCreatePayload",
+        "kind": "LinkedField",
+        "name": "challengeCreate",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "ChallengeEdge",
+            "kind": "LinkedField",
+            "name": "challengeEdge",
+            "plural": false,
+            "selections": [
+              (v4/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Challenge",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  (v5/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "startDate",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endDate",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "ChallengeActivity",
+                    "kind": "LinkedField",
+                    "name": "activity",
+                    "plural": false,
+                    "selections": [
+                      (v5/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "type",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "goal",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "unit",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "target",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "prependEdge",
+            "key": "",
+            "kind": "LinkedHandle",
+            "name": "challengeEdge",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "connections"
+              }
+            ]
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "02c30ede1cf8d1f4d342ad41559c43fe",
+    "cacheID": "df5bd1b5fd065dc150f94839c09dce94",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        id\n        name\n        description\n        startDate\n        endDate\n        activity {\n          id\n          type\n          goal\n          unit\n          target\n        }\n      }\n    }\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n      }\n    }\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5ed1f53bc70d70a489d27c15c990b8cc";
+(node as any).hash = "62318ff8a2a28f49cb05c16ae720b1ff";
 
 export default node;

@@ -38,8 +38,11 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
           ),
           headerRight: () => (
             <MiniNav
-              items={["create"]}
+              items={["manage", "create"]}
               itemConfigs={{
+                manage: {
+                  href: "/(root)/community/manage",
+                },
                 create: {
                   href: "/(root)/community/challenge/create",
                 },

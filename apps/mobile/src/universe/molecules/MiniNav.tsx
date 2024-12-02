@@ -1,3 +1,4 @@
+import MenuIcon from "@assets/icons/menu.svg";
 import MessageIcon from "@assets/icons/message.svg";
 import PlusIcon from "@assets/icons/plus.svg";
 import SearchIcon from "@assets/icons/search.svg";
@@ -26,25 +27,27 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   return (
     <OTouchable
       onPress={() => router.push(href)}
-      className="rounded-full bg-ivory p-xs"
+      className="bg-ivory p-xs rounded-full"
     >
       <View>{children}</View>
     </OTouchable>
   );
 };
 
-type NavItemType = "create" | "search" | "message";
+type NavItemType = "create" | "search" | "message" | "manage";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
   create: "/(root)/community/create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
+  manage: "/(root)/community/manage",
 };
 
 const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
   create: <PlusIcon {...ICON_DIM} />,
   search: <SearchIcon {...ICON_DIM} />,
   message: <MessageIcon {...ICON_DIM} />,
+  manage: <MenuIcon {...ICON_DIM} />,
 };
 
 interface NavItemConfig {
@@ -64,7 +67,7 @@ export const MiniNav: React.FC<MiniNavProps> = ({
     items === "all" ? (Object.keys(NAV_ICONS) as NavItemType[]) : items;
 
   return (
-    <View className="flex flex-row items-center gap-md">
+    <View className="gap-md flex flex-row items-center">
       {itemsToRender.map((item) => {
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (

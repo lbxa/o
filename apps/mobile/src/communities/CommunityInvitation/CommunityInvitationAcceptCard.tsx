@@ -1,5 +1,4 @@
 /* eslint-disable @stylistic/js/max-len */
-import CrossIcon from "@assets/icons/cross.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import {
@@ -14,7 +13,8 @@ import type { CommunityInvitationAcceptCard_invitations$key } from "@/__generate
 import { OTouchable } from "@/universe/atoms";
 import { useViewerId } from "@/users/hooks";
 
-import { useCommunityInviteDeny } from "./hooks";
+import { CommunityInvitationDeclineButton } from "./CommunityInvitationDeclineButton";
+import { useCommunityInviteDecline } from "./hooks";
 
 interface CommunityInvitationAcceptCardProps {
   fragmentRef: CommunityInvitationAcceptCard_invitations$key;
@@ -45,9 +45,9 @@ export const CommunityInvitationAcceptCard = ({
     `);
 
   const {
-    commitMutation: commitDenyMutation,
-    isMutationInFlight: isDenyMutationInFlight,
-  } = useCommunityInviteDeny();
+    commitMutation: commitDeclineMutation,
+    isMutationInFlight: isDeclineMutationInFlight,
+  } = useCommunityInviteDecline();
 
   const invitation = useFragment(
     graphql`
@@ -96,7 +96,7 @@ export const CommunityInvitationAcceptCard = ({
   };
 
   const handleDeny = () => {
-    return commitDenyMutation({
+    return commitDeclineMutation({
       variables: {
         inviteId: invitation.id,
         inviteConnections,
@@ -112,28 +112,26 @@ export const CommunityInvitationAcceptCard = ({
 
   const buttonText = isJoinMutationInFlight
     ? "Accepting..."
-    : isDenyMutationInFlight
+    : isDeclineMutationInFlight
       ? "Denying..."
       : "Accept invitation";
 
   return (
     <OTouchable
-      className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm"
+      className="bg-indigo p-sm z-10 flex-row items-center justify-between rounded-3xl"
       onPress={handleClick}
     >
-      <View className="flex flex-1 flex-row items-center gap-sm">
-        <View className="size-12 rounded-full border border-ivory bg-gray-400"></View>
+      <View className="gap-sm flex flex-1 flex-row items-center">
+        <View className="border-ivory size-12 rounded-full border bg-gray-400"></View>
         <View className="flex flex-col">
           <Text className="text-ivory">
             Welcome{" "}
             <Text className="font-bold">{invitation.invitee.firstName}</Text>
           </Text>
-          <Text className="text-2xl font-bold text-ivory">{buttonText}</Text>
+          <Text className="text-ivory text-2xl font-bold">{buttonText}</Text>
         </View>
       </View>
-      <OTouchable className="z-20" onPress={handleDeny}>
-        <CrossIcon width={24} height={24} fill="ivory" />
-      </OTouchable>
+      <CommunityInvitationDeclineButton onDecline={handleDeny} />
     </OTouchable>
   );
 };

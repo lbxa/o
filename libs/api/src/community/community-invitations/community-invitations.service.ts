@@ -15,7 +15,7 @@ import { EntityService } from "../../entity/entity-service";
 import {
   CommunityInvitation as GqlCommunityInvitation,
   CommunityInvitationConnection,
-  CommunityInviteDenyPayload,
+  CommunityInviteDeclinePayload,
   InvitationStatus,
 } from "../../types/graphql";
 import { UserService } from "../../user/user.service";
@@ -140,17 +140,13 @@ export class CommunityInvitationsService
       .where(
         and(
           eq(CommunityInvitationsTable.inviteeId, userId),
-          eq(CommunityInvitationsTable.status, InvitationStatus.PENDING)
+          eq(CommunityInvitationsTable.status, InvitationStatus.PENDING),
+          forCommunityId ? eq(CommunitiesTable.id, forCommunityId) : undefined
         )
       )
       .orderBy(desc(CommunityInvitationsTable.createdAt))
       .offset(startCursorId)
-      .limit(first + 1)
-      .$dynamic();
-
-    if (forCommunityId) {
-      invitationsQuery.where(eq(CommunitiesTable.id, forCommunityId));
-    }
+      .limit(first + 1);
 
     const invitations = await invitationsQuery;
 
@@ -213,10 +209,10 @@ export class CommunityInvitationsService
     return true;
   }
 
-  async denyInvitation(
+  async declineInvitation(
     userId: number,
     inviteId: number
-  ): Promise<CommunityInviteDenyPayload> {
+  ): Promise<CommunityInviteDeclinePayload> {
     const invitation =
       await this.dbService.db.query.CommunityInvitationsTable.findFirst({
         where: and(

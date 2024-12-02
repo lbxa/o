@@ -22,7 +22,7 @@ export const ChallengeCreateMode: React.FC = () => {
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <OTouchable
         onPress={handleModal}
-        className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+        className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
       >
         <View className="flex flex-1 flex-row items-center">
           <ChallengeCreateModeSummary />

@@ -1,5 +1,4 @@
 /* eslint-disable @stylistic/js/max-len */
-import CrossIcon from "@assets/icons/cross.svg";
 import VerifiedIcon from "@assets/icons/verified-badge.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
@@ -10,7 +9,8 @@ import { useZustStore } from "@/state";
 import { OTouchable } from "@/universe/atoms/OTouchable";
 import { useViewerId } from "@/users/hooks";
 
-import { useCommunityInviteDeny } from "./hooks";
+import { CommunityInvitationDeclineButton } from "./CommunityInvitationDeclineButton";
+import { useCommunityInviteDecline } from "./hooks";
 
 interface CommunityInvitationCardProps {
   fragmentRef: CommunityInvitationCard_communityInvitation$key;
@@ -22,7 +22,7 @@ export const CommunityInvitationCard = ({
   const router = useRouter();
   const viewerId = useViewerId();
   const { setSelectedCommunity } = useZustStore();
-  const { commitMutation } = useCommunityInviteDeny();
+  const { commitMutation } = useCommunityInviteDecline();
   const invitation = useFragment(
     graphql`
       fragment CommunityInvitationCard_communityInvitation on CommunityInvitation {
@@ -77,18 +77,22 @@ export const CommunityInvitationCard = ({
 
   return (
     <OTouchable
-      className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm"
+      className="bg-indigo p-sm z-10 flex-row items-center justify-between rounded-3xl"
       onPress={handleClick}
     >
-      <View className="flex flex-1 flex-row items-center gap-sm">
-        <View className="size-12 rounded-full border border-ivory bg-gray-400"></View>
+      <View className="gap-sm flex flex-1 flex-row items-center">
+        <View className="border-ivory size-12 rounded-full border bg-gray-400"></View>
         <View className="flex flex-col">
           <Text className="text-ivory">
             <Text className="font-bold">{invitation.inviter.firstName}</Text>{" "}
             has invited you to join
           </Text>
-          <View className="flex flex-row items-center gap-sm">
-            <Text className="text-2xl font-bold text-ivory">
+          <View className="gap-sm flex flex-row items-center">
+            <Text
+              className="text-ivory w-10/12 text-2xl font-bold"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
               {invitation.community.name}
             </Text>
             <View>
@@ -99,9 +103,7 @@ export const CommunityInvitationCard = ({
           </View>
         </View>
       </View>
-      <OTouchable className="z-20" onPress={handleDeny}>
-        <CrossIcon width={24} height={24} fill="ivory" />
-      </OTouchable>
+      <CommunityInvitationDeclineButton onDecline={handleDeny} />
     </OTouchable>
   );
 };

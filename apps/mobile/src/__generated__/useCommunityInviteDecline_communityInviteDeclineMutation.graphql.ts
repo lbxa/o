@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9c0e2f7929d1f6a64d2bbe0b3fe69f6a>>
+ * @generated SignedSource<<631a2765e905f5b4e5e161d4d8b26719>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,18 +9,18 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type useCommunityInviteDeny_communityInviteDenyMutation$variables = {
+export type useCommunityInviteDecline_communityInviteDeclineMutation$variables = {
   inviteConnections: ReadonlyArray<string>;
   inviteId: string;
 };
-export type useCommunityInviteDeny_communityInviteDenyMutation$data = {
-  readonly communityInviteDeny: {
+export type useCommunityInviteDecline_communityInviteDeclineMutation$data = {
+  readonly communityInviteDecline: {
     readonly invitationId: string;
   };
 };
-export type useCommunityInviteDeny_communityInviteDenyMutation = {
-  response: useCommunityInviteDeny_communityInviteDenyMutation$data;
-  variables: useCommunityInviteDeny_communityInviteDenyMutation$variables;
+export type useCommunityInviteDecline_communityInviteDeclineMutation = {
+  response: useCommunityInviteDecline_communityInviteDeclineMutation$data;
+  variables: useCommunityInviteDecline_communityInviteDeclineMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -56,14 +56,14 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "useCommunityInviteDeny_communityInviteDenyMutation",
+    "name": "useCommunityInviteDecline_communityInviteDeclineMutation",
     "selections": [
       {
         "alias": null,
         "args": (v2/*: any*/),
         "concreteType": "CommunityInviteDenyPayload",
         "kind": "LinkedField",
-        "name": "communityInviteDeny",
+        "name": "communityInviteDecline",
         "plural": false,
         "selections": [
           (v3/*: any*/)
@@ -81,14 +81,14 @@ return {
       (v0/*: any*/)
     ],
     "kind": "Operation",
-    "name": "useCommunityInviteDeny_communityInviteDenyMutation",
+    "name": "useCommunityInviteDecline_communityInviteDeclineMutation",
     "selections": [
       {
         "alias": null,
         "args": (v2/*: any*/),
         "concreteType": "CommunityInviteDenyPayload",
         "kind": "LinkedField",
-        "name": "communityInviteDeny",
+        "name": "communityInviteDecline",
         "plural": false,
         "selections": [
           (v3/*: any*/),
@@ -114,16 +114,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "eb0d99eca4e4cdc7eaca004caaa86493",
+    "cacheID": "1918db3541754c06a503529af2b77661",
     "id": null,
     "metadata": {},
-    "name": "useCommunityInviteDeny_communityInviteDenyMutation",
+    "name": "useCommunityInviteDecline_communityInviteDeclineMutation",
     "operationKind": "mutation",
-    "text": "mutation useCommunityInviteDeny_communityInviteDenyMutation(\n  $inviteId: ID!\n) {\n  communityInviteDeny(inviteId: $inviteId) {\n    invitationId\n  }\n}\n"
+    "text": "mutation useCommunityInviteDecline_communityInviteDeclineMutation(\n  $inviteId: ID!\n) {\n  communityInviteDecline(inviteId: $inviteId) {\n    invitationId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "85f53db3cbe4b6bef0ded7a996b7c373";
+(node as any).hash = "822cc7b6fea7732ab10e28324898e9d5";
 
 export default node;

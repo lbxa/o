@@ -1,1 +1,1 @@
-export * from "./useCommunityInviteDeny";
+export * from "./useCommunityInviteDecline";

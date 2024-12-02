@@ -28,11 +28,15 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   );
 
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm mr-auto flex flex-row items-center">
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon />
       </OTouchable>
-      <Text className="text-3xl font-bold">
+      <Text
+        className="w-10/12 text-3xl font-bold"
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
         {communityFragment?.name ?? "Loading..."}
       </Text>
       {communityFragment?.isVerified && (

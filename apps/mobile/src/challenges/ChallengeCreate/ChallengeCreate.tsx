@@ -29,6 +29,7 @@ import {
   Title,
 } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
+import { useViewerId } from "@/users/hooks";
 
 import { ChallengeCreateActivity } from "./ChallengeCreateActivity";
 import { ChallengeCreateCadence } from "./ChallengeCreateCadence";
@@ -36,6 +37,7 @@ import { ChallengeCreateMode } from "./ChallengeCreateMode";
 
 export const ChallengeCreate = () => {
   const router = useRouter();
+  const viewerId = useViewerId();
   const {
     selectedCommunity,
     challengeForm,
@@ -47,26 +49,16 @@ export const ChallengeCreate = () => {
       mutation ChallengeCreateMutation(
         $challengeCreateInput: ChallengeCreateInput!
         $challengeActivityCreateInput: ChallengeActivityCreateInput!
+        $connections: [ID!]!
       ) {
         challengeCreate(
           challengeCreateInput: $challengeCreateInput
           challengeActivityCreateInput: $challengeActivityCreateInput
         ) {
-          challengeEdge {
+          challengeEdge @prependEdge(connections: $connections) {
             cursor
             node {
-              id
-              name
-              description
-              startDate
-              endDate
-              activity {
-                id
-                type
-                goal
-                unit
-                target
-              }
+              ...ChallengeCard_challenge
             }
           }
         }
@@ -123,6 +115,13 @@ export const ChallengeCreate = () => {
           target: challengeForm.target,
           unit: challengeForm.unit ?? ChallengeActivityUnits.None,
         },
+        connections: [
+          ConnectionHandler.getConnectionID(
+            viewerId,
+            "ChallengeList_viewer_challenges",
+            { communityId: selectedCommunity.id }
+          ),
+        ],
       },
       onCompleted: () => {
         clearChallengeForm();
@@ -130,38 +129,6 @@ export const ChallengeCreate = () => {
       },
       onError: (error) => {
         console.error(error.message);
-      },
-      updater: (store, data) => {
-        if (!data) {
-          throw new Error("No data returned from mutation");
-        }
-
-        const viewer = store.getRoot().getLinkedRecord("viewer");
-        if (!viewer) {
-          throw new Error("Viewer not found");
-        }
-
-        const connectionRecord = ConnectionHandler.getConnection(
-          viewer,
-          "ChallengeList_viewer_challenges",
-          { communityId: selectedCommunity.id }
-        );
-
-        if (!connectionRecord) {
-          throw new Error("Connection record not found");
-        }
-
-        const payload = store.getRootField("challengeCreate");
-        const challengeEdge = payload.getLinkedRecord("challengeEdge");
-
-        const newEdge = ConnectionHandler.createEdge(
-          store,
-          connectionRecord,
-          challengeEdge,
-          "ChallengeEdge"
-        );
-
-        ConnectionHandler.insertEdgeBefore(connectionRecord, newEdge);
       },
     });
   };
@@ -260,21 +227,21 @@ export const ChallengeCreate = () => {
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
               onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+              className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3"
             >
               <SearchIcon width={25} />
               <Text className="pl-sm">Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (
-              <View className="flex flex-col gap-sm">
+              <View className="gap-sm flex flex-col">
                 <View className="flex flex-row items-center justify-between">
                   <View>
                     <OTouchable
                       onPress={() =>
                         setChallengeFormField("advancedMode", false)
                       }
-                      className="flex flex-row items-center gap-sm"
+                      className="gap-sm flex flex-row items-center"
                     >
                       <Title>Less Settings</Title>
                       <ChevronUpIcon width={22} height={22} />
@@ -331,7 +298,7 @@ export const ChallengeCreate = () => {
               <View className="mb-lg">
                 <OTouchable
                   onPress={() => setChallengeFormField("advancedMode", true)}
-                  className="flex flex-row items-center gap-sm"
+                  className="gap-sm flex flex-row items-center"
                 >
                   <Title>More Settings</Title>
                   <ChevronDownIcon width={22} height={22} />

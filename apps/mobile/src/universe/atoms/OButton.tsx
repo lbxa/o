@@ -82,7 +82,7 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View>
+    <View className="gap-sm flex flex-row items-center rounded-xl">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {
@@ -104,7 +104,7 @@ export const OButton = ({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={variantMatrix[variant].front} />
+        <ActivityIndicator color={variantMatrix[variant].front} size="small" />
       ) : (
         buttonContent
       )}

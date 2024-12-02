@@ -82,9 +82,9 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md">
+    <View className="mb-md gap-md flex flex-col">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
+        <View className="gap-sm bg-ivory px-md py-sm flex-row items-center rounded-xl">
           <Text className="flex-1 text-lg">{challenge.description}</Text>
           <OTouchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} />
@@ -96,12 +96,11 @@ export const ChallengeDetails = ({
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
-        <OButton title="Share" variant="indigo" className="rounded-xl" />
+      <View className="gap-md flex flex-row">
+        <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"
           variant="indigo"
-          className="rounded-xl"
           onPress={() => router.push("/(root)/community/challenge/invite")}
         />
         <OButton
@@ -109,7 +108,7 @@ export const ChallengeDetails = ({
           type="secondary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
-          className="ml-auto flex flex-row items-center gap-sm rounded-xl"
+          className="ml-auto"
           onPress={handleRecord}
         />
       </View>
