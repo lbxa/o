@@ -214,17 +214,22 @@ export class ChallengeActivityResultsService
       this.pg2GqlMapper(result)
     );
 
-    // assuming all activities in a challenge are of the same type
+    // assuming all activities in a challenge are homogeneous
     const strategy = getRankingStrategy(
       challengeActivityResults[0].activity.goal,
       challengeActivityResults[0].activity.target ?? undefined
     );
     const rankedResults = strategy.rank(gqlFormattedResults);
 
-    // remove duplicate user entries, keeping only the first occurrence
-    const uniqueResults = Array.from(
-      new Map(rankedResults.map((result) => [result.user.id, result])).values()
-    );
+    // remove duplicate user entries after first occurrence
+    const seenUsers = new Set<string>();
+    const uniqueResults = rankedResults.filter((result) => {
+      if (seenUsers.has(result.user.id)) {
+        return false;
+      }
+      seenUsers.add(result.user.id);
+      return true;
+    });
 
     return {
       __typename: "ChallengeActivityResultConnection",

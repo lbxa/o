@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<407725f51e03b72886ab93721b6c7e43>>
+ * @generated SignedSource<<6c7525d710c9e085bdee5e923cfcb4c4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,15 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type useViewerQuery$variables = Record<PropertyKey, never>;
-export type useViewerQuery$data = {
+export type useViewerIdQuery$variables = Record<PropertyKey, never>;
+export type useViewerIdQuery$data = {
   readonly viewer: {
     readonly id: string;
   } | null | undefined;
 };
-export type useViewerQuery = {
-  response: useViewerQuery$data;
-  variables: useViewerQuery$variables;
+export type useViewerIdQuery = {
+  response: useViewerIdQuery$data;
+  variables: useViewerIdQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -33,7 +33,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "useViewerQuery",
+    "name": "useViewerIdQuery",
     "selections": [
       {
         "alias": null,
@@ -59,7 +59,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "useViewerQuery",
+    "name": "useViewerIdQuery",
     "selections": [
       {
         "alias": null,
@@ -76,16 +76,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "70529b8c8eed68646acd43baae6a9397",
+    "cacheID": "7f919df30e47ab41f2c175def9213bac",
     "id": null,
     "metadata": {},
-    "name": "useViewerQuery",
+    "name": "useViewerIdQuery",
     "operationKind": "query",
-    "text": "query useViewerQuery {\n  viewer {\n    id\n  }\n}\n"
+    "text": "query useViewerIdQuery {\n  viewer {\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c074a45e4edd949ec3e3d4f970336e0f";
+(node as any).hash = "a7ca56371d9b8929f145eb7313f95de4";
 
 export default node;

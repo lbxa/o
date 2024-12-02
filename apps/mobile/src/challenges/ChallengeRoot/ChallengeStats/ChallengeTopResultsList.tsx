@@ -25,7 +25,7 @@ export const ChallengeTopResultsList = ({
     >
       <BottomSheetScrollView>
         <View className="flex flex-col bg-white px-md pb-10">
-          <Title>Top Results</Title>
+          <Title>View all</Title>
           {results.map((item, index) => (
             <UserResultCard key={index} result={item} />
           ))}

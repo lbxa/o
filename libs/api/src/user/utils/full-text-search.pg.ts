@@ -1,11 +1,10 @@
 /* eslint-disable @stylistic/js/max-len */
 import type * as schema from "@o/db";
+import type { User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
 import { desc, getTableColumns, or, sql } from "drizzle-orm";
 
 import type { DbService } from "../../db/db.service";
-import type { User as GqlUser } from "../../types/graphql";
-import { encodeGlobalId } from "../../utils";
 
 /**
  * Performs a full-text search on the Users table using the provided search term.
@@ -43,7 +42,7 @@ import { encodeGlobalId } from "../../utils";
 export const fullTextSearch = async (
   dbService: DbService<typeof schema>,
   searchTerm: string
-): Promise<GqlUser[]> => {
+): Promise<PgUser[]> => {
   const ts_rank_cd = sql`ts_rank_cd(
            setweight(to_tsvector('english', ${UsersTable.handle}), 'A') ||
            setweight(to_tsvector('english', ${UsersTable.email}), 'B') ||
@@ -52,7 +51,7 @@ export const fullTextSearch = async (
            websearch_to_tsquery('english', ${searchTerm})
        )`;
 
-  const results = await dbService.db
+  return await dbService.db
     .select({
       ...getTableColumns(UsersTable),
       rank: ts_rank_cd,
@@ -85,9 +84,4 @@ export const fullTextSearch = async (
       desc(table.last_name_similarity),
       desc(table.first_name_similarity),
     ]);
-
-  return results.map((row) => ({
-    ...row,
-    id: encodeGlobalId("User", row.id),
-  }));
 };

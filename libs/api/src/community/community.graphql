@@ -8,7 +8,9 @@ type Community implements Node & Timestamps {
   updatedAt: DateTime
 
   # TODO
-  members: [User!]
+  members: UserConnection
+  memberCount: Int
+  # searchUsers(searchTerm: String!, first: Int!, after: String): CommunityUserSearchConnection
   challenges(first: Int, after: String): ChallengeConnection
   memberships: [CommunityMembership!]
   invitations(first: Int, after: String): CommunityInvitationConnection

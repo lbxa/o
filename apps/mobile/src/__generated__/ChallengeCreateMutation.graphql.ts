@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a82ce43efe5213f48e0d08da3366df4c>>
+ * @generated SignedSource<<fa5bb6a908de06c0617cdf648ac45ba7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -213,6 +213,13 @@ return {
                   {
                     "alias": null,
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "memberCount",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
                     "concreteType": "ChallengeActivity",
                     "kind": "LinkedField",
                     "name": "activity",
@@ -278,12 +285,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "df5bd1b5fd065dc150f94839c09dce94",
+    "cacheID": "80e808fb5827e3dad022cf5a9c528156",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n      }\n    }\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n      }\n    }\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n"
   }
 };
 })();

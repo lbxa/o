@@ -6,11 +6,10 @@ import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeCard_challenge$key } from "@/__generated__/ChallengeCard_challenge.graphql";
+import { ChallengeActivityPills } from "@/challenges/ChallengeActivity";
+import { ChallengeSocials } from "@/challenges/ChallengeSocials";
+import { useZustStore } from "@/state";
 import { OTouchable } from "@/universe/atoms";
-
-import { useZustStore } from "../state";
-import { ChallengeActivityPills } from "./ChallengeActivity";
-import { ChallengeSocials } from "./ChallengeSocials";
 
 interface ChallengeCardProps {
   fragmentRef: ChallengeCard_challenge$key;
@@ -28,6 +27,7 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         description
         startDate
         endDate
+        memberCount
         activity {
           id
           type
@@ -72,7 +72,7 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         <Suspense fallback={<Text>Loading...</Text>}>
           <ChallengeActivityPills fragmentRef={challenge} />
         </Suspense>
-        <ChallengeSocials />
+        <ChallengeSocials memberCount={challenge.memberCount ?? 0} />
         {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
           <Text className="text-xl font-bold text-indigo">
             {daysLeft + " days"}

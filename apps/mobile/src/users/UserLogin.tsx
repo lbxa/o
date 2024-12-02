@@ -94,7 +94,6 @@ export const UserLogin = () => {
           );
 
         if (updatableData.viewer) {
-          console.log("Viewer has been updated in the cache!");
           updatableData.viewer.user = data.authLogin.user;
         }
 

@@ -14,7 +14,8 @@ export const COMMUNITY_ROOT_QUERY = graphql`
       ...ChallengeList_viewer @arguments(communityId: $communityId, count: 10)
       community(communityId: $communityId) {
         ...CommunityTitle_community
-        ...CommunityInvitationAcceptList_community @arguments(count: 5)
+        ...CommunityDetails_community
+        ...CommunityInvitationAcceptList_community @arguments(count: 1)
       }
     }
   }
@@ -54,7 +55,10 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
       {communityRootData.viewer?.community && (
         <ChallengeList
           challengeListFragmentRef={communityRootData.viewer}
-          communityFragmentRef={communityRootData.viewer.community}
+          communityDetailsFragmentRef={communityRootData.viewer.community}
+          communityInvitationAcceptListFragmentRef={
+            communityRootData.viewer.community
+          }
         />
       )}
     </Ozone>

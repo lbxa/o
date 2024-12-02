@@ -54,6 +54,7 @@ export type Challenge = Node & Timestamps & {
   endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<ChallengeInvitation>>;
+  memberCount?: Maybe<Scalars['Int']['output']>;
   members?: Maybe<Array<User>>;
   memberships?: Maybe<Array<ChallengeMembership>>;
   mode?: Maybe<ChallengeMode>;
@@ -240,7 +241,8 @@ export type Community = Node & Timestamps & {
   invitations?: Maybe<CommunityInvitationConnection>;
   isPublic?: Maybe<Scalars['Boolean']['output']>;
   isVerified?: Maybe<Scalars['Boolean']['output']>;
-  members?: Maybe<Array<User>>;
+  memberCount?: Maybe<Scalars['Int']['output']>;
+  members?: Maybe<UserConnection>;
   memberships?: Maybe<Array<CommunityMembership>>;
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -568,6 +570,18 @@ export type User = Node & Timestamps & {
 /** A user of the app */
 export type UserSearchFriendsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  edges: Array<UserEdge>;
+  pageInfo: PageInfo;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  cursor: Scalars['String']['output'];
+  node: User;
 };
 
 export type UserUpdateInput = {

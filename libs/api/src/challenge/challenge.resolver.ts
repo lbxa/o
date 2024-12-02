@@ -1,5 +1,16 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
+import * as schema from "@o/db";
+import { ChallengeActivityResultsTable } from "@o/db";
+import { eq } from "drizzle-orm";
 
+import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
@@ -18,13 +29,32 @@ export class ChallengeResolver {
   constructor(
     private challengeService: ChallengeService,
     private challengeInvitationsService: ChallengeInvitationsService,
-    private challengeMembershipsService: ChallengeMembershipsService
+    private challengeMembershipsService: ChallengeMembershipsService,
+    private dbService: DbService<typeof schema>
   ) {}
 
   @Query("challenge")
   async challenge(@Args("id") id: string): Promise<Challenge> {
     const challengeId = validateAndDecodeGlobalId(id, "Challenge");
     return this.challengeService.findById(challengeId);
+  }
+
+  @ResolveField("memberCount")
+  async memberCount(@Parent() challenge: Challenge): Promise<number> {
+    /**
+     * For now this can be calculated by counting the unique users who have
+     * completed the challenge activity. Eventually, if communities/challenges
+     * get big enough, we can play around with allowing users to join challenges
+     */
+    const challengeId = validateAndDecodeGlobalId(challenge.id, "Challenge");
+    const challengeActivityUniqueUsers = await this.dbService.db
+      .selectDistinct({
+        userId: ChallengeActivityResultsTable.userId,
+      })
+      .from(ChallengeActivityResultsTable)
+      .where(eq(ChallengeActivityResultsTable.challengeId, challengeId));
+
+    return challengeActivityUniqueUsers.length;
   }
 
   @Mutation("challengeCreate")

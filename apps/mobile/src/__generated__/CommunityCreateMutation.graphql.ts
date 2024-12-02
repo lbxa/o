@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3d2e9f648623a9e4be7dfec138230c66>>
+ * @generated SignedSource<<dadcceff4334baaf8b0ee15899cd7270>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -155,6 +155,13 @@ return {
                     "kind": "ScalarField",
                     "name": "isVerified",
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "memberCount",
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -168,12 +175,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "15ca94a145b9cc7e2966a668303e28d7",
+    "cacheID": "57465483e91fa12fb3bef3714d509c3c",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<955eb2adc91026185fc5ed5900abf727>>
+ * @generated SignedSource<<7b3ba214ab87a93c326c8204b5a68951>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -24,6 +24,7 @@ export type ChallengeCard_challenge$data = {
   readonly description: string | null | undefined;
   readonly endDate: Date | null | undefined;
   readonly id: string;
+  readonly memberCount: number | null | undefined;
   readonly name: string;
   readonly startDate: Date | null | undefined;
   readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge">;
@@ -80,6 +81,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "memberCount",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "ChallengeActivity",
       "kind": "LinkedField",
       "name": "activity",
@@ -128,6 +136,6 @@ return {
 };
 })();
 
-(node as any).hash = "93229c24b9b6ed4b23a7e555bcfc3cfb";
+(node as any).hash = "6418f507c48d79c9f581ad37eaf44d54";
 
 export default node;

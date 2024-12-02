@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dc707c70a4952555f3df56d480bab48d>>
+ * @generated SignedSource<<5bf24d129076f55a55bb203f469ab66f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -158,6 +158,13 @@ return {
                 "args": null,
                 "kind": "ScalarField",
                 "name": "description",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "memberCount",
                 "storageKey": null
               },
               {
@@ -341,12 +348,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f4c5d5fb27644fd594d00009055699b0",
+    "cacheID": "e421b62a6ba0e121e7c47cfd1fe170c3",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeHeader_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge_49OuZa\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_49OuZa on Challenge {\n  activityTopResults(challengeId: $challengeId, first: 10) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeHeader_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeHeader_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge_49OuZa\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_49OuZa on Challenge {\n  activityTopResults(challengeId: $challengeId, first: 10) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeHeader_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n  }\n}\n"
   }
 };
 })();

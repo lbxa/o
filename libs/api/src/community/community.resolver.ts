@@ -91,6 +91,17 @@ export class CommunityResolver {
     });
   }
 
+  @ResolveField()
+  async memberCount(@Parent() community: Community): Promise<number> {
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+    const memberships =
+      await this.communityMembershipsService.findAll(decodedCommunityId);
+    return memberships.length;
+  }
+
   @Mutation("communityJoin")
   async communityJoin(
     @Args("inviteId") inviteId: string,

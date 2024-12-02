@@ -2,13 +2,17 @@ import { Injectable } from "@nestjs/common";
 import {
   CommunitiesTable,
   CommunityInvitationsTable,
+  CommunityMembership,
   CommunityMembershipsTable,
 } from "@o/db";
 import * as schema from "@o/db";
-import { and, eq, getTableColumns } from "drizzle-orm";
+import { and, eq, getTableColumns, notInArray } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
+import type { User as GqlUser } from "../../types/graphql";
 import { CommunityJoinPayload, InvitationStatus } from "../../types/graphql";
+import { UserService } from "../../user/user.service";
+import { fullTextSearch } from "../../user/utils";
 import { encodeGlobalId } from "../../utils";
 import { ForbiddenError, InternalServerError } from "../../utils/errors";
 import { CommunityService } from "../community.service";
@@ -17,8 +21,34 @@ import { CommunityService } from "../community.service";
 export class CommunityMembershipsService {
   constructor(
     private dbService: DbService<typeof schema>,
-    private communityService: CommunityService
+    private communityService: CommunityService,
+    private userService: UserService
   ) {}
+
+  async findAll(communityId: number): Promise<CommunityMembership[]> {
+    return this.dbService.db.query.CommunityMembershipsTable.findMany({
+      where: eq(CommunityMembershipsTable.communityId, communityId),
+    });
+  }
+
+  async nonMemberSearch(searchTerm: string): Promise<GqlUser[]> {
+    const users = await fullTextSearch(this.dbService, searchTerm);
+
+    const nonMembers =
+      await this.dbService.db.query.CommunityMembershipsTable.findMany({
+        where: notInArray(
+          CommunityMembershipsTable.userId,
+          users.map((user) => user.id)
+        ),
+        with: {
+          user: true,
+        },
+      });
+
+    return nonMembers.map((membership) =>
+      this.userService.pg2GqlMapper(membership.user)
+    );
+  }
 
   async join(
     userId: number,

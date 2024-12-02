@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<631a2765e905f5b4e5e161d4d8b26719>>
+ * @generated SignedSource<<be7c72c3a93d435f67e6088da71a0070>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -61,7 +61,7 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "CommunityInviteDenyPayload",
+        "concreteType": "CommunityInviteDeclinePayload",
         "kind": "LinkedField",
         "name": "communityInviteDecline",
         "plural": false,
@@ -86,7 +86,7 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "CommunityInviteDenyPayload",
+        "concreteType": "CommunityInviteDeclinePayload",
         "kind": "LinkedField",
         "name": "communityInviteDecline",
         "plural": false,

@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/js/max-len */
 import Gym from "@assets/images/gym.svg";
 import { useCallback, useTransition } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
@@ -5,22 +6,25 @@ import { graphql, usePaginationFragment } from "react-relay";
 
 import type { ChallengeList_viewer$key } from "@/__generated__/ChallengeList_viewer.graphql";
 import type { ChallengeListPaginationQuery } from "@/__generated__/ChallengeListPaginationQuery.graphql";
+import type { CommunityDetails_community$key } from "@/__generated__/CommunityDetails_community.graphql";
 import type { CommunityInvitationAcceptList_community$key } from "@/__generated__/CommunityInvitationAcceptList_community.graphql";
 import { ChallengeCard } from "@/challenges";
 import { useZustStore } from "@/state";
 import { OButton } from "@/universe/atoms";
 
-import { CommunityInvitationAcceptList } from "../CommunityInvitation";
-import { CommunityDetails } from "./CommunityDetails";
+import { CommunityInvitationAcceptList } from "../../CommunityInvitation";
+import { CommunityDetails } from "../CommunityDetails";
 
 interface Props {
   challengeListFragmentRef: ChallengeList_viewer$key;
-  communityFragmentRef: CommunityInvitationAcceptList_community$key;
+  communityInvitationAcceptListFragmentRef: CommunityInvitationAcceptList_community$key;
+  communityDetailsFragmentRef: CommunityDetails_community$key;
 }
 
 export const ChallengeList = ({
   challengeListFragmentRef,
-  communityFragmentRef,
+  communityInvitationAcceptListFragmentRef,
+  communityDetailsFragmentRef,
 }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { selectedCommunity } = useZustStore();
@@ -72,9 +76,11 @@ export const ChallengeList = ({
       data={data.challenges.edges?.map((edge) => edge.node)}
       ListHeaderComponent={
         <View>
-          <CommunityInvitationAcceptList fragmentRef={communityFragmentRef} />
+          <CommunityInvitationAcceptList
+            fragmentRef={communityInvitationAcceptListFragmentRef}
+          />
           <View className="px-sm">
-            <CommunityDetails />
+            <CommunityDetails fragmentRef={communityDetailsFragmentRef} />
             <Text className="mb-md text-2xl font-bold">Challenges</Text>
           </View>
         </View>
@@ -96,7 +102,6 @@ export const ChallengeList = ({
               onPress={() => loadNext(10)}
             />
           )}
-          {/* <OButton title="See Past Challenges" /> */}
         </View>
       }
       refreshControl={
