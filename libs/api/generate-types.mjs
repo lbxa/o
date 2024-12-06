@@ -10,7 +10,7 @@ void definitionsFactory.generate({
   watch: true,
   emitTypenameField: true,
   customScalarTypeMapping: {
-    DateTime: "Date"
+    DateTime: "Date",
   }
 });
 

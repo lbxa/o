@@ -6,6 +6,15 @@ interface AvatarArrayProps {
 }
 export const AvatarArray = ({ arrayCount }: AvatarArrayProps) => {
   const MINIMUM_MEMBERS_TO_SHOW = 3;
+  if (arrayCount <= 0) {
+    if (__DEV__) {
+      console.debug(
+        "AvatarArray: arrayCount is 0; Verify DDD allows this to happen?"
+      );
+    }
+    return null;
+  }
+
   return (
     <View className="flex-row items-center">
       {Array.from(

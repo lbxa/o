@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import type { TextInput } from "react-native";
 import { ScrollView, Text, View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
 
@@ -66,6 +67,7 @@ export const ChallengeCreate = () => {
     `);
 
   const scrollViewRef = useRef<ScrollView | null>(null);
+  const descriptionRef = useRef<TextInput | null>(null);
 
   const {
     control,
@@ -160,9 +162,13 @@ export const ChallengeCreate = () => {
                   inputMode="text"
                   onBlur={onBlur}
                   onChangeText={onChange}
+                  returnKeyType="next"
                   value={value}
                   error={!!errors.name}
                   errorMessage={errors.name?.message}
+                  onSubmitEditing={() => {
+                    descriptionRef.current?.focus();
+                  }}
                 />
               )}
             />
@@ -173,6 +179,7 @@ export const ChallengeCreate = () => {
               rules={{ required: { value: true, message: "Required" } }}
               render={({ field: { onBlur, onChange, value } }) => (
                 <PrimaryTextInputControl
+                  ref={descriptionRef}
                   className="mb-lg"
                   placeholder="Describe your challenge and its goals..."
                   inputMode="text"
@@ -181,6 +188,7 @@ export const ChallengeCreate = () => {
                   onChangeText={onChange}
                   multiline
                   blurOnSubmit
+                  returnKeyType="done"
                   // numberOfLines={10}
                   value={value}
                   error={!!errors.description}
@@ -227,10 +235,10 @@ export const ChallengeCreate = () => {
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
               onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+              className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3"
             >
-              <SearchIcon width={25} />
-              <Text className="pl-sm">Search</Text>
+              <SearchIcon width={22} />
+              <Text>Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (

@@ -38,6 +38,7 @@
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
     "dayjs": "^1.11.13",
+    "decimal.js": "^10.4.3",
     "drizzle-orm": "^0.34.1",
     "graphql": "^16.8.2",
     "helmet": "^8.0.0",

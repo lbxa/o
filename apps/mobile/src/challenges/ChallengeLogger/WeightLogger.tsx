@@ -1,15 +1,17 @@
-import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
-import { useMutation } from "react-relay";
 
-import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
+import { useChallengeActivityResultCreate } from "./mutations";
 
 type WeightButtonVariants =
   | "black"
@@ -51,7 +53,7 @@ const WeightButton = ({
   return (
     <OTouchable
       onPress={onPress}
-      className={classNames("flex w-5/12 h-[100px] rounded-xl flex-grow", {
+      className={classNames("flex w-5/12 h-[100px] rounded-3xl flex-grow", {
         "bg-black/30": variant === "black",
         "bg-yellow-300/50": variant === "yellow",
         "bg-gray-300/50": variant === "grey",
@@ -82,6 +84,7 @@ interface WeightLoggerProps {
 
 export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
   const [count, setCount] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     setRecordedChallenge,
     setRecordedChallengeField,
@@ -90,9 +93,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
   } = useZustStore();
   const [attempts, setAttempts] = useState(0);
 
-  const [commitMutation] = useMutation<ChallengeActivityResultCreateMutation>(
-    CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION
-  );
+  const [commitChallengeActivityResultCreate] =
+    useChallengeActivityResultCreate();
 
   const handleRecord = useCallback(() => {
     if (
@@ -103,7 +105,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
       throw new Error("Challenge results require userId or activityId");
     }
 
-    commitMutation({
+    commitChallengeActivityResultCreate({
       variables: {
         input: {
           challengeId: selectedChallenge.id,
@@ -124,7 +126,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
     selectedChallenge?.activity.id,
     selectedChallenge?.id,
     activeUser?.id,
-    commitMutation,
+    commitChallengeActivityResultCreate,
     count,
     setRecordedChallenge,
     setRecordedChallengeField,
@@ -144,19 +146,42 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
       backdropComponent={(props) => <OBackdrop {...props} />}
       enablePanDownToClose
       enableDynamicSizing
+      keyboardBlurBehavior="restore"
+      keyboardBehavior="extend"
       maxDynamicContentSize={900}
     >
       <BottomSheetScrollView>
         <View className="flex h-full flex-col gap-md bg-white px-md pb-10">
-          <Text
-            className="w-full text-center text-[5.5rem] font-bold"
-            style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
-          >
-            {count}
-            <Text className="text-xl">kg</Text>
-          </Text>
-          <View className="flex flex-col gap-md">
-            <View className="mb-lg flex flex-row flex-wrap justify-center gap-md">
+          <OTouchable onPress={() => setIsEditing(true)}>
+            {isEditing ? (
+              <BottomSheetTextInput
+                className="w-full text-center text-[5.5rem] font-bold"
+                style={{ fontVariant: ["tabular-nums"] }}
+                value={count.toString()}
+                onChangeText={(text) => {
+                  const num = Number(text);
+                  if (!isNaN(num)) {
+                    setCount(num);
+                  }
+                }}
+                keyboardType="decimal-pad"
+                returnKeyType="done"
+                autoFocus
+                selectTextOnFocus
+                onBlur={() => setIsEditing(false)}
+              />
+            ) : (
+              <Text
+                className="w-full text-center text-[5.5rem] font-bold"
+                style={{ fontVariant: ["tabular-nums"] }}
+              >
+                {count}
+                <Text className="text-xl">kg</Text>
+              </Text>
+            )}
+          </OTouchable>
+          <View className="flex flex-col gap-lg">
+            <View className="flex flex-row flex-wrap justify-center gap-md">
               {Array.from(WeightButtonVariantMatrix.entries()).map(
                 ([variant, { value }]) => (
                   <WeightButton
@@ -167,7 +192,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
                 )
               )}
             </View>
-            <View className="flex flex-row justify-between gap-md">
+            <View className="h-px bg-gray-200" />
+            <View className="flex h-[100px] flex-row justify-between gap-md">
               {/* <OButton
                 type="secondary"
                 variant="gray"
@@ -176,12 +202,15 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               /> */}
               <OButton
                 type="secondary"
+                className="grow !rounded-3xl"
+                size="large"
                 variant="gray"
                 title="Reset"
                 onPress={handleReset}
               />
               <OButton
-                className="grow"
+                className="grow !rounded-3xl"
+                size="large"
                 type="primary"
                 variant="indigo"
                 title="Done"

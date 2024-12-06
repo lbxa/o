@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { OButton, PrimaryTextInput } from "@/universe/atoms";
+import { OSearchBar } from "../universe/molecules";
 
 // export const COMMUNITY_SEARCH_QUERY = graphql`
 //   query CommunitySearchQuery($id: ID!) {
@@ -14,8 +14,11 @@ import { OButton, PrimaryTextInput } from "@/universe/atoms";
 export const CommunitySearch = () => {
   return (
     <View className="mb-md">
-      <PrimaryTextInput className="mb-md" placeholder="Community name" />
-      <OButton title="Search" />
+      <OSearchBar
+        searchQuery=""
+        onSearchChange={() => null}
+        placeholder="Community name"
+      />
     </View>
   );
 };

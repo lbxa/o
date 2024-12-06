@@ -27,6 +27,8 @@ enum ChallengeActivityGoal {
   SHORTEST_TIME
   LONGEST_TIME
   MOST_IMPROVED
+  SHORTEST_DISTANCE
+  LONGEST_DISTANCE
 }
 
 type ChallengeActivity implements Node & Timestamps {

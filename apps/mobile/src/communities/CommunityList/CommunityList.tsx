@@ -7,8 +7,8 @@ import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
 import type { CommunityList_viewer$key } from "@/__generated__/CommunityList_viewer.graphql";
 import type { CommunityListPaginationQuery } from "@/__generated__/CommunityListPaginationQuery.graphql";
 import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.graphql";
+import { CommunityCard } from "@/communities/CommunityCard";
 import { OButton } from "@/universe/atoms";
-import { CommunityCard } from "@/universe/molecules";
 
 import { ViewerCommunityInvitationList } from "../CommunityInvitation";
 

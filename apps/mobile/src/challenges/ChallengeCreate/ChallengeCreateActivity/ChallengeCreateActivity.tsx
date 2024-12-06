@@ -29,13 +29,14 @@ export const ChallengeCreateActivity = () => {
         </View>
         <ChevronRightIcon width={25} />
       </OTouchable>
-
       <BottomSheetModal
         ref={modalRef}
         backdropComponent={(props) => <OBackdrop {...props} />}
+        enablePanDownToClose
         enableDynamicSizing
         maxDynamicContentSize={700}
-        enablePanDownToClose
+        keyboardBlurBehavior="restore"
+        keyboardBehavior="extend"
       >
         <BottomSheetScrollView>
           <ChallengeCreateActivitySelector modalRef={modalRef} />

@@ -64,11 +64,10 @@ export class ChallengeActivityResultsResolver {
   async activityTopResults(
     @Parent() challenge: Challenge,
     @Args("first") first: number,
-    @Args("after") after?: string,
-    @Args("challengeId") challengeId?: string
+    @Args("after") after?: string
   ): Promise<ChallengeActivityResultConnection> {
     const decodedChallengeId = validateAndDecodeGlobalId(
-      challengeId ?? challenge.id,
+      challenge.id,
       "Challenge"
     );
     return this.challengeActivityResultsService.fetchTopResults(

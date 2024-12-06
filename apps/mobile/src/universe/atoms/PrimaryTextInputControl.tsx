@@ -1,4 +1,5 @@
-import type { TextInputProps } from "react-native";
+import { forwardRef } from "react";
+import type { TextInput } from "react-native";
 import { Text, View } from "react-native";
 
 import type { PrimaryTextInputProps } from "./PrimaryTextInput";
@@ -8,18 +9,14 @@ export interface PrimaryTextInputControlProps {
   errorMessage?: string;
 }
 
-export const PrimaryTextInputControl = ({
-  className,
-  error,
-  errorMessage,
-  ...props
-}: TextInputProps & PrimaryTextInputProps & PrimaryTextInputControlProps) => {
-  return (
-    <View className={className}>
-      <PrimaryTextInput {...props} error={error} />
-      {error && (
-        <Text className="mt-sm px-sm color-red-900">{errorMessage}</Text>
-      )}
-    </View>
-  );
-};
+export const PrimaryTextInputControl = forwardRef<
+  TextInput,
+  PrimaryTextInputControlProps & PrimaryTextInputProps
+>(({ error, errorMessage, className, ...props }, ref) => (
+  <View className={className}>
+    <PrimaryTextInput ref={ref} {...props} error={error} />
+    {error && errorMessage && (
+      <Text className="pl-sm text-red-900">{errorMessage}</Text>
+    )}
+  </View>
+));

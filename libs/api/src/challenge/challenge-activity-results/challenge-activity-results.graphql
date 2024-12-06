@@ -8,7 +8,7 @@ type ChallengeActivityResult implements Node & Timestamps {
   id: ID!
   user: User!
   activity: ChallengeActivity!
-  result: Int!
+  result: Float!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -17,7 +17,7 @@ input ChallengeActivityResultCreateInput {
   challengeId: ID!
   activityId: ID!
   userId: ID!
-  result: Int!
+  result: Float!
 }
 
 type ChallengeActivityResultEdge {
@@ -31,8 +31,8 @@ type ChallengeActivityResultConnection {
 }
 
 extend type Challenge {
-  activityTopResults(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
-  activityTopMovers(challengeId: ID, first: Int, after: String): ChallengeActivityResultConnection
+  activityTopResults(first: Int, after: String): ChallengeActivityResultConnection
+  activityTopMovers(first: Int, after: String): ChallengeActivityResultConnection
 }
 
 type CreateChallengeActivityResultPayload {

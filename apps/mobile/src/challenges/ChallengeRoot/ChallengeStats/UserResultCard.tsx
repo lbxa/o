@@ -3,6 +3,7 @@ import { graphql, useFragment } from "react-relay";
 
 import type {
   ChallengeActivityGoal,
+  ChallengeActivityUnits,
   UserResultCard_challenge$key,
 } from "@/__generated__/UserResultCard_challenge.graphql";
 
@@ -26,18 +27,34 @@ export const UserResultCard = ({
         activity {
           id
           goal
+          unit
         }
       }
     `,
     result
   );
 
-  const displayResult = (result: number, goal: ChallengeActivityGoal) => {
+  // TODO move this to the backend with formattedResult field
+  const displayResult = (
+    result: number,
+    goal: ChallengeActivityGoal,
+    unit: ChallengeActivityUnits
+  ) => {
     switch (goal) {
       case "HIGHEST_NUMBER":
       case "LOWEST_NUMBER":
       case "SPECIFIC_TARGET":
-        return result.toString();
+        switch (unit) {
+          case "KILOGRAMS":
+          case "POUNDS":
+            return `${result} kg`;
+          case "SECONDS":
+          case "MINUTES":
+          case "HOURS":
+            return intToTimestamp(result).toString();
+          default:
+            return result.toString();
+        }
       case "SHORTEST_TIME":
       case "LONGEST_TIME":
         return intToTimestamp(result).toString();
@@ -62,7 +79,11 @@ export const UserResultCard = ({
         className="text-3xl font-bold"
         style={{ fontVariant: ["tabular-nums"] }}
       >
-        {displayResult(userResult.result, userResult.activity.goal)}
+        {displayResult(
+          userResult.result,
+          userResult.activity.goal,
+          userResult.activity.unit
+        )}
       </Text>
     </View>
   );

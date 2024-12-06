@@ -5,6 +5,7 @@ import { ActivityIndicator, Text, View } from "react-native";
 import { OTouchable } from "./OTouchable";
 
 type Type = "primary" | "secondary";
+type Size = "default" | "large";
 type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
 
 type VariantMatrix = Record<
@@ -63,6 +64,7 @@ const secondaryVariantMatrix: VariantMatrix = {
 
 type OButtonProps = {
   type?: Type;
+  size?: Size;
   variant?: Variant;
   icon?: React.ReactElement;
   loading?: boolean;
@@ -74,6 +76,7 @@ export const OButton = ({
   icon,
   type = "primary",
   variant = "indigo",
+  size = "default",
   loading = false,
   className,
   ...props
@@ -82,12 +85,13 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View className="flex flex-row items-center gap-sm rounded-xl">
+    <View className="my-auto flex flex-row items-center gap-sm">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {
           [variantMatrix[variant].front]: !props.disabled,
           "text-gray-500": props.disabled,
+          "text-2xl": size === "large",
         })}
       >
         {title}

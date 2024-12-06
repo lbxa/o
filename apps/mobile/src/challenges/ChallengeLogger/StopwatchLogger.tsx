@@ -1,16 +1,14 @@
-import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
-import { useMutation } from "react-relay";
 
-import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import type { TimerButtonVariant } from "@/universe/atoms";
 import { OTouchable, TimerButton } from "@/universe/atoms";
 import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
 import { useStopwatch } from "./hooks";
-import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
+import { useChallengeActivityResultCreate } from "./mutations";
 
 interface StopwatchLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
@@ -28,16 +26,15 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
     useState<TimerButtonVariant>("start");
   const [attempts, setAttempts] = useState(0);
 
-  const [commitMutation] = useMutation<ChallengeActivityResultCreateMutation>(
-    CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION
-  );
+  const [commitChallengeActivityResultCreate] =
+    useChallengeActivityResultCreate();
 
   const handleRecord = useCallback(() => {
     if (!selectedChallenge?.activity.id || !activeUser?.id) {
       throw new Error("Challenge results require userId or activityId");
     }
 
-    commitMutation({
+    commitChallengeActivityResultCreate({
       variables: {
         input: {
           challengeId: selectedChallenge.id,
@@ -55,9 +52,10 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
     setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
   }, [
-    selectedChallenge,
-    activeUser,
-    commitMutation,
+    selectedChallenge?.activity.id,
+    selectedChallenge?.id,
+    activeUser?.id,
+    commitChallengeActivityResultCreate,
     time,
     reset,
     setRecordedChallenge,
@@ -81,8 +79,8 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
       enableDynamicSizing
       maxDynamicContentSize={900}
     >
-      <BottomSheetScrollView>
-        <View className="flex h-full flex-col gap-md bg-white px-md pb-20">
+      <BottomSheetView>
+        <View className="flex h-full flex-col gap-md bg-white px-md pb-5">
           <Text
             className="w-full text-center text-[5.5rem] font-bold"
             style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
@@ -107,7 +105,7 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
             />
           </View>
         </View>
-      </BottomSheetScrollView>
+      </BottomSheetView>
     </BottomSheetModal>
   );
 };

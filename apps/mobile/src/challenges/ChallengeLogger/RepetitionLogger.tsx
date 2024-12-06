@@ -1,15 +1,18 @@
-import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
-import { graphql, useMutation } from "react-relay";
+import { graphql } from "react-relay";
 
-import type { ChallengeActivityResultCreateMutation } from "@/__generated__/ChallengeActivityResultCreateMutation.graphql";
 import { useZustStore } from "@/state";
-import { OButton, OTouchable } from "@/universe/atoms";
+import { OTouchable } from "@/universe/atoms";
 import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
-import { CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION } from "./mutations";
+import { useChallengeActivityResultCreate } from "./mutations";
 
 interface RepetitionLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
@@ -23,6 +26,7 @@ const _ = graphql`
 
 export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
   const [count, setCount] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     setRecordedChallenge,
     setRecordedChallengeField,
@@ -32,9 +36,8 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
 
   const [attempts, setAttempts] = useState(0);
 
-  const [commitMutation] = useMutation<ChallengeActivityResultCreateMutation>(
-    CHALLENGE_ACTIVITY_RESULT_CREATE_MUTATION
-  );
+  const [commitChallengeActivityResultCreate] =
+    useChallengeActivityResultCreate();
 
   const handleRecord = useCallback(() => {
     if (
@@ -45,7 +48,7 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       throw new Error("Challenge results require userId or activityId");
     }
 
-    commitMutation({
+    commitChallengeActivityResultCreate({
       variables: {
         input: {
           challengeId: selectedChallenge.id,
@@ -95,10 +98,10 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
     setRecordedChallengeField("attempts", attempts);
     modalRef.current?.dismiss();
   }, [
-    selectedChallenge?.activity.id,
     selectedChallenge?.id,
+    selectedChallenge?.activity.id,
     activeUser?.id,
-    commitMutation,
+    commitChallengeActivityResultCreate,
     count,
     setRecordedChallenge,
     setRecordedChallengeField,
@@ -118,16 +121,39 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       backdropComponent={(props) => <OBackdrop {...props} />}
       enablePanDownToClose
       enableDynamicSizing
-      maxDynamicContentSize={900}
+      maxDynamicContentSize={700}
+      keyboardBlurBehavior="restore"
+      keyboardBehavior="interactive"
     >
       <BottomSheetScrollView>
         <View className="flex h-full flex-col gap-md bg-white px-md pb-10">
-          <Text
-            className="w-full text-center text-[5.5rem] font-bold"
-            style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
-          >
-            {count}
-          </Text>
+          <OTouchable onPress={() => setIsEditing(true)}>
+            {isEditing ? (
+              <BottomSheetTextInput
+                className="w-full text-center text-[5.5rem] font-bold"
+                style={{ fontVariant: ["tabular-nums"] }}
+                value={count.toString()}
+                onChangeText={(text) => {
+                  const num = Number(text);
+                  if (!isNaN(num)) {
+                    setCount(num);
+                  }
+                }}
+                keyboardType="number-pad"
+                returnKeyType="done"
+                autoFocus
+                selectTextOnFocus
+                onBlur={() => setIsEditing(false)}
+              />
+            ) : (
+              <Text
+                className="w-full text-center text-[5.5rem] font-bold"
+                style={{ fontVariant: ["tabular-nums"] }}
+              >
+                {count}
+              </Text>
+            )}
+          </OTouchable>
           <View className="flex flex-col gap-xl">
             <View className="flex flex-row justify-around gap-md">
               <View className="flex flex-col justify-between">
@@ -136,15 +162,19 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
                   className="flex size-[100px] rounded-full bg-gray-200"
                 >
                   <Text className="m-auto text-xl font-bold text-gray-600">
-                    Manual
+                    Reset
                   </Text>
                 </OTouchable>
                 <OTouchable
-                  onPress={handleReset}
-                  className="flex size-[100px] rounded-full bg-gray-200"
+                  onPress={handleRecord}
+                  className={classNames(
+                    "flex size-[100px] rounded-full bg-indigo-200",
+                    count === 0 && "opacity-50"
+                  )}
+                  disabled={count === 0}
                 >
-                  <Text className="m-auto text-xl font-bold text-gray-600">
-                    Reset
+                  <Text className="m-auto text-xl font-bold text-indigo-600">
+                    Done
                   </Text>
                 </OTouchable>
               </View>
@@ -163,12 +193,6 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
                 </Text>
               </OTouchable>
             </View>
-            <OButton
-              type="primary"
-              variant="indigo"
-              title="Done"
-              onPress={handleRecord}
-            />
           </View>
         </View>
       </BottomSheetScrollView>

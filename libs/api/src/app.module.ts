@@ -1,4 +1,5 @@
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "@apollo/server-plugin-landing-page-graphql-playground";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
@@ -26,7 +27,12 @@ import { ViewerModule } from "./viewer/viewer.module";
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
       playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      introspection: process.env.NODE_ENV !== "production",
+      plugins: [
+        process.env.NODE_ENV === "production"
+          ? ApolloServerPluginLandingPageLocalDefault()
+          : ApolloServerPluginLandingPageGraphQLPlayground(),
+      ],
       autoTransformHttpErrors: true,
       formatError: (error) => {
         const graphQLFormattedError = {

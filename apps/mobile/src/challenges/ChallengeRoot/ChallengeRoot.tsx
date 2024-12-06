@@ -17,7 +17,6 @@ export const CHALLENGE_ROOT_QUERY = graphql`
         ...ChallengeDetails_challenge
         ...ChallengeActivityPills_challenge
         ...ChallengeActivityTopResultsFragment_challenge
-          @arguments(challengeId: $challengeId, count: 10)
       }
     }
   }

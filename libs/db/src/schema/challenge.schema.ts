@@ -1,5 +1,5 @@
 import {
-  bigint,
+  doublePrecision,
   index,
   integer,
   pgSchema,
@@ -121,6 +121,8 @@ export const ChallengeActivityGoal = ChallengeSchema.enum("activity_goal", [
   "SHORTEST_TIME",
   "LONGEST_TIME",
   "MOST_IMPROVED",
+  "SHORTEST_DISTANCE",
+  "LONGEST_DISTANCE",
 ]);
 
 export const ChallengeActivitiesTable = ChallengeSchema.table(
@@ -164,13 +166,21 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
       .notNull()
       .references(() => ChallengesTable.id),
     /**
-     * If you’re expecting values above 2^31 but below 2^53, you can
-     * utilise mode: 'number' and deal with javascript number as
-     * opposed to bigint.
+     * Double precision floating-point for storing activity results:
      *
-     * @see https://orm.drizzle.team/docs/column-types/pg#bigint
+     * Maximum precise values:
+     * - Integers up to ±2^53 (±9,007,199,254,740,992)
+     * - For time: ~285,616 years worth of milliseconds
+     * - ~15-17 significant decimal digits of precision
+     *
+     * Practical usage:
+     * - Time: Precise millisecond intervals up to 285,616 years
+     * - Distance: Sub-millimeter precision at 1000km scale
+     * - Floating-point arithmetic for calculations
+     *
+     * Note: Values beyond 2^53 will start losing precision
      */
-    result: bigint({ mode: "number" }).notNull(),
+    result: doublePrecision().notNull(),
     ...withModificationDates,
   }
 );

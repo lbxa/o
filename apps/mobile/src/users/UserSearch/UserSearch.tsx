@@ -1,66 +1,20 @@
-import SearchIcon from "@assets/icons/search.svg";
 import debounce from "debounce";
-import { Link } from "expo-router";
 import React, {
   Suspense,
-  useCallback,
   useDeferredValue,
   useEffect,
   useState,
   useTransition,
 } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { graphql, useLazyLoadQuery, useRefetchableFragment } from "react-relay";
 
 import type { UserSearchFriends_viewer$key } from "@/__generated__/UserSearchFriends_viewer.graphql";
 import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFriendsListQuery.graphql";
 import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
-import { PrimaryTextInputControl, Skeleton } from "@/universe/atoms";
+import { OSearchBar } from "@/universe/molecules";
 
 import { UserInviteCard } from "./UserInviteCard";
-
-interface SearchBarProps {
-  loading?: boolean;
-  searchQuery: string;
-  onSearchChange: (term: string) => void;
-}
-
-const SearchBar = ({
-  searchQuery,
-  onSearchChange,
-  loading,
-}: SearchBarProps) => {
-  const handleChange = useCallback(
-    (term: string) => {
-      onSearchChange(term);
-    },
-    [onSearchChange]
-  );
-
-  return (
-    <View className="flex w-full flex-row items-center">
-      <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
-        {loading ? <ActivityIndicator /> : <SearchIcon width={20} />}
-        <PrimaryTextInputControl
-          className="flex-1"
-          placeholder="Search Users"
-          inputMode="text"
-          autoFocus
-          value={searchQuery}
-          textContentType="oneTimeCode"
-          onChangeText={handleChange}
-        />
-        <Link href="../">Cancel</Link>
-      </View>
-    </View>
-  );
-};
 
 export const USER_SEARCH_QUERY = graphql`
   query UserSearchFriendsListQuery($searchTerm: String) {
@@ -135,22 +89,13 @@ export const UserSearch = () => {
 
   return (
     <View className="h-full flex-1 px-md">
-      <SearchBar
-        // loading={searchQuery !== deferredSearchQuery}
+      <OSearchBar
+        loading={searchQuery !== deferredSearchQuery}
+        placeholder="Search users"
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
-      <Suspense
-        fallback={
-          <ScrollView>
-            <View className="flex flex-col gap-sm">
-              {Array.from({ length: 20 }).map((_, index) => (
-                <Skeleton key={index} className="h-12 w-full rounded-xl" />
-              ))}
-            </View>
-          </ScrollView>
-        }
-      >
+      <Suspense fallback={null}>
         <UserSearchResults searchTerm={deferredSearchQuery} />
       </Suspense>
     </View>

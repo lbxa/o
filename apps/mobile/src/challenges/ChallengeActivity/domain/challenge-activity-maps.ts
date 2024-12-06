@@ -38,8 +38,8 @@ export const ChallengeActivityTypeToGoalMap = new Map<
   [
     ChallengeActivityType.Distance,
     [
-      ChallengeActivityGoal.LowestNumber,
-      ChallengeActivityGoal.HighestNumber,
+      ChallengeActivityGoal.ShortestDistance,
+      ChallengeActivityGoal.LongestDistance,
       ChallengeActivityGoal.ShortestTime,
       ChallengeActivityGoal.LongestTime,
       ChallengeActivityGoal.MostImproved,
