@@ -18,5 +18,9 @@ export const challengeActivityGoalLabelToEnum = (
       return ChallengeActivityGoal.LongestTime;
     case "Most Improved":
       return ChallengeActivityGoal.MostImproved;
+    case "Shortest Distance":
+      return ChallengeActivityGoal.ShortestDistance;
+    case "Longest Distance":
+      return ChallengeActivityGoal.LongestDistance;
   }
 };

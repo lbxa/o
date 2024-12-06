@@ -1,5 +1,7 @@
 export * from "./Card";
+export * from "./ComingSoonBadge";
 export * from "./CounterButton";
+export * from "./ModalCloseButton";
 export * from "./OButton";
 export * from "./OPasswordInput";
 export * from "./OTouchable";

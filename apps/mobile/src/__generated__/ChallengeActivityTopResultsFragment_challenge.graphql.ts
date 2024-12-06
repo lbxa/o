@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<90cf593ad6b32e039504ec10533a52a7>>
+ * @generated SignedSource<<95ef83ae428a151957bcf0c8e11646c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -47,12 +47,7 @@ v1 = {
 return {
   "argumentDefinitions": [
     {
-      "defaultValue": null,
-      "kind": "LocalArgument",
-      "name": "challengeId"
-    },
-    {
-      "defaultValue": 10,
+      "defaultValue": 3,
       "kind": "LocalArgument",
       "name": "count"
     },
@@ -93,15 +88,10 @@ return {
   },
   "name": "ChallengeActivityTopResultsFragment_challenge",
   "selections": [
+    (v1/*: any*/),
     {
       "alias": "activityTopResults",
-      "args": [
-        {
-          "kind": "Variable",
-          "name": "challengeId",
-          "variableName": "challengeId"
-        }
-      ],
+      "args": null,
       "concreteType": "ChallengeActivityResultConnection",
       "kind": "LinkedField",
       "name": "__ChallengeActivityTopResultsFragment_activityTopResults_connection",
@@ -183,14 +173,13 @@ return {
         }
       ],
       "storageKey": null
-    },
-    (v1/*: any*/)
+    }
   ],
   "type": "Challenge",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "cb194bcb8c16bc778bececbbfe6c64ca";
+(node as any).hash = "d9fd04d174142a754342eee2fd15620a";
 
 export default node;

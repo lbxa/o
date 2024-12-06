@@ -1,29 +1,25 @@
 import StopwatchIcon from "@assets/icons/stopwatch.svg";
-import { Text, View } from "react-native";
+import React from "react";
+import { Text } from "react-native";
 
 import { useZustStore } from "@/state";
 
+import { PillArray } from "../../../universe/molecules";
 import { challengeCadenceToLabel } from "../../ChallengeCadence";
+
+const EmptyState = () => (
+  <>
+    <StopwatchIcon width={20} />
+    <Text className="pl-sm">Select the frequency</Text>
+  </>
+);
 
 export const ChallengeCreateCadenceSummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);
 
   if (!challengeForm.cadence) {
-    return (
-      <>
-        <StopwatchIcon width={20} />
-        <Text className="pl-sm">Select the frequency</Text>
-      </>
-    );
+    return <EmptyState />;
   }
 
-  return (
-    <View className="mx-sm rounded-lg">
-      <View className="rounded-xl bg-navy px-md py-sm">
-        <Text className="font-bold text-indigo-100">
-          {challengeCadenceToLabel(challengeForm.cadence)}
-        </Text>
-      </View>
-    </View>
-  );
+  return <PillArray pill1={challengeCadenceToLabel(challengeForm.cadence)} />;
 };

@@ -1,0 +1,110 @@
+name: Feature Request
+description: Suggest an idea or enhancement for this project
+title: "[FEATURE]: "
+labels: ["enhancement", "triage"]
+assignees:
+  - lbxa
+  - JamieGom
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature! Please fill out this form as completely as possible.
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you suggesting?
+      options:
+        - New Functionality
+        - Enhancement to Existing Feature
+        - Performance Improvement
+        - User Interface/Experience
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform(s) is this feature request for?
+      options:
+        - iOS
+        - Android
+        - Both Mobile Platforms
+        - Backend/API
+        - All Platforms
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: |
+        A clear and concise description of what you want to happen.
+        - Key functionality
+        - User interaction
+        - Expected outcome
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered
+      placeholder: |
+        - Alternative 1: ...
+        - Alternative 2: ...
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, mockups, or screenshots about the feature request here
+      placeholder: Drag and drop any images, or add additional context here
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Perceived Priority
+      description: How important do you think this feature is?
+      options:
+        - Critical (Blocking work)
+        - High (Major improvement)
+        - Medium (Significant enhancement)
+        - Low (Nice to have)
+    validations:
+      required: true
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: How would we measure the success of this feature?
+      placeholder: |
+        Example criteria:
+        - Users can complete X task in Y fewer steps
+        - Improved engagement metrics
+        - Reduced support tickets
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: email@example.com
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this feature request, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true 

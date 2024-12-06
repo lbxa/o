@@ -29,4 +29,6 @@ export type ChallengeActivityGoalLabel =
   | "Target"
   | "Shortest Time"
   | "Most Improved"
+  | "Shortest Distance"
+  | "Longest Distance"
   | "Longest Time";

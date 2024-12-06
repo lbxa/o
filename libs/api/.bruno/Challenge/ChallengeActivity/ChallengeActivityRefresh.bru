@@ -1,0 +1,61 @@
+meta {
+  name: ChallengeActivityRefresh
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  fragment UserResultCard_challenge on ChallengeActivityResult {
+    id
+    result
+    user {
+      id
+      firstName
+      lastName
+    }
+    activity {
+      id
+      goal
+      unit
+    }
+  }
+  
+  fragment ChallengeActivityTopResultsFragment_challenge on Challenge {
+    id
+    activityTopResults(first: 3) {
+      edges {
+        cursor
+        node {
+          id
+          ...UserResultCard_challenge
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+  
+  query ChallengeRootQuery($challengeId: ID!) {
+    viewer {
+      challenge(challengeId: $challengeId) {
+        ...ChallengeActivityTopResultsFragment_challenge
+      }
+    }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "challengeId": "Q2hhbGxlbmdlOjcy"
+  }
+}

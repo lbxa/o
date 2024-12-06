@@ -82,7 +82,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
     formState: { errors },
   } = useForm<ChallengeActivityForm>({
     defaultValues: {
-      target: challengeForm.target?.toString(),
+      target: "",
     },
   });
 
@@ -142,12 +142,10 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     bottomSheet
                     keyboardType="number-pad"
                     inputMode="numeric"
+                    returnKeyType="done"
                     autoCapitalize="none"
                     onBlur={onBlur}
-                    onChangeText={(text) => {
-                      // setChallengeFormField("target", Number(text));
-                      onChange(text);
-                    }}
+                    onChangeText={onChange}
                     autoCorrect={false}
                     autoFocus={true}
                     value={value}
@@ -193,19 +191,19 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
           </View>
         </View>
       )}
-      {isFinished && (
-        <OButton
-          title="Done"
-          variant="indigo"
-          onPress={async (e) => {
-            // Read more about event pooling
-            // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-            e.persist();
-            await handleSubmit(onSubmit)();
-            modalRef.current?.close();
-          }}
-        />
-      )}
+
+      <OButton
+        title="Done"
+        variant="indigo"
+        disabled={!isFinished}
+        onPress={async (e) => {
+          // Read more about event pooling
+          // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+          e.persist();
+          await handleSubmit(onSubmit)();
+          modalRef.current?.close();
+        }}
+      />
     </View>
   );
 };

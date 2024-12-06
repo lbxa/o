@@ -66,14 +66,12 @@ export type Challenge = Node & Timestamps & {
 
 export type ChallengeActivityTopMoversArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
-  challengeId?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type ChallengeActivityTopResultsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
-  challengeId?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -98,9 +96,11 @@ export type ChallengeActivityCreateInput = {
 
 export enum ChallengeActivityGoal {
   HighestNumber = 'HIGHEST_NUMBER',
+  LongestDistance = 'LONGEST_DISTANCE',
   LongestTime = 'LONGEST_TIME',
   LowestNumber = 'LOWEST_NUMBER',
   MostImproved = 'MOST_IMPROVED',
+  ShortestDistance = 'SHORTEST_DISTANCE',
   ShortestTime = 'SHORTEST_TIME',
   SpecificTarget = 'SPECIFIC_TARGET'
 }
@@ -116,7 +116,7 @@ export type ChallengeActivityResult = Node & Timestamps & {
   activity: ChallengeActivity;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
-  result: Scalars['Int']['output'];
+  result: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user: User;
 };
@@ -130,7 +130,7 @@ export type ChallengeActivityResultConnection = {
 export type ChallengeActivityResultCreateInput = {
   activityId: Scalars['ID']['input'];
   challengeId: Scalars['ID']['input'];
-  result: Scalars['Int']['input'];
+  result: Scalars['Float']['input'];
   userId: Scalars['ID']['input'];
 };
 

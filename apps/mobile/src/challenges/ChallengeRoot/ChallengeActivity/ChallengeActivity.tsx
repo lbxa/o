@@ -1,22 +1,18 @@
 import Void from "@assets/images/void.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, {
-  Suspense,
-  useCallback,
-  useMemo,
-  useRef,
-  useTransition,
-} from "react";
+import React, { Suspense, useMemo, useRef } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 import { graphql, useRefetchableFragment } from "react-relay";
 
 import type { ChallengeActivityTopResultsFragment_challenge$key } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
 import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery.graphql";
+import { useNoSuspenseRefetch } from "@/relay/hooks/useNoSuspenseRefetch";
 import { OTouchable } from "@/universe/atoms";
 
 import type { ChallengeActivityTopResultsPaginationQuery } from "../../../__generated__/ChallengeActivityTopResultsPaginationQuery.graphql";
 import type { UserResultCard_challenge$key } from "../../../__generated__/UserResultCard_challenge.graphql";
 import { ChallengeDetails } from "../ChallengeDetails/ChallengeDetails";
+import { CHALLENGE_ROOT_QUERY } from "../ChallengeRoot";
 import { UserResultCard } from "../ChallengeStats";
 import { ChallengeTopResultsList } from "../ChallengeStats/ChallengeTopResultsList";
 
@@ -28,7 +24,6 @@ export const ChallengeActivity = ({
   challengeId,
   challengeRoot,
 }: ChallengeActivityProps) => {
-  const [isPending, startTransition] = useTransition();
   const [data, refetch] = useRefetchableFragment<
     ChallengeActivityTopResultsPaginationQuery,
     ChallengeActivityTopResultsFragment_challenge$key
@@ -37,15 +32,11 @@ export const ChallengeActivity = ({
       fragment ChallengeActivityTopResultsFragment_challenge on Challenge
       @refetchable(queryName: "ChallengeActivityTopResultsPaginationQuery")
       @argumentDefinitions(
-        challengeId: { type: "ID", defaultValue: null }
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 3 }
         cursor: { type: "String" }
       ) {
-        activityTopResults(
-          challengeId: $challengeId
-          first: $count
-          after: $cursor
-        )
+        id
+        activityTopResults(first: $count, after: $cursor)
           @connection(
             key: "ChallengeActivityTopResultsFragment_activityTopResults"
           ) {
@@ -67,20 +58,16 @@ export const ChallengeActivity = ({
     challengeRoot.viewer?.challenge
   );
 
+  const { refetch: refetchTopResults, isRefetching: isRefetchingTopResults } =
+    useNoSuspenseRefetch({
+      ancestorQuery: CHALLENGE_ROOT_QUERY,
+      ancestorVariables: { challengeId },
+      refetchFunc: refetch,
+      refetchFuncVariables: { count: 3 },
+    });
+
   const topResultsModalRef = useRef<BottomSheetModal>(null);
   const topMoversModalRef = useRef<BottomSheetModal>(null);
-
-  const handleRefresh = useCallback(() => {
-    startTransition(() => {
-      refetch(
-        { challengeId },
-        {
-          fetchPolicy: "store-and-network",
-          UNSTABLE_renderPolicy: "partial",
-        }
-      );
-    });
-  }, [refetch, challengeId]);
 
   const sectionModalLookup: Record<
     "Top Results" | "Top Movers",
@@ -153,16 +140,11 @@ export const ChallengeActivity = ({
           []
         }
       />
-      {/* <ForceSuspend /> */}
       <Suspense fallback={null}>
         <FlatList
           className="min-h-full px-md"
           data={sectionList}
-          // estimatedItemSize={100}
           keyExtractor={(item, index) => ["X", index].join("-")}
-          // getItemType={(item) =>
-          //   item.key === "HEADER" ? "sectionHeader" : "row"
-          // }
           renderItem={({ item }) => {
             switch (item.key) {
               case "HEADER":
@@ -175,22 +157,6 @@ export const ChallengeActivity = ({
                 return null;
             }
           }}
-          // renderSectionHeader={({ section }) => (
-          //   <Text className="text-2xl font-bold">{section.title}</Text>
-          // )}
-          // renderSectionFooter={({ section }) => (
-          //   <View className="mb-md">
-          //     {section.data.length > 3 && (
-          //       <OTouchable
-          //         onPress={() =>
-          //           sectionModalLookup[section.title].current?.present()
-          //         }
-          //       >
-          //         <Text className="my-md underline">View all</Text>
-          //       </OTouchable>
-          //     )}
-          //   </View>
-          // )}
           ListHeaderComponent={
             <View>
               {challengeRoot.viewer?.challenge && (
@@ -210,7 +176,10 @@ export const ChallengeActivity = ({
             </View>
           }
           refreshControl={
-            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+            <RefreshControl
+              refreshing={isRefetchingTopResults}
+              onRefresh={refetchTopResults}
+            />
           }
         />
       </Suspense>

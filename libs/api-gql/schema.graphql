@@ -30,8 +30,8 @@ type AuthLoginPayload {
 
 type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
-  activityTopMovers(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection
-  activityTopResults(after: String, challengeId: ID, first: Int): ChallengeActivityResultConnection
+  activityTopMovers(after: String, first: Int): ChallengeActivityResultConnection
+  activityTopResults(after: String, first: Int): ChallengeActivityResultConnection
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
@@ -68,9 +68,11 @@ input ChallengeActivityCreateInput {
 
 enum ChallengeActivityGoal {
   HIGHEST_NUMBER
+  LONGEST_DISTANCE
   LONGEST_TIME
   LOWEST_NUMBER
   MOST_IMPROVED
+  SHORTEST_DISTANCE
   SHORTEST_TIME
   SPECIFIC_TARGET
 }
@@ -85,7 +87,7 @@ type ChallengeActivityResult implements Node & Timestamps {
   activity: ChallengeActivity!
   createdAt: DateTime
   id: ID!
-  result: Int!
+  result: Float!
   updatedAt: DateTime
   user: User!
 }
@@ -98,7 +100,7 @@ type ChallengeActivityResultConnection {
 input ChallengeActivityResultCreateInput {
   activityId: ID!
   challengeId: ID!
-  result: Int!
+  result: Float!
   userId: ID!
 }
 

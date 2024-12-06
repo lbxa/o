@@ -6,26 +6,17 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 
-interface CustomBackdropProps extends BottomSheetBackdropProps {
-  snapPoints?: (number | string)[]; // Accept snap points as a prop
-}
-
 export const OBackdrop = ({
   animatedIndex,
   style,
-  snapPoints,
-}: CustomBackdropProps) => {
+}: BottomSheetBackdropProps) => {
   const containerAnimatedStyle = useAnimatedStyle(() => {
-    // Determine the opacity range based on the snap points
-    const snapPointLength = snapPoints?.length ?? 1;
-    const inputRange = [0, snapPointLength - 1];
-    const outputRange = [0.6, 0]; // Opacity fades from 0.6 to 0
-
+    // Use -1 to 0 for the closing animation, and 0 to 1 for opening
     return {
       opacity: interpolate(
         animatedIndex.value,
-        inputRange,
-        outputRange,
+        [-1, 0, 1],
+        [0, 0.6, 0.6],
         Extrapolate.CLAMP
       ),
     };

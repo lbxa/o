@@ -7,7 +7,10 @@ interface Timestamps {
   updatedAt: DateTime
 }
 
-scalar DateTime
+"""
+Date custom scalar type for ISO 8601 formatted dates
+"""
+scalar DateTime @specifiedBy(url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date")
 
 enum InvitationStatus {
   PENDING

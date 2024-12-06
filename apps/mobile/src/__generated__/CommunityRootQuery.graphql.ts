@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<85db6282023dfa2d8c2549ff19c51643>>
+ * @generated SignedSource<<a314909b77683a5a858a86c28b462ca7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -121,7 +121,7 @@ v10 = [
   {
     "kind": "Literal",
     "name": "first",
-    "value": 5
+    "value": 1
   }
 ];
 return {
@@ -174,7 +174,7 @@ return {
                   {
                     "kind": "Literal",
                     "name": "count",
-                    "value": 5
+                    "value": 1
                   }
                 ],
                 "kind": "FragmentSpread",
@@ -400,7 +400,7 @@ return {
                     "storageKey": null
                   }
                 ],
-                "storageKey": "invitations(first:5)"
+                "storageKey": "invitations(first:1)"
               },
               {
                 "alias": null,
@@ -421,16 +421,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f6db2edfaf3994884f7673c158f81b31",
+    "cacheID": "ae9cfbe22f7bedd5d4cc38bad5bfc7c7",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    community(communityId: $communityId) {\n      ...CommunityTitle_community\n      ...CommunityDetails_community\n      ...CommunityInvitationAcceptList_community_VbLdN\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment CommunityDetails_community on Community {\n  memberCount\n}\n\nfragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_VbLdN on Community {\n  invitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_invitations\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment CommunityTitle_community on Community {\n  id\n  name\n  isVerified\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    community(communityId: $communityId) {\n      ...CommunityTitle_community\n      ...CommunityDetails_community\n      ...CommunityInvitationAcceptList_community_35kO5h\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment CommunityDetails_community on Community {\n  memberCount\n}\n\nfragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_35kO5h on Community {\n  invitations(first: 1) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_invitations\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment CommunityTitle_community on Community {\n  id\n  name\n  isVerified\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d0d5be11a42ec615b2b1852bcba340f7";
+(node as any).hash = "d5301ebd181f99c000e45d21a960bad7";
 
 export default node;

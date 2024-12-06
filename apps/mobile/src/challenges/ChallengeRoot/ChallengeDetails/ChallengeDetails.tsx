@@ -14,11 +14,12 @@ import { OButton, OTouchable } from "@/universe/atoms";
 import type { ChallengeActivityPills_challenge$key } from "../../../__generated__/ChallengeActivityPills_challenge.graphql";
 import { ChallengeActivityPills } from "../../ChallengeActivity";
 import {
+  DistanceLogger,
   RepetitionLogger,
   StopwatchLogger,
   WeightLogger,
 } from "../../ChallengeLogger";
-import { ChallengeSocials } from "../../ChallengeSocials/ChallengeSocials";
+import { ChallengeSocials } from "../../ChallengeSocials";
 
 interface Props {
   challengeFragmentRef: ChallengeDetails_challenge$key;
@@ -35,6 +36,7 @@ export const ChallengeDetails = ({
   const weightModalRef = useRef<BottomSheetModal>(null);
   const stopwatchModalRef = useRef<BottomSheetModal>(null);
   const repetitionModalRef = useRef<BottomSheetModal>(null);
+  const distanceModalRef = useRef<BottomSheetModal>(null);
 
   const [showDescription, setShowDescription] = useState(true);
 
@@ -55,30 +57,37 @@ export const ChallengeDetails = ({
     challengeFragmentRef
   );
 
+  const ModalMap: Record<
+    ChallengeActivityType,
+    | React.RefObject<BottomSheetModal>
+    | Partial<Record<ChallengeActivityGoal, React.RefObject<BottomSheetModal>>>
+    | null
+  > = {
+    [ChallengeActivityType.Weightlifting]: weightModalRef,
+    [ChallengeActivityType.Repetitions]: repetitionModalRef,
+    [ChallengeActivityType.TimeBased]: stopwatchModalRef,
+    [ChallengeActivityType.Distance]: {
+      [ChallengeActivityGoal.ShortestTime]: stopwatchModalRef,
+      [ChallengeActivityGoal.LongestTime]: stopwatchModalRef,
+      [ChallengeActivityGoal.ShortestDistance]: distanceModalRef,
+      [ChallengeActivityGoal.LongestDistance]: distanceModalRef,
+    },
+    [ChallengeActivityType.Social]: null,
+  };
+
   const handleRecord = () => {
     setRecordedChallenge(challenge);
-    switch (challenge.activity.type) {
-      case ChallengeActivityType.Weightlifting:
-        weightModalRef.current?.present();
-        break;
-      case ChallengeActivityType.Repetitions:
-        repetitionModalRef.current?.present();
-        break;
-      case ChallengeActivityType.TimeBased:
-        stopwatchModalRef.current?.present();
-        break;
-      case ChallengeActivityType.Distance:
-        switch (challenge.activity.goal) {
-          case ChallengeActivityGoal.ShortestTime:
-          case ChallengeActivityGoal.LongestTime:
-            stopwatchModalRef.current?.present();
-            break;
-        }
-        break;
-      case ChallengeActivityType.Social:
-      default:
-        // TODO what should we do with distance?
-        return;
+
+    const modalRef = (
+      challenge.activity.type === ChallengeActivityType.Distance
+        ? ModalMap[challenge.activity.type as ChallengeActivityType]?.[
+            challenge.activity.goal as ChallengeActivityGoal
+          ]
+        : ModalMap[challenge.activity.type as ChallengeActivityType]
+    ) as React.RefObject<BottomSheetModal> | null;
+
+    if (modalRef?.current) {
+      modalRef.current.present();
     }
   };
 
@@ -95,6 +104,7 @@ export const ChallengeDetails = ({
       <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
       <ChallengeSocials memberCount={challenge.memberCount ?? 0} />
       <StopwatchLogger modalRef={stopwatchModalRef} />
+      <DistanceLogger modalRef={distanceModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
       <View className="flex flex-row gap-md">

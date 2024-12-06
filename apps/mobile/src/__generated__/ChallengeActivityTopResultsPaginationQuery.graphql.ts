@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8768692571517981c37b7dc1e428f632>>
+ * @generated SignedSource<<86400db941326c3d2886f0bb2520d381>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,6 @@
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type ChallengeActivityTopResultsPaginationQuery$variables = {
-  challengeId?: string | null | undefined;
   count?: number | null | undefined;
   cursor?: string | null | undefined;
   id: string;
@@ -29,12 +28,7 @@ export type ChallengeActivityTopResultsPaginationQuery = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "challengeId"
-  },
-  {
-    "defaultValue": 10,
+    "defaultValue": 3,
     "kind": "LocalArgument",
     "name": "count"
   },
@@ -57,31 +51,25 @@ v1 = [
   }
 ],
 v2 = {
-  "kind": "Variable",
-  "name": "challengeId",
-  "variableName": "challengeId"
-},
-v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v4 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v5 = [
+v4 = [
   {
     "kind": "Variable",
     "name": "after",
     "variableName": "cursor"
   },
-  (v2/*: any*/),
   {
     "kind": "Variable",
     "name": "first",
@@ -105,7 +93,6 @@ return {
         "selections": [
           {
             "args": [
-              (v2/*: any*/),
               {
                 "kind": "Variable",
                 "name": "count",
@@ -141,14 +128,14 @@ return {
         "name": "node",
         "plural": false,
         "selections": [
+          (v2/*: any*/),
           (v3/*: any*/),
-          (v4/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v4/*: any*/),
                 "concreteType": "ChallengeActivityResultConnection",
                 "kind": "LinkedField",
                 "name": "activityTopResults",
@@ -177,7 +164,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v4/*: any*/),
+                          (v3/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -186,7 +173,7 @@ return {
                             "name": "user",
                             "plural": false,
                             "selections": [
-                              (v4/*: any*/),
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -219,18 +206,25 @@ return {
                             "name": "activity",
                             "plural": false,
                             "selections": [
-                              (v4/*: any*/),
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
                                 "name": "goal",
                                 "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "unit",
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
                           },
-                          (v3/*: any*/)
+                          (v2/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -274,10 +268,8 @@ return {
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
-                "filters": [
-                  "challengeId"
-                ],
+                "args": (v4/*: any*/),
+                "filters": null,
                 "handle": "connection",
                 "key": "ChallengeActivityTopResultsFragment_activityTopResults",
                 "kind": "LinkedHandle",
@@ -293,16 +285,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4da81a4c5fa6cede2a37fb909ac9f584",
+    "cacheID": "e844db9dc75cf9a8c9b29ad0ac76a323",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $challengeId: ID = null\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_t5aav\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_t5aav on Challenge {\n  activityTopResults(challengeId: $challengeId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 3\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "cb194bcb8c16bc778bececbbfe6c64ca";
+(node as any).hash = "d9fd04d174142a754342eee2fd15620a";
 
 export default node;

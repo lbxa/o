@@ -1,61 +1,57 @@
 import CrissCrossIcon from "@assets/icons/criss-cross.svg";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text } from "react-native";
 
 import { useZustStore } from "@/state";
 
+import { PillArray } from "../../../universe/molecules";
 import {
   challengeActivityGoalToLabel,
   challengeActivityTypeToLabel,
   challengeActivityUnitToLabel,
 } from "../../ChallengeActivity/domain";
 
+const EmptyState = () => (
+  <>
+    <CrissCrossIcon width={25} />
+    <Text className="pl-sm">Choose from a blend of options</Text>
+  </>
+);
+
 export const ChallengeCreateActivitySummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);
 
-  const fields = [
-    challengeForm.type && challengeActivityTypeToLabel(challengeForm.type),
-    challengeForm.goal && challengeActivityGoalToLabel(challengeForm.goal),
-    challengeForm.target?.toString(),
-    challengeForm.unit && challengeActivityUnitToLabel(challengeForm.unit),
-  ];
+  const fields = {
+    type: challengeForm.type
+      ? challengeActivityTypeToLabel(challengeForm.type)
+      : null,
+    goal: challengeForm.goal
+      ? challengeActivityGoalToLabel(challengeForm.goal)
+      : null,
+    target: challengeForm.target?.toString() ?? null,
+    unit: challengeForm.unit
+      ? challengeActivityUnitToLabel(challengeForm.unit)
+      : null,
+  };
 
-  const [first, second, third, fourth] = fields;
-
-  if (!first && !second && !third && !fourth) {
-    return (
-      <>
-        <CrissCrossIcon width={25} />
-        <Text className="pl-sm">Choose from a blend of options</Text>
-      </>
-    );
+  const hasAnyField = Object.values(fields).some(Boolean);
+  if (!hasAnyField) {
+    return <EmptyState />;
   }
 
   return (
-    <ScrollView
-      className="mx-sm rounded-lg"
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    >
-      <View className="flex flex-row">
-        {first && (
-          <View className="z-50 rounded-xl bg-navy px-md py-sm">
-            <Text className="font-bold text-indigo-100">{first}</Text>
-          </View>
-        )}
-        {second && (
-          <View className="z-40 -ml-md rounded-xl bg-indigo py-sm pl-lg pr-md">
-            <Text className="font-bold text-indigo-100">{second}</Text>
-          </View>
-        )}
-        {third && (
-          <View className="z-30 -ml-md rounded-xl bg-violet py-sm pl-lg pr-md">
-            <Text className="font-bold text-indigo-100">
-              {third + " " + (fourth === "None" || !fourth ? "" : fourth)}
-            </Text>
-          </View>
-        )}
-      </View>
-    </ScrollView>
+    <PillArray
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      pill1={fields.type!}
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      pill2={fields.goal!}
+      pill3={
+        fields.target
+          ? [fields.target, fields.unit !== "None" ? fields.unit : ""]
+              .filter(Boolean)
+              .join(" ")
+          : undefined
+      }
+    />
   );
 };

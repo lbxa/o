@@ -72,5 +72,9 @@ export const challengeActivityGoalToLabel = (
       return "Longest Time";
     case ChallengeActivityGoal.MostImproved:
       return "Most Improved";
+    case ChallengeActivityGoal.ShortestDistance:
+      return "Shortest Distance";
+    case ChallengeActivityGoal.LongestDistance:
+      return "Longest Distance";
   }
 };

@@ -2,7 +2,7 @@ import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import { OTouchable } from "@/universe/atoms";
+import { ModalCloseButton, OTouchable } from "@/universe/atoms";
 
 export default function ChallengeRoot() {
   const router = useRouter();
@@ -35,6 +35,7 @@ export default function ChallengeRoot() {
           headerLeft: () => (
             <Text className="text-xl font-bold">Invite your friends</Text>
           ),
+          headerRight: () => <ModalCloseButton />,
           headerBackVisible: true,
           presentation: "modal",
         }}

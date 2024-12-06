@@ -1,29 +1,25 @@
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
-import { Text, View } from "react-native";
+import React from "react";
+import { Text } from "react-native";
 
 import { useZustStore } from "@/state";
 
+import { PillArray } from "../../../universe/molecules";
 import { challengeModeToLabel } from "../../ChallengeMode";
+
+const EmptyState = () => (
+  <>
+    <VerifiedBadgeIcon width={20} height={20} fill="black" />
+    <Text className="pl-sm">Select a mode</Text>
+  </>
+);
 
 export const ChallengeCreateModeSummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);
 
   if (!challengeForm.mode) {
-    return (
-      <>
-        <VerifiedBadgeIcon width={20} height={20} fill="black" />
-        <Text className="pl-sm">Select a mode</Text>
-      </>
-    );
+    return <EmptyState />;
   }
 
-  return (
-    <View className="mx-sm rounded-lg">
-      <View className="rounded-xl bg-navy px-md py-sm">
-        <Text className="font-bold text-indigo-100">
-          {challengeModeToLabel(challengeForm.mode)}
-        </Text>
-      </View>
-    </View>
-  );
+  return <PillArray pill1={challengeModeToLabel(challengeForm.mode)} />;
 };
