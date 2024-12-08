@@ -42,7 +42,7 @@ export const ChallengesTable = ChallengeSchema.table(
       .references(() => UsersTable.id),
     communityId: integer()
       .notNull()
-      .references(() => CommunitiesTable.id),
+      .references(() => CommunitiesTable.id, { onDelete: "cascade" }),
     startDate: timestamp().notNull(),
     mode: ChallengeMode().notNull().default("BLIND_TRUST"),
     cadence: ChallengeCadence().notNull().default("NONE"),
@@ -65,7 +65,7 @@ export const ChallengeMembershipsTable = ChallengeSchema.table(
       .references(() => UsersTable.id),
     challengeId: integer()
       .notNull()
-      .references(() => ChallengesTable.id),
+      .references(() => ChallengesTable.id, { onDelete: "cascade" }),
     communityId: integer()
       .notNull()
       .references(() => CommunitiesTable.id),
@@ -80,7 +80,7 @@ export const ChallengeInvitationsTable = ChallengeSchema.table("invitations", {
   ...withIdPk,
   challengeId: integer()
     .notNull()
-    .references(() => ChallengesTable.id),
+    .references(() => ChallengesTable.id, { onDelete: "cascade" }),
   inviterId: integer()
     .notNull()
     .references(() => UsersTable.id),
@@ -131,7 +131,7 @@ export const ChallengeActivitiesTable = ChallengeSchema.table(
     ...withIdPk,
     challengeId: integer()
       .notNull()
-      .references(() => ChallengesTable.id),
+      .references(() => ChallengesTable.id, { onDelete: "cascade" }),
     type: ChallengeActivityType().notNull(),
     // measurement: ChallengeActivityMeasurement().notNull(),
     goal: ChallengeActivityGoal().notNull(),
@@ -158,13 +158,13 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
     ...withIdPk,
     userId: integer()
       .notNull()
-      .references(() => UsersTable.id),
+      .references(() => UsersTable.id, { onDelete: "cascade" }),
     activityId: integer()
       .notNull()
-      .references(() => ChallengeActivitiesTable.id),
+      .references(() => ChallengeActivitiesTable.id, { onDelete: "cascade" }),
     challengeId: integer()
       .notNull()
-      .references(() => ChallengesTable.id),
+      .references(() => ChallengesTable.id, { onDelete: "cascade" }),
     /**
      * Double precision floating-point for storing activity results:
      *

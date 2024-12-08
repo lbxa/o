@@ -11,24 +11,39 @@ import {
   CommunityInvitationsTable,
   CommunityMembershipsTable,
 } from "../schema/community.schema";
-import { UsersTable } from "../schema/user.schema";
+import { UserFriendshipsTable, UsersTable } from "../schema/user.schema";
 
 export const UsersRelations = relations(UsersTable, ({ many }) => ({
   ownedCommunities: many(CommunitiesTable),
   communityMemberships: many(CommunityMembershipsTable),
   communityInvitationsSent: many(CommunityInvitationsTable, {
-    relationName: "inviter",
+    relationName: "communityInviter",
   }),
   communityInvitationsReceived: many(CommunityInvitationsTable, {
-    relationName: "invitee",
+    relationName: "communityInvitee",
   }),
   challengesOwned: many(ChallengesTable),
   challengeMemberships: many(ChallengeMembershipsTable),
   challengeInvitationsSent: many(ChallengeInvitationsTable, {
-    relationName: "inviter",
+    relationName: "challengeInviter",
   }),
   challengeInvitationsReceived: many(ChallengeInvitationsTable, {
-    relationName: "invitee",
+    relationName: "challengeInvitee",
   }),
   activityResults: many(ChallengeActivityResultsTable),
+  friendships: many(UserFriendshipsTable),
 }));
+
+export const UserFriendshipsRelations = relations(
+  UserFriendshipsTable,
+  ({ one }) => ({
+    user: one(UsersTable, {
+      fields: [UserFriendshipsTable.userId],
+      references: [UsersTable.id],
+    }),
+    friend: one(UsersTable, {
+      fields: [UserFriendshipsTable.friendId],
+      references: [UsersTable.id],
+    }),
+  })
+);
