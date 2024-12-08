@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53306af25d0f105d93d3a92d54921cfb>>
+ * @generated SignedSource<<40ff2ec82a8e3d93505a671933203f6f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,25 +10,26 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserProfile_viewer$data = {
+export type ViewerProfile_viewer$data = {
   readonly user: {
-    readonly email: string | null | undefined;
+    readonly bio: string | null | undefined;
     readonly firstName: string | null | undefined;
+    readonly handle: string | null | undefined;
     readonly id: string;
     readonly lastName: string | null | undefined;
   } | null | undefined;
-  readonly " $fragmentType": "UserProfile_viewer";
+  readonly " $fragmentType": "ViewerProfile_viewer";
 };
-export type UserProfile_viewer$key = {
-  readonly " $data"?: UserProfile_viewer$data;
-  readonly " $fragmentSpreads": FragmentRefs<"UserProfile_viewer">;
+export type ViewerProfile_viewer$key = {
+  readonly " $data"?: ViewerProfile_viewer$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ViewerProfile_viewer">;
 };
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "UserProfile_viewer",
+  "name": "ViewerProfile_viewer",
   "selections": [
     {
       "alias": null,
@@ -63,7 +64,14 @@ const node: ReaderFragment = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "email",
+          "name": "handle",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "bio",
           "storageKey": null
         }
       ],
@@ -74,6 +82,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "507d12f80d1da2a415db4ce05ef621df";
+(node as any).hash = "343d6fc286eb1eefaec029b6664d374d";
 
 export default node;

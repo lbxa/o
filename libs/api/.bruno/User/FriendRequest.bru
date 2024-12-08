@@ -1,0 +1,77 @@
+meta {
+  name: FriendRequest
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment User on User {
+    firstName
+    lastName
+  }
+  
+  mutation UserFriendRequestMutation {
+    # userRequestFriendship(friendId: "LW4gVXNlcjoyOAo=") {
+    #   id
+    #   user {
+    #     ...User
+    #   }
+    # }
+    userAcceptFriendship(friendId: "LW4gVXNlcjoyOQo=") {
+      user {
+        ...User
+      }
+      friend {
+        ...User
+      }
+    }
+  }
+  
+  # query UserFriendsQuery { 
+  #   viewer {
+  #     user {
+  #       friendRequests {
+  #         edges {
+  #           node {
+  #             id
+  #             status
+  #             user {
+  #               ...User
+  #             }
+  #             friend {
+  #               ...User
+  #             }
+  #           }
+  #         }
+  #       }
+  #       searchFriends(searchTerm: "lbx") {
+  #         id
+  #         firstName
+  #         lastName
+  #         handle
+  #       }
+  #     }
+  #   }
+  # }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

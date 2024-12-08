@@ -310,6 +310,10 @@ type Mutation {
   communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  """Accept a friendship"""
+  userAcceptFriendship(friendId: ID!): UserFriendship!
+  """Request a friendship"""
+  userRequestFriendship(friendId: ID!): UserFriendship!
   """Update a user"""
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
@@ -338,6 +342,8 @@ type Query {
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   health: String!
   node(id: ID!): Node
+  """Fetch the user profile of any user by ID"""
+  userProfile(id: ID!): User
   """Search for users by name"""
   userSearch(searchTerm: String): [User!]
   """Validate if an email is already taken"""
@@ -362,30 +368,48 @@ type Tokens {
 
 """A user of the app"""
 type User implements Node & Timestamps {
+  bio: String
   createdAt: DateTime
   email: String
   firstName: String
+  friendRequests(after: String, first: Int): UserFriendshipConnection
   """If they have any..."""
-  friends: [User!]
+  friends: UserConnection
   handle: String
   id: ID!
   lastName: String
-  memberships: [CommunityMembership!]
   password: String
-  receivedInvitations: [CommunityInvitation!]
   searchFriends(searchTerm: String): [User!]
-  sentInvitations: [CommunityInvitation!]
   updatedAt: DateTime
 }
 
 type UserConnection {
-  edges: [UserEdge!]!
+  edges: [UserEdge!]
   pageInfo: PageInfo!
 }
 
 type UserEdge {
   cursor: String!
   node: User!
+}
+
+type UserFriendship implements Node & Timestamps {
+  createdAt: DateTime
+  friend: User!
+  id: ID!
+  status: InvitationStatus!
+  updatedAt: DateTime
+  user: User!
+}
+
+type UserFriendshipConnection {
+  edges: [UserFriendshipEdge!]!
+  pageInfo: PageInfo!
+}
+
+type UserFriendshipEdge {
+  cursor: String!
+  node: UserFriendship!
 }
 
 input UserUpdateInput {

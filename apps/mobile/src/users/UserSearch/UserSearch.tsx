@@ -14,9 +14,9 @@ import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFrien
 import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
 import { OSearchBar } from "@/universe/molecules";
 
-import { UserInviteCard } from "./UserInviteCard";
+import { UserProfileCard } from "./UserProfileCard";
 
-export const USER_SEARCH_QUERY = graphql`
+const USER_SEARCH_QUERY = graphql`
   query UserSearchFriendsListQuery($searchTerm: String) {
     viewer {
       ...UserSearchFriends_viewer @arguments(searchTerm: $searchTerm)
@@ -47,7 +47,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
         user {
           searchFriends(searchTerm: $searchTerm) {
-            ...UserInviteCard_user
+            ...UserProfileCard_user
           }
         }
       }
@@ -75,7 +75,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       showsVerticalScrollIndicator={false}
       className="px-sm"
       data={data?.user?.searchFriends}
-      renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
+      renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
       ListEmptyComponent={
         <Text className="pt-md text-center">No users found</Text>
       }

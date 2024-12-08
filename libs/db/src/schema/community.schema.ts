@@ -37,10 +37,10 @@ export const CommunityMembershipsTable = CommunitySchema.table(
     ...withIdPk,
     userId: integer()
       .notNull()
-      .references(() => UsersTable.id),
+      .references(() => UsersTable.id, { onDelete: "cascade" }),
     communityId: integer()
       .notNull()
-      .references(() => CommunitiesTable.id),
+      .references(() => CommunitiesTable.id, { onDelete: "cascade" }),
     isAdmin: boolean().notNull().default(false),
     joinedAt: timestamp().defaultNow(),
   },
@@ -56,13 +56,13 @@ export const CommunityInvitationsTable = CommunitySchema.table(
     ...withIdPk,
     communityId: integer()
       .notNull()
-      .references(() => CommunitiesTable.id),
+      .references(() => CommunitiesTable.id, { onDelete: "cascade" }),
     inviterId: integer()
       .notNull()
-      .references(() => UsersTable.id),
+      .references(() => UsersTable.id, { onDelete: "cascade" }),
     inviteeId: integer()
       .notNull()
-      .references(() => UsersTable.id),
+      .references(() => UsersTable.id, { onDelete: "cascade" }),
     status: InvitationStatus().notNull().default("PENDING"),
     expiresAt: timestamp().notNull(),
     ...withModificationDates,

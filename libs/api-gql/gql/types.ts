@@ -367,6 +367,10 @@ export type Mutation = {
   communityJoin: CommunityJoinPayload;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
+  /** Accept a friendship */
+  userAcceptFriendship: UserFriendship;
+  /** Request a friendship */
+  userRequestFriendship: UserFriendship;
   /** Update a user */
   userUpdate: User;
 };
@@ -455,6 +459,16 @@ export type MutationCommunityUpdateArgs = {
 };
 
 
+export type MutationUserAcceptFriendshipArgs = {
+  friendId: Scalars['ID']['input'];
+};
+
+
+export type MutationUserRequestFriendshipArgs = {
+  friendId: Scalars['ID']['input'];
+};
+
+
 export type MutationUserUpdateArgs = {
   userUpdateInput: UserUpdateInput;
 };
@@ -485,6 +499,8 @@ export type Query = {
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
+  /** Fetch the user profile of any user by ID */
+  userProfile?: Maybe<User>;
   /** Search for users by name */
   userSearch?: Maybe<Array<User>>;
   /** Validate if an email is already taken */
@@ -524,6 +540,11 @@ export type QueryNodeArgs = {
 };
 
 
+export type QueryUserProfileArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type QueryUserSearchArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
@@ -550,20 +571,26 @@ export type Tokens = {
 /** A user of the app */
 export type User = Node & Timestamps & {
   __typename?: 'User';
+  bio?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
+  friendRequests?: Maybe<UserFriendshipConnection>;
   /** If they have any... */
-  friends?: Maybe<Array<User>>;
+  friends?: Maybe<UserConnection>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
-  memberships?: Maybe<Array<CommunityMembership>>;
   password?: Maybe<Scalars['String']['output']>;
-  receivedInvitations?: Maybe<Array<CommunityInvitation>>;
   searchFriends?: Maybe<Array<User>>;
-  sentInvitations?: Maybe<Array<CommunityInvitation>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** A user of the app */
+export type UserFriendRequestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -574,7 +601,7 @@ export type UserSearchFriendsArgs = {
 
 export type UserConnection = {
   __typename?: 'UserConnection';
-  edges: Array<UserEdge>;
+  edges?: Maybe<Array<UserEdge>>;
   pageInfo: PageInfo;
 };
 
@@ -582,6 +609,28 @@ export type UserEdge = {
   __typename?: 'UserEdge';
   cursor: Scalars['String']['output'];
   node: User;
+};
+
+export type UserFriendship = Node & Timestamps & {
+  __typename?: 'UserFriendship';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  friend: User;
+  id: Scalars['ID']['output'];
+  status: InvitationStatus;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user: User;
+};
+
+export type UserFriendshipConnection = {
+  __typename?: 'UserFriendshipConnection';
+  edges: Array<UserFriendshipEdge>;
+  pageInfo: PageInfo;
+};
+
+export type UserFriendshipEdge = {
+  __typename?: 'UserFriendshipEdge';
+  cursor: Scalars['String']['output'];
+  node: UserFriendship;
 };
 
 export type UserUpdateInput = {

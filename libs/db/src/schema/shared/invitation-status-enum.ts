@@ -4,5 +4,5 @@ import { pgEnum } from "drizzle-orm/pg-core";
 export const InvitationStatus = pgEnum("status", [
   "PENDING",
   "ACCEPTED",
-  "DENIED",
+  "DECLINED",
 ]);

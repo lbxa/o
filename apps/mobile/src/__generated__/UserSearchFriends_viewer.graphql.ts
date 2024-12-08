@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<02f7be352d3ab9d33492f238054a7a91>>
+ * @generated SignedSource<<2b288cec2bf3c0c02da78d98f905fd38>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ import type { FragmentRefs } from "relay-runtime";
 export type UserSearchFriends_viewer$data = {
   readonly user: {
     readonly searchFriends: ReadonlyArray<{
-      readonly " $fragmentSpreads": FragmentRefs<"UserInviteCard_user">;
+      readonly " $fragmentSpreads": FragmentRefs<"UserProfileCard_user">;
     }> | null | undefined;
   } | null | undefined;
   readonly " $fragmentType": "UserSearchFriends_viewer";
@@ -68,7 +68,7 @@ const node: ReaderFragment = {
             {
               "args": null,
               "kind": "FragmentSpread",
-              "name": "UserInviteCard_user"
+              "name": "UserProfileCard_user"
             }
           ],
           "storageKey": null
@@ -81,6 +81,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "54d571a44dc3c53ae15a03e6104e1945";
+(node as any).hash = "716d87bda603763be46cd774040c68fc";
 
 export default node;

@@ -9,9 +9,21 @@
 /**
  * USER
  */
-export type { NewUser, User } from "./schema/user.schema";
-export { UserSchema, UsersTable } from "./schema/user.schema";
-export { UsersRelations } from "./relations/user.relations";
+export type {
+  NewUser,
+  User,
+  UserFriendship,
+  NewUserFriendship,
+} from "./schema/user.schema";
+export {
+  UserSchema,
+  UsersTable,
+  UserFriendshipsTable,
+} from "./schema/user.schema";
+export {
+  UsersRelations,
+  UserFriendshipsRelations,
+} from "./relations/user.relations";
 
 /**
  * COMMUNITY

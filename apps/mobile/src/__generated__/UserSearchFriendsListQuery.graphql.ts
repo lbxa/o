@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bded3f61902ec4d91107238dc88fb409>>
+ * @generated SignedSource<<87ad08b1961cb3c180c05ef3ef0c328a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -138,12 +138,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1fc7908931693c31447089d870239966",
+    "cacheID": "40fa74376099a9ab5d456686397b9ffc",
     "id": null,
     "metadata": {},
     "name": "UserSearchFriendsListQuery",
     "operationKind": "query",
-    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserInviteCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserInviteCard_user\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserProfileCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserProfileCard_user\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();

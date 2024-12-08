@@ -35,6 +35,7 @@ export const OSearchBar = ({
           autoFocus
           value={searchQuery}
           textContentType="oneTimeCode"
+          returnKeyType="search"
           onChangeText={handleChange}
         />
         <OTouchable onPress={() => onSearchChange("")}>

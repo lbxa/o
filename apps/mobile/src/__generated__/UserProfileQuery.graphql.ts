@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ab2addb20832e68bf60d47aed8a4cd08>>
+ * @generated SignedSource<<755ddc29589184a78ff987d9e1d62d7e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,10 +10,12 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserProfileQuery$variables = Record<PropertyKey, never>;
+export type UserProfileQuery$variables = {
+  userId: string;
+};
 export type UserProfileQuery$data = {
-  readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserProfile_viewer">;
+  readonly userProfile: {
+    readonly " $fragmentSpreads": FragmentRefs<"UserProfile_user">;
   } | null | undefined;
 };
 export type UserProfileQuery = {
@@ -22,32 +24,39 @@ export type UserProfileQuery = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "userId"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "userId"
+  }
+];
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "UserProfileQuery",
     "selections": [
       {
         "alias": null,
-        "args": null,
-        "concreteType": "Viewer",
+        "args": (v1/*: any*/),
+        "concreteType": "User",
         "kind": "LinkedField",
-        "name": "viewer",
+        "name": "userProfile",
         "plural": false,
         "selections": [
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "UserProfile_viewer"
+            "name": "UserProfile_user"
           }
         ],
         "storageKey": null
@@ -58,68 +67,69 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserProfileQuery",
     "selections": [
       {
         "alias": null,
-        "args": null,
-        "concreteType": "Viewer",
+        "args": (v1/*: any*/),
+        "concreteType": "User",
         "kind": "LinkedField",
-        "name": "viewer",
+        "name": "userProfile",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v0/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "firstName",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "lastName",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "email",
-                "storageKey": null
-              }
-            ],
+            "kind": "ScalarField",
+            "name": "id",
             "storageKey": null
           },
-          (v0/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "firstName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "handle",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "bio",
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "02486347224ba0f6ac11e78c70fb05f8",
+    "cacheID": "c5ce4ea6f39375880e3380910a829f9c",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery {\n  viewer {\n    ...UserProfile_viewer\n    id\n  }\n}\n\nfragment UserProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    email\n  }\n}\n"
+    "text": "query UserProfileQuery(\n  $userId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6c86c2f80596041b06ed490ff0d130a5";
+(node as any).hash = "b81d7f6792f7bca8888a7d82c814d8bc";
 
 export default node;

@@ -17,8 +17,10 @@ export interface EntityService<
   T extends AnyPgTable,
   PgType extends T["$inferSelect"],
   GqlType extends Node,
+  // EdgeType extends Edge<GqlType> = Edge<GqlType>,
 > {
   getTypename(): string;
   pg2GqlMapper(pgEntity: PgType): GqlType;
   findById(id: number): Promise<GqlType | undefined>;
+  // buildEdge(pgEntity: PgType): EdgeType;
 }

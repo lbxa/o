@@ -1,10 +1,10 @@
 import { Ozone } from "@/universe/molecules";
-import { UserSearch } from "@/users/UserSearch";
+import { UserInviteSearch } from "@/users/UserSearch";
 
 export default function CommunityInviteModal() {
   return (
     <Ozone>
-      <UserSearch />
+      <UserInviteSearch />
     </Ozone>
   );
 }

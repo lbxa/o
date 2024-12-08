@@ -38,7 +38,7 @@ export default function RootLayout() {
 
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <ThemeProvider value={DefaultTheme}>
           <SafeAreaProvider>
             <BottomSheetModalProvider>
@@ -46,10 +46,15 @@ export default function RootLayout() {
                 screenOptions={{
                   headerShown: false,
                 }}
-                initialRouteName="(root)"
               >
                 <Stack.Screen name="(root)" />
                 <Stack.Screen name="auth" />
+                <Stack.Screen
+                  name="(modals)"
+                  options={{
+                    presentation: "modal",
+                  }}
+                />
               </Stack>
             </BottomSheetModalProvider>
           </SafeAreaProvider>

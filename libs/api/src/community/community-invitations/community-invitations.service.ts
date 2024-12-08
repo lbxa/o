@@ -231,7 +231,7 @@ export class CommunityInvitationsService
 
     const [updatedInvitation] = await this.dbService.db
       .update(CommunityInvitationsTable)
-      .set({ status: "DENIED" })
+      .set({ status: InvitationStatus.DECLINED })
       .where(eq(CommunityInvitationsTable.id, inviteId))
       .returning();
 

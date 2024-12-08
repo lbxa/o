@@ -16,8 +16,8 @@ interface NoSuspenseRefetchProps<
 > {
   ancestorQuery: GraphQLTaggedNode;
   ancestorVariables: VariablesOf<TAncestorQuery>;
-  refetchFunc: RefetchFnDynamic<TRefetchQuery, TRefetchKey>;
-  refetchFuncVariables: Partial<VariablesOf<TRefetchQuery>>;
+  refetchFunc?: RefetchFnDynamic<TRefetchQuery, TRefetchKey>;
+  refetchFuncVariables?: Partial<VariablesOf<TRefetchQuery>>;
 }
 
 /**
@@ -42,8 +42,8 @@ export const useNoSuspenseRefetch = <
 >({
   ancestorQuery,
   ancestorVariables,
-  // refetchFunc,
-  // refetchFuncVariables,
+  refetchFunc,
+  refetchFuncVariables = {},
 }: NoSuspenseRefetchProps<TAncestorQuery, TRefetchQuery, TRefetchKey>): {
   refetch: () => void;
   isRefetching: boolean;
@@ -80,10 +80,10 @@ export const useNoSuspenseRefetch = <
         setIsRefetching(false);
         // TODO figure out why the 'store-only' fetch policy is not working
         // fetchQuery doesn't seem to be placing the items in the expected location
-        // refetchFunc(refetchFuncVariables, {
-        //   fetchPolicy: "store-only",
-        //   UNSTABLE_renderPolicy: "partial",
-        // });
+        refetchFunc?.(refetchFuncVariables, {
+          fetchPolicy: "store-only",
+          UNSTABLE_renderPolicy: "partial",
+        });
       },
       error: () => {
         setIsRefetching(false);
