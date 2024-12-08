@@ -24,7 +24,7 @@ export const ChallengeActivity = ({
   challengeId,
   challengeRoot,
 }: ChallengeActivityProps) => {
-  const [data, refetch] = useRefetchableFragment<
+  const [data, _] = useRefetchableFragment<
     ChallengeActivityTopResultsPaginationQuery,
     ChallengeActivityTopResultsFragment_challenge$key
   >(
@@ -62,8 +62,10 @@ export const ChallengeActivity = ({
     useNoSuspenseRefetch({
       ancestorQuery: CHALLENGE_ROOT_QUERY,
       ancestorVariables: { challengeId },
-      refetchFunc: refetch,
-      refetchFuncVariables: { count: 3 },
+      // TODO dig into relay cache to find out why refetch with
+      // store-only isn't working as expected
+      // refetchFunc: refetch,
+      // refetchFuncVariables: { count: 3 },
     });
 
   const topResultsModalRef = useRef<BottomSheetModal>(null);
