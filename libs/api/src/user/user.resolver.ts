@@ -2,14 +2,19 @@ import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { CommunityService } from "../community/community.service";
 import { Public } from "../decorators";
-import { User, UserUpdateInput } from "../types/graphql";
+import { CurrentUser } from "../decorators/current-user.decorator";
+import { InvitationStatus, User, UserUpdateInput } from "../types/graphql";
+import { ConnectionArgs } from "../utils";
+import { decodeGlobalId } from "../utils";
 import { UserService } from "./user.service";
+import { UserFriendshipsService } from "./user-friendships/user-friendships.service";
 
 @Resolver("User")
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
-    private readonly communityService: CommunityService
+    private readonly communityService: CommunityService,
+    private readonly userFriendshipsService: UserFriendshipsService
   ) {}
 
   @Query("users")
@@ -46,6 +51,42 @@ export class UserResolver {
   @Query("userSearch")
   userSearch(@Args("searchTerm") searchTerm: string) {
     return this.userService.userSearch(searchTerm);
+  }
+
+  @Mutation("userRequestFriendship")
+  async requestFriendship(
+    @CurrentUser("userId") userId: number,
+    @Args("friendId") friendId: string
+  ) {
+    const { id: decodedFriendId } = decodeGlobalId(friendId);
+    return this.userFriendshipsService.requestFriendship(
+      userId,
+      decodedFriendId
+    );
+  }
+
+  @Mutation("userAcceptFriendship")
+  async acceptFriendship(
+    @CurrentUser("userId") userId: number,
+    @Args("friendId") friendId: string
+  ) {
+    const { id: decodedFriendId } = decodeGlobalId(friendId);
+    return this.userFriendshipsService.acceptFriendship(
+      userId,
+      decodedFriendId
+    );
+  }
+
+  @ResolveField("friendRequests")
+  async friendRequests(
+    @CurrentUser("userId") userId: number,
+    @Args() args: ConnectionArgs
+  ) {
+    return this.userFriendshipsService.getFriendships(
+      userId,
+      InvitationStatus.PENDING,
+      args
+    );
   }
 
   // @Mutation('removeUser')

@@ -172,6 +172,8 @@ export interface IMutation {
     communityJoin(inviteId: string): CommunityJoinPayload | Promise<CommunityJoinPayload>;
     communityLeave(id: string): boolean | Promise<boolean>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
+    userRequestFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
+    userAcceptFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
 }
 
 export interface ChallengeActivityResult extends Node, Timestamps {
@@ -381,11 +383,22 @@ export interface User extends Node, Timestamps {
     password?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    friends?: Nullable<User[]>;
+    friendRequests?: Nullable<UserFriendshipConnection>;
+    friends?: Nullable<UserConnection>;
     searchFriends?: Nullable<User[]>;
     memberships?: Nullable<CommunityMembership[]>;
     sentInvitations?: Nullable<CommunityInvitation[]>;
     receivedInvitations?: Nullable<CommunityInvitation[]>;
+}
+
+export interface UserFriendship extends Node, Timestamps {
+    __typename?: 'UserFriendship';
+    id: string;
+    user: User;
+    friend: User;
+    status: InvitationStatus;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export interface ValidEmailResponse {
@@ -401,7 +414,19 @@ export interface UserEdge {
 
 export interface UserConnection {
     __typename?: 'UserConnection';
-    edges: UserEdge[];
+    edges?: Nullable<UserEdge[]>;
+    pageInfo: PageInfo;
+}
+
+export interface UserFriendshipEdge {
+    __typename?: 'UserFriendshipEdge';
+    cursor: string;
+    node: UserFriendship;
+}
+
+export interface UserFriendshipConnection {
+    __typename?: 'UserFriendshipConnection';
+    edges: UserFriendshipEdge[];
     pageInfo: PageInfo;
 }
 

@@ -10,14 +10,25 @@ type User implements Node & Timestamps {
   password: String
   createdAt: DateTime
   updatedAt: DateTime
+
+  friendRequests(first: Int, after: String): UserFriendshipConnection
   "If they have any..."
-  friends: [User!]
+  friends: UserConnection
   searchFriends(searchTerm: String): [User!]
 
   # TODO
   memberships: [CommunityMembership!]
   sentInvitations: [CommunityInvitation!]
   receivedInvitations: [CommunityInvitation!]
+}
+
+type UserFriendship implements Node & Timestamps {
+  id: ID!
+  user: User!
+  friend: User!
+  status: InvitationStatus!
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input UserUpdateInput {
@@ -38,7 +49,17 @@ type UserEdge {
 }
 
 type UserConnection {
-  edges: [UserEdge!]!
+  edges: [UserEdge!]
+  pageInfo: PageInfo!
+}
+
+type UserFriendshipEdge {
+  cursor: String!
+  node: UserFriendship!
+}
+
+type UserFriendshipConnection {
+  edges: [UserFriendshipEdge!]!
   pageInfo: PageInfo!
 }
 
@@ -54,5 +75,9 @@ type Query {
 type Mutation {
   "Update a user"
   userUpdate(userUpdateInput: UserUpdateInput!): User!
+  "Request a friendship"
+  userRequestFriendship(friendId: ID!): UserFriendship!
+  "Accept a friendship"
+  userAcceptFriendship(friendId: ID!): UserFriendship!
   # removeUser(id: Int!): User
 }

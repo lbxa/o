@@ -310,6 +310,10 @@ type Mutation {
   communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  """Accept a friendship"""
+  userAcceptFriendship(friendId: ID!): UserFriendship!
+  """Request a friendship"""
+  userRequestFriendship(friendId: ID!): UserFriendship!
   """Update a user"""
   userUpdate(userUpdateInput: UserUpdateInput!): User!
 }
@@ -365,8 +369,9 @@ type User implements Node & Timestamps {
   createdAt: DateTime
   email: String
   firstName: String
+  friendRequests(after: String, first: Int): UserFriendshipConnection
   """If they have any..."""
-  friends: [User!]
+  friends: UserConnection
   handle: String
   id: ID!
   lastName: String
@@ -379,13 +384,32 @@ type User implements Node & Timestamps {
 }
 
 type UserConnection {
-  edges: [UserEdge!]!
+  edges: [UserEdge!]
   pageInfo: PageInfo!
 }
 
 type UserEdge {
   cursor: String!
   node: User!
+}
+
+type UserFriendship implements Node & Timestamps {
+  createdAt: DateTime
+  friend: User!
+  id: ID!
+  status: InvitationStatus!
+  updatedAt: DateTime
+  user: User!
+}
+
+type UserFriendshipConnection {
+  edges: [UserFriendshipEdge!]!
+  pageInfo: PageInfo!
+}
+
+type UserFriendshipEdge {
+  cursor: String!
+  node: UserFriendship!
 }
 
 input UserUpdateInput {
