@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<87ad08b1961cb3c180c05ef3ef0c328a>>
+ * @generated SignedSource<<2cefc607b2bb803f40e9ed8f71d7ae95>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,17 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserSearchFriendsListQuery$variables = {
+export type UserInviteSearchFriendsListQuery$variables = {
   searchTerm?: string | null | undefined;
 };
-export type UserSearchFriendsListQuery$data = {
+export type UserInviteSearchFriendsListQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriends_viewer">;
+    readonly " $fragmentSpreads": FragmentRefs<"UserInviteSearchFriends_viewer">;
   } | null | undefined;
 };
-export type UserSearchFriendsListQuery = {
-  response: UserSearchFriendsListQuery$data;
-  variables: UserSearchFriendsListQuery$variables;
+export type UserInviteSearchFriendsListQuery = {
+  response: UserInviteSearchFriendsListQuery$data;
+  variables: UserInviteSearchFriendsListQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -50,7 +50,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "UserSearchFriendsListQuery",
+    "name": "UserInviteSearchFriendsListQuery",
     "selections": [
       {
         "alias": null,
@@ -63,7 +63,7 @@ return {
           {
             "args": (v1/*: any*/),
             "kind": "FragmentSpread",
-            "name": "UserSearchFriends_viewer"
+            "name": "UserInviteSearchFriends_viewer"
           }
         ],
         "storageKey": null
@@ -76,7 +76,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "UserSearchFriendsListQuery",
+    "name": "UserInviteSearchFriendsListQuery",
     "selections": [
       {
         "alias": null,
@@ -138,16 +138,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "40fa74376099a9ab5d456686397b9ffc",
+    "cacheID": "3481e270b4132ec8467339141b16682f",
     "id": null,
     "metadata": {},
-    "name": "UserSearchFriendsListQuery",
+    "name": "UserInviteSearchFriendsListQuery",
     "operationKind": "query",
-    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserProfileCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserProfileCard_user\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserInviteSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserInviteSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserInviteCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserInviteSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserInviteCard_user\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2aec67d29d0baf27c2d97eed3dd71ef8";
+(node as any).hash = "50448e8971aa97b805af7248a9d7fae2";
 
 export default node;

@@ -9,45 +9,47 @@ import React, {
 import { FlatList, Text, View } from "react-native";
 import { graphql, useLazyLoadQuery, useRefetchableFragment } from "react-relay";
 
-import type { UserSearchFriends_viewer$key } from "@/__generated__/UserSearchFriends_viewer.graphql";
-import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFriendsListQuery.graphql";
-import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
+import type { UserInviteSearchFriends_viewer$key } from "@/__generated__/UserInviteSearchFriends_viewer.graphql";
+import type { UserInviteSearchFriendsListQuery } from "@/__generated__/UserInviteSearchFriendsListQuery.graphql";
+import type { UserInviteSearchRefetchQuery } from "@/__generated__/UserInviteSearchRefetchQuery.graphql";
 import { OSearchBar } from "@/universe/molecules";
 
-import { UserProfileCard } from "./UserProfileCard";
+import { UserInviteCard } from "./UserInviteCard";
 
-const USER_SEARCH_QUERY = graphql`
-  query UserSearchFriendsListQuery($searchTerm: String) {
+const USER_INVITE_SEARCH_QUERY = graphql`
+  query UserInviteSearchFriendsListQuery($searchTerm: String) {
     viewer {
-      ...UserSearchFriends_viewer @arguments(searchTerm: $searchTerm)
+      ...UserInviteSearchFriends_viewer @arguments(searchTerm: $searchTerm)
     }
   }
 `;
 
-interface UserSearchResultsProps {
+interface UserInviteSearchResultsProps {
   searchTerm: string;
 }
 
-const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
+const UserInviteSearchResults = ({
+  searchTerm,
+}: UserInviteSearchResultsProps) => {
   const [_, startTransition] = useTransition();
-  const query = useLazyLoadQuery<UserSearchFriendsListQuery>(
-    USER_SEARCH_QUERY,
+  const query = useLazyLoadQuery<UserInviteSearchFriendsListQuery>(
+    USER_INVITE_SEARCH_QUERY,
     {
       searchTerm: "",
     }
   );
 
   const [data, refetch] = useRefetchableFragment<
-    UserSearchRefetchQuery,
-    UserSearchFriends_viewer$key
+    UserInviteSearchRefetchQuery,
+    UserInviteSearchFriends_viewer$key
   >(
     graphql`
-      fragment UserSearchFriends_viewer on Viewer
-      @refetchable(queryName: "UserSearchRefetchQuery")
+      fragment UserInviteSearchFriends_viewer on Viewer
+      @refetchable(queryName: "UserInviteSearchRefetchQuery")
       @argumentDefinitions(searchTerm: { type: "String", defaultValue: null }) {
         user {
           searchFriends(searchTerm: $searchTerm) {
-            ...UserProfileCard_user
+            ...UserInviteCard_user
           }
         }
       }
@@ -75,7 +77,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       showsVerticalScrollIndicator={false}
       className="px-sm"
       data={data?.user?.searchFriends}
-      renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
+      renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
       ListEmptyComponent={
         <Text className="pt-md text-center">No users found</Text>
       }
@@ -83,7 +85,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
   );
 };
 
-export const UserSearch = () => {
+export const UserInviteSearch = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
@@ -96,7 +98,7 @@ export const UserSearch = () => {
         onSearchChange={setSearchQuery}
       />
       <Suspense fallback={null}>
-        <UserSearchResults searchTerm={deferredSearchQuery} />
+        <UserInviteSearchResults searchTerm={deferredSearchQuery} />
       </Suspense>
     </View>
   );

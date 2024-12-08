@@ -1,0 +1,67 @@
+meta {
+  name: Friendships
+  type: graphql
+  seq: 6
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment User on User {
+    firstName
+    lastName
+  }
+  
+  query UserFriendsQuery { 
+    viewer {
+      user {
+        friendRequests {
+          edges {
+            node {
+              id
+              status
+              user {
+                ...User
+              }
+              friend {
+                ...User
+              }
+            }
+          }
+        }
+        friends {
+          edges {
+            node {
+              ...User
+            }
+          }
+        }
+        # searchFriends(searchTerm: "lbx") {
+        #   id
+        #   firstName
+        #   lastName
+        #   handle
+        # }
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

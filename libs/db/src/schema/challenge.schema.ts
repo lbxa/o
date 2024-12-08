@@ -83,10 +83,10 @@ export const ChallengeInvitationsTable = ChallengeSchema.table("invitations", {
     .references(() => ChallengesTable.id, { onDelete: "cascade" }),
   inviterId: integer()
     .notNull()
-    .references(() => UsersTable.id),
+    .references(() => UsersTable.id, { onDelete: "cascade" }),
   inviteeId: integer()
     .notNull()
-    .references(() => UsersTable.id),
+    .references(() => UsersTable.id, { onDelete: "cascade" }),
   status: InvitationStatus().notNull().default("PENDING"),
   expiresAt: timestamp().notNull(),
   ...withModificationDates,

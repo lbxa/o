@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a7db58f9e1886d173593a7f3d4c9d76d>>
+ * @generated SignedSource<<8f396f468571715408fdbbed8470a53c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -138,16 +138,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1ac7ec2df06b2b45ae6afdb778a37c06",
+    "cacheID": "9f711faee99fca938c53d5308014e5ea",
     "id": null,
     "metadata": {},
     "name": "UserSearchRefetchQuery",
     "operationKind": "query",
-    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserInviteCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserInviteCard_user\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchRefetchQuery(\n  $searchTerm: String = null\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserProfileCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserProfileCard_user\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "54d571a44dc3c53ae15a03e6104e1945";
+(node as any).hash = "716d87bda603763be46cd774040c68fc";
 
 export default node;

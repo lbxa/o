@@ -162,6 +162,20 @@
       "when": 1733621518375,
       "tag": "0022_ordinary_menace",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1733654810034,
+      "tag": "0023_flowery_scrambler",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1733654905245,
+      "tag": "0024_flat_echo",
+      "breakpoints": true
     }
   ]
 }

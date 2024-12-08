@@ -3,7 +3,12 @@ import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { CommunityService } from "../community/community.service";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
-import { InvitationStatus, User, UserUpdateInput } from "../types/graphql";
+import {
+  InvitationStatus,
+  User,
+  UserConnection,
+  UserUpdateInput,
+} from "../types/graphql";
 import { ConnectionArgs } from "../utils";
 import { decodeGlobalId } from "../utils";
 import { UserService } from "./user.service";
@@ -19,12 +24,6 @@ export class UserResolver {
 
   @Query("users")
   getUsers() {
-    return this.userService.findAll();
-  }
-
-  // TODO actually implement this
-  @ResolveField()
-  async friends(): Promise<User[]> {
     return this.userService.findAll();
   }
 
@@ -87,6 +86,20 @@ export class UserResolver {
       InvitationStatus.PENDING,
       args
     );
+  }
+
+  @ResolveField("friends")
+  async friends(
+    @CurrentUser("userId") userId: number,
+    @Args() args: ConnectionArgs
+  ): Promise<UserConnection> {
+    return this.userFriendshipsService.getFriends(userId, args);
+  }
+
+  @Query("userProfile")
+  async userProfile(@Args("id") id: string) {
+    const { id: decodedUserId } = decodeGlobalId(id);
+    return this.userService.findById(decodedUserId);
   }
 
   // @Mutation('removeUser')

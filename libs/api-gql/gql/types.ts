@@ -499,6 +499,8 @@ export type Query = {
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
+  /** Fetch the user profile of any user by ID */
+  userProfile?: Maybe<User>;
   /** Search for users by name */
   userSearch?: Maybe<Array<User>>;
   /** Validate if an email is already taken */
@@ -538,6 +540,11 @@ export type QueryNodeArgs = {
 };
 
 
+export type QueryUserProfileArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type QueryUserSearchArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
@@ -564,6 +571,7 @@ export type Tokens = {
 /** A user of the app */
 export type User = Node & Timestamps & {
   __typename?: 'User';
+  bio?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
@@ -573,11 +581,8 @@ export type User = Node & Timestamps & {
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
-  memberships?: Maybe<Array<CommunityMembership>>;
   password?: Maybe<Scalars['String']['output']>;
-  receivedInvitations?: Maybe<Array<CommunityInvitation>>;
   searchFriends?: Maybe<Array<User>>;
-  sentInvitations?: Maybe<Array<CommunityInvitation>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 

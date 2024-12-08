@@ -342,6 +342,8 @@ type Query {
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   health: String!
   node(id: ID!): Node
+  """Fetch the user profile of any user by ID"""
+  userProfile(id: ID!): User
   """Search for users by name"""
   userSearch(searchTerm: String): [User!]
   """Validate if an email is already taken"""
@@ -366,6 +368,7 @@ type Tokens {
 
 """A user of the app"""
 type User implements Node & Timestamps {
+  bio: String
   createdAt: DateTime
   email: String
   firstName: String
@@ -375,11 +378,8 @@ type User implements Node & Timestamps {
   handle: String
   id: ID!
   lastName: String
-  memberships: [CommunityMembership!]
   password: String
-  receivedInvitations: [CommunityInvitation!]
   searchFriends(searchTerm: String): [User!]
-  sentInvitations: [CommunityInvitation!]
   updatedAt: DateTime
 }
 

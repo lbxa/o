@@ -1,79 +1,62 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { graphql, useFragment, useMutation } from "react-relay";
+import type { PreloadedQuery } from "react-relay";
+import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
-import type { UserProfileLogoutMutation } from "@/__generated__/UserProfileLogoutMutation.graphql";
-import { useZustStore } from "@/state";
+import type { UserProfile_user$key } from "@/__generated__/UserProfile_user.graphql";
+import type { UserProfileQuery } from "@/__generated__/UserProfileQuery.graphql";
 import { OButton, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-import { useToken } from "@/utils";
 
 export const USER_PROFILE_QUERY = graphql`
-  query UserProfileQuery {
-    viewer {
-      ...UserProfile_viewer
+  query UserProfileQuery($userId: ID!) {
+    userProfile(id: $userId) {
+      ...UserProfile_user
     }
   }
 `;
 
-export const UserProfile: React.FC = () => {
-  const router = useRouter();
-  const { deleteTokens } = useToken();
-  const { activeUser, removeActiveUser } = useZustStore();
+interface UserProfileProps {
+  queryRef: PreloadedQuery<UserProfileQuery>;
+}
 
-  const [commitMutation, isMutationInFlight] =
-    useMutation<UserProfileLogoutMutation>(graphql`
-      mutation UserProfileLogoutMutation {
-        authLogout
-      }
-    `);
+export const UserProfile = ({ queryRef }: UserProfileProps) => {
+  const data = usePreloadedQuery<UserProfileQuery>(
+    USER_PROFILE_QUERY,
+    queryRef
+  );
 
-  const _ = useFragment(
+  const user = useFragment<UserProfile_user$key>(
     graphql`
-      fragment UserProfile_viewer on Viewer {
-        user {
-          id
-          firstName
-          lastName
-          email
-        }
+      fragment UserProfile_user on User {
+        id
+        firstName
+        lastName
+        handle
+        bio
       }
     `,
-    null
+    data.userProfile
   );
 
   return (
     <Ozone>
-      <View className="flex">
-        <View className="mb-md flex grow bg-ivory p-md">
-          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
-            <View className="m-auto">
-              <CameraIcon width={45} height={45} fill={"grey"} />
-            </View>
-          </OTouchable>
-          <Text className="text-left text-6xl font-bold">
-            {activeUser?.firstName + " " + activeUser?.lastName}
+      <View className="mx-auto flex flex-col items-center justify-center px-md pb-md">
+        <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
+          <View className="m-auto">
+            <CameraIcon width={45} height={45} fill={"grey"} />
+          </View>
+        </OTouchable>
+        <View className="flex flex-col items-center gap-sm">
+          <Text className="text-3xl font-bold">
+            {user?.firstName + " " + user?.lastName}
           </Text>
-          <Text>{activeUser?.email}</Text>
+          {user?.handle && <Text>{user.handle}</Text>}
+          {user?.bio && <Text>{user.bio}</Text>}
         </View>
-        <View className="mx-md">
-          <OButton
-            title="Logout"
-            loading={isMutationInFlight}
-            onPress={async () => {
-              await deleteTokens();
-              removeActiveUser();
-              commitMutation({
-                variables: {},
-                updater: (proxyStore) => {
-                  proxyStore.invalidateStore();
-                },
-              });
-              router.replace("/auth/login");
-            }}
-          />
-        </View>
+      </View>
+      <View className="mt-lg px-md">
+        <OButton title="Add Friend" />
       </View>
     </Ozone>
   );

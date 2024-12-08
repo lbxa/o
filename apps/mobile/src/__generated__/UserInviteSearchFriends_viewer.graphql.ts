@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2b288cec2bf3c0c02da78d98f905fd38>>
+ * @generated SignedSource<<9072a43da8e2e7759cbd973923f91288>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,17 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserSearchFriends_viewer$data = {
+export type UserInviteSearchFriends_viewer$data = {
   readonly user: {
     readonly searchFriends: ReadonlyArray<{
-      readonly " $fragmentSpreads": FragmentRefs<"UserProfileCard_user">;
+      readonly " $fragmentSpreads": FragmentRefs<"UserInviteCard_user">;
     }> | null | undefined;
   } | null | undefined;
-  readonly " $fragmentType": "UserSearchFriends_viewer";
+  readonly " $fragmentType": "UserInviteSearchFriends_viewer";
 };
-export type UserSearchFriends_viewer$key = {
-  readonly " $data"?: UserSearchFriends_viewer$data;
-  readonly " $fragmentSpreads": FragmentRefs<"UserSearchFriends_viewer">;
+export type UserInviteSearchFriends_viewer$key = {
+  readonly " $data"?: UserInviteSearchFriends_viewer$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserInviteSearchFriends_viewer">;
 };
 
 const node: ReaderFragment = {
@@ -38,10 +38,10 @@ const node: ReaderFragment = {
       "fragmentPathInResult": [
         "viewer"
       ],
-      "operation": require('./UserSearchRefetchQuery.graphql')
+      "operation": require('./UserInviteSearchRefetchQuery.graphql')
     }
   },
-  "name": "UserSearchFriends_viewer",
+  "name": "UserInviteSearchFriends_viewer",
   "selections": [
     {
       "alias": null,
@@ -68,7 +68,7 @@ const node: ReaderFragment = {
             {
               "args": null,
               "kind": "FragmentSpread",
-              "name": "UserProfileCard_user"
+              "name": "UserInviteCard_user"
             }
           ],
           "storageKey": null
@@ -81,6 +81,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "716d87bda603763be46cd774040c68fc";
+(node as any).hash = "c818bcd828e0d5d3d1e8d2db8a87e7b4";
 
 export default node;

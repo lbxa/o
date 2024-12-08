@@ -5,21 +5,16 @@ type User implements Node & Timestamps {
   id: ID!
   handle: String
   firstName: String
-  lastName: String 
+  lastName: String
+  bio: String
   email: String
   password: String
   createdAt: DateTime
   updatedAt: DateTime
-
   friendRequests(first: Int, after: String): UserFriendshipConnection
   "If they have any..."
   friends: UserConnection
   searchFriends(searchTerm: String): [User!]
-
-  # TODO
-  memberships: [CommunityMembership!]
-  sentInvitations: [CommunityInvitation!]
-  receivedInvitations: [CommunityInvitation!]
 }
 
 type UserFriendship implements Node & Timestamps {
@@ -70,6 +65,8 @@ type Query {
   userValidateEmail(email: String!): ValidEmailResponse!
   "Search for users by name"
   userSearch(searchTerm: String): [User!]
+  "Fetch the user profile of any user by ID"
+  userProfile(id: ID!): User
 }
 
 type Mutation {

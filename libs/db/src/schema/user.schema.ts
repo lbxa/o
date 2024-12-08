@@ -21,6 +21,7 @@ export const UsersTable = UserSchema.table(
     lastName: text().notNull(),
     email: varchar({ length: 255 }).unique().notNull(),
     handle: varchar({ length: 255 }).unique(),
+    bio: text(),
     password: varchar({ length: 255 }).notNull(),
     refreshToken: varchar({ length: 1000 }),
     avatarUrl: varchar({ length: 1000 }),

@@ -13,6 +13,7 @@ import { DbService } from "../../db/db.service";
 import { EntityService } from "../../entity";
 import {
   InvitationStatus,
+  UserConnection,
   UserFriendship as GqlUserFriendship,
   UserFriendshipConnection,
   UserFriendshipEdge,
@@ -44,19 +45,6 @@ export class UserFriendshipsService
     return "UserFriendship";
   }
 
-  public createEdge(
-    friendship: PgUserFriendship & {
-      user: PgUser;
-      friend: PgUser;
-    }
-  ): UserFriendshipEdge {
-    return {
-      __typename: "UserFriendshipEdge",
-      node: this.pg2GqlMapper(friendship),
-      cursor: encodeGlobalId("UserFriendship", friendship.id),
-    };
-  }
-
   public pg2GqlMapper(
     pgUserFriendship: PgUserFriendship & {
       user: PgUser;
@@ -69,6 +57,20 @@ export class UserFriendshipsService
       status: mapToEnum(InvitationStatus, pgUserFriendship.status),
       user: this.userService.pg2GqlMapper(pgUserFriendship.user),
       friend: this.userService.pg2GqlMapper(pgUserFriendship.friend),
+    };
+  }
+
+  // maybe add this to the general API
+  public buildEdge(
+    friendship: PgUserFriendship & {
+      user: PgUser;
+      friend: PgUser;
+    }
+  ): UserFriendshipEdge {
+    return {
+      __typename: "UserFriendshipEdge",
+      node: this.pg2GqlMapper(friendship),
+      cursor: encodeGlobalId("UserFriendship", friendship.id),
     };
   }
 
@@ -159,16 +161,42 @@ export class UserFriendshipsService
       hasPreviousPage: !!after,
       createCursor: (node) => node.id,
     });
+  }
 
-    // return {
-    //   edges,
-    //   pageInfo: {
-    //     hasNextPage,
-    //     hasPreviousPage: !!after,
-    //     startCursor: edges[0]?.cursor,
-    //     endCursor: edges[edges.length - 1]?.cursor,
-    //   },
-    // };
+  async getFriends(
+    userId: number,
+    args?: ConnectionArgs
+  ): Promise<UserConnection> {
+    const limit = args?.first ?? 10;
+    const after = args?.after
+      ? validateAndDecodeGlobalId(args.after, "User")
+      : 0;
+
+    const friendships =
+      await this.dbService.db.query.UserFriendshipsTable.findMany({
+        where: and(
+          eq(UserFriendshipsTable.userId, userId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED)
+        ),
+        with: {
+          friend: true,
+        },
+        limit: limit + 1, // Get one extra to check if there are more results
+        offset: after,
+        orderBy: desc(UserFriendshipsTable.createdAt),
+      });
+
+    const hasNextPage = friendships.length > limit;
+    const nodes = friendships
+      .slice(0, limit)
+      .map((friendship) => this.userService.pg2GqlMapper(friendship.friend));
+
+    return buildConnection({
+      nodes,
+      hasNextPage,
+      hasPreviousPage: !!after,
+      createCursor: (node) => node.id,
+    });
   }
 
   async acceptFriendship(

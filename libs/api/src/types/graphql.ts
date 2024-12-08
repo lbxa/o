@@ -235,6 +235,7 @@ export interface IQuery {
     users(): Nullable<User[]> | Promise<Nullable<User[]>>;
     userValidateEmail(email: string): ValidEmailResponse | Promise<ValidEmailResponse>;
     userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
+    userProfile(id: string): Nullable<User> | Promise<Nullable<User>>;
     viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }
 
@@ -379,6 +380,7 @@ export interface User extends Node, Timestamps {
     handle?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
+    bio?: Nullable<string>;
     email?: Nullable<string>;
     password?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
@@ -386,9 +388,6 @@ export interface User extends Node, Timestamps {
     friendRequests?: Nullable<UserFriendshipConnection>;
     friends?: Nullable<UserConnection>;
     searchFriends?: Nullable<User[]>;
-    memberships?: Nullable<CommunityMembership[]>;
-    sentInvitations?: Nullable<CommunityInvitation[]>;
-    receivedInvitations?: Nullable<CommunityInvitation[]>;
 }
 
 export interface UserFriendship extends Node, Timestamps {
