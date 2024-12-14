@@ -1,5 +1,12 @@
 /* eslint-disable @stylistic/js/max-len */
-import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 
 import { ChallengeActivityResultsService } from "../challenge/challenge-activity-results";
 import { CommunityService } from "../community/community.service";
@@ -140,23 +147,27 @@ export class UserResolver {
   }
 
   @ResolveField("buddyCount")
-  buddyCount(@CurrentUser("userId") userId: number) {
-    return this.userFriendshipsService.getBuddyCount(userId);
+  buddyCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getBuddyCount(decodedUserId);
   }
 
   @ResolveField("followerCount")
-  followerCount(@CurrentUser("userId") userId: number) {
-    return this.userFriendshipsService.getFollowerCount(userId);
+  followerCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowerCount(decodedUserId);
   }
 
   @ResolveField("followingCount")
-  followingCount(@CurrentUser("userId") userId: number) {
-    return this.userFriendshipsService.getFollowingCount(userId);
+  followingCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowingCount(decodedUserId);
   }
 
   @ResolveField("challengeActivityResultsCount")
-  async challengeActivityResultsCount(@CurrentUser("userId") userId: number) {
-    return this.challengeActivityResultsService.getCount(userId);
+  async challengeActivityResultsCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.challengeActivityResultsService.getCount(decodedUserId);
   }
 
   // @Mutation('removeUser')
