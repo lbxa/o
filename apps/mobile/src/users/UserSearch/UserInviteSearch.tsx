@@ -90,12 +90,13 @@ export const UserInviteSearch = () => {
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   return (
-    <View className="h-full flex-1 px-md">
+    <View className="px-md h-full flex-1">
       <OSearchBar
         loading={searchQuery !== deferredSearchQuery}
         placeholder="Search users"
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        showCancel={false}
       />
       <Suspense fallback={null}>
         <UserInviteSearchResults searchTerm={deferredSearchQuery} />

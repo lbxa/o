@@ -2,7 +2,7 @@ import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
 import { Stack, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
-import { ModalCloseButton, OTouchable } from "@/universe/atoms";
+import { OTouchable } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function Root() {
@@ -32,18 +32,14 @@ export default function Root() {
       <Stack.Screen
         name="user-search"
         options={{
-          headerLeft: () => (
-            <Text className="text-xl font-bold">Search Users</Text>
-          ),
-          headerRight: () => <ModalCloseButton />,
-          presentation: "modal",
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="message"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </OTouchable>

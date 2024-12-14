@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d4c5e0d572e88d4d1627a01a0e15b7b9>>
+ * @generated SignedSource<<e5f8070da9f4eb050a9bd8e0914b9d20>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,6 +21,7 @@ export type AppRootQuery$data = {
       readonly handle: string | null | undefined;
       readonly id: string;
       readonly lastName: string | null | undefined;
+      readonly " $fragmentSpreads": FragmentRefs<"UserProfileStats_user">;
     } | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer" | "useCommunityInvitationsPagination_viewer">;
   } | null | undefined;
@@ -55,46 +56,32 @@ v2 = {
 v3 = {
   "alias": null,
   "args": null,
-  "concreteType": "User",
-  "kind": "LinkedField",
-  "name": "user",
-  "plural": false,
-  "selections": [
-    (v0/*: any*/),
-    (v1/*: any*/),
-    (v2/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "email",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "handle",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "bio",
-      "storageKey": null
-    }
-  ],
+  "kind": "ScalarField",
+  "name": "email",
   "storageKey": null
 },
-v4 = [
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "handle",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "bio",
+  "storageKey": null
+},
+v6 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 10
   }
 ],
-v5 = {
+v7 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -126,35 +113,35 @@ v5 = {
   ],
   "storageKey": null
 },
-v6 = {
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v7 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v8 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "isVerified",
   "storageKey": null
 },
-v9 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v10 = [
+v12 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -199,7 +186,28 @@ return {
             "kind": "FragmentSpread",
             "name": "useCommunityInvitationsPagination_viewer"
           },
-          (v3/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
+              (v0/*: any*/),
+              (v1/*: any*/),
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "UserProfileStats_user"
+              }
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
@@ -224,13 +232,13 @@ return {
           (v0/*: any*/),
           {
             "alias": null,
-            "args": (v4/*: any*/),
+            "args": (v6/*: any*/),
             "concreteType": "CommunityConnection",
             "kind": "LinkedField",
             "name": "communities",
             "plural": false,
             "selections": [
-              (v5/*: any*/),
+              (v7/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -239,7 +247,7 @@ return {
                 "name": "edges",
                 "plural": true,
                 "selections": [
-                  (v6/*: any*/),
+                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -249,8 +257,8 @@ return {
                     "plural": false,
                     "selections": [
                       (v0/*: any*/),
-                      (v7/*: any*/),
-                      (v8/*: any*/),
+                      (v9/*: any*/),
+                      (v10/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -258,7 +266,7 @@ return {
                         "name": "memberCount",
                         "storageKey": null
                       },
-                      (v9/*: any*/)
+                      (v11/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -270,7 +278,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v4/*: any*/),
+            "args": (v6/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "CommunityList_viewer_communities",
@@ -279,13 +287,13 @@ return {
           },
           {
             "alias": null,
-            "args": (v10/*: any*/),
+            "args": (v12/*: any*/),
             "concreteType": "CommunityInvitationConnection",
             "kind": "LinkedField",
             "name": "communityInvitations",
             "plural": false,
             "selections": [
-              (v5/*: any*/),
+              (v7/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -294,7 +302,7 @@ return {
                 "name": "edges",
                 "plural": true,
                 "selections": [
-                  (v6/*: any*/),
+                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -327,12 +335,12 @@ return {
                         "plural": false,
                         "selections": [
                           (v0/*: any*/),
-                          (v7/*: any*/),
-                          (v8/*: any*/)
+                          (v9/*: any*/),
+                          (v10/*: any*/)
                         ],
                         "storageKey": null
                       },
-                      (v9/*: any*/)
+                      (v11/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -344,30 +352,67 @@ return {
           },
           {
             "alias": null,
-            "args": (v10/*: any*/),
+            "args": (v12/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "CommunityInvitationList_communityInvitations",
             "kind": "LinkedHandle",
             "name": "communityInvitations"
           },
-          (v3/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
+              (v0/*: any*/),
+              (v1/*: any*/),
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "buddyCount",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "followerCount",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "challengeActivityResultsCount",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b759c4f66858af1f02c2d8031bce6d0d",
+    "cacheID": "5f4e36faa264a7333b664184c8ba08a5",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n      ...UserProfileStats_user\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b6852263103827af609ee17696bcd681";
+(node as any).hash = "4efe618ed1d160fea7298f9b4eed7fc4";
 
 export default node;

@@ -1,4 +1,6 @@
+import CrossIcon from "@assets/icons/cross.svg";
 import SearchIcon from "@assets/icons/search.svg";
+import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
@@ -9,14 +11,17 @@ interface OSearchBarProps {
   placeholder?: string;
   searchQuery: string;
   onSearchChange: (term: string) => void;
+  showCancel?: boolean;
 }
 
 export const OSearchBar = ({
   searchQuery,
   onSearchChange,
   loading,
+  showCancel = true,
   placeholder = "Search",
 }: OSearchBarProps) => {
+  const router = useRouter();
   const handleChange = useCallback(
     (term: string) => {
       onSearchChange(term);
@@ -25,8 +30,8 @@ export const OSearchBar = ({
   );
 
   return (
-    <View className="flex w-full flex-row items-center">
-      <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
+    <View className="mb-md gap-sm flex w-full flex-row items-center">
+      <View className="bg-ivory px-sm flex flex-1 flex-row items-center rounded-lg">
         {loading ? <ActivityIndicator /> : <SearchIcon width={20} />}
         <PrimaryTextInputControl
           className="flex-1"
@@ -39,9 +44,14 @@ export const OSearchBar = ({
           onChangeText={handleChange}
         />
         <OTouchable onPress={() => onSearchChange("")}>
-          <Text>Clear</Text>
+          <CrossIcon width={18} height={18} />
         </OTouchable>
       </View>
+      {showCancel && (
+        <OTouchable onPress={() => router.back()}>
+          <Text>Cancel</Text>
+        </OTouchable>
+      )}
     </View>
   );
 };

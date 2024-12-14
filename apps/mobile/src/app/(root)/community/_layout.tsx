@@ -49,7 +49,7 @@ export default function CommunityRootLayout() {
         name="manage"
         options={{
           headerLeft: () => (
-            <View className="mr-auto flex max-w-[80%] flex-row items-center gap-sm">
+            <View className="gap-sm mr-auto flex max-w-[80%] flex-row items-center">
               <Text
                 className="text-xl font-bold"
                 numberOfLines={1}
@@ -69,7 +69,7 @@ export default function CommunityRootLayout() {
         name="create"
         options={{
           headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <OTouchable onPress={() => router.back()}>
                 <ChevronLeftIcon />
               </OTouchable>
@@ -87,12 +87,7 @@ export default function CommunityRootLayout() {
       <Stack.Screen
         name="search"
         options={{
-          headerLeft: () => (
-            <Text className="text-xl font-bold">Search Communities</Text>
-          ),
-          headerRight: () => <ModalCloseButton />,
-          headerBackVisible: true,
-          presentation: "modal",
+          headerShown: false,
         }}
       />
     </Stack>

@@ -19,6 +19,7 @@ export const APP_ROOT_QUERY = graphql`
         email
         handle
         bio
+        ...UserProfileStats_user
       }
     }
   }
