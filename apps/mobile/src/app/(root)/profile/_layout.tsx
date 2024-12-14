@@ -12,12 +12,12 @@ export default function Root() {
         headerShown: true,
         headerTitle: () => "",
         headerShadowVisible: false,
-        headerStyle: { backgroundColor: "#edf4f8" },
       }}
     >
       <Stack.Screen
         name="index"
         options={{
+          headerStyle: { backgroundColor: "#edf4f8" },
           headerLeft: () => <Text className="text-3xl font-bold">Profile</Text>,
           headerRight: () => (
             <MiniNav

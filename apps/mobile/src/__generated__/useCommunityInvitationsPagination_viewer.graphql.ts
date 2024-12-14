@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0fc14c48479e4be4e02e088051d60c82>>
+ * @generated SignedSource<<abac93b999d5002467cd3bdfe40584a0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ViewerCommunityInvitationList_viewer$data = {
+export type useCommunityInvitationsPagination_viewer$data = {
   readonly communityInvitations: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
@@ -24,11 +24,11 @@ export type ViewerCommunityInvitationList_viewer$data = {
       readonly startCursor: string | null | undefined;
     };
   };
-  readonly " $fragmentType": "ViewerCommunityInvitationList_viewer";
+  readonly " $fragmentType": "useCommunityInvitationsPagination_viewer";
 };
-export type ViewerCommunityInvitationList_viewer$key = {
-  readonly " $data"?: ViewerCommunityInvitationList_viewer$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ViewerCommunityInvitationList_viewer">;
+export type useCommunityInvitationsPagination_viewer$key = {
+  readonly " $data"?: useCommunityInvitationsPagination_viewer$data;
+  readonly " $fragmentSpreads": FragmentRefs<"useCommunityInvitationsPagination_viewer">;
 };
 
 const node: ReaderFragment = (function(){
@@ -70,17 +70,17 @@ return {
       "fragmentPathInResult": [
         "viewer"
       ],
-      "operation": require('./ViewerCommunityInvitationsPaginationQuery.graphql')
+      "operation": require('./CommunityInvitationListPaginationQuery.graphql')
     }
   },
-  "name": "ViewerCommunityInvitationList_viewer",
+  "name": "useCommunityInvitationsPagination_viewer",
   "selections": [
     {
       "alias": "communityInvitations",
       "args": null,
       "concreteType": "CommunityInvitationConnection",
       "kind": "LinkedField",
-      "name": "__ViewerCommunityInvitationList_communityInvitations_connection",
+      "name": "__CommunityInvitationList_communityInvitations_connection",
       "plural": false,
       "selections": [
         {
@@ -165,6 +165,6 @@ return {
 };
 })();
 
-(node as any).hash = "40a244ca6e15603aad1cdb8efa8be0ac";
+(node as any).hash = "ecdbb91a76e1efd53f42177aaee49de9";
 
 export default node;

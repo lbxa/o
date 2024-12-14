@@ -13,7 +13,7 @@ post {
 body:graphql {
   mutation Login {
     authLogin(authLoginInput: {
-      email: "terance@email.com",
+      email: "lucy@email.com",
       password: "Password1",
     }) {
       tokens {
@@ -21,6 +21,7 @@ body:graphql {
         refreshToken
       }
       user {
+        id
         firstName
         lastName
       }

@@ -174,6 +174,7 @@ export interface IMutation {
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
     userRequestFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
     userAcceptFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
+    userRemoveFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
 }
 
 export interface ChallengeActivityResult extends Node, Timestamps {
@@ -236,6 +237,7 @@ export interface IQuery {
     userValidateEmail(email: string): ValidEmailResponse | Promise<ValidEmailResponse>;
     userSearch(searchTerm?: Nullable<string>): Nullable<User[]> | Promise<Nullable<User[]>>;
     userProfile(id: string): Nullable<User> | Promise<Nullable<User>>;
+    getFriendshipStatus(userId: string, friendId: string): Nullable<UserFriendshipStatus> | Promise<Nullable<UserFriendshipStatus>>;
     viewer(): Nullable<Viewer> | Promise<Nullable<Viewer>>;
 }
 
@@ -388,6 +390,10 @@ export interface User extends Node, Timestamps {
     friendRequests?: Nullable<UserFriendshipConnection>;
     friends?: Nullable<UserConnection>;
     searchFriends?: Nullable<User[]>;
+    buddyCount?: Nullable<number>;
+    followerCount?: Nullable<number>;
+    followingCount?: Nullable<number>;
+    challengeActivityResultsCount?: Nullable<number>;
 }
 
 export interface UserFriendship extends Node, Timestamps {
@@ -398,6 +404,13 @@ export interface UserFriendship extends Node, Timestamps {
     status: InvitationStatus;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
+}
+
+export interface UserFriendshipStatus {
+    __typename?: 'UserFriendshipStatus';
+    outgoing?: Nullable<UserFriendship>;
+    incoming?: Nullable<UserFriendship>;
+    areMutualFriends: boolean;
 }
 
 export interface ValidEmailResponse {

@@ -1,5 +1,7 @@
+/* eslint-disable @stylistic/js/max-len */
 import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { ChallengeActivityResultsService } from "../challenge/challenge-activity-results";
 import { CommunityService } from "../community/community.service";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
@@ -7,9 +9,10 @@ import {
   InvitationStatus,
   User,
   UserConnection,
+  UserFriendshipStatus,
   UserUpdateInput,
 } from "../types/graphql";
-import { ConnectionArgs } from "../utils";
+import { ConnectionArgs, validateAndDecodeGlobalId } from "../utils";
 import { decodeGlobalId } from "../utils";
 import { UserService } from "./user.service";
 import { UserFriendshipsService } from "./user-friendships/user-friendships.service";
@@ -19,7 +22,8 @@ export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly communityService: CommunityService,
-    private readonly userFriendshipsService: UserFriendshipsService
+    private readonly userFriendshipsService: UserFriendshipsService,
+    private readonly challengeActivityResultsService: ChallengeActivityResultsService
   ) {}
 
   @Query("users")
@@ -76,6 +80,15 @@ export class UserResolver {
     );
   }
 
+  @Mutation("userRemoveFriendship")
+  async removeFriendship(
+    @CurrentUser("userId") userId: number,
+    @Args("friendId") friendId: string
+  ) {
+    const decodedId = validateAndDecodeGlobalId(friendId, "User");
+    return this.userFriendshipsService.removeFriendship(userId, decodedId);
+  }
+
   @ResolveField("friendRequests")
   async friendRequests(
     @CurrentUser("userId") userId: number,
@@ -96,10 +109,54 @@ export class UserResolver {
     return this.userFriendshipsService.getFriends(userId, args);
   }
 
+  @Query("getFriendshipStatus")
+  async getFriendshipStatus(
+    @Args("userId") userId: string,
+    @Args("friendId") friendId: string
+  ): Promise<UserFriendshipStatus> {
+    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+    const decodedFriendId = validateAndDecodeGlobalId(friendId, "User");
+
+    const { outgoing, incoming } =
+      await this.userFriendshipsService.getFriendship(
+        decodedUserId,
+        decodedFriendId
+      );
+
+    return {
+      __typename: "UserFriendshipStatus",
+      outgoing,
+      incoming,
+      areMutualFriends:
+        outgoing?.status === InvitationStatus.ACCEPTED &&
+        incoming?.status === InvitationStatus.ACCEPTED,
+    };
+  }
+
   @Query("userProfile")
   async userProfile(@Args("id") id: string) {
     const { id: decodedUserId } = decodeGlobalId(id);
     return this.userService.findById(decodedUserId);
+  }
+
+  @ResolveField("buddyCount")
+  buddyCount(@CurrentUser("userId") userId: number) {
+    return this.userFriendshipsService.getBuddyCount(userId);
+  }
+
+  @ResolveField("followerCount")
+  followerCount(@CurrentUser("userId") userId: number) {
+    return this.userFriendshipsService.getFollowerCount(userId);
+  }
+
+  @ResolveField("followingCount")
+  followingCount(@CurrentUser("userId") userId: number) {
+    return this.userFriendshipsService.getFollowingCount(userId);
+  }
+
+  @ResolveField("challengeActivityResultsCount")
+  async challengeActivityResultsCount(@CurrentUser("userId") userId: number) {
+    return this.challengeActivityResultsService.getCount(userId);
   }
 
   // @Mutation('removeUser')

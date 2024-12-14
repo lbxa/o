@@ -312,6 +312,8 @@ type Mutation {
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   """Accept a friendship"""
   userAcceptFriendship(friendId: ID!): UserFriendship!
+  """Remove a friendship"""
+  userRemoveFriendship(friendId: ID!): UserFriendship!
   """Request a friendship"""
   userRequestFriendship(friendId: ID!): UserFriendship!
   """Update a user"""
@@ -340,6 +342,8 @@ type Query {
   challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
+  """Is the current user friends with this user?"""
+  getFriendshipStatus(friendId: ID!, userId: ID!): UserFriendshipStatus
   health: String!
   node(id: ID!): Node
   """Fetch the user profile of any user by ID"""
@@ -369,9 +373,13 @@ type Tokens {
 """A user of the app"""
 type User implements Node & Timestamps {
   bio: String
+  buddyCount: Int
+  challengeActivityResultsCount: Int
   createdAt: DateTime
   email: String
   firstName: String
+  followerCount: Int
+  followingCount: Int
   friendRequests(after: String, first: Int): UserFriendshipConnection
   """If they have any..."""
   friends: UserConnection
@@ -410,6 +418,29 @@ type UserFriendshipConnection {
 type UserFriendshipEdge {
   cursor: String!
   node: UserFriendship!
+}
+
+"""
+Represents the bidirectional friendship status between two users.
+When building social graphs, it's important to track both directions
+of a relationship since friendships can be asymmetric (e.g. pending requests).
+"""
+type UserFriendshipStatus {
+  """
+  Whether these users are mutual friends (both have accepted the friendship).
+  True only if both outgoing and incoming friendships exist and are ACCEPTED.
+  """
+  areMutualFriends: Boolean!
+  """
+  The incoming friendship status from the target user to the viewer.
+  Will be null if no friendship request exists in this direction.
+  """
+  incoming: UserFriendship
+  """
+  The outgoing friendship status from the viewer to the target user.
+  Will be null if no friendship request exists in this direction.
+  """
+  outgoing: UserFriendship
 }
 
 input UserUpdateInput {

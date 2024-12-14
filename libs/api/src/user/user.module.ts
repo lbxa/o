@@ -1,18 +1,22 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
-import { CommunityService } from "../community/community.service";
+import { ChallengeModule } from "../challenge/challenge.module";
+import { CommunityModule } from "../community/community.module";
 import { CryptoService } from "../utils";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
 import { UserFriendshipsService } from "./user-friendships";
 
 @Module({
+  imports: [
+    forwardRef(() => ChallengeModule),
+    forwardRef(() => CommunityModule),
+  ],
   providers: [
     UserResolver,
     UserService,
     UserFriendshipsService,
-    CommunityService,
     CryptoService,
     JwtService,
   ],

@@ -4,12 +4,12 @@ import { ActivityIndicator, Text, View } from "react-native";
 
 import { OTouchable } from "./OTouchable";
 
-type Type = "primary" | "secondary";
-type Size = "default" | "large";
-type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
+export type OButtonType = "primary" | "secondary";
+export type OButtonSize = "default" | "large";
+export type OButtonVariant = "violet" | "red" | "indigo" | "navy" | "gray";
 
 type VariantMatrix = Record<
-  Variant,
+  OButtonVariant,
   {
     back: string;
     front: string;
@@ -18,54 +18,54 @@ type VariantMatrix = Record<
 
 const primaryVariantMatrix: VariantMatrix = {
   violet: {
-    back: "bg-violet/30",
-    front: "color-violet",
+    back: "bg-violet",
+    front: "text-ivory",
   },
   indigo: {
-    back: "bg-indigo/30",
-    front: "color-indigo",
+    back: "bg-indigo",
+    front: "text-ivory",
   },
   navy: {
-    back: "bg-navy/30",
-    front: "color-navy",
+    back: "bg-navy",
+    front: "text-ivory",
   },
   red: {
-    back: "bg-red-800",
-    front: "color-white",
+    back: "bg-red-500",
+    front: "text-ivory",
   },
   gray: {
     back: "bg-gray-200",
-    front: "color-gray-800",
+    front: "text-gray-800",
   },
 };
 
 const secondaryVariantMatrix: VariantMatrix = {
   violet: {
     back: "bg-violet/30",
-    front: "color-violet",
+    front: "text-violet",
   },
   indigo: {
     back: "bg-indigo/30",
-    front: "color-indigo",
+    front: "text-indigo",
   },
   navy: {
     back: "bg-navy",
-    front: "color-ivory",
+    front: "text-ivory",
   },
   red: {
     back: "bg-red-200",
-    front: "color-red-800",
+    front: "text-red-800",
   },
   gray: {
     back: "bg-gray-300",
-    front: "color-gray-800",
+    front: "text-gray-800",
   },
 };
 
 type OButtonProps = {
-  type?: Type;
-  size?: Size;
-  variant?: Variant;
+  type?: OButtonType;
+  size?: OButtonSize;
+  variant?: OButtonVariant;
   icon?: React.ReactElement;
   loading?: boolean;
   className?: string;
@@ -74,7 +74,7 @@ type OButtonProps = {
 export const OButton = ({
   title,
   icon,
-  type = "primary",
+  type = "secondary",
   variant = "indigo",
   size = "default",
   loading = false,
@@ -85,7 +85,7 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View className="my-auto flex flex-row items-center gap-sm">
+    <View className="gap-sm my-auto flex flex-row items-center">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {

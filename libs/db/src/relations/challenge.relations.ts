@@ -56,12 +56,12 @@ export const ChallengeInvitationsRelations = relations(
     inviter: one(UsersTable, {
       fields: [ChallengeInvitationsTable.inviterId],
       references: [UsersTable.id],
-      relationName: "inviter",
+      relationName: "challengeInviter",
     }),
     invitee: one(UsersTable, {
       fields: [ChallengeInvitationsTable.inviteeId],
       references: [UsersTable.id],
-      relationName: "invitee",
+      relationName: "challengeInvitee",
     }),
   })
 );

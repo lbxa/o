@@ -1,24 +1,16 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { useRouter } from "expo-router";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import {
-  graphql,
-  useFragment,
-  useMutation,
-  usePreloadedQuery,
-} from "react-relay";
+import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
 import type { ViewerProfile_viewer$key } from "@/__generated__/ViewerProfile_viewer.graphql";
-import type { ViewerProfileLogoutMutation } from "@/__generated__/ViewerProfileLogoutMutation.graphql";
 import type { ViewerProfileQuery } from "@/__generated__/ViewerProfileQuery.graphql";
-import { useZustStore } from "@/state";
-import { OButton, OTouchable } from "@/universe/atoms";
+import { OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-import { useToken } from "@/utils";
 
 import { useNoSuspenseRefetch } from "../relay";
 import { APP_ROOT_QUERY } from "../root";
+import { UserProfileStats } from "./UserProfileStats";
 
 export const VIEWER_PROFILE_QUERY = graphql`
   query ViewerProfileQuery {
@@ -33,17 +25,6 @@ interface ViewerProfileProps {
 }
 
 export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
-  const router = useRouter();
-  const { deleteTokens } = useToken();
-  const { removeActiveUser } = useZustStore();
-
-  const [commitMutation, isMutationInFlight] =
-    useMutation<ViewerProfileLogoutMutation>(graphql`
-      mutation ViewerProfileLogoutMutation {
-        authLogout
-      }
-    `);
-
   const viewerProfileQuery = usePreloadedQuery<ViewerProfileQuery>(
     VIEWER_PROFILE_QUERY,
     queryRef
@@ -58,6 +39,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           lastName
           handle
           bio
+          ...UserProfileStats_user
         }
       }
     `,
@@ -72,42 +54,25 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
   return (
     <Ozone>
       <ScrollView
+        className=""
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="flex">
-          <View className="mb-md flex grow flex-col items-center gap-sm bg-ivory p-md">
-            <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
-              <View className="m-auto">
-                <CameraIcon width={45} height={45} fill={"grey"} />
-              </View>
-            </OTouchable>
+        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
+          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
+            <View className="m-auto">
+              <CameraIcon width={45} height={45} fill={"grey"} />
+            </View>
+          </OTouchable>
+          {viewer?.user && <UserProfileStats user={viewer.user} />}
+          <View className="gap-sm flex flex-col items-center">
             <Text className="text-left text-3xl font-bold">
               {viewer?.user?.firstName + " " + viewer?.user?.lastName}
             </Text>
             {viewer?.user?.handle && <Text>{viewer.user.handle}</Text>}
-            {viewer?.user?.bio && (
-              <Text className="mt-md">{viewer.user.bio}</Text>
-            )}
           </View>
-          <View className="mx-md">
-            <OButton
-              title="Logout"
-              loading={isMutationInFlight}
-              onPress={async () => {
-                await deleteTokens();
-                removeActiveUser();
-                commitMutation({
-                  variables: {},
-                  updater: (proxyStore) => {
-                    proxyStore.invalidateStore();
-                  },
-                });
-                router.replace("/auth/login");
-              }}
-            />
-          </View>
+          {viewer?.user?.bio && <Text>{viewer.user.bio}</Text>}
         </View>
       </ScrollView>
     </Ozone>

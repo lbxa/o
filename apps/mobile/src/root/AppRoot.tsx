@@ -10,7 +10,8 @@ export const APP_ROOT_QUERY = graphql`
   query AppRootQuery {
     viewer {
       id
-      ...CommunityList_viewer @arguments(count: 5)
+      ...CommunityList_viewer @arguments(count: 10)
+      ...useCommunityInvitationsPagination_viewer @arguments(count: 5)
       user {
         id
         firstName

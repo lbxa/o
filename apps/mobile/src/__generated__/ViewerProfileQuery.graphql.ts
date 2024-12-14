@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<083ccab6de91a0215b34b16496c1ef06>>
+ * @generated SignedSource<<14ca5067c998982acc2760326c7c0cb9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -106,6 +106,27 @@ return {
                 "kind": "ScalarField",
                 "name": "bio",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "buddyCount",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "followerCount",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "challengeActivityResultsCount",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -117,12 +138,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "85be1e1b3f5dc6f59155b9a222c44ade",
+    "cacheID": "22bc98de20abb2dfb6b40229c56b531e",
     "id": null,
     "metadata": {},
     "name": "ViewerProfileQuery",
     "operationKind": "query",
-    "text": "query ViewerProfileQuery {\n  viewer {\n    ...ViewerProfile_viewer\n    id\n  }\n}\n\nfragment ViewerProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    bio\n  }\n}\n"
+    "text": "query ViewerProfileQuery {\n  viewer {\n    ...ViewerProfile_viewer\n    id\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment ViewerProfile_viewer on Viewer {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    bio\n    ...UserProfileStats_user\n  }\n}\n"
   }
 };
 })();

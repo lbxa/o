@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<755ddc29589184a78ff987d9e1d62d7e>>
+ * @generated SignedSource<<c5c811a7eae65998d5ebcfd9443157d1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,8 +12,12 @@ import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type UserProfileQuery$variables = {
   userId: string;
+  viewerId: string;
 };
 export type UserProfileQuery$data = {
+  readonly getFriendshipStatus: {
+    readonly " $fragmentSpreads": FragmentRefs<"UserProfile_userFriendshipStatus">;
+  } | null | undefined;
   readonly userProfile: {
     readonly " $fragmentSpreads": FragmentRefs<"UserProfile_user">;
   } | null | undefined;
@@ -29,6 +33,11 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "userId"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "viewerId"
   }
 ],
 v1 = [
@@ -36,6 +45,35 @@ v1 = [
     "kind": "Variable",
     "name": "id",
     "variableName": "userId"
+  }
+],
+v2 = [
+  {
+    "kind": "Variable",
+    "name": "friendId",
+    "variableName": "userId"
+  },
+  {
+    "kind": "Variable",
+    "name": "userId",
+    "variableName": "viewerId"
+  }
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v4 = [
+  (v3/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "status",
+    "storageKey": null
   }
 ];
 return {
@@ -60,6 +98,22 @@ return {
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "UserFriendshipStatus",
+        "kind": "LinkedField",
+        "name": "getFriendshipStatus",
+        "plural": false,
+        "selections": [
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "UserProfile_userFriendshipStatus"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "type": "Query",
@@ -79,13 +133,7 @@ return {
         "name": "userProfile",
         "plural": false,
         "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -113,6 +161,65 @@ return {
             "kind": "ScalarField",
             "name": "bio",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "buddyCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "followerCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "challengeActivityResultsCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "UserFriendshipStatus",
+        "kind": "LinkedField",
+        "name": "getFriendshipStatus",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "UserFriendship",
+            "kind": "LinkedField",
+            "name": "outgoing",
+            "plural": false,
+            "selections": (v4/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "UserFriendship",
+            "kind": "LinkedField",
+            "name": "incoming",
+            "plural": false,
+            "selections": (v4/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "areMutualFriends",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -120,16 +227,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c5ce4ea6f39375880e3380910a829f9c",
+    "cacheID": "822764c932930b97bf4518f7e72bbb6f",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery(\n  $userId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n}\n"
+    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  incoming {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b81d7f6792f7bca8888a7d82c814d8bc";
+(node as any).hash = "83e853c05c003a6de71e6a525ef40ec3";
 
 export default node;

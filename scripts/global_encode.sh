@@ -26,5 +26,5 @@ if [ $# -ne 2 ]; then
     exit 1
 fi
 
-echo "$(echo -n "$1:$2" | openssl base64 | tr -d '\n')" | tee /dev/tty | pbcopy
+echo "$(echo "$1:$2" | openssl base64 | tr -d '\n')" | tee /dev/tty | pbcopy
 echo "Copied to clipboard!"

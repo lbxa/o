@@ -45,12 +45,12 @@ export const CommunityInvitationsRelations = relations(
     inviter: one(UsersTable, {
       fields: [CommunityInvitationsTable.inviterId],
       references: [UsersTable.id],
-      relationName: "inviter",
+      relationName: "communityInviter",
     }),
     invitee: one(UsersTable, {
       fields: [CommunityInvitationsTable.inviteeId],
       references: [UsersTable.id],
-      relationName: "invitee",
+      relationName: "communityInvitee",
     }),
   })
 );

@@ -10,14 +10,15 @@ import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.grap
 import { CommunityCard } from "@/communities/CommunityCard";
 import { OButton } from "@/universe/atoms";
 
-import { ViewerCommunityInvitationList } from "../CommunityInvitation";
+import { CommunityInvitationList } from "../CommunityInvitation";
+import { useCommunityInvitationsPagination } from "../CommunityInvitation/queries";
 
 export const COMMUNITY_LIST_QUERY = graphql`
   query CommunityListQuery {
     viewer {
       id
       ...CommunityList_viewer @arguments(count: 10)
-      ...ViewerCommunityInvitationList_viewer @arguments(count: 5)
+      ...useCommunityInvitationsPagination_viewer @arguments(count: 5)
     }
   }
 `;
@@ -28,56 +29,64 @@ interface CommunityListProps {
 
 export const CommunityList = ({ queryRef }: CommunityListProps) => {
   const query = usePreloadedQuery(COMMUNITY_LIST_QUERY, queryRef);
-
   const [isPending, startTransition] = useTransition();
 
-  const { data, loadNext, hasNext, isLoadingNext, refetch } =
-    usePaginationFragment<
-      CommunityListPaginationQuery,
-      CommunityList_viewer$key
-    >(
-      graphql`
-        fragment CommunityList_viewer on Viewer
-        @refetchable(queryName: "CommunityListPaginationQuery")
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String" }
-        ) {
-          id
-          communities(first: $count, after: $cursor)
-            @connection(key: "CommunityList_viewer_communities") {
-            pageInfo {
-              startCursor
-              endCursor
-              hasNextPage
-            }
-            edges {
-              cursor
-              node {
-                ...CommunityCard_community
-              }
+  const {
+    data: communityData,
+    loadNext,
+    hasNext,
+    isLoadingNext,
+    refetch: refetchCommunity,
+  } = usePaginationFragment<
+    CommunityListPaginationQuery,
+    CommunityList_viewer$key
+  >(
+    graphql`
+      fragment CommunityList_viewer on Viewer
+      @refetchable(queryName: "CommunityListPaginationQuery")
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String" }
+      ) {
+        id
+        communities(first: $count, after: $cursor)
+          @connection(key: "CommunityList_viewer_communities") {
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              ...CommunityCard_community
             }
           }
         }
-      `,
-      query.viewer
-    );
+      }
+    `,
+    query.viewer
+  );
+
+  const { data: invitationData, refetch: refetchInvitations } =
+    useCommunityInvitationsPagination(query.viewer);
 
   const handleRefresh = useCallback(() => {
     startTransition(() => {
-      refetch({}, { fetchPolicy: "store-and-network" });
+      refetchCommunity({}, { fetchPolicy: "store-and-network" });
+      refetchInvitations({}, { fetchPolicy: "store-and-network" });
     });
-  }, [refetch]);
+  }, [refetchCommunity, refetchInvitations]);
 
   return (
     <FlatList
       className="min-h-full px-sm"
-      data={data?.communities.edges?.map((edge) => edge.node)}
+      data={communityData?.communities.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <CommunityCard community={item} />}
       ListHeaderComponent={
         <View>
-          {query.viewer && (
-            <ViewerCommunityInvitationList fragmentRef={query.viewer} />
+          {invitationData && (
+            <CommunityInvitationList communityInvitationData={invitationData} />
           )}
         </View>
       }

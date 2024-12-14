@@ -31,19 +31,27 @@ export const UsersRelations = relations(UsersTable, ({ many }) => ({
     relationName: "challengeInvitee",
   }),
   activityResults: many(ChallengeActivityResultsTable),
-  friendships: many(UserFriendshipsTable),
+  following: many(UserFriendshipsTable, {
+    relationName: "user",
+  }),
+  followers: many(UserFriendshipsTable, {
+    relationName: "friend",
+  }),
 }));
 
 export const UserFriendshipsRelations = relations(
   UserFriendshipsTable,
   ({ one }) => ({
+    // TODO might need a better name for these
     user: one(UsersTable, {
       fields: [UserFriendshipsTable.userId],
       references: [UsersTable.id],
+      relationName: "user",
     }),
     friend: one(UsersTable, {
       fields: [UserFriendshipsTable.friendId],
       references: [UsersTable.id],
+      relationName: "friend",
     }),
   })
 );

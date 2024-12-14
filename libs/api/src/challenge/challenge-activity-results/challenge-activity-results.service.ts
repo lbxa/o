@@ -245,4 +245,12 @@ export class ChallengeActivityResultsService
       },
     };
   }
+
+  public async getCount(userId: number): Promise<number> {
+    const results =
+      await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
+        where: eq(ChallengeActivityResultsTable.userId, userId),
+      });
+    return results.length;
+  }
 }
