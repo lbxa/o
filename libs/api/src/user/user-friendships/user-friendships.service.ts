@@ -6,7 +6,7 @@ import {
   UsersTable,
 } from "@o/db";
 import * as schema from "@o/db";
-import { and, desc, eq, getTableColumns } from "drizzle-orm";
+import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
 import { DbService } from "../../db/db.service";
@@ -124,9 +124,52 @@ export class UserFriendshipsService
     return this.pg2GqlMapper(friendship);
   }
 
+  /**
+   * Returns the friendship for the given user and friend.
+   * Returns undefined if the friendship does not exist.
+   * [(userId, friendId), (friendId, userId)]
+   */
+  async getFriendship(
+    userId: number,
+    friendId: number
+  ): Promise<{
+    outgoing?: GqlUserFriendship;
+    incoming?: GqlUserFriendship;
+  }> {
+    const outgoing =
+      await this.dbService.db.query.UserFriendshipsTable.findFirst({
+        where: and(
+          eq(UserFriendshipsTable.userId, userId),
+          eq(UserFriendshipsTable.friendId, friendId)
+        ),
+        with: {
+          user: true,
+          friend: true,
+        },
+      });
+
+    const incoming =
+      await this.dbService.db.query.UserFriendshipsTable.findFirst({
+        where: and(
+          eq(UserFriendshipsTable.userId, friendId),
+          eq(UserFriendshipsTable.friendId, userId)
+        ),
+        with: {
+          user: true,
+          friend: true,
+        },
+      });
+
+    return {
+      outgoing: outgoing ? this.pg2GqlMapper(outgoing) : undefined,
+      incoming: incoming ? this.pg2GqlMapper(incoming) : undefined,
+    };
+  }
+
   async getFriendships(
     userId: number,
     status?: InvitationStatus,
+    direction: "incoming" | "outgoing" = "outgoing",
     args?: ConnectionArgs
   ): Promise<UserFriendshipConnection> {
     const limit = args?.first ?? 10;
@@ -138,9 +181,14 @@ export class UserFriendshipsService
       ? eq(UserFriendshipsTable.status, status)
       : undefined;
 
+    const directionEq =
+      direction === "incoming"
+        ? eq(UserFriendshipsTable.friendId, userId)
+        : eq(UserFriendshipsTable.userId, userId);
+
     const friendships =
       await this.dbService.db.query.UserFriendshipsTable.findMany({
-        where: and(eq(UserFriendshipsTable.userId, userId), statusEq),
+        where: and(directionEq, statusEq),
         with: {
           user: true,
           friend: true,
@@ -163,7 +211,43 @@ export class UserFriendshipsService
     });
   }
 
-  async getFriends(
+  async getFollowers(
+    userId: number,
+    args?: ConnectionArgs
+  ): Promise<UserConnection> {
+    const limit = args?.first ?? 10;
+    const after = args?.after
+      ? validateAndDecodeGlobalId(args.after, "User")
+      : 0;
+
+    const friendships =
+      await this.dbService.db.query.UserFriendshipsTable.findMany({
+        where: and(
+          eq(UserFriendshipsTable.friendId, userId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED)
+        ),
+        with: {
+          user: true,
+        },
+        limit: limit + 1, // Get one extra to check if there are more results
+        offset: after,
+        orderBy: desc(UserFriendshipsTable.createdAt),
+      });
+
+    const hasNextPage = friendships.length > limit;
+    const nodes = friendships
+      .slice(0, limit)
+      .map((friendship) => this.userService.pg2GqlMapper(friendship.user));
+
+    return buildConnection({
+      nodes,
+      hasNextPage,
+      hasPreviousPage: !!after,
+      createCursor: (node) => node.id,
+    });
+  }
+
+  async getFollowing(
     userId: number,
     args?: ConnectionArgs
   ): Promise<UserConnection> {
@@ -262,6 +346,68 @@ export class UserFriendshipsService
     });
   }
 
+  async declineFriendship(
+    acceptorId: number,
+    requesterId: number
+  ): Promise<GqlUserFriendship> {
+    const UserAlias = alias(UsersTable, "user");
+    const FriendAlias = alias(UsersTable, "friend");
+
+    const [friendship] = await this.dbService.db
+      .select({
+        user: UserAlias,
+        friend: FriendAlias,
+        ...getTableColumns(UserFriendshipsTable),
+      })
+      .from(UserFriendshipsTable)
+      .innerJoin(UserAlias, eq(UserAlias.id, UserFriendshipsTable.userId))
+      .innerJoin(FriendAlias, eq(FriendAlias.id, UserFriendshipsTable.friendId))
+      .where(
+        and(
+          // when accepting a friendship, the user is the friendId
+          eq(UserFriendshipsTable.userId, requesterId),
+          eq(UserFriendshipsTable.friendId, acceptorId)
+        )
+      );
+
+    if (!friendship) {
+      throw new NotFoundError(
+        `Friendship between ${acceptorId} and ${requesterId} not found`
+      );
+    }
+
+    switch (friendship.status) {
+      case InvitationStatus.PENDING:
+      case InvitationStatus.ACCEPTED:
+        break;
+      case InvitationStatus.DECLINED:
+        throw new ForbiddenError("Friendship already declined");
+    }
+
+    const [result] = await this.dbService.db
+      .update(UserFriendshipsTable)
+      .set({ status: InvitationStatus.DECLINED })
+      .where(
+        and(
+          eq(UserFriendshipsTable.userId, requesterId),
+          eq(UserFriendshipsTable.friendId, acceptorId)
+        )
+      )
+      .returning();
+
+    if (!result) {
+      throw new NotFoundError(
+        `Friendship between ${requesterId} and ${acceptorId} not found`
+      );
+    }
+
+    return this.pg2GqlMapper({
+      ...result,
+      user: friendship.user,
+      friend: friendship.friend,
+    });
+  }
+
   async removeFriendship(userId: number, friendId: number): Promise<boolean> {
     const result = await this.dbService.db
       .delete(UserFriendshipsTable)
@@ -274,5 +420,51 @@ export class UserFriendshipsService
       .returning();
 
     return result.length > 0;
+  }
+
+  async getFollowerCount(userId: number): Promise<number> {
+    const followers =
+      await this.dbService.db.query.UserFriendshipsTable.findMany({
+        where: and(
+          eq(UserFriendshipsTable.friendId, userId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED)
+        ),
+      });
+    return followers.length;
+  }
+
+  async getFollowingCount(userId: number): Promise<number> {
+    const following =
+      await this.dbService.db.query.UserFriendshipsTable.findMany({
+        where: and(
+          eq(UserFriendshipsTable.userId, userId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED)
+        ),
+      });
+    return following.length;
+  }
+
+  async getBuddyCount(userId: number): Promise<number> {
+    const ReversedFriendTable = alias(UserFriendshipsTable, "reversedFriend");
+
+    const [buddyCount] = await this.dbService.db
+      .select({ buddies: count() })
+      .from(UserFriendshipsTable)
+      .innerJoin(
+        ReversedFriendTable,
+        and(
+          eq(UserFriendshipsTable.userId, ReversedFriendTable.friendId),
+          eq(UserFriendshipsTable.friendId, ReversedFriendTable.userId)
+        )
+      )
+      .where(
+        and(
+          eq(UserFriendshipsTable.userId, userId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED),
+          eq(ReversedFriendTable.status, InvitationStatus.ACCEPTED)
+        )
+      );
+
+    return buddyCount.buddies;
   }
 }

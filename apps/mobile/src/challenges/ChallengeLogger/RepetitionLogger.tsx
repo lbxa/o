@@ -10,8 +10,8 @@ import { graphql } from "react-relay";
 
 import { useZustStore } from "@/state";
 import { OTouchable } from "@/universe/atoms";
-import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
+import { useSharedBottomSheetProps } from "../../shared";
 import { useChallengeActivityResultCreate } from "./mutations";
 
 interface RepetitionLoggerProps {
@@ -26,6 +26,7 @@ const _ = graphql`
 
 export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
   const [count, setCount] = useState(0);
+  const sharedBottomSheetProps = useSharedBottomSheetProps();
   const [isEditing, setIsEditing] = useState(false);
   const {
     setRecordedChallenge,
@@ -118,7 +119,7 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <OBackdrop {...props} />}
+      {...sharedBottomSheetProps}
       enablePanDownToClose
       enableDynamicSizing
       maxDynamicContentSize={700}
@@ -126,11 +127,11 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       keyboardBehavior="interactive"
     >
       <BottomSheetScrollView>
-        <View className="flex h-full flex-col gap-md bg-white px-md pb-10">
+        <View className="flex h-full flex-col gap-md px-md pb-10">
           <OTouchable onPress={() => setIsEditing(true)}>
             {isEditing ? (
               <BottomSheetTextInput
-                className="w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold dark:text-ivory"
                 style={{ fontVariant: ["tabular-nums"] }}
                 value={count.toString()}
                 onChangeText={(text) => {
@@ -147,7 +148,7 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
               />
             ) : (
               <Text
-                className="w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold dark:text-ivory"
                 style={{ fontVariant: ["tabular-nums"] }}
               >
                 {count}
@@ -159,21 +160,21 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
               <View className="flex flex-col justify-between">
                 <OTouchable
                   onPress={handleReset}
-                  className="flex size-[100px] rounded-full bg-gray-200"
+                  className="flex size-[100px] rounded-full bg-gray-200 dark:bg-gray-200/30"
                 >
-                  <Text className="m-auto text-xl font-bold text-gray-600">
+                  <Text className="m-auto text-xl font-bold text-gray-600 dark:text-gray-300">
                     Reset
                   </Text>
                 </OTouchable>
                 <OTouchable
                   onPress={handleRecord}
                   className={classNames(
-                    "flex size-[100px] rounded-full bg-indigo-200",
+                    "flex size-[100px] rounded-full bg-indigo-200 dark:bg-indigo-200/30",
                     count === 0 && "opacity-50"
                   )}
                   disabled={count === 0}
                 >
-                  <Text className="m-auto text-xl font-bold text-indigo-600">
+                  <Text className="m-auto text-xl font-bold text-indigo-600 dark:text-indigo-300">
                     Done
                   </Text>
                 </OTouchable>
@@ -181,12 +182,12 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
               <OTouchable
                 onPress={() => setCount((prev) => prev + 1)}
                 className={classNames(
-                  "mt-auto flex size-[250px] rounded-full bg-green-200"
+                  "mt-auto flex size-[250px] rounded-full bg-green-200 dark:bg-green-200/30"
                 )}
               >
                 <Text
                   className={classNames(
-                    "m-auto text-3xl font-bold text-green-600"
+                    "m-auto text-3xl font-bold text-green-600 dark:text-green-300"
                   )}
                 >
                   Count+

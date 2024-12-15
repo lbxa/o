@@ -12,6 +12,7 @@ import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
 
 import type { ChallengeActivityPills_challenge$key } from "../../../__generated__/ChallengeActivityPills_challenge.graphql";
+import { useSvgFill } from "../../../utils";
 import { ChallengeActivityPills } from "../../ChallengeActivity";
 import {
   DistanceLogger,
@@ -32,7 +33,7 @@ export const ChallengeDetails = ({
 }: Props) => {
   const router = useRouter();
   const { setRecordedChallenge } = useZustStore();
-
+  const svgFill = useSvgFill();
   const weightModalRef = useRef<BottomSheetModal>(null);
   const stopwatchModalRef = useRef<BottomSheetModal>(null);
   const repetitionModalRef = useRef<BottomSheetModal>(null);
@@ -94,10 +95,12 @@ export const ChallengeDetails = ({
   return (
     <View className="mb-md flex flex-col gap-md pt-sm">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm">
-          <Text className="flex-1 text-lg">{challenge.description}</Text>
+        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm dark:bg-white/20">
+          <Text className="flex-1 text-lg text-black dark:text-ivory">
+            {challenge.description}
+          </Text>
           <OTouchable onPress={() => setShowDescription(false)}>
-            <CrossIcon width={15} height={15} />
+            <CrossIcon width={15} height={15} fill={svgFill} />
           </OTouchable>
         </View>
       )}
@@ -116,7 +119,7 @@ export const ChallengeDetails = ({
         />
         <OButton
           title="Record"
-          type="secondary"
+          type="primary"
           variant="navy"
           icon={<RecordIcon width={20} fill="ivory" />}
           className="ml-auto"

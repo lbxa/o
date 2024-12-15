@@ -20,10 +20,31 @@ body:graphql {
     lastName
   }
   
-  query UserFriendsQuery { 
+  query FriendshipStatusQuery {
+    getFriendshipStatus(userId: "VXNlcjo1", friendId: "VXNlcjox") {
+      outgoing {
+        id
+        status
+      }
+      incoming {
+        id 
+        status
+      }
+      areMutualFriends
+    }
     viewer {
       user {
-        friendRequests {
+        buddyCount
+        followerCount
+        following {
+          edges {
+            node {
+              ...User
+            }
+          }
+        }
+        challengeActivityResultsCount
+        followerRequests(first: 20) {
           edges {
             node {
               id
@@ -34,13 +55,6 @@ body:graphql {
               friend {
                 ...User
               }
-            }
-          }
-        }
-        friends {
-          edges {
-            node {
-              ...User
             }
           }
         }

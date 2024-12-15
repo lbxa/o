@@ -32,6 +32,7 @@ import {
 import { Ozone } from "@/universe/molecules";
 import { useViewerId } from "@/users/hooks";
 
+import { useSvgFill } from "../../utils";
 import { ChallengeCreateActivity } from "./ChallengeCreateActivity";
 import { ChallengeCreateCadence } from "./ChallengeCreateCadence";
 import { ChallengeCreateMode } from "./ChallengeCreateMode";
@@ -39,6 +40,7 @@ import { ChallengeCreateMode } from "./ChallengeCreateMode";
 export const ChallengeCreate = () => {
   const router = useRouter();
   const viewerId = useViewerId();
+  const svgFill = useSvgFill();
   const {
     selectedCommunity,
     challengeForm,
@@ -144,7 +146,7 @@ export const ChallengeCreate = () => {
         }}
       >
         <View className="flex-1">
-          <OTouchable className="mb-md flex h-[150px] bg-gray-200">
+          <OTouchable className="mb-md flex h-[150px] bg-gray-200 dark:bg-white/20">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
             </View>
@@ -235,10 +237,10 @@ export const ChallengeCreate = () => {
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
               onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3"
+              className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
             >
-              <SearchIcon width={22} />
-              <Text>Search</Text>
+              <SearchIcon width={22} fill={svgFill} />
+              <Text className="dark:text-ivory">Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (
@@ -252,14 +254,16 @@ export const ChallengeCreate = () => {
                       className="flex flex-row items-center gap-sm"
                     >
                       <Title>Less Settings</Title>
-                      <ChevronUpIcon width={22} height={22} />
+                      <ChevronUpIcon width={22} height={22} fill={svgFill} />
                     </OTouchable>
                     <Subtitle>
                       Select more settings for advanced customization
                     </Subtitle>
                   </View>
                 </View>
+
                 <ChallengeCreateCadence />
+
                 <View
                   className={classNames(
                     "flex flex-col justify-between rounded-lg mb-sm",
@@ -300,6 +304,7 @@ export const ChallengeCreate = () => {
                     End date must be after start date
                   </Text>
                 )}
+
                 <ChallengeCreateMode />
               </View>
             ) : (
@@ -309,7 +314,7 @@ export const ChallengeCreate = () => {
                   className="flex flex-row items-center gap-sm"
                 >
                   <Title>More Settings</Title>
-                  <ChevronDownIcon width={22} height={22} />
+                  <ChevronDownIcon width={22} height={22} fill={svgFill} />
                 </OTouchable>
                 <Subtitle>
                   Select more settings for advanced customization

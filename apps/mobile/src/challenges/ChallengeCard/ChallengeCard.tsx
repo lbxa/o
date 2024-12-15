@@ -67,9 +67,15 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm">
-        <Text className="text-3xl font-bold">{challenge.name}</Text>
-        <Suspense fallback={<Text>Loading...</Text>}>
+      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm px-md dark:bg-white/20">
+        <Text className="text-3xl font-bold text-black dark:text-ivory">
+          {challenge.name}
+        </Text>
+        <Suspense
+          fallback={
+            <Text className="text-black dark:text-ivory">Loading...</Text>
+          }
+        >
           <ChallengeActivityPills fragmentRef={challenge} />
         </Suspense>
         <ChallengeSocials memberCount={challenge.memberCount ?? 0} />

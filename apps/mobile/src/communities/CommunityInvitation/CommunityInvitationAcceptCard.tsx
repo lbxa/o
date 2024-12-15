@@ -1,4 +1,6 @@
 /* eslint-disable @stylistic/js/max-len */
+import CrossIcon from "@assets/icons/cross.svg";
+import TickIcon from "@assets/icons/tick.svg";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import {
@@ -13,7 +15,6 @@ import type { CommunityInvitationAcceptCard_invitations$key } from "@/__generate
 import { OTouchable } from "@/universe/atoms";
 import { useViewerId } from "@/users/hooks";
 
-import { CommunityInvitationDeclineButton } from "./CommunityInvitationDeclineButton";
 import { useCommunityInviteDecline } from "./hooks";
 
 interface CommunityInvitationAcceptCardProps {
@@ -73,11 +74,11 @@ export const CommunityInvitationAcceptCard = ({
     ),
     ConnectionHandler.getConnectionID(
       viewerId,
-      "ViewerCommunityInvitationList_communityInvitations"
+      "CommunityInvitationList_communityInvitations"
     ),
   ];
 
-  const handleClick = () => {
+  const handleJoin = () => {
     commitJoinMutation({
       variables: {
         inviteId: invitation.id,
@@ -95,7 +96,7 @@ export const CommunityInvitationAcceptCard = ({
     });
   };
 
-  const handleDeny = () => {
+  const handleDecline = () => {
     return commitDeclineMutation({
       variables: {
         inviteId: invitation.id,
@@ -117,10 +118,7 @@ export const CommunityInvitationAcceptCard = ({
       : "Accept invitation";
 
   return (
-    <OTouchable
-      className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm"
-      onPress={handleClick}
-    >
+    <View className="z-10 flex-row items-center justify-between rounded-3xl bg-indigo p-sm">
       <View className="flex flex-1 flex-row items-center gap-sm">
         <View className="size-12 rounded-full border border-ivory bg-gray-400"></View>
         <View className="flex flex-col">
@@ -131,7 +129,20 @@ export const CommunityInvitationAcceptCard = ({
           <Text className="text-2xl font-bold text-ivory">{buttonText}</Text>
         </View>
       </View>
-      <CommunityInvitationDeclineButton onDecline={handleDeny} />
-    </OTouchable>
+      <View className="flex flex-row items-center gap-sm">
+        <OTouchable
+          className="z-20 flex size-12 flex-row items-center justify-center rounded-full bg-ivory"
+          onPress={handleJoin}
+        >
+          <TickIcon width={26} height={26} fill="#5955eb" />
+        </OTouchable>
+        <OTouchable
+          className="z-20 flex size-12 flex-row items-center justify-center rounded-full bg-ivory"
+          onPress={handleDecline}
+        >
+          <CrossIcon width={26} height={26} fill="#5955eb" />
+        </OTouchable>
+      </View>
+    </View>
   );
 };

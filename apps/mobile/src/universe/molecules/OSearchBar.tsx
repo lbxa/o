@@ -1,7 +1,10 @@
+import CrossIcon from "@assets/icons/cross.svg";
 import SearchIcon from "@assets/icons/search.svg";
+import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
+import { useSvgFill } from "../../utils";
 import { OTouchable, PrimaryTextInputControl } from "../atoms";
 
 interface OSearchBarProps {
@@ -9,14 +12,18 @@ interface OSearchBarProps {
   placeholder?: string;
   searchQuery: string;
   onSearchChange: (term: string) => void;
+  showCancel?: boolean;
 }
 
 export const OSearchBar = ({
   searchQuery,
   onSearchChange,
   loading,
+  showCancel = true,
   placeholder = "Search",
 }: OSearchBarProps) => {
+  const svgFill = useSvgFill();
+  const router = useRouter();
   const handleChange = useCallback(
     (term: string) => {
       onSearchChange(term);
@@ -25,9 +32,13 @@ export const OSearchBar = ({
   );
 
   return (
-    <View className="flex w-full flex-row items-center">
-      <View className="mb-md flex w-full flex-1 flex-row items-center rounded-lg bg-ivory px-sm">
-        {loading ? <ActivityIndicator /> : <SearchIcon width={20} />}
+    <View className="mb-md flex w-full flex-row items-center gap-sm">
+      <View className="flex flex-1 flex-row items-center rounded-lg bg-ivory px-sm dark:bg-neutral-800">
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <SearchIcon width={20} fill={svgFill} />
+        )}
         <PrimaryTextInputControl
           className="flex-1"
           placeholder={placeholder}
@@ -39,9 +50,14 @@ export const OSearchBar = ({
           onChangeText={handleChange}
         />
         <OTouchable onPress={() => onSearchChange("")}>
-          <Text>Clear</Text>
+          <CrossIcon width={18} height={18} fill={svgFill} />
         </OTouchable>
       </View>
+      {showCancel && (
+        <OTouchable onPress={() => router.back()}>
+          <Text className="text-black dark:text-ivory">Cancel</Text>
+        </OTouchable>
+      )}
     </View>
   );
 };

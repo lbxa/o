@@ -1,15 +1,24 @@
-import { Args, Mutation, Query, ResolveField, Resolver } from "@nestjs/graphql";
+/* eslint-disable @stylistic/js/max-len */
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 
-import { CommunityService } from "../community/community.service";
+import { ChallengeActivityResultsService } from "../challenge/challenge-activity-results";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   InvitationStatus,
   User,
   UserConnection,
+  UserFriendshipStatus,
   UserUpdateInput,
 } from "../types/graphql";
-import { ConnectionArgs } from "../utils";
+import { ConnectionArgs, validateAndDecodeGlobalId } from "../utils";
 import { decodeGlobalId } from "../utils";
 import { UserService } from "./user.service";
 import { UserFriendshipsService } from "./user-friendships/user-friendships.service";
@@ -18,8 +27,8 @@ import { UserFriendshipsService } from "./user-friendships/user-friendships.serv
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
-    private readonly communityService: CommunityService,
-    private readonly userFriendshipsService: UserFriendshipsService
+    private readonly userFriendshipsService: UserFriendshipsService,
+    private readonly challengeActivityResultsService: ChallengeActivityResultsService
   ) {}
 
   @Query("users")
@@ -76,24 +85,64 @@ export class UserResolver {
     );
   }
 
-  @ResolveField("friendRequests")
-  async friendRequests(
+  @Mutation("userDeclineFriendship")
+  async declineFriendship(
     @CurrentUser("userId") userId: number,
-    @Args() args: ConnectionArgs
+    @Args("friendId") friendId: string
   ) {
-    return this.userFriendshipsService.getFriendships(
-      userId,
-      InvitationStatus.PENDING,
-      args
-    );
+    const decodedId = validateAndDecodeGlobalId(friendId, "User");
+    return this.userFriendshipsService.declineFriendship(userId, decodedId);
   }
 
-  @ResolveField("friends")
-  async friends(
+  @Mutation("userRemoveFriendship")
+  async removeFriendship(
     @CurrentUser("userId") userId: number,
+    @Args("friendId") friendId: string
+  ) {
+    const decodedId = validateAndDecodeGlobalId(friendId, "User");
+    return this.userFriendshipsService.removeFriendship(userId, decodedId);
+  }
+
+  @ResolveField("followers")
+  async followers(
+    @Parent() user: User,
     @Args() args: ConnectionArgs
   ): Promise<UserConnection> {
-    return this.userFriendshipsService.getFriends(userId, args);
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowers(decodedUserId, args);
+  }
+
+  @ResolveField("following")
+  async following(
+    @Parent() user: User,
+    @Args() args: ConnectionArgs
+  ): Promise<UserConnection> {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowing(decodedUserId, args);
+  }
+
+  @Query("getFriendshipStatus")
+  async getFriendshipStatus(
+    @Args("userId") userId: string,
+    @Args("friendId") friendId: string
+  ): Promise<UserFriendshipStatus> {
+    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+    const decodedFriendId = validateAndDecodeGlobalId(friendId, "User");
+
+    const { outgoing, incoming } =
+      await this.userFriendshipsService.getFriendship(
+        decodedUserId,
+        decodedFriendId
+      );
+
+    return {
+      __typename: "UserFriendshipStatus",
+      outgoing,
+      incoming,
+      areMutualFriends:
+        outgoing?.status === InvitationStatus.ACCEPTED &&
+        incoming?.status === InvitationStatus.ACCEPTED,
+    };
   }
 
   @Query("userProfile")
@@ -102,9 +151,49 @@ export class UserResolver {
     return this.userService.findById(decodedUserId);
   }
 
-  // @Mutation('removeUser')
-  // remove(@Args('id') id: number) {
-  //   console.log("Deletedk");
-  //   return this.userService.remove(id);
-  // }
+  @ResolveField("buddyCount")
+  buddyCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getBuddyCount(decodedUserId);
+  }
+
+  @ResolveField("followerCount")
+  followerCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowerCount(decodedUserId);
+  }
+
+  @ResolveField("followingCount")
+  followingCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFollowingCount(decodedUserId);
+  }
+
+  @ResolveField("challengeActivityResultsCount")
+  async challengeActivityResultsCount(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.challengeActivityResultsService.getCount(decodedUserId);
+  }
+
+  @ResolveField("followerRequests")
+  async followerRequests(@Parent() user: User, @Args() args: ConnectionArgs) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFriendships(
+      decodedUserId,
+      InvitationStatus.PENDING,
+      "incoming",
+      args
+    );
+  }
+
+  @ResolveField("followRequests")
+  async followRequests(@Parent() user: User, @Args() args: ConnectionArgs) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userFriendshipsService.getFriendships(
+      decodedUserId,
+      InvitationStatus.PENDING,
+      "outgoing",
+      args
+    );
+  }
 }

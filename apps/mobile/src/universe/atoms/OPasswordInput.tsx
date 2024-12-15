@@ -1,25 +1,30 @@
 import Eye from "@assets/icons/eye.svg";
 import EyeSlash from "@assets/icons/eye-slash.svg";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
+import type { TextInput } from "react-native";
 import type { TextInputProps } from "react-native";
 import { Text, View } from "react-native";
 
+import { useSvgFill } from "../../utils";
 import { OTouchable } from "./OTouchable";
 import type { PrimaryTextInputProps } from "./PrimaryTextInput";
 import { PrimaryTextInput } from "./PrimaryTextInput";
 import type { PrimaryTextInputControlProps } from "./PrimaryTextInputControl";
 
-export const OPasswordInput = (
-  props: PrimaryTextInputControlProps &
+export const OPasswordInput = forwardRef<
+  TextInput,
+  PrimaryTextInputControlProps &
     PrimaryTextInputProps &
     Omit<TextInputProps, "className">
-) => {
+>((props, ref) => {
+  const svgFill = useSvgFill();
   const [visible, setVisible] = useState(false);
 
   return (
     <View className="mb-md">
       <View className="relative flex flex-row">
         <PrimaryTextInput
+          ref={ref}
           className="grow"
           secureTextEntry={!visible}
           {...props}
@@ -30,16 +35,20 @@ export const OPasswordInput = (
         >
           <View className="m-auto">
             {visible ? (
-              <Eye width={20} height={20} />
+              <Eye width={20} height={20} fill={svgFill} />
             ) : (
-              <EyeSlash width={20} height={20} />
+              <EyeSlash width={20} height={20} fill={svgFill} />
             )}
           </View>
         </OTouchable>
       </View>
       {props.error && (
-        <Text className="mt-sm px-2 color-red-900">{props.errorMessage}</Text>
+        <Text className="mt-sm px-2 color-red-900 dark:text-red-200">
+          {props.errorMessage}
+        </Text>
       )}
     </View>
   );
-};
+});
+
+OPasswordInput.displayName = "OPasswordInput";

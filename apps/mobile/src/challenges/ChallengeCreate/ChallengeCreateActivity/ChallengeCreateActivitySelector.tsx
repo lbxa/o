@@ -87,7 +87,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   });
 
   return (
-    <View className="flex h-full flex-col bg-white px-md pb-10">
+    <View className="flex h-full flex-col px-md pb-10">
       <Title>Select an activity</Title>
       <Subtitle>What type of activity is this challenge?</Subtitle>
       <View className="mb-lg flex flex-row flex-wrap gap-md">

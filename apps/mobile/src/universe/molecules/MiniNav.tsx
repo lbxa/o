@@ -1,3 +1,4 @@
+import BellIcon from "@assets/icons/bell.svg";
 import MenuIcon from "@assets/icons/menu.svg";
 import MessageIcon from "@assets/icons/message.svg";
 import PlusIcon from "@assets/icons/plus.svg";
@@ -6,7 +7,7 @@ import type { Href } from "expo-router";
 import { useRouter } from "expo-router";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 
 import { OTouchable } from "../atoms";
 
@@ -27,27 +28,21 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   return (
     <OTouchable
       onPress={() => router.push(href)}
-      className="rounded-full bg-ivory p-xs"
+      className="rounded-full bg-ivory p-xs dark:bg-white/20"
     >
       <View>{children}</View>
     </OTouchable>
   );
 };
 
-type NavItemType = "create" | "search" | "message" | "manage";
+type NavItemType = "create" | "search" | "message" | "manage" | "notifications";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
   create: "/(root)/community/create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
   manage: "/(root)/community/manage",
-};
-
-const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
-  create: <PlusIcon {...ICON_DIM} />,
-  search: <SearchIcon {...ICON_DIM} />,
-  message: <MessageIcon {...ICON_DIM} />,
-  manage: <MenuIcon {...ICON_DIM} />,
+  notifications: "/(root)/home/notifications",
 };
 
 interface NavItemConfig {
@@ -63,8 +58,18 @@ export const MiniNav: React.FC<MiniNavProps> = ({
   items = "all",
   itemConfigs = {},
 }) => {
+  const colorScheme = useColorScheme();
+  const iconFill = colorScheme === "dark" ? "#edf4f8" : "#000000";
+  const NavIcons: Record<NavItemType, React.ReactElement> = {
+    create: <PlusIcon {...ICON_DIM} fill={iconFill} />,
+    search: <SearchIcon {...ICON_DIM} fill={iconFill} />,
+    message: <MessageIcon {...ICON_DIM} fill={iconFill} />,
+    manage: <MenuIcon {...ICON_DIM} fill={iconFill} />,
+    notifications: <BellIcon {...ICON_DIM} fill={iconFill} />,
+  };
+
   const itemsToRender =
-    items === "all" ? (Object.keys(NAV_ICONS) as NavItemType[]) : items;
+    items === "all" ? (Object.keys(NavIcons) as NavItemType[]) : items;
 
   return (
     <View className="flex flex-row items-center gap-md">
@@ -72,7 +77,7 @@ export const MiniNav: React.FC<MiniNavProps> = ({
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (
           <MiniNavItem key={item} href={href}>
-            {NAV_ICONS[item]}
+            {NavIcons[item]}
           </MiniNavItem>
         );
       })}

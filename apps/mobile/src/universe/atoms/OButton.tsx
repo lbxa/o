@@ -4,12 +4,12 @@ import { ActivityIndicator, Text, View } from "react-native";
 
 import { OTouchable } from "./OTouchable";
 
-type Type = "primary" | "secondary";
-type Size = "default" | "large";
-type Variant = "violet" | "red" | "indigo" | "navy" | "gray";
+export type OButtonType = "primary" | "secondary";
+export type OButtonSize = "default" | "large";
+export type OButtonVariant = "violet" | "red" | "indigo" | "navy" | "gray";
 
 type VariantMatrix = Record<
-  Variant,
+  OButtonVariant,
   {
     back: string;
     front: string;
@@ -18,54 +18,54 @@ type VariantMatrix = Record<
 
 const primaryVariantMatrix: VariantMatrix = {
   violet: {
-    back: "bg-violet/30",
-    front: "color-violet",
+    back: "bg-violet",
+    front: "text-ivory",
   },
   indigo: {
-    back: "bg-indigo/30",
-    front: "color-indigo",
+    back: "bg-indigo",
+    front: "text-ivory",
   },
   navy: {
-    back: "bg-navy/30",
-    front: "color-navy",
+    back: "bg-navy dark:bg-ivory/30",
+    front: "text-ivory dark:text-ivory",
   },
   red: {
-    back: "bg-red-800",
-    front: "color-white",
+    back: "bg-red-500",
+    front: "text-ivory",
   },
   gray: {
     back: "bg-gray-200",
-    front: "color-gray-800",
+    front: "text-gray-800",
   },
 };
 
 const secondaryVariantMatrix: VariantMatrix = {
   violet: {
     back: "bg-violet/30",
-    front: "color-violet",
+    front: "text-violet dark:text-violet-light",
   },
   indigo: {
-    back: "bg-indigo/30",
-    front: "color-indigo",
+    back: "bg-indigo/30 dark:bg-indigo/60",
+    front: "text-indigo dark:text-indigo-light",
   },
   navy: {
-    back: "bg-navy",
-    front: "color-ivory",
+    back: "bg-navy/30",
+    front: "text-navy dark:text-navy-light",
   },
   red: {
     back: "bg-red-200",
-    front: "color-red-800",
+    front: "text-red-800 dark:text-red-300",
   },
   gray: {
-    back: "bg-gray-300",
-    front: "color-gray-800",
+    back: "bg-gray-300/80 dark:bg-gray-300/30",
+    front: "text-gray-800 dark:text-gray-300",
   },
 };
 
 type OButtonProps = {
-  type?: Type;
-  size?: Size;
-  variant?: Variant;
+  type?: OButtonType;
+  size?: OButtonSize;
+  variant?: OButtonVariant;
   icon?: React.ReactElement;
   loading?: boolean;
   className?: string;
@@ -74,7 +74,7 @@ type OButtonProps = {
 export const OButton = ({
   title,
   icon,
-  type = "primary",
+  type = "secondary",
   variant = "indigo",
   size = "default",
   loading = false,
@@ -90,7 +90,7 @@ export const OButton = ({
       <Text
         className={classNames("m-auto text-center font-bold", {
           [variantMatrix[variant].front]: !props.disabled,
-          "text-gray-500": props.disabled,
+          "text-gray-500 dark:text-gray-300": props.disabled,
           "text-2xl": size === "large",
         })}
       >
@@ -103,7 +103,7 @@ export const OButton = ({
     <OTouchable
       className={classNames("rounded-xl py-sm px-md", className, {
         [variantMatrix[variant].back]: !props.disabled,
-        "bg-gray-200": props.disabled,
+        "bg-gray-200 dark:bg-white/20": props.disabled,
       })}
       {...props}
     >

@@ -5,18 +5,24 @@ import { Text } from "react-native";
 import { useZustStore } from "@/state";
 
 import { PillArray } from "../../../universe/molecules";
+import { useSvgFill } from "../../../utils";
 import {
   challengeActivityGoalToLabel,
   challengeActivityTypeToLabel,
   challengeActivityUnitToLabel,
 } from "../../ChallengeActivity/domain";
 
-const EmptyState = () => (
-  <>
-    <CrissCrossIcon width={25} />
-    <Text className="pl-sm">Choose from a blend of options</Text>
-  </>
-);
+const EmptyState = () => {
+  const svgFill = useSvgFill();
+  return (
+    <>
+      <CrissCrossIcon width={25} fill={svgFill} />
+      <Text className="pl-sm text-black dark:text-ivory">
+        Choose from a blend of options
+      </Text>
+    </>
+  );
+};
 
 export const ChallengeCreateActivitySummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);

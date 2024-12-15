@@ -8,6 +8,7 @@ import { Text, View } from "react-native";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable, Subtitle, Title } from "@/universe/atoms";
 
+import { useOTheme } from "../../../utils";
 import type { ChallengeModeLabel } from "../../ChallengeMode";
 
 const DataControl: React.FC<{
@@ -17,23 +18,26 @@ const DataControl: React.FC<{
   selected?: boolean;
   comingSoon?: boolean;
 }> = ({ controlName, controlDescription, selected, onSelect, comingSoon }) => {
+  const { isDark } = useOTheme();
   return (
     <OTouchable onPress={onSelect} disabled={comingSoon}>
       <View className="flex flex-row items-center gap-md">
         <View className="flex flex-1">
           <Text
-            className={classNames("mb-sm text-xl", {
-              "text-gray-500": comingSoon,
+            className={classNames("mb-sm text-xl text-black dark:text-ivory", {
+              "text-gray-500 dark:text-gray-600": comingSoon,
             })}
           >
             {controlName}
             {comingSoon && " (Coming Soon)"}
           </Text>
-          <Text>{controlDescription}</Text>
+          <Text className="text-black dark:text-ivory">
+            {controlDescription}
+          </Text>
         </View>
         <CheckBox
           value={selected}
-          color="black"
+          color={isDark ? "gray" : "black"}
           disabled={comingSoon}
           onValueChange={onSelect}
         />
@@ -77,7 +81,7 @@ export const ChallengeCreateModeSelector: React.FC<{
   ];
 
   return (
-    <View className="flex flex-col bg-white px-md pb-10">
+    <View className="flex flex-col px-md pb-10">
       <Title>Challenge Mode</Title>
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
       <View className="mb-lg flex flex-col gap-md">

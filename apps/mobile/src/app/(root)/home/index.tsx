@@ -1,21 +1,26 @@
-import Nature from "@assets/images/nature.svg";
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { useQueryLoader } from "react-relay";
 
+import type { HomeFeedQuery } from "@/__generated__/HomeFeedQuery.graphql";
 import { AppRoot } from "@/root";
 import { Ozone } from "@/universe/molecules";
 
+import { HOME_FEED_QUERY, HomeFeed } from "../../../root/HomeFeed";
+
 export default function Home() {
+  const [queryRef, loadQuery, disposeQuery] =
+    useQueryLoader<HomeFeedQuery>(HOME_FEED_QUERY);
+
+  useEffect(() => {
+    loadQuery({});
+    return () => {
+      disposeQuery();
+    };
+  }, [loadQuery, disposeQuery]);
+
   return (
     <AppRoot>
-      <Ozone>
-        <View className="flex flex-col gap-md pt-md">
-          <View className="mx-auto">
-            <Nature width={150} height={150} />
-          </View>
-          <Text className="text-center">It's time to get outside</Text>
-        </View>
-      </Ozone>
+      <Ozone>{queryRef && <HomeFeed queryRef={queryRef} />}</Ozone>
     </AppRoot>
   );
 }

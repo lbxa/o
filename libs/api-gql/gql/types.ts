@@ -369,6 +369,10 @@ export type Mutation = {
   communityUpdate: Community;
   /** Accept a friendship */
   userAcceptFriendship: UserFriendship;
+  /** Decline a friendship */
+  userDeclineFriendship: UserFriendship;
+  /** Remove a friendship */
+  userRemoveFriendship: UserFriendship;
   /** Request a friendship */
   userRequestFriendship: UserFriendship;
   /** Update a user */
@@ -464,6 +468,16 @@ export type MutationUserAcceptFriendshipArgs = {
 };
 
 
+export type MutationUserDeclineFriendshipArgs = {
+  friendId: Scalars['ID']['input'];
+};
+
+
+export type MutationUserRemoveFriendshipArgs = {
+  friendId: Scalars['ID']['input'];
+};
+
+
 export type MutationUserRequestFriendshipArgs = {
   friendId: Scalars['ID']['input'];
 };
@@ -497,6 +511,8 @@ export type Query = {
   challengeActivityResults: ChallengeActivityResultConnection;
   challengeActivityTopResults: ChallengeActivityResultConnection;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
+  /** Is the current user friends with this user? */
+  getFriendshipStatus?: Maybe<UserFriendshipStatus>;
   health: Scalars['String']['output'];
   node?: Maybe<Node>;
   /** Fetch the user profile of any user by ID */
@@ -531,6 +547,12 @@ export type QueryChallengeActivityTopResultsArgs = {
 
 
 export type QueryChallengeInvitationsArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetFriendshipStatusArgs = {
+  friendId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
 };
 
@@ -572,12 +594,21 @@ export type Tokens = {
 export type User = Node & Timestamps & {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']['output']>;
+  buddyCount?: Maybe<Scalars['Int']['output']>;
+  challengeActivityResultsCount?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
-  friendRequests?: Maybe<UserFriendshipConnection>;
-  /** If they have any... */
-  friends?: Maybe<UserConnection>;
+  /** Requests to be followed by this user */
+  followRequests?: Maybe<UserFriendshipConnection>;
+  followerCount?: Maybe<Scalars['Int']['output']>;
+  /** Requests to follow this user */
+  followerRequests?: Maybe<UserFriendshipConnection>;
+  /** If they have any followers... */
+  followers?: Maybe<UserConnection>;
+  /** If they follow any users... */
+  following?: Maybe<UserConnection>;
+  followingCount?: Maybe<Scalars['Int']['output']>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
@@ -588,7 +619,14 @@ export type User = Node & Timestamps & {
 
 
 /** A user of the app */
-export type UserFriendRequestsArgs = {
+export type UserFollowRequestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** A user of the app */
+export type UserFollowerRequestsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -631,6 +669,30 @@ export type UserFriendshipEdge = {
   __typename?: 'UserFriendshipEdge';
   cursor: Scalars['String']['output'];
   node: UserFriendship;
+};
+
+/**
+ * Represents the bidirectional friendship status between two users.
+ * When building social graphs, it's important to track both directions
+ * of a relationship since friendships can be asymmetric (e.g. pending requests).
+ */
+export type UserFriendshipStatus = {
+  __typename?: 'UserFriendshipStatus';
+  /**
+   * Whether these users are mutual friends (both have accepted the friendship).
+   * True only if both outgoing and incoming friendships exist and are ACCEPTED.
+   */
+  areMutualFriends: Scalars['Boolean']['output'];
+  /**
+   * The incoming friendship status from the target user to the viewer.
+   * Will be null if no friendship request exists in this direction.
+   */
+  incoming?: Maybe<UserFriendship>;
+  /**
+   * The outgoing friendship status from the viewer to the target user.
+   * Will be null if no friendship request exists in this direction.
+   */
+  outgoing?: Maybe<UserFriendship>;
 };
 
 export type UserUpdateInput = {

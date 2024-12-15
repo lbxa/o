@@ -77,7 +77,9 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md text-center">No users found</Text>
+        <Text className="pt-md text-center text-black dark:text-ivory">
+          No users found
+        </Text>
       }
     />
   );
@@ -90,7 +92,6 @@ export const UserSearch = () => {
   return (
     <View className="h-full flex-1 px-md">
       <OSearchBar
-        loading={searchQuery !== deferredSearchQuery}
         placeholder="Search users"
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}

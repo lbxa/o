@@ -5,8 +5,8 @@ import { Text, View } from "react-native";
 import { useZustStore } from "@/state";
 import type { TimerButtonVariant } from "@/universe/atoms";
 import { OTouchable, TimerButton } from "@/universe/atoms";
-import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
+import { useSharedBottomSheetProps } from "../../shared";
 import { useStopwatch } from "./hooks";
 import { useChallengeActivityResultCreate } from "./mutations";
 
@@ -15,6 +15,7 @@ interface StopwatchLoggerProps {
 }
 
 export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
+  const bottomSheetProps = useSharedBottomSheetProps();
   const { time, start, stop, reset } = useStopwatch();
   const {
     setRecordedChallenge,
@@ -74,15 +75,16 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <OBackdrop {...props} />}
+      {...bottomSheetProps}
+      onDismiss={handleReset}
       enablePanDownToClose
       enableDynamicSizing
       maxDynamicContentSize={900}
     >
       <BottomSheetView>
-        <View className="flex h-full flex-col gap-md bg-white px-md pb-5">
+        <View className="flex h-full flex-col gap-md px-md pb-5">
           <Text
-            className="w-full text-center text-[5.5rem] font-bold"
+            className="w-full text-center text-[5.5rem] font-bold text-black dark:text-ivory"
             style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
           >
             {time.toString()}
@@ -90,9 +92,9 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
           <View className="flex flex-row justify-around gap-md">
             <OTouchable
               onPress={handleReset}
-              className="mt-auto flex size-[100px] rounded-full bg-gray-200"
+              className="mt-auto flex size-[100px] rounded-full bg-gray-200 dark:bg-gray-200/30"
             >
-              <Text className="m-auto text-xl font-bold text-gray-600">
+              <Text className="m-auto text-xl font-bold text-gray-600 dark:text-gray-300">
                 Reset
               </Text>
             </OTouchable>

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0fc14c48479e4be4e02e088051d60c82>>
+ * @generated SignedSource<<768b2b3366033228c20a9e4f126e2cec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,35 +10,36 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ViewerCommunityInvitationList_viewer$data = {
-  readonly communityInvitations: {
+export type UserNotificationList_user$data = {
+  readonly followerRequests: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly " $fragmentSpreads": FragmentRefs<"CommunityInvitationCard_communityInvitation">;
+        readonly " $fragmentSpreads": FragmentRefs<"UserNotificationCard_notification">;
       };
-    }> | null | undefined;
+    }>;
     readonly pageInfo: {
       readonly endCursor: string | null | undefined;
       readonly hasNextPage: boolean;
       readonly startCursor: string | null | undefined;
     };
-  };
-  readonly " $fragmentType": "ViewerCommunityInvitationList_viewer";
+  } | null | undefined;
+  readonly id: string;
+  readonly " $fragmentType": "UserNotificationList_user";
 };
-export type ViewerCommunityInvitationList_viewer$key = {
-  readonly " $data"?: ViewerCommunityInvitationList_viewer$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ViewerCommunityInvitationList_viewer">;
+export type UserNotificationList_user$key = {
+  readonly " $data"?: UserNotificationList_user$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserNotificationList_user">;
 };
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "communityInvitations"
+  "followerRequests"
 ];
 return {
   "argumentDefinitions": [
     {
-      "defaultValue": 5,
+      "defaultValue": 10,
       "kind": "LocalArgument",
       "name": "count"
     },
@@ -68,19 +69,30 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [
-        "viewer"
+        "node"
       ],
-      "operation": require('./ViewerCommunityInvitationsPaginationQuery.graphql')
+      "operation": require('./UserNotificationListPaginationQuery.graphql'),
+      "identifierInfo": {
+        "identifierField": "id",
+        "identifierQueryVariableName": "id"
+      }
     }
   },
-  "name": "ViewerCommunityInvitationList_viewer",
+  "name": "UserNotificationList_user",
   "selections": [
     {
-      "alias": "communityInvitations",
+      "alias": null,
       "args": null,
-      "concreteType": "CommunityInvitationConnection",
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    },
+    {
+      "alias": "followerRequests",
+      "args": null,
+      "concreteType": "UserFriendshipConnection",
       "kind": "LinkedField",
-      "name": "__ViewerCommunityInvitationList_communityInvitations_connection",
+      "name": "__UserNotificationList_viewer_followerRequests_connection",
       "plural": false,
       "selections": [
         {
@@ -118,7 +130,7 @@ return {
         {
           "alias": null,
           "args": null,
-          "concreteType": "CommunityInvitationEdge",
+          "concreteType": "UserFriendshipEdge",
           "kind": "LinkedField",
           "name": "edges",
           "plural": true,
@@ -133,7 +145,7 @@ return {
             {
               "alias": null,
               "args": null,
-              "concreteType": "CommunityInvitation",
+              "concreteType": "UserFriendship",
               "kind": "LinkedField",
               "name": "node",
               "plural": false,
@@ -141,7 +153,7 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "CommunityInvitationCard_communityInvitation"
+                  "name": "UserNotificationCard_notification"
                 },
                 {
                   "alias": null,
@@ -160,11 +172,11 @@ return {
       "storageKey": null
     }
   ],
-  "type": "Viewer",
+  "type": "User",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "40a244ca6e15603aad1cdb8efa8be0ac";
+(node as any).hash = "5cd22ee4fc4100f92a46180dcf506bcb";
 
 export default node;

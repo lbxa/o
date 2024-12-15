@@ -62,7 +62,7 @@ export class AuthResolver {
         accessToken,
         refreshToken,
       },
-      user,
+      user: this.userService.pg2GqlMapper(user),
     };
   }
 

@@ -1,29 +1,31 @@
-import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { Text, View } from "react-native";
 
-import { ModalCloseButton, OTouchable } from "@/universe/atoms";
+import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
 import { MiniNav } from "@/universe/molecules";
 
+import { ComingSoonBadge } from "../../../universe/atoms";
+
 export default function Root() {
-  const router = useRouter();
+  const sharedHeaderOptions = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
-        headerBackVisible: false,
+        ...sharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
-          headerLeft: () => <Text className="text-3xl font-bold">oNex</Text>,
+          headerLeft: () => (
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
+              oNex
+            </Text>
+          ),
           headerRight: () => (
             <MiniNav
-              items={["search", "message"]}
+              items={["notifications", "search", "message"]}
               itemConfigs={{ search: { href: "/(root)/home/user-search" } }}
             />
           ),
@@ -32,11 +34,7 @@ export default function Root() {
       <Stack.Screen
         name="user-search"
         options={{
-          headerLeft: () => (
-            <Text className="text-xl font-bold">Search Users</Text>
-          ),
-          headerRight: () => <ModalCloseButton />,
-          presentation: "modal",
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -44,12 +42,16 @@ export default function Root() {
         options={{
           headerLeft: () => (
             <View className="flex flex-row items-center gap-sm">
-              <OTouchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </OTouchable>
-              <Text className="text-3xl font-bold">Messages</Text>
+              <SharedHeaderTitle title="Messages" />
+              <ComingSoonBadge size="sm" />
             </View>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="notifications"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Notifications" />,
         }}
       />
     </Stack>

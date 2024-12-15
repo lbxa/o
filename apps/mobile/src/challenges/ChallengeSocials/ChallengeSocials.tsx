@@ -22,8 +22,8 @@ export const ChallengeSocials = ({ memberCount }: ChallengeSocialsProps) => {
     <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
-        <Text>{memberLabel}</Text>
-        <Text>
+        <Text className="text-black dark:text-ivory">{memberLabel}</Text>
+        <Text className="text-black dark:text-ivory">
           Started by <Text className="font-bold">x</Text>,{" "}
           <Text className="font-bold">y</Text> and{" "}
           <Text className="font-bold">z others</Text>

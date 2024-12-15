@@ -5,6 +5,7 @@ import { graphql, usePreloadedQuery } from "react-relay";
 import type { CommunityRootQuery } from "@/__generated__/CommunityRootQuery.graphql";
 import { MiniNav, Ozone } from "@/universe/molecules";
 
+import { useSharedHeaderOptions } from "../../shared";
 import { ChallengeList } from "./ChallengeList";
 import { CommunityTitle } from "./CommunityTitle";
 
@@ -29,11 +30,12 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
     COMMUNITY_ROOT_QUERY,
     queryRef
   );
-
+  const sharedHeaderOptions = useSharedHeaderOptions();
   return (
     <Ozone>
       <Stack.Screen
         options={{
+          ...sharedHeaderOptions,
           headerLeft: () => (
             <CommunityTitle community={communityRootData.viewer?.community} />
           ),

@@ -79,7 +79,9 @@ const UserInviteSearchResults = ({
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md text-center">No users found</Text>
+        <Text className="pt-md text-center text-black dark:text-ivory">
+          No users found
+        </Text>
       }
     />
   );
@@ -96,6 +98,7 @@ export const UserInviteSearch = () => {
         placeholder="Search users"
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        showCancel={false}
       />
       <Suspense fallback={null}>
         <UserInviteSearchResults searchTerm={deferredSearchQuery} />

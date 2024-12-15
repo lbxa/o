@@ -18,11 +18,13 @@ body:graphql {
   query { 
     viewer {
       user {
-        searchFriends(searchTerm: "lbx") {
+        searchFriends(searchTerm: "lucas") {
           id
           firstName
           lastName
           handle
+          buddyCount
+          challengeActivityResultsCount
         }
       }
     }

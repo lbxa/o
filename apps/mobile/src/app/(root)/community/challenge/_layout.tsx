@@ -1,32 +1,23 @@
-import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Stack, useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { Stack } from "expo-router";
+import { Text } from "react-native";
 
-import { ModalCloseButton, OTouchable } from "@/universe/atoms";
+import { ModalCloseButton } from "@/universe/atoms";
+
+import { SharedHeaderTitle, useSharedHeaderOptions } from "../../../../shared";
 
 export default function ChallengeRoot() {
-  const router = useRouter();
+  const sharedHeaderOptions = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
-        headerBackVisible: false,
+        ...sharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="create"
         options={{
-          headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <OTouchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </OTouchable>
-              <Text className="text-3xl font-bold">New Challenge</Text>
-            </View>
-          ),
+          headerLeft: () => <SharedHeaderTitle title="New Challenge" />,
         }}
       />
       <Stack.Screen

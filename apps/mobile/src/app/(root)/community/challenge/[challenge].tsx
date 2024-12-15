@@ -15,11 +15,13 @@ import {
 import { Skeleton } from "@/universe/atoms/Skeleton";
 import { Ozone } from "@/universe/molecules";
 
+import { useSharedHeaderOptions } from "../../../../shared";
+
 export default function ChallengeDetailsRoute() {
   const { challenge: challengeId } = useLocalSearchParams<{
     challenge: string;
   }>();
-
+  const sharedHeaderOptions = useSharedHeaderOptions();
   const [queryRef, loadQuery, disposeQuery] =
     useQueryLoader<ChallengeRootQuery>(CHALLENGE_ROOT_QUERY);
 
@@ -35,6 +37,7 @@ export default function ChallengeDetailsRoute() {
         <Ozone>
           <Stack.Screen
             options={{
+              ...sharedHeaderOptions,
               headerLeft: () => (
                 <Skeleton className="mr-auto h-8 w-10/12 rounded-xl" />
               ),

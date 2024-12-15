@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<66ecc2d451b08c341211f099f6a0e420>>
+ * @generated SignedSource<<0e3df5ec52e18ceef9401969c59f0c36>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type CommunityListQuery$variables = Record<PropertyKey, never>;
 export type CommunityListQuery$data = {
   readonly viewer: {
     readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer" | "ViewerCommunityInvitationList_viewer">;
+    readonly " $fragmentSpreads": FragmentRefs<"CommunityList_viewer" | "useCommunityInvitationsPagination_viewer">;
   } | null | undefined;
 };
 export type CommunityListQuery = {
@@ -140,7 +140,7 @@ return {
               }
             ],
             "kind": "FragmentSpread",
-            "name": "ViewerCommunityInvitationList_viewer"
+            "name": "useCommunityInvitationsPagination_viewer"
           }
         ],
         "storageKey": null
@@ -301,7 +301,7 @@ return {
             "args": (v7/*: any*/),
             "filters": null,
             "handle": "connection",
-            "key": "ViewerCommunityInvitationList_communityInvitations",
+            "key": "CommunityInvitationList_communityInvitations",
             "kind": "LinkedHandle",
             "name": "communityInvitations"
           }
@@ -311,16 +311,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8ee107f5483bb93e0b68c4486eb3c11d",
+    "cacheID": "5ff98e38c44b05f85cb5802535438e00",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...ViewerCommunityInvitationList_viewer_VbLdN\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment ViewerCommunityInvitationList_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "46cd66e47102d7638676078a2671b25b";
+(node as any).hash = "1e919eec9196ea27fa4afdcd0666d5ef";
 
 export default node;

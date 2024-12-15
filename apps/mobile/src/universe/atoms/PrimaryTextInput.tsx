@@ -12,7 +12,7 @@ export type PrimaryTextInputProps = {
 export const PrimaryTextInput = forwardRef<TextInput, PrimaryTextInputProps>(
   ({ className, error, bottomSheet, ...props }, ref) => {
     const textInputClass = classNames(
-      "bg-ivory rounded-lg px-2 py-3",
+      "bg-ivory rounded-lg px-sm py-3 dark:bg-neutral-800 dark:text-ivory",
       className,
       {
         "bg-red-200 color-red-900": error,
