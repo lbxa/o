@@ -97,8 +97,8 @@ export const UserNotificationCard = ({
   };
 
   return (
-    <View className="gap-md mb-lg flex w-full flex-col">
-      <View className="gap-sm flex flex-row items-center">
+    <View className="mb-lg flex w-full flex-col gap-md">
+      <View className="flex flex-row items-center gap-sm">
         <View className="size-16 rounded-full bg-gray-300 dark:bg-white/20" />
         <View className="flex flex-1 flex-col">
           <View className="flex flex-row items-center justify-between">
@@ -114,7 +114,7 @@ export const UserNotificationCard = ({
           <UserMutuals mutuals={3} />
         </View>
       </View>
-      <View className="gap-md flex w-full flex-row">
+      <View className="flex w-full flex-row gap-md">
         <OButton
           title="Confirm"
           loading={isAddMutationInFlight}

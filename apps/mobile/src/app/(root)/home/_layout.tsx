@@ -19,7 +19,7 @@ export default function Root() {
         name="index"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               oNex
             </Text>
           ),
@@ -41,7 +41,7 @@ export default function Root() {
         name="message"
         options={{
           headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <SharedHeaderTitle title="Messages" />
               <ComingSoonBadge size="sm" />
             </View>

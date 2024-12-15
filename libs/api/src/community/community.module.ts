@@ -10,8 +10,8 @@ import { CommunityMembershipsService } from "./community-memberships/community-m
 
 @Module({
   imports: [
-    forwardRef(() => ChallengeModule),
     forwardRef(() => UserModule),
+    forwardRef(() => ChallengeModule),
     forwardRef(() => AuthModule),
   ],
   providers: [

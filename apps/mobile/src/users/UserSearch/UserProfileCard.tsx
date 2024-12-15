@@ -30,11 +30,11 @@ export const UserProfileCard = ({ fragmentRef }: UserProfileCardProps) => {
       <View className="mb-sm flex min-h-12 w-full flex-row items-center">
         <View className="mr-sm size-10 rounded-full bg-gray-300 dark:bg-white/20" />
         <View className="flex flex-1 flex-col">
-          <Text className="dark:text-ivory text-black">
+          <Text className="text-black dark:text-ivory">
             {user.firstName} {user.lastName}
           </Text>
           {user.handle && (
-            <Text className="dark:text-ivory text-black">{user.handle}</Text>
+            <Text className="text-black dark:text-ivory">{user.handle}</Text>
           )}
         </View>
       </View>

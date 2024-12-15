@@ -10,13 +10,13 @@ export const UserMutuals = ({ mutuals }: UserMutualsProps) => {
   const mutualsLabel = mutuals === 1 ? "mutual" : "mutuals";
 
   return (
-    <View className="gap-sm flex flex-row items-center">
+    <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={mutuals} />
       <View className="flex flex-col">
-        <Text className="dark:text-ivory text-black">
+        <Text className="text-black dark:text-ivory">
           {mutuals} {mutualsLabel}
         </Text>
-        <Text className="dark:text-ivory text-black">
+        <Text className="text-black dark:text-ivory">
           Including <Text className="font-bold">x</Text>,{" "}
           <Text className="font-bold">y</Text> and{" "}
           <Text className="font-bold">z others</Text>

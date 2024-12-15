@@ -189,14 +189,14 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
 
   return (
     <Ozone>
-      <View className="gap-lg px-md pb-md mx-auto flex flex-col items-center justify-center">
+      <View className="mx-auto flex flex-col items-center justify-center gap-lg px-md pb-md">
         <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
           <View className="m-auto">
             <CameraIcon width={45} height={45} fill={"grey"} />
           </View>
         </OTouchable>
         {user && <UserProfileStats user={user} />}
-        <View className="gap-sm flex flex-col items-center">
+        <View className="flex flex-col items-center gap-sm">
           <OText className="text-3xl font-bold">
             {user?.firstName} {user?.lastName}
           </OText>

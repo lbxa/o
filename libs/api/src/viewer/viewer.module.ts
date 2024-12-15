@@ -2,18 +2,12 @@ import { Module } from "@nestjs/common";
 
 import { AuthModule } from "../auth/auth.module";
 import { ChallengeModule } from "../challenge/challenge.module";
-import { CommunityService } from "../community/community.service";
-import { CommunityInvitationsService } from "../community/community-invitations";
-import { UserService } from "../user/user.service";
+import { CommunityModule } from "../community/community.module";
+import { UserModule } from "../user/user.module";
 import { ViewerResolver } from "./viewer.resolver";
 
 @Module({
-  imports: [ChallengeModule, AuthModule],
-  providers: [
-    ViewerResolver,
-    UserService,
-    CommunityService,
-    CommunityInvitationsService,
-  ],
+  imports: [ChallengeModule, AuthModule, UserModule, CommunityModule],
+  providers: [ViewerResolver],
 })
 export class ViewerModule {}
