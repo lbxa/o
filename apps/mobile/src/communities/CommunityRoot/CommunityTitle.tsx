@@ -8,6 +8,8 @@ import { graphql, useFragment } from "react-relay";
 import type { CommunityTitle_community$key } from "@/__generated__/CommunityTitle_community.graphql";
 import { OTouchable } from "@/universe/atoms";
 
+import { useSvgFill } from "../../utils";
+
 interface CommunityTitleProps {
   community: CommunityTitle_community$key | undefined | null;
 }
@@ -16,6 +18,7 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   community,
 }) => {
   const router = useRouter();
+  const svgFill = useSvgFill();
   const communityFragment = useFragment<CommunityTitle_community$key>(
     graphql`
       fragment CommunityTitle_community on Community {
@@ -28,12 +31,12 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   );
 
   return (
-    <View className="mr-auto flex flex-row items-center gap-sm">
+    <View className="gap-sm mr-auto flex flex-row items-center">
       <OTouchable onPress={() => router.back()}>
-        <ChevronLeftIcon />
+        <ChevronLeftIcon fill={svgFill} />
       </OTouchable>
       <Text
-        className="w-10/12 text-3xl font-bold"
+        className="dark:text-ivory w-10/12 text-3xl font-bold text-black"
         numberOfLines={1}
         ellipsizeMode="tail"
       >

@@ -51,16 +51,16 @@ export const TimerButton = ({
     <OTouchable
       onPress={handlePress}
       className={classNames("mt-auto flex size-[250px] rounded-full ", {
-        "bg-green-200": variant === "start",
-        "bg-red-200": variant === "stop",
-        "bg-indigo-200": variant === "done",
+        "bg-green-200 dark:bg-green-200/30": variant === "start",
+        "bg-red-200 dark:bg-red-200/30": variant === "stop",
+        "bg-indigo-200 dark:bg-indigo-200/30": variant === "done",
       })}
     >
       <Text
         className={classNames("m-auto text-3xl font-bold", {
-          "text-green-600": variant === "start",
-          "text-red-600": variant === "stop",
-          "text-indigo-600": variant === "done",
+          "text-green-600 dark:text-green-300": variant === "start",
+          "text-red-600 dark:text-red-300": variant === "stop",
+          "text-indigo-600 dark:text-indigo-300": variant === "done",
         })}
       >
         {selectVariantText(variant)}

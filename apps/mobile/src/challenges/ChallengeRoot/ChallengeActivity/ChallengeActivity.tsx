@@ -7,7 +7,7 @@ import { graphql, useRefetchableFragment } from "react-relay";
 import type { ChallengeActivityTopResultsFragment_challenge$key } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
 import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery.graphql";
 import { useNoSuspenseRefetch } from "@/relay/hooks/useNoSuspenseRefetch";
-import { OTouchable } from "@/universe/atoms";
+import { Caption, OTouchable } from "@/universe/atoms";
 
 import type { ChallengeActivityTopResultsPaginationQuery } from "../../../__generated__/ChallengeActivityTopResultsPaginationQuery.graphql";
 import type { UserResultCard_challenge$key } from "../../../__generated__/UserResultCard_challenge.graphql";
@@ -144,13 +144,17 @@ export const ChallengeActivity = ({
       />
       <Suspense fallback={null}>
         <FlatList
-          className="min-h-full px-md"
+          className="px-md min-h-full"
           data={sectionList}
           keyExtractor={(item, index) => ["X", index].join("-")}
           renderItem={({ item }) => {
             switch (item.key) {
               case "HEADER":
-                return <Text className="text-2xl font-bold">{item.data}</Text>;
+                return (
+                  <Text className="dark:text-ivory text-2xl font-bold text-black">
+                    {item.data}
+                  </Text>
+                );
               case "DATA":
                 return <UserResultCard result={item.data} />;
               case "FOOTER":
@@ -172,9 +176,11 @@ export const ChallengeActivity = ({
             </View>
           }
           ListEmptyComponent={
-            <View className="flex flex-col items-center justify-center gap-md">
+            <View className="gap-md flex flex-col items-center justify-center">
               <Void width={150} height={150} />
-              <Text>Where are the results? It's time to get to work!</Text>
+              <Caption>
+                Where are the results? It's time to get to work!
+              </Caption>
             </View>
           }
           refreshControl={

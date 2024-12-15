@@ -1,33 +1,27 @@
-import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { Text, View } from "react-native";
 
+import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
 import { useZustStore } from "@/state";
-import {
-  ComingSoonBadge,
-  ModalCloseButton,
-  OTouchable,
-} from "@/universe/atoms";
+import { ComingSoonBadge, ModalCloseButton } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
-  const router = useRouter();
   const { selectedCommunity } = useZustStore();
-
+  const sharedHeaderOptions = useSharedHeaderOptions();
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
-        headerBackVisible: false,
+        ...sharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
           headerLeft: () => (
-            <Text className="text-3xl font-bold">Community</Text>
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
+              Community
+            </Text>
           ),
           headerRight: () => (
             <MiniNav items={["create", "search", "message"]} />
@@ -38,7 +32,9 @@ export default function CommunityRootLayout() {
         name="invite"
         options={{
           headerLeft: () => (
-            <Text className="text-xl font-bold">Invite your friends</Text>
+            <Text className="dark:text-ivory text-xl font-bold text-black">
+              Invite your friends
+            </Text>
           ),
           headerRight: () => <ModalCloseButton />,
           headerBackVisible: true,
@@ -51,7 +47,7 @@ export default function CommunityRootLayout() {
           headerLeft: () => (
             <View className="gap-sm mr-auto flex max-w-[80%] flex-row items-center">
               <Text
-                className="text-xl font-bold"
+                className="dark:text-ivory text-xl font-bold text-black"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -61,21 +57,13 @@ export default function CommunityRootLayout() {
             </View>
           ),
           headerRight: () => <ModalCloseButton />,
-          headerBackVisible: true,
           presentation: "modal",
         }}
       />
       <Stack.Screen
         name="create"
         options={{
-          headerLeft: () => (
-            <View className="gap-sm flex flex-row items-center">
-              <OTouchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </OTouchable>
-              <Text className="text-3xl font-bold">New Community</Text>
-            </View>
-          ),
+          headerLeft: () => <SharedHeaderTitle title="New Community" />,
         }}
       />
       <Stack.Screen

@@ -38,7 +38,11 @@ export default function UserPage() {
     <Ozone>
       <Stack.Screen
         options={{
-          headerLeft: () => <Text className="text-xl font-bold">Profile</Text>,
+          headerLeft: () => (
+            <Text className="dark:text-ivory text-xl font-bold text-black">
+              Profile
+            </Text>
+          ),
           headerRight: () => <ModalCloseButton />,
         }}
       />

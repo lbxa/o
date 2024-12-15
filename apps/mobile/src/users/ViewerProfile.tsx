@@ -60,19 +60,27 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
         }
       >
         <View className="mb-md gap-lg p-md flex grow flex-col items-center">
-          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
+          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
             </View>
           </OTouchable>
           {viewer?.user && <UserProfileStats user={viewer.user} />}
           <View className="gap-sm flex flex-col items-center">
-            <Text className="text-left text-3xl font-bold">
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
               {viewer?.user?.firstName + " " + viewer?.user?.lastName}
             </Text>
-            {viewer?.user?.handle && <Text>{viewer.user.handle}</Text>}
+            {viewer?.user?.handle && (
+              <Text className="dark:text-ivory text-lg text-black">
+                {viewer.user.handle}
+              </Text>
+            )}
           </View>
-          {viewer?.user?.bio && <Text>{viewer.user.bio}</Text>}
+          {viewer?.user?.bio && (
+            <Text className="dark:text-ivory text-lg text-black">
+              {viewer.user.bio}
+            </Text>
+          )}
         </View>
       </ScrollView>
     </Ozone>

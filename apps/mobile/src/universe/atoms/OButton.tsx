@@ -26,8 +26,8 @@ const primaryVariantMatrix: VariantMatrix = {
     front: "text-ivory",
   },
   navy: {
-    back: "bg-navy",
-    front: "text-ivory",
+    back: "bg-navy dark:bg-ivory/30",
+    front: "text-ivory dark:text-ivory",
   },
   red: {
     back: "bg-red-500",
@@ -42,23 +42,23 @@ const primaryVariantMatrix: VariantMatrix = {
 const secondaryVariantMatrix: VariantMatrix = {
   violet: {
     back: "bg-violet/30",
-    front: "text-violet",
+    front: "text-violet dark:text-violet-light",
   },
   indigo: {
     back: "bg-indigo/30",
-    front: "text-indigo",
+    front: "text-indigo dark:text-indigo-light",
   },
   navy: {
-    back: "bg-navy",
-    front: "text-ivory",
+    back: "bg-navy/30",
+    front: "text-navy dark:text-navy-light",
   },
   red: {
     back: "bg-red-200",
-    front: "text-red-800",
+    front: "text-red-800 dark:text-red-300",
   },
   gray: {
-    back: "bg-gray-300",
-    front: "text-gray-800",
+    back: "bg-gray-300/30",
+    front: "text-gray-800 dark:text-gray-300",
   },
 };
 
@@ -90,7 +90,7 @@ export const OButton = ({
       <Text
         className={classNames("m-auto text-center font-bold", {
           [variantMatrix[variant].front]: !props.disabled,
-          "text-gray-500": props.disabled,
+          "text-gray-500 dark:text-gray-300": props.disabled,
           "text-2xl": size === "large",
         })}
       >
@@ -103,7 +103,7 @@ export const OButton = ({
     <OTouchable
       className={classNames("rounded-xl py-sm px-md", className, {
         [variantMatrix[variant].back]: !props.disabled,
-        "bg-gray-200": props.disabled,
+        "bg-gray-200 dark:bg-white/20": props.disabled,
       })}
       {...props}
     >

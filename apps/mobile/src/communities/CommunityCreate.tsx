@@ -9,18 +9,19 @@ import type {
   CommunityCreateInput,
   CommunityCreateMutation,
 } from "@/__generated__/CommunityCreateMutation.graphql";
+import { useZustStore } from "@/state";
 import {
   OButton,
   OTouchable,
   PrimaryTextInputControl,
   Title,
 } from "@/universe/atoms";
-
-import { useZustStore } from "../state";
+import { useSvgFill } from "@/utils";
 
 export const CommunityCreate = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const svgFill = useSvgFill();
   const { activeUser } = useZustStore();
   const [commitMutation, isMutationInFlight] =
     useMutation<CommunityCreateMutation>(graphql`
@@ -103,7 +104,7 @@ export const CommunityCreate = () => {
   };
 
   return (
-    <View className="flex h-full flex-col gap-md">
+    <View className="gap-md flex h-full flex-col">
       <View>
         <Title>Name</Title>
         <Controller
@@ -152,10 +153,10 @@ export const CommunityCreate = () => {
         <Title>Invite Members</Title>
         <OTouchable
           onPress={() => router.push("/(root)/community/invite")}
-          className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3"
+          className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3 dark:bg-white/20"
         >
-          <SearchIcon width={25} />
-          <Text className="pl-sm">Search</Text>
+          <SearchIcon width={25} fill={svgFill} />
+          <Text className="pl-sm dark:text-ivory text-black">Search</Text>
         </OTouchable>
       </View>
 

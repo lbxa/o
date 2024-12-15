@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
+import { useSvgFill } from "../../utils";
 import { OTouchable, PrimaryTextInputControl } from "../atoms";
 
 interface OSearchBarProps {
@@ -21,6 +22,7 @@ export const OSearchBar = ({
   showCancel = true,
   placeholder = "Search",
 }: OSearchBarProps) => {
+  const svgFill = useSvgFill();
   const router = useRouter();
   const handleChange = useCallback(
     (term: string) => {
@@ -31,8 +33,12 @@ export const OSearchBar = ({
 
   return (
     <View className="mb-md gap-sm flex w-full flex-row items-center">
-      <View className="bg-ivory px-sm flex flex-1 flex-row items-center rounded-lg">
-        {loading ? <ActivityIndicator /> : <SearchIcon width={20} />}
+      <View className="bg-ivory px-sm flex flex-1 flex-row items-center rounded-lg dark:bg-neutral-800">
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <SearchIcon width={20} fill={svgFill} />
+        )}
         <PrimaryTextInputControl
           className="flex-1"
           placeholder={placeholder}
@@ -44,12 +50,12 @@ export const OSearchBar = ({
           onChangeText={handleChange}
         />
         <OTouchable onPress={() => onSearchChange("")}>
-          <CrossIcon width={18} height={18} />
+          <CrossIcon width={18} height={18} fill={svgFill} />
         </OTouchable>
       </View>
       {showCancel && (
         <OTouchable onPress={() => router.back()}>
-          <Text>Cancel</Text>
+          <Text className="dark:text-ivory text-black">Cancel</Text>
         </OTouchable>
       )}
     </View>

@@ -1,24 +1,36 @@
+import tailwind from "@o/tailwind/base";
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
 import { MiniNav } from "@/universe/molecules";
 
+import { useSharedHeaderOptions } from "../../../shared";
 import { ModalCloseButton } from "../../../universe/atoms";
+import { useOTheme } from "../../../utils";
+
+const colors = tailwind.theme.extend.colors;
 
 export default function Root() {
+  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { isDark } = useOTheme();
+
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
+        ...sharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
-          headerStyle: { backgroundColor: "#edf4f8" },
-          headerLeft: () => <Text className="text-3xl font-bold">Profile</Text>,
+          headerStyle: {
+            backgroundColor: isDark ? "#000000" : colors.ivory.DEFAULT,
+          },
+          headerLeft: () => (
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
+              Profile
+            </Text>
+          ),
           headerRight: () => (
             <MiniNav
               items={["manage"]}
@@ -31,7 +43,9 @@ export default function Root() {
         name="manage"
         options={{
           headerLeft: () => (
-            <Text className="text-xl font-bold">Manage Profile</Text>
+            <Text className="dark:text-ivory text-xl font-bold text-black">
+              Manage Profile
+            </Text>
           ),
           headerRight: () => <ModalCloseButton />,
           headerBackVisible: true,

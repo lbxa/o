@@ -24,10 +24,10 @@ export const ChallengeCreateCadenceSelector: React.FC<{
   ];
 
   return (
-    <View className="flex flex-col px-md pb-10">
+    <View className="px-md flex flex-col pb-10">
       <Title>Frequency</Title>
       <Subtitle>How often will you be required to post your progress?</Subtitle>
-      <View className="mb-lg flex flex-row flex-wrap gap-md">
+      <View className="mb-lg gap-md flex flex-row flex-wrap">
         {cadences.map((c) => (
           <Pill
             label={challengeCadenceToLabel(c)}

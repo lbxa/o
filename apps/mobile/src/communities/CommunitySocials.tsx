@@ -13,10 +13,10 @@ export const CommunitySocials = ({ memberCount }: CommunitySocialsProps) => {
     <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
-        <Text>
+        <Text className="text-black dark:text-ivory">
           {memberCount} {memberCountLabel}
         </Text>
-        <Text>
+        <Text className="text-black dark:text-ivory">
           Including <Text className="font-bold">x</Text>,{" "}
           <Text className="font-bold">y</Text> and{" "}
           <Text className="font-bold">z others</Text>

@@ -79,7 +79,9 @@ const UserInviteSearchResults = ({
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md text-center">No users found</Text>
+        <Text className="pt-md dark:text-ivory text-center text-black">
+          No users found
+        </Text>
       }
     />
   );

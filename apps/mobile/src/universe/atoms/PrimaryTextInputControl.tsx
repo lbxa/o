@@ -16,7 +16,9 @@ export const PrimaryTextInputControl = forwardRef<
   <View className={className}>
     <PrimaryTextInput ref={ref} {...props} error={error} />
     {error && errorMessage && (
-      <Text className="pl-sm text-red-900">{errorMessage}</Text>
+      <Text className="pl-sm pt-sm text-red-900 dark:text-red-200">
+        {errorMessage}
+      </Text>
     )}
   </View>
 ));

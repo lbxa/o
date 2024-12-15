@@ -22,18 +22,22 @@ export const UserProfileStats = ({
   return (
     <View className="gap-lg flex flex-row">
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold">{stats.buddyCount}</Text>
-        <Text className="text-lg">Buddies</Text>
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
+          {stats.buddyCount}
+        </Text>
+        <Text className="dark:text-ivory text-lg text-black">Buddies</Text>
       </View>
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold">{stats.followerCount}</Text>
-        <Text className="text-lg">Followers</Text>
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
+          {stats.followerCount}
+        </Text>
+        <Text className="dark:text-ivory text-lg text-black">Followers</Text>
       </View>
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold">
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
           {stats.challengeActivityResultsCount}
         </Text>
-        <Text className="text-lg">Challenges</Text>
+        <Text className="dark:text-ivory text-lg text-black">Challenges</Text>
       </View>
     </View>
   );

@@ -9,8 +9,8 @@ import { Text, View } from "react-native";
 
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
-import { OBackdrop } from "@/universe/molecules/OBackdrop";
 
+import { useSharedBottomSheetProps } from "../../shared";
 import { useChallengeActivityResultCreate } from "./mutations";
 
 type WeightButtonVariants =
@@ -54,22 +54,22 @@ const WeightButton = ({
     <OTouchable
       onPress={onPress}
       className={classNames("flex w-5/12 h-[100px] rounded-3xl flex-grow", {
-        "bg-black/30": variant === "black",
-        "bg-yellow-300/50": variant === "yellow",
-        "bg-gray-300/50": variant === "grey",
-        "bg-green-300/50": variant === "green",
-        "bg-blue-300/50": variant === "blue",
-        "bg-red-300/50": variant === "red",
+        "bg-black/20 dark:bg-white/30": variant === "black",
+        "bg-yellow-300/50 dark:bg-yellow-300/30": variant === "yellow",
+        "bg-gray-300/50 dark:bg-gray-300/30": variant === "grey",
+        "bg-green-300/50 dark:bg-green-300/30": variant === "green",
+        "bg-blue-300/50 dark:bg-blue-300/30": variant === "blue",
+        "bg-red-300/50 dark:bg-red-300/30": variant === "red",
       })}
     >
       <Text
         className={classNames("m-auto text-2xl font-bold", {
-          "text-black": variant === "black",
-          "text-yellow-600": variant === "yellow",
-          "text-gray-600": variant === "grey",
-          "text-green-600": variant === "green",
-          "text-blue-600": variant === "blue",
-          "text-red-600": variant === "red",
+          "text-black dark:text-white": variant === "black",
+          "text-yellow-600 dark:text-yellow-300": variant === "yellow",
+          "text-gray-600 dark:text-gray-300": variant === "grey",
+          "text-green-600 dark:text-green-300": variant === "green",
+          "text-blue-600 dark:text-blue-300": variant === "blue",
+          "text-red-600 dark:text-red-300": variant === "red",
         })}
       >
         {label}
@@ -92,7 +92,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
     activeUser,
   } = useZustStore();
   const [attempts, setAttempts] = useState(0);
-
+  const bottomSheetProps = useSharedBottomSheetProps();
   const [commitChallengeActivityResultCreate] =
     useChallengeActivityResultCreate();
 
@@ -143,7 +143,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <OBackdrop {...props} />}
+      {...bottomSheetProps}
       enablePanDownToClose
       enableDynamicSizing
       keyboardBlurBehavior="restore"
@@ -151,11 +151,11 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
       maxDynamicContentSize={900}
     >
       <BottomSheetScrollView>
-        <View className="flex h-full flex-col gap-md bg-white px-md pb-10">
+        <View className="gap-md px-md flex h-full flex-col pb-10">
           <OTouchable onPress={() => setIsEditing(true)}>
             {isEditing ? (
               <BottomSheetTextInput
-                className="w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold "
                 style={{ fontVariant: ["tabular-nums"] }}
                 value={count.toString()}
                 onChangeText={(text) => {
@@ -172,7 +172,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               />
             ) : (
               <Text
-                className="w-full text-center text-[5.5rem] font-bold"
+                className="dark:text-ivory w-full text-center text-[5.5rem] font-bold"
                 style={{ fontVariant: ["tabular-nums"] }}
               >
                 {count}
@@ -180,8 +180,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               </Text>
             )}
           </OTouchable>
-          <View className="flex flex-col gap-lg">
-            <View className="flex flex-row flex-wrap justify-center gap-md">
+          <View className="gap-lg flex flex-col">
+            <View className="gap-md flex flex-row flex-wrap justify-center">
               {Array.from(WeightButtonVariantMatrix.entries()).map(
                 ([variant, { value }]) => (
                   <WeightButton
@@ -192,8 +192,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
                 )
               )}
             </View>
-            <View className="h-px bg-gray-200" />
-            <View className="flex h-[100px] flex-row justify-between gap-md">
+            <View className="dark:bg-ivory mx-md h-px bg-gray-200" />
+            <View className="gap-md flex h-[100px] flex-row justify-between">
               {/* <OButton
                 type="secondary"
                 variant="gray"
@@ -211,7 +211,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               <OButton
                 className="grow !rounded-3xl"
                 size="large"
-                type="primary"
+                type="secondary"
                 variant="indigo"
                 title="Done"
                 onPress={handleRecord}

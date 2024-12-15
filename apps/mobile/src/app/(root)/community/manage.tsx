@@ -5,7 +5,7 @@ import { Ozone } from "@/universe/molecules";
 export default function CommunityManageRoute() {
   return (
     <Ozone>
-      <View className="flex-1 items-center justify-center px-md"></View>
+      <View className="px-md flex-1 items-center justify-center"></View>
     </Ozone>
   );
 }

@@ -8,7 +8,7 @@
     "orientation": "portrait",
     "jsEngine": "hermes",
     "icon": "./assets/onex-icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/onex-splash.png",

@@ -1,7 +1,8 @@
 import type { AuthCreateUserInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import type { TextInput } from "react-native";
 import { Text, View } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
@@ -69,6 +70,36 @@ export const UserCreate = () => {
       }
     `
   );
+
+  const firstNameRef = useRef<TextInput>(null);
+  const lastNameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+
+  const formRefs: Record<
+    keyof AuthCreateUserInput,
+    {
+      ref: React.RefObject<TextInput>;
+      next: React.RefObject<TextInput> | null;
+    }
+  > = {
+    firstName: {
+      ref: firstNameRef,
+      next: lastNameRef,
+    },
+    lastName: {
+      ref: lastNameRef,
+      next: emailRef,
+    },
+    email: {
+      ref: emailRef,
+      next: passwordRef,
+    },
+    password: {
+      ref: passwordRef,
+      next: null,
+    },
+  };
 
   // TODO finish dup email check
   // const [isPending, startTransition] = useTransition();
@@ -139,14 +170,15 @@ export const UserCreate = () => {
 
   return (
     <Ozone>
-      <View className="px-md">
-        <View className="mb-md flex flex-row justify-between gap-md">
+      <View className="px-md mt-md">
+        <View className="mb-md gap-md flex flex-row justify-between">
           <Controller
             name="firstName"
             control={control}
             rules={{ required: { value: true, message: "Required field" } }}
             render={({ field: { onBlur, onChange, value } }) => (
               <PrimaryTextInputControl
+                ref={formRefs.firstName.ref}
                 className="flex-1"
                 placeholder="First Name"
                 inputMode="text"
@@ -156,6 +188,10 @@ export const UserCreate = () => {
                 value={value}
                 error={!!errors.firstName}
                 errorMessage={errors.firstName?.message}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  formRefs.firstName.next?.current?.focus();
+                }}
               />
             )}
           />
@@ -165,6 +201,7 @@ export const UserCreate = () => {
             rules={{ required: { value: true, message: "Required field" } }}
             render={({ field: { onBlur, onChange, value } }) => (
               <PrimaryTextInputControl
+                ref={formRefs.lastName.ref}
                 className="flex-1"
                 placeholder="Last Name"
                 inputMode="text"
@@ -173,6 +210,10 @@ export const UserCreate = () => {
                 value={value}
                 error={!!errors.lastName}
                 errorMessage={errors.lastName?.message}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  formRefs.lastName.next?.current?.focus();
+                }}
               />
             )}
           />
@@ -190,6 +231,7 @@ export const UserCreate = () => {
           }}
           render={({ field: { onBlur, onChange, value } }) => (
             <PrimaryTextInputControl
+              ref={formRefs.email.ref}
               className="mb-md"
               placeholder="email@address.com"
               inputMode="email"
@@ -203,6 +245,10 @@ export const UserCreate = () => {
               value={value}
               error={!!errors.email}
               errorMessage={errors.email?.message}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                formRefs.email.next?.current?.focus();
+              }}
             />
           )}
         />
@@ -221,12 +267,14 @@ export const UserCreate = () => {
           }}
           render={({ field: { onBlur, onChange, value } }) => (
             <OPasswordInput
+              ref={formRefs.password.ref}
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
               error={!!errors.password}
               errorMessage={errors.password?.message}
+              returnKeyType="done"
             />
           )}
         />
@@ -246,7 +294,10 @@ export const UserCreate = () => {
             await handleSubmit(onSubmit)();
           }}
         />
-        <Link href="/auth/login" className="mt-md text-blue-700 underline">
+        <Link
+          href="/auth/login"
+          className="mt-md dark:text-ivory text-blue-700 underline"
+        >
           Already have an account
         </Link>
       </View>

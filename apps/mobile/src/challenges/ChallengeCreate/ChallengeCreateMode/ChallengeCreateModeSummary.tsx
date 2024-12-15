@@ -5,14 +5,18 @@ import { Text } from "react-native";
 import { useZustStore } from "@/state";
 
 import { PillArray } from "../../../universe/molecules";
+import { useSvgFill } from "../../../utils";
 import { challengeModeToLabel } from "../../ChallengeMode";
 
-const EmptyState = () => (
-  <>
-    <VerifiedBadgeIcon width={20} height={20} fill="black" />
-    <Text className="pl-sm">Select a mode</Text>
-  </>
-);
+const EmptyState = () => {
+  const svgFill = useSvgFill();
+  return (
+    <>
+      <VerifiedBadgeIcon width={20} height={20} fill={svgFill} />
+      <Text className="pl-sm dark:text-ivory">Select a mode</Text>
+    </>
+  );
+};
 
 export const ChallengeCreateModeSummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);

@@ -169,6 +169,8 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
             data.userRequestFriendship
           );
 
+        console.debug("updatableData", updatableData);
+
         updatableData.status = "PENDING";
       },
     });
@@ -191,18 +193,22 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
   return (
     <Ozone>
       <View className="px-md pb-md gap-lg mx-auto flex flex-col items-center justify-center">
-        <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300">
+        <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
           <View className="m-auto">
             <CameraIcon width={45} height={45} fill={"grey"} />
           </View>
         </OTouchable>
         {user && <UserProfileStats user={user} />}
         <View className="gap-sm flex flex-col items-center">
-          <Text className="text-3xl font-bold">
+          <Text className="dark:text-ivory text-3xl font-bold text-black">
             {user?.firstName + " " + user?.lastName}
           </Text>
-          {user?.handle && <Text>{user.handle}</Text>}
-          {user?.bio && <Text>{user.bio}</Text>}
+          {user?.handle && (
+            <Text className="dark:text-ivory text-black">{user.handle}</Text>
+          )}
+          {user?.bio && (
+            <Text className="dark:text-ivory text-black">{user.bio}</Text>
+          )}
         </View>
       </View>
       <View className="mt-lg px-md">

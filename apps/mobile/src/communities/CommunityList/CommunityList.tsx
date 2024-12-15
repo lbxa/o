@@ -1,6 +1,6 @@
 import Beach from "@assets/images/beach.svg";
 import React, { useCallback, useTransition } from "react";
-import { FlatList, RefreshControl, Text, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
 
@@ -8,7 +8,7 @@ import type { CommunityList_viewer$key } from "@/__generated__/CommunityList_vie
 import type { CommunityListPaginationQuery } from "@/__generated__/CommunityListPaginationQuery.graphql";
 import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.graphql";
 import { CommunityCard } from "@/communities/CommunityCard";
-import { OButton } from "@/universe/atoms";
+import { Caption, OButton } from "@/universe/atoms";
 
 import { CommunityInvitationList } from "../CommunityInvitation";
 import { useCommunityInvitationsPagination } from "../CommunityInvitation/queries";
@@ -80,7 +80,7 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
 
   return (
     <FlatList
-      className="min-h-full px-sm"
+      className="px-sm min-h-full"
       data={communityData?.communities.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <CommunityCard community={item} />}
       ListHeaderComponent={
@@ -91,11 +91,11 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
         </View>
       }
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Beach width={150} height={150} />
           </View>
-          <Text className="text-center">Looking a little quiet here</Text>
+          <Caption>Looking a little quiet here</Caption>
         </View>
       }
       ListFooterComponent={

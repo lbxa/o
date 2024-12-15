@@ -1,26 +1,28 @@
-import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { Text, View } from "react-native";
 
-import { OTouchable } from "@/universe/atoms";
+import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
 import { MiniNav } from "@/universe/molecules";
 
+import { ComingSoonBadge } from "../../../universe/atoms";
+
 export default function Root() {
-  const router = useRouter();
+  const sharedHeaderOptions = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
-        headerBackVisible: false,
+        ...sharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
-          headerLeft: () => <Text className="text-3xl font-bold">oNex</Text>,
+          headerLeft: () => (
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
+              oNex
+            </Text>
+          ),
           headerRight: () => (
             <MiniNav
               items={["search", "message"]}
@@ -40,10 +42,8 @@ export default function Root() {
         options={{
           headerLeft: () => (
             <View className="gap-sm flex flex-row items-center">
-              <OTouchable onPress={() => router.back()}>
-                <ChevronLeftIcon />
-              </OTouchable>
-              <Text className="text-3xl font-bold">Messages</Text>
+              <SharedHeaderTitle title="Messages" />
+              <ComingSoonBadge size="sm" />
             </View>
           ),
         }}

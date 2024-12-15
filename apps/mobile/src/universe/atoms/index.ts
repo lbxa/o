@@ -1,3 +1,4 @@
+export * from "./Caption";
 export * from "./Card";
 export * from "./ComingSoonBadge";
 export * from "./CounterButton";

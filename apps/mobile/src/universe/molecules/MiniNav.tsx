@@ -6,7 +6,7 @@ import type { Href } from "expo-router";
 import { useRouter } from "expo-router";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 
 import { OTouchable } from "../atoms";
 
@@ -27,7 +27,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   return (
     <OTouchable
       onPress={() => router.push(href)}
-      className="rounded-full bg-ivory p-xs"
+      className="bg-ivory p-xs rounded-full dark:bg-white/20"
     >
       <View>{children}</View>
     </OTouchable>
@@ -43,13 +43,6 @@ const DEFAULT_PATHS: Record<NavItemType, Href> = {
   manage: "/(root)/community/manage",
 };
 
-const NAV_ICONS: Record<NavItemType, React.ReactElement> = {
-  create: <PlusIcon {...ICON_DIM} />,
-  search: <SearchIcon {...ICON_DIM} />,
-  message: <MessageIcon {...ICON_DIM} />,
-  manage: <MenuIcon {...ICON_DIM} />,
-};
-
 interface NavItemConfig {
   href?: Href;
 }
@@ -63,16 +56,25 @@ export const MiniNav: React.FC<MiniNavProps> = ({
   items = "all",
   itemConfigs = {},
 }) => {
+  const colorScheme = useColorScheme();
+  const iconFill = colorScheme === "dark" ? "#edf4f8" : "#000000";
+  const NavIcons: Record<NavItemType, React.ReactElement> = {
+    create: <PlusIcon {...ICON_DIM} fill={iconFill} />,
+    search: <SearchIcon {...ICON_DIM} fill={iconFill} />,
+    message: <MessageIcon {...ICON_DIM} fill={iconFill} />,
+    manage: <MenuIcon {...ICON_DIM} fill={iconFill} />,
+  };
+
   const itemsToRender =
-    items === "all" ? (Object.keys(NAV_ICONS) as NavItemType[]) : items;
+    items === "all" ? (Object.keys(NavIcons) as NavItemType[]) : items;
 
   return (
-    <View className="flex flex-row items-center gap-md">
+    <View className="gap-md flex flex-row items-center">
       {itemsToRender.map((item) => {
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (
           <MiniNavItem key={item} href={href}>
-            {NAV_ICONS[item]}
+            {NavIcons[item]}
           </MiniNavItem>
         );
       })}

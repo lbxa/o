@@ -6,6 +6,7 @@ import { graphql, usePreloadedQuery } from "react-relay";
 import type { ChallengeRootQuery } from "@/__generated__/ChallengeRootQuery.graphql";
 import { MiniNav, Ozone } from "@/universe/molecules";
 
+import { useSharedHeaderOptions } from "../../shared";
 import { ChallengeActivity } from "./ChallengeActivity";
 import { ChallengeHeader } from "./ChallengeHeader";
 
@@ -34,11 +35,12 @@ export const ChallengeRoot = ({
     CHALLENGE_ROOT_QUERY,
     queryRef
   );
-
+  const sharedHeaderOptions = useSharedHeaderOptions();
   return (
     <Ozone>
       <Stack.Screen
         options={{
+          ...sharedHeaderOptions,
           headerLeft: () =>
             challengeRoot.viewer?.challenge && (
               <ChallengeHeader fragmentRef={challengeRoot.viewer.challenge} />

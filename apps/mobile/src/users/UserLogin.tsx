@@ -1,7 +1,8 @@
 import type { AuthLoginInput } from "@o/api-gql";
 import { Link, useRouter } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import type { TextInput } from "react-native";
 import { View } from "react-native";
 import { Text } from "react-native";
 import { useMutation } from "react-relay";
@@ -30,6 +31,7 @@ export const UserLogin = () => {
   const { setActiveUser } = useZustStore();
   const { setStoreItem } = useSecureStore();
   const [error, setError] = useState<string | null>(null);
+  const passwordRef = useRef<TextInput>(null);
   const [commitMutation, isMutationInFlight] = useMutation<UserLoginMutation>(
     graphql`
       mutation UserLoginMutation($authLoginInput: AuthLoginInput!) {
@@ -109,7 +111,7 @@ export const UserLogin = () => {
 
   return (
     <Ozone>
-      <View className="px-md">
+      <View className="mt-md px-md">
         <Controller
           name="email"
           control={control}
@@ -133,6 +135,10 @@ export const UserLogin = () => {
               value={value}
               error={!!errors.email}
               errorMessage={errors.email?.message}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordRef.current?.focus();
+              }}
             />
           )}
         />
@@ -149,6 +155,7 @@ export const UserLogin = () => {
           }}
           render={({ field: { onBlur, onChange, value } }) => (
             <OPasswordInput
+              ref={passwordRef}
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -173,7 +180,10 @@ export const UserLogin = () => {
             await handleSubmit(onSubmit)();
           }}
         />
-        <Link href="/auth/sign-up" className="mt-md text-blue-700 underline">
+        <Link
+          href="/auth/sign-up"
+          className="mt-md text-blue-700 underline dark:text-ivory"
+        >
           Create an account
         </Link>
       </View>

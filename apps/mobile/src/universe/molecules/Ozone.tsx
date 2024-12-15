@@ -9,7 +9,7 @@ interface Props {
 export const Ozone = forwardRef<SafeAreaView, PropsWithChildren<Props>>(
   ({ children }, ref) => {
     return (
-      <SafeAreaView className="bg-white" ref={ref}>
+      <SafeAreaView className="bg-white dark:bg-black" ref={ref}>
         <View className="h-full">{children}</View>
       </SafeAreaView>
     );

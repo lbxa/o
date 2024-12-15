@@ -2,16 +2,18 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { View } from "react-native";
 
 import { ComingSoonBadge, Title } from "@/universe/atoms";
-import { OBackdrop } from "@/universe/molecules/OBackdrop";
+
+import { useSharedBottomSheetProps } from "../../shared";
 
 interface DistanceLoggerProps {
   modalRef: React.RefObject<BottomSheetModal>;
 }
 export const DistanceLogger = ({ modalRef }: DistanceLoggerProps) => {
+  const bottomSheetProps = useSharedBottomSheetProps();
   return (
     <BottomSheetModal
       ref={modalRef}
-      backdropComponent={(props) => <OBackdrop {...props} />}
+      {...bottomSheetProps}
       enablePanDownToClose
       enableDynamicSizing={false}
       index={0}
@@ -19,7 +21,7 @@ export const DistanceLogger = ({ modalRef }: DistanceLoggerProps) => {
     >
       <BottomSheetView>
         <View className="px-md">
-          <View className="flex flex-row items-center gap-sm">
+          <View className="gap-sm flex flex-row items-center">
             <Title>Distance Logger</Title>
             <ComingSoonBadge />
           </View>

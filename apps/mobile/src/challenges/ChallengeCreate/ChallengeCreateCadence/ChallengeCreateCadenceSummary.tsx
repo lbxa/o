@@ -5,14 +5,18 @@ import { Text } from "react-native";
 import { useZustStore } from "@/state";
 
 import { PillArray } from "../../../universe/molecules";
+import { useSvgFill } from "../../../utils";
 import { challengeCadenceToLabel } from "../../ChallengeCadence";
 
-const EmptyState = () => (
-  <>
-    <StopwatchIcon width={20} />
-    <Text className="pl-sm">Select the frequency</Text>
-  </>
-);
+const EmptyState = () => {
+  const svgFill = useSvgFill();
+  return (
+    <>
+      <StopwatchIcon width={20} fill={svgFill} />
+      <Text className="pl-sm dark:text-ivory">Select the frequency</Text>
+    </>
+  );
+};
 
 export const ChallengeCreateCadenceSummary = () => {
   const challengeForm = useZustStore((state) => state.challengeForm);

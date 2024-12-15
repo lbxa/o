@@ -1,27 +1,36 @@
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
+import { useSharedHeaderOptions } from "../../shared";
+
 export default function AuthLayout() {
+  const userSharedHeaderOptions = useSharedHeaderOptions();
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        headerTitle: () => "",
-        headerShadowVisible: false,
+        ...userSharedHeaderOptions,
       }}
     >
       <Stack.Screen
         name="login"
         options={{
           title: "Login",
-          headerLeft: () => <Text className="text-3xl font-bold">Login</Text>,
+          headerLeft: () => (
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
+              Login
+            </Text>
+          ),
         }}
       />
       <Stack.Screen
         name="sign-up"
         options={{
           title: "Sign Up",
-          headerLeft: () => <Text className="text-3xl font-bold">Sign Up</Text>,
+          headerLeft: () => (
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
+              Sign Up
+            </Text>
+          ),
         }}
       />
     </Stack>

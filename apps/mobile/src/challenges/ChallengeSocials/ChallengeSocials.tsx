@@ -19,11 +19,11 @@ export const ChallengeSocials = ({ memberCount }: ChallengeSocialsProps) => {
       break;
   }
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
-        <Text>{memberLabel}</Text>
-        <Text>
+        <Text className="dark:text-ivory text-black">{memberLabel}</Text>
+        <Text className="dark:text-ivory text-black">
           Started by <Text className="font-bold">x</Text>,{" "}
           <Text className="font-bold">y</Text> and{" "}
           <Text className="font-bold">z others</Text>

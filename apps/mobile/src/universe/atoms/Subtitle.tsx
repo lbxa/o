@@ -7,7 +7,12 @@ export const Subtitle: React.FC<PropsWithChildren<{ className?: string }>> = ({
   className,
 }) => {
   return (
-    <Text className={classNames("mb-md text-sm text-gray-500", className)}>
+    <Text
+      className={classNames(
+        "mb-md text-sm text-gray-500 dark:text-gray-200",
+        className
+      )}
+    >
       {children}
     </Text>
   );
