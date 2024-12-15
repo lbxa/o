@@ -369,6 +369,8 @@ export type Mutation = {
   communityUpdate: Community;
   /** Accept a friendship */
   userAcceptFriendship: UserFriendship;
+  /** Decline a friendship */
+  userDeclineFriendship: UserFriendship;
   /** Remove a friendship */
   userRemoveFriendship: UserFriendship;
   /** Request a friendship */
@@ -462,6 +464,11 @@ export type MutationCommunityUpdateArgs = {
 
 
 export type MutationUserAcceptFriendshipArgs = {
+  friendId: Scalars['ID']['input'];
+};
+
+
+export type MutationUserDeclineFriendshipArgs = {
   friendId: Scalars['ID']['input'];
 };
 
@@ -592,11 +599,16 @@ export type User = Node & Timestamps & {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
+  /** Requests to be followed by this user */
+  followRequests?: Maybe<UserFriendshipConnection>;
   followerCount?: Maybe<Scalars['Int']['output']>;
+  /** Requests to follow this user */
+  followerRequests?: Maybe<UserFriendshipConnection>;
+  /** If they have any followers... */
+  followers?: Maybe<UserConnection>;
+  /** If they follow any users... */
+  following?: Maybe<UserConnection>;
   followingCount?: Maybe<Scalars['Int']['output']>;
-  friendRequests?: Maybe<UserFriendshipConnection>;
-  /** If they have any... */
-  friends?: Maybe<UserConnection>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
@@ -607,7 +619,14 @@ export type User = Node & Timestamps & {
 
 
 /** A user of the app */
-export type UserFriendRequestsArgs = {
+export type UserFollowRequestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** A user of the app */
+export type UserFollowerRequestsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };

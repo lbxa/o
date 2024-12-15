@@ -144,14 +144,14 @@ export const ChallengeActivity = ({
       />
       <Suspense fallback={null}>
         <FlatList
-          className="px-md min-h-full"
+          className="min-h-full px-md"
           data={sectionList}
           keyExtractor={(item, index) => ["X", index].join("-")}
           renderItem={({ item }) => {
             switch (item.key) {
               case "HEADER":
                 return (
-                  <Text className="dark:text-ivory text-2xl font-bold text-black">
+                  <Text className="text-2xl font-bold text-black dark:text-ivory">
                     {item.data}
                   </Text>
                 );
@@ -176,7 +176,7 @@ export const ChallengeActivity = ({
             </View>
           }
           ListEmptyComponent={
-            <View className="gap-md flex flex-col items-center justify-center">
+            <View className="flex flex-col items-center justify-center gap-md">
               <Void width={150} height={150} />
               <Caption>
                 Where are the results? It's time to get to work!

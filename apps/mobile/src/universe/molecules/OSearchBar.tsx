@@ -32,8 +32,8 @@ export const OSearchBar = ({
   );
 
   return (
-    <View className="mb-md gap-sm flex w-full flex-row items-center">
-      <View className="bg-ivory px-sm flex flex-1 flex-row items-center rounded-lg dark:bg-neutral-800">
+    <View className="mb-md flex w-full flex-row items-center gap-sm">
+      <View className="flex flex-1 flex-row items-center rounded-lg bg-ivory px-sm dark:bg-neutral-800">
         {loading ? (
           <ActivityIndicator />
         ) : (
@@ -55,7 +55,7 @@ export const OSearchBar = ({
       </View>
       {showCancel && (
         <OTouchable onPress={() => router.back()}>
-          <Text className="dark:text-ivory text-black">Cancel</Text>
+          <Text className="text-black dark:text-ivory">Cancel</Text>
         </OTouchable>
       )}
     </View>

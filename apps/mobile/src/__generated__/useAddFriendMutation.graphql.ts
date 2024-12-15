@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<29cae67ed065d29e1a6dc3ee7371fa48>>
+ * @generated SignedSource<<8cd3066e9df95710841119c395e45ff6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,12 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-import type { FragmentRefs } from "relay-runtime";
 export type InvitationStatus = "ACCEPTED" | "DECLINED" | "PENDING" | "%future added value";
 export type useAddFriendMutation$variables = {
   friendId: string;
 };
 export type useAddFriendMutation$data = {
   readonly userRequestFriendship: {
-    readonly $updatableFragmentSpreads: FragmentRefs<"UserProfile_updatable_userFriendship">;
     readonly friend: {
       readonly id: string;
     };
@@ -40,78 +38,70 @@ var v0 = [
     "name": "friendId"
   }
 ],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "friendId",
-    "variableName": "friendId"
-  }
-],
-v2 = {
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v3 = [
-  (v2/*: any*/)
+v2 = [
+  (v1/*: any*/)
 ],
-v4 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "User",
-  "kind": "LinkedField",
-  "name": "user",
-  "plural": false,
-  "selections": (v3/*: any*/),
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "User",
-  "kind": "LinkedField",
-  "name": "friend",
-  "plural": false,
-  "selections": (v3/*: any*/),
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "status",
-  "storageKey": null
-};
+v3 = [
+  {
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "friendId",
+        "variableName": "friendId"
+      }
+    ],
+    "concreteType": "UserFriendship",
+    "kind": "LinkedField",
+    "name": "userRequestFriendship",
+    "plural": false,
+    "selections": [
+      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": (v2/*: any*/),
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "friend",
+        "plural": false,
+        "selections": (v2/*: any*/),
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "status",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "useAddFriendMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "UserFriendship",
-        "kind": "LinkedField",
-        "name": "userRequestFriendship",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "UserProfile_updatable_userFriendship"
-          }
-        ],
-        "storageKey": null
-      }
-    ],
+    "selections": (v3/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -120,42 +110,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "useAddFriendMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "UserFriendship",
-        "kind": "LinkedField",
-        "name": "userRequestFriendship",
-        "plural": false,
-        "selections": [
-          (v2/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "__typename",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "444a8f9d45519c4cfdf58dadac8a3783",
+    "cacheID": "8af9d37e9f8e08cb4eb36ba8d4f14dcb",
     "id": null,
     "metadata": {},
     "name": "useAddFriendMutation",
     "operationKind": "mutation",
-    "text": "mutation useAddFriendMutation(\n  $friendId: ID!\n) {\n  userRequestFriendship(friendId: $friendId) {\n    id\n    user {\n      id\n    }\n    friend {\n      id\n    }\n    status\n    __typename\n  }\n}\n"
+    "text": "mutation useAddFriendMutation(\n  $friendId: ID!\n) {\n  userRequestFriendship(friendId: $friendId) {\n    id\n    user {\n      id\n    }\n    friend {\n      id\n    }\n    status\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b05f2fde7c5c79e434acedc06b57aa22";
+(node as any).hash = "2b6722fb064bcd96949e2a6cb7211381";
 
 export default node;

@@ -19,7 +19,7 @@ export default function CommunityRootLayout() {
         name="index"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               Community
             </Text>
           ),
@@ -32,7 +32,7 @@ export default function CommunityRootLayout() {
         name="invite"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-xl font-bold text-black">
+            <Text className="text-xl font-bold text-black dark:text-ivory">
               Invite your friends
             </Text>
           ),
@@ -45,9 +45,9 @@ export default function CommunityRootLayout() {
         name="manage"
         options={{
           headerLeft: () => (
-            <View className="gap-sm mr-auto flex max-w-[80%] flex-row items-center">
+            <View className="mr-auto flex max-w-[80%] flex-row items-center gap-sm">
               <Text
-                className="dark:text-ivory text-xl font-bold text-black"
+                className="text-xl font-bold text-black dark:text-ivory"
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >

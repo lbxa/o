@@ -12,6 +12,7 @@ import { UserFriendshipsService } from "./user-friendships";
   imports: [
     forwardRef(() => ChallengeModule),
     forwardRef(() => CommunityModule),
+    forwardRef(() => ChallengeModule),
   ],
   providers: [
     UserResolver,

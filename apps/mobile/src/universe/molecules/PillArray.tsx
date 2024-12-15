@@ -13,17 +13,17 @@ interface PillArrayProps {
  */
 export const PillArray = ({ pill1, pill2, pill3 }: PillArrayProps) => {
   return (
-    <View className="gap-sm flex flex-row">
-      <Text className="bg-navy px-md py-sm z-30 rounded-xl font-bold text-white">
+    <View className="flex flex-row gap-sm">
+      <Text className="z-30 rounded-xl bg-navy px-md py-sm font-bold text-white">
         {pill1}
       </Text>
       {pill2 && (
-        <Text className="-ml-lg bg-indigo px-md py-sm pl-lg z-20 rounded-r-xl font-bold text-white">
+        <Text className="z-20 -ml-lg rounded-r-xl bg-indigo px-md py-sm pl-lg font-bold text-white">
           {pill2}
         </Text>
       )}
       {pill3 && (
-        <Text className="-ml-lg bg-violet px-md py-sm pl-lg z-10 rounded-r-xl font-bold text-white">
+        <Text className="z-10 -ml-lg rounded-r-xl bg-violet px-md py-sm pl-lg font-bold text-white">
           {pill3}
         </Text>
       )}

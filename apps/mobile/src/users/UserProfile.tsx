@@ -1,19 +1,23 @@
-/* eslint-disable @stylistic/js/max-len */
 import CameraIcon from "@assets/icons/camera.svg";
-import { useState } from "react";
-import { Text, View } from "react-native";
+import { InvitationStatus } from "@o/api-gql";
+import { useMemo, useState } from "react";
+import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import { graphql, useFragment, usePreloadedQuery } from "react-relay";
+import {
+  graphql,
+  useFragment,
+  useMutation,
+  usePreloadedQuery,
+} from "react-relay";
 
-import type { UserProfile_updatable_userFriendship$key } from "@/__generated__/UserProfile_updatable_userFriendship.graphql";
 import type { UserProfile_user$key } from "@/__generated__/UserProfile_user.graphql";
 import type { UserProfile_userFriendshipStatus$key } from "@/__generated__/UserProfile_userFriendshipStatus.graphql";
+import type { UserProfileAddFriendMutation } from "@/__generated__/UserProfileAddFriendMutation.graphql";
 import type { UserProfileQuery } from "@/__generated__/UserProfileQuery.graphql";
 import type { OButtonType, OButtonVariant } from "@/universe/atoms";
-import { OButton, OTouchable } from "@/universe/atoms";
+import { OButton, OText, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-import { useAcceptFriend, useAddFriend } from "./mutations";
 import { UserProfileStats } from "./UserProfileStats";
 
 interface ButtonConfig {
@@ -41,16 +45,28 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({ queryRef }: UserProfileProps) => {
-  const [_, setRequestStatus] = useState<
-    "pending" | "success" | "error" | null
-  >(null);
+  const [_, setNetworkRequestStatus] = useState<
+    "pending" | "success" | "error" | undefined
+  >(undefined);
+
+  const [requestStatus, setRequestStatus] = useState<
+    InvitationStatus | undefined
+  >(undefined);
+
   const data = usePreloadedQuery<UserProfileQuery>(
     USER_PROFILE_QUERY,
     queryRef
   );
 
-  const [commitAddMutation, isAddMutationInFlight] = useAddFriend();
-  const [commitAcceptMutation, isAcceptMutationInFlight] = useAcceptFriend();
+  const [commitAddMutation, isAddMutationInFlight] =
+    useMutation<UserProfileAddFriendMutation>(graphql`
+      mutation UserProfileAddFriendMutation($friendId: ID!) {
+        userRequestFriendship(friendId: $friendId) {
+          id
+          status
+        }
+      }
+    `);
 
   const user = useFragment<UserProfile_user$key>(
     graphql`
@@ -73,17 +89,15 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
           id
           status
         }
-        incoming {
-          id
-          status
-        }
         areMutualFriends
       }
     `,
     data.getFriendshipStatus
   );
 
-  const getButtonConfig = (): ButtonConfig => {
+  const getButtonConfig = (status?: InvitationStatus): ButtonConfig => {
+    const statusChoice = status ?? friendshipStatus?.outgoing?.status;
+
     if (friendshipStatus?.areMutualFriends) {
       return {
         text: "Buddies",
@@ -93,30 +107,32 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
       };
     }
 
-    switch (friendshipStatus?.incoming?.status) {
-      case "PENDING":
-        return {
-          text: "Accept request",
-          disabled: false,
-          variant: "indigo",
-          type: "secondary",
-          onPress: handleAcceptFriend,
-          loading: isAcceptMutationInFlight,
-        };
-      case "ACCEPTED":
-        return {
-          text: "Follow back",
-          disabled: false,
-          variant: "indigo",
-          type: "primary",
-          onPress: handleAcceptFriend,
-          loading: isAcceptMutationInFlight,
-        };
-      default:
-        break;
-    }
+    // This doesn't make sense here since its third-person
+    // view on another user's profile
+    // switch (friendshipStatus?.incoming?.status) {
+    //   case "PENDING":
+    //     return {
+    //       text: "Accept request",
+    //       disabled: false,
+    //       variant: "indigo",
+    //       type: "secondary",
+    //       onPress: handleAcceptFriend,
+    //       loading: isAcceptMutationInFlight,
+    //     };
+    //   case "ACCEPTED":
+    //     return {
+    //       text: "Follow back",
+    //       disabled: false,
+    //       variant: "indigo",
+    //       type: "primary",
+    //       onPress: handleAcceptFriend,
+    //       loading: isAcceptMutationInFlight,
+    //     };
+    //   default:
+    //     break;
+    // }
 
-    switch (friendshipStatus?.outgoing?.status) {
+    switch (statusChoice) {
       case "PENDING":
         return {
           text: "Request Sent",
@@ -150,49 +166,30 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
 
     commitAddMutation({
       variables: { friendId: user.id },
-      onCompleted: () => setRequestStatus("success"),
-      onError: () => setRequestStatus("error"),
+      onCompleted: () => setNetworkRequestStatus("success"),
+      onError: () => setNetworkRequestStatus("error"),
       updater: (proxyStore, data) => {
-        if (!data?.userRequestFriendship) {
-          throw new Error("Failed to add friend");
+        if (data?.userRequestFriendship) {
+          setRequestStatus(InvitationStatus.Pending);
         }
-
-        const { updatableData } =
-          proxyStore.readUpdatableFragment<UserProfile_updatable_userFriendship$key>(
-            graphql`
-              fragment UserProfile_updatable_userFriendship on UserFriendship
-              @updatable {
-                id
-                status
-              }
-            `,
-            data.userRequestFriendship
-          );
-
-        console.debug("updatableData", updatableData);
-
-        updatableData.status = "PENDING";
       },
     });
   };
 
-  const handleAcceptFriend = () => {
-    if (!user?.id) return;
-
-    commitAcceptMutation({
-      variables: { friendId: user.id },
-      onCompleted: () => setRequestStatus("success"),
-      onError: () => setRequestStatus("error"),
-    });
-  };
-
-  console.log(friendshipStatus);
-
-  const buttonConfig = getButtonConfig();
+  const buttonConfig = useMemo(
+    () => getButtonConfig(requestStatus),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      friendshipStatus?.outgoing?.status,
+      friendshipStatus?.areMutualFriends,
+      isAddMutationInFlight,
+      requestStatus,
+    ]
+  );
 
   return (
     <Ozone>
-      <View className="px-md pb-md gap-lg mx-auto flex flex-col items-center justify-center">
+      <View className="gap-lg px-md pb-md mx-auto flex flex-col items-center justify-center">
         <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
           <View className="m-auto">
             <CameraIcon width={45} height={45} fill={"grey"} />
@@ -200,18 +197,14 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
         </OTouchable>
         {user && <UserProfileStats user={user} />}
         <View className="gap-sm flex flex-col items-center">
-          <Text className="dark:text-ivory text-3xl font-bold text-black">
-            {user?.firstName + " " + user?.lastName}
-          </Text>
-          {user?.handle && (
-            <Text className="dark:text-ivory text-black">{user.handle}</Text>
-          )}
-          {user?.bio && (
-            <Text className="dark:text-ivory text-black">{user.bio}</Text>
-          )}
+          <OText className="text-3xl font-bold">
+            {user?.firstName} {user?.lastName}
+          </OText>
+          {user?.handle && <OText>{user.handle}</OText>}
+          {user?.bio && <OText>{user.bio}</OText>}
         </View>
       </View>
-      <View className="mt-lg px-md">
+      <View className="mt-md px-md">
         <OButton
           title={buttonConfig.text}
           disabled={buttonConfig.disabled}

@@ -66,17 +66,17 @@ export const UserResultCard = ({
   return (
     <View className="mt-sm flex-row items-center justify-between">
       <View className="flex flex-col">
-        <Text className="dark:text-ivory text-xl text-black">
+        <Text className="text-xl text-black dark:text-ivory">
           {userResult.user.firstName + " " + userResult.user.lastName}
         </Text>
-        <Text className="dark:text-ivory text-sm text-black">
+        <Text className="text-sm text-black dark:text-ivory">
           Friends with{" "}
           <Text className="font-bold">{userResult.user.firstName}</Text> and{" "}
           <Text className="font-bold">2 others</Text>
         </Text>
       </View>
       <Text
-        className="dark:text-ivory text-3xl font-bold text-black"
+        className="text-3xl font-bold text-black dark:text-ivory"
         style={{ fontVariant: ["tabular-nums"] }}
       >
         {displayResult(

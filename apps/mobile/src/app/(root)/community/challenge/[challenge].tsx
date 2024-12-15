@@ -49,7 +49,7 @@ export default function ChallengeDetailsRoute() {
             }}
           />
           <ScrollView>
-            <View className="mb-md gap-md px-md flex flex-col">
+            <View className="mb-md flex flex-col gap-md px-md">
               <Skeleton className="mt-md h-10 w-full rounded-xl" />
               <Skeleton className="h-10 w-1/2 rounded-xl" />
               <ChallengeDetailsSkeleton />

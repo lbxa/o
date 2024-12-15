@@ -21,7 +21,7 @@ export const DistanceLogger = ({ modalRef }: DistanceLoggerProps) => {
     >
       <BottomSheetView>
         <View className="px-md">
-          <View className="gap-sm flex flex-row items-center">
+          <View className="flex flex-row items-center gap-sm">
             <Title>Distance Logger</Title>
             <ComingSoonBadge />
           </View>

@@ -36,8 +36,15 @@ body:graphql {
       user {
         buddyCount
         followerCount
+        following {
+          edges {
+            node {
+              ...User
+            }
+          }
+        }
         challengeActivityResultsCount
-        friendRequests {
+        followerRequests(first: 20) {
           edges {
             node {
               id
@@ -48,13 +55,6 @@ body:graphql {
               friend {
                 ...User
               }
-            }
-          }
-        }
-        friends {
-          edges {
-            node {
-              ...User
             }
           }
         }

@@ -46,10 +46,8 @@ const CommunityCardComponent = ({ community }: Props) => {
           </View>
         </View>
         <View className="px-md">
-          <View className="gap-sm pb-sm flex flex-row items-center">
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
-              {communityFragment.name}
-            </Text>
+          <Text className="dark:text-ivory mb-sm text-3xl font-bold text-black">
+            {communityFragment.name}{" "}
             {communityFragment.isVerified && (
               <VerifiedBadgeIcon
                 width={20}
@@ -57,7 +55,7 @@ const CommunityCardComponent = ({ community }: Props) => {
                 fill={colorScheme === "dark" ? "#edf4f8" : "#5955eb"}
               />
             )}
-          </View>
+          </Text>
           <CommunitySocials memberCount={communityFragment.memberCount ?? 0} />
         </View>
       </View>

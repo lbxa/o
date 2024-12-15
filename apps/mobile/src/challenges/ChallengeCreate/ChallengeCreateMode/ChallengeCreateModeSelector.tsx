@@ -21,7 +21,7 @@ const DataControl: React.FC<{
   const { isDark } = useOTheme();
   return (
     <OTouchable onPress={onSelect} disabled={comingSoon}>
-      <View className="gap-md flex flex-row items-center">
+      <View className="flex flex-row items-center gap-md">
         <View className="flex flex-1">
           <Text
             className={classNames("mb-sm text-xl text-black dark:text-ivory", {
@@ -31,7 +31,7 @@ const DataControl: React.FC<{
             {controlName}
             {comingSoon && " (Coming Soon)"}
           </Text>
-          <Text className="dark:text-ivory text-black">
+          <Text className="text-black dark:text-ivory">
             {controlDescription}
           </Text>
         </View>
@@ -81,10 +81,10 @@ export const ChallengeCreateModeSelector: React.FC<{
   ];
 
   return (
-    <View className="px-md flex flex-col pb-10">
+    <View className="flex flex-col px-md pb-10">
       <Title>Challenge Mode</Title>
       <Subtitle>How will users prove they completed your challenge?</Subtitle>
-      <View className="mb-lg gap-md flex flex-col">
+      <View className="mb-lg flex flex-col gap-md">
         {controls.map((c) => (
           <DataControl
             key={c.controlName}

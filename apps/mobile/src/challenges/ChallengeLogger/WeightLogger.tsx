@@ -151,7 +151,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
       maxDynamicContentSize={900}
     >
       <BottomSheetScrollView>
-        <View className="gap-md px-md flex h-full flex-col pb-10">
+        <View className="flex h-full flex-col gap-md px-md pb-10">
           <OTouchable onPress={() => setIsEditing(true)}>
             {isEditing ? (
               <BottomSheetTextInput
@@ -172,7 +172,7 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               />
             ) : (
               <Text
-                className="dark:text-ivory w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold dark:text-ivory"
                 style={{ fontVariant: ["tabular-nums"] }}
               >
                 {count}
@@ -180,8 +180,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
               </Text>
             )}
           </OTouchable>
-          <View className="gap-lg flex flex-col">
-            <View className="gap-md flex flex-row flex-wrap justify-center">
+          <View className="flex flex-col gap-lg">
+            <View className="flex flex-row flex-wrap justify-center gap-md">
               {Array.from(WeightButtonVariantMatrix.entries()).map(
                 ([variant, { value }]) => (
                   <WeightButton
@@ -192,8 +192,8 @@ export const WeightLogger = ({ modalRef }: WeightLoggerProps) => {
                 )
               )}
             </View>
-            <View className="dark:bg-ivory mx-md h-px bg-gray-200" />
-            <View className="gap-md flex h-[100px] flex-row justify-between">
+            <View className="mx-md h-px bg-gray-200 dark:bg-ivory" />
+            <View className="flex h-[100px] flex-row justify-between gap-md">
               {/* <OButton
                 type="secondary"
                 variant="gray"

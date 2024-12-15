@@ -1,3 +1,4 @@
+import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
@@ -17,7 +18,7 @@ describe("UserService", () => {
           schema: {},
         })),
         ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
-        UserModule,
+        forwardRef(() => UserModule),
       ],
     }).compile();
 

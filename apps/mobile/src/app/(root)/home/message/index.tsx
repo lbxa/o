@@ -6,9 +6,9 @@ import { Ozone } from "@/universe/molecules";
 export default function Message() {
   return (
     <Ozone>
-      <View className="px-md pt-xl flex-1 items-center">
+      <View className="flex-1 items-center px-md pt-xl">
         <MessagesArt width={200} height={200} />
-        <Text className="dark:text-ivory text-center text-2xl font-bold">
+        <Text className="text-center text-2xl font-bold dark:text-ivory">
           Messages coming soon...
         </Text>
       </View>

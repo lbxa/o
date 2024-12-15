@@ -104,7 +104,7 @@ export const CommunityCreate = () => {
   };
 
   return (
-    <View className="gap-md flex h-full flex-col">
+    <View className="flex h-full flex-col gap-md">
       <View>
         <Title>Name</Title>
         <Controller
@@ -153,10 +153,10 @@ export const CommunityCreate = () => {
         <Title>Invite Members</Title>
         <OTouchable
           onPress={() => router.push("/(root)/community/invite")}
-          className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3 dark:bg-white/20"
+          className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
         >
           <SearchIcon width={25} fill={svgFill} />
-          <Text className="pl-sm dark:text-ivory text-black">Search</Text>
+          <Text className="pl-sm text-black dark:text-ivory">Search</Text>
         </OTouchable>
       </View>
 

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c5c811a7eae65998d5ebcfd9443157d1>>
+ * @generated SignedSource<<647f1b9c41558c87755e3462a68376d9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -65,17 +65,7 @@ v3 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-},
-v4 = [
-  (v3/*: any*/),
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "status",
-    "storageKey": null
-  }
-];
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -201,17 +191,16 @@ return {
             "kind": "LinkedField",
             "name": "outgoing",
             "plural": false,
-            "selections": (v4/*: any*/),
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "UserFriendship",
-            "kind": "LinkedField",
-            "name": "incoming",
-            "plural": false,
-            "selections": (v4/*: any*/),
+            "selections": [
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "status",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           },
           {
@@ -227,12 +216,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "822764c932930b97bf4518f7e72bbb6f",
+    "cacheID": "e01e6e5e2278b0f22587b6477af2dac9",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  incoming {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
+    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
   }
 };
 })();

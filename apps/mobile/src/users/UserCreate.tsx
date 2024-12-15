@@ -170,8 +170,8 @@ export const UserCreate = () => {
 
   return (
     <Ozone>
-      <View className="px-md mt-md">
-        <View className="mb-md gap-md flex flex-row justify-between">
+      <View className="mt-md px-md">
+        <View className="mb-md flex flex-row justify-between gap-md">
           <Controller
             name="firstName"
             control={control}
@@ -296,7 +296,7 @@ export const UserCreate = () => {
         />
         <Link
           href="/auth/login"
-          className="mt-md dark:text-ivory text-blue-700 underline"
+          className="mt-md text-blue-700 underline dark:text-ivory"
         >
           Already have an account
         </Link>

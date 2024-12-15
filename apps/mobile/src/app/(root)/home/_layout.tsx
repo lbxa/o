@@ -25,7 +25,7 @@ export default function Root() {
           ),
           headerRight: () => (
             <MiniNav
-              items={["search", "message"]}
+              items={["notifications", "search", "message"]}
               itemConfigs={{ search: { href: "/(root)/home/user-search" } }}
             />
           ),
@@ -46,6 +46,12 @@ export default function Root() {
               <ComingSoonBadge size="sm" />
             </View>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="notifications"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Notifications" />,
         }}
       />
     </Stack>

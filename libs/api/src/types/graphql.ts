@@ -174,6 +174,7 @@ export interface IMutation {
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
     userRequestFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
     userAcceptFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
+    userDeclineFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
     userRemoveFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
 }
 
@@ -387,13 +388,15 @@ export interface User extends Node, Timestamps {
     password?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    friendRequests?: Nullable<UserFriendshipConnection>;
-    friends?: Nullable<UserConnection>;
+    followers?: Nullable<UserConnection>;
+    following?: Nullable<UserConnection>;
     searchFriends?: Nullable<User[]>;
     buddyCount?: Nullable<number>;
     followerCount?: Nullable<number>;
     followingCount?: Nullable<number>;
     challengeActivityResultsCount?: Nullable<number>;
+    followerRequests?: Nullable<UserFriendshipConnection>;
+    followRequests?: Nullable<UserFriendshipConnection>;
 }
 
 export interface UserFriendship extends Node, Timestamps {

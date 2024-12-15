@@ -20,7 +20,6 @@ export const useAddFriend = (): [
             id
           }
           status
-          ...UserProfile_updatable_userFriendship
         }
       }
     `);

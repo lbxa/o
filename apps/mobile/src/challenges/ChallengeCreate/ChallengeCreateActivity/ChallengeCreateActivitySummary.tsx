@@ -17,7 +17,7 @@ const EmptyState = () => {
   return (
     <>
       <CrissCrossIcon width={25} fill={svgFill} />
-      <Text className="pl-sm dark:text-ivory text-black">
+      <Text className="pl-sm text-black dark:text-ivory">
         Choose from a blend of options
       </Text>
     </>

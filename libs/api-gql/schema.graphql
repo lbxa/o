@@ -312,6 +312,8 @@ type Mutation {
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
   """Accept a friendship"""
   userAcceptFriendship(friendId: ID!): UserFriendship!
+  """Decline a friendship"""
+  userDeclineFriendship(friendId: ID!): UserFriendship!
   """Remove a friendship"""
   userRemoveFriendship(friendId: ID!): UserFriendship!
   """Request a friendship"""
@@ -378,11 +380,16 @@ type User implements Node & Timestamps {
   createdAt: DateTime
   email: String
   firstName: String
+  """Requests to be followed by this user"""
+  followRequests(after: String, first: Int): UserFriendshipConnection
   followerCount: Int
+  """Requests to follow this user"""
+  followerRequests(after: String, first: Int): UserFriendshipConnection
+  """If they have any followers..."""
+  followers: UserConnection
+  """If they follow any users..."""
+  following: UserConnection
   followingCount: Int
-  friendRequests(after: String, first: Int): UserFriendshipConnection
-  """If they have any..."""
-  friends: UserConnection
   handle: String
   id: ID!
   lastName: String

@@ -45,7 +45,7 @@ const secondaryVariantMatrix: VariantMatrix = {
     front: "text-violet dark:text-violet-light",
   },
   indigo: {
-    back: "bg-indigo/30",
+    back: "bg-indigo/30 dark:bg-indigo/60",
     front: "text-indigo dark:text-indigo-light",
   },
   navy: {
@@ -57,7 +57,7 @@ const secondaryVariantMatrix: VariantMatrix = {
     front: "text-red-800 dark:text-red-300",
   },
   gray: {
-    back: "bg-gray-300/30",
+    back: "bg-gray-300/80 dark:bg-gray-300/30",
     front: "text-gray-800 dark:text-gray-300",
   },
 };

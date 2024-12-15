@@ -16,7 +16,7 @@ export default function AuthLayout() {
         options={{
           title: "Login",
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               Login
             </Text>
           ),
@@ -27,7 +27,7 @@ export default function AuthLayout() {
         options={{
           title: "Sign Up",
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               Sign Up
             </Text>
           ),

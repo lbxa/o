@@ -82,14 +82,14 @@ export const StopwatchLogger = ({ modalRef }: StopwatchLoggerProps) => {
       maxDynamicContentSize={900}
     >
       <BottomSheetView>
-        <View className="gap-md px-md flex h-full flex-col pb-5">
+        <View className="flex h-full flex-col gap-md px-md pb-5">
           <Text
-            className="dark:text-ivory w-full text-center text-[5.5rem] font-bold text-black"
+            className="w-full text-center text-[5.5rem] font-bold text-black dark:text-ivory"
             style={{ fontVariant: ["tabular-nums"] }} /* fixed width text */
           >
             {time.toString()}
           </Text>
-          <View className="gap-md flex flex-row justify-around">
+          <View className="flex flex-row justify-around gap-md">
             <OTouchable
               onPress={handleReset}
               className="mt-auto flex size-[100px] rounded-full bg-gray-200 dark:bg-gray-200/30"

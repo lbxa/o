@@ -20,6 +20,7 @@ export const APP_ROOT_QUERY = graphql`
         handle
         bio
         ...UserProfileStats_user
+        ...UserNotificationList_user @arguments(count: 10)
       }
     }
   }

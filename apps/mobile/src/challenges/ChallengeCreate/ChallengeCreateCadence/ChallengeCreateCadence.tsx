@@ -24,7 +24,7 @@ export const ChallengeCreateCadence = () => {
       <Subtitle>How often will you be required to post your progress?</Subtitle>
       <OTouchable
         onPress={handleModal}
-        className="mb-lg bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3 dark:bg-white/20"
+        className="mb-lg flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
       >
         <View className="flex flex-1 flex-row items-center">
           <ChallengeCreateCadenceSummary />

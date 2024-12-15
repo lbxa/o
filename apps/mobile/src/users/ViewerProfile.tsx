@@ -1,11 +1,11 @@
 import CameraIcon from "@assets/icons/camera.svg";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
 import type { ViewerProfile_viewer$key } from "@/__generated__/ViewerProfile_viewer.graphql";
 import type { ViewerProfileQuery } from "@/__generated__/ViewerProfileQuery.graphql";
-import { OTouchable } from "@/universe/atoms";
+import { OText, OTouchable } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
 import { useNoSuspenseRefetch } from "../relay";
@@ -54,32 +54,27 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
   return (
     <Ozone>
       <ScrollView
-        className=""
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
+        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
           <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
             <View className="m-auto">
               <CameraIcon width={45} height={45} fill={"grey"} />
             </View>
           </OTouchable>
           {viewer?.user && <UserProfileStats user={viewer.user} />}
-          <View className="gap-sm flex flex-col items-center">
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
-              {viewer?.user?.firstName + " " + viewer?.user?.lastName}
-            </Text>
+          <View className="flex flex-col items-center gap-sm">
+            <OText className="text-3xl font-bold">
+              {viewer?.user?.firstName} {viewer?.user?.lastName}
+            </OText>
             {viewer?.user?.handle && (
-              <Text className="dark:text-ivory text-lg text-black">
-                {viewer.user.handle}
-              </Text>
+              <OText className="text-lg">{viewer.user.handle}</OText>
             )}
           </View>
           {viewer?.user?.bio && (
-            <Text className="dark:text-ivory text-lg text-black">
-              {viewer.user.bio}
-            </Text>
+            <OText className="text-lg">{viewer.user.bio}</OText>
           )}
         </View>
       </ScrollView>

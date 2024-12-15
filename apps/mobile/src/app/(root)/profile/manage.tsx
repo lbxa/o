@@ -8,7 +8,7 @@ export default function CommunityManageRoute() {
   const { logout, isMutationInFlight } = useLogout();
   return (
     <Ozone>
-      <View className="px-md flex-1">
+      <View className="flex-1 px-md">
         <OButton
           title="Logout"
           type="primary"

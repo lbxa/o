@@ -35,16 +35,18 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon fill={svgFill} />
       </OTouchable>
-      <Text
-        className="dark:text-ivory w-10/12 text-3xl font-bold text-black"
-        numberOfLines={1}
-        ellipsizeMode="tail"
-      >
-        {communityFragment?.name ?? "Loading..."}
-      </Text>
-      {communityFragment?.isVerified && (
-        <VerifiedBadgeIcon width={20} height={20} />
-      )}
+      <View className="gap-sm flex w-10/12 flex-row items-center">
+        <Text
+          className="dark:text-ivory text-3xl font-bold text-black"
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {communityFragment?.name ?? "Loading..."}
+        </Text>
+        {communityFragment?.isVerified && (
+          <VerifiedBadgeIcon width={20} height={20} />
+        )}
+      </View>
     </View>
   );
 };

@@ -1,0 +1,34 @@
+meta {
+  name: UserDeclineFriendship
+  type: graphql
+  seq: 7
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation DeclineFriend {
+    userDeclineFriendship(friendId: "VXNlcjoyCg==") {
+      id
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

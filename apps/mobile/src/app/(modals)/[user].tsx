@@ -21,8 +21,6 @@ export default function UserPage() {
     useQueryLoader<UserProfileQuery>(USER_PROFILE_QUERY);
 
   useEffect(() => {
-    console.log("userId", userId);
-    console.log("activeUserId", activeUserId);
     loadQuery(
       { userId: userId, viewerId: activeUserId },
       { fetchPolicy: "store-and-network" }
@@ -39,7 +37,7 @@ export default function UserPage() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-xl font-bold text-black">
+            <Text className="text-xl font-bold text-black dark:text-ivory">
               Profile
             </Text>
           ),

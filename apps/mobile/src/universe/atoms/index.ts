@@ -5,6 +5,7 @@ export * from "./CounterButton";
 export * from "./ModalCloseButton";
 export * from "./OButton";
 export * from "./OPasswordInput";
+export * from "./OText";
 export * from "./OTouchable";
 export * from "./Pill";
 export * from "./PrimaryTextInput";

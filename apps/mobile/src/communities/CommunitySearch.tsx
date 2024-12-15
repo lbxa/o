@@ -13,7 +13,7 @@ import { OSearchBar } from "@/universe/molecules";
 
 export const CommunitySearch = () => {
   return (
-    <View className="mb-md gap-sm flex flex-row items-center">
+    <View className="mb-md flex flex-row items-center gap-sm">
       <OSearchBar
         searchQuery=""
         onSearchChange={() => null}

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<77c754328c8c5fd221378f0229df3bff>>
+ * @generated SignedSource<<b3806fe814254a80e445328578756730>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,10 +13,6 @@ export type InvitationStatus = "ACCEPTED" | "DECLINED" | "PENDING" | "%future ad
 import type { FragmentRefs } from "relay-runtime";
 export type UserProfile_userFriendshipStatus$data = {
   readonly areMutualFriends: boolean;
-  readonly incoming: {
-    readonly id: string;
-    readonly status: InvitationStatus;
-  } | null | undefined;
   readonly outgoing: {
     readonly id: string;
     readonly status: InvitationStatus;
@@ -28,24 +24,7 @@ export type UserProfile_userFriendshipStatus$key = {
   readonly " $fragmentSpreads": FragmentRefs<"UserProfile_userFriendshipStatus">;
 };
 
-const node: ReaderFragment = (function(){
-var v0 = [
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "id",
-    "storageKey": null
-  },
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "status",
-    "storageKey": null
-  }
-];
-return {
+const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
@@ -58,17 +37,22 @@ return {
       "kind": "LinkedField",
       "name": "outgoing",
       "plural": false,
-      "selections": (v0/*: any*/),
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "UserFriendship",
-      "kind": "LinkedField",
-      "name": "incoming",
-      "plural": false,
-      "selections": (v0/*: any*/),
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "id",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "status",
+          "storageKey": null
+        }
+      ],
       "storageKey": null
     },
     {
@@ -82,8 +66,7 @@ return {
   "type": "UserFriendshipStatus",
   "abstractKey": null
 };
-})();
 
-(node as any).hash = "254665995da004276a79914153f76326";
+(node as any).hash = "1ee4847682d693a6cb68049d7784717d";
 
 export default node;

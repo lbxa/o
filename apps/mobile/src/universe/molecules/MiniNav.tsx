@@ -1,3 +1,4 @@
+import BellIcon from "@assets/icons/bell.svg";
 import MenuIcon from "@assets/icons/menu.svg";
 import MessageIcon from "@assets/icons/message.svg";
 import PlusIcon from "@assets/icons/plus.svg";
@@ -34,13 +35,14 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   );
 };
 
-type NavItemType = "create" | "search" | "message" | "manage";
+type NavItemType = "create" | "search" | "message" | "manage" | "notifications";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
   create: "/(root)/community/create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
   manage: "/(root)/community/manage",
+  notifications: "/(root)/home/notifications",
 };
 
 interface NavItemConfig {
@@ -63,6 +65,7 @@ export const MiniNav: React.FC<MiniNavProps> = ({
     search: <SearchIcon {...ICON_DIM} fill={iconFill} />,
     message: <MessageIcon {...ICON_DIM} fill={iconFill} />,
     manage: <MenuIcon {...ICON_DIM} fill={iconFill} />,
+    notifications: <BellIcon {...ICON_DIM} fill={iconFill} />,
   };
 
   const itemsToRender =

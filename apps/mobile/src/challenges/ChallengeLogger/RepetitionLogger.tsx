@@ -127,11 +127,11 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
       keyboardBehavior="interactive"
     >
       <BottomSheetScrollView>
-        <View className="gap-md px-md flex h-full flex-col pb-10">
+        <View className="flex h-full flex-col gap-md px-md pb-10">
           <OTouchable onPress={() => setIsEditing(true)}>
             {isEditing ? (
               <BottomSheetTextInput
-                className="dark:text-ivory w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold dark:text-ivory"
                 style={{ fontVariant: ["tabular-nums"] }}
                 value={count.toString()}
                 onChangeText={(text) => {
@@ -148,15 +148,15 @@ export const RepetitionLogger = ({ modalRef }: RepetitionLoggerProps) => {
               />
             ) : (
               <Text
-                className="dark:text-ivory w-full text-center text-[5.5rem] font-bold"
+                className="w-full text-center text-[5.5rem] font-bold dark:text-ivory"
                 style={{ fontVariant: ["tabular-nums"] }}
               >
                 {count}
               </Text>
             )}
           </OTouchable>
-          <View className="gap-xl flex flex-col">
-            <View className="gap-md flex flex-row justify-around">
+          <View className="flex flex-col gap-xl">
+            <View className="flex flex-row justify-around gap-md">
               <View className="flex flex-col justify-between">
                 <OTouchable
                   onPress={handleReset}

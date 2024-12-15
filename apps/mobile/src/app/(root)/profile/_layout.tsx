@@ -27,7 +27,7 @@ export default function Root() {
             backgroundColor: isDark ? "#000000" : colors.ivory.DEFAULT,
           },
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               Profile
             </Text>
           ),
@@ -43,7 +43,7 @@ export default function Root() {
         name="manage"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-xl font-bold text-black">
+            <Text className="text-xl font-bold text-black dark:text-ivory">
               Manage Profile
             </Text>
           ),

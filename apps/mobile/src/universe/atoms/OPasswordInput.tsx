@@ -30,7 +30,7 @@ export const OPasswordInput = forwardRef<
           {...props}
         />
         <OTouchable
-          className="pr-sm absolute inset-y-0 right-0 m-auto rounded-r-lg bg-inherit backdrop-blur-md"
+          className="absolute inset-y-0 right-0 m-auto rounded-r-lg bg-inherit pr-sm backdrop-blur-md"
           onPress={() => setVisible((prev) => !prev)}
         >
           <View className="m-auto">
@@ -43,7 +43,7 @@ export const OPasswordInput = forwardRef<
         </OTouchable>
       </View>
       {props.error && (
-        <Text className="mt-sm color-red-900 px-2 dark:text-red-200">
+        <Text className="mt-sm px-2 color-red-900 dark:text-red-200">
           {props.errorMessage}
         </Text>
       )}
