@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c4af4f38c117d4f3fdb344f8dceec70d>>
+ * @generated SignedSource<<4bbc3ddb67c2787bf88178803c34a511>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,26 +9,22 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type UserUpdateInput = {
-  bio?: string | null | undefined;
-  email?: string | null | undefined;
-  firstName?: string | null | undefined;
-  handle?: string | null | undefined;
+export type CommunityUpdateInput = {
   id: string;
-  lastName?: string | null | undefined;
+  name?: string | null | undefined;
 };
-export type emailMutation$variables = {
-  input: UserUpdateInput;
+export type communityNameMutation$variables = {
+  input: CommunityUpdateInput;
 };
-export type emailMutation$data = {
-  readonly userUpdate: {
-    readonly email: string | null | undefined;
+export type communityNameMutation$data = {
+  readonly communityUpdate: {
     readonly id: string;
+    readonly name: string;
   };
 };
-export type emailMutation = {
-  response: emailMutation$data;
-  variables: emailMutation$variables;
+export type communityNameMutation = {
+  response: communityNameMutation$data;
+  variables: communityNameMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -45,13 +41,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "userUpdateInput",
+        "name": "communityUpdateInput",
         "variableName": "input"
       }
     ],
-    "concreteType": "User",
+    "concreteType": "Community",
     "kind": "LinkedField",
-    "name": "userUpdate",
+    "name": "communityUpdate",
     "plural": false,
     "selections": [
       {
@@ -65,7 +61,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "email",
+        "name": "name",
         "storageKey": null
       }
     ],
@@ -77,7 +73,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "emailMutation",
+    "name": "communityNameMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -86,20 +82,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "emailMutation",
+    "name": "communityNameMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "b218f2188861b308c94fc9c711900dea",
+    "cacheID": "8ae953c829034957f5b01a9eef825fb4",
     "id": null,
     "metadata": {},
-    "name": "emailMutation",
+    "name": "communityNameMutation",
     "operationKind": "mutation",
-    "text": "mutation emailMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    email\n  }\n}\n"
+    "text": "mutation communityNameMutation(\n  $input: CommunityUpdateInput!\n) {\n  communityUpdate(communityUpdateInput: $input) {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1328ee50ecb418097dd5dc602061c53b";
+(node as any).hash = "72664312886151d3952b44e5963275a7";
 
 export default node;

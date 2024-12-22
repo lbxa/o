@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<eb6651be1140073860151804dc78c66a>>
+ * @generated SignedSource<<b3c95bc2b6ab1e05815312846df608b5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,41 +9,57 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type handleQuery$variables = Record<PropertyKey, never>;
-export type handleQuery$data = {
+export type communityNameQuery$variables = {
+  communityId: string;
+};
+export type communityNameQuery$data = {
   readonly viewer: {
-    readonly user: {
-      readonly handle: string;
+    readonly community: {
       readonly id: string;
+      readonly name: string;
     } | null | undefined;
   } | null | undefined;
 };
-export type handleQuery = {
-  response: handleQuery$data;
-  variables: handleQuery$variables;
+export type communityNameQuery = {
+  response: communityNameQuery$data;
+  variables: communityNameQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "communityId"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "communityId",
+    "variableName": "communityId"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v1 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "handle",
+  "name": "name",
   "storageKey": null
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "handleQuery",
+    "name": "communityNameQuery",
     "selections": [
       {
         "alias": null,
@@ -55,16 +71,16 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
+              (v2/*: any*/),
               {
                 "kind": "RequiredField",
-                "field": (v1/*: any*/),
+                "field": (v3/*: any*/),
                 "action": "THROW"
               }
             ],
@@ -79,9 +95,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "handleQuery",
+    "name": "communityNameQuery",
     "selections": [
       {
         "alias": null,
@@ -93,34 +109,34 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
-              (v1/*: any*/)
+              (v2/*: any*/),
+              (v3/*: any*/)
             ],
             "storageKey": null
           },
-          (v0/*: any*/)
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "2ed4b69fa72873677eafcce2bd3754ab",
+    "cacheID": "144adfff18207517c8fccfb674db832a",
     "id": null,
     "metadata": {},
-    "name": "handleQuery",
+    "name": "communityNameQuery",
     "operationKind": "query",
-    "text": "query handleQuery {\n  viewer {\n    user {\n      id\n      handle\n    }\n    id\n  }\n}\n"
+    "text": "query communityNameQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      id\n      name\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "06adc3ede2904a02e42fc2a0400865a0";
+(node as any).hash = "fff2ba4ba0032feacfb1f2f1878943fa";
 
 export default node;
