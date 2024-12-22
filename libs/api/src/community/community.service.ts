@@ -13,8 +13,10 @@ import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
   CommunityConnection,
+  CommunityUpdateInput,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import { NotFoundError } from "../utils/errors";
 
 @Injectable()
 export class CommunityService
@@ -109,19 +111,22 @@ export class CommunityService
     return this.pg2GqlMapper(result);
   }
 
-  async update(
-    id: number,
-    input: Partial<NewCommunity>
-  ): Promise<GqlCommunity> {
+  async update(input: CommunityUpdateInput): Promise<GqlCommunity> {
+    const { id: globalId, ...updates } = input;
+    const id = validateAndDecodeGlobalId(globalId, "Community");
+
+    const filteredUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([_, value]) => value !== null)
+    );
+
     const [updated] = await this.dbService.db
       .update(CommunitiesTable)
-      .set(input)
+      .set(filteredUpdates)
       .where(eq(CommunitiesTable.id, id))
       .returning();
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!updated) {
-      throw new NotFoundException(`Community with id ${id} not found`);
+      throw new NotFoundError(`Community with id ${id} not found`);
     }
 
     return this.pg2GqlMapper(updated);

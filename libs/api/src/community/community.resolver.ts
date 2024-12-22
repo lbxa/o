@@ -18,11 +18,12 @@ import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   ChallengeConnection,
-  Community,
+  Community as GqlCommunity,
   CommunityCreatePayload,
   CommunityInvitationConnection,
   CommunityInviteDeclinePayload,
   CommunityJoinPayload,
+  CommunityUpdateInput,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { ConflictError, InternalServerError } from "../utils/errors";
@@ -42,7 +43,7 @@ export class CommunityResolver {
 
   @ResolveField()
   async challenges(
-    @Parent() community: Community,
+    @Parent() community: GqlCommunity,
     @Args("first") first: number,
     @Args("after") after: string
   ): Promise<ChallengeConnection> {
@@ -52,6 +53,13 @@ export class CommunityResolver {
       first,
       after
     );
+  }
+
+  @Mutation("communityUpdate")
+  async communityUpdate(
+    @Args("communityUpdateInput") input: CommunityUpdateInput
+  ): Promise<GqlCommunity> {
+    return this.communityService.update(input);
   }
 
   @Mutation("communityInvite")
@@ -75,7 +83,7 @@ export class CommunityResolver {
   @ResolveField()
   async invitations(
     @CurrentUser("userId") userId: number,
-    @Parent() community: Community,
+    @Parent() community: GqlCommunity,
     @Args("first") first: number,
     @Args("after") after?: string
   ): Promise<CommunityInvitationConnection> {
@@ -92,7 +100,7 @@ export class CommunityResolver {
   }
 
   @ResolveField()
-  async memberCount(@Parent() community: Community): Promise<number> {
+  async memberCount(@Parent() community: GqlCommunity): Promise<number> {
     const decodedCommunityId = validateAndDecodeGlobalId(
       community.id,
       "Community"

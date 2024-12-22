@@ -5,8 +5,8 @@ import type { TextInput } from "react-native";
 import { View } from "react-native";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
 
-import type { nameMutation } from "@/__generated__/nameMutation.graphql";
-import type { nameQuery } from "@/__generated__/nameQuery.graphql";
+import type { userNameMutation } from "@/__generated__/userNameMutation.graphql";
+import type { userNameQuery } from "@/__generated__/userNameQuery.graphql";
 import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
@@ -20,9 +20,9 @@ export default function Name() {
   const firstNameRef = useRef<TextInput>(null);
   const lastNameRef = useRef<TextInput>(null);
 
-  const user = useLazyLoadQuery<nameQuery>(
+  const user = useLazyLoadQuery<userNameQuery>(
     graphql`
-      query nameQuery {
+      query userNameQuery {
         viewer {
           user {
             id
@@ -46,9 +46,9 @@ export default function Name() {
     },
   });
 
-  const [commitMutation, isMutationInFlight] = useMutation<nameMutation>(
+  const [commitMutation, isMutationInFlight] = useMutation<userNameMutation>(
     graphql`
-      mutation nameMutation($input: UserUpdateInput!) {
+      mutation userNameMutation($input: UserUpdateInput!) {
         userUpdate(userUpdateInput: $input) {
           id
           firstName

@@ -26,25 +26,25 @@ export default function Root() {
         }}
       />
       <Stack.Screen
-        name="name"
+        name="user-name"
         options={{
           headerLeft: () => <SharedHeaderTitle title="Name" />,
         }}
       />
       <Stack.Screen
-        name="handle"
+        name="user-handle"
         options={{
           headerLeft: () => <SharedHeaderTitle title="Handle" />,
         }}
       />
       <Stack.Screen
-        name="email"
+        name="user-email"
         options={{
           headerLeft: () => <SharedHeaderTitle title="Email" />,
         }}
       />
       <Stack.Screen
-        name="bio"
+        name="user-bio"
         options={{
           headerLeft: () => <SharedHeaderTitle title="Bio" />,
         }}

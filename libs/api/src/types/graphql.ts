@@ -114,6 +114,7 @@ export interface CommunityCreateInput {
 export interface CommunityUpdateInput {
     id: string;
     name?: Nullable<string>;
+    isPublic?: Nullable<boolean>;
 }
 
 export interface UserUpdateInput {

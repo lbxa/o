@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<890581d3d2a3cc658fc4aaafae917c0d>>
+ * @generated SignedSource<<fd1886ca2f1cdec6414fbfca1088ceda>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,23 +9,26 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type CommunityUpdateInput = {
+export type UserUpdateInput = {
+  bio?: string | null | undefined;
+  email?: string | null | undefined;
+  firstName?: string | null | undefined;
+  handle?: string | null | undefined;
   id: string;
-  isPublic?: boolean | null | undefined;
-  name?: string | null | undefined;
+  lastName?: string | null | undefined;
 };
-export type communityVisibilityMutation$variables = {
-  input: CommunityUpdateInput;
+export type userHandleMutation$variables = {
+  input: UserUpdateInput;
 };
-export type communityVisibilityMutation$data = {
-  readonly communityUpdate: {
+export type userHandleMutation$data = {
+  readonly userUpdate: {
+    readonly handle: string | null | undefined;
     readonly id: string;
-    readonly isPublic: boolean | null | undefined;
   };
 };
-export type communityVisibilityMutation = {
-  response: communityVisibilityMutation$data;
-  variables: communityVisibilityMutation$variables;
+export type userHandleMutation = {
+  response: userHandleMutation$data;
+  variables: userHandleMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -42,13 +45,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "communityUpdateInput",
+        "name": "userUpdateInput",
         "variableName": "input"
       }
     ],
-    "concreteType": "Community",
+    "concreteType": "User",
     "kind": "LinkedField",
-    "name": "communityUpdate",
+    "name": "userUpdate",
     "plural": false,
     "selections": [
       {
@@ -62,7 +65,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "isPublic",
+        "name": "handle",
         "storageKey": null
       }
     ],
@@ -74,7 +77,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "communityVisibilityMutation",
+    "name": "userHandleMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -83,20 +86,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "communityVisibilityMutation",
+    "name": "userHandleMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "71e1168df0f957acea0eebf47e17960b",
+    "cacheID": "26a99a0257a75b8c59b7f7b5a5e41d89",
     "id": null,
     "metadata": {},
-    "name": "communityVisibilityMutation",
+    "name": "userHandleMutation",
     "operationKind": "mutation",
-    "text": "mutation communityVisibilityMutation(\n  $input: CommunityUpdateInput!\n) {\n  communityUpdate(communityUpdateInput: $input) {\n    id\n    isPublic\n  }\n}\n"
+    "text": "mutation userHandleMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    handle\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e96f46314af82ebce5c38ab7b159ce17";
+(node as any).hash = "92e726070a7e81d48c6c79e1a22672a1";
 
 export default node;

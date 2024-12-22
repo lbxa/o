@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4bbc3ddb67c2787bf88178803c34a511>>
+ * @generated SignedSource<<563d689b23bda3543333d3a475d1dc2f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import type { ConcreteRequest } from 'relay-runtime';
 export type CommunityUpdateInput = {
   id: string;
+  isPublic?: boolean | null | undefined;
   name?: string | null | undefined;
 };
 export type communityNameMutation$variables = {

@@ -1,33 +1,31 @@
 import { Stack, useRouter } from "expo-router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import type { TextInput } from "react-native";
 import { View } from "react-native";
-import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
+import { useLazyLoadQuery, useMutation } from "react-relay";
+import { graphql } from "react-relay";
 
-import type { emailMutation } from "@/__generated__/emailMutation.graphql";
-import type { emailQuery } from "@/__generated__/emailQuery.graphql";
+import type { userHandleMutation } from "@/__generated__/userHandleMutation.graphql";
+import type { userHandleQuery } from "@/__generated__/userHandleQuery.graphql";
 import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-interface EmailFormData {
-  email: string;
+interface HandleFormData {
+  handle: string;
 }
 
-export default function Email() {
+export default function Handle() {
   const router = useRouter();
   const [networkError, setNetworkError] = useState<string | undefined>(
     undefined
   );
-  const emailRef = useRef<TextInput>(null);
-
-  const user = useLazyLoadQuery<emailQuery>(
+  const user = useLazyLoadQuery<userHandleQuery>(
     graphql`
-      query emailQuery {
+      query userHandleQuery {
         viewer {
           user {
             id
-            email @required(action: THROW)
+            handle @required(action: THROW)
           }
         }
       }
@@ -39,24 +37,24 @@ export default function Email() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<EmailFormData>({
+  } = useForm<HandleFormData>({
     defaultValues: {
-      email: user.viewer?.user?.email,
+      handle: user.viewer?.user?.handle,
     },
   });
 
-  const [commitMutation, isMutationInFlight] = useMutation<emailMutation>(
+  const [commitMutation, isMutationInFlight] = useMutation<userHandleMutation>(
     graphql`
-      mutation emailMutation($input: UserUpdateInput!) {
+      mutation userHandleMutation($input: UserUpdateInput!) {
         userUpdate(userUpdateInput: $input) {
           id
-          email
+          handle
         }
       }
     `
   );
 
-  const onSubmit = (data: EmailFormData) => {
+  const onSubmit = (data: HandleFormData) => {
     if (!user.viewer?.user?.id) {
       throw new Error("User ID is required");
     }
@@ -65,7 +63,7 @@ export default function Email() {
       variables: {
         input: {
           id: user.viewer.user.id,
-          email: data.email,
+          handle: data.handle,
         },
       },
       onError: (e) => {
@@ -102,31 +100,31 @@ export default function Email() {
             rules={{
               required: { value: true, message: "Required" },
               pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                value: /^[\w.]+$/,
+                message:
+                  "Only letters, numbers, underscores, and periods allowed",
               },
             }}
-            name="email"
+            name="handle"
             render={({ field: { onChange, value, onBlur } }) => (
               <PrimaryTextInputControl
-                ref={emailRef}
-                placeholder="Email Address"
+                placeholder="Username"
                 value={value}
                 onChangeText={onChange}
                 returnKeyType="done"
-                keyboardType="email-address"
                 autoCapitalize="none"
                 onBlur={onBlur}
-                error={!!errors.email || !!networkError}
-                errorMessage={errors.email?.message ?? networkError}
+                error={!!errors.handle || !!networkError}
+                errorMessage={errors.handle?.message ?? networkError}
               />
             )}
           />
         </View>
         <OText className="text-gray-500 dark:text-gray-400">
-          Your email is used for important account notifications and recovery.
+          Your username is unique and helps others find you.
           {"\n\n"}
-          We'll never share your email address with other users.
+          It can contain letters, numbers, underscores and periods, but no
+          spaces.
         </OText>
       </View>
     </Ozone>

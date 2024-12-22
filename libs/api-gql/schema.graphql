@@ -271,6 +271,7 @@ type CommunityMembership implements Node {
 
 input CommunityUpdateInput {
   id: ID!
+  isPublic: Boolean
   name: String
 }
 

@@ -1,31 +1,30 @@
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import type { TextInput } from "react-native";
 import { View } from "react-native";
-import { useLazyLoadQuery, useMutation } from "react-relay";
-import { graphql } from "react-relay";
+import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
 
-import type { handleMutation } from "@/__generated__/handleMutation.graphql";
-import type { handleQuery } from "@/__generated__/handleQuery.graphql";
+import type { userBioMutation } from "@/__generated__/userBioMutation.graphql";
+import type { userBioQuery } from "@/__generated__/userBioQuery.graphql";
 import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-interface HandleFormData {
-  handle: string;
+interface BioFormData {
+  bio: string;
 }
 
-export default function Handle() {
+export default function Bio() {
   const router = useRouter();
-  const [networkError, setNetworkError] = useState<string | undefined>(
-    undefined
-  );
-  const user = useLazyLoadQuery<handleQuery>(
+  const bioRef = useRef<TextInput>(null);
+
+  const user = useLazyLoadQuery<userBioQuery>(
     graphql`
-      query handleQuery {
+      query userBioQuery {
         viewer {
           user {
             id
-            handle @required(action: THROW)
+            bio
           }
         }
       }
@@ -37,24 +36,24 @@ export default function Handle() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<HandleFormData>({
+  } = useForm<BioFormData>({
     defaultValues: {
-      handle: user.viewer?.user?.handle,
+      bio: user.viewer?.user?.bio ?? "",
     },
   });
 
-  const [commitMutation, isMutationInFlight] = useMutation<handleMutation>(
+  const [commitMutation, isMutationInFlight] = useMutation<userBioMutation>(
     graphql`
-      mutation handleMutation($input: UserUpdateInput!) {
+      mutation userBioMutation($input: UserUpdateInput!) {
         userUpdate(userUpdateInput: $input) {
           id
-          handle
+          bio
         }
       }
     `
   );
 
-  const onSubmit = (data: HandleFormData) => {
+  const onSubmit = (data: BioFormData) => {
     if (!user.viewer?.user?.id) {
       throw new Error("User ID is required");
     }
@@ -63,14 +62,10 @@ export default function Handle() {
       variables: {
         input: {
           id: user.viewer.user.id,
-          handle: data.handle,
+          bio: data.bio,
         },
       },
-      onError: (e) => {
-        setNetworkError(e.message.split("\n")[1]);
-      },
       onCompleted: () => {
-        setNetworkError(undefined);
         router.back();
       },
     });
@@ -98,33 +93,34 @@ export default function Handle() {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: "Required" },
-              pattern: {
-                value: /^[\w.]+$/,
-                message:
-                  "Only letters, numbers, underscores, and periods allowed",
+              maxLength: {
+                value: 160,
+                message: "Bio cannot exceed 160 characters",
               },
             }}
-            name="handle"
+            name="bio"
             render={({ field: { onChange, value, onBlur } }) => (
               <PrimaryTextInputControl
-                placeholder="Username"
+                ref={bioRef}
+                placeholder="Write a short bio about yourself"
                 value={value}
                 onChangeText={onChange}
-                returnKeyType="done"
-                autoCapitalize="none"
+                multiline
+                numberOfLines={4}
+                textAlignVertical="top"
                 onBlur={onBlur}
-                error={!!errors.handle || !!networkError}
-                errorMessage={errors.handle?.message ?? networkError}
+                error={!!errors.bio}
+                errorMessage={errors.bio?.message}
+                style={{ height: 100 }}
+                returnKeyType="done"
               />
             )}
           />
         </View>
         <OText className="text-gray-500 dark:text-gray-400">
-          Your username is unique and helps others find you.
+          Tell others a bit about yourself. What are your interests?
           {"\n\n"}
-          It can contain letters, numbers, underscores and periods, but no
-          spaces.
+          Your bio will be visible on your profile to all users.
         </OText>
       </View>
     </Ozone>

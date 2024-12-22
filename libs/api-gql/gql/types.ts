@@ -329,6 +329,7 @@ export type CommunityMembership = Node & {
 
 export type CommunityUpdateInput = {
   id: Scalars['ID']['input'];
+  isPublic?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 

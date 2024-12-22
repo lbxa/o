@@ -1,13 +1,11 @@
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
-import { useZustStore } from "@/state";
-import { ComingSoonBadge, ModalCloseButton } from "@/universe/atoms";
+import { ModalCloseButton } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
-  const { selectedCommunity } = useZustStore();
   const sharedHeaderOptions = useSharedHeaderOptions();
   return (
     <Stack
@@ -19,7 +17,7 @@ export default function CommunityRootLayout() {
         name="index"
         options={{
           headerLeft: () => (
-            <Text className="text-3xl font-bold text-black dark:text-ivory">
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
               Community
             </Text>
           ),
@@ -30,7 +28,7 @@ export default function CommunityRootLayout() {
         name="invite"
         options={{
           headerLeft: () => (
-            <Text className="text-xl font-bold text-black dark:text-ivory">
+            <Text className="dark:text-ivory text-xl font-bold text-black">
               Invite your friends
             </Text>
           ),
@@ -42,20 +40,7 @@ export default function CommunityRootLayout() {
       <Stack.Screen
         name="manage"
         options={{
-          headerLeft: () => (
-            <View className="mr-auto flex max-w-[80%] flex-row items-center gap-sm">
-              <Text
-                className="text-xl font-bold text-black dark:text-ivory"
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                Manage {selectedCommunity?.name ?? ""}
-              </Text>
-              <ComingSoonBadge size="sm" />
-            </View>
-          ),
-          headerRight: () => <ModalCloseButton />,
-          presentation: "modal",
+          headerShown: false,
         }}
       />
       <Stack.Screen
