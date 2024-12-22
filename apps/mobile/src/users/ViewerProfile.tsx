@@ -1,11 +1,10 @@
-import CameraIcon from "@assets/icons/camera.svg";
 import { RefreshControl, ScrollView, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
 import type { ViewerProfile_viewer$key } from "@/__generated__/ViewerProfile_viewer.graphql";
 import type { ViewerProfileQuery } from "@/__generated__/ViewerProfileQuery.graphql";
-import { OText, OTouchable } from "@/universe/atoms";
+import { OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
 import { useNoSuspenseRefetch } from "../relay";
@@ -71,7 +70,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
             )}
           </View>
           {viewer?.user?.bio && (
-            <OText className="text-lg">{viewer.user.bio}</OText>
+            <OText className="text-center text-lg">{viewer.user.bio}</OText>
           )}
         </View>
       </ScrollView>

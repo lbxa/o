@@ -1,4 +1,5 @@
 import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
 import { useLazyLoadQuery, useMutation } from "react-relay";
@@ -15,6 +16,9 @@ interface HandleFormData {
 
 export default function Handle() {
   const router = useRouter();
+  const [networkError, setNetworkError] = useState<string | undefined>(
+    undefined
+  );
   const user = useLazyLoadQuery<handleQuery>(
     graphql`
       query handleQuery {
@@ -62,7 +66,11 @@ export default function Handle() {
           handle: data.handle,
         },
       },
+      onError: (e) => {
+        setNetworkError(e.message.split("\n")[1]);
+      },
       onCompleted: () => {
+        setNetworkError(undefined);
         router.back();
       },
     });
@@ -106,8 +114,8 @@ export default function Handle() {
                 returnKeyType="done"
                 autoCapitalize="none"
                 onBlur={onBlur}
-                error={!!errors.handle}
-                errorMessage={errors.handle?.message}
+                error={!!errors.handle || !!networkError}
+                errorMessage={errors.handle?.message ?? networkError}
               />
             )}
           />

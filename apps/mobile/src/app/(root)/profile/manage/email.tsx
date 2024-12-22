@@ -1,5 +1,5 @@
 import { Stack, useRouter } from "expo-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { TextInput } from "react-native";
 import { View } from "react-native";
@@ -16,6 +16,9 @@ interface EmailFormData {
 
 export default function Email() {
   const router = useRouter();
+  const [networkError, setNetworkError] = useState<string | undefined>(
+    undefined
+  );
   const emailRef = useRef<TextInput>(null);
 
   const user = useLazyLoadQuery<emailQuery>(
@@ -65,7 +68,11 @@ export default function Email() {
           email: data.email,
         },
       },
+      onError: (e) => {
+        setNetworkError(e.message.split("\n")[1]);
+      },
       onCompleted: () => {
+        setNetworkError(undefined);
         router.back();
       },
     });
@@ -110,8 +117,8 @@ export default function Email() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 onBlur={onBlur}
-                error={!!errors.email}
-                errorMessage={errors.email?.message}
+                error={!!errors.email || !!networkError}
+                errorMessage={errors.email?.message ?? networkError}
               />
             )}
           />
