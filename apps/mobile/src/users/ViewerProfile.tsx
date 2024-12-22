@@ -11,6 +11,7 @@ import { Ozone } from "@/universe/molecules";
 import { useNoSuspenseRefetch } from "../relay";
 import { APP_ROOT_QUERY } from "../root";
 import { UserProfileStats } from "./UserProfileStats";
+import { UserAvatar } from "./UserSearch/UserAvatar";
 
 export const VIEWER_PROFILE_QUERY = graphql`
   query ViewerProfileQuery {
@@ -59,11 +60,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
         }
       >
         <View className="mb-md flex grow flex-col items-center gap-lg p-md">
-          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
-            <View className="m-auto">
-              <CameraIcon width={45} height={45} fill={"grey"} />
-            </View>
-          </OTouchable>
+          {viewer?.user && <UserAvatar user={viewer.user} />}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
           <View className="flex flex-col items-center gap-sm">
             <OText className="text-3xl font-bold">

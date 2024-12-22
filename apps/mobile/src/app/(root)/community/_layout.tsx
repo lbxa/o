@@ -23,9 +23,7 @@ export default function CommunityRootLayout() {
               Community
             </Text>
           ),
-          headerRight: () => (
-            <MiniNav items={["create", "search", "message"]} />
-          ),
+          headerRight: () => <MiniNav items={["create", "search"]} />,
         }}
       />
       <Stack.Screen

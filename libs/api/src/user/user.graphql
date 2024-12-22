@@ -66,6 +66,7 @@ input UserUpdateInput {
   lastName: String
   handle: String
   email: String
+  bio: String
 }
 
 type ValidEmailResponse {

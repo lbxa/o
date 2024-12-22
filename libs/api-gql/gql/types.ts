@@ -696,6 +696,7 @@ export type UserFriendshipStatus = {
 };
 
 export type UserUpdateInput = {
+  bio?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   handle?: InputMaybe<Scalars['String']['input']>;

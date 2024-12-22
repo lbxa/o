@@ -41,11 +41,6 @@ export default function ChallengeDetailsRoute() {
               headerLeft: () => (
                 <Skeleton className="mr-auto h-8 w-10/12 rounded-xl" />
               ),
-              headerRight: () => (
-                <View className="flex flex-row items-center">
-                  <Skeleton className="size-8 rounded-full" />
-                </View>
-              ),
             }}
           />
           <ScrollView>

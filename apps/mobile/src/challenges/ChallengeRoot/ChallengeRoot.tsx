@@ -45,7 +45,6 @@ export const ChallengeRoot = ({
             challengeRoot.viewer?.challenge && (
               <ChallengeHeader fragmentRef={challengeRoot.viewer.challenge} />
             ),
-          headerRight: () => <MiniNav items={["message"]} />,
         }}
       />
       <ChallengeActivity

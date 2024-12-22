@@ -451,6 +451,7 @@ type UserFriendshipStatus {
 }
 
 input UserUpdateInput {
+  bio: String
   email: String
   firstName: String
   handle: String

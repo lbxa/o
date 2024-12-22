@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import type { TextProps } from "react-native";
 import { Text } from "react-native";
 
 interface OTextProps {
@@ -6,9 +7,16 @@ interface OTextProps {
   className?: string;
 }
 
-export const OText = ({ children, className }: OTextProps) => {
+export const OText = ({
+  children,
+  className,
+  ...props
+}: OTextProps & TextProps) => {
   return (
-    <Text className={classNames("text-black dark:text-ivory", className)}>
+    <Text
+      className={classNames("text-black dark:text-ivory", className)}
+      {...props}
+    >
       {children}
     </Text>
   );

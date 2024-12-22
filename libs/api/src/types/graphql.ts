@@ -122,6 +122,7 @@ export interface UserUpdateInput {
     lastName?: Nullable<string>;
     handle?: Nullable<string>;
     email?: Nullable<string>;
+    bio?: Nullable<string>;
 }
 
 export interface Node {
