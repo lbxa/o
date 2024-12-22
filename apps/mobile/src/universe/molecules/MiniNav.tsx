@@ -12,8 +12,8 @@ import { useColorScheme, View } from "react-native";
 import { OTouchable } from "../atoms";
 
 const ICON_DIM = {
-  width: 20,
-  height: 20,
+  width: 22,
+  height: 22,
 } as const;
 
 interface MiniNavItemProps {
@@ -26,10 +26,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
 }) => {
   const router = useRouter();
   return (
-    <OTouchable
-      onPress={() => router.push(href)}
-      className="rounded-full bg-ivory p-xs dark:bg-white/20"
-    >
+    <OTouchable onPress={() => router.push(href)} className="rounded-full p-xs">
       <View>{children}</View>
     </OTouchable>
   );
