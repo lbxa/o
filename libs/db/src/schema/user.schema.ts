@@ -5,6 +5,7 @@ import {
   pgSchema,
   text,
   unique,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -19,15 +20,18 @@ export const UsersTable = UserSchema.table(
     ...withIdPk,
     firstName: text().notNull(),
     lastName: text().notNull(),
-    email: varchar({ length: 255 }).unique().notNull(),
+    email: varchar({ length: 255 }).notNull(),
     handle: varchar({ length: 255 }).unique(),
-    bio: text(),
+    bio: varchar({ length: 160 }),
     password: varchar({ length: 255 }).notNull(),
     refreshToken: varchar({ length: 1000 }),
     avatarUrl: varchar({ length: 1000 }),
     ...withModificationDates,
   },
   (table) => ({
+    emailUniqueIndex: uniqueIndex("email_unique_index").on(
+      sql`lower(${table.email})`
+    ),
     searchIndex: index("search_index").using(
       "gin",
       sql`(

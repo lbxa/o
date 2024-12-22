@@ -36,7 +36,7 @@ function ManageMenuItem({ label, value, route }: ManageMenuItemProps) {
   return (
     <OTouchable
       onPress={() => router.push(route)}
-      className="flex-row items-center justify-between border-b border-gray-200 py-sm dark:border-gray-700"
+      className="py-sm flex-row items-center justify-between border-b border-gray-200 dark:border-gray-700"
     >
       <OText className="w-3/12 text-gray-500">{label}</OText>
       {value && (
@@ -77,13 +77,13 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
 
   return (
     <Ozone>
-      <View className="flex flex-col gap-md p-md">
-        <OTouchable className="mx-auto mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
+      <View className="gap-md p-md flex flex-col">
+        <OTouchable className="mb-md mx-auto flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
           <View className="m-auto">
             <CameraIcon width={45} height={45} fill={"grey"} />
           </View>
         </OTouchable>
-        <View className="mb-lg flex flex-col gap-sm">
+        <View className="mb-lg gap-sm flex flex-col">
           <ManageMenuItem
             label="Name"
             value={`${user?.firstName} ${user?.lastName}`}
@@ -107,7 +107,7 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
         </View>
         <OButton
           title="Logout"
-          type="primary"
+          type="secondary"
           variant="red"
           loading={isMutationInFlight}
           onPress={logout}
