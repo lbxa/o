@@ -1,15 +1,15 @@
-import CameraIcon from "@assets/icons/camera.svg";
 import { RefreshControl, ScrollView, View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
 import type { ViewerProfile_viewer$key } from "@/__generated__/ViewerProfile_viewer.graphql";
 import type { ViewerProfileQuery } from "@/__generated__/ViewerProfileQuery.graphql";
-import { OText, OTouchable } from "@/universe/atoms";
+import { OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
 import { useNoSuspenseRefetch } from "../relay";
 import { APP_ROOT_QUERY } from "../root";
+import { UserAvatar } from "./UserAvatar";
 import { UserProfileStats } from "./UserProfileStats";
 
 export const VIEWER_PROFILE_QUERY = graphql`
@@ -59,11 +59,9 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
         }
       >
         <View className="mb-md flex grow flex-col items-center gap-lg p-md">
-          <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
-            <View className="m-auto">
-              <CameraIcon width={45} height={45} fill={"grey"} />
-            </View>
-          </OTouchable>
+          {viewer?.user && (
+            <UserAvatar user={viewer.user} className="mb-md" size="lg" />
+          )}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
           <View className="flex flex-col items-center gap-sm">
             <OText className="text-3xl font-bold">
@@ -74,7 +72,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
             )}
           </View>
           {viewer?.user?.bio && (
-            <OText className="text-lg">{viewer.user.bio}</OText>
+            <OText className="text-center text-lg">{viewer.user.bio}</OText>
           )}
         </View>
       </ScrollView>

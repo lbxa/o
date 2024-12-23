@@ -1,4 +1,3 @@
-import CameraIcon from "@assets/icons/camera.svg";
 import { InvitationStatus } from "@o/api-gql";
 import { useMemo, useState } from "react";
 import { View } from "react-native";
@@ -15,9 +14,10 @@ import type { UserProfile_userFriendshipStatus$key } from "@/__generated__/UserP
 import type { UserProfileAddFriendMutation } from "@/__generated__/UserProfileAddFriendMutation.graphql";
 import type { UserProfileQuery } from "@/__generated__/UserProfileQuery.graphql";
 import type { OButtonType, OButtonVariant } from "@/universe/atoms";
-import { OButton, OText, OTouchable } from "@/universe/atoms";
+import { OButton, OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
+import { UserAvatar } from "./UserAvatar";
 import { UserProfileStats } from "./UserProfileStats";
 
 interface ButtonConfig {
@@ -190,11 +190,7 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
   return (
     <Ozone>
       <View className="mx-auto flex flex-col items-center justify-center gap-lg px-md pb-md">
-        <OTouchable className="mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
-          <View className="m-auto">
-            <CameraIcon width={45} height={45} fill={"grey"} />
-          </View>
-        </OTouchable>
+        {user && <UserAvatar user={user} className="mb-md" size="lg" />}
         {user && <UserProfileStats user={user} />}
         <View className="flex flex-col items-center gap-sm">
           <OText className="text-3xl font-bold">

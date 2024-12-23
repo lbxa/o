@@ -43,6 +43,7 @@ input CommunityCreateInput {
 input CommunityUpdateInput {
   id: ID!
   name: String
+  isPublic: Boolean
 }
 
 type CommunityEdge {

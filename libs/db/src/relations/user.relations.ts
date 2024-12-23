@@ -11,9 +11,13 @@ import {
   CommunityInvitationsTable,
   CommunityMembershipsTable,
 } from "../schema/community.schema";
-import { UserFriendshipsTable, UsersTable } from "../schema/user.schema";
+import {
+  UserFriendshipsTable,
+  UsersTable,
+  UserStreaksTable,
+} from "../schema/user.schema";
 
-export const UsersRelations = relations(UsersTable, ({ many }) => ({
+export const UsersRelations = relations(UsersTable, ({ many, one }) => ({
   ownedCommunities: many(CommunitiesTable),
   communityMemberships: many(CommunityMembershipsTable),
   communityInvitationsSent: many(CommunityInvitationsTable, {
@@ -37,6 +41,10 @@ export const UsersRelations = relations(UsersTable, ({ many }) => ({
   followers: many(UserFriendshipsTable, {
     relationName: "friend",
   }),
+  streak: one(UserStreaksTable, {
+    fields: [UsersTable.id],
+    references: [UserStreaksTable.userId],
+  }),
 }));
 
 export const UserFriendshipsRelations = relations(
@@ -55,3 +63,10 @@ export const UserFriendshipsRelations = relations(
     }),
   })
 );
+
+export const UserStreaksRelations = relations(UserStreaksTable, ({ one }) => ({
+  user: one(UsersTable, {
+    fields: [UserStreaksTable.userId],
+    references: [UsersTable.id],
+  }),
+}));

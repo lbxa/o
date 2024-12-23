@@ -329,6 +329,7 @@ export type CommunityMembership = Node & {
 
 export type CommunityUpdateInput = {
   id: Scalars['ID']['input'];
+  isPublic?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -367,6 +368,7 @@ export type Mutation = {
   communityJoin: CommunityJoinPayload;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
+  updateUserStreak: UserStreak;
   /** Accept a friendship */
   userAcceptFriendship: UserFriendship;
   /** Decline a friendship */
@@ -460,6 +462,11 @@ export type MutationCommunityLeaveArgs = {
 
 export type MutationCommunityUpdateArgs = {
   communityUpdateInput: CommunityUpdateInput;
+};
+
+
+export type MutationUpdateUserStreakArgs = {
+  input: UserStreakUpdateInput;
 };
 
 
@@ -593,6 +600,7 @@ export type Tokens = {
 /** A user of the app */
 export type User = Node & Timestamps & {
   __typename?: 'User';
+  avatarUrl?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   buddyCount?: Maybe<Scalars['Int']['output']>;
   challengeActivityResultsCount?: Maybe<Scalars['Int']['output']>;
@@ -613,7 +621,10 @@ export type User = Node & Timestamps & {
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
   searchFriends?: Maybe<Array<User>>;
+  /** The streak of consecutive days that the user has completed a challenge. */
+  streak?: Maybe<UserStreak>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -695,7 +706,30 @@ export type UserFriendshipStatus = {
   outgoing?: Maybe<UserFriendship>;
 };
 
+/**
+ * Represents the streak of consecutive days that a user has completed a challenge.
+ * It can be any challenge from any community.
+ */
+export type UserStreak = Node & Timestamps & {
+  __typename?: 'UserStreak';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** The current streak of consecutive days that the user has completed a challenge */
+  currentStreak: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  /** The longest streak of consecutive days that the user has completed a challenge */
+  longestStreak?: Maybe<Scalars['Int']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+};
+
+export type UserStreakUpdateInput = {
+  currentStreak: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+  longestStreak: Scalars['Int']['input'];
+};
+
 export type UserUpdateInput = {
+  bio?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   handle?: InputMaybe<Scalars['String']['input']>;

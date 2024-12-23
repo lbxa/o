@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<688806c5b325e53a0302898494a6b656>>
+ * @generated SignedSource<<290f4c8ab09d6c71331aa997fd6338ed>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -24,6 +24,10 @@ export type UserResultCard_challenge$data = {
     readonly firstName: string | null | undefined;
     readonly id: string;
     readonly lastName: string | null | undefined;
+    readonly streak: {
+      readonly currentStreak: number;
+      readonly id: string;
+    } | null | undefined;
   };
   readonly " $fragmentType": "UserResultCard_challenge";
 };
@@ -69,6 +73,25 @@ return {
           "kind": "ScalarField",
           "name": "lastName",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "UserStreak",
+          "kind": "LinkedField",
+          "name": "streak",
+          "plural": false,
+          "selections": [
+            (v0/*: any*/),
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "currentStreak",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -112,6 +135,6 @@ return {
 };
 })();
 
-(node as any).hash = "94c1bd2a62534d2e4e76ede38ee976fb";
+(node as any).hash = "75035c2e3c906f800bff80b5fccd5156";
 
 export default node;

@@ -1,0 +1,30 @@
+"""
+Represents the streak of consecutive days that a user has completed a challenge.
+It can be any challenge from any community.
+"""
+type UserStreak implements Node & Timestamps {
+  id: ID!
+  user: User
+
+  """
+  The current streak of consecutive days that the user has completed a challenge
+  """
+  currentStreak: Int!
+
+  """
+  The longest streak of consecutive days that the user has completed a challenge
+  """
+  longestStreak: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserStreakUpdateInput {
+  id: ID!
+  currentStreak: Int!
+  longestStreak: Int!
+}
+
+extend type Mutation {
+  updateUserStreak(input: UserStreakUpdateInput!): UserStreak!
+}

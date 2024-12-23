@@ -24,20 +24,6 @@ export default function CommunityHomeRoute() {
     <Suspense
       fallback={
         <Ozone>
-          {/* <Stack.Screen
-            options={{
-              headerLeft: () => (
-                <Skeleton className="mr-auto h-8 w-10/12 rounded-xl" />
-              ),
-              headerRight: () => (
-                <View className="flex flex-row items-center gap-sm">
-                  <Skeleton className="size-8 rounded-full" />
-                  <Skeleton className="size-8 rounded-full" />
-                  <Skeleton className="size-8 rounded-full" />
-                </View>
-              ),
-            }}
-          /> */}
           <View className="pt-sm">
             <CommunityListSkeleton />
           </View>

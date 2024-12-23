@@ -3,11 +3,11 @@ import { Link, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { TextInput } from "react-native";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useMutation } from "react-relay";
 import { graphql } from "react-relay";
 
-import { OButton, PrimaryTextInputControl } from "@/universe/atoms";
+import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { OPasswordInput } from "@/universe/atoms/OPasswordInput";
 import { Ozone } from "@/universe/molecules";
 
@@ -280,7 +280,9 @@ export const UserCreate = () => {
         />
 
         {error && (
-          <Text className="mb-md text-center text-red-900">{error}</Text>
+          <OText className="mb-md text-center" error>
+            {error}
+          </OText>
         )}
 
         <OButton

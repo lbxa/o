@@ -53,8 +53,8 @@ const secondaryVariantMatrix: VariantMatrix = {
     front: "text-navy dark:text-navy-light",
   },
   red: {
-    back: "bg-red-200",
-    front: "text-red-800 dark:text-red-300",
+    back: "bg-red-200 dark:bg-red-900",
+    front: "text-red-800 dark:text-red-200",
   },
   gray: {
     back: "bg-gray-300/80 dark:bg-gray-300/30",

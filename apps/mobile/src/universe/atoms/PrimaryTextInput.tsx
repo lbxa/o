@@ -15,7 +15,7 @@ export const PrimaryTextInput = forwardRef<TextInput, PrimaryTextInputProps>(
       "bg-ivory rounded-lg px-sm py-3 dark:bg-neutral-800 dark:text-ivory",
       className,
       {
-        "bg-red-200 color-red-900": error,
+        "bg-red-200 color-red-900 dark:bg-red-900 dark:color-red-200": error,
       }
     );
 

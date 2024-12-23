@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2c39a11c37302f33eb7e7af6c285ee49>>
+ * @generated SignedSource<<66f6a9d349a0b715382c6c69a8dfeebe>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -247,6 +247,25 @@ return {
                                 "kind": "ScalarField",
                                 "name": "lastName",
                                 "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "UserStreak",
+                                "kind": "LinkedField",
+                                "name": "streak",
+                                "plural": false,
+                                "selections": [
+                                  (v2/*: any*/),
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "currentStreak",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -339,12 +358,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1976d8f22e33791063b229f09681a740",
+    "cacheID": "74ea4a48794b897f8be2ec9b49c5ba68",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeHeader_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults(first: 3) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeHeader_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeHeader_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults(first: 3) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeHeader_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
   }
 };
 })();

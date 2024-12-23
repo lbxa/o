@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import type { TextInput } from "react-native";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
+import { OText } from "./OText";
 import type { PrimaryTextInputProps } from "./PrimaryTextInput";
 import { PrimaryTextInput } from "./PrimaryTextInput";
 
@@ -16,9 +17,9 @@ export const PrimaryTextInputControl = forwardRef<
   <View className={className}>
     <PrimaryTextInput ref={ref} {...props} error={error} />
     {error && errorMessage && (
-      <Text className="pl-sm pt-sm text-red-900 dark:text-red-200">
+      <OText className="pl-sm pt-sm" error>
         {errorMessage}
-      </Text>
+      </OText>
     )}
   </View>
 ));

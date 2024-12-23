@@ -22,12 +22,14 @@ import { ConnectionArgs, validateAndDecodeGlobalId } from "../utils";
 import { decodeGlobalId } from "../utils";
 import { UserService } from "./user.service";
 import { UserFriendshipsService } from "./user-friendships/user-friendships.service";
+import { UserStreaksService } from "./user-streaks";
 
 @Resolver("User")
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly userFriendshipsService: UserFriendshipsService,
+    private readonly userStreaksService: UserStreaksService,
     private readonly challengeActivityResultsService: ChallengeActivityResultsService
   ) {}
 
@@ -101,6 +103,12 @@ export class UserResolver {
   ) {
     const decodedId = validateAndDecodeGlobalId(friendId, "User");
     return this.userFriendshipsService.removeFriendship(userId, decodedId);
+  }
+
+  @ResolveField("streak")
+  async streak(@Parent() user: User) {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    return this.userStreaksService.findByUserId(decodedUserId);
   }
 
   @ResolveField("followers")

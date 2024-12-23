@@ -5,7 +5,6 @@ import { Text } from "react-native";
 import { MiniNav } from "@/universe/molecules";
 
 import { useSharedHeaderOptions } from "../../../shared";
-import { ModalCloseButton } from "../../../universe/atoms";
 import { useOTheme } from "../../../utils";
 
 const colors = tailwind.theme.extend.colors;
@@ -42,14 +41,7 @@ export default function Root() {
       <Stack.Screen
         name="manage"
         options={{
-          headerLeft: () => (
-            <Text className="text-xl font-bold text-black dark:text-ivory">
-              Manage Profile
-            </Text>
-          ),
-          headerRight: () => <ModalCloseButton />,
-          headerBackVisible: true,
-          presentation: "modal",
+          headerShown: false,
         }}
       />
     </Stack>

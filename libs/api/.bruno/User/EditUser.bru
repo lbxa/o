@@ -1,0 +1,51 @@
+meta {
+  name: EditUser
+  type: graphql
+  seq: 8
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    userUpdate(userUpdateInput: {
+      id: "VXNlcjoxCg=="
+      # handle: "updated_handle"
+      # firstName: "Updated"
+      lastName: "Barbosa"
+      bio: "My new bio"
+    }) {
+      id
+      handle
+      firstName
+      lastName
+      bio
+      email
+      createdAt
+      updatedAt
+      followerCount
+      followingCount
+      buddyCount
+      challengeActivityResultsCount
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

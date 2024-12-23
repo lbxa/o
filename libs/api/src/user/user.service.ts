@@ -7,7 +7,12 @@ import { eq } from "drizzle-orm";
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity";
 import { User as GqlUser, UserUpdateInput } from "../types/graphql";
-import { CryptoService, encodeGlobalId } from "../utils";
+import {
+  CryptoService,
+  encodeGlobalId,
+  validateAndDecodeGlobalId,
+} from "../utils";
+import { NotFoundError } from "../utils/errors";
 import { fullTextSearch } from "./utils/full-text-search.pg";
 
 @Injectable()
@@ -73,10 +78,25 @@ export class UserService
     return results.map((result) => this.pg2GqlMapper(result));
   }
 
-  update(updateUserInput: UserUpdateInput) {
-    return {
-      ...updateUserInput,
-    };
+  async update(updateUserInput: UserUpdateInput): Promise<GqlUser> {
+    const { id: globalId, ...updates } = updateUserInput;
+    const id = validateAndDecodeGlobalId(globalId, "User");
+
+    const filteredUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([_, value]) => value !== null)
+    );
+
+    const [updatedUser] = await this.dbService.db
+      .update(UsersTable)
+      .set(filteredUpdates)
+      .where(eq(UsersTable.id, id))
+      .returning();
+
+    if (!updatedUser) {
+      throw new NotFoundError(`User with id ${id} not found`);
+    }
+
+    return this.pg2GqlMapper(updatedUser);
   }
 
   remove(id: number) {
