@@ -15,12 +15,12 @@ export const UserStreak = ({ streak }: { streak: number }) => {
     orange: {
       bg: "bg-orange-200 dark:bg-orange-500",
       text: "text-orange-400 dark:text-ivory",
-      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.orange[400],
+      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.tailwindColors.orange[400],
     },
     red: {
       bg: "bg-red-200 dark:bg-red-500",
       text: "text-red-500 dark:text-ivory",
-      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.red[500],
+      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.tailwindColors.red[500],
     },
     indigo: {
       bg: "bg-indigo-200 dark:bg-indigo-500",
@@ -30,7 +30,7 @@ export const UserStreak = ({ streak }: { streak: number }) => {
     gray: {
       bg: "bg-gray-200 dark:bg-gray-500",
       text: "text-gray-500 dark:text-ivory",
-      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.gray[500],
+      fill: isDark ? COLORS.ivory.DEFAULT : COLORS.tailwindColors.gray[500],
     },
   };
 
