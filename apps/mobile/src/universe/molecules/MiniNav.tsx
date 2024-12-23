@@ -9,6 +9,8 @@ import type { PropsWithChildren } from "react";
 import React from "react";
 import { useColorScheme, View } from "react-native";
 
+import { useHasNotifications } from "@/users";
+
 import { OTouchable } from "../atoms";
 
 const ICON_DIM = {
@@ -18,16 +20,24 @@ const ICON_DIM = {
 
 interface MiniNavItemProps {
   href: Href;
+  hasNotifications?: boolean;
 }
 
 const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   children,
+  hasNotifications,
   href,
 }) => {
   const router = useRouter();
   return (
-    <OTouchable onPress={() => router.push(href)} className="rounded-full p-xs">
+    <OTouchable
+      onPress={() => router.push(href)}
+      className="relative rounded-full p-xs"
+    >
       <View>{children}</View>
+      {hasNotifications && (
+        <View className="absolute right-px top-px size-3 rounded-full border border-white bg-indigo-500 dark:border-black" />
+      )}
     </OTouchable>
   );
 };
@@ -56,13 +66,32 @@ export const MiniNav: React.FC<MiniNavProps> = ({
   itemConfigs = {},
 }) => {
   const colorScheme = useColorScheme();
+  const hasNotifications = useHasNotifications();
   const iconFill = colorScheme === "dark" ? "#edf4f8" : "#000000";
-  const NavIcons: Record<NavItemType, React.ReactElement> = {
-    create: <PlusIcon {...ICON_DIM} fill={iconFill} />,
-    search: <SearchIcon {...ICON_DIM} fill={iconFill} />,
-    message: <MessageIcon {...ICON_DIM} fill={iconFill} />,
-    manage: <MenuIcon {...ICON_DIM} fill={iconFill} />,
-    notifications: <BellIcon {...ICON_DIM} fill={iconFill} />,
+  const NavIcons: Record<
+    NavItemType,
+    { icon: React.ReactElement; hasNotifications?: boolean }
+  > = {
+    create: {
+      icon: <PlusIcon {...ICON_DIM} fill={iconFill} />,
+      hasNotifications: false,
+    },
+    search: {
+      icon: <SearchIcon {...ICON_DIM} fill={iconFill} />,
+      hasNotifications: false,
+    },
+    message: {
+      icon: <MessageIcon {...ICON_DIM} fill={iconFill} />,
+      hasNotifications: false,
+    },
+    manage: {
+      icon: <MenuIcon {...ICON_DIM} fill={iconFill} />,
+      hasNotifications: false,
+    },
+    notifications: {
+      icon: <BellIcon {...ICON_DIM} fill={iconFill} />,
+      hasNotifications,
+    },
   };
 
   const itemsToRender =
@@ -73,8 +102,12 @@ export const MiniNav: React.FC<MiniNavProps> = ({
       {itemsToRender.map((item) => {
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (
-          <MiniNavItem key={item} href={href}>
-            {NavIcons[item]}
+          <MiniNavItem
+            key={item}
+            href={href}
+            hasNotifications={NavIcons[item].hasNotifications}
+          >
+            {NavIcons[item].icon}
           </MiniNavItem>
         );
       })}

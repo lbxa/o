@@ -50,6 +50,12 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
+        name="community-message"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Community Chat" />,
+        }}
+      />
+      <Stack.Screen
         name="challenge"
         options={{
           headerShown: false,

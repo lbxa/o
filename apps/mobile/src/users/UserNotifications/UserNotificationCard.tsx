@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
@@ -10,7 +11,8 @@ import type { UserNotificationCard_notification$key } from "@/__generated__/User
 import type { UserNotificationCardAcceptFriendMutation } from "@/__generated__/UserNotificationCardAcceptFriendMutation.graphql";
 import type { UserNotificationCardDeclineFriendMutation } from "@/__generated__/UserNotificationCardDeclineFriendMutation.graphql";
 
-import { OButton, OText } from "../../universe/atoms";
+import { OButton, OText, OTouchable } from "../../universe/atoms";
+import { UserAvatar } from "../UserAvatar";
 import { UserMutuals } from "./UserMutuals";
 
 interface UserNotificationCardProps {
@@ -20,6 +22,7 @@ interface UserNotificationCardProps {
 export const UserNotificationCard = ({
   fragmentRef,
 }: UserNotificationCardProps) => {
+  const router = useRouter();
   const [_, setNetworkRequestStatus] = useState<
     "pending" | "success" | "error" | undefined
   >(undefined);
@@ -98,8 +101,11 @@ export const UserNotificationCard = ({
 
   return (
     <View className="mb-lg flex w-full flex-col gap-md">
-      <View className="flex flex-row items-center gap-sm">
-        <View className="size-16 rounded-full bg-gray-300 dark:bg-white/20" />
+      <OTouchable
+        className="flex flex-row items-center gap-sm"
+        onPress={() => router.push(`/(modals)/${notification.user.id}`)}
+      >
+        <UserAvatar user={notification.user} size="md" />
         <View className="flex flex-1 flex-col">
           <View className="flex flex-row items-center justify-between">
             <OText className="text-xl font-semibold">
@@ -113,7 +119,7 @@ export const UserNotificationCard = ({
           </View>
           <UserMutuals mutuals={3} />
         </View>
-      </View>
+      </OTouchable>
       <View className="flex w-full flex-row gap-md">
         <OButton
           title="Confirm"

@@ -1,5 +1,6 @@
 import ChevronLeftIcon from "@assets/icons/chevron-left.svg";
 import VerifiedBadgeIcon from "@assets/icons/verified-badge.svg";
+import classNames from "classnames";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
@@ -31,13 +32,18 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   );
 
   return (
-    <View className="mr-auto flex flex-row items-center gap-sm">
+    <View className="gap-sm mr-auto flex flex-row items-center">
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon fill={svgFill} />
       </OTouchable>
-      <View className="flex w-10/12 flex-row items-center gap-sm">
+      <View
+        className={classNames("flex flex-row items-center gap-sm", {
+          "w-9/12": communityFragment?.isVerified,
+          "w-10/12": !communityFragment?.isVerified,
+        })}
+      >
         <Text
-          className="text-3xl font-bold text-black dark:text-ivory"
+          className="dark:text-ivory text-3xl font-bold text-black"
           numberOfLines={1}
           ellipsizeMode="tail"
         >
