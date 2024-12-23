@@ -4,7 +4,7 @@ import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
 import type { ChallengeRootQuery } from "@/__generated__/ChallengeRootQuery.graphql";
-import { Ozone } from "@/universe/molecules";
+import { MiniNav, Ozone } from "@/universe/molecules";
 
 import { useSharedHeaderOptions } from "../../shared";
 import { ChallengeActivity } from "./ChallengeActivity";
@@ -45,6 +45,16 @@ export const ChallengeRoot = ({
             challengeRoot.viewer?.challenge && (
               <ChallengeHeader fragmentRef={challengeRoot.viewer.challenge} />
             ),
+          // headerRight: () => (
+          //   <MiniNav
+          //     items={["manage"]}
+          //     itemConfigs={{
+          //       manage: {
+          //         href: `/community/challenge/manage`,
+          //       },
+          //     }}
+          //   />
+          // ),
         }}
       />
       <ChallengeActivity

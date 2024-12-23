@@ -22,7 +22,7 @@ export default function Root() {
       <Stack.Screen
         name="index"
         options={{
-          headerLeft: () => <SharedHeaderTitle title="Manage Profile" />,
+          headerLeft: () => <SharedHeaderTitle title="Manage" />,
         }}
       />
       <Stack.Screen
