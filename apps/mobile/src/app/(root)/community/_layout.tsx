@@ -17,7 +17,7 @@ export default function CommunityRootLayout() {
         name="index"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-3xl font-bold text-black">
+            <Text className="text-3xl font-bold text-black dark:text-ivory">
               Community
             </Text>
           ),
@@ -28,7 +28,7 @@ export default function CommunityRootLayout() {
         name="invite"
         options={{
           headerLeft: () => (
-            <Text className="dark:text-ivory text-xl font-bold text-black">
+            <Text className="text-xl font-bold text-black dark:text-ivory">
               Invite your friends
             </Text>
           ),

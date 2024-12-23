@@ -72,10 +72,10 @@ export const UserResultCard = ({
 
   return (
     <View className="mt-sm flex-row items-center justify-between">
-      <View className="gap-sm flex-row items-center">
+      <View className="flex-row items-center gap-sm">
         <UserAvatar size="sm" user={userResult.user} />
         <View className="flex flex-col">
-          <View className="gap-sm flex-row items-center">
+          <View className="flex-row items-center gap-sm">
             <OText className="text-xl">
               {userResult.user.firstName + " " + userResult.user.lastName}
             </OText>

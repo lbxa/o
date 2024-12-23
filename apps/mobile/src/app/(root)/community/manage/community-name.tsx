@@ -103,7 +103,7 @@ export default function CommunityManageName() {
           ),
         }}
       />
-      <View className="gap-md px-md flex flex-col">
+      <View className="flex flex-col gap-md px-md">
         <View className="pt-md">
           <Controller
             control={control}

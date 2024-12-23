@@ -25,20 +25,16 @@ body:graphql {
       user {
         ...User
       }
-      community(communityId: "Q29tbXVuaXR5OjYx") {
-        name
-        isPublic
-        memberCount
-        invitations(first: 5) {
-          edges {
-            node {
-              id
-              inviter {
-                ...User
+      communities(first: 10) {
+        edges {
+          node {
+            name
+            challenges {
+              edges {
+                node {
+                  name
+                }
               }
-              invitee {
-                ...User
-  						}
             }
           }
         }

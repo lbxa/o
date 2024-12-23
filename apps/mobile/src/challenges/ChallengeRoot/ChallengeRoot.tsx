@@ -4,7 +4,7 @@ import type { PreloadedQuery } from "react-relay";
 import { graphql, usePreloadedQuery } from "react-relay";
 
 import type { ChallengeRootQuery } from "@/__generated__/ChallengeRootQuery.graphql";
-import { MiniNav, Ozone } from "@/universe/molecules";
+import { Ozone } from "@/universe/molecules";
 
 import { useSharedHeaderOptions } from "../../shared";
 import { ChallengeActivity } from "./ChallengeActivity";

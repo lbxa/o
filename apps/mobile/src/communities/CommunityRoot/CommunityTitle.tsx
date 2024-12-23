@@ -32,7 +32,7 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
   );
 
   return (
-    <View className="gap-sm mr-auto flex flex-row items-center">
+    <View className="mr-auto flex flex-row items-center gap-sm">
       <OTouchable onPress={() => router.back()}>
         <ChevronLeftIcon fill={svgFill} />
       </OTouchable>
@@ -43,7 +43,7 @@ export const CommunityTitle: React.FC<CommunityTitleProps> = ({
         })}
       >
         <Text
-          className="dark:text-ivory text-3xl font-bold text-black"
+          className="text-3xl font-bold text-black dark:text-ivory"
           numberOfLines={1}
           ellipsizeMode="tail"
         >
