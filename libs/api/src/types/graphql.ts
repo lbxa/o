@@ -117,6 +117,12 @@ export interface CommunityUpdateInput {
     isPublic?: Nullable<boolean>;
 }
 
+export interface UserStreakUpdateInput {
+    id: string;
+    currentStreak: number;
+    longestStreak: number;
+}
+
 export interface UserUpdateInput {
     id: string;
     firstName?: Nullable<string>;
@@ -173,6 +179,7 @@ export interface IMutation {
     communityInviteDecline(inviteId: string): CommunityInviteDeclinePayload | Promise<CommunityInviteDeclinePayload>;
     communityJoin(inviteId: string): CommunityJoinPayload | Promise<CommunityJoinPayload>;
     communityLeave(id: string): boolean | Promise<boolean>;
+    updateUserStreak(input: UserStreakUpdateInput): UserStreak | Promise<UserStreak>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
     userRequestFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
     userAcceptFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
@@ -379,6 +386,16 @@ export interface PageInfo {
     endCursor?: Nullable<string>;
 }
 
+export interface UserStreak extends Node, Timestamps {
+    __typename?: 'UserStreak';
+    id: string;
+    user: User;
+    currentStreak?: Nullable<number>;
+    longestStreak?: Nullable<number>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
 export interface User extends Node, Timestamps {
     __typename?: 'User';
     id: string;
@@ -388,8 +405,11 @@ export interface User extends Node, Timestamps {
     bio?: Nullable<string>;
     email?: Nullable<string>;
     password?: Nullable<string>;
+    avatarUrl?: Nullable<string>;
+    refreshToken?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
+    streak?: Nullable<UserStreak>;
     followers?: Nullable<UserConnection>;
     following?: Nullable<UserConnection>;
     searchFriends?: Nullable<User[]>;

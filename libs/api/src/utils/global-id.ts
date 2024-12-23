@@ -34,7 +34,8 @@ type EntitySecondaryIdentifiers =
   | "Invitation"
   | "Result"
   | "Membership"
-  | "Friendship";
+  | "Friendship"
+  | "Streak";
 
 export type EntityType =
   | EntityIdentifiers

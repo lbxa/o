@@ -311,6 +311,7 @@ type Mutation {
   communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  updateUserStreak(input: UserStreakUpdateInput!): UserStreak!
   """Accept a friendship"""
   userAcceptFriendship(friendId: ID!): UserFriendship!
   """Decline a friendship"""
@@ -375,6 +376,7 @@ type Tokens {
 
 """A user of the app"""
 type User implements Node & Timestamps {
+  avatarUrl: String
   bio: String
   buddyCount: Int
   challengeActivityResultsCount: Int
@@ -396,6 +398,10 @@ type User implements Node & Timestamps {
   lastName: String
   password: String
   searchFriends(searchTerm: String): [User!]
+  """
+  The streak of consecutive days that the user has completed a challenge.
+  """
+  streak: UserStreak
   updatedAt: DateTime
 }
 
@@ -449,6 +455,31 @@ type UserFriendshipStatus {
   Will be null if no friendship request exists in this direction.
   """
   outgoing: UserFriendship
+}
+
+"""
+Represents the streak of consecutive days that a user has completed a challenge.
+It can be any challenge from any community.
+"""
+type UserStreak implements Node & Timestamps {
+  createdAt: DateTime
+  """
+  The current streak of consecutive days that the user has completed a challenge
+  """
+  currentStreak: Int
+  id: ID!
+  """
+  The longest streak of consecutive days that the user has completed a challenge
+  """
+  longestStreak: Int
+  updatedAt: DateTime
+  user: User!
+}
+
+input UserStreakUpdateInput {
+  currentStreak: Int!
+  id: ID!
+  longestStreak: Int!
 }
 
 input UserUpdateInput {

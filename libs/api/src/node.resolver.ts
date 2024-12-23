@@ -8,6 +8,7 @@ import { CommunityInvitationsService } from "./community/community-invitations";
 import type { Node } from "./types/graphql";
 import { UserService } from "./user/user.service";
 import { UserFriendshipsService } from "./user/user-friendships";
+import { UserStreaksService } from "./user/user-streaks/user-streaks.service";
 import { decodeGlobalId } from "./utils";
 
 /**
@@ -27,6 +28,7 @@ export class NodeResolver {
     private readonly challengeService: ChallengeService,
     private readonly challengesActivitiesService: ChallengeActivitiesService,
     private readonly userFriendshipsService: UserFriendshipsService,
+    private readonly userStreaksService: UserStreaksService,
     // eslint-disable-next-line @stylistic/js/max-len
     private readonly challengeActivityResultsService: ChallengeActivityResultsService,
     private readonly communityInvitationsService: CommunityInvitationsService
@@ -52,6 +54,8 @@ export class NodeResolver {
         return this.challengeActivityResultsService.getTypename();
       case "UserFriendship":
         return this.userFriendshipsService.getTypename();
+      case "UserStreak":
+        return this.userStreaksService.getTypename();
       default:
         throw new Error(`Unknown entity type: ${entityType}`);
     }
@@ -78,6 +82,8 @@ export class NodeResolver {
         return this.challengeActivityResultsService.findById(decodedId);
       case "UserFriendship":
         return this.userFriendshipsService.findById(decodedId);
+      case "UserStreak":
+        return this.userStreaksService.findById(decodedId);
       default:
         throw new Error(`Unknown entity type: ${entityType}`);
     }

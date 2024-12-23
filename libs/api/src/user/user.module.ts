@@ -7,6 +7,8 @@ import { CryptoService } from "../utils";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
 import { UserFriendshipsService } from "./user-friendships";
+import { UserStreaksRepository } from "./user-streaks/user-streaks.repository";
+import { UserStreaksService } from "./user-streaks/user-streaks.service";
 
 @Module({
   imports: [
@@ -18,9 +20,11 @@ import { UserFriendshipsService } from "./user-friendships";
     UserResolver,
     UserService,
     UserFriendshipsService,
+    UserStreaksService,
+    UserStreaksRepository,
     CryptoService,
     JwtService,
   ],
-  exports: [UserService, UserFriendshipsService],
+  exports: [UserService, UserFriendshipsService, UserStreaksService],
 })
 export class UserModule {}

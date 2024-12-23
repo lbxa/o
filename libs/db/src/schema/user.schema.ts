@@ -63,8 +63,21 @@ export const UserFriendshipsTable = UserSchema.table(
   })
 );
 
+export const UserStreaksTable = UserSchema.table("streaks", {
+  ...withIdPk,
+  userId: integer()
+    .notNull()
+    .references(() => UsersTable.id, { onDelete: "cascade" }),
+  currentStreak: integer().notNull().default(0),
+  longestStreak: integer().notNull().default(0),
+  ...withModificationDates,
+});
+
 export type User = typeof UsersTable.$inferSelect;
 export type NewUser = typeof UsersTable.$inferInsert;
 
 export type UserFriendship = typeof UserFriendshipsTable.$inferSelect;
 export type NewUserFriendship = typeof UserFriendshipsTable.$inferInsert;
+
+export type UserStreak = typeof UserStreaksTable.$inferSelect;
+export type NewUserStreak = typeof UserStreaksTable.$inferInsert;
