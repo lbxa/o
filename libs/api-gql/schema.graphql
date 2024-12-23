@@ -397,6 +397,7 @@ type User implements Node & Timestamps {
   id: ID!
   lastName: String
   password: String
+  refreshToken: String
   searchFriends(searchTerm: String): [User!]
   """
   The streak of consecutive days that the user has completed a challenge.
@@ -466,14 +467,14 @@ type UserStreak implements Node & Timestamps {
   """
   The current streak of consecutive days that the user has completed a challenge
   """
-  currentStreak: Int
+  currentStreak: Int!
   id: ID!
   """
   The longest streak of consecutive days that the user has completed a challenge
   """
   longestStreak: Int
   updatedAt: DateTime
-  user: User!
+  user: User
 }
 
 input UserStreakUpdateInput {

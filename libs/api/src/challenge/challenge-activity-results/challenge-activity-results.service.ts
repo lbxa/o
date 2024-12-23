@@ -16,7 +16,9 @@ import {
   ChallengeActivityResultConnection,
 } from "../../types/graphql";
 import { UserService } from "../../user/user.service";
+import { UserStreaksService } from "../../user/user-streaks";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../../utils";
+import { NotFoundError } from "../../utils/errors";
 import { ChallengeActivitiesService } from "../challenge-activity";
 import { getRankingStrategy } from "./ranking-strategies";
 
@@ -32,6 +34,7 @@ export class ChallengeActivityResultsService
   constructor(
     private userService: UserService,
     private challengeActivitiesService: ChallengeActivitiesService,
+    private userStreaksService: UserStreaksService,
     private dbService: DbService<typeof schema>
   ) {}
 
@@ -152,8 +155,16 @@ export class ChallengeActivityResultsService
       });
 
     if (!challengeActivityResultWithRelations) {
-      throw new Error("Challenge activity result not found");
+      throw new NotFoundError("Challenge activity result not found");
     }
+
+    /**
+     * Each challenge activity result creates or updates a streak for the user,
+     * but only if it was completed on the next consecutive day.
+     */
+    await this.userStreaksService.incrementStreak(
+      challengeActivityResultWithRelations.userId
+    );
 
     return this.pg2GqlMapper(challengeActivityResultWithRelations);
   }

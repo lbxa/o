@@ -621,6 +621,7 @@ export type User = Node & Timestamps & {
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
   searchFriends?: Maybe<Array<User>>;
   /** The streak of consecutive days that the user has completed a challenge. */
   streak?: Maybe<UserStreak>;
@@ -713,12 +714,12 @@ export type UserStreak = Node & Timestamps & {
   __typename?: 'UserStreak';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** The current streak of consecutive days that the user has completed a challenge */
-  currentStreak?: Maybe<Scalars['Int']['output']>;
+  currentStreak: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   /** The longest streak of consecutive days that the user has completed a challenge */
   longestStreak?: Maybe<Scalars['Int']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  user: User;
+  user?: Maybe<User>;
 };
 
 export type UserStreakUpdateInput = {

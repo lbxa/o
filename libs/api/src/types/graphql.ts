@@ -389,8 +389,8 @@ export interface PageInfo {
 export interface UserStreak extends Node, Timestamps {
     __typename?: 'UserStreak';
     id: string;
-    user: User;
-    currentStreak?: Nullable<number>;
+    user?: Nullable<User>;
+    currentStreak: number;
     longestStreak?: Nullable<number>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;

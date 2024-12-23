@@ -6,6 +6,7 @@ import type {
 } from "@o/db";
 import { UserStreaksTable } from "@o/db";
 import * as schema from "@o/db";
+import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
@@ -23,6 +24,8 @@ import { UserStreaksRepository } from "./user-streaks.repository";
 export class UserStreaksService
   implements EntityService<typeof UserStreaksTable, PgUserStreak, GqlUserStreak>
 {
+  private static readonly INITIAL_STREAK = 1;
+
   constructor(
     private dbService: DbService<typeof schema>,
     private userService: UserService,
@@ -101,5 +104,74 @@ export class UserStreaksService
 
     // eslint-disable-next-line drizzle/enforce-delete-with-where
     return this.userStreaksRepository.delete(decodedId);
+  }
+
+  private calculateNewStreakValues(
+    currentStreak: number,
+    longestStreak: number,
+    dayDifference: number
+  ) {
+    if (dayDifference === 1) {
+      const newCurrentStreak = currentStreak + 1;
+      return {
+        currentStreak: newCurrentStreak,
+        longestStreak: Math.max(newCurrentStreak, longestStreak),
+      };
+    }
+
+    if (dayDifference > 1) {
+      return {
+        currentStreak: UserStreaksService.INITIAL_STREAK,
+        longestStreak,
+      };
+    }
+
+    return null; // No changes needed for same-day activities
+  }
+
+  /**
+   * Increments the streak for a user if the activity was completed on the next day
+   * following date of the last activity.
+   *
+   * If the user does not have a streak, it creates a new one.
+   * @param userId - The ID of the user
+   */
+  async incrementStreak(userId: number) {
+    try {
+      const existingStreak = await this.findByUserId(userId);
+
+      if (!existingStreak.updatedAt) {
+        throw new InternalServerError(
+          `Missing updatedAt for user streak with userId ${userId}`
+        );
+      }
+
+      const lastActivityDate = dayjs(existingStreak.updatedAt).startOf("day");
+      const today = dayjs().startOf("day");
+      const dayDifference = today.diff(lastActivityDate, "day");
+
+      const newStreakValues = this.calculateNewStreakValues(
+        existingStreak.currentStreak,
+        existingStreak.longestStreak ?? 0,
+        dayDifference
+      );
+
+      if (newStreakValues) {
+        await this.update({
+          id: existingStreak.id,
+          ...newStreakValues,
+        });
+      }
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        await this.create({
+          userId,
+          currentStreak: UserStreaksService.INITIAL_STREAK,
+          longestStreak: UserStreaksService.INITIAL_STREAK,
+        });
+      } else {
+        throw error;
+      }
+    }
   }
 }

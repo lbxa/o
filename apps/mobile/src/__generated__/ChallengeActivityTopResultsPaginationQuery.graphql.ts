@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<86400db941326c3d2886f0bb2520d381>>
+ * @generated SignedSource<<41b2c5b4d3d300521abeca990618e1a4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -187,6 +187,25 @@ return {
                                 "kind": "ScalarField",
                                 "name": "lastName",
                                 "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "UserStreak",
+                                "kind": "LinkedField",
+                                "name": "streak",
+                                "plural": false,
+                                "selections": [
+                                  (v3/*: any*/),
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "currentStreak",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -285,12 +304,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e844db9dc75cf9a8c9b29ad0ac76a323",
+    "cacheID": "c01a7d76af749007ae0f30f57d3b78d1",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 3\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 3\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
   }
 };
 })();

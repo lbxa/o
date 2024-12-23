@@ -17,8 +17,8 @@ import type { OButtonType, OButtonVariant } from "@/universe/atoms";
 import { OButton, OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
+import { UserAvatar } from "./UserAvatar";
 import { UserProfileStats } from "./UserProfileStats";
-import { UserAvatar } from "./UserSearch/UserAvatar";
 
 interface ButtonConfig {
   text: string;
@@ -189,10 +189,10 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
 
   return (
     <Ozone>
-      <View className="mx-auto flex flex-col items-center justify-center gap-lg px-md pb-md">
-        {user && <UserAvatar user={user} />}
+      <View className="gap-lg px-md pb-md mx-auto flex flex-col items-center justify-center">
+        {user && <UserAvatar user={user} className="mb-md" />}
         {user && <UserProfileStats user={user} />}
-        <View className="flex flex-col items-center gap-sm">
+        <View className="gap-sm flex flex-col items-center">
           <OText className="text-3xl font-bold">
             {user?.firstName} {user?.lastName}
           </OText>

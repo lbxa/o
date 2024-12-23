@@ -9,8 +9,8 @@ import { Ozone } from "@/universe/molecules";
 
 import { useNoSuspenseRefetch } from "../relay";
 import { APP_ROOT_QUERY } from "../root";
+import { UserAvatar } from "./UserAvatar";
 import { UserProfileStats } from "./UserProfileStats";
-import { UserAvatar } from "./UserSearch/UserAvatar";
 
 export const VIEWER_PROFILE_QUERY = graphql`
   query ViewerProfileQuery {
@@ -58,10 +58,10 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
-          {viewer?.user && <UserAvatar user={viewer.user} />}
+        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
+          {viewer?.user && <UserAvatar user={viewer.user} className="mb-md" />}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
-          <View className="flex flex-col items-center gap-sm">
+          <View className="gap-sm flex flex-col items-center">
             <OText className="text-3xl font-bold">
               {viewer?.user?.firstName} {viewer?.user?.lastName}
             </OText>

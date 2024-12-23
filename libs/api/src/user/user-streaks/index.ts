@@ -1,2 +1,2 @@
-export { UserStreaksRepository } from "./user-streaks.repository";
-export { UserStreaksService } from "./user-streaks.service";
+export * from "./user-streaks.repository";
+export * from "./user-streaks.service";

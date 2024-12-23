@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type {
@@ -7,6 +7,9 @@ import type {
   UserResultCard_challenge$key,
 } from "@/__generated__/UserResultCard_challenge.graphql";
 
+import { OText } from "../../../universe/atoms";
+import { UserAvatar } from "../../../users/UserAvatar";
+import { UserStreak } from "../../../users/UserStreak";
 import { intToTimestamp } from "../../ChallengeLogger/utils";
 
 export const UserResultCard = ({
@@ -22,6 +25,10 @@ export const UserResultCard = ({
           id
           firstName
           lastName
+          streak {
+            id
+            currentStreak
+          }
         }
         result
         activity {
@@ -65,18 +72,24 @@ export const UserResultCard = ({
 
   return (
     <View className="mt-sm flex-row items-center justify-between">
-      <View className="flex flex-col">
-        <Text className="text-xl text-black dark:text-ivory">
-          {userResult.user.firstName + " " + userResult.user.lastName}
-        </Text>
-        <Text className="text-sm text-black dark:text-ivory">
-          Friends with{" "}
-          <Text className="font-bold">{userResult.user.firstName}</Text> and{" "}
-          <Text className="font-bold">2 others</Text>
-        </Text>
+      <View className="gap-sm flex-row items-center">
+        <UserAvatar size="sm" user={userResult.user} />
+        <View className="flex flex-col">
+          <View className="gap-sm flex-row items-center">
+            <OText className="text-xl">
+              {userResult.user.firstName + " " + userResult.user.lastName}
+            </OText>
+            <UserStreak streak={userResult.user.streak?.currentStreak ?? 0} />
+          </View>
+          <OText className="text-sm">
+            Friends with{" "}
+            <OText className="font-bold">{userResult.user.firstName}</OText> and{" "}
+            <OText className="font-bold">2 others</OText>
+          </OText>
+        </View>
       </View>
-      <Text
-        className="text-3xl font-bold text-black dark:text-ivory"
+      <OText
+        className="text-3xl font-bold"
         style={{ fontVariant: ["tabular-nums"] }}
       >
         {displayResult(
@@ -84,7 +97,7 @@ export const UserResultCard = ({
           userResult.activity.goal,
           userResult.activity.unit
         )}
-      </Text>
+      </OText>
     </View>
   );
 };

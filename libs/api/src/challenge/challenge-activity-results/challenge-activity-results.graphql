@@ -39,12 +39,20 @@ type CreateChallengeActivityResultPayload {
   challengeActivityResultEdge: ChallengeActivityResultEdge!
 }
 
-type Query {
-  challengeActivityResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
-  challengeActivityTopResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
+extend type Query {
+  challengeActivityResults(
+    challengeId: ID!
+    first: Int
+    after: String
+  ): ChallengeActivityResultConnection!
+  challengeActivityTopResults(
+    challengeId: ID!
+    first: Int
+    after: String
+  ): ChallengeActivityResultConnection!
 }
 
-type Mutation {
+extend type Mutation {
   challengeActivityResultCreate(
     challengeActivityResultCreateInput: ChallengeActivityResultCreateInput!
   ): CreateChallengeActivityResultPayload!
