@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        ...colors,
+        tailwindColors: { ...colors },
         ivory: {
           light: "#f4f8fb",
           DEFAULT: "#edf4f8",

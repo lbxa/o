@@ -67,9 +67,9 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
         id
         firstName @required(action: THROW)
         lastName @required(action: THROW)
-        handle @required(action: THROW)
+        handle
         email @required(action: THROW)
-        bio @required(action: THROW)
+        bio
       }
     `,
     data.viewer?.user
@@ -87,22 +87,22 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
           <ManageMenuItem
             label="Name"
             value={`${user?.firstName} ${user?.lastName}`}
-            route="/(root)/profile/manage/name"
+            route="/(root)/profile/manage/user-name"
           />
           <ManageMenuItem
             label="Handle"
-            value={user?.handle}
-            route="/(root)/profile/manage/handle"
+            value={user?.handle ?? "Create a handle"}
+            route="/(root)/profile/manage/user-handle"
           />
           <ManageMenuItem
             label="Email"
             value={user?.email}
-            route="/(root)/profile/manage/email"
+            route="/(root)/profile/manage/user-email"
           />
           <ManageMenuItem
             label="Bio"
-            value={user?.bio}
-            route="/(root)/profile/manage/bio"
+            value={user?.bio ?? "Add a bio"}
+            route="/(root)/profile/manage/user-bio"
           />
         </View>
         <OButton

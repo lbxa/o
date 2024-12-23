@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1ef742a9f7ebc45d3ef20d6f5ab75c59>>
+ * @generated SignedSource<<698e8ae714e4e439e1c87f815f051a46>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,10 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type UserManage_user$data = {
-  readonly bio: string;
+  readonly bio: string | null | undefined;
   readonly email: string;
   readonly firstName: string;
-  readonly handle: string;
+  readonly handle: string | null | undefined;
   readonly id: string;
   readonly lastName: string;
   readonly " $fragmentType": "UserManage_user";
@@ -60,15 +60,11 @@ const node: ReaderFragment = {
       "action": "THROW"
     },
     {
-      "kind": "RequiredField",
-      "field": {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "handle",
-        "storageKey": null
-      },
-      "action": "THROW"
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "handle",
+      "storageKey": null
     },
     {
       "kind": "RequiredField",
@@ -82,21 +78,17 @@ const node: ReaderFragment = {
       "action": "THROW"
     },
     {
-      "kind": "RequiredField",
-      "field": {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "bio",
-        "storageKey": null
-      },
-      "action": "THROW"
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "bio",
+      "storageKey": null
     }
   ],
   "type": "User",
   "abstractKey": null
 };
 
-(node as any).hash = "9fca68967f4e9b528b6f9238f5acb9c9";
+(node as any).hash = "716d190f23dada22ae0d1fe1c8f04542";
 
 export default node;

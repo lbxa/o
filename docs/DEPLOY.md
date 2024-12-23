@@ -13,24 +13,24 @@ Follow [these instructions](https://docs.expo.dev/submit/ios/).
 > [!NOTE]
 > These are temporary instructions until the DevOps workflow gets streamlined.
 
-0. Ensure the database migrations are up to date (after whitelisting current IP):
-
-    ```bash
-    NODE_ENV=<env> pnpm turbo migrate:push
-    ```
-
-1. From the root of the monorepo:
-
-    ```bash
-    docker build -t onex-backend:latest -f libs/api/api.Dockerfile .
-    ```
-
-2. Copy-paste the credentials from the access portal with ECR pull/push permissions:
+0. Copy-paste the credentials from the access portal with ECR pull/push permissions:
 
     ```bash
     export AWS_ACCESS_KEY_ID=<your-access-key-id>
     export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
     export AWS_SESSION_TOKEN=<your-session-token>
+    ```
+
+1. Ensure the database migrations are up to date (after whitelisting current IP):
+
+    ```bash
+    NODE_ENV=<env> pnpm turbo migrate:push
+    ```
+
+2. From the root of the monorepo:
+
+    ```bash
+    docker build -t onex-backend:latest -f libs/api/api.Dockerfile .
     ```
 
 3. Login to the ECR repository:
