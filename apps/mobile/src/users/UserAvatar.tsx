@@ -35,7 +35,7 @@ export const UserAvatar = ({
     >
       <OText
         className={classNames(
-          "flex items-center justify-center font-bold",
+          "flex items-center justify-center font-bold text-gray-600 dark:text-gray-400",
           textSizeClasses[size]
         )}
       >

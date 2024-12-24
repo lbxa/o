@@ -48,7 +48,7 @@ const DEFAULT_PATHS: Record<NavItemType, Href> = {
   create: "/(root)/community/create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
-  manage: "/(root)/community/manage",
+  manage: "/(root)/community/community-manage",
   notifications: "/(root)/home/notifications",
 };
 

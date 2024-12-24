@@ -7,13 +7,13 @@ import { useOTheme } from "../../../../utils";
 const colors = tailwind.theme.extend.colors;
 
 export default function Root() {
-  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { customTitleOptions } = useSharedHeaderOptions();
   const { isDark } = useOTheme();
 
   return (
     <Stack
       screenOptions={{
-        ...sharedHeaderOptions,
+        ...customTitleOptions,
         headerStyle: {
           backgroundColor: isDark ? "#000000" : colors.ivory.DEFAULT,
         },

@@ -40,6 +40,7 @@ export const HomeFeed = ({
   return (
     <FlatList
       className="px-sm"
+      showsVerticalScrollIndicator={false}
       data={[]}
       refreshControl={
         <RefreshControl onRefresh={handleRefresh} refreshing={isPending} />
@@ -52,7 +53,7 @@ export const HomeFeed = ({
         </View>
       }
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Nature width={150} height={150} />
           </View>

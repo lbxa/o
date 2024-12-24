@@ -3,12 +3,12 @@ import { Stack } from "expo-router";
 import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
 
 export default function CommunityManageRoot() {
-  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { customTitleOptions } = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        ...sharedHeaderOptions,
+        ...customTitleOptions,
       }}
     >
       <Stack.Screen

@@ -80,7 +80,8 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
 
   return (
     <FlatList
-      className="min-h-full px-sm"
+      showsVerticalScrollIndicator={false}
+      className="px-sm min-h-full"
       data={communityData?.communities.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <CommunityCard community={item} />}
       ListHeaderComponent={
@@ -91,7 +92,7 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
         </View>
       }
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Beach width={150} height={150} />
           </View>

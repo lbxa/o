@@ -6,6 +6,7 @@ import { graphql, useFragment } from "react-relay";
 import type { UserProfileCard_user$key } from "@/__generated__/UserProfileCard_user.graphql";
 
 import { OTouchable } from "../../universe/atoms";
+import { UserAvatar } from "../UserAvatar";
 
 interface UserProfileCardProps {
   fragmentRef: UserProfileCard_user$key;
@@ -27,8 +28,8 @@ export const UserProfileCard = ({ fragmentRef }: UserProfileCardProps) => {
 
   return (
     <OTouchable onPress={() => router.push(`/(modals)/${user.id}`)}>
-      <View className="mb-sm flex min-h-12 w-full flex-row items-center">
-        <View className="mr-sm size-10 rounded-full bg-gray-300 dark:bg-white/20" />
+      <View className="mb-sm flex min-h-12 w-full flex-row items-center gap-sm">
+        <UserAvatar size="sm" user={user} />
         <View className="flex flex-1 flex-col">
           <Text className="text-black dark:text-ivory">
             {user.firstName} {user.lastName}

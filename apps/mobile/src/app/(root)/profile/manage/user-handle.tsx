@@ -39,7 +39,7 @@ export default function Handle() {
     formState: { errors },
   } = useForm<HandleFormData>({
     defaultValues: {
-      handle: user.viewer?.user?.handle,
+      handle: user.viewer?.user?.handle ?? undefined,
     },
   });
 

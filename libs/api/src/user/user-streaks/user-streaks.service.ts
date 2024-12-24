@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity";
+import { EntityService, EntityUtils } from "../../entity";
 import {
   UserStreak as GqlUserStreak,
   UserStreakUpdateInput,
@@ -87,9 +87,10 @@ export class UserStreaksService
     const { id: globalId, ...updates } = updateUserStreakInput;
     const id = validateAndDecodeGlobalId(globalId, "UserStreak");
 
+    const filteredUpdates = EntityUtils.filterNullValues(updates);
     const updatedUserStreak = await this.userStreaksRepository.update({
+      ...filteredUpdates,
       id,
-      ...updates,
     });
 
     if (!updatedUserStreak) {

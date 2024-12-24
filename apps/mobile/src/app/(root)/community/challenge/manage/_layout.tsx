@@ -1,61 +1,34 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { Suspense, useEffect } from "react";
-import { ScrollView, View } from "react-native";
-import { useQueryLoader } from "react-relay";
+import { Stack } from "expo-router";
 
-import type { ChallengeRootQuery } from "@/__generated__/ChallengeRootQuery.graphql";
-import {
-  ChallengeActivitySkeleton,
-  ChallengeDetailsSkeleton,
-} from "@/challenges";
-import {
-  CHALLENGE_ROOT_QUERY,
-  ChallengeRoot,
-} from "@/challenges/ChallengeRoot";
-import { useSharedHeaderOptions } from "@/shared";
-import { Skeleton } from "@/universe/atoms/Skeleton";
-import { Ozone } from "@/universe/molecules";
+import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
 
-export default function ChallengeDetailsRoute() {
-  const { challenge: challengeId } = useLocalSearchParams<{
-    challenge: string;
-  }>();
-  const sharedHeaderOptions = useSharedHeaderOptions();
-  const [queryRef, loadQuery, disposeQuery] =
-    useQueryLoader<ChallengeRootQuery>(CHALLENGE_ROOT_QUERY);
-
-  useEffect(() => {
-    loadQuery({ challengeId });
-
-    return () => disposeQuery();
-  }, [challengeId, disposeQuery, loadQuery]);
+export default function ChallengeManageRoot() {
+  const { customTitleOptions } = useSharedHeaderOptions();
 
   return (
-    <Suspense
-      fallback={
-        <Ozone>
-          <Stack.Screen
-            options={{
-              ...sharedHeaderOptions,
-              headerLeft: () => (
-                <Skeleton className="mr-auto h-8 w-10/12 rounded-xl" />
-              ),
-            }}
-          />
-          <ScrollView>
-            <View className="mb-md flex flex-col gap-md px-md">
-              <Skeleton className="mt-md h-10 w-full rounded-xl" />
-              <Skeleton className="h-10 w-1/2 rounded-xl" />
-              <ChallengeDetailsSkeleton />
-            </View>
-            <ChallengeActivitySkeleton />
-          </ScrollView>
-        </Ozone>
-      }
+    <Stack
+      screenOptions={{
+        ...customTitleOptions,
+      }}
     >
-      {queryRef && (
-        <ChallengeRoot challengeId={challengeId} queryRef={queryRef} />
-      )}
-    </Suspense>
+      <Stack.Screen
+        name="index"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Challenge" />,
+        }}
+      />
+      <Stack.Screen
+        name="challenge-name"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Name" />,
+        }}
+      />
+      <Stack.Screen
+        name="challenge-description"
+        options={{
+          headerLeft: () => <SharedHeaderTitle title="Description" />,
+        }}
+      />
+    </Stack>
   );
 }

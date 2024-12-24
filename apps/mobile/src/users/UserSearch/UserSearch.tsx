@@ -1,4 +1,6 @@
+import tailwind from "@o/tailwind/base";
 import debounce from "debounce";
+import { Stack } from "expo-router";
 import React, {
   Suspense,
   useDeferredValue,
@@ -12,9 +14,12 @@ import { graphql, useLazyLoadQuery, useRefetchableFragment } from "react-relay";
 import type { UserSearchFriends_viewer$key } from "@/__generated__/UserSearchFriends_viewer.graphql";
 import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFriendsListQuery.graphql";
 import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
-import { OSearchBar } from "@/universe/molecules";
 
+import { useSharedHeaderOptions } from "../../shared";
+import { useOTheme } from "../../utils/useOTheme";
 import { UserProfileCard } from "./UserProfileCard";
+
+const COLORS = tailwind.theme.extend.colors;
 
 const USER_SEARCH_QUERY = graphql`
   query UserSearchFriendsListQuery($searchTerm: String) {
@@ -73,6 +78,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
+      contentInsetAdjustmentBehavior="automatic"
       className="px-sm"
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
@@ -86,15 +92,24 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
 };
 
 export const UserSearch = () => {
+  const { isDark } = useOTheme();
+  const { builtInTitleOptions } = useSharedHeaderOptions();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   return (
     <View className="h-full flex-1 px-md">
-      <OSearchBar
-        placeholder="Search users"
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+      <Stack.Screen
+        options={{
+          ...builtInTitleOptions,
+          headerSearchBarOptions: {
+            autoFocus: true,
+            placeholder: "John Doe, @john_doe, etc.",
+            headerIconColor: isDark ? COLORS.ivory.DEFAULT : "black",
+            inputType: "text",
+            onChangeText: (e) => setSearchQuery(e.nativeEvent.text),
+          },
+        }}
       />
       <Suspense fallback={null}>
         <UserSearchResults searchTerm={deferredSearchQuery} />

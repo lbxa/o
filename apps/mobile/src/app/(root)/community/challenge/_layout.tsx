@@ -6,12 +6,12 @@ import { ModalCloseButton } from "@/universe/atoms";
 import { SharedHeaderTitle, useSharedHeaderOptions } from "../../../../shared";
 
 export default function ChallengeRoot() {
-  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { customTitleOptions } = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        ...sharedHeaderOptions,
+        ...customTitleOptions,
       }}
     >
       <Stack.Screen
@@ -29,6 +29,12 @@ export default function ChallengeRoot() {
           headerRight: () => <ModalCloseButton />,
           headerBackVisible: true,
           presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="manage"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>

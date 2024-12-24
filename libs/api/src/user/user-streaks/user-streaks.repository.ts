@@ -35,15 +35,9 @@ export class UserStreaksRepository
   async update(
     updateUserStreakInput: Partial<PgUserStreak> & { id: number }
   ): Promise<(PgUserStreak & { user: PgUser }) | undefined> {
-    const filteredUpdates = Object.fromEntries(
-      Object.entries(updateUserStreakInput).filter(
-        ([_, value]) => value !== null
-      )
-    );
-
     const [updatedUserStreak] = await this.dbService.db
       .update(UserStreaksTable)
-      .set(filteredUpdates)
+      .set(updateUserStreakInput)
       .where(eq(UserStreaksTable.id, updateUserStreakInput.id))
       .returning();
 

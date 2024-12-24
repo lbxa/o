@@ -1,14 +1,21 @@
+import tailwind from "@o/tailwind/base";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { useMemo } from "react";
-import { useColorScheme } from "react-native";
+
+import { useOTheme } from "@/utils";
+
+const COLORS = tailwind.theme.extend.colors;
 
 /**
  * This settings should be shared across all stack headers
  */
-export const useSharedHeaderOptions = (): NativeStackNavigationOptions => {
-  const colorScheme = useColorScheme();
+export const useSharedHeaderOptions = (): {
+  customTitleOptions: NativeStackNavigationOptions;
+  builtInTitleOptions: NativeStackNavigationOptions;
+} => {
+  const { isDark } = useOTheme();
 
-  const sharedHeaderOptions: NativeStackNavigationOptions = useMemo(
+  const customTitleOptions: NativeStackNavigationOptions = useMemo(
     () =>
       ({
         headerShown: true,
@@ -16,11 +23,33 @@ export const useSharedHeaderOptions = (): NativeStackNavigationOptions => {
         headerShadowVisible: false,
         headerBackVisible: false,
         headerStyle: {
-          backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+          backgroundColor: isDark ? "#000000" : "#ffffff",
         },
       }) as const,
-    [colorScheme]
+    [isDark]
   );
 
-  return sharedHeaderOptions;
+  const builtInTitleOptions: NativeStackNavigationOptions = useMemo(
+    () =>
+      ({
+        headerShown: true,
+        headerTitle: () => "",
+        headerShadowVisible: false,
+        headerBackVisible: true,
+        headerStyle: {
+          backgroundColor: isDark ? "#000000" : "#ffffff",
+        },
+        headerBackTitle: "",
+        headerTintColor: isDark ? COLORS.ivory.DEFAULT : "black",
+        // headerBackTitleStyle: {
+        //   fontSize: 20,
+        // },
+      }) as const,
+    [isDark]
+  );
+
+  return {
+    customTitleOptions,
+    builtInTitleOptions,
+  };
 };
