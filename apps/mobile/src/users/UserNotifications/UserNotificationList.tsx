@@ -73,7 +73,7 @@ export const UserNotificationList = ({
 
   return (
     <FlatList
-      className="mt-md min-h-full px-md"
+      className="min-h-full px-md"
       data={data?.followerRequests?.edges.map((edge) => edge.node)}
       renderItem={({ item }) => <UserNotificationCard fragmentRef={item} />}
       ListEmptyComponent={
@@ -85,7 +85,7 @@ export const UserNotificationList = ({
         </View>
       }
       ListFooterComponent={
-        <View className="pb-md">
+        <View className="mb-lg">
           {hasNext && (
             <OButton
               title="Load more"

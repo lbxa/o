@@ -6,16 +6,17 @@ import { ModalCloseButton } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
-  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { customTitleOptions } = useSharedHeaderOptions();
   return (
     <Stack
       screenOptions={{
-        ...sharedHeaderOptions,
+        ...customTitleOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
+          title: "Community",
           headerLeft: () => (
             <Text className="text-3xl font-bold text-black dark:text-ivory">
               Community
@@ -38,7 +39,7 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="manage"
+        name="community-manage"
         options={{
           headerShown: false,
         }}
@@ -62,7 +63,7 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="search"
+        name="community-search"
         options={{
           headerShown: false,
         }}

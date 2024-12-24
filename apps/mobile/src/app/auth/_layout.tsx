@@ -4,11 +4,11 @@ import { Text } from "react-native";
 import { useSharedHeaderOptions } from "../../shared";
 
 export default function AuthLayout() {
-  const userSharedHeaderOptions = useSharedHeaderOptions();
+  const { customTitleOptions } = useSharedHeaderOptions();
   return (
     <Stack
       screenOptions={{
-        ...userSharedHeaderOptions,
+        ...customTitleOptions,
       }}
     >
       <Stack.Screen

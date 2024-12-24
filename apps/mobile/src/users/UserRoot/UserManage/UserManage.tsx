@@ -1,5 +1,3 @@
-import CameraIcon from "@assets/icons/camera.svg";
-import { useRouter } from "expo-router";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { useFragment } from "react-relay";
@@ -9,9 +7,10 @@ import { graphql } from "relay-runtime";
 import type { UserManage_user$key } from "@/__generated__/UserManage_user.graphql";
 import type { UserManageQuery } from "@/__generated__/UserManageQuery.graphql";
 import { OButton } from "@/universe/atoms/OButton";
+import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
 
-import { OText, OTouchable } from "../../../universe/atoms";
+import { OImageUpload } from "../../../universe/atoms";
 import { useLogout } from "../../mutations/useLogout";
 
 export const USER_MANAGE_QUERY = graphql`
@@ -23,34 +22,6 @@ export const USER_MANAGE_QUERY = graphql`
     }
   }
 `;
-
-interface ManageMenuItemProps {
-  label: string;
-  value?: string;
-  route: string;
-}
-
-function ManageMenuItem({ label, value, route }: ManageMenuItemProps) {
-  const router = useRouter();
-
-  return (
-    <OTouchable
-      onPress={() => router.push(route)}
-      className="flex-row items-center justify-between border-b border-gray-200 py-sm dark:border-gray-700"
-    >
-      <OText className="w-3/12 text-gray-500">{label}</OText>
-      {value && (
-        <OText
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          className="w-9/12 text-right"
-        >
-          {value}
-        </OText>
-      )}
-    </OTouchable>
-  );
-}
 
 interface UserManageProps {
   queryRef: PreloadedQuery<UserManageQuery>;
@@ -75,36 +46,34 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
     data.viewer?.user
   );
 
+  const menuItems = [
+    {
+      label: "Name",
+      value: `${user?.firstName} ${user?.lastName}`,
+      route: "/(root)/profile/manage/user-name",
+    },
+    {
+      label: "Handle",
+      value: user?.handle ?? "Create a handle",
+      route: "/(root)/profile/manage/user-handle",
+    },
+    {
+      label: "Email",
+      value: user?.email,
+      route: "/(root)/profile/manage/user-email",
+    },
+    {
+      label: "Bio",
+      value: user?.bio ?? "Add a bio",
+      route: "/(root)/profile/manage/user-bio",
+    },
+  ];
+
   return (
     <Ozone>
       <View className="flex flex-col gap-md p-md">
-        <OTouchable className="mx-auto mb-md flex size-[200px] rounded-full bg-gray-300 dark:bg-white/20">
-          <View className="m-auto">
-            <CameraIcon width={45} height={45} fill={"grey"} />
-          </View>
-        </OTouchable>
-        <View className="mb-lg flex flex-col gap-sm">
-          <ManageMenuItem
-            label="Name"
-            value={`${user?.firstName} ${user?.lastName}`}
-            route="/(root)/profile/manage/user-name"
-          />
-          <ManageMenuItem
-            label="Handle"
-            value={user?.handle ?? "Create a handle"}
-            route="/(root)/profile/manage/user-handle"
-          />
-          <ManageMenuItem
-            label="Email"
-            value={user?.email}
-            route="/(root)/profile/manage/user-email"
-          />
-          <ManageMenuItem
-            label="Bio"
-            value={user?.bio ?? "Add a bio"}
-            route="/(root)/profile/manage/user-bio"
-          />
-        </View>
+        <OImageUpload className="mb-md" />
+        <OMenu items={menuItems} className="mb-lg" />
         <OButton
           title="Logout"
           type="secondary"

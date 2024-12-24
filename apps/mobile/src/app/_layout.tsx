@@ -2,7 +2,11 @@ import "../global.css";
 import "expo-dev-client";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { verifyInstallation } from "nativewind";
@@ -14,9 +18,13 @@ import { loadQuery, RelayEnvironmentProvider } from "react-relay";
 import { useRelayEnvironment } from "@/relay";
 import { APP_ROOT_QUERY } from "@/root";
 
+import { useOTheme } from "../utils/useOTheme";
+
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { isDark } = useOTheme();
+
   if (__DEV__) {
     verifyInstallation();
   }
@@ -39,7 +47,7 @@ export default function RootLayout() {
   return (
     <RelayEnvironmentProvider environment={environment}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ThemeProvider value={DefaultTheme}>
+        <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
           <SafeAreaProvider>
             <BottomSheetModalProvider>
               <Stack

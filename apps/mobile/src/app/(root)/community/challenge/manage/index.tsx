@@ -28,7 +28,7 @@ export default function CommunityManageRoute() {
 
   return (
     <Suspense fallback={<ChallengeManageSkeleton />}>
-      {queryRef && <ChallengeManage />}
+      {queryRef && <ChallengeManage queryRef={queryRef} />}
     </Suspense>
   );
 }

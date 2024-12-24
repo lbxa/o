@@ -18,6 +18,7 @@ import {
   ChallengeCreateInput,
   ChallengeCreatePayload,
   ChallengeInvitation,
+  ChallengeUpdateInput,
 } from "../types/graphql";
 import { validateAndDecodeGlobalId } from "../utils";
 import { ChallengeService } from "./challenge.service";
@@ -80,6 +81,13 @@ export class ChallengeResolver {
         node: newChallenge,
       },
     };
+  }
+
+  @Mutation("challengeUpdate")
+  async challengeUpdate(
+    @Args("challengeUpdateInput") challengeInput: ChallengeUpdateInput
+  ): Promise<Challenge> {
+    return this.challengeService.update(challengeInput);
   }
 
   @Mutation("challengeInvite")

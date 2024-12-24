@@ -13,12 +13,14 @@ import * as schema from "@o/db";
 import { and, desc, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
+import { EntityUtils } from "../entity";
 import { EntityService } from "../entity/entity-service";
 import {
   Challenge as GqlChallenge,
   ChallengeCadence,
   ChallengeConnection,
   ChallengeMode,
+  ChallengeUpdateInput,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
 import {
@@ -26,6 +28,7 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../utils/errors";
+import { ChallengeRepository } from "./challenge.repository";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
@@ -34,6 +37,7 @@ export class ChallengeService
 {
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeRepository: ChallengeRepository,
     private dbService: DbService<typeof schema>
   ) {}
 
@@ -187,34 +191,21 @@ export class ChallengeService
     });
   }
 
-  async update(
-    id: number,
-    challengeInput: Partial<NewChallenge>
-  ): Promise<GqlChallenge> {
-    const [updatedChallenge] = await this.dbService.db
-      .update(ChallengesTable)
-      .set(challengeInput)
-      .where(eq(ChallengesTable.id, id))
-      .returning();
+  async update(challengeInput: ChallengeUpdateInput): Promise<GqlChallenge> {
+    const { id: globalId, ...updates } = challengeInput;
+    const id = validateAndDecodeGlobalId(globalId, "Challenge");
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!updatedChallenge) {
-      throw new NotFoundError(`Challenge with id ${id} not found`);
-    }
-
-    const challengeActivity =
-      await this.dbService.db.query.ChallengeActivitiesTable.findFirst({
-        where: eq(ChallengeActivitiesTable.challengeId, updatedChallenge.id),
-      });
-
-    if (!challengeActivity) {
-      throw new InternalServerError("Failed to find challenge activity");
-    }
-
-    return this.pg2GqlMapper({
-      ...updatedChallenge,
-      activities: [challengeActivity],
+    const filteredUpdates = EntityUtils.filterNullValues(updates);
+    const updatedChallenge = await this.challengeRepository.update({
+      ...filteredUpdates,
+      id,
     });
+
+    if (!updatedChallenge) {
+      throw new NotFoundError(`Updated challenge with id ${id} not found`);
+    }
+
+    return this.pg2GqlMapper(updatedChallenge);
   }
 
   async remove(id: number, userId: number): Promise<boolean> {
@@ -242,11 +233,8 @@ export class ChallengeService
       );
     }
 
-    await this.dbService.db
-      .delete(ChallengesTable)
-      .where(eq(ChallengesTable.id, id));
-
-    return true;
+    // eslint-disable-next-line drizzle/enforce-delete-with-where
+    return this.challengeRepository.delete(id);
   }
 
   async leave(userId: number, challengeId: number): Promise<void> {

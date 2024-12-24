@@ -4,6 +4,7 @@ export * from "./ComingSoonBadge";
 export * from "./CounterButton";
 export * from "./ModalCloseButton";
 export * from "./OButton";
+export * from "./OImageUpload";
 export * from "./OPasswordInput";
 export * from "./OText";
 export * from "./OTouchable";

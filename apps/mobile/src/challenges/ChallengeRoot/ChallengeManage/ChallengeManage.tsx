@@ -1,65 +1,65 @@
-import { useRouter } from "expo-router";
 import { View } from "react-native";
+import type { PreloadedQuery } from "react-relay";
+import { useFragment, usePreloadedQuery } from "react-relay";
 import { graphql } from "relay-runtime";
 
-import { OText, OTouchable } from "@/universe/atoms";
+import type { ChallengeManage_challenge$key } from "@/__generated__/ChallengeManage_challenge.graphql";
+import type { ChallengeManageQuery } from "@/__generated__/ChallengeManageQuery.graphql";
 import { OButton } from "@/universe/atoms/OButton";
+import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
+
+import { OImageUpload } from "../../../universe/atoms";
 
 export const CHALLENGE_MANAGE_QUERY = graphql`
   query ChallengeManageQuery($challengeId: ID!) {
     viewer {
       challenge(challengeId: $challengeId) {
-        id
-        name
+        ...ChallengeManage_challenge
       }
     }
   }
 `;
 
-interface ManageMenuItemProps {
-  label: string;
-  value?: string;
-  route: string;
+interface ChallengeManageProps {
+  queryRef: PreloadedQuery<ChallengeManageQuery>;
 }
 
-function ManageMenuItem({ label, value, route }: ManageMenuItemProps) {
-  const router = useRouter();
-
-  return (
-    <OTouchable
-      onPress={() => router.push(route)}
-      className="flex-row items-center justify-between border-b border-gray-200 py-sm dark:border-gray-700"
-    >
-      <OText className="w-3/12 text-gray-500">{label}</OText>
-      {value && (
-        <OText
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          className="w-9/12 text-right"
-        >
-          {value}
-        </OText>
-      )}
-    </OTouchable>
+export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
+  const data = usePreloadedQuery<ChallengeManageQuery>(
+    CHALLENGE_MANAGE_QUERY,
+    queryRef
   );
-}
 
-// interface ChallengeManageProps {
-//   queryRef?: PreloadedQuery<ChallengeManageQuery>;
-// }
+  const challenge = useFragment<ChallengeManage_challenge$key>(
+    graphql`
+      fragment ChallengeManage_challenge on Challenge {
+        id
+        name @required(action: THROW)
+        description @required(action: THROW)
+      }
+    `,
+    data.viewer?.challenge
+  );
 
-export const ChallengeManage = () => {
+  const menuItems = [
+    {
+      label: "Name",
+      value: challenge?.name ?? "No name found",
+      route: "/(root)/community/challenge/manage/challenge-name",
+    },
+    {
+      label: "Description",
+      value: challenge?.description ?? "No description found",
+      route: "/(root)/community/challenge/manage/challenge-description",
+    },
+  ];
+
   return (
     <Ozone>
       <View className="flex flex-col gap-md p-md">
-        <View className="mb-lg flex flex-col gap-sm">
-          <ManageMenuItem
-            label="Title"
-            value="Title"
-            route="/(root)/challenges/manage/title"
-          />
-        </View>
+        <OImageUpload className="mb-md" />
+        <OMenu items={menuItems} className="mb-lg" />
         <OButton
           title="Delete Challenge"
           type="secondary"

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1f9afb3b324cbbc4237e20bcce42b72c>>
+ * @generated SignedSource<<9c7979f97b73e1134acf9381801611c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,42 +9,57 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type userHandleQuery$variables = Record<PropertyKey, never>;
-export type userHandleQuery$data = {
+export type challengeDescriptionQuery$variables = {
+  challengeId: string;
+};
+export type challengeDescriptionQuery$data = {
   readonly viewer: {
-    readonly user: {
-      readonly handle: string | null | undefined;
+    readonly challenge: {
+      readonly description: string | null | undefined;
       readonly id: string;
     } | null | undefined;
   } | null | undefined;
 };
-export type userHandleQuery = {
-  response: userHandleQuery$data;
-  variables: userHandleQuery$variables;
+export type challengeDescriptionQuery = {
+  response: challengeDescriptionQuery$data;
+  variables: challengeDescriptionQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "challengeId"
+  }
+],
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v1 = {
+v2 = {
   "alias": null,
-  "args": null,
-  "concreteType": "User",
+  "args": [
+    {
+      "kind": "Variable",
+      "name": "challengeId",
+      "variableName": "challengeId"
+    }
+  ],
+  "concreteType": "Challenge",
   "kind": "LinkedField",
-  "name": "user",
+  "name": "challenge",
   "plural": false,
   "selections": [
-    (v0/*: any*/),
+    (v1/*: any*/),
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "handle",
+      "name": "description",
       "storageKey": null
     }
   ],
@@ -52,10 +67,10 @@ v1 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userHandleQuery",
+    "name": "challengeDescriptionQuery",
     "selections": [
       {
         "alias": null,
@@ -65,7 +80,7 @@ return {
         "name": "viewer",
         "plural": false,
         "selections": [
-          (v1/*: any*/)
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
@@ -75,9 +90,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userHandleQuery",
+    "name": "challengeDescriptionQuery",
     "selections": [
       {
         "alias": null,
@@ -87,24 +102,24 @@ return {
         "name": "viewer",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
-          (v0/*: any*/)
+          (v2/*: any*/),
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "6862287468285d5d3e6332bb12e4042b",
+    "cacheID": "60a4eadbb7f71b620d80029d82f82d52",
     "id": null,
     "metadata": {},
-    "name": "userHandleQuery",
+    "name": "challengeDescriptionQuery",
     "operationKind": "query",
-    "text": "query userHandleQuery {\n  viewer {\n    user {\n      id\n      handle\n    }\n    id\n  }\n}\n"
+    "text": "query challengeDescriptionQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      id\n      description\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f57a8f06b6a35614bbe7efed4432fc8c";
+(node as any).hash = "34821ce58aaaac579d1c82beaa680424";
 
 export default node;

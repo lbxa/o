@@ -1,23 +1,24 @@
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
-import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
+import { useSharedHeaderOptions } from "@/shared";
 import { MiniNav } from "@/universe/molecules";
 
 import { ComingSoonBadge } from "../../../universe/atoms";
 
 export default function Root() {
-  const sharedHeaderOptions = useSharedHeaderOptions();
+  const { builtInTitleOptions } = useSharedHeaderOptions();
 
   return (
     <Stack
       screenOptions={{
-        ...sharedHeaderOptions,
+        ...builtInTitleOptions,
       }}
     >
       <Stack.Screen
         name="index"
         options={{
+          title: "Home",
           headerLeft: () => (
             <Text className="text-3xl font-bold text-black dark:text-ivory">
               oNex
@@ -31,27 +32,18 @@ export default function Root() {
           ),
         }}
       />
-      <Stack.Screen
-        name="user-search"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="user-search" />
       <Stack.Screen
         name="message"
         options={{
-          headerLeft: () => (
-            <View className="flex flex-row items-center gap-sm">
-              <SharedHeaderTitle title="Messages" />
-              <ComingSoonBadge size="sm" />
-            </View>
-          ),
+          title: "Messages",
+          headerRight: () => <ComingSoonBadge size="sm" />,
         }}
       />
       <Stack.Screen
         name="notifications"
         options={{
-          headerLeft: () => <SharedHeaderTitle title="Notifications" />,
+          title: "Notifications",
         }}
       />
     </Stack>
