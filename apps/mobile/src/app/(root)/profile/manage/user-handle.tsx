@@ -25,7 +25,7 @@ export default function Handle() {
         viewer {
           user {
             id
-            handle @required(action: THROW)
+            handle
           }
         }
       }
