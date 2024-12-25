@@ -62,7 +62,7 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         target: challenge.activity.target,
       },
     });
-    router.push(`/(root)/community/challenge/${challenge.id}`);
+    router.push(`/community/(challenge)/${challenge.id}`);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { Suspense, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { useQueryLoader } from "react-relay";
@@ -12,7 +12,6 @@ import {
   CHALLENGE_ROOT_QUERY,
   ChallengeRoot,
 } from "@/challenges/ChallengeRoot";
-import { useSharedHeaderOptions } from "@/shared";
 import { Skeleton } from "@/universe/atoms/Skeleton";
 import { Ozone } from "@/universe/molecules";
 
@@ -20,7 +19,6 @@ export default function ChallengeDetailsRoute() {
   const { challenge: challengeId } = useLocalSearchParams<{
     challenge: string;
   }>();
-  const sharedHeaderOptions = useSharedHeaderOptions();
   const [queryRef, loadQuery, disposeQuery] =
     useQueryLoader<ChallengeRootQuery>(CHALLENGE_ROOT_QUERY);
 
@@ -34,14 +32,6 @@ export default function ChallengeDetailsRoute() {
     <Suspense
       fallback={
         <Ozone>
-          <Stack.Screen
-            options={{
-              ...sharedHeaderOptions,
-              headerLeft: () => (
-                <Skeleton className="mr-auto h-8 w-10/12 rounded-xl" />
-              ),
-            }}
-          />
           <ScrollView>
             <View className="mb-md flex flex-col gap-md px-md">
               <Skeleton className="mt-md h-10 w-full rounded-xl" />

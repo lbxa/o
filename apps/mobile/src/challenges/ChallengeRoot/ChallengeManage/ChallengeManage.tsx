@@ -5,10 +5,8 @@ import { graphql } from "relay-runtime";
 
 import type { ChallengeManage_challenge$key } from "@/__generated__/ChallengeManage_challenge.graphql";
 import type { ChallengeManageQuery } from "@/__generated__/ChallengeManageQuery.graphql";
-import { OMenu } from "@/universe/molecules";
-import { Ozone } from "@/universe/molecules/Ozone";
-
-import { OImageUpload } from "../../../universe/atoms";
+import { OImageUpload } from "@/universe/atoms";
+import { OMenu, Ozone } from "@/universe/molecules";
 
 export const CHALLENGE_MANAGE_QUERY = graphql`
   query ChallengeManageQuery($challengeId: ID!) {
@@ -45,13 +43,12 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
     {
       label: "Name",
       value: challenge?.name ?? "No name found",
-      route: "/(root)/community/challenge/challenge-manage/challenge-name",
+      route: "/community/(challenge)/(challenge-manage)/challenge-name",
     },
     {
       label: "Description",
       value: challenge?.description ?? "No description found",
-      route:
-        "/(root)/community/challenge/challenge-manage/challenge-description",
+      route: "/community/(challenge)/(challenge-manage)/challenge-description",
     },
   ];
 

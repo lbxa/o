@@ -54,13 +54,13 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
               items={["manage", "create", "message"]}
               itemConfigs={{
                 manage: {
-                  href: "/(root)/community/community-manage",
+                  href: "/community/community-manage",
                 },
                 create: {
-                  href: "/(root)/community/challenge/challenge-create",
+                  href: "/community/(challenge)/challenge-create",
                 },
                 message: {
-                  href: "/(root)/community/community-message",
+                  href: "/community/community-message",
                 },
               }}
             />

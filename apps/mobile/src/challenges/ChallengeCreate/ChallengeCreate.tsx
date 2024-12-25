@@ -29,10 +29,9 @@ import {
   Subtitle,
   Title,
 } from "@/universe/atoms";
-import { Ozone } from "@/universe/molecules";
 import { useViewerId } from "@/users/hooks";
+import { useSvgFill } from "@/utils";
 
-import { useSvgFill } from "../../utils";
 import { ChallengeCreateActivity } from "./ChallengeCreateActivity";
 import { ChallengeCreateCadence } from "./ChallengeCreateCadence";
 import { ChallengeCreateMode } from "./ChallengeCreateMode";
@@ -138,204 +137,200 @@ export const ChallengeCreate = () => {
   };
 
   return (
-    <Ozone>
-      <ScrollView
-        ref={scrollViewRef}
-        onContentSizeChange={() => {
-          scrollViewRef.current?.scrollToEnd({ animated: true });
-        }}
-      >
-        <View className="flex-1">
-          <OTouchable className="mb-md flex h-[150px] bg-gray-200 dark:bg-white/20">
-            <View className="m-auto">
-              <CameraIcon width={45} height={45} fill={"grey"} />
+    <ScrollView
+      ref={scrollViewRef}
+      onContentSizeChange={() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }}
+    >
+      <View className="flex-1">
+        <OTouchable className="mb-md flex h-[150px] bg-gray-200 dark:bg-white/20">
+          <View className="m-auto">
+            <CameraIcon width={45} height={45} fill={"grey"} />
+          </View>
+        </OTouchable>
+        <View className="mb-md px-md">
+          <Title>Name</Title>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: { value: true, message: "Required" } }}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <PrimaryTextInputControl
+                className="mb-lg"
+                placeholder="What's your challenge called?"
+                inputMode="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                returnKeyType="next"
+                value={value}
+                error={!!errors.name}
+                errorMessage={errors.name?.message}
+                onSubmitEditing={() => {
+                  descriptionRef.current?.focus();
+                }}
+              />
+            )}
+          />
+          <Title>Description</Title>
+          <Controller
+            name="description"
+            control={control}
+            rules={{ required: { value: true, message: "Required" } }}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <PrimaryTextInputControl
+                ref={descriptionRef}
+                className="mb-lg"
+                placeholder="Describe your challenge and its goals..."
+                inputMode="text"
+                editable
+                onBlur={onBlur}
+                onChangeText={onChange}
+                multiline
+                blurOnSubmit
+                returnKeyType="done"
+                // numberOfLines={10}
+                value={value}
+                error={!!errors.description}
+                style={{ height: 100 }}
+                errorMessage={errors.description?.message}
+                textAlignVertical="top"
+              />
+            )}
+          />
+
+          <ChallengeCreateActivity />
+
+          <Title>Date</Title>
+          <Subtitle>When should the challenge officially begin?</Subtitle>
+          <View className="mb-lg">
+            <View
+              className={classNames(
+                "flex flex-row items-center ml-auto rounded-lg mb-md",
+                {
+                  "bg-red-200 text-red-800": !!errors.endDate,
+                }
+              )}
+            >
+              <Controller
+                name="startDate"
+                control={control}
+                rules={{
+                  required: { value: true, message: "Required field" },
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <RNDateTimePicker
+                    mode="datetime"
+                    value={value}
+                    onChange={(_, selectedDate) => {
+                      onChange(selectedDate);
+                    }}
+                  />
+                )}
+              />
             </View>
+          </View>
+
+          <Title>Invite Members</Title>
+          <Subtitle>A challenge is nothing without its people!</Subtitle>
+          <OTouchable
+            onPress={() => router.push("/(root)/community/community-invite")}
+            className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
+          >
+            <SearchIcon width={22} fill={svgFill} />
+            <Text className="dark:text-ivory">Search</Text>
           </OTouchable>
-          <View className="mb-md px-md">
-            <Title>Name</Title>
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: { value: true, message: "Required" } }}
-              render={({ field: { onBlur, onChange, value } }) => (
-                <PrimaryTextInputControl
-                  className="mb-lg"
-                  placeholder="What's your challenge called?"
-                  inputMode="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  returnKeyType="next"
-                  value={value}
-                  error={!!errors.name}
-                  errorMessage={errors.name?.message}
-                  onSubmitEditing={() => {
-                    descriptionRef.current?.focus();
-                  }}
-                />
-              )}
-            />
-            <Title>Description</Title>
-            <Controller
-              name="description"
-              control={control}
-              rules={{ required: { value: true, message: "Required" } }}
-              render={({ field: { onBlur, onChange, value } }) => (
-                <PrimaryTextInputControl
-                  ref={descriptionRef}
-                  className="mb-lg"
-                  placeholder="Describe your challenge and its goals..."
-                  inputMode="text"
-                  editable
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  multiline
-                  blurOnSubmit
-                  returnKeyType="done"
-                  // numberOfLines={10}
-                  value={value}
-                  error={!!errors.description}
-                  style={{ height: 100 }}
-                  errorMessage={errors.description?.message}
-                  textAlignVertical="top"
-                />
-              )}
-            />
 
-            <ChallengeCreateActivity />
+          {challengeForm.advancedMode ? (
+            <View className="flex flex-col gap-sm">
+              <View className="flex flex-row items-center justify-between">
+                <View>
+                  <OTouchable
+                    onPress={() => setChallengeFormField("advancedMode", false)}
+                    className="flex flex-row items-center gap-sm"
+                  >
+                    <Title>Less Settings</Title>
+                    <ChevronUpIcon width={22} height={22} fill={svgFill} />
+                  </OTouchable>
+                  <Subtitle>
+                    Select more settings for advanced customization
+                  </Subtitle>
+                </View>
+              </View>
 
-            <Title>Date</Title>
-            <Subtitle>When should the challenge officially begin?</Subtitle>
-            <View className="mb-lg">
+              <ChallengeCreateCadence />
+
               <View
                 className={classNames(
-                  "flex flex-row items-center ml-auto rounded-lg mb-md",
+                  "flex flex-col justify-between rounded-lg mb-sm",
                   {
                     "bg-red-200 text-red-800": !!errors.endDate,
                   }
                 )}
               >
-                <Controller
-                  name="startDate"
-                  control={control}
-                  rules={{
-                    required: { value: true, message: "Required field" },
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <RNDateTimePicker
-                      mode="datetime"
-                      value={value}
-                      onChange={(_, selectedDate) => {
-                        onChange(selectedDate);
-                      }}
-                    />
-                  )}
-                />
+                <Title className="text-xl">End</Title>
+                <Subtitle>When should the challenge officially end?</Subtitle>
+                <View className="ml-auto">
+                  <Controller
+                    name="endDate"
+                    control={control}
+                    rules={{
+                      required: { value: true, message: "Required field" },
+                      validate: (endDate) => {
+                        if (dayjs(endDate).isBefore(dayjs(startDate))) {
+                          return "End date must be after start date";
+                        }
+                        return true;
+                      },
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                      <RNDateTimePicker
+                        mode="datetime"
+                        value={value}
+                        onChange={(_, selectedDate) => {
+                          onChange(selectedDate);
+                        }}
+                      />
+                    )}
+                  />
+                </View>
               </View>
+              {!!errors.endDate && (
+                <Text className="mb-md pl-sm text-red-900">
+                  End date must be after start date
+                </Text>
+              )}
+
+              <ChallengeCreateMode />
             </View>
+          ) : (
+            <View className="mb-lg">
+              <OTouchable
+                onPress={() => setChallengeFormField("advancedMode", true)}
+                className="flex flex-row items-center gap-sm"
+              >
+                <Title>More Settings</Title>
+                <ChevronDownIcon width={22} height={22} fill={svgFill} />
+              </OTouchable>
+              <Subtitle>
+                Select more settings for advanced customization
+              </Subtitle>
+            </View>
+          )}
 
-            <Title>Invite Members</Title>
-            <Subtitle>A challenge is nothing without its people!</Subtitle>
-            <OTouchable
-              onPress={() => router.push("/(root)/community/community-invite")}
-              className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
-            >
-              <SearchIcon width={22} fill={svgFill} />
-              <Text className="dark:text-ivory">Search</Text>
-            </OTouchable>
-
-            {challengeForm.advancedMode ? (
-              <View className="flex flex-col gap-sm">
-                <View className="flex flex-row items-center justify-between">
-                  <View>
-                    <OTouchable
-                      onPress={() =>
-                        setChallengeFormField("advancedMode", false)
-                      }
-                      className="flex flex-row items-center gap-sm"
-                    >
-                      <Title>Less Settings</Title>
-                      <ChevronUpIcon width={22} height={22} fill={svgFill} />
-                    </OTouchable>
-                    <Subtitle>
-                      Select more settings for advanced customization
-                    </Subtitle>
-                  </View>
-                </View>
-
-                <ChallengeCreateCadence />
-
-                <View
-                  className={classNames(
-                    "flex flex-col justify-between rounded-lg mb-sm",
-                    {
-                      "bg-red-200 text-red-800": !!errors.endDate,
-                    }
-                  )}
-                >
-                  <Title className="text-xl">End</Title>
-                  <Subtitle>When should the challenge officially end?</Subtitle>
-                  <View className="ml-auto">
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      rules={{
-                        required: { value: true, message: "Required field" },
-                        validate: (endDate) => {
-                          if (dayjs(endDate).isBefore(dayjs(startDate))) {
-                            return "End date must be after start date";
-                          }
-                          return true;
-                        },
-                      }}
-                      render={({ field: { onChange, value } }) => (
-                        <RNDateTimePicker
-                          mode="datetime"
-                          value={value}
-                          onChange={(_, selectedDate) => {
-                            onChange(selectedDate);
-                          }}
-                        />
-                      )}
-                    />
-                  </View>
-                </View>
-                {!!errors.endDate && (
-                  <Text className="mb-md pl-sm text-red-900">
-                    End date must be after start date
-                  </Text>
-                )}
-
-                <ChallengeCreateMode />
-              </View>
-            ) : (
-              <View className="mb-lg">
-                <OTouchable
-                  onPress={() => setChallengeFormField("advancedMode", true)}
-                  className="flex flex-row items-center gap-sm"
-                >
-                  <Title>More Settings</Title>
-                  <ChevronDownIcon width={22} height={22} fill={svgFill} />
-                </OTouchable>
-                <Subtitle>
-                  Select more settings for advanced customization
-                </Subtitle>
-              </View>
-            )}
-
-            <OButton
-              title="Create"
-              loading={isMutationInFlight}
-              disabled={isMutationInFlight}
-              onPress={async (e) => {
-                // Read more about event pooling
-                // https://legacy.reactjs.org/docs/legacy-event-pooling.html
-                e.persist();
-                await handleSubmit(onSubmit)();
-              }}
-            />
-          </View>
+          <OButton
+            title="Create"
+            loading={isMutationInFlight}
+            disabled={isMutationInFlight}
+            onPress={async (e) => {
+              // Read more about event pooling
+              // https://legacy.reactjs.org/docs/legacy-event-pooling.html
+              e.persist();
+              await handleSubmit(onSubmit)();
+            }}
+          />
         </View>
-      </ScrollView>
-    </Ozone>
+      </View>
+    </ScrollView>
   );
 };

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<66f6a9d349a0b715382c6c69a8dfeebe>>
+ * @generated SignedSource<<0694f0a44f120fd96673b7ae1b219ee4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type ChallengeRootQuery$variables = {
 export type ChallengeRootQuery$data = {
   readonly viewer: {
     readonly challenge: {
-      readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge" | "ChallengeActivityTopResultsFragment_challenge" | "ChallengeDetails_challenge" | "ChallengeHeader_challenge">;
+      readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge" | "ChallengeActivityTopResultsFragment_challenge" | "ChallengeDetails_challenge" | "ChallengeRootName_challenge">;
     } | null | undefined;
   } | null | undefined;
 };
@@ -94,7 +94,7 @@ return {
               {
                 "args": null,
                 "kind": "FragmentSpread",
-                "name": "ChallengeHeader_challenge"
+                "name": "ChallengeRootName_challenge"
               },
               {
                 "args": null,
@@ -358,16 +358,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "74ea4a48794b897f8be2ec9b49c5ba68",
+    "cacheID": "0788e0e5cd8836416a8fc66165f9eef0",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeHeader_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults(first: 3) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeHeader_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeRootName_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...ChallengeActivityTopResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge on Challenge {\n  id\n  activityTopResults(first: 3) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n}\n\nfragment ChallengeRootName_challenge on Challenge {\n  id\n  name\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "29110021facd4798eb445d36814c6ed8";
+(node as any).hash = "45486d467575327739923bac6a035aa6";
 
 export default node;

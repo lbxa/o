@@ -7,12 +7,12 @@ import { useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
+import type { ChallengeActivityPills_challenge$key } from "@/__generated__/ChallengeActivityPills_challenge.graphql";
 import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDetails_challenge.graphql";
 import { useZustStore } from "@/state";
 import { OButton, OTouchable } from "@/universe/atoms";
+import { useSvgFill } from "@/utils";
 
-import type { ChallengeActivityPills_challenge$key } from "../../../__generated__/ChallengeActivityPills_challenge.graphql";
-import { useSvgFill } from "../../../utils";
 import { ChallengeActivityPills } from "../../ChallengeActivity";
 import {
   DistanceLogger,
@@ -115,9 +115,7 @@ export const ChallengeDetails = ({
         <OButton
           title="Invite"
           variant="indigo"
-          onPress={() =>
-            router.push("/(root)/community/challenge/challenge-invite")
-          }
+          onPress={() => router.push("/community/(challenge)/challenge-invite")}
         />
         <OButton
           title="Record"
