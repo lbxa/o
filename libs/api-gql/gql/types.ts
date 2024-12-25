@@ -368,6 +368,7 @@ export type Mutation = {
   communityJoin: CommunityJoinPayload;
   communityLeave: Scalars['Boolean']['output'];
   communityUpdate: Community;
+  createUserRecord: UserRecord;
   updateUserStreak: UserStreak;
   /** Accept a friendship */
   userAcceptFriendship: UserFriendship;
@@ -462,6 +463,11 @@ export type MutationCommunityLeaveArgs = {
 
 export type MutationCommunityUpdateArgs = {
   communityUpdateInput: CommunityUpdateInput;
+};
+
+
+export type MutationCreateUserRecordArgs = {
+  input: UserRecordCreateInput;
 };
 
 
@@ -704,6 +710,31 @@ export type UserFriendshipStatus = {
    * Will be null if no friendship request exists in this direction.
    */
   outgoing?: Maybe<UserFriendship>;
+};
+
+/**
+ * Represents a record of a user's activity in a specific challenge.
+ * This tracks individual challenge activity results for the user.
+ */
+export type UserRecord = Node & Timestamps & {
+  __typename?: 'UserRecord';
+  /** The specific activity within the challenge */
+  activity: ChallengeActivity;
+  /** The result of the activity */
+  activityResult: ChallengeActivityResult;
+  /** The challenge this record is associated with */
+  challenge: Challenge;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user: User;
+};
+
+export type UserRecordCreateInput = {
+  activityId: Scalars['ID']['input'];
+  activityResultId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 /**

@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import type { NewUser, User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
 import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityService } from "../entity";
+import { EntityService, EntityType } from "../entity";
 import { User as GqlUser, UserUpdateInput } from "../types/graphql";
 import {
   CryptoService,
@@ -24,14 +24,14 @@ export class UserService
     private cryptoService: CryptoService
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "User";
   }
 
   public pg2GqlMapper(pgUser: PgUser): GqlUser {
     return {
       ...pgUser,
-      id: encodeGlobalId("User", pgUser.id),
+      id: encodeGlobalId(this.getTypename(), pgUser.id),
     };
   }
 
@@ -61,7 +61,7 @@ export class UserService
     });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundError(`User with id ${id} not found`);
     }
 
     return this.pg2GqlMapper(user);
@@ -80,7 +80,7 @@ export class UserService
 
   async update(updateUserInput: UserUpdateInput): Promise<GqlUser> {
     const { id: globalId, ...updates } = updateUserInput;
-    const id = validateAndDecodeGlobalId(globalId, "User");
+    const id = validateAndDecodeGlobalId(globalId, this.getTypename());
 
     const filteredUpdates = Object.fromEntries(
       Object.entries(updates).filter(([_, value]) => value !== null)

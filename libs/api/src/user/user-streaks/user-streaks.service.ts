@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityService, EntityUtils } from "../../entity";
+import { EntityService, EntityType, EntityUtils } from "../../entity";
 import {
   UserStreak as GqlUserStreak,
   UserStreakUpdateInput,
@@ -32,7 +32,7 @@ export class UserStreaksService
     private userStreaksRepository: UserStreaksRepository
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "UserStreak";
   }
 
@@ -41,7 +41,7 @@ export class UserStreaksService
   ): GqlUserStreak {
     return {
       ...pgUserStreak,
-      id: encodeGlobalId("UserStreak", pgUserStreak.id),
+      id: encodeGlobalId(this.getTypename(), pgUserStreak.id),
       user: this.userService.pg2GqlMapper(pgUserStreak.user),
     };
   }
@@ -85,7 +85,7 @@ export class UserStreaksService
     updateUserStreakInput: UserStreakUpdateInput
   ): Promise<GqlUserStreak> {
     const { id: globalId, ...updates } = updateUserStreakInput;
-    const id = validateAndDecodeGlobalId(globalId, "UserStreak");
+    const id = validateAndDecodeGlobalId(globalId, this.getTypename());
 
     const filteredUpdates = EntityUtils.filterNullValues(updates);
     const updatedUserStreak = await this.userStreaksRepository.update({
@@ -101,7 +101,7 @@ export class UserStreaksService
   }
 
   async delete(id: string): Promise<boolean> {
-    const decodedId = validateAndDecodeGlobalId(id, "UserStreak");
+    const decodedId = validateAndDecodeGlobalId(id, this.getTypename());
 
     // eslint-disable-next-line drizzle/enforce-delete-with-where
     return this.userStreaksRepository.delete(decodedId);

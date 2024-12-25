@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 
 import {
+  ChallengeActivitiesTable,
   ChallengeActivityResultsTable,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
@@ -13,6 +14,7 @@ import {
 } from "../schema/community.schema";
 import {
   UserFriendshipsTable,
+  UserRecordsTable,
   UsersTable,
   UserStreaksTable,
 } from "../schema/user.schema";
@@ -45,6 +47,7 @@ export const UsersRelations = relations(UsersTable, ({ many, one }) => ({
     fields: [UsersTable.id],
     references: [UserStreaksTable.userId],
   }),
+  records: many(UserRecordsTable),
 }));
 
 export const UserFriendshipsRelations = relations(
@@ -68,5 +71,24 @@ export const UserStreaksRelations = relations(UserStreaksTable, ({ one }) => ({
   user: one(UsersTable, {
     fields: [UserStreaksTable.userId],
     references: [UsersTable.id],
+  }),
+}));
+
+export const UserRecordsRelations = relations(UserRecordsTable, ({ one }) => ({
+  user: one(UsersTable, {
+    fields: [UserRecordsTable.userId],
+    references: [UsersTable.id],
+  }),
+  challenge: one(ChallengesTable, {
+    fields: [UserRecordsTable.challengeId],
+    references: [ChallengesTable.id],
+  }),
+  activity: one(ChallengeActivitiesTable, {
+    fields: [UserRecordsTable.activityId],
+    references: [ChallengeActivitiesTable.id],
+  }),
+  activityResult: one(ChallengeActivityResultsTable, {
+    fields: [UserRecordsTable.activityResultId],
+    references: [ChallengeActivityResultsTable.id],
   }),
 }));

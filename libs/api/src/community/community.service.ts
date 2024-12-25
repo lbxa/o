@@ -8,6 +8,8 @@ import {
 import * as schema from "@o/db";
 import { desc, eq } from "drizzle-orm";
 
+import { EntityType } from "@/entity";
+
 import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
@@ -24,14 +26,14 @@ export class CommunityService
 {
   constructor(private dbService: DbService<typeof schema>) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "Community";
   }
 
   public pg2GqlMapper(community: PgCommunity): GqlCommunity {
     return {
       ...community,
-      id: encodeGlobalId("Community", community.id),
+      id: encodeGlobalId(this.getTypename(), community.id),
     };
   }
 
@@ -79,7 +81,7 @@ export class CommunityService
 
     const edges = communities.slice(0, first).map((community) => ({
       node: this.pg2GqlMapper(community.userCommunity),
-      cursor: encodeGlobalId("Community", community.userCommunity.id),
+      cursor: encodeGlobalId(this.getTypename(), community.userCommunity.id),
     }));
 
     // Determine if there is a next page
@@ -113,7 +115,7 @@ export class CommunityService
 
   async update(input: CommunityUpdateInput): Promise<GqlCommunity> {
     const { id: globalId, ...updates } = input;
-    const id = validateAndDecodeGlobalId(globalId, "Community");
+    const id = validateAndDecodeGlobalId(globalId, this.getTypename());
 
     const filteredUpdates = Object.fromEntries(
       Object.entries(updates).filter(([_, value]) => value !== null)

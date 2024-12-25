@@ -311,6 +311,7 @@ type Mutation {
   communityJoin(inviteId: ID!): CommunityJoinPayload!
   communityLeave(id: ID!): Boolean!
   communityUpdate(communityUpdateInput: CommunityUpdateInput!): Community!
+  createUserRecord(input: UserRecordCreateInput!): UserRecord!
   updateUserStreak(input: UserStreakUpdateInput!): UserStreak!
   """Accept a friendship"""
   userAcceptFriendship(friendId: ID!): UserFriendship!
@@ -456,6 +457,30 @@ type UserFriendshipStatus {
   Will be null if no friendship request exists in this direction.
   """
   outgoing: UserFriendship
+}
+
+"""
+Represents a record of a user's activity in a specific challenge.
+This tracks individual challenge activity results for the user.
+"""
+type UserRecord implements Node & Timestamps {
+  """The specific activity within the challenge"""
+  activity: ChallengeActivity!
+  """The result of the activity"""
+  activityResult: ChallengeActivityResult!
+  """The challenge this record is associated with"""
+  challenge: Challenge!
+  createdAt: DateTime
+  id: ID!
+  updatedAt: DateTime
+  user: User!
+}
+
+input UserRecordCreateInput {
+  activityId: ID!
+  activityResultId: ID!
+  challengeId: ID!
+  userId: ID!
 }
 
 """

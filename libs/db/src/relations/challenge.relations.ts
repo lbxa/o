@@ -8,7 +8,7 @@ import {
   ChallengesTable,
 } from "../schema/challenge.schema";
 import { CommunitiesTable } from "../schema/community.schema";
-import { UsersTable } from "../schema/user.schema";
+import { UserRecordsTable, UsersTable } from "../schema/user.schema";
 
 export const ChallengesRelations = relations(
   ChallengesTable,
@@ -79,7 +79,7 @@ export const ChallengeActivitiesRelations = relations(
 
 export const ChallengeActivityResultRelations = relations(
   ChallengeActivityResultsTable,
-  ({ one }) => ({
+  ({ one, many }) => ({
     user: one(UsersTable, {
       fields: [ChallengeActivityResultsTable.userId],
       references: [UsersTable.id],
@@ -92,5 +92,6 @@ export const ChallengeActivityResultRelations = relations(
       fields: [ChallengeActivityResultsTable.challengeId],
       references: [ChallengesTable.id],
     }),
+    records: many(UserRecordsTable),
   })
 );

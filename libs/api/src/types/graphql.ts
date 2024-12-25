@@ -117,6 +117,13 @@ export interface CommunityUpdateInput {
     isPublic?: Nullable<boolean>;
 }
 
+export interface UserRecordCreateInput {
+    userId: string;
+    challengeId: string;
+    activityId: string;
+    activityResultId: string;
+}
+
 export interface UserStreakUpdateInput {
     id: string;
     currentStreak: number;
@@ -179,6 +186,7 @@ export interface IMutation {
     communityInviteDecline(inviteId: string): CommunityInviteDeclinePayload | Promise<CommunityInviteDeclinePayload>;
     communityJoin(inviteId: string): CommunityJoinPayload | Promise<CommunityJoinPayload>;
     communityLeave(id: string): boolean | Promise<boolean>;
+    createUserRecord(input: UserRecordCreateInput): UserRecord | Promise<UserRecord>;
     updateUserStreak(input: UserStreakUpdateInput): UserStreak | Promise<UserStreak>;
     userUpdate(userUpdateInput: UserUpdateInput): User | Promise<User>;
     userRequestFriendship(friendId: string): UserFriendship | Promise<UserFriendship>;
@@ -384,6 +392,17 @@ export interface PageInfo {
     hasPreviousPage: boolean;
     startCursor?: Nullable<string>;
     endCursor?: Nullable<string>;
+}
+
+export interface UserRecord extends Node, Timestamps {
+    __typename?: 'UserRecord';
+    id: string;
+    user: User;
+    challenge: Challenge;
+    activity: ChallengeActivity;
+    activityResult: ChallengeActivityResult;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export interface UserStreak extends Node, Timestamps {

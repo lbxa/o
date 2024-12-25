@@ -2,6 +2,8 @@
 // import { createParamDecorator } from "@nestjs/common";
 // import { GqlExecutionContext } from "@nestjs/graphql";
 
+import type { EntityType } from "src/entity/entity.types";
+
 import { InvalidIdError } from "./errors";
 
 // export const DecodeGlobalId = createParamDecorator(
@@ -22,24 +24,6 @@ import { InvalidIdError } from "./errors";
 //     }
 //   }
 // );
-
-type EntityIdentifiers =
-  | "Viewer"
-  | "Community"
-  | "User"
-  | "Challenge"
-  | "ChallengeActivity";
-
-type EntitySecondaryIdentifiers =
-  | "Invitation"
-  | "Result"
-  | "Membership"
-  | "Friendship"
-  | "Streak";
-
-export type EntityType =
-  | EntityIdentifiers
-  | `${EntityIdentifiers}${EntitySecondaryIdentifiers}`;
 
 export function encodeGlobalId(type: EntityType, id: number): string {
   return Buffer.from(`${type}:${id}`, "utf8").toString("base64");

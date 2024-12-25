@@ -1,6 +1,7 @@
 import type { AnyPgTable } from "drizzle-orm/pg-core";
 
 import type { Node } from "../types/graphql";
+import type { EntityType } from "./entity.types";
 
 /**
  * All services should hold a minimum standard of functionality:
@@ -19,7 +20,7 @@ export interface EntityService<
   GqlType extends Node,
   // EdgeType extends Edge<GqlType> = Edge<GqlType>,
 > {
-  getTypename(): string;
+  getTypename(): EntityType;
   pg2GqlMapper(pgEntity: PgType): GqlType;
   findById(id: number): Promise<GqlType | undefined>;
   // buildEdge(pgEntity: PgType): EdgeType;

@@ -16,17 +16,21 @@ export type {
   NewUserFriendship,
   UserStreak,
   NewUserStreak,
+  UserRecord,
+  NewUserRecord,
 } from "./schema/user.schema";
 export {
   UserSchema,
   UsersTable,
   UserFriendshipsTable,
   UserStreaksTable,
+  UserRecordsTable,
 } from "./schema/user.schema";
 export {
   UsersRelations,
   UserFriendshipsRelations,
   UserStreaksRelations,
+  UserRecordsRelations,
 } from "./relations/user.relations";
 
 /**

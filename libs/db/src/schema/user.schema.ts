@@ -10,6 +10,11 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { withIdPk, withModificationDates } from "../helpers";
+import {
+  ChallengeActivitiesTable,
+  ChallengeActivityResultsTable,
+  ChallengesTable,
+} from "./challenge.schema";
 import { InvitationStatus } from "./shared";
 
 export const UserSchema = pgSchema("user");
@@ -73,6 +78,31 @@ export const UserStreaksTable = UserSchema.table("streaks", {
   ...withModificationDates,
 });
 
+export const UserRecordsTable = UserSchema.table(
+  "records",
+  {
+    ...withIdPk,
+    userId: integer()
+      .notNull()
+      .references(() => UsersTable.id, { onDelete: "cascade" }),
+    challengeId: integer()
+      .notNull()
+      .references(() => ChallengesTable.id, { onDelete: "cascade" }),
+    activityId: integer()
+      .notNull()
+      .references(() => ChallengeActivitiesTable.id, { onDelete: "cascade" }),
+    activityResultId: integer()
+      .notNull()
+      .references(() => ChallengeActivityResultsTable.id, {
+        onDelete: "cascade",
+      }),
+    ...withModificationDates,
+  },
+  (table) => ({
+    userRecordsIndex: index().on(table.userId, table.createdAt),
+  })
+);
+
 export type User = typeof UsersTable.$inferSelect;
 export type NewUser = typeof UsersTable.$inferInsert;
 
@@ -81,3 +111,6 @@ export type NewUserFriendship = typeof UserFriendshipsTable.$inferInsert;
 
 export type UserStreak = typeof UserStreaksTable.$inferSelect;
 export type NewUserStreak = typeof UserStreaksTable.$inferInsert;
+
+export type UserRecord = typeof UserRecordsTable.$inferSelect;
+export type NewUserRecord = typeof UserRecordsTable.$inferInsert;

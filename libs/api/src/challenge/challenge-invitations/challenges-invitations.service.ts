@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
   Challenge as PgChallenge,
   ChallengeActivitiesTable,
@@ -16,6 +12,7 @@ import {
 } from "@o/db";
 import * as schema from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
+import { ForbiddenError, NotFoundError } from "src/utils/errors";
 
 import { DbService } from "../../db/db.service";
 import { EntityService } from "../../entity/entity-service";
@@ -76,20 +73,18 @@ export class ChallengeInvitationsService
       });
 
     if (!invitation) {
-      throw new NotFoundException(
-        `Challenge invitation with id ${id} not found`
-      );
+      throw new NotFoundError(`Challenge invitation with id ${id} not found`);
     }
 
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, id),
+      where: eq(ChallengesTable.id, invitation.challengeId),
       with: {
         activities: true,
       },
     });
 
     if (!challenge) {
-      throw new NotFoundException(
+      throw new NotFoundError(
         `Challenge with id ${invitation.challengeId} not found`
       );
     }
@@ -152,7 +147,7 @@ export class ChallengeInvitationsService
     challengeId: number
   ): Promise<boolean> {
     if (inviteeId === inviterId) {
-      throw new ForbiddenException("Cannot invite self to a challenge");
+      throw new ForbiddenError("Cannot invite self to a challenge");
     }
 
     const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
@@ -160,7 +155,7 @@ export class ChallengeInvitationsService
     });
 
     if (!challenge) {
-      throw new NotFoundException(`Challenge with id ${challengeId} not found`);
+      throw new NotFoundError(`Challenge with id ${challengeId} not found`);
     }
 
     // Verify that the inviter is a member of the challenge's community
@@ -173,7 +168,7 @@ export class ChallengeInvitationsService
       });
 
     if (!isMember) {
-      throw new ForbiddenException(
+      throw new ForbiddenError(
         "You must be a member of the community to invite users to this challenge"
       );
     }

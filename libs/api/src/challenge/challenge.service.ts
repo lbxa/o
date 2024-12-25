@@ -13,7 +13,7 @@ import * as schema from "@o/db";
 import { and, desc, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityUtils } from "../entity";
+import { EntityType, EntityUtils } from "../entity";
 import { EntityService } from "../entity/entity-service";
 import {
   Challenge as GqlChallenge,
@@ -41,7 +41,7 @@ export class ChallengeService
     private dbService: DbService<typeof schema>
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "Challenge";
   }
 
@@ -57,7 +57,7 @@ export class ChallengeService
       activity: this.challengeActivitiesService.pg2GqlMapper(
         challenge.activities[0]
       ),
-      id: encodeGlobalId("Challenge", challenge.id),
+      id: encodeGlobalId(this.getTypename(), challenge.id),
     };
   }
 
@@ -116,7 +116,7 @@ export class ChallengeService
     after?: string
   ): Promise<ChallengeConnection> {
     const startCursorId = after
-      ? validateAndDecodeGlobalId(after, "Challenge")
+      ? validateAndDecodeGlobalId(after, this.getTypename())
       : 0;
 
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
@@ -132,7 +132,7 @@ export class ChallengeService
         ...challenge,
         activities: challenge.activities, // for now one-to-one
       }),
-      cursor: encodeGlobalId("Challenge", challenge.id),
+      cursor: encodeGlobalId(this.getTypename(), challenge.id),
     }));
 
     const hasNextPage = challenges.length > first;
@@ -193,7 +193,7 @@ export class ChallengeService
 
   async update(challengeInput: ChallengeUpdateInput): Promise<GqlChallenge> {
     const { id: globalId, ...updates } = challengeInput;
-    const id = validateAndDecodeGlobalId(globalId, "Challenge");
+    const id = validateAndDecodeGlobalId(globalId, this.getTypename());
 
     const filteredUpdates = EntityUtils.filterNullValues(updates);
     const updatedChallenge = await this.challengeRepository.update({
