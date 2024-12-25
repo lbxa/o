@@ -1,0 +1,28 @@
+meta {
+  name: ChallengeUpdate
+  type: graphql
+  seq: 9
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  mutation {
+    challengeUpdate(challengeUpdateInput: {
+      id: "Q2hhbGxlbmdlOjEK",
+      description: "A new description"
+    }) {
+      id
+      description
+    }
+  }
+  
+}

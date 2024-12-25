@@ -20,7 +20,7 @@ export const CommunitySearch = () => {
   const { isDark } = useOTheme();
   const { builtInTitleOptions } = useSharedHeaderOptions();
   return (
-    <View className="mb-md flex flex-row items-center gap-sm">
+    <View className="px-md h-full flex-1">
       <Stack.Screen
         options={{
           ...builtInTitleOptions,
@@ -32,11 +32,6 @@ export const CommunitySearch = () => {
           },
         }}
       />
-      {/* <OSearchBar
-        searchQuery=""
-        onSearchChange={() => null}
-        placeholder="Community name"
-      /> */}
     </View>
   );
 };

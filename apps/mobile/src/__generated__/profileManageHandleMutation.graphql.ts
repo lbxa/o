@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d0cfa9e8644ecc2eeb14b67f418c0376>>
+ * @generated SignedSource<<8c5903a45b5ce8ff4f715355db4eee9c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,18 +17,18 @@ export type UserUpdateInput = {
   id: string;
   lastName?: string | null | undefined;
 };
-export type userBioMutation$variables = {
+export type profileManageHandleMutation$variables = {
   input: UserUpdateInput;
 };
-export type userBioMutation$data = {
+export type profileManageHandleMutation$data = {
   readonly userUpdate: {
-    readonly bio: string | null | undefined;
+    readonly handle: string | null | undefined;
     readonly id: string;
   };
 };
-export type userBioMutation = {
-  response: userBioMutation$data;
-  variables: userBioMutation$variables;
+export type profileManageHandleMutation = {
+  response: profileManageHandleMutation$data;
+  variables: profileManageHandleMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -65,7 +65,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "bio",
+        "name": "handle",
         "storageKey": null
       }
     ],
@@ -77,7 +77,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userBioMutation",
+    "name": "profileManageHandleMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -86,20 +86,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userBioMutation",
+    "name": "profileManageHandleMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "4068e46f52dfec2e474e45c798322096",
+    "cacheID": "843b070e7e34d9e4dbfe151f663a2c19",
     "id": null,
     "metadata": {},
-    "name": "userBioMutation",
+    "name": "profileManageHandleMutation",
     "operationKind": "mutation",
-    "text": "mutation userBioMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    bio\n  }\n}\n"
+    "text": "mutation profileManageHandleMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    handle\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f82e2b4ee6191eb43d1c52d1b8933524";
+(node as any).hash = "eebf1a90d4ce6123ad22601379dc1306";
 
 export default node;

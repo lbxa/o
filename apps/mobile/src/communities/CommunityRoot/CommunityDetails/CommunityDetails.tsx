@@ -23,15 +23,15 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
   );
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-col">
       <CommunitySocials memberCount={community.memberCount ?? 0} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton
           title="Invite"
           variant="indigo"
           className="rounded-xl"
-          onPress={() => router.push("/(root)/community/invite")}
+          onPress={() => router.push("/(root)/community/community-invite")}
         />
       </View>
     </View>

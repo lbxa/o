@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { useFragment, usePreloadedQuery } from "react-relay";
@@ -5,7 +6,6 @@ import { graphql } from "relay-runtime";
 
 import type { ChallengeManage_challenge$key } from "@/__generated__/ChallengeManage_challenge.graphql";
 import type { ChallengeManageQuery } from "@/__generated__/ChallengeManageQuery.graphql";
-import { OButton } from "@/universe/atoms/OButton";
 import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
 
@@ -46,28 +46,21 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
     {
       label: "Name",
       value: challenge?.name ?? "No name found",
-      route: "/(root)/community/challenge/manage/challenge-name",
+      route: "/(root)/community/challenge/challenge-manage/challenge-name",
     },
     {
       label: "Description",
       value: challenge?.description ?? "No description found",
-      route: "/(root)/community/challenge/manage/challenge-description",
+      route:
+        "/(root)/community/challenge/challenge-manage/challenge-description",
     },
   ];
 
   return (
     <Ozone>
-      <View className="flex flex-col gap-md p-md">
+      <View className="gap-md p-md flex flex-col">
         <OImageUpload className="mb-md" />
         <OMenu items={menuItems} className="mb-lg" />
-        <OButton
-          title="Delete Challenge"
-          type="secondary"
-          variant="red"
-          onPress={() => {
-            // TODO: Implement delete challenge functionality
-          }}
-        />
       </View>
     </Ozone>
   );

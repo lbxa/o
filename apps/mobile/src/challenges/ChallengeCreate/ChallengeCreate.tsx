@@ -236,22 +236,22 @@ export const ChallengeCreate = () => {
             <Title>Invite Members</Title>
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
-              onPress={() => router.push("/(root)/community/invite")}
-              className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
+              onPress={() => router.push("/(root)/community/community-invite")}
+              className="mb-lg gap-sm bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3 dark:bg-white/20"
             >
               <SearchIcon width={22} fill={svgFill} />
               <Text className="dark:text-ivory">Search</Text>
             </OTouchable>
 
             {challengeForm.advancedMode ? (
-              <View className="flex flex-col gap-sm">
+              <View className="gap-sm flex flex-col">
                 <View className="flex flex-row items-center justify-between">
                   <View>
                     <OTouchable
                       onPress={() =>
                         setChallengeFormField("advancedMode", false)
                       }
-                      className="flex flex-row items-center gap-sm"
+                      className="gap-sm flex flex-row items-center"
                     >
                       <Title>Less Settings</Title>
                       <ChevronUpIcon width={22} height={22} fill={svgFill} />
@@ -311,7 +311,7 @@ export const ChallengeCreate = () => {
               <View className="mb-lg">
                 <OTouchable
                   onPress={() => setChallengeFormField("advancedMode", true)}
-                  className="flex flex-row items-center gap-sm"
+                  className="gap-sm flex flex-row items-center"
                 >
                   <Title>More Settings</Title>
                   <ChevronDownIcon width={22} height={22} fill={svgFill} />

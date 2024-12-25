@@ -1,16 +1,16 @@
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
-import { SharedHeaderTitle, useSharedHeaderOptions } from "@/shared";
+import { useSharedHeaderOptions } from "@/shared";
 import { ModalCloseButton } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
 
 export default function CommunityRootLayout() {
-  const { customTitleOptions } = useSharedHeaderOptions();
+  const { builtInTitleOptions } = useSharedHeaderOptions();
   return (
     <Stack
       screenOptions={{
-        ...customTitleOptions,
+        ...builtInTitleOptions,
       }}
     >
       <Stack.Screen
@@ -22,11 +22,18 @@ export default function CommunityRootLayout() {
               Community
             </Text>
           ),
-          headerRight: () => <MiniNav items={["create", "search"]} />,
+          headerRight: () => (
+            <MiniNav
+              items={["create", "search"]}
+              itemConfigs={{
+                search: { href: "/(root)/community/community-search" },
+              }}
+            />
+          ),
         }}
       />
       <Stack.Screen
-        name="invite"
+        name="community-invite"
         options={{
           headerLeft: () => (
             <Text className="text-xl font-bold text-black dark:text-ivory">
@@ -39,21 +46,33 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="community-manage"
+        name="(community-manage)/community-manage"
         options={{
-          headerShown: false,
+          title: "Manage",
         }}
       />
       <Stack.Screen
-        name="create"
+        name="(community-manage)/community-manage-name"
         options={{
-          headerLeft: () => <SharedHeaderTitle title="New Community" />,
+          title: "Name",
+        }}
+      />
+      <Stack.Screen
+        name="(community-manage)/community-manage-visibility"
+        options={{
+          title: "Visibility",
+        }}
+      />
+      <Stack.Screen
+        name="community-create"
+        options={{
+          title: "New Community",
         }}
       />
       <Stack.Screen
         name="community-message"
         options={{
-          headerLeft: () => <SharedHeaderTitle title="Community Chat" />,
+          title: "Community Chat",
         }}
       />
       <Stack.Screen
@@ -62,12 +81,7 @@ export default function CommunityRootLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="community-search"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="community-search" />
     </Stack>
   );
 }

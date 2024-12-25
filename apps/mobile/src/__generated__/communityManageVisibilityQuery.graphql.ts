@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<05b56b5cecc75861e12ffae5f437df51>>
+ * @generated SignedSource<<6a01186978b96e93c1ec384b4d143a5b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,49 +9,57 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type userNameQuery$variables = Record<PropertyKey, never>;
-export type userNameQuery$data = {
+export type communityManageVisibilityQuery$variables = {
+  communityId: string;
+};
+export type communityManageVisibilityQuery$data = {
   readonly viewer: {
-    readonly user: {
-      readonly firstName: string;
+    readonly community: {
       readonly id: string;
-      readonly lastName: string;
+      readonly isPublic: boolean;
     } | null | undefined;
   } | null | undefined;
 };
-export type userNameQuery = {
-  response: userNameQuery$data;
-  variables: userNameQuery$variables;
+export type communityManageVisibilityQuery = {
+  response: communityManageVisibilityQuery$data;
+  variables: communityManageVisibilityQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "communityId"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "communityId",
+    "variableName": "communityId"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v1 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "lastName",
+  "name": "isPublic",
   "storageKey": null
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userNameQuery",
+    "name": "communityManageVisibilityQuery",
     "selections": [
       {
         "alias": null,
@@ -63,21 +71,16 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
+              (v2/*: any*/),
               {
                 "kind": "RequiredField",
-                "field": (v1/*: any*/),
-                "action": "THROW"
-              },
-              {
-                "kind": "RequiredField",
-                "field": (v2/*: any*/),
+                "field": (v3/*: any*/),
                 "action": "THROW"
               }
             ],
@@ -92,9 +95,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userNameQuery",
+    "name": "communityManageVisibilityQuery",
     "selections": [
       {
         "alias": null,
@@ -106,35 +109,34 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
-              (v1/*: any*/),
-              (v2/*: any*/)
+              (v2/*: any*/),
+              (v3/*: any*/)
             ],
             "storageKey": null
           },
-          (v0/*: any*/)
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "540aa80e61b861fd19f27866595cec1b",
+    "cacheID": "e876bbffa42741f973398df0faa462fd",
     "id": null,
     "metadata": {},
-    "name": "userNameQuery",
+    "name": "communityManageVisibilityQuery",
     "operationKind": "query",
-    "text": "query userNameQuery {\n  viewer {\n    user {\n      id\n      firstName\n      lastName\n    }\n    id\n  }\n}\n"
+    "text": "query communityManageVisibilityQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      id\n      isPublic\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "33cba6de4ffa4ad9b872b20c84a77d49";
+(node as any).hash = "478f862f68acb98c00e9f277b7240d86";
 
 export default node;

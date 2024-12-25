@@ -10,21 +10,22 @@ import { useOTheme } from "../../../utils";
 const colors = tailwind.theme.extend.colors;
 
 export default function Root() {
-  const { customTitleOptions } = useSharedHeaderOptions();
+  const { builtInTitleOptions } = useSharedHeaderOptions();
   const { isDark } = useOTheme();
 
   return (
     <Stack
       screenOptions={{
-        ...customTitleOptions,
+        ...builtInTitleOptions,
+        headerStyle: {
+          backgroundColor: isDark ? "#000000" : colors.ivory.DEFAULT,
+        },
       }}
     >
       <Stack.Screen
         name="index"
         options={{
-          headerStyle: {
-            backgroundColor: isDark ? "#000000" : colors.ivory.DEFAULT,
-          },
+          title: "Profile",
           headerLeft: () => (
             <Text className="text-3xl font-bold text-black dark:text-ivory">
               Profile
@@ -33,15 +34,41 @@ export default function Root() {
           headerRight: () => (
             <MiniNav
               items={["manage"]}
-              itemConfigs={{ manage: { href: "/profile/manage" } }}
+              itemConfigs={{
+                manage: { href: "/profile/profile-manage" },
+              }}
             />
           ),
         }}
       />
       <Stack.Screen
-        name="manage"
+        name="(profile-manage)/profile-manage"
         options={{
-          headerShown: false,
+          title: "Manage",
+        }}
+      />
+      <Stack.Screen
+        name="(profile-manage)/profile-manage-name"
+        options={{
+          title: "Name",
+        }}
+      />
+      <Stack.Screen
+        name="(profile-manage)/profile-manage-handle"
+        options={{
+          title: "Handle",
+        }}
+      />
+      <Stack.Screen
+        name="(profile-manage)/profile-manage-email"
+        options={{
+          title: "Email",
+        }}
+      />
+      <Stack.Screen
+        name="(profile-manage)/profile-manage-bio"
+        options={{
+          title: "Bio",
         }}
       />
     </Stack>

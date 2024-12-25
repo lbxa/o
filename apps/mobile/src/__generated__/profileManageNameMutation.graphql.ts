@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fd1886ca2f1cdec6414fbfca1088ceda>>
+ * @generated SignedSource<<b3171a6089051297dd339c28d398e17e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,18 +17,19 @@ export type UserUpdateInput = {
   id: string;
   lastName?: string | null | undefined;
 };
-export type userHandleMutation$variables = {
+export type profileManageNameMutation$variables = {
   input: UserUpdateInput;
 };
-export type userHandleMutation$data = {
+export type profileManageNameMutation$data = {
   readonly userUpdate: {
-    readonly handle: string | null | undefined;
+    readonly firstName: string | null | undefined;
     readonly id: string;
+    readonly lastName: string | null | undefined;
   };
 };
-export type userHandleMutation = {
-  response: userHandleMutation$data;
-  variables: userHandleMutation$variables;
+export type profileManageNameMutation = {
+  response: profileManageNameMutation$data;
+  variables: profileManageNameMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -65,7 +66,14 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "handle",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
         "storageKey": null
       }
     ],
@@ -77,7 +85,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userHandleMutation",
+    "name": "profileManageNameMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -86,20 +94,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userHandleMutation",
+    "name": "profileManageNameMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "26a99a0257a75b8c59b7f7b5a5e41d89",
+    "cacheID": "9575b0db48f90ed6f368b0d414c68b61",
     "id": null,
     "metadata": {},
-    "name": "userHandleMutation",
+    "name": "profileManageNameMutation",
     "operationKind": "mutation",
-    "text": "mutation userHandleMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    handle\n  }\n}\n"
+    "text": "mutation profileManageNameMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    firstName\n    lastName\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "92e726070a7e81d48c6c79e1a22672a1";
+(node as any).hash = "09e00d6d9af4edfab54549a795faaab1";
 
 export default node;

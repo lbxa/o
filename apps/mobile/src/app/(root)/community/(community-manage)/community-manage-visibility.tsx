@@ -4,12 +4,11 @@ import { Controller, useForm } from "react-hook-form";
 import { Switch, View } from "react-native";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
 
-import type { communityVisibilityMutation } from "@/__generated__/communityVisibilityMutation.graphql";
-import type { communityVisibilityQuery } from "@/__generated__/communityVisibilityQuery.graphql";
+import type { communityManageVisibilityMutation } from "@/__generated__/communityManageVisibilityMutation.graphql";
+import type { communityManageVisibilityQuery } from "@/__generated__/communityManageVisibilityQuery.graphql";
+import { useZustStore } from "@/state";
 import { OButton, OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-
-import { useZustStore } from "../../../../state";
 
 interface VisibilityFormData {
   isPublic: boolean;
@@ -23,9 +22,9 @@ export default function CommunityManagePublic() {
     throw new Error("Community ID is required");
   }
 
-  const community = useLazyLoadQuery<communityVisibilityQuery>(
+  const community = useLazyLoadQuery<communityManageVisibilityQuery>(
     graphql`
-      query communityVisibilityQuery($communityId: ID!) {
+      query communityManageVisibilityQuery($communityId: ID!) {
         viewer {
           community(communityId: $communityId) {
             id
@@ -42,8 +41,10 @@ export default function CommunityManagePublic() {
   );
 
   const [commitMutation, isMutationInFlight] =
-    useMutation<communityVisibilityMutation>(graphql`
-      mutation communityVisibilityMutation($input: CommunityUpdateInput!) {
+    useMutation<communityManageVisibilityMutation>(graphql`
+      mutation communityManageVisibilityMutation(
+        $input: CommunityUpdateInput!
+      ) {
         communityUpdate(communityUpdateInput: $input) {
           id
           isPublic

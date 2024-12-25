@@ -50,22 +50,22 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
     {
       label: "Name",
       value: `${user?.firstName} ${user?.lastName}`,
-      route: "/(root)/profile/manage/user-name",
+      route: "/profile/profile-manage-name",
     },
     {
       label: "Handle",
       value: user?.handle ?? "Create a handle",
-      route: "/(root)/profile/manage/user-handle",
+      route: "/profile/profile-manage-handle",
     },
     {
       label: "Email",
       value: user?.email,
-      route: "/(root)/profile/manage/user-email",
+      route: "/profile/profile-manage-email",
     },
     {
       label: "Bio",
       value: user?.bio ?? "Add a bio",
-      route: "/(root)/profile/manage/user-bio",
+      route: "/profile/profile-manage-bio",
     },
   ];
 

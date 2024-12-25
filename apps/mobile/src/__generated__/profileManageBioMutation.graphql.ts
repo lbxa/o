@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<35e9d218e88fd7c489403759af9850e3>>
+ * @generated SignedSource<<12a3459b6427460fa6d13780e130e272>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,18 +17,18 @@ export type UserUpdateInput = {
   id: string;
   lastName?: string | null | undefined;
 };
-export type userEmailMutation$variables = {
+export type profileManageBioMutation$variables = {
   input: UserUpdateInput;
 };
-export type userEmailMutation$data = {
+export type profileManageBioMutation$data = {
   readonly userUpdate: {
-    readonly email: string | null | undefined;
+    readonly bio: string | null | undefined;
     readonly id: string;
   };
 };
-export type userEmailMutation = {
-  response: userEmailMutation$data;
-  variables: userEmailMutation$variables;
+export type profileManageBioMutation = {
+  response: profileManageBioMutation$data;
+  variables: profileManageBioMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -65,7 +65,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "email",
+        "name": "bio",
         "storageKey": null
       }
     ],
@@ -77,7 +77,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userEmailMutation",
+    "name": "profileManageBioMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -86,20 +86,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userEmailMutation",
+    "name": "profileManageBioMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "42897b55c5192e303a46a4f8f397996a",
+    "cacheID": "19e5acb1d04a77164c334b8183ee3fbf",
     "id": null,
     "metadata": {},
-    "name": "userEmailMutation",
+    "name": "profileManageBioMutation",
     "operationKind": "mutation",
-    "text": "mutation userEmailMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    email\n  }\n}\n"
+    "text": "mutation profileManageBioMutation(\n  $input: UserUpdateInput!\n) {\n  userUpdate(userUpdateInput: $input) {\n    id\n    bio\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ee9ea58a4395dd984a88ead02dfe7ee7";
+(node as any).hash = "29f0346414f86237640c0b3c718d472c";
 
 export default node;

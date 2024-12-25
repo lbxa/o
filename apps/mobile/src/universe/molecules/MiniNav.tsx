@@ -32,7 +32,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
   return (
     <OTouchable
       onPress={() => router.push(href)}
-      className="relative rounded-full p-xs"
+      className="p-xs relative rounded-full"
     >
       <View>{children}</View>
       {hasNotifications && (
@@ -45,7 +45,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
 type NavItemType = "create" | "search" | "message" | "manage" | "notifications";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
-  create: "/(root)/community/create",
+  create: "/(root)/community/community-create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
   manage: "/(root)/community/community-manage",
@@ -98,7 +98,7 @@ export const MiniNav: React.FC<MiniNavProps> = ({
     items === "all" ? (Object.keys(NavIcons) as NavItemType[]) : items;
 
   return (
-    <View className="flex flex-row items-center gap-md">
+    <View className="gap-md flex flex-row items-center">
       {itemsToRender.map((item) => {
         const href = itemConfigs[item]?.href ?? DEFAULT_PATHS[item];
         return (

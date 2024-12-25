@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<64b5364c6aa3378bc1626ff72ddf3f1d>>
+ * @generated SignedSource<<48deb9e9deda00baf52d57189e392d23>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type userBioQuery$variables = Record<PropertyKey, never>;
-export type userBioQuery$data = {
+export type profileManageBioQuery$variables = Record<PropertyKey, never>;
+export type profileManageBioQuery$data = {
   readonly viewer: {
     readonly user: {
       readonly bio: string | null | undefined;
@@ -18,9 +18,9 @@ export type userBioQuery$data = {
     } | null | undefined;
   } | null | undefined;
 };
-export type userBioQuery = {
-  response: userBioQuery$data;
-  variables: userBioQuery$variables;
+export type profileManageBioQuery = {
+  response: profileManageBioQuery$data;
+  variables: profileManageBioQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -55,7 +55,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "userBioQuery",
+    "name": "profileManageBioQuery",
     "selections": [
       {
         "alias": null,
@@ -77,7 +77,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "userBioQuery",
+    "name": "profileManageBioQuery",
     "selections": [
       {
         "alias": null,
@@ -95,16 +95,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a52bd2f9b1d8a69dc1e30c44360154f8",
+    "cacheID": "88e50ca289694e22dcab4923379eaf7c",
     "id": null,
     "metadata": {},
-    "name": "userBioQuery",
+    "name": "profileManageBioQuery",
     "operationKind": "query",
-    "text": "query userBioQuery {\n  viewer {\n    user {\n      id\n      bio\n    }\n    id\n  }\n}\n"
+    "text": "query profileManageBioQuery {\n  viewer {\n    user {\n      id\n      bio\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "65dd0aa8114d6f8b5489264a611201e9";
+(node as any).hash = "2396009c0d3cb2710d517246f15fccca";
 
 export default node;

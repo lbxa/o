@@ -96,7 +96,7 @@ export default function ChallengeDescription() {
           ),
         }}
       />
-      <View className="flex flex-col gap-md px-md">
+      <View className="gap-md px-md flex flex-col">
         <View className="pt-md">
           <Controller
             control={control}

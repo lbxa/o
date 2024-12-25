@@ -44,12 +44,12 @@ export const CommunityManage = ({ queryRef }: CommunityManageProps) => {
     {
       label: "Name",
       value: community?.name,
-      route: "/(root)/community/community-manage/community-name",
+      route: "/(root)/community/community-manage-name",
     },
     {
       label: "Visibility",
       value: community?.isPublic ? "Public" : "Private",
-      route: "/(root)/community/community-manage/community-visibility",
+      route: "/(root)/community/community-manage-visibility",
     },
   ];
 

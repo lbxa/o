@@ -5,12 +5,11 @@ import type { TextInput } from "react-native";
 import { View } from "react-native";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
 
-import type { communityNameMutation } from "@/__generated__/communityNameMutation.graphql";
-import type { communityNameQuery } from "@/__generated__/communityNameQuery.graphql";
+import type { communityManageNameMutation } from "@/__generated__/communityManageNameMutation.graphql";
+import type { communityManageNameQuery } from "@/__generated__/communityManageNameQuery.graphql";
+import { useZustStore } from "@/state";
 import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
-
-import { useZustStore } from "../../../../state";
 
 interface NameFormData {
   name: string;
@@ -30,9 +29,9 @@ export default function CommunityManageName() {
     throw new Error("Community ID is required");
   }
 
-  const community = useLazyLoadQuery<communityNameQuery>(
+  const community = useLazyLoadQuery<communityManageNameQuery>(
     graphql`
-      query communityNameQuery($communityId: ID!) {
+      query communityManageNameQuery($communityId: ID!) {
         viewer {
           community(communityId: $communityId) {
             id
@@ -55,8 +54,8 @@ export default function CommunityManageName() {
   });
 
   const [commitMutation, isMutationInFlight] =
-    useMutation<communityNameMutation>(graphql`
-      mutation communityNameMutation($input: CommunityUpdateInput!) {
+    useMutation<communityManageNameMutation>(graphql`
+      mutation communityManageNameMutation($input: CommunityUpdateInput!) {
         communityUpdate(communityUpdateInput: $input) {
           id
           name
