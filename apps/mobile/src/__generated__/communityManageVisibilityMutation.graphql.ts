@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<563d689b23bda3543333d3a475d1dc2f>>
+ * @generated SignedSource<<ee44961838fafca42d9f5a4dff70c6cf>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,18 +14,18 @@ export type CommunityUpdateInput = {
   isPublic?: boolean | null | undefined;
   name?: string | null | undefined;
 };
-export type communityNameMutation$variables = {
+export type communityManageVisibilityMutation$variables = {
   input: CommunityUpdateInput;
 };
-export type communityNameMutation$data = {
+export type communityManageVisibilityMutation$data = {
   readonly communityUpdate: {
     readonly id: string;
-    readonly name: string;
+    readonly isPublic: boolean | null | undefined;
   };
 };
-export type communityNameMutation = {
-  response: communityNameMutation$data;
-  variables: communityNameMutation$variables;
+export type communityManageVisibilityMutation = {
+  response: communityManageVisibilityMutation$data;
+  variables: communityManageVisibilityMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -62,7 +62,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "name",
+        "name": "isPublic",
         "storageKey": null
       }
     ],
@@ -74,7 +74,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "communityNameMutation",
+    "name": "communityManageVisibilityMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -83,20 +83,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "communityNameMutation",
+    "name": "communityManageVisibilityMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "8ae953c829034957f5b01a9eef825fb4",
+    "cacheID": "b057b59f531f492462d3d60c555b6101",
     "id": null,
     "metadata": {},
-    "name": "communityNameMutation",
+    "name": "communityManageVisibilityMutation",
     "operationKind": "mutation",
-    "text": "mutation communityNameMutation(\n  $input: CommunityUpdateInput!\n) {\n  communityUpdate(communityUpdateInput: $input) {\n    id\n    name\n  }\n}\n"
+    "text": "mutation communityManageVisibilityMutation(\n  $input: CommunityUpdateInput!\n) {\n  communityUpdate(communityUpdateInput: $input) {\n    id\n    isPublic\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "72664312886151d3952b44e5963275a7";
+(node as any).hash = "718b8ef1885ed021d758db162fbc53b0";
 
 export default node;

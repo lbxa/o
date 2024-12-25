@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b3c95bc2b6ab1e05815312846df608b5>>
+ * @generated SignedSource<<7db7a53015b7e738ba046e33d73e1014>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,57 +9,41 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type communityNameQuery$variables = {
-  communityId: string;
-};
-export type communityNameQuery$data = {
+export type profileManageEmailQuery$variables = Record<PropertyKey, never>;
+export type profileManageEmailQuery$data = {
   readonly viewer: {
-    readonly community: {
+    readonly user: {
+      readonly email: string;
       readonly id: string;
-      readonly name: string;
     } | null | undefined;
   } | null | undefined;
 };
-export type communityNameQuery = {
-  response: communityNameQuery$data;
-  variables: communityNameQuery$variables;
+export type profileManageEmailQuery = {
+  response: profileManageEmailQuery$data;
+  variables: profileManageEmailQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "communityId"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "communityId",
-    "variableName": "communityId"
-  }
-],
-v2 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v3 = {
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "email",
   "storageKey": null
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "communityNameQuery",
+    "name": "profileManageEmailQuery",
     "selections": [
       {
         "alias": null,
@@ -71,16 +55,16 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
-            "concreteType": "Community",
+            "args": null,
+            "concreteType": "User",
             "kind": "LinkedField",
-            "name": "community",
+            "name": "user",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
+              (v0/*: any*/),
               {
                 "kind": "RequiredField",
-                "field": (v3/*: any*/),
+                "field": (v1/*: any*/),
                 "action": "THROW"
               }
             ],
@@ -95,9 +79,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "communityNameQuery",
+    "name": "profileManageEmailQuery",
     "selections": [
       {
         "alias": null,
@@ -109,34 +93,34 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
-            "concreteType": "Community",
+            "args": null,
+            "concreteType": "User",
             "kind": "LinkedField",
-            "name": "community",
+            "name": "user",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
-              (v3/*: any*/)
+              (v0/*: any*/),
+              (v1/*: any*/)
             ],
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v0/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "144adfff18207517c8fccfb674db832a",
+    "cacheID": "6445c9a44e3fb2e007382d7cb7a45964",
     "id": null,
     "metadata": {},
-    "name": "communityNameQuery",
+    "name": "profileManageEmailQuery",
     "operationKind": "query",
-    "text": "query communityNameQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      id\n      name\n    }\n    id\n  }\n}\n"
+    "text": "query profileManageEmailQuery {\n  viewer {\n    user {\n      id\n      email\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fff2ba4ba0032feacfb1f2f1878943fa";
+(node as any).hash = "a845eba8c333f661ee9622da93a2eda7";
 
 export default node;

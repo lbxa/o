@@ -236,7 +236,7 @@ export const ChallengeCreate = () => {
             <Title>Invite Members</Title>
             <Subtitle>A challenge is nothing without its people!</Subtitle>
             <OTouchable
-              onPress={() => router.push("/(root)/community/invite")}
+              onPress={() => router.push("/(root)/community/community-invite")}
               className="mb-lg flex w-full flex-row items-center gap-sm rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
             >
               <SearchIcon width={22} fill={svgFill} />

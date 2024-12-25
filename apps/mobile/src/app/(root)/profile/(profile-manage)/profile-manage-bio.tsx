@@ -1,33 +1,30 @@
 import { Stack, useRouter } from "expo-router";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { TextInput } from "react-native";
 import { View } from "react-native";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
 
-import type { userEmailMutation } from "@/__generated__/userEmailMutation.graphql";
-import type { userEmailQuery } from "@/__generated__/userEmailQuery.graphql";
+import type { profileManageBioMutation } from "@/__generated__/profileManageBioMutation.graphql";
+import type { profileManageBioQuery } from "@/__generated__/profileManageBioQuery.graphql";
 import { OButton, OText, PrimaryTextInputControl } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-interface EmailFormData {
-  email: string;
+interface BioFormData {
+  bio: string;
 }
 
-export default function Email() {
+export default function Bio() {
   const router = useRouter();
-  const [networkError, setNetworkError] = useState<string | undefined>(
-    undefined
-  );
-  const emailRef = useRef<TextInput>(null);
+  const bioRef = useRef<TextInput>(null);
 
-  const user = useLazyLoadQuery<userEmailQuery>(
+  const user = useLazyLoadQuery<profileManageBioQuery>(
     graphql`
-      query userEmailQuery {
+      query profileManageBioQuery {
         viewer {
           user {
             id
-            email @required(action: THROW)
+            bio
           }
         }
       }
@@ -39,24 +36,23 @@ export default function Email() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<EmailFormData>({
+  } = useForm<BioFormData>({
     defaultValues: {
-      email: user.viewer?.user?.email,
+      bio: user.viewer?.user?.bio ?? "",
     },
   });
 
-  const [commitMutation, isMutationInFlight] = useMutation<userEmailMutation>(
-    graphql`
-      mutation userEmailMutation($input: UserUpdateInput!) {
+  const [commitMutation, isMutationInFlight] =
+    useMutation<profileManageBioMutation>(graphql`
+      mutation profileManageBioMutation($input: UserUpdateInput!) {
         userUpdate(userUpdateInput: $input) {
           id
-          email
+          bio
         }
       }
-    `
-  );
+    `);
 
-  const onSubmit = (data: EmailFormData) => {
+  const onSubmit = (data: BioFormData) => {
     if (!user.viewer?.user?.id) {
       throw new Error("User ID is required");
     }
@@ -65,14 +61,10 @@ export default function Email() {
       variables: {
         input: {
           id: user.viewer.user.id,
-          email: data.email,
+          bio: data.bio,
         },
       },
-      onError: (e) => {
-        setNetworkError(e.message.split("\n")[1]);
-      },
       onCompleted: () => {
-        setNetworkError(undefined);
         router.back();
       },
     });
@@ -100,33 +92,34 @@ export default function Email() {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: "Required" },
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+              maxLength: {
+                value: 160,
+                message: "Bio cannot exceed 160 characters",
               },
             }}
-            name="email"
+            name="bio"
             render={({ field: { onChange, value, onBlur } }) => (
               <PrimaryTextInputControl
-                ref={emailRef}
-                placeholder="Email Address"
+                ref={bioRef}
+                placeholder="Write a short bio about yourself"
                 value={value}
                 onChangeText={onChange}
-                returnKeyType="done"
-                keyboardType="email-address"
-                autoCapitalize="none"
+                multiline
+                numberOfLines={4}
+                textAlignVertical="top"
                 onBlur={onBlur}
-                error={!!errors.email || !!networkError}
-                errorMessage={errors.email?.message ?? networkError}
+                error={!!errors.bio}
+                errorMessage={errors.bio?.message}
+                style={{ height: 100 }}
+                returnKeyType="done"
               />
             )}
           />
         </View>
         <OText className="text-gray-500 dark:text-gray-400">
-          Your email is used for important account notifications and recovery.
+          Tell others a bit about yourself. What are your interests?
           {"\n\n"}
-          We'll never share your email address with other users.
+          Your bio will be visible on your profile to all users.
         </OText>
       </View>
     </Ozone>

@@ -115,7 +115,9 @@ export const ChallengeDetails = ({
         <OButton
           title="Invite"
           variant="indigo"
-          onPress={() => router.push("/(root)/community/challenge/invite")}
+          onPress={() =>
+            router.push("/(root)/community/challenge/challenge-invite")
+          }
         />
         <OButton
           title="Record"

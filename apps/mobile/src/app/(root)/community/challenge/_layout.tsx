@@ -15,13 +15,13 @@ export default function ChallengeRoot() {
       }}
     >
       <Stack.Screen
-        name="create"
+        name="challenge-create"
         options={{
           headerLeft: () => <SharedHeaderTitle title="New Challenge" />,
         }}
       />
       <Stack.Screen
-        name="invite"
+        name="challenge-invite"
         options={{
           headerLeft: () => (
             <Text className="text-xl font-bold">Invite your friends</Text>
@@ -32,7 +32,7 @@ export default function ChallengeRoot() {
         }}
       />
       <Stack.Screen
-        name="manage"
+        name="challenge-manage"
         options={{
           headerShown: false,
         }}

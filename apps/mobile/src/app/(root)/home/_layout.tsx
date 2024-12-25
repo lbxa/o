@@ -2,9 +2,8 @@ import { Stack } from "expo-router";
 import { Text } from "react-native";
 
 import { useSharedHeaderOptions } from "@/shared";
+import { ComingSoonBadge } from "@/universe/atoms";
 import { MiniNav } from "@/universe/molecules";
-
-import { ComingSoonBadge } from "../../../universe/atoms";
 
 export default function Root() {
   const { builtInTitleOptions } = useSharedHeaderOptions();
@@ -27,14 +26,17 @@ export default function Root() {
           headerRight: () => (
             <MiniNav
               items={["notifications", "search", "message"]}
-              itemConfigs={{ search: { href: "/(root)/home/user-search" } }}
+              itemConfigs={{
+                search: { href: "/(root)/home/user-search" },
+                message: { href: "/(root)/home/home-message" },
+              }}
             />
           ),
         }}
       />
       <Stack.Screen name="user-search" />
       <Stack.Screen
-        name="message"
+        name="home-message"
         options={{
           title: "Messages",
           headerRight: () => <ComingSoonBadge size="sm" />,

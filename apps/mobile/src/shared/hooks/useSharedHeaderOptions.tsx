@@ -41,9 +41,9 @@ export const useSharedHeaderOptions = (): {
         },
         headerBackTitle: "",
         headerTintColor: isDark ? COLORS.ivory.DEFAULT : "black",
-        // headerBackTitleStyle: {
-        //   fontSize: 20,
-        // },
+        headerBackTitleStyle: {
+          fontSize: 20,
+        },
       }) as const,
     [isDark]
   );

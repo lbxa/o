@@ -31,7 +31,7 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
           title="Invite"
           variant="indigo"
           className="rounded-xl"
-          onPress={() => router.push("/(root)/community/invite")}
+          onPress={() => router.push("/(root)/community/community-invite")}
         />
       </View>
     </View>

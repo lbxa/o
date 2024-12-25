@@ -5,7 +5,6 @@ import { graphql } from "relay-runtime";
 
 import type { ChallengeManage_challenge$key } from "@/__generated__/ChallengeManage_challenge.graphql";
 import type { ChallengeManageQuery } from "@/__generated__/ChallengeManageQuery.graphql";
-import { OButton } from "@/universe/atoms/OButton";
 import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
 
@@ -46,12 +45,13 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
     {
       label: "Name",
       value: challenge?.name ?? "No name found",
-      route: "/(root)/community/challenge/manage/challenge-name",
+      route: "/(root)/community/challenge/challenge-manage/challenge-name",
     },
     {
       label: "Description",
       value: challenge?.description ?? "No description found",
-      route: "/(root)/community/challenge/manage/challenge-description",
+      route:
+        "/(root)/community/challenge/challenge-manage/challenge-description",
     },
   ];
 
@@ -60,14 +60,6 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
       <View className="flex flex-col gap-md p-md">
         <OImageUpload className="mb-md" />
         <OMenu items={menuItems} className="mb-lg" />
-        <OButton
-          title="Delete Challenge"
-          type="secondary"
-          variant="red"
-          onPress={() => {
-            // TODO: Implement delete challenge functionality
-          }}
-        />
       </View>
     </Ozone>
   );

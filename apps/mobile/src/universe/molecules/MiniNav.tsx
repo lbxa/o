@@ -45,7 +45,7 @@ const MiniNavItem: React.FC<PropsWithChildren & MiniNavItemProps> = ({
 type NavItemType = "create" | "search" | "message" | "manage" | "notifications";
 
 const DEFAULT_PATHS: Record<NavItemType, Href> = {
-  create: "/(root)/community/create",
+  create: "/(root)/community/community-create",
   search: "/(root)/community/search",
   message: "/(root)/home/message",
   manage: "/(root)/community/community-manage",

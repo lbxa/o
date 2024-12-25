@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<97f615365e088d58cc8df8d530e44429>>
+ * @generated SignedSource<<ccbd41580b8c8b902b3ed36606ac2bef>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,41 +9,57 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type userEmailQuery$variables = Record<PropertyKey, never>;
-export type userEmailQuery$data = {
+export type communityManageNameQuery$variables = {
+  communityId: string;
+};
+export type communityManageNameQuery$data = {
   readonly viewer: {
-    readonly user: {
-      readonly email: string;
+    readonly community: {
       readonly id: string;
+      readonly name: string;
     } | null | undefined;
   } | null | undefined;
 };
-export type userEmailQuery = {
-  response: userEmailQuery$data;
-  variables: userEmailQuery$variables;
+export type communityManageNameQuery = {
+  response: communityManageNameQuery$data;
+  variables: communityManageNameQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "communityId"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "communityId",
+    "variableName": "communityId"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v1 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "email",
+  "name": "name",
   "storageKey": null
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "userEmailQuery",
+    "name": "communityManageNameQuery",
     "selections": [
       {
         "alias": null,
@@ -55,16 +71,16 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
+              (v2/*: any*/),
               {
                 "kind": "RequiredField",
-                "field": (v1/*: any*/),
+                "field": (v3/*: any*/),
                 "action": "THROW"
               }
             ],
@@ -79,9 +95,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "userEmailQuery",
+    "name": "communityManageNameQuery",
     "selections": [
       {
         "alias": null,
@@ -93,34 +109,34 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "User",
+            "args": (v1/*: any*/),
+            "concreteType": "Community",
             "kind": "LinkedField",
-            "name": "user",
+            "name": "community",
             "plural": false,
             "selections": [
-              (v0/*: any*/),
-              (v1/*: any*/)
+              (v2/*: any*/),
+              (v3/*: any*/)
             ],
             "storageKey": null
           },
-          (v0/*: any*/)
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "73f50b3b7c65beed5dcc390594436be7",
+    "cacheID": "6ff4477f37575721a4042399beada2c0",
     "id": null,
     "metadata": {},
-    "name": "userEmailQuery",
+    "name": "communityManageNameQuery",
     "operationKind": "query",
-    "text": "query userEmailQuery {\n  viewer {\n    user {\n      id\n      email\n    }\n    id\n  }\n}\n"
+    "text": "query communityManageNameQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      id\n      name\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d5fc5dd0f3d81dcbb809bb6ad58a7fd7";
+(node as any).hash = "fb1a1dc2af3dea683c8553ec6095860d";
 
 export default node;

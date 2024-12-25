@@ -72,7 +72,7 @@ export const ChallengeList = ({
 
   return (
     <FlatList
-      className="px-sm pb-md min-h-full"
+      className="min-h-full px-sm pb-md"
       showsVerticalScrollIndicator={false}
       data={data.challenges.edges?.map((edge) => edge.node)}
       ListHeaderComponent={
@@ -82,7 +82,7 @@ export const ChallengeList = ({
           />
           <View className="px-sm">
             <CommunityDetails fragmentRef={communityDetailsFragmentRef} />
-            <Text className="mb-md dark:text-ivory text-2xl font-bold text-black">
+            <Text className="mb-md text-2xl font-bold text-black dark:text-ivory">
               Challenges
             </Text>
           </View>
@@ -96,7 +96,7 @@ export const ChallengeList = ({
       }
       renderItem={({ item }) => <ChallengeCard fragmentRef={item} />}
       ListFooterComponent={
-        <View className="gap-md pb-md flex flex-col">
+        <View className="flex flex-col gap-md pb-md">
           {hasNext && (
             <OButton
               title="Load more"

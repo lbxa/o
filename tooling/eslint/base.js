@@ -83,6 +83,7 @@ export default tseslint.config(
       'simple-import-sort/exports': 'error',
       'drizzle/enforce-delete-with-where': "error",
       'drizzle/enforce-update-with-where': "error",
+      "tailwindcss/no-custom-classname": "off",
       ...reactHooksPlugin.configs.recommended.rules
     },
   },

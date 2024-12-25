@@ -152,7 +152,7 @@ export const CommunityCreate = () => {
       <View>
         <Title>Invite Members</Title>
         <OTouchable
-          onPress={() => router.push("/(root)/community/invite")}
+          onPress={() => router.push("/(root)/community/community-invite")}
           className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
         >
           <SearchIcon width={25} fill={svgFill} />

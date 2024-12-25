@@ -50,7 +50,7 @@ export const ChallengeRoot = ({
               items={["manage"]}
               itemConfigs={{
                 manage: {
-                  href: `/(root)/community/challenge/manage`,
+                  href: `/(root)/community/challenge/challenge-manage`,
                 },
               }}
             />

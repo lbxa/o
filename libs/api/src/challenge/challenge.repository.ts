@@ -46,6 +46,10 @@ export class ChallengeRepository
       .where(eq(ChallengesTable.id, updateChallengeInput.id))
       .returning();
 
+    if (!updatedChallenge) {
+      return undefined;
+    }
+
     const activities =
       await this.dbService.db.query.ChallengeActivitiesTable.findMany({
         where: eq(ChallengeActivitiesTable.challengeId, updatedChallenge.id),

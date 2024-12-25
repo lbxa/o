@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1f9afb3b324cbbc4237e20bcce42b72c>>
+ * @generated SignedSource<<aae0a9d5663c9a30ea47fb258586ebf6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import type { ConcreteRequest } from 'relay-runtime';
-export type userHandleQuery$variables = Record<PropertyKey, never>;
-export type userHandleQuery$data = {
+export type profileManageHandleQuery$variables = Record<PropertyKey, never>;
+export type profileManageHandleQuery$data = {
   readonly viewer: {
     readonly user: {
       readonly handle: string | null | undefined;
@@ -18,9 +18,9 @@ export type userHandleQuery$data = {
     } | null | undefined;
   } | null | undefined;
 };
-export type userHandleQuery = {
-  response: userHandleQuery$data;
-  variables: userHandleQuery$variables;
+export type profileManageHandleQuery = {
+  response: profileManageHandleQuery$data;
+  variables: profileManageHandleQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -55,7 +55,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "userHandleQuery",
+    "name": "profileManageHandleQuery",
     "selections": [
       {
         "alias": null,
@@ -77,7 +77,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "userHandleQuery",
+    "name": "profileManageHandleQuery",
     "selections": [
       {
         "alias": null,
@@ -95,16 +95,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6862287468285d5d3e6332bb12e4042b",
+    "cacheID": "90ca71240ad562d416832e06138a5914",
     "id": null,
     "metadata": {},
-    "name": "userHandleQuery",
+    "name": "profileManageHandleQuery",
     "operationKind": "query",
-    "text": "query userHandleQuery {\n  viewer {\n    user {\n      id\n      handle\n    }\n    id\n  }\n}\n"
+    "text": "query profileManageHandleQuery {\n  viewer {\n    user {\n      id\n      handle\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f57a8f06b6a35614bbe7efed4432fc8c";
+(node as any).hash = "b9dc67c193d73be95cc83ffbb27ecc71";
 
 export default node;

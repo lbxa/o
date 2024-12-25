@@ -1,12 +1,14 @@
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors";
+import defaultColors from "tailwindcss/colors";
 
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    colors: {
+      ...defaultColors,
+    },
     extend: {
       colors: {
-        tailwindColors: { ...colors },
         ivory: {
           light: "#f4f8fb",
           DEFAULT: "#edf4f8",
