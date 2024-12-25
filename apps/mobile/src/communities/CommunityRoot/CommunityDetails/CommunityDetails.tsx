@@ -23,9 +23,9 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
   );
 
   return (
-    <View className="mb-md gap-md pt-sm flex flex-col">
+    <View className="mb-md flex flex-col gap-md pt-sm">
       <CommunitySocials memberCount={community.memberCount ?? 0} />
-      <View className="gap-md flex flex-row">
+      <View className="flex flex-row gap-md">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton
           title="Invite"

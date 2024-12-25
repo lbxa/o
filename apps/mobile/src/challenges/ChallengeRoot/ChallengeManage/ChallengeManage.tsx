@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { useFragment, usePreloadedQuery } from "react-relay";
@@ -58,7 +57,7 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
 
   return (
     <Ozone>
-      <View className="gap-md p-md flex flex-col">
+      <View className="flex flex-col gap-md p-md">
         <OImageUpload className="mb-md" />
         <OMenu items={menuItems} className="mb-lg" />
       </View>
