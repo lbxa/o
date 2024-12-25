@@ -2,19 +2,17 @@ import Void from "@assets/images/void.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { Suspense, useMemo, useRef } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
-import { graphql, useRefetchableFragment } from "react-relay";
 
-import type { ChallengeActivityTopResultsFragment_challenge$key } from "@/__generated__/ChallengeActivityTopResultsFragment_challenge.graphql";
 import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery.graphql";
+import type { UserResultCard_challenge$key } from "@/__generated__/UserResultCard_challenge.graphql";
+import { useChallengeActivityTopResults } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks/useChallengeActivityTopResults";
 import { useNoSuspenseRefetch } from "@/relay/hooks/useNoSuspenseRefetch";
-import { Caption, OTouchable } from "@/universe/atoms";
+import { Caption, OText, OTouchable } from "@/universe/atoms";
 
-import type { ChallengeActivityTopResultsPaginationQuery } from "../../../__generated__/ChallengeActivityTopResultsPaginationQuery.graphql";
-import type { UserResultCard_challenge$key } from "../../../__generated__/UserResultCard_challenge.graphql";
 import { ChallengeDetails } from "../ChallengeDetails/ChallengeDetails";
 import { CHALLENGE_ROOT_QUERY } from "../ChallengeRoot";
 import { UserResultCard } from "../ChallengeStats";
-import { ChallengeTopResultsList } from "../ChallengeStats/ChallengeTopResultsList";
+import { ChallengeActivityTopResultsList } from "../ChallengeStats/ChallengeActivityTopResultsList";
 
 interface ChallengeActivityProps {
   challengeId: string;
@@ -24,37 +22,7 @@ export const ChallengeActivity = ({
   challengeId,
   challengeRoot,
 }: ChallengeActivityProps) => {
-  const [data, _] = useRefetchableFragment<
-    ChallengeActivityTopResultsPaginationQuery,
-    ChallengeActivityTopResultsFragment_challenge$key
-  >(
-    graphql`
-      fragment ChallengeActivityTopResultsFragment_challenge on Challenge
-      @refetchable(queryName: "ChallengeActivityTopResultsPaginationQuery")
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 3 }
-        cursor: { type: "String" }
-      ) {
-        id
-        activityTopResults(first: $count, after: $cursor)
-          @connection(
-            key: "ChallengeActivityTopResultsFragment_activityTopResults"
-          ) {
-          edges {
-            cursor
-            node {
-              id
-              ...UserResultCard_challenge
-            }
-          }
-          pageInfo {
-            hasNextPage
-            startCursor
-            endCursor
-          }
-        }
-      }
-    `,
+  const { data } = useChallengeActivityTopResults(
     challengeRoot.viewer?.challenge
   );
 
@@ -124,7 +92,7 @@ export const ChallengeActivity = ({
                 sectionModalLookup["Top Results"].current?.present()
               }
             >
-              <Text className="my-md underline">View all</Text>
+              <OText className="my-md underline">View all</OText>
             </OTouchable>
           ),
         });
@@ -135,13 +103,7 @@ export const ChallengeActivity = ({
 
   return (
     <View className="flex-1">
-      <ChallengeTopResultsList
-        modalRef={topResultsModalRef}
-        results={
-          data?.activityTopResults?.edges?.slice(3).map((edge) => edge.node) ??
-          []
-        }
-      />
+      <ChallengeActivityTopResultsList modalRef={topResultsModalRef} />
       <Suspense fallback={null}>
         <FlatList
           className="min-h-full px-md"

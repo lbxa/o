@@ -43,18 +43,18 @@ export const ChallengeManage = ({ queryRef }: ChallengeManageProps) => {
     {
       label: "Name",
       value: challenge?.name ?? "No name found",
-      route: "/community/(challenge)/(challenge-manage)/challenge-name",
+      route: "/community/challenge/(challenge-manage)/challenge-name",
     },
     {
       label: "Description",
       value: challenge?.description ?? "No description found",
-      route: "/community/(challenge)/(challenge-manage)/challenge-description",
+      route: "/community/challenge/(challenge-manage)/challenge-description",
     },
   ];
 
   return (
     <Ozone>
-      <View className="flex flex-col gap-md p-md">
+      <View className="gap-md p-md flex flex-col">
         <OImageUpload className="mb-md" />
         <OMenu items={menuItems} className="mb-lg" />
       </View>

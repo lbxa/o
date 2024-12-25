@@ -16,7 +16,7 @@ export const CHALLENGE_ROOT_QUERY = graphql`
         ...ChallengeRootName_challenge
         ...ChallengeDetails_challenge
         ...ChallengeActivityPills_challenge
-        ...ChallengeActivityTopResultsFragment_challenge
+        ...useChallengeActivityTopResultsFragment_challenge @arguments(count: 4)
       }
     }
   }
@@ -55,7 +55,7 @@ export const ChallengeRoot = ({
               items={["manage"]}
               itemConfigs={{
                 manage: {
-                  href: "/community/(challenge)/(challenge-manage)/challenge-manage",
+                  href: "/community/challenge/(challenge-manage)/challenge-manage",
                 },
               }}
             />

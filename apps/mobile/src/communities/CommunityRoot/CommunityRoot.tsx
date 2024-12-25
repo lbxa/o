@@ -57,7 +57,7 @@ export const CommunityRoot = ({ queryRef }: CommunityRootProps) => {
                   href: "/community/community-manage",
                 },
                 create: {
-                  href: "/community/(challenge)/challenge-create",
+                  href: "/community/challenge/challenge-create",
                 },
                 message: {
                   href: "/community/community-message",

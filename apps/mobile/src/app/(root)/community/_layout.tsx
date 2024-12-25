@@ -18,7 +18,7 @@ export default function CommunityRootLayout() {
         options={{
           title: "Community",
           headerLeft: () => (
-            <Text className="text-3xl font-bold text-black dark:text-ivory">
+            <Text className="dark:text-ivory text-3xl font-bold text-black">
               Community
             </Text>
           ),
@@ -36,7 +36,7 @@ export default function CommunityRootLayout() {
         name="community-invite"
         options={{
           headerLeft: () => (
-            <Text className="text-xl font-bold text-black dark:text-ivory">
+            <Text className="dark:text-ivory text-xl font-bold text-black">
               Invite your friends
             </Text>
           ),
@@ -77,13 +77,13 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="(challenge)/challenge-create"
+        name="challenge/challenge-create"
         options={{
           title: "New Challenge",
         }}
       />
       <Stack.Screen
-        name="(challenge)/challenge-invite"
+        name="challenge/challenge-invite"
         options={{
           headerLeft: () => (
             <OText className="text-xl font-bold">Invite your friends</OText>
@@ -94,19 +94,19 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="(challenge)/(challenge-manage)/challenge-manage"
+        name="challenge/(challenge-manage)/challenge-manage"
         options={{
           title: "Manage",
         }}
       />
       <Stack.Screen
-        name="(challenge)/(challenge-manage)/challenge-name"
+        name="challenge/(challenge-manage)/challenge-name"
         options={{
           title: "Name",
         }}
       />
       <Stack.Screen
-        name="(challenge)/(challenge-manage)/challenge-description"
+        name="challenge/(challenge-manage)/challenge-description"
         options={{
           title: "Description",
         }}

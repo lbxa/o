@@ -6,11 +6,11 @@ import type {
   ChallengeActivityUnits,
   UserResultCard_challenge$key,
 } from "@/__generated__/UserResultCard_challenge.graphql";
+import { OText } from "@/universe/atoms";
+import { UserAvatar } from "@/users/UserAvatar";
+import { UserStreak } from "@/users/UserStreak";
 
-import { OText } from "../../../universe/atoms";
-import { UserAvatar } from "../../../users/UserAvatar";
-import { UserStreak } from "../../../users/UserStreak";
-import { intToTimestamp } from "../../ChallengeLogger/utils";
+import { intToTimestamp } from "../../../ChallengeLogger/utils";
 
 export const UserResultCard = ({
   result,

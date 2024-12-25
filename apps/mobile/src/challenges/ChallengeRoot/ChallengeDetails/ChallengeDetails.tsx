@@ -4,13 +4,13 @@ import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeActivityPills_challenge$key } from "@/__generated__/ChallengeActivityPills_challenge.graphql";
 import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDetails_challenge.graphql";
 import { useZustStore } from "@/state";
-import { OButton, OTouchable } from "@/universe/atoms";
+import { OButton, OText, OTouchable } from "@/universe/atoms";
 import { useSvgFill } from "@/utils";
 
 import { ChallengeActivityPills } from "../../ChallengeActivity";
@@ -93,12 +93,14 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-col">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm dark:bg-white/20">
-          <Text className="flex-1 text-lg text-black dark:text-ivory">
-            {challenge.description}
-          </Text>
+        <View className="gap-sm bg-ivory px-md py-sm dark:bg-surface-dark flex-row items-center rounded-xl">
+          <View className="flex flex-1 flex-col">
+            <OText className=" text-lg font-bold">{challenge.name}</OText>
+            <OText className="text-lg">{challenge.description}</OText>
+          </View>
+
           <OTouchable onPress={() => setShowDescription(false)}>
             <CrossIcon width={15} height={15} fill={svgFill} />
           </OTouchable>
@@ -110,7 +112,7 @@ export const ChallengeDetails = ({
       <DistanceLogger modalRef={distanceModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"

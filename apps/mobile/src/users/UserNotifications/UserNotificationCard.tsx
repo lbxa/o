@@ -122,19 +122,19 @@ export const UserNotificationCard = ({
       </OTouchable>
       <View className="flex w-full flex-row gap-md">
         <OButton
-          title="Confirm"
-          loading={isAddMutationInFlight}
-          type="primary"
-          className="grow"
-          onPress={handleAcceptFriend}
-        />
-        <OButton
           title="Cancel"
           loading={isDeclineMutationInFlight}
           variant="gray"
           type="secondary"
           className="grow"
           onPress={handleDeclineFriend}
+        />
+        <OButton
+          title="Confirm"
+          loading={isAddMutationInFlight}
+          type="primary"
+          className="grow"
+          onPress={handleAcceptFriend}
         />
       </View>
     </View>

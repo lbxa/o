@@ -4,7 +4,8 @@ import { useColorScheme } from "react-native";
 
 import { OBackdrop } from "@/universe/molecules";
 
-const CHARCOAL = "#2a363e";
+// const CHARCOAL = "#2a363e";
+const CHARCOAL = "#1e1e1e";
 
 export const useSharedBottomSheetProps = (): Pick<
   BottomSheetModalProps,

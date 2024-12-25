@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<95ef83ae428a151957bcf0c8e11646c9>>
+ * @generated SignedSource<<bdaf9de6523c21c32a8490a2a4723c67>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityTopResultsFragment_challenge$data = {
+export type useChallengeActivityTopResultsFragment_challenge$data = {
   readonly activityTopResults: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
@@ -26,11 +26,11 @@ export type ChallengeActivityTopResultsFragment_challenge$data = {
     };
   } | null | undefined;
   readonly id: string;
-  readonly " $fragmentType": "ChallengeActivityTopResultsFragment_challenge";
+  readonly " $fragmentType": "useChallengeActivityTopResultsFragment_challenge";
 };
-export type ChallengeActivityTopResultsFragment_challenge$key = {
-  readonly " $data"?: ChallengeActivityTopResultsFragment_challenge$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsFragment_challenge">;
+export type useChallengeActivityTopResultsFragment_challenge$key = {
+  readonly " $data"?: useChallengeActivityTopResultsFragment_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"useChallengeActivityTopResultsFragment_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -47,7 +47,7 @@ v1 = {
 return {
   "argumentDefinitions": [
     {
-      "defaultValue": 3,
+      "defaultValue": 4,
       "kind": "LocalArgument",
       "name": "count"
     },
@@ -79,14 +79,14 @@ return {
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./ChallengeActivityTopResultsPaginationQuery.graphql'),
+      "operation": require('./useChallengeActivityTopResultsPaginationQuery.graphql'),
       "identifierInfo": {
         "identifierField": "id",
         "identifierQueryVariableName": "id"
       }
     }
   },
-  "name": "ChallengeActivityTopResultsFragment_challenge",
+  "name": "useChallengeActivityTopResultsFragment_challenge",
   "selections": [
     (v1/*: any*/),
     {
@@ -180,6 +180,6 @@ return {
 };
 })();
 
-(node as any).hash = "d9fd04d174142a754342eee2fd15620a";
+(node as any).hash = "7cd206e5deb409ff999ff71c478fedee";
 
 export default node;

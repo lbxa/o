@@ -27,6 +27,11 @@ export default {
         navy: {
           light: "#5849ff",
           DEFAULT: "#0c044d",
+          dark: "#003366",
+        },
+        surface: {
+          light: "#ffffff",
+          dark: "#1e1e1e",
         },
       },
       spacing: {

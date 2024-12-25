@@ -1,11 +1,8 @@
-import tailwind from "@o/tailwind/base";
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
 import { useSharedHeaderOptions } from "../shared";
 import { useOTheme } from "../utils";
-
-const COLORS = tailwind.theme.extend.colors;
 
 // export const COMMUNITY_SEARCH_QUERY = graphql`
 //   query CommunitySearchQuery($id: ID!) {
@@ -17,17 +14,17 @@ const COLORS = tailwind.theme.extend.colors;
 // `;
 
 export const CommunitySearch = () => {
-  const { isDark } = useOTheme();
+  const { isDark, colors } = useOTheme();
   const { builtInTitleOptions } = useSharedHeaderOptions();
   return (
-    <View className="h-full flex-1 px-md">
+    <View className="px-md h-full flex-1">
       <Stack.Screen
         options={{
           ...builtInTitleOptions,
           headerSearchBarOptions: {
             autoFocus: true,
             placeholder: "My gym, etc.",
-            headerIconColor: isDark ? COLORS.ivory.DEFAULT : "black",
+            headerIconColor: isDark ? colors.ivory.DEFAULT : "black",
             inputType: "text",
           },
         }}

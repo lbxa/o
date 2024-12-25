@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<41b2c5b4d3d300521abeca990618e1a4>>
+ * @generated SignedSource<<a5f4a645c5388d2ce442cee28e894287>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,25 +10,25 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityTopResultsPaginationQuery$variables = {
+export type useChallengeActivityTopResultsPaginationQuery$variables = {
   count?: number | null | undefined;
   cursor?: string | null | undefined;
   id: string;
 };
-export type ChallengeActivityTopResultsPaginationQuery$data = {
+export type useChallengeActivityTopResultsPaginationQuery$data = {
   readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsFragment_challenge">;
+    readonly " $fragmentSpreads": FragmentRefs<"useChallengeActivityTopResultsFragment_challenge">;
   } | null | undefined;
 };
-export type ChallengeActivityTopResultsPaginationQuery = {
-  response: ChallengeActivityTopResultsPaginationQuery$data;
-  variables: ChallengeActivityTopResultsPaginationQuery$variables;
+export type useChallengeActivityTopResultsPaginationQuery = {
+  response: useChallengeActivityTopResultsPaginationQuery$data;
+  variables: useChallengeActivityTopResultsPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": 3,
+    "defaultValue": 4,
     "kind": "LocalArgument",
     "name": "count"
   },
@@ -81,7 +81,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ChallengeActivityTopResultsPaginationQuery",
+    "name": "useChallengeActivityTopResultsPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -105,7 +105,7 @@ return {
               }
             ],
             "kind": "FragmentSpread",
-            "name": "ChallengeActivityTopResultsFragment_challenge"
+            "name": "useChallengeActivityTopResultsFragment_challenge"
           }
         ],
         "storageKey": null
@@ -118,7 +118,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ChallengeActivityTopResultsPaginationQuery",
+    "name": "useChallengeActivityTopResultsPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -304,16 +304,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c01a7d76af749007ae0f30f57d3b78d1",
+    "cacheID": "b71d281fec4db305dab53f25f058b76e",
     "id": null,
     "metadata": {},
-    "name": "ChallengeActivityTopResultsPaginationQuery",
+    "name": "useChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 3\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n"
+    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d9fd04d174142a754342eee2fd15620a";
+(node as any).hash = "7cd206e5deb409ff999ff71c478fedee";
 
 export default node;

@@ -1,10 +1,7 @@
-import tailwind from "@o/tailwind/base";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { useMemo } from "react";
 
 import { useOTheme } from "@/utils";
-
-const COLORS = tailwind.theme.extend.colors;
 
 /**
  * This settings should be shared across all stack headers
@@ -12,8 +9,9 @@ const COLORS = tailwind.theme.extend.colors;
 export const useSharedHeaderOptions = (): {
   customTitleOptions: NativeStackNavigationOptions;
   builtInTitleOptions: NativeStackNavigationOptions;
+  headerSearchBarOptions: NativeStackNavigationOptions["headerSearchBarOptions"];
 } => {
-  const { isDark } = useOTheme();
+  const { isDark, colors } = useOTheme();
 
   const customTitleOptions: NativeStackNavigationOptions = useMemo(
     () =>
@@ -40,16 +38,27 @@ export const useSharedHeaderOptions = (): {
           backgroundColor: isDark ? "#000000" : "#ffffff",
         },
         headerBackTitle: "",
-        headerTintColor: isDark ? COLORS.ivory.DEFAULT : "black",
+        headerTintColor: isDark ? colors.ivory.DEFAULT : "black",
         headerBackTitleStyle: {
           fontSize: 20,
         },
       }) as const,
-    [isDark]
+    [colors.ivory.DEFAULT, isDark]
   );
+
+  const headerSearchBarOptions: NativeStackNavigationOptions["headerSearchBarOptions"] =
+    useMemo(
+      () => ({
+        autoFocus: true,
+        headerIconColor: isDark ? colors.ivory.DEFAULT : "black",
+        inputType: "text",
+      }),
+      [colors.ivory.DEFAULT, isDark]
+    );
 
   return {
     customTitleOptions,
     builtInTitleOptions,
+    headerSearchBarOptions,
   };
 };

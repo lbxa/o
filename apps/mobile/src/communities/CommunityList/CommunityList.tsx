@@ -1,6 +1,11 @@
 import Beach from "@assets/images/beach.svg";
 import React, { useCallback, useTransition } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  View,
+} from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
 
@@ -8,7 +13,7 @@ import type { CommunityList_viewer$key } from "@/__generated__/CommunityList_vie
 import type { CommunityListPaginationQuery } from "@/__generated__/CommunityListPaginationQuery.graphql";
 import type { CommunityListQuery } from "@/__generated__/CommunityListQuery.graphql";
 import { CommunityCard } from "@/communities/CommunityCard";
-import { Caption, OButton } from "@/universe/atoms";
+import { Caption } from "@/universe/atoms";
 
 import { CommunityInvitationList } from "../CommunityInvitation";
 import { useCommunityInvitationsPagination } from "../CommunityInvitation/queries";
@@ -34,8 +39,8 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
   const {
     data: communityData,
     loadNext,
-    hasNext,
     isLoadingNext,
+    hasNext,
     refetch: refetchCommunity,
   } = usePaginationFragment<
     CommunityListPaginationQuery,
@@ -100,17 +105,10 @@ export const CommunityList = ({ queryRef }: CommunityListProps) => {
         </View>
       }
       ListFooterComponent={
-        <View className="pb-md">
-          {hasNext && (
-            <OButton
-              title="Load more"
-              loading={isLoadingNext}
-              disabled={!hasNext}
-              onPress={() => loadNext(10)}
-            />
-          )}
-        </View>
+        isLoadingNext ? <ActivityIndicator size="large" /> : null
       }
+      onEndReachedThreshold={0.5}
+      onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       refreshControl={
         <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
       }

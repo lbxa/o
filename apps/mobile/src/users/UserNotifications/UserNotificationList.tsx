@@ -1,5 +1,10 @@
 import Mailbox from "@assets/images/mailbox.svg";
-import { FlatList, RefreshControl, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  View,
+} from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, usePaginationFragment, usePreloadedQuery } from "react-relay";
 
@@ -8,7 +13,7 @@ import type { UserNotificationListPaginationQuery } from "@/__generated__/UserNo
 import type { UserNotificationListQuery } from "@/__generated__/UserNotificationListQuery.graphql";
 
 import { useNoSuspenseRefetch } from "../../relay";
-import { Caption, OButton } from "../../universe/atoms";
+import { Caption } from "../../universe/atoms";
 import { UserNotificationCard } from "./UserNotificationCard";
 
 export const USER_NOTIFICATION_LIST_QUERY = graphql`
@@ -85,17 +90,9 @@ export const UserNotificationList = ({
         </View>
       }
       ListFooterComponent={
-        <View className="mb-lg">
-          {hasNext && (
-            <OButton
-              title="Load more"
-              loading={isLoadingNext}
-              disabled={!hasNext}
-              onPress={() => loadNext(10)}
-            />
-          )}
-        </View>
+        isLoadingNext ? <ActivityIndicator size="large" /> : null
       }
+      onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetchingTopResults}

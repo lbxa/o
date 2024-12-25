@@ -12,7 +12,7 @@ I'm building a startup focused on building social fitness experiences.
 
 Tech stack: react native, react relay, graphql, nestjs, drizzle, mysql.
 
-My backend is structued as such:
+My backend is structured as such:
 
 DomainEntity has a Module which contains a gql resolver and services for handling business logic.
 

@@ -1,4 +1,3 @@
-import tailwind from "@o/tailwind/base";
 import debounce from "debounce";
 import { Stack } from "expo-router";
 import React, {
@@ -16,10 +15,7 @@ import type { UserSearchFriendsListQuery } from "@/__generated__/UserSearchFrien
 import type { UserSearchRefetchQuery } from "@/__generated__/UserSearchRefetchQuery.graphql";
 
 import { useSharedHeaderOptions } from "../../shared";
-import { useOTheme } from "../../utils/useOTheme";
 import { UserProfileCard } from "./UserProfileCard";
-
-const COLORS = tailwind.theme.extend.colors;
 
 const USER_SEARCH_QUERY = graphql`
   query UserSearchFriendsListQuery($searchTerm: String) {
@@ -83,7 +79,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md text-center text-black dark:text-ivory">
+        <Text className="pt-md dark:text-ivory text-center text-black">
           No users found
         </Text>
       }
@@ -92,21 +88,19 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
 };
 
 export const UserSearch = () => {
-  const { isDark } = useOTheme();
-  const { builtInTitleOptions } = useSharedHeaderOptions();
+  const { builtInTitleOptions, headerSearchBarOptions } =
+    useSharedHeaderOptions();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   return (
-    <View className="h-full flex-1 px-md">
+    <View className="px-md h-full flex-1">
       <Stack.Screen
         options={{
           ...builtInTitleOptions,
           headerSearchBarOptions: {
-            autoFocus: true,
+            ...headerSearchBarOptions,
             placeholder: "John Doe, @john_doe, etc.",
-            headerIconColor: isDark ? COLORS.ivory.DEFAULT : "black",
-            inputType: "text",
             onChangeText: (e) => setSearchQuery(e.nativeEvent.text),
           },
         }}

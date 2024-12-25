@@ -1,5 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
+import { OText } from "@/universe/atoms";
 import { AvatarArray } from "@/universe/molecules";
 
 interface ChallengeSocialsProps {
@@ -19,15 +20,15 @@ export const ChallengeSocials = ({ memberCount }: ChallengeSocialsProps) => {
       break;
   }
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
-        <Text className="text-black dark:text-ivory">{memberLabel}</Text>
-        <Text className="text-black dark:text-ivory">
-          Started by <Text className="font-bold">x</Text>,{" "}
-          <Text className="font-bold">y</Text> and{" "}
-          <Text className="font-bold">z others</Text>
-        </Text>
+        <OText>{memberLabel}</OText>
+        <OText>
+          Started by <OText className="font-bold">x</OText>,{" "}
+          <OText className="font-bold">y</OText> and{" "}
+          <OText className="font-bold">z others</OText>
+        </OText>
       </View>
     </View>
   );

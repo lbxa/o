@@ -62,18 +62,18 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
         target: challenge.activity.target,
       },
     });
-    router.push(`/community/(challenge)/${challenge.id}`);
+    router.push(`/community/challenge/${challenge.id}`);
   };
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm px-md dark:bg-white/20">
-        <Text className="text-3xl font-bold text-black dark:text-ivory">
+      <View className="mb-md gap-sm bg-ivory p-sm px-md dark:bg-surface-dark flex flex-col rounded-3xl">
+        <Text className="dark:text-ivory text-3xl font-bold text-black">
           {challenge.name}
         </Text>
         <Suspense
           fallback={
-            <Text className="text-black dark:text-ivory">Loading...</Text>
+            <Text className="dark:text-ivory text-black">Loading...</Text>
           }
         >
           <ChallengeActivityPills fragmentRef={challenge} />

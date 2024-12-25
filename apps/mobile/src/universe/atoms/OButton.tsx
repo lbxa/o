@@ -26,12 +26,12 @@ const primaryVariantMatrix: VariantMatrix = {
     front: "text-ivory",
   },
   navy: {
-    back: "bg-navy dark:bg-ivory/30",
+    back: "bg-navy dark:bg-surface-dark",
     front: "text-ivory dark:text-ivory",
   },
   red: {
-    back: "bg-red-500",
-    front: "text-ivory",
+    back: "bg-red-600 dark:bg-red-800",
+    front: "text-ivory dark:text-red-100",
   },
   gray: {
     back: "bg-gray-200",
@@ -45,8 +45,8 @@ const secondaryVariantMatrix: VariantMatrix = {
     front: "text-violet dark:text-violet-light",
   },
   indigo: {
-    back: "bg-indigo/30 dark:bg-indigo/60",
-    front: "text-indigo dark:text-indigo-light",
+    back: "bg-indigo/30 dark:bg-indigo",
+    front: "text-indigo dark:text-ivory",
   },
   navy: {
     back: "bg-navy/30",
@@ -85,7 +85,7 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View className="my-auto flex flex-row items-center gap-sm">
+    <View className="gap-sm my-auto flex flex-row items-center">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {

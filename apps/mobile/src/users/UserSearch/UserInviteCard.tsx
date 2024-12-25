@@ -1,12 +1,12 @@
 import PaperPlaneIcon from "@assets/icons/paper-plane.svg";
 import React, { useCallback, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { graphql, useFragment, useMutation } from "react-relay";
 
 import type { UserInviteCard_user$key } from "@/__generated__/UserInviteCard_user.graphql";
 import type { UserInviteCardMutation } from "@/__generated__/UserInviteCardMutation.graphql";
 import { useZustStore } from "@/state";
-import { OTouchable } from "@/universe/atoms";
+import { OText, OTouchable } from "@/universe/atoms";
 
 interface UserInviteCardProps {
   fragmentRef: UserInviteCard_user$key;
@@ -63,12 +63,10 @@ export const UserInviteCard = ({ fragmentRef }: UserInviteCardProps) => {
     <View className="mb-sm flex min-h-12 w-full flex-row items-center">
       <View className="mr-sm size-10 rounded-full bg-gray-300 dark:bg-white/20" />
       <View className="flex flex-1 flex-col">
-        <Text className="font-bold text-black dark:text-ivory">
+        <OText>
           {user.firstName} {user.lastName}
-        </Text>
-        {user.handle && (
-          <Text className="text-black dark:text-ivory">{user.handle}</Text>
-        )}
+        </OText>
+        {user.handle && <OText>{user.handle}</OText>}
       </View>
       <OTouchable onPress={onSubmit} disabled={mutationInFlight || !!success}>
         {mutationInFlight ? (

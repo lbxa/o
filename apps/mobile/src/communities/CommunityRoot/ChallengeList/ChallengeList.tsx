@@ -1,7 +1,13 @@
 /* eslint-disable @stylistic/js/max-len */
 import Gym from "@assets/images/gym.svg";
 import { useCallback, useTransition } from "react";
-import { FlatList, RefreshControl, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
+} from "react-native";
 import { graphql, usePaginationFragment } from "react-relay";
 
 import type { ChallengeList_viewer$key } from "@/__generated__/ChallengeList_viewer.graphql";
@@ -10,7 +16,7 @@ import type { CommunityDetails_community$key } from "@/__generated__/CommunityDe
 import type { CommunityInvitationAcceptList_community$key } from "@/__generated__/CommunityInvitationAcceptList_community.graphql";
 import { ChallengeCard } from "@/challenges";
 import { useZustStore } from "@/state";
-import { Caption, OButton } from "@/universe/atoms";
+import { Caption } from "@/universe/atoms";
 
 import { CommunityInvitationAcceptList } from "../../CommunityInvitation";
 import { CommunityDetails } from "../CommunityDetails";
@@ -96,17 +102,10 @@ export const ChallengeList = ({
       }
       renderItem={({ item }) => <ChallengeCard fragmentRef={item} />}
       ListFooterComponent={
-        <View className="flex flex-col gap-md pb-md">
-          {hasNext && (
-            <OButton
-              title="Load more"
-              loading={isLoadingNext}
-              disabled={!hasNext}
-              onPress={() => loadNext(10)}
-            />
-          )}
-        </View>
+        isLoadingNext ? <ActivityIndicator size="large" /> : null
       }
+      onEndReachedThreshold={0.5}
+      onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       refreshControl={
         <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
       }

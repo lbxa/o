@@ -1,4 +1,5 @@
 import debounce from "debounce";
+import { Stack } from "expo-router";
 import React, {
   Suspense,
   useDeferredValue,
@@ -12,7 +13,7 @@ import { graphql, useLazyLoadQuery, useRefetchableFragment } from "react-relay";
 import type { UserInviteSearchFriends_viewer$key } from "@/__generated__/UserInviteSearchFriends_viewer.graphql";
 import type { UserInviteSearchFriendsListQuery } from "@/__generated__/UserInviteSearchFriendsListQuery.graphql";
 import type { UserInviteSearchRefetchQuery } from "@/__generated__/UserInviteSearchRefetchQuery.graphql";
-import { OSearchBar } from "@/universe/molecules";
+import { useSharedHeaderOptions } from "@/shared";
 
 import { UserInviteCard } from "./UserInviteCard";
 
@@ -75,11 +76,12 @@ const UserInviteSearchResults = ({
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
+      contentInsetAdjustmentBehavior="automatic"
       className="px-sm"
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserInviteCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md text-center text-black dark:text-ivory">
+        <Text className="pt-md dark:text-ivory text-center text-black">
           No users found
         </Text>
       }
@@ -90,15 +92,20 @@ const UserInviteSearchResults = ({
 export const UserInviteSearch = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const deferredSearchQuery = useDeferredValue(searchQuery);
+  const { builtInTitleOptions, headerSearchBarOptions } =
+    useSharedHeaderOptions();
 
   return (
-    <View className="h-full flex-1 px-md">
-      <OSearchBar
-        loading={searchQuery !== deferredSearchQuery}
-        placeholder="Search users"
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        showCancel={false}
+    <View className="px-md h-full flex-1">
+      <Stack.Screen
+        options={{
+          ...builtInTitleOptions,
+          headerSearchBarOptions: {
+            ...headerSearchBarOptions,
+            placeholder: "John Doe, @john_doe, etc.",
+            onChangeText: (e) => setSearchQuery(e.nativeEvent.text),
+          },
+        }}
       />
       <Suspense fallback={null}>
         <UserInviteSearchResults searchTerm={deferredSearchQuery} />
