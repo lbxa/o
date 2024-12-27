@@ -53,9 +53,7 @@ export const ChallengeCreateActivitySummary = () => {
       pill2={fields.goal!}
       pill3={
         fields.target
-          ? [fields.target, fields.unit !== "None" ? fields.unit : ""]
-              .filter(Boolean)
-              .join(" ")
+          ? [fields.target, fields.unit].filter(Boolean).join(" ")
           : undefined
       }
     />

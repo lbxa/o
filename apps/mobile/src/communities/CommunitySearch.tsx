@@ -17,7 +17,7 @@ export const CommunitySearch = () => {
   const { isDark, colors } = useOTheme();
   const { builtInTitleOptions } = useSharedHeaderOptions();
   return (
-    <View className="px-md h-full flex-1">
+    <View className="h-full flex-1 px-md">
       <Stack.Screen
         options={{
           ...builtInTitleOptions,

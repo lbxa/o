@@ -93,7 +93,7 @@ export default function CommunityManagePublic() {
           ),
         }}
       />
-      <View className="gap-md px-md pt-md flex flex-col">
+      <View className="flex flex-col gap-md px-md pt-md">
         <View className="flex flex-row items-center justify-between">
           <OText className="text-xl font-bold">
             {visibility === true ? "Public" : "Private"}

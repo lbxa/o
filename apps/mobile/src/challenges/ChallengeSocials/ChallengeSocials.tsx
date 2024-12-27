@@ -20,7 +20,7 @@ export const ChallengeSocials = ({ memberCount }: ChallengeSocialsProps) => {
       break;
   }
   return (
-    <View className="gap-sm flex flex-row items-center">
+    <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
         <OText>{memberLabel}</OText>

@@ -105,7 +105,9 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
         <OText className="py-md text-6xl">
           {userRecord.activityResult.result +
             " " +
-            challengeActivityUnitToLabel(userRecord.challenge.activity.unit)}
+            challengeActivityUnitToLabel(
+              userRecord.challenge.activity.unit as ChallengeActivityUnits
+            )}
         </OText>
         <View className="flex flex-row items-center gap-sm">
           <UserAvatar user={userRecord.user} size="sm" />
