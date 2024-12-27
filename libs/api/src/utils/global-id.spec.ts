@@ -1,4 +1,5 @@
-import type { EntityType } from "./global-id";
+import type { EntityType } from "@/entity";
+
 import {
   decodeGlobalId,
   encodeGlobalId,

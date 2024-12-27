@@ -107,6 +107,7 @@ export const ChallengeActivity = ({
       <Suspense fallback={null}>
         <FlatList
           className="min-h-full px-md"
+          showsVerticalScrollIndicator={false}
           data={sectionList}
           keyExtractor={(item, index) => ["X", index].join("-")}
           renderItem={({ item }) => {

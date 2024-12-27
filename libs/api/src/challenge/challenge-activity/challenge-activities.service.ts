@@ -1,14 +1,14 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   ChallengeActivitiesTable,
   ChallengeActivity as PgChallengeActivity,
   NewChallengeActivity,
 } from "@o/db";
-import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity";
+import { EntityService, EntityType } from "../../entity";
 import {
   ChallengeActivity as GqlChallengeActivity,
   ChallengeActivityGoal,
@@ -26,9 +26,9 @@ export class ChallengeActivitiesService
       GqlChallengeActivity
     >
 {
-  constructor(private dbService: DbService<typeof schema>) {}
+  constructor(private dbService: DbService<typeof $DrizzleSchema>) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "ChallengeActivity";
   }
 

@@ -1,37 +1,62 @@
 /* eslint-disable simple-import-sort/exports */
-//! IMPORTANT: DO NOT EXPORT ANYTHING OTHER THAN DRIZZLE CONSTRUCTS FROM HERE
-//! This barrel file is intended to be the only exit point. The import * as schema
-//! from "@o/db" syntax is used in other packages. I've chosen an explicit
-//! export format because nothing should ever be a surprise! Sometimes we
-//! add Drizzle schema that shouldn't be exported like util types or other
-//! non-schema things that can cause runtime errors in other packages.
+//! IMPORTANT: This barrel file is the single source of truth for our database schema.
+//! All database-related imports should use either:
+//! 1. Named imports for types: import type { Challenge, NewChallenge } from "@o/db"
+//! 2. Schema object: import { schema } from "@o/db"
+//!
+//! The schema object contains all Drizzle constructs (tables, relations, enums)
+//! in a type-safe way. This ensures consistency and prevents accidental imports
+//! of internal utilities or non-schema constructs that could cause runtime errors.
 
 /**
  * USER
  */
 export type {
   NewUser,
+  NewUserFriendship,
+  NewUserRecord,
+  NewUserStreak,
   User,
   UserFriendship,
-  NewUserFriendship,
-  UserStreak,
-  NewUserStreak,
   UserRecord,
-  NewUserRecord,
+  UserStreak,
 } from "./schema/user.schema";
-export {
+import {
+  UserFriendshipsRelations,
+  UserRecordsRelations,
+  UsersRelations,
+  UserStreaksRelations,
+} from "./relations/user.relations";
+import {
+  UserFriendshipsTable,
+  UserRecordsTable,
   UserSchema,
   UsersTable,
-  UserFriendshipsTable,
   UserStreaksTable,
-  UserRecordsTable,
 } from "./schema/user.schema";
-export {
-  UsersRelations,
+
+const $UserRelations = {
   UserFriendshipsRelations,
-  UserStreaksRelations,
   UserRecordsRelations,
-} from "./relations/user.relations";
+  UsersRelations,
+  UserStreaksRelations,
+};
+
+const $UserSchema = {
+  UserFriendshipsTable,
+  UserRecordsTable,
+  UserSchema,
+  UsersTable,
+  UserStreaksTable,
+};
+
+export {
+  UserFriendshipsTable,
+  UserRecordsTable,
+  UserSchema,
+  UsersTable,
+  UserStreaksTable,
+};
 
 /**
  * COMMUNITY
@@ -44,17 +69,37 @@ export type {
   CommunityInvitation,
   NewCommunityInvitation,
 } from "./schema/community.schema";
-export {
-  CommunitySchema,
-  CommunitiesTable,
-  CommunityMembershipsTable,
-  CommunityInvitationsTable,
-} from "./schema/community.schema";
-export {
+import {
   CommunitiesRelations,
-  CommunityMembershipsRelations,
   CommunityInvitationsRelations,
+  CommunityMembershipsRelations,
 } from "./relations/community.relations";
+import {
+  CommunitiesTable,
+  CommunityInvitationsTable,
+  CommunityMembershipsTable,
+  CommunitySchema,
+} from "./schema/community.schema";
+
+const $CommunityRelations = {
+  CommunitiesRelations,
+  CommunityInvitationsRelations,
+  CommunityMembershipsRelations,
+};
+
+const $CommunitySchema = {
+  CommunitiesTable,
+  CommunityInvitationsTable,
+  CommunityMembershipsTable,
+  CommunitySchema,
+};
+
+export {
+  CommunitiesTable,
+  CommunityInvitationsTable,
+  CommunityMembershipsTable,
+  CommunitySchema,
+};
 
 /**
  * CHALLENGE
@@ -71,30 +116,80 @@ export type {
   ChallengeActivityResult,
   NewChallengeActivityResult,
 } from "./schema/challenge.schema";
-export {
-  ChallengeSchema,
-  ChallengeMode,
-  ChallengeCadence,
-  ChallengesTable,
-  ChallengeMembershipsTable,
-  ChallengeInvitationsTable,
-  ChallengeActivityType,
-  ChallengeActivityUnits,
-  ChallengeActivityGoal,
-  ActivityUnitTable,
-  ActivityTypeGoalTable,
-  ChallengeActivitiesTable,
-  ChallengeActivityResultsTable,
-} from "./schema/challenge.schema";
-export {
-  ChallengesRelations,
-  ChallengeMembershipsRelations,
-  ChallengeInvitationsRelations,
+import {
   ChallengeActivitiesRelations,
   ChallengeActivityResultRelations,
+  ChallengeInvitationsRelations,
+  ChallengeMembershipsRelations,
+  ChallengesRelations,
 } from "./relations/challenge.relations";
+import {
+  ActivityTypeGoalTable,
+  ActivityUnitTable,
+  ChallengeActivitiesTable,
+  ChallengeActivityGoal,
+  ChallengeActivityResultsTable,
+  ChallengeActivityType,
+  ChallengeActivityUnits,
+  ChallengeCadence,
+  ChallengeInvitationsTable,
+  ChallengeMembershipsTable,
+  ChallengeMode,
+  ChallengeSchema,
+  ChallengesTable,
+} from "./schema/challenge.schema";
+
+const $ChallengeRelations = {
+  ChallengeActivitiesRelations,
+  ChallengeActivityResultRelations,
+  ChallengeInvitationsRelations,
+  ChallengeMembershipsRelations,
+  ChallengesRelations,
+};
+
+const $ChallengeSchema = {
+  ActivityTypeGoalTable,
+  ActivityUnitTable,
+  ChallengeActivitiesTable,
+  ChallengeActivityGoal,
+  ChallengeActivityResultsTable,
+  ChallengeActivityType,
+  ChallengeActivityUnits,
+  ChallengeCadence,
+  ChallengeInvitationsTable,
+  ChallengeMembershipsTable,
+  ChallengeMode,
+  ChallengeSchema,
+  ChallengesTable,
+};
+
+export {
+  ActivityTypeGoalTable,
+  ActivityUnitTable,
+  ChallengeActivitiesTable,
+  ChallengeActivityGoal,
+  ChallengeActivityResultsTable,
+  ChallengeActivityType,
+  ChallengeActivityUnits,
+  ChallengeCadence,
+  ChallengeInvitationsTable,
+  ChallengeMembershipsTable,
+  ChallengeMode,
+  ChallengeSchema,
+  ChallengesTable,
+};
 
 /**
  * SHARED/MISC
  */
-export { InvitationStatus } from "./schema/shared";
+import { InvitationStatus } from "./schema/shared";
+
+export const $DrizzleSchema = {
+  ...$UserSchema,
+  ...$UserRelations,
+  ...$CommunitySchema,
+  ...$CommunityRelations,
+  ...$ChallengeSchema,
+  ...$ChallengeRelations,
+  InvitationStatus,
+} as const;

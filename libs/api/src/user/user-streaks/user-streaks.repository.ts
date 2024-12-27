@@ -1,21 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import type {
+  $DrizzleSchema,
   NewUserStreak as PgNewUserStreak,
   User as PgUser,
   UserStreak as PgUserStreak,
 } from "@o/db";
 import { UsersTable, UserStreaksTable } from "@o/db";
-import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
-import { DbService } from "../../db/db.service";
-import { EntityRepository } from "../../entity";
+import { DbService } from "@/db/db.service";
+import { EntityRepository } from "@/entity";
 
 @Injectable()
 export class UserStreaksRepository
   implements EntityRepository<typeof UserStreaksTable>
 {
-  constructor(private dbService: DbService<typeof schema>) {}
+  constructor(private dbService: DbService<typeof $DrizzleSchema>) {}
 
   async create(
     newUserStreak: PgNewUserStreak

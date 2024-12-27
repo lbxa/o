@@ -11,6 +11,19 @@ type Viewer implements Node {
   communityInvitations(first: Int!, after: String): CommunityInvitationConnection!
   challenges(communityId: ID!, first: Int!, after: String): ChallengeConnection!
   challenge(challengeId: ID!): Challenge
+  homeFeed(first: Int!, after: String): HomeFeedConnection!
+}
+
+type HomeFeedConnection {
+  edges: [HomeFeedEdge!]!
+  pageInfo: PageInfo!
+}
+
+union HomeFeedItem = Challenge | UserRecord
+
+type HomeFeedEdge {
+  cursor: String!
+  node: HomeFeedItem!
 }
 
 type Query {

@@ -6,12 +6,14 @@ import {
   Resolver,
 } from "@nestjs/graphql";
 import {
+  $DrizzleSchema,
   CommunitiesTable,
   CommunityMembershipsTable,
   NewCommunity,
 } from "@o/db";
-import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
+
+import { CommunityRepository } from "@/community/community.repository";
 
 import { ChallengeService } from "../challenge/challenge.service";
 import { DbService } from "../db/db.service";
@@ -34,10 +36,11 @@ import { CommunityMembershipsService } from "./community-memberships";
 @Resolver("Community")
 export class CommunityResolver {
   constructor(
-    private dbService: DbService<typeof schema>,
+    private dbService: DbService<typeof $DrizzleSchema>,
     private communityService: CommunityService,
     private communityMembershipsService: CommunityMembershipsService,
     private communityInvitationsService: CommunityInvitationsService,
+    private communityRepository: CommunityRepository,
     private challengeService: ChallengeService
   ) {}
 
@@ -164,8 +167,11 @@ export class CommunityResolver {
       .values({ ...input, ownerId: userId })
       .returning();
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!newCommunity) {
+    const communityWithRelations = await this.communityRepository.findById(
+      newCommunity.id
+    );
+
+    if (!newCommunity || !communityWithRelations) {
       throw new InternalServerError("Failed to create community membership");
     }
 
@@ -177,7 +183,7 @@ export class CommunityResolver {
       communityEdge: {
         __typename: "CommunityEdge",
         cursor: encodeGlobalId("Community", newCommunity.id),
-        node: this.communityService.pg2GqlMapper(newCommunity),
+        node: this.communityService.pg2GqlMapper(communityWithRelations),
       },
     };
   }

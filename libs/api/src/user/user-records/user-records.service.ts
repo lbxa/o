@@ -1,29 +1,39 @@
 import { Injectable } from "@nestjs/common";
-import type { User as PgUser, UserRecord as PgUserRecord } from "@o/db";
+import type { UserRecord as PgUserRecord } from "@o/db";
 import { UserRecordsTable } from "@o/db";
 
+import { ChallengeService } from "@/challenge/challenge.service";
+import { ChallengeActivitiesService } from "@/challenge/challenge-activity/challenge-activities.service";
+import { ChallengeActivityResultsService } from "@/challenge/challenge-activity-results/challenge-activity-results.service";
 import { EntityService, EntityType } from "@/entity";
-
-import { ChallengeService } from "../../challenge/challenge.service";
 import {
-  Challenge,
-  ChallengeActivity,
-  ChallengeActivityResult,
   UserRecord as GqlUserRecord,
   UserRecordCreateInput,
-} from "../../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../../utils";
-import { InternalServerError, NotFoundError } from "../../utils/errors";
+} from "@/types/graphql";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "@/utils";
+import { InternalServerError, NotFoundError } from "@/utils/errors";
+
 import { UserService } from "../user.service";
-import { UserRecordsRepository } from "./user-records.repository";
+import {
+  PgUserRecordComposite,
+  UserRecordsRepository,
+} from "./user-records.repository";
 
 @Injectable()
 export class UserRecordsService
-  implements EntityService<typeof UserRecordsTable, PgUserRecord, GqlUserRecord>
+  implements
+    EntityService<
+      typeof UserRecordsTable,
+      PgUserRecord,
+      GqlUserRecord,
+      PgUserRecordComposite
+    >
 {
   constructor(
     private userService: UserService,
     private challengeService: ChallengeService,
+    private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityResultsService: ChallengeActivityResultsService,
     private userRecordsRepository: UserRecordsRepository
   ) {}
 
@@ -31,51 +41,16 @@ export class UserRecordsService
     return "UserRecord";
   }
 
-  public pg2GqlMapper(
-    pgUserRecord: PgUserRecord & { user: PgUser },
-    challenge?: Challenge,
-    activity?: ChallengeActivity,
-    activityResult?: ChallengeActivityResult
-  ): GqlUserRecord {
+  public pg2GqlMapper(userRecord: PgUserRecordComposite): GqlUserRecord {
     return {
-      ...pgUserRecord,
-      id: encodeGlobalId(this.getTypename(), pgUserRecord.id),
-      user: this.userService.pg2GqlMapper(pgUserRecord.user),
-      challenge: challenge ?? ({} as Challenge),
-      activity: activity ?? ({} as ChallengeActivity),
-      activityResult: activityResult ?? ({} as ChallengeActivityResult),
+      ...userRecord,
+      id: encodeGlobalId(this.getTypename(), userRecord.id),
+      user: this.userService.pg2GqlMapper(userRecord.user),
+      challenge: this.challengeService.pg2GqlMapper(userRecord.challenge),
+      activityResult: this.challengeActivityResultsService.pg2GqlMapper(
+        userRecord.activityResult
+      ),
     };
-  }
-
-  private async loadRelations(
-    baseRecord: PgUserRecord & { user: PgUser }
-  ): Promise<GqlUserRecord> {
-    const challenge = await this.challengeService.findById(
-      baseRecord.challengeId
-    );
-
-    if (!challenge) {
-      throw new InternalServerError("Failed to load challenge relation");
-    }
-
-    const activityResultId = encodeGlobalId(
-      "ChallengeActivityResult",
-      baseRecord.activityResultId
-    );
-    const activityResult = challenge.activityTopResults?.edges?.find(
-      (edge) => edge.node.id === activityResultId
-    )?.node;
-
-    if (!activityResult) {
-      throw new InternalServerError("Failed to load activity result relation");
-    }
-
-    return this.pg2GqlMapper(
-      baseRecord,
-      challenge,
-      challenge.activity,
-      activityResult
-    );
   }
 
   async create(input: UserRecordCreateInput): Promise<GqlUserRecord> {
@@ -104,7 +79,7 @@ export class UserRecordsService
       throw new InternalServerError("Failed to create user record");
     }
 
-    return this.loadRelations(userRecord);
+    return this.pg2GqlMapper(userRecord);
   }
 
   async findById(id: number): Promise<GqlUserRecord> {
@@ -114,17 +89,17 @@ export class UserRecordsService
       throw new NotFoundError(`UserRecord with id ${id} not found`);
     }
 
-    return this.loadRelations(userRecord);
+    return this.pg2GqlMapper(userRecord);
   }
 
-  async findByUserId(userId: number): Promise<GqlUserRecord> {
-    const userRecord = await this.userRecordsRepository.findByUserId(userId);
+  async findByUserId(userId: number): Promise<GqlUserRecord[]> {
+    const userRecords = await this.userRecordsRepository.findByUserId(userId);
 
-    if (!userRecord) {
+    if (!userRecords) {
       throw new NotFoundError(`UserRecord with userId ${userId} not found`);
     }
 
-    return this.loadRelations(userRecord);
+    return userRecords.map((userRecord) => this.pg2GqlMapper(userRecord));
   }
 
   async delete(id: string): Promise<boolean> {

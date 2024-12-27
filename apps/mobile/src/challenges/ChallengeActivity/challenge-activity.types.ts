@@ -16,7 +16,7 @@ export type ChallengeActivityUnitLabel =
   | "mi"
   | "km"
   | "%"
-  | "None";
+  | ""; // === 'None'
 
 export type ChallengeActivityMeasurementLabel =
   | "Count-Based"

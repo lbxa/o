@@ -208,8 +208,9 @@ type Community implements Node & Timestamps {
   members: UserConnection
   memberships: [CommunityMembership!]
   name: String!
+  owner: User
   updatedAt: DateTime
-  users: [User]
+  users: [User!]
 }
 
 type CommunityConnection {
@@ -281,6 +282,18 @@ type CreateChallengeActivityResultPayload {
 
 """Date custom scalar type"""
 scalar DateTime
+
+type HomeFeedConnection {
+  edges: [HomeFeedEdge!]!
+  pageInfo: PageInfo!
+}
+
+type HomeFeedEdge {
+  cursor: String!
+  node: HomeFeedItem!
+}
+
+union HomeFeedItem = Challenge | UserRecord
 
 enum InvitationStatus {
   ACCEPTED
@@ -464,8 +477,6 @@ Represents a record of a user's activity in a specific challenge.
 This tracks individual challenge activity results for the user.
 """
 type UserRecord implements Node & Timestamps {
-  """The specific activity within the challenge"""
-  activity: ChallengeActivity!
   """The result of the activity"""
   activityResult: ChallengeActivityResult!
   """The challenge this record is associated with"""
@@ -528,6 +539,7 @@ type Viewer implements Node {
   communities(after: String, first: Int!): CommunityConnection!
   community(communityId: ID!): Community
   communityInvitations(after: String, first: Int!): CommunityInvitationConnection!
+  homeFeed(after: String, first: Int!): HomeFeedConnection!
   """Alias for user id"""
   id: ID!
   """Only one active user can be logged in at a time"""

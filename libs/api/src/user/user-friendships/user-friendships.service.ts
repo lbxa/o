@@ -1,30 +1,31 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   User as PgUser,
   UserFriendship as PgUserFriendship,
   UserFriendshipsTable,
   UsersTable,
 } from "@o/db";
-import * as schema from "@o/db";
 import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
-import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity";
+import { DbService } from "@/db/db.service";
+import { EntityService, EntityType } from "@/entity";
 import {
   InvitationStatus,
   UserConnection,
   UserFriendship as GqlUserFriendship,
   UserFriendshipConnection,
   UserFriendshipEdge,
-} from "../../types/graphql";
+} from "@/types/graphql";
 import {
   buildConnection,
   ConnectionArgs,
   validateAndDecodeGlobalId,
-} from "../../utils";
-import { encodeGlobalId, mapToEnum } from "../../utils";
-import { ForbiddenError, NotFoundError } from "../../utils/errors";
+} from "@/utils";
+import { encodeGlobalId, mapToEnum } from "@/utils";
+import { ForbiddenError, NotFoundError } from "@/utils/errors";
+
 import { UserService } from "../user.service";
 
 @Injectable()
@@ -37,11 +38,11 @@ export class UserFriendshipsService
     >
 {
   constructor(
-    private dbService: DbService<typeof schema>,
+    private dbService: DbService<typeof $DrizzleSchema>,
     private userService: UserService
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "UserFriendship";
   }
 

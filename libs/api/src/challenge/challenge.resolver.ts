@@ -6,8 +6,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import * as schema from "@o/db";
-import { ChallengeActivityResultsTable } from "@o/db";
+import { $DrizzleSchema, ChallengeActivityResultsTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -31,7 +30,7 @@ export class ChallengeResolver {
     private challengeService: ChallengeService,
     private challengeInvitationsService: ChallengeInvitationsService,
     private challengeMembershipsService: ChallengeMembershipsService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   @Query("challenge")
@@ -127,7 +126,9 @@ export class ChallengeResolver {
       inviteId,
       "ChallengeInvitation"
     );
-    return this.challengeMembershipsService.join(userId, decodedInviteId);
+    return this.challengeMembershipsService.join(userId, {
+      inviteId: decodedInviteId,
+    });
   }
 
   @Mutation("challengeLeave")

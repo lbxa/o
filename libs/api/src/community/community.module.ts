@@ -1,5 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 
+import { CommunityRepository } from "@/community/community.repository";
+
 import { AuthModule } from "../auth/auth.module";
 import { ChallengeModule } from "../challenge/challenge.module";
 import { UserModule } from "../user/user.module";
@@ -19,11 +21,13 @@ import { CommunityMembershipsService } from "./community-memberships/community-m
     CommunityResolver,
     CommunityInvitationsService,
     CommunityMembershipsService,
+    CommunityRepository,
   ],
   exports: [
     CommunityService,
     CommunityInvitationsService,
     CommunityMembershipsService,
+    CommunityRepository,
   ],
 })
 export class CommunityModule {}

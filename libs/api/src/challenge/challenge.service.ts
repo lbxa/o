@@ -1,16 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   Challenge as PgChallenge,
   ChallengeActivitiesTable,
-  ChallengeActivity as PgChallengeActivity,
   ChallengeMembershipsTable,
   ChallengesTable,
+  CommunitiesTable,
   CommunityMembershipsTable,
   NewChallenge,
   NewChallengeActivity,
+  UsersTable,
 } from "@o/db";
-import * as schema from "@o/db";
 import { and, desc, eq } from "drizzle-orm";
+
+import { CommunityRepository } from "@/community/community.repository";
+import { CommunityService } from "@/community/community.service";
 
 import { DbService } from "../db/db.service";
 import { EntityType, EntityUtils } from "../entity";
@@ -22,34 +26,47 @@ import {
   ChallengeMode,
   ChallengeUpdateInput,
 } from "../types/graphql";
-import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
+import {
+  buildConnection,
+  ConnectionArgs,
+  encodeGlobalId,
+  mapToEnum,
+  validateAndDecodeGlobalId,
+} from "../utils";
 import {
   InternalServerError,
   NotFoundError,
   UnauthorizedError,
 } from "../utils/errors";
-import { ChallengeRepository } from "./challenge.repository";
+import {
+  ChallengeRepository,
+  PgChallengeComposite,
+} from "./challenge.repository";
 import { ChallengeActivitiesService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengeService
-  implements EntityService<typeof ChallengesTable, PgChallenge, GqlChallenge>
+  implements
+    EntityService<
+      typeof ChallengesTable,
+      PgChallenge,
+      GqlChallenge,
+      PgChallengeComposite
+    >
 {
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
     private challengeRepository: ChallengeRepository,
-    private dbService: DbService<typeof schema>
+    private communityService: CommunityService,
+    private communityRepository: CommunityRepository,
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   public getTypename(): EntityType {
     return "Challenge";
   }
 
-  public pg2GqlMapper(
-    challenge: PgChallenge & {
-      activities: PgChallengeActivity[];
-    }
-  ): GqlChallenge {
+  public pg2GqlMapper(challenge: PgChallengeComposite): GqlChallenge {
     return {
       ...challenge,
       mode: mapToEnum(ChallengeMode, challenge.mode),
@@ -57,17 +74,13 @@ export class ChallengeService
       activity: this.challengeActivitiesService.pg2GqlMapper(
         challenge.activities[0]
       ),
+      community: this.communityService.pg2GqlMapper(challenge.community),
       id: encodeGlobalId(this.getTypename(), challenge.id),
     };
   }
 
   async findById(id: number): Promise<GqlChallenge> {
-    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, id),
-      with: {
-        activities: true,
-      },
-    });
+    const challenge = await this.challengeRepository.findById(id);
 
     if (!challenge) {
       throw new NotFoundError(`Challenge with id ${id} not found`);
@@ -79,17 +92,29 @@ export class ChallengeService
   async findAll(): Promise<GqlChallenge[]> {
     const allChallenges =
       await this.dbService.db.query.ChallengesTable.findMany({
-        with: { activities: true },
+        with: {
+          activities: true,
+          community: { with: { owner: true } },
+        },
       });
 
     return allChallenges.map((challenge) => this.pg2GqlMapper(challenge));
   }
 
-  async findUserChallenges(userId: number): Promise<GqlChallenge[]> {
+  async findUserChallenges(
+    userId: number,
+    { first = 10, after }: ConnectionArgs
+  ): Promise<ChallengeConnection> {
+    const startCursorId = after
+      ? validateAndDecodeGlobalId(after, this.getTypename())
+      : 0;
+
     const challenges = await this.dbService.db
       .select({
         challenge: ChallengesTable,
         activities: ChallengeActivitiesTable,
+        community: CommunitiesTable,
+        owner: UsersTable,
       })
       .from(ChallengeMembershipsTable)
       .innerJoin(
@@ -100,14 +125,32 @@ export class ChallengeService
         ChallengeActivitiesTable,
         eq(ChallengesTable.id, ChallengeActivitiesTable.challengeId)
       )
-      .where(eq(ChallengeMembershipsTable.userId, userId));
+      .innerJoin(
+        CommunitiesTable,
+        eq(ChallengesTable.communityId, CommunitiesTable.id)
+      )
+      .innerJoin(UsersTable, eq(CommunitiesTable.ownerId, UsersTable.id))
+      .where(eq(ChallengeMembershipsTable.userId, userId))
+      .limit(first + 1)
+      .offset(startCursorId);
 
-    return challenges.map((challenge) => ({
-      ...this.pg2GqlMapper({
+    const nodes = challenges.slice(0, first).map((challenge) =>
+      this.pg2GqlMapper({
         ...challenge.challenge,
-        activities: [challenge.activities], // for now one-to-one
-      }),
-    }));
+        activities: [challenge.activities],
+        community: {
+          ...challenge.community,
+          owner: challenge.owner,
+        },
+      })
+    );
+
+    return buildConnection({
+      nodes,
+      hasNextPage: challenges.length > first,
+      hasPreviousPage: startCursorId > 0,
+      createCursor: (node) => node.id,
+    });
   }
 
   async findCommunityChallenges(
@@ -124,14 +167,18 @@ export class ChallengeService
       limit: first + 1,
       offset: startCursorId,
       orderBy: desc(ChallengesTable.createdAt),
-      with: { activities: true },
+      with: {
+        activities: true,
+        community: {
+          with: {
+            owner: true,
+          },
+        },
+      },
     });
 
     const edges = challenges.slice(0, first).map((challenge) => ({
-      node: this.pg2GqlMapper({
-        ...challenge,
-        activities: challenge.activities, // for now one-to-one
-      }),
+      node: this.pg2GqlMapper(challenge),
       cursor: encodeGlobalId(this.getTypename(), challenge.id),
     }));
 
@@ -185,9 +232,20 @@ export class ChallengeService
       throw new InternalServerError("Failed to create challenge activity");
     }
 
+    const community = await this.communityRepository.findById(
+      challenge.communityId
+    );
+
+    if (!community) {
+      throw new NotFoundError(
+        `Community with id ${challenge.communityId} not found`
+      );
+    }
+
     return this.pg2GqlMapper({
       ...challenge,
       activities: [challengeActivity],
+      community,
     });
   }
 

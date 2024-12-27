@@ -1,6 +1,5 @@
 /* eslint-disable @stylistic/js/max-len */
-import type * as schema from "@o/db";
-import type { User as PgUser } from "@o/db";
+import type { $DrizzleSchema, User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
 import { desc, getTableColumns, or, sql } from "drizzle-orm";
 
@@ -40,7 +39,7 @@ import type { DbService } from "../../db/db.service";
  * the similarity functionality.
  */
 export const fullTextSearch = async (
-  dbService: DbService<typeof schema>,
+  dbService: DbService<typeof $DrizzleSchema>,
   searchTerm: string
 ): Promise<PgUser[]> => {
   const ts_rank_cd = sql`ts_rank_cd(

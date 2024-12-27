@@ -245,8 +245,9 @@ export type Community = Node & Timestamps & {
   members?: Maybe<UserConnection>;
   memberships?: Maybe<Array<CommunityMembership>>;
   name: Scalars['String']['output'];
+  owner?: Maybe<User>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  users?: Maybe<Array<Maybe<User>>>;
+  users?: Maybe<Array<User>>;
 };
 
 
@@ -337,6 +338,20 @@ export type CreateChallengeActivityResultPayload = {
   __typename?: 'CreateChallengeActivityResultPayload';
   challengeActivityResultEdge: ChallengeActivityResultEdge;
 };
+
+export type HomeFeedConnection = {
+  __typename?: 'HomeFeedConnection';
+  edges: Array<HomeFeedEdge>;
+  pageInfo: PageInfo;
+};
+
+export type HomeFeedEdge = {
+  __typename?: 'HomeFeedEdge';
+  cursor: Scalars['String']['output'];
+  node: HomeFeedItem;
+};
+
+export type HomeFeedItem = Challenge | UserRecord;
 
 export enum InvitationStatus {
   Accepted = 'ACCEPTED',
@@ -718,8 +733,6 @@ export type UserFriendshipStatus = {
  */
 export type UserRecord = Node & Timestamps & {
   __typename?: 'UserRecord';
-  /** The specific activity within the challenge */
-  activity: ChallengeActivity;
   /** The result of the activity */
   activityResult: ChallengeActivityResult;
   /** The challenge this record is associated with */
@@ -781,6 +794,7 @@ export type Viewer = Node & {
   communities: CommunityConnection;
   community?: Maybe<Community>;
   communityInvitations: CommunityInvitationConnection;
+  homeFeed: HomeFeedConnection;
   /** Alias for user id */
   id: Scalars['ID']['output'];
   /** Only one active user can be logged in at a time */
@@ -817,6 +831,13 @@ export type ViewerCommunityArgs = {
 
 /** The currently logged in user */
 export type ViewerCommunityInvitationsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first: Scalars['Int']['input'];
+};
+
+
+/** The currently logged in user */
+export type ViewerHomeFeedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first: Scalars['Int']['input'];
 };

@@ -27,6 +27,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   Challenge as PgChallenge,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
@@ -58,7 +59,7 @@ export class ChallengeService
 {
   constructor(
     private challengeActivitiesService: ChallengeActivitiesService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   // TODO map Db types to GraphQL types

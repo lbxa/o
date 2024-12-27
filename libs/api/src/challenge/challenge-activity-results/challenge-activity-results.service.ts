@@ -1,16 +1,18 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   ChallengeActivity as PgChallengeActivity,
   ChallengeActivityResult as PgChallengeActivityResult,
   ChallengeActivityResultsTable,
   NewChallengeActivityResult,
   User as PgUser,
 } from "@o/db";
-import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
+import { ChallengeMembershipsService } from "@/challenge/challenge-memberships";
+
 import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity";
+import { EntityService, EntityType } from "../../entity";
 import {
   ChallengeActivityResult as GqlChallengeActivityResult,
   ChallengeActivityResultConnection,
@@ -22,31 +24,35 @@ import { NotFoundError } from "../../utils/errors";
 import { ChallengeActivitiesService } from "../challenge-activity";
 import { getRankingStrategy } from "./ranking-strategies";
 
+type ChallengeActivityResultComposite = PgChallengeActivityResult & {
+  user: PgUser;
+  activity: PgChallengeActivity;
+};
+
 @Injectable()
 export class ChallengeActivityResultsService
   implements
     EntityService<
       typeof ChallengeActivityResultsTable,
       PgChallengeActivityResult,
-      GqlChallengeActivityResult
+      GqlChallengeActivityResult,
+      ChallengeActivityResultComposite
     >
 {
   constructor(
     private userService: UserService,
+    private challengeMembershipsService: ChallengeMembershipsService,
     private challengeActivitiesService: ChallengeActivitiesService,
     private userStreaksService: UserStreaksService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "ChallengeActivityResult";
   }
 
   public pg2GqlMapper(
-    challengeActivityResult: PgChallengeActivityResult & {
-      user: PgUser;
-      activity: PgChallengeActivity;
-    }
+    challengeActivityResult: ChallengeActivityResultComposite
   ): GqlChallengeActivityResult {
     return {
       ...challengeActivityResult,
@@ -54,7 +60,7 @@ export class ChallengeActivityResultsService
       activity: this.challengeActivitiesService.pg2GqlMapper(
         challengeActivityResult.activity
       ),
-      id: encodeGlobalId("ChallengeActivityResult", challengeActivityResult.id),
+      id: encodeGlobalId(this.getTypename(), challengeActivityResult.id),
     };
   }
 
@@ -165,6 +171,24 @@ export class ChallengeActivityResultsService
     await this.userStreaksService.incrementStreak(
       challengeActivityResultWithRelations.userId
     );
+
+    /**
+     * Users are automatically added to the challenge when they complete an
+     * activity.
+     */
+    const isMember = await this.challengeMembershipsService.isMember(
+      challengeActivityResultWithRelations.userId,
+      challengeActivityResultWithRelations.challengeId
+    );
+
+    if (!isMember) {
+      await this.challengeMembershipsService.join(
+        challengeActivityResultWithRelations.userId,
+        {
+          challengeId: challengeActivityResultWithRelations.challengeId,
+        }
+      );
+    }
 
     return this.pg2GqlMapper(challengeActivityResultWithRelations);
   }

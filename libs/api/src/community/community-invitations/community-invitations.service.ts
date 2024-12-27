@@ -1,35 +1,42 @@
 import { Injectable } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   CommunitiesTable,
-  Community as PgCommunity,
   CommunityInvitation as PgCommunityInvitation,
   CommunityInvitationsTable,
   User as PgUser,
   UsersTable,
 } from "@o/db";
-import * as schema from "@o/db";
 import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
-import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity/entity-service";
+import {
+  CommunityRepository,
+  PgCommunityComposite,
+} from "@/community/community.repository";
+import { DbService } from "@/db/db.service";
+import { EntityType } from "@/entity";
+import { EntityService } from "@/entity/entity-service";
 import {
   CommunityInvitation as GqlCommunityInvitation,
   CommunityInvitationConnection,
   CommunityInviteDeclinePayload,
   InvitationStatus,
-} from "../../types/graphql";
-import { UserService } from "../../user/user.service";
-import {
-  encodeGlobalId,
-  mapToEnum,
-  validateAndDecodeGlobalId,
-} from "../../utils";
+} from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "@/utils";
 import {
   ForbiddenError,
   InternalServerError,
   NotFoundError,
-} from "../../utils/errors";
+} from "@/utils/errors";
+
 import { CommunityService } from "../community.service";
+
+type PgCommunityInvitationComposite = PgCommunityInvitation & {
+  community: PgCommunityComposite;
+  inviter: PgUser;
+  invitee: PgUser;
+};
 
 @Injectable()
 export class CommunityInvitationsService
@@ -42,20 +49,17 @@ export class CommunityInvitationsService
 {
   constructor(
     private communityService: CommunityService,
+    private communityRepository: CommunityRepository,
     private userService: UserService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "CommunityInvitation";
   }
 
   public pg2GqlMapper(
-    invitation: PgCommunityInvitation & {
-      community: PgCommunity;
-      inviter: PgUser;
-      invitee: PgUser;
-    }
+    invitation: PgCommunityInvitationComposite
   ): GqlCommunityInvitation {
     return {
       ...invitation,
@@ -81,9 +85,9 @@ export class CommunityInvitationsService
       throw new NotFoundError(`Community invitation with id ${id} not found`);
     }
 
-    const community = await this.dbService.db.query.CommunitiesTable.findFirst({
-      where: eq(CommunitiesTable.id, invitation.communityId),
-    });
+    const community = await this.communityRepository.findById(
+      invitation.communityId
+    );
 
     if (!community) {
       throw new NotFoundError(
@@ -116,11 +120,13 @@ export class CommunityInvitationsService
 
     const InviterAlias = aliasedTable(UsersTable, "inviter");
     const InviteeAlias = aliasedTable(UsersTable, "invitee");
+    const CommunityOwnerAlias = aliasedTable(UsersTable, "communityOwner");
 
     const invitationsQuery = this.dbService.db
       .select({
         invitation: CommunityInvitationsTable,
         community: CommunitiesTable,
+        communityOwner: CommunityOwnerAlias,
         inviter: InviterAlias,
         invitee: InviteeAlias,
       })
@@ -128,6 +134,10 @@ export class CommunityInvitationsService
       .innerJoin(
         CommunitiesTable,
         eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
+      )
+      .innerJoin(
+        CommunityOwnerAlias,
+        eq(CommunitiesTable.ownerId, CommunityOwnerAlias.id)
       )
       .innerJoin(
         InviterAlias,
@@ -153,7 +163,10 @@ export class CommunityInvitationsService
     const edges = invitations.slice(0, first).map((row) => ({
       node: this.pg2GqlMapper({
         ...row.invitation,
-        community: row.community,
+        community: {
+          ...row.community,
+          owner: row.communityOwner,
+        },
         inviter: row.inviter,
         invitee: row.invitee,
       }),

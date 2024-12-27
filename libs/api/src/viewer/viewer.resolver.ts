@@ -1,5 +1,7 @@
 import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { UserRecordsService } from "@/user/user-records";
+
 import { ChallengeService } from "../challenge/challenge.service";
 import { CommunityService } from "../community/community.service";
 import { CommunityInvitationsService } from "../community/community-invitations";
@@ -9,11 +11,16 @@ import {
   Community,
   CommunityConnection,
   CommunityInvitationConnection,
+  HomeFeedConnection,
   User,
   Viewer,
 } from "../types/graphql";
 import { UserService } from "../user/user.service";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+import {
+  buildConnection,
+  encodeGlobalId,
+  validateAndDecodeGlobalId,
+} from "../utils";
 
 @Resolver("Viewer")
 export class ViewerResolver {
@@ -21,6 +28,7 @@ export class ViewerResolver {
     private userService: UserService,
     private communityService: CommunityService,
     private communityInvitationsService: CommunityInvitationsService,
+    private userRecordsService: UserRecordsService,
     private challengeService: ChallengeService
   ) {}
 
@@ -102,5 +110,35 @@ export class ViewerResolver {
       "Challenge"
     );
     return await this.challengeService.findById(challengeId);
+  }
+
+  @ResolveField()
+  async homeFeed(
+    @CurrentUser("userId") userId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<HomeFeedConnection> {
+    const challenges = await this.challengeService.findUserChallenges(userId, {
+      first,
+      after,
+    });
+
+    const userRecords = await this.userRecordsService.findByUserId(userId);
+
+    return buildConnection({
+      nodes: [
+        ...(challenges.edges?.map((edge) => ({
+          ...edge.node,
+          __typename: "Challenge" as const,
+        })) ?? []),
+        ...userRecords.map((userRecord) => ({
+          ...userRecord,
+          __typename: "UserRecord" as const,
+        })),
+      ],
+      hasNextPage: challenges.pageInfo.hasNextPage,
+      hasPreviousPage: challenges.pageInfo.hasPreviousPage,
+      createCursor: (node) => node.id,
+    });
   }
 }

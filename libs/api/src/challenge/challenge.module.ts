@@ -1,5 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 
+import { CommunityModule } from "@/community/community.module";
+
 import { UserModule } from "../user/user.module";
 import { ChallengeRepository } from "./challenge.repository";
 import { ChallengeResolver } from "./challenge.resolver";
@@ -13,7 +15,7 @@ import { ChallengeInvitationsService } from "./challenge-invitations";
 import { ChallengeMembershipsService } from "./challenge-memberships";
 
 @Module({
-  imports: [forwardRef(() => UserModule)],
+  imports: [forwardRef(() => UserModule), forwardRef(() => CommunityModule)],
   providers: [
     ChallengeResolver,
     ChallengeActivityResultsResolver,

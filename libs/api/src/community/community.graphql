@@ -1,9 +1,10 @@
 type Community implements Node & Timestamps {
   id: ID!
   name: String!
+  owner: User
   isPublic: Boolean
   isVerified: Boolean
-  users: [User]
+  users: [User!]
   createdAt: DateTime
   updatedAt: DateTime
 

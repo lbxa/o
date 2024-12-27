@@ -1,26 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   CommunitiesTable,
   CommunityInvitationsTable,
   CommunityMembership,
   CommunityMembershipsTable,
+  UsersTable,
 } from "@o/db";
-import * as schema from "@o/db";
 import { and, eq, getTableColumns, notInArray } from "drizzle-orm";
 
-import { DbService } from "../../db/db.service";
-import type { User as GqlUser } from "../../types/graphql";
-import { CommunityJoinPayload, InvitationStatus } from "../../types/graphql";
-import { UserService } from "../../user/user.service";
-import { fullTextSearch } from "../../user/utils";
-import { encodeGlobalId } from "../../utils";
-import { ForbiddenError, InternalServerError } from "../../utils/errors";
+import { DbService } from "@/db/db.service";
+import type { User as GqlUser } from "@/types/graphql";
+import { CommunityJoinPayload, InvitationStatus } from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { fullTextSearch } from "@/user/utils";
+import { encodeGlobalId } from "@/utils";
+import { ForbiddenError, InternalServerError } from "@/utils/errors";
+
 import { CommunityService } from "../community.service";
 
 @Injectable()
 export class CommunityMembershipsService {
   constructor(
-    private dbService: DbService<typeof schema>,
+    private dbService: DbService<typeof $DrizzleSchema>,
     private communityService: CommunityService,
     private userService: UserService
   ) {}
@@ -59,12 +61,14 @@ export class CommunityMembershipsService {
       .select({
         ...getTableColumns(CommunityInvitationsTable),
         community: CommunitiesTable,
+        owner: UsersTable,
       })
       .from(CommunityInvitationsTable)
       .innerJoin(
         CommunitiesTable,
         eq(CommunityInvitationsTable.communityId, CommunitiesTable.id)
       )
+      .innerJoin(UsersTable, eq(CommunitiesTable.ownerId, UsersTable.id))
       .where(
         and(
           eq(CommunityInvitationsTable.id, inviteId),
@@ -121,7 +125,10 @@ export class CommunityMembershipsService {
       communityEdge: {
         __typename: "CommunityEdge",
         cursor: encodeGlobalId("Community", invitation.communityId),
-        node: this.communityService.pg2GqlMapper(invitation.community),
+        node: this.communityService.pg2GqlMapper({
+          ...invitation.community,
+          owner: invitation.owner,
+        }),
       },
     };
   }

@@ -1,14 +1,14 @@
 import { ConfigModule } from "@nestjs/config";
 import type { TestingModule } from "@nestjs/testing";
 import { Test } from "@nestjs/testing";
-import type * as schema from "@o/db";
+import type { $DrizzleSchema } from "@o/db";
 
 import { envFile } from "../utils";
 import { DbModule } from "./db.module";
 import { DbService } from "./db.service";
 
 describe("DbService", () => {
-  let service: DbService<typeof schema>;
+  let service: DbService<typeof $DrizzleSchema>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,7 +20,7 @@ describe("DbService", () => {
       ],
     }).compile();
 
-    service = module.get<DbService<typeof schema>>(DbService);
+    service = module.get<DbService<typeof $DrizzleSchema>>(DbService);
   });
 
   it("should be defined", () => {

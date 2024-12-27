@@ -2,14 +2,14 @@ import type { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
 import type { ChallengeActivityUnits } from "@o/api-gql";
 import { useRouter } from "expo-router";
 import { Suspense } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeCard_challenge$key } from "@/__generated__/ChallengeCard_challenge.graphql";
 import { ChallengeActivityPills } from "@/challenges/ChallengeActivity";
 import { ChallengeSocials } from "@/challenges/ChallengeSocials";
 import { useZustStore } from "@/state";
-import { OTouchable } from "@/universe/atoms";
+import { OText, OTouchable } from "@/universe/atoms";
 
 interface ChallengeCardProps {
   fragmentRef: ChallengeCard_challenge$key;
@@ -68,14 +68,8 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
   return (
     <OTouchable onPress={handlePress}>
       <View className="mb-md gap-sm bg-ivory p-sm px-md dark:bg-surface-dark flex flex-col rounded-3xl">
-        <Text className="dark:text-ivory text-3xl font-bold text-black">
-          {challenge.name}
-        </Text>
-        <Suspense
-          fallback={
-            <Text className="dark:text-ivory text-black">Loading...</Text>
-          }
-        >
+        <OText className=" text-3xl font-bold ">{challenge.name}</OText>
+        <Suspense fallback={<OText>Loading...</OText>}>
           <ChallengeActivityPills fragmentRef={challenge} />
         </Suspense>
         <ChallengeSocials memberCount={challenge.memberCount ?? 0} />

@@ -1,23 +1,24 @@
 import { Injectable } from "@nestjs/common";
 import type {
+  $DrizzleSchema,
   NewUserStreak,
   User as PgUser,
   UserStreak as PgUserStreak,
 } from "@o/db";
 import { UserStreaksTable } from "@o/db";
-import * as schema from "@o/db";
 import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
-import { DbService } from "../../db/db.service";
-import { EntityService, EntityType, EntityUtils } from "../../entity";
+import { DbService } from "@/db/db.service";
+import { EntityService, EntityType, EntityUtils } from "@/entity";
 import {
   UserStreak as GqlUserStreak,
   UserStreakUpdateInput,
-} from "../../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../../utils";
-import { InternalServerError, NotFoundError } from "../../utils/errors";
-import { UserService } from "../user.service";
+} from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "@/utils";
+import { InternalServerError, NotFoundError } from "@/utils/errors";
+
 import { UserStreaksRepository } from "./user-streaks.repository";
 
 @Injectable()
@@ -27,7 +28,7 @@ export class UserStreaksService
   private static readonly INITIAL_STREAK = 1;
 
   constructor(
-    private dbService: DbService<typeof schema>,
+    private dbService: DbService<typeof $DrizzleSchema>,
     private userService: UserService,
     private userStreaksRepository: UserStreaksRepository
   ) {}

@@ -4,42 +4,63 @@ import type {
   ChallengeActivity as PgChallengeActivity,
   NewChallenge as PgNewChallenge,
 } from "@o/db";
-import { ChallengeActivitiesTable, ChallengesTable } from "@o/db";
-import * as schema from "@o/db";
+import { $DrizzleSchema, ChallengesTable } from "@o/db";
 import { eq } from "drizzle-orm";
+
+import { PgCommunityComposite } from "@/community/community.repository";
 
 import { DbService } from "../db/db.service";
 import { EntityRepository } from "../entity";
 
+export type PgChallengeComposite = PgChallenge & {
+  activities: PgChallengeActivity[];
+  community: PgCommunityComposite;
+};
+
 @Injectable()
 export class ChallengeRepository
-  implements EntityRepository<typeof ChallengesTable>
+  implements
+    EntityRepository<
+      typeof ChallengesTable,
+      PgChallenge,
+      PgNewChallenge,
+      PgChallengeComposite
+    >
 {
-  constructor(private dbService: DbService<typeof schema>) {}
+  constructor(private dbService: DbService<typeof $DrizzleSchema>) {}
+
+  private async getRelations(
+    id: number
+  ): Promise<PgChallengeComposite | undefined> {
+    return await this.dbService.db.query.ChallengesTable.findFirst({
+      where: eq(ChallengesTable.id, id),
+      with: {
+        activities: true,
+        community: {
+          with: {
+            owner: true,
+          },
+        },
+      },
+    });
+  }
 
   async create(
     newChallenge: PgNewChallenge
-  ): Promise<
-    (PgChallenge & { activities: PgChallengeActivity[] }) | undefined
-  > {
+  ): Promise<PgChallengeComposite | undefined> {
     const [result] = await this.dbService.db
       .insert(ChallengesTable)
       .values(newChallenge)
       .returning();
 
-    const activities =
-      await this.dbService.db.query.ChallengeActivitiesTable.findMany({
-        where: eq(ChallengeActivitiesTable.challengeId, result.id),
-      });
+    const relations = await this.getRelations(result.id);
 
-    return activities ? { ...result, activities } : undefined;
+    return relations ? { ...result, ...relations } : undefined;
   }
 
   async update(
     updateChallengeInput: Partial<PgChallenge> & { id: number }
-  ): Promise<
-    (PgChallenge & { activities: PgChallengeActivity[] }) | undefined
-  > {
+  ): Promise<PgChallengeComposite | undefined> {
     const [updatedChallenge] = await this.dbService.db
       .update(ChallengesTable)
       .set(updateChallengeInput)
@@ -50,12 +71,9 @@ export class ChallengeRepository
       return undefined;
     }
 
-    const activities =
-      await this.dbService.db.query.ChallengeActivitiesTable.findMany({
-        where: eq(ChallengeActivitiesTable.challengeId, updatedChallenge.id),
-      });
+    const relations = await this.getRelations(updatedChallenge.id);
 
-    return activities ? { ...updatedChallenge, activities } : undefined;
+    return relations ? { ...updatedChallenge, ...relations } : undefined;
   }
 
   async delete(id: number): Promise<boolean> {
@@ -67,27 +85,27 @@ export class ChallengeRepository
     return !!deletedChallenge;
   }
 
-  async findById(
-    id: number
-  ): Promise<
-    (PgChallenge & { activities: PgChallengeActivity[] }) | undefined
-  > {
-    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, id),
-      with: { activities: true },
-    });
+  async findById(id: number): Promise<PgChallengeComposite | undefined> {
+    const relations = await this.getRelations(id);
 
-    return challenge;
+    return relations ? { ...relations } : undefined;
   }
 
   async findByCommunityId(
     communityId: number
-  ): Promise<(PgChallenge & { activities: PgChallengeActivity[] })[]> {
-    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
+  ): Promise<PgChallengeComposite[]> {
+    const relations = await this.dbService.db.query.ChallengesTable.findMany({
       where: eq(ChallengesTable.communityId, communityId),
-      with: { activities: true },
+      with: {
+        activities: true,
+        community: {
+          with: {
+            owner: true,
+          },
+        },
+      },
     });
 
-    return challenges;
+    return relations;
   }
 }

@@ -26,11 +26,13 @@ export interface EntityRepository<
   T extends AnyPgTable,
   PgSelectType extends T["$inferSelect"] = T["$inferSelect"],
   PgInsertType extends T["$inferInsert"] = T["$inferInsert"],
+  CompositePgType extends PgSelectType = PgSelectType,
 > {
-  create(newEntity: PgInsertType): Promise<PgSelectType | undefined>;
+  create(newEntity: PgInsertType): Promise<CompositePgType | undefined>;
   update(
     updateEntityInput: Partial<PgSelectType> & Node
-  ): Promise<PgSelectType | undefined>;
+  ): Promise<CompositePgType | undefined>;
   delete(id: number): Promise<boolean>;
-  findById(id: number): Promise<PgSelectType | undefined>;
+  findById(id: number): Promise<CompositePgType | undefined>;
+  // getRelations(id: number): Promise<CompositePgType | undefined>;
 }

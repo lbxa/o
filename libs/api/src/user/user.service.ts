@@ -1,18 +1,18 @@
 import { Injectable } from "@nestjs/common";
-import type { NewUser, User as PgUser } from "@o/db";
+import type { $DrizzleSchema, NewUser, User as PgUser } from "@o/db";
 import { UsersTable } from "@o/db";
-import * as schema from "@o/db";
 import { eq } from "drizzle-orm";
 
-import { DbService } from "../db/db.service";
-import { EntityService, EntityType } from "../entity";
-import { User as GqlUser, UserUpdateInput } from "../types/graphql";
+import { DbService } from "@/db/db.service";
+import { EntityService, EntityType } from "@/entity";
+import { User as GqlUser, UserUpdateInput } from "@/types/graphql";
 import {
   CryptoService,
   encodeGlobalId,
   validateAndDecodeGlobalId,
-} from "../utils";
-import { NotFoundError } from "../utils/errors";
+} from "@/utils";
+import { NotFoundError } from "@/utils/errors";
+
 import { fullTextSearch } from "./utils/full-text-search.pg";
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UserService
   implements EntityService<typeof UsersTable, PgUser, GqlUser>
 {
   constructor(
-    private dbService: DbService<typeof schema>,
+    private dbService: DbService<typeof $DrizzleSchema>,
     private cryptoService: CryptoService
   ) {}
 

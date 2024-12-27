@@ -313,9 +313,10 @@ export interface Community extends Node, Timestamps {
     __typename?: 'Community';
     id: string;
     name: string;
+    owner?: Nullable<User>;
     isPublic?: Nullable<boolean>;
     isVerified?: Nullable<boolean>;
-    users?: Nullable<Nullable<User>[]>;
+    users?: Nullable<User[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     members?: Nullable<UserConnection>;
@@ -399,7 +400,6 @@ export interface UserRecord extends Node, Timestamps {
     id: string;
     user: User;
     challenge: Challenge;
-    activity: ChallengeActivity;
     activityResult: ChallengeActivityResult;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
@@ -495,7 +495,21 @@ export interface Viewer extends Node {
     communityInvitations?: CommunityInvitationConnection;
     challenges?: ChallengeConnection;
     challenge?: Nullable<Challenge>;
+    homeFeed?: HomeFeedConnection;
+}
+
+export interface HomeFeedConnection {
+    __typename?: 'HomeFeedConnection';
+    edges: HomeFeedEdge[];
+    pageInfo: PageInfo;
+}
+
+export interface HomeFeedEdge {
+    __typename?: 'HomeFeedEdge';
+    cursor: string;
+    node: HomeFeedItem;
 }
 
 export type DateTime = Date;
+export type HomeFeedItem = Challenge | UserRecord;
 type Nullable<T> = T | null;

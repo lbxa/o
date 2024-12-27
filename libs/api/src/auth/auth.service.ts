@@ -1,8 +1,7 @@
 import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { UsersTable } from "@o/db";
-import * as schema from "@o/db";
+import { $DrizzleSchema, UsersTable } from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
@@ -18,7 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private userService: UserService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   private readonly logger = new Logger(AuthService.name);

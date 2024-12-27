@@ -52,7 +52,7 @@ export const challengeActivityUnitToLabel = (
     case ChallengeActivityUnits.Percent:
       return "%";
     case ChallengeActivityUnits.None:
-      return "None";
+      return "";
   }
 };
 

@@ -1,16 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import {
-  CommunitiesTable,
-  Community as PgCommunity,
-  CommunityMembershipsTable,
-  NewCommunity,
-} from "@o/db";
-import * as schema from "@o/db";
-import { desc, eq } from "drizzle-orm";
+import { CommunitiesTable, Community as PgCommunity } from "@o/db";
 
 import { EntityType } from "@/entity";
+import { UserService } from "@/user/user.service";
 
-import { DbService } from "../db/db.service";
 import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
@@ -19,28 +12,40 @@ import {
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { NotFoundError } from "../utils/errors";
+import {
+  CommunityRepository,
+  PgCommunityComposite,
+} from "./community.repository";
 
 @Injectable()
 export class CommunityService
-  implements EntityService<typeof CommunitiesTable, PgCommunity, GqlCommunity>
+  implements
+    EntityService<
+      typeof CommunitiesTable,
+      PgCommunity,
+      GqlCommunity,
+      PgCommunityComposite
+    >
 {
-  constructor(private dbService: DbService<typeof schema>) {}
+  constructor(
+    private communityRepository: CommunityRepository,
+    private userService: UserService
+  ) {}
 
   public getTypename(): EntityType {
     return "Community";
   }
 
-  public pg2GqlMapper(community: PgCommunity): GqlCommunity {
+  public pg2GqlMapper(community: PgCommunityComposite): GqlCommunity {
     return {
       ...community,
       id: encodeGlobalId(this.getTypename(), community.id),
+      owner: this.userService.pg2GqlMapper(community.owner),
     };
   }
 
   async findById(id: number): Promise<GqlCommunity | undefined> {
-    const community = await this.dbService.db.query.CommunitiesTable.findFirst({
-      where: eq(CommunitiesTable.id, id),
-    });
+    const community = await this.communityRepository.findById(id);
 
     if (!community) {
       throw new NotFoundException(`Community with id ${id} not found`);
@@ -50,9 +55,7 @@ export class CommunityService
   }
 
   async findAll(): Promise<GqlCommunity[]> {
-    const allCommunities =
-      await this.dbService.db.query.CommunitiesTable.findMany();
-
+    const allCommunities = await this.communityRepository.findAll();
     return allCommunities.map((community) => this.pg2GqlMapper(community));
   }
 
@@ -65,23 +68,15 @@ export class CommunityService
       ? validateAndDecodeGlobalId(after, "Community")
       : 0;
 
-    const communities = await this.dbService.db
-      .select({
-        userCommunity: CommunitiesTable,
-      })
-      .from(CommunityMembershipsTable)
-      .innerJoin(
-        CommunitiesTable,
-        eq(CommunitiesTable.id, CommunityMembershipsTable.communityId)
-      )
-      .where(eq(CommunityMembershipsTable.userId, userId))
-      .orderBy(desc(CommunitiesTable.createdAt))
-      .offset(startCursorId)
-      .limit(first + 1); // Fetch one extra to check for next page
+    const communities = await this.communityRepository.findUserCommunities(
+      userId,
+      first + 1,
+      startCursorId
+    );
 
     const edges = communities.slice(0, first).map((community) => ({
-      node: this.pg2GqlMapper(community.userCommunity),
-      cursor: encodeGlobalId(this.getTypename(), community.userCommunity.id),
+      node: this.pg2GqlMapper(community),
+      cursor: encodeGlobalId(this.getTypename(), community.id),
     }));
 
     // Determine if there is a next page
@@ -100,17 +95,17 @@ export class CommunityService
     };
   }
 
-  async create(input: NewCommunity, userId: number): Promise<GqlCommunity> {
-    const [result] = await this.dbService.db
-      .insert(CommunitiesTable)
-      .values({ ...input, ownerId: userId })
-      .returning();
+  async create(input: PgCommunity, userId: number): Promise<GqlCommunity> {
+    const community = await this.communityRepository.create({
+      ...input,
+      ownerId: userId,
+    });
 
-    await this.dbService.db
-      .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: result.id, isAdmin: true });
+    if (!community) {
+      throw new NotFoundError(`User with id ${userId} not found`);
+    }
 
-    return this.pg2GqlMapper(result);
+    return this.pg2GqlMapper(community);
   }
 
   async update(input: CommunityUpdateInput): Promise<GqlCommunity> {
@@ -121,23 +116,20 @@ export class CommunityService
       Object.entries(updates).filter(([_, value]) => value !== null)
     );
 
-    const [updated] = await this.dbService.db
-      .update(CommunitiesTable)
-      .set(filteredUpdates)
-      .where(eq(CommunitiesTable.id, id))
-      .returning();
+    const updatedCommunity = await this.communityRepository.update({
+      ...filteredUpdates,
+      id,
+    });
 
-    if (!updated) {
+    if (!updatedCommunity) {
       throw new NotFoundError(`Community with id ${id} not found`);
     }
 
-    return this.pg2GqlMapper(updated);
+    return this.pg2GqlMapper(updatedCommunity);
   }
 
   async remove(id: number): Promise<boolean> {
-    await this.dbService.db
-      .delete(CommunitiesTable)
-      .where(eq(CommunitiesTable.id, id));
-    return true;
+    // eslint-disable-next-line drizzle/enforce-delete-with-where
+    return this.communityRepository.delete(id);
   }
 }

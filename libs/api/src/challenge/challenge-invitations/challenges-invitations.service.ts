@@ -1,28 +1,39 @@
 import { Injectable } from "@nestjs/common";
 import {
-  Challenge as PgChallenge,
+  $DrizzleSchema,
   ChallengeActivitiesTable,
-  ChallengeActivity as PgChallengeActivity,
   ChallengeInvitation as PgChallengeInvitation,
   ChallengeInvitationsTable,
   ChallengesTable,
+  CommunitiesTable,
   CommunityMembershipsTable,
   User as PgUser,
   UsersTable,
 } from "@o/db";
-import * as schema from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
 import { ForbiddenError, NotFoundError } from "src/utils/errors";
 
-import { DbService } from "../../db/db.service";
-import { EntityService } from "../../entity/entity-service";
+import {
+  ChallengeRepository,
+  PgChallengeComposite,
+} from "@/challenge/challenge.repository";
+import { DbService } from "@/db/db.service";
+import { EntityType } from "@/entity";
+import { EntityService } from "@/entity/entity-service";
 import {
   ChallengeInvitation as GqlChallengeInvitation,
   InvitationStatus,
-} from "../../types/graphql";
-import { UserService } from "../../user/user.service";
-import { encodeGlobalId, mapToEnum } from "../../utils";
+} from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { encodeGlobalId, mapToEnum } from "@/utils";
+
 import { ChallengeService } from "../challenge.service";
+
+type ChallengeInvitationComposite = PgChallengeInvitation & {
+  challenge: PgChallengeComposite;
+  inviter: PgUser;
+  invitee: PgUser;
+};
 
 @Injectable()
 export class ChallengeInvitationsService
@@ -35,22 +46,17 @@ export class ChallengeInvitationsService
 {
   constructor(
     private challengeService: ChallengeService,
+    private challengeRepository: ChallengeRepository,
     private userService: UserService,
-    private dbService: DbService<typeof schema>
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
-  public getTypename(): string {
+  public getTypename(): EntityType {
     return "ChallengeInvitation";
   }
 
   public pg2GqlMapper(
-    invitation: PgChallengeInvitation & {
-      challenge: PgChallenge & {
-        activities: PgChallengeActivity[];
-      };
-      inviter: PgUser;
-      invitee: PgUser;
-    }
+    invitation: ChallengeInvitationComposite
   ): GqlChallengeInvitation {
     return {
       ...invitation,
@@ -76,12 +82,9 @@ export class ChallengeInvitationsService
       throw new NotFoundError(`Challenge invitation with id ${id} not found`);
     }
 
-    const challenge = await this.dbService.db.query.ChallengesTable.findFirst({
-      where: eq(ChallengesTable.id, invitation.challengeId),
-      with: {
-        activities: true,
-      },
-    });
+    const challenge = await this.challengeRepository.findById(
+      invitation.challengeId
+    );
 
     if (!challenge) {
       throw new NotFoundError(
@@ -100,6 +103,7 @@ export class ChallengeInvitationsService
   ): Promise<GqlChallengeInvitation[]> {
     const InviterAlias = aliasedTable(UsersTable, "inviter");
     const InviteeAlias = aliasedTable(UsersTable, "invitee");
+    const CommunityOwnerAlias = aliasedTable(UsersTable, "communityOwner");
 
     const invitations = await this.dbService.db
       .select({
@@ -108,6 +112,8 @@ export class ChallengeInvitationsService
         challengeActivities: ChallengeActivitiesTable,
         inviter: InviterAlias,
         invitee: InviteeAlias,
+        community: CommunitiesTable,
+        communityOwner: UsersTable,
       })
       .from(ChallengeInvitationsTable)
       .innerJoin(
@@ -126,6 +132,14 @@ export class ChallengeInvitationsService
         InviteeAlias,
         eq(InviteeAlias.id, ChallengeInvitationsTable.inviteeId)
       )
+      .innerJoin(
+        CommunitiesTable,
+        eq(ChallengesTable.communityId, CommunitiesTable.id)
+      )
+      .innerJoin(
+        CommunityOwnerAlias,
+        eq(CommunitiesTable.ownerId, CommunityOwnerAlias.id)
+      )
       .where(eq(ChallengeInvitationsTable.inviteeId, userId));
 
     return invitations.map((row) => ({
@@ -134,6 +148,10 @@ export class ChallengeInvitationsService
       challenge: this.challengeService.pg2GqlMapper({
         ...row.challenge,
         activities: [row.challengeActivities],
+        community: {
+          ...row.community,
+          owner: row.communityOwner,
+        },
       }),
       inviter: this.userService.pg2GqlMapper(row.inviter),
       invitee: this.userService.pg2GqlMapper(row.invitee),
