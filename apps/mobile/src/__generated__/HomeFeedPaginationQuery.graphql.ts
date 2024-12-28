@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4e7f88de3f7de36de677d0df2c06129a>>
+ * @generated SignedSource<<9d514cd60410730ecd92cab197871d76>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,151 +10,81 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type HomeFeedQuery$variables = Record<PropertyKey, never>;
-export type HomeFeedQuery$data = {
+export type HomeFeedPaginationQuery$variables = {
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
+};
+export type HomeFeedPaginationQuery$data = {
   readonly viewer: {
-    readonly " $fragmentSpreads": FragmentRefs<"HomeFeed_viewer" | "useCommunityInvitationsPagination_viewer">;
+    readonly " $fragmentSpreads": FragmentRefs<"HomeFeed_viewer">;
   } | null | undefined;
 };
-export type HomeFeedQuery = {
-  response: HomeFeedQuery$data;
-  variables: HomeFeedQuery$variables;
+export type HomeFeedPaginationQuery = {
+  response: HomeFeedPaginationQuery$data;
+  variables: HomeFeedPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "kind": "Literal",
-    "name": "first",
-    "value": 5
+    "defaultValue": 10,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
   }
 ],
 v1 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "PageInfo",
-  "kind": "LinkedField",
-  "name": "pageInfo",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "startCursor",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "endCursor",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "hasNextPage",
-      "storageKey": null
-    }
-  ],
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "cursor",
-  "storageKey": null
-},
-v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v4 = [
-  (v3/*: any*/),
+v2 = [
   {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "firstName",
-    "storageKey": null
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
   },
   {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "lastName",
-    "storageKey": null
+    "kind": "Variable",
+    "name": "first",
+    "variableName": "count"
   }
 ],
-v5 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v6 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Community",
-  "kind": "LinkedField",
-  "name": "community",
-  "plural": false,
-  "selections": [
-    (v3/*: any*/),
-    (v5/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "isVerified",
-      "storageKey": null
-    }
-  ],
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
-v8 = [
-  {
-    "kind": "Literal",
-    "name": "first",
-    "value": 10
-  }
-],
-v9 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "type",
   "storageKey": null
 },
-v10 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "goal",
   "storageKey": null
 },
-v11 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "unit",
   "storageKey": null
 },
-v12 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -163,10 +93,10 @@ v12 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "HomeFeedQuery",
+    "name": "HomeFeedPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -179,20 +109,14 @@ return {
           {
             "args": [
               {
-                "kind": "Literal",
+                "kind": "Variable",
                 "name": "count",
-                "value": 5
-              }
-            ],
-            "kind": "FragmentSpread",
-            "name": "useCommunityInvitationsPagination_viewer"
-          },
-          {
-            "args": [
+                "variableName": "count"
+              },
               {
-                "kind": "Literal",
-                "name": "count",
-                "value": 10
+                "kind": "Variable",
+                "name": "cursor",
+                "variableName": "cursor"
               }
             ],
             "kind": "FragmentSpread",
@@ -207,9 +131,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "HomeFeedQuery",
+    "name": "HomeFeedPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -219,73 +143,47 @@ return {
         "name": "viewer",
         "plural": false,
         "selections": [
+          (v1/*: any*/),
           {
             "alias": null,
-            "args": (v0/*: any*/),
-            "concreteType": "CommunityInvitationConnection",
-            "kind": "LinkedField",
-            "name": "communityInvitations",
-            "plural": false,
-            "selections": [
-              (v1/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "CommunityInvitationEdge",
-                "kind": "LinkedField",
-                "name": "edges",
-                "plural": true,
-                "selections": [
-                  (v2/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "CommunityInvitation",
-                    "kind": "LinkedField",
-                    "name": "node",
-                    "plural": false,
-                    "selections": [
-                      (v3/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "inviter",
-                        "plural": false,
-                        "selections": (v4/*: any*/),
-                        "storageKey": null
-                      },
-                      (v6/*: any*/),
-                      (v7/*: any*/)
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": "communityInvitations(first:5)"
-          },
-          {
-            "alias": null,
-            "args": (v0/*: any*/),
-            "filters": null,
-            "handle": "connection",
-            "key": "CommunityInvitationList_communityInvitations",
-            "kind": "LinkedHandle",
-            "name": "communityInvitations"
-          },
-          (v3/*: any*/),
-          {
-            "alias": null,
-            "args": (v8/*: any*/),
+            "args": (v2/*: any*/),
             "concreteType": "HomeFeedConnection",
             "kind": "LinkedField",
             "name": "homeFeed",
             "plural": false,
             "selections": [
-              (v1/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "startCursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
               {
                 "alias": null,
                 "args": null,
@@ -294,7 +192,13 @@ return {
                 "name": "edges",
                 "plural": true,
                 "selections": [
-                  (v2/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "cursor",
+                    "storageKey": null
+                  },
                   {
                     "alias": null,
                     "args": null,
@@ -303,7 +207,13 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v7/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "__typename",
+                        "storageKey": null
+                      },
                       {
                         "kind": "TypeDiscriminator",
                         "abstractKey": "__isHomeFeedItem"
@@ -311,8 +221,8 @@ return {
                       {
                         "kind": "InlineFragment",
                         "selections": [
+                          (v1/*: any*/),
                           (v3/*: any*/),
-                          (v5/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -349,11 +259,11 @@ return {
                             "name": "activity",
                             "plural": false,
                             "selections": [
-                              (v3/*: any*/),
-                              (v9/*: any*/),
-                              (v10/*: any*/),
-                              (v11/*: any*/),
-                              (v12/*: any*/)
+                              (v1/*: any*/),
+                              (v4/*: any*/),
+                              (v5/*: any*/),
+                              (v6/*: any*/),
+                              (v7/*: any*/)
                             ],
                             "storageKey": null
                           }
@@ -371,7 +281,23 @@ return {
                             "kind": "LinkedField",
                             "name": "user",
                             "plural": false,
-                            "selections": (v4/*: any*/),
+                            "selections": [
+                              (v1/*: any*/),
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "firstName",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "lastName",
+                                "storageKey": null
+                              }
+                            ],
                             "storageKey": null
                           },
                           {
@@ -382,8 +308,8 @@ return {
                             "name": "challenge",
                             "plural": false,
                             "selections": [
+                              (v1/*: any*/),
                               (v3/*: any*/),
-                              (v5/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -392,15 +318,34 @@ return {
                                 "name": "activity",
                                 "plural": false,
                                 "selections": [
-                                  (v3/*: any*/),
-                                  (v11/*: any*/),
-                                  (v10/*: any*/),
-                                  (v9/*: any*/),
-                                  (v12/*: any*/)
+                                  (v1/*: any*/),
+                                  (v6/*: any*/),
+                                  (v5/*: any*/),
+                                  (v4/*: any*/),
+                                  (v7/*: any*/)
                                 ],
                                 "storageKey": null
                               },
-                              (v6/*: any*/)
+                              {
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "Community",
+                                "kind": "LinkedField",
+                                "name": "community",
+                                "plural": false,
+                                "selections": [
+                                  (v1/*: any*/),
+                                  (v3/*: any*/),
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "isVerified",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
+                              }
                             ],
                             "storageKey": null
                           },
@@ -412,7 +357,7 @@ return {
                             "name": "activityResult",
                             "plural": false,
                             "selections": [
-                              (v3/*: any*/),
+                              (v1/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -430,7 +375,7 @@ return {
                       {
                         "kind": "InlineFragment",
                         "selections": [
-                          (v3/*: any*/)
+                          (v1/*: any*/)
                         ],
                         "type": "Node",
                         "abstractKey": "__isNode"
@@ -442,11 +387,11 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "homeFeed(first:10)"
+            "storageKey": null
           },
           {
             "alias": null,
-            "args": (v8/*: any*/),
+            "args": (v2/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "HomeFeed_viewer_homeFeed",
@@ -459,16 +404,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e42b2dfa5d1dde3a03364f358fe82e4c",
+    "cacheID": "d92069811ff08c07b3c0ee795e29114c",
     "id": null,
     "metadata": {},
-    "name": "HomeFeedQuery",
+    "name": "HomeFeedPaginationQuery",
     "operationKind": "query",
-    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query HomeFeedPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...HomeFeed_viewer_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1G22uz on Viewer {\n  id\n  homeFeed(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "970f210591300060e9f4fe95c20e6dfb";
+(node as any).hash = "64dbad00bdf5c1611b5961d25a95c32d";
 
 export default node;

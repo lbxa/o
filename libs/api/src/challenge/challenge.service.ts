@@ -26,13 +26,7 @@ import {
   ChallengeMode,
   ChallengeUpdateInput,
 } from "../types/graphql";
-import {
-  buildConnection,
-  ConnectionArgs,
-  encodeGlobalId,
-  mapToEnum,
-  validateAndDecodeGlobalId,
-} from "../utils";
+import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
 import {
   InternalServerError,
   NotFoundError,
@@ -101,14 +95,7 @@ export class ChallengeService
     return allChallenges.map((challenge) => this.pg2GqlMapper(challenge));
   }
 
-  async findUserChallenges(
-    userId: number,
-    { first = 10, after }: ConnectionArgs
-  ): Promise<ChallengeConnection> {
-    const startCursorId = after
-      ? validateAndDecodeGlobalId(after, this.getTypename())
-      : 0;
-
+  async findUserChallenges(userId: number): Promise<GqlChallenge[]> {
     const challenges = await this.dbService.db
       .select({
         challenge: ChallengesTable,
@@ -130,11 +117,9 @@ export class ChallengeService
         eq(ChallengesTable.communityId, CommunitiesTable.id)
       )
       .innerJoin(UsersTable, eq(CommunitiesTable.ownerId, UsersTable.id))
-      .where(eq(ChallengeMembershipsTable.userId, userId))
-      .limit(first + 1)
-      .offset(startCursorId);
+      .where(eq(ChallengeMembershipsTable.userId, userId));
 
-    const nodes = challenges.slice(0, first).map((challenge) =>
+    return challenges.map((challenge) =>
       this.pg2GqlMapper({
         ...challenge.challenge,
         activities: [challenge.activities],
@@ -144,13 +129,6 @@ export class ChallengeService
         },
       })
     );
-
-    return buildConnection({
-      nodes,
-      hasNextPage: challenges.length > first,
-      hasPreviousPage: startCursorId > 0,
-      createCursor: (node) => node.id,
-    });
   }
 
   async findCommunityChallenges(

@@ -45,7 +45,7 @@ const CommunityCardComponent = ({ community }: Props) => {
             <CameraIcon width={40} height={40} fill="gray" />
           </View>
         </View>
-        <View className="px-md">
+        <View className="px-3">
           <Text className="mb-sm text-3xl font-bold text-black dark:text-ivory">
             {communityFragment.name}{" "}
             {communityFragment.isVerified && (

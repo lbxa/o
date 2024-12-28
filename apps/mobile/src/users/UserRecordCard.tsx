@@ -22,7 +22,7 @@ interface UserRecordCardProps {
 export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
   const router = useRouter();
   const { setSelectedChallenge } = useZustStore();
-  const { colors } = useOTheme();
+  const { isDark, colors } = useOTheme();
   const userRecord = useFragment<UserRecordCard_userRecord$key>(
     graphql`
       fragment UserRecordCard_userRecord on UserRecord {
@@ -77,28 +77,28 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
   return (
     <OTouchable
       onPress={handlePress}
-      className="mb-md rounded-3xl bg-ivory px-md py-sm dark:bg-surface-dark"
+      className="mb-md bg-ivory p-sm dark:bg-surface-dark rounded-3xl px-3"
     >
-      <View className="flex flex-col gap-sm">
+      <View className="gap-sm flex flex-col">
         <View className="flex flex-row items-start justify-between">
-          <View className="flex flex-1 flex-col gap-sm">
+          <View className="gap-sm flex flex-1 flex-col">
             <OText className="text-3xl font-bold">
               {userRecord.challenge.name} Record
             </OText>
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <OText className="text-2xl">
                 {userRecord.challenge.community?.name}{" "}
                 {userRecord.challenge.community?.isVerified && (
                   <VerifiedBadgeIcon
                     width={16}
                     height={16}
-                    fill={colors.indigo.DEFAULT}
+                    fill={isDark ? colors.ivory.DEFAULT : colors.indigo.DEFAULT}
                   />
                 )}
               </OText>
             </View>
           </View>
-          <View className="shrink-0 rounded-full bg-indigo/30 p-sm">
+          <View className="bg-indigo/30 p-sm shrink-0 rounded-full">
             <TrophyIcon width={24} height={24} fill={colors.indigo.DEFAULT} />
           </View>
         </View>
@@ -109,7 +109,7 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
               userRecord.challenge.activity.unit as ChallengeActivityUnits
             )}
         </OText>
-        <View className="flex flex-row items-center gap-sm">
+        <View className="gap-sm flex flex-row items-center">
           <UserAvatar user={userRecord.user} size="sm" />
           <OText className="text-lg">
             {userRecord.user.firstName + " " + userRecord.user.lastName}

@@ -1,10 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Nature from "@assets/images/nature.svg";
 import { useTransition } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  View,
+} from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import { graphql } from "react-relay";
+import { graphql, usePaginationFragment } from "react-relay";
 import { usePreloadedQuery } from "react-relay";
 
+import type { HomeFeed_viewer$key } from "@/__generated__/HomeFeed_viewer.graphql";
+import type { HomeFeedPaginationQuery } from "@/__generated__/HomeFeedPaginationQuery.graphql";
 import type { HomeFeedQuery } from "@/__generated__/HomeFeedQuery.graphql";
 import { useNoSuspenseRefetch } from "@/relay";
 import { HomeFeedItem } from "@/root/HomeFeedItem";
@@ -17,13 +25,7 @@ export const HOME_FEED_QUERY = graphql`
   query HomeFeedQuery {
     viewer {
       ...useCommunityInvitationsPagination_viewer @arguments(count: 5)
-      homeFeed(first: 10) {
-        edges {
-          node {
-            ...HomeFeedItem_item
-          }
-        }
-      }
+      ...HomeFeed_viewer @arguments(count: 10)
     }
   }
 `;
@@ -38,6 +40,39 @@ export const HomeFeed = ({
 
   const { data: invitationData, refetch: refetchInvitations } =
     useCommunityInvitationsPagination(query.viewer);
+
+  const {
+    data: homeFeedData,
+    loadNext,
+    isLoadingNext,
+    hasNext,
+  } = usePaginationFragment<HomeFeedPaginationQuery, HomeFeed_viewer$key>(
+    graphql`
+      fragment HomeFeed_viewer on Viewer
+      @refetchable(queryName: "HomeFeedPaginationQuery")
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String" }
+      ) {
+        id
+        homeFeed(first: $count, after: $cursor)
+          @connection(key: "HomeFeed_viewer_homeFeed") {
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              ...HomeFeedItem_item
+            }
+          }
+        }
+      }
+    `,
+    query.viewer
+  );
 
   const { refetch: refetchHomeFeed } = useNoSuspenseRefetch({
     ancestorQuery: HOME_FEED_QUERY,
@@ -56,7 +91,7 @@ export const HomeFeed = ({
       className="px-sm"
       showsVerticalScrollIndicator={false}
       renderItem={({ item }) => <HomeFeedItem fragmentRef={item} />}
-      data={query.viewer?.homeFeed.edges.map((edge) => edge.node)}
+      data={homeFeedData?.homeFeed.edges.map((edge) => edge.node)}
       refreshControl={
         <RefreshControl onRefresh={handleRefresh} refreshing={isPending} />
       }
@@ -67,8 +102,13 @@ export const HomeFeed = ({
           )}
         </View>
       }
+      ListFooterComponent={
+        isLoadingNext ? <ActivityIndicator size="large" /> : null
+      }
+      onEndReachedThreshold={0.5}
+      onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Nature width={150} height={150} />
           </View>

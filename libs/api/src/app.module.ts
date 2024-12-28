@@ -18,6 +18,7 @@ import { DateTimeScalar } from "./types/datetime";
 import { UserModule } from "./user/user.module";
 import { envFile } from "./utils";
 import { ViewerModule } from "./viewer/viewer.module";
+import { HomeFeedModule } from './home-feed/home-feed.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ViewerModule } from "./viewer/viewer.module";
     CommunityModule,
     ChallengeModule,
     ViewerModule,
+    HomeFeedModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

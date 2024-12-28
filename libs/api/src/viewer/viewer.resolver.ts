@@ -118,26 +118,32 @@ export class ViewerResolver {
     @Args("first") first: number,
     @Args("after") after?: string
   ): Promise<HomeFeedConnection> {
-    const challenges = await this.challengeService.findUserChallenges(userId, {
-      first,
-      after,
-    });
-
+    const challenges = await this.challengeService.findUserChallenges(userId);
     const userRecords = await this.userRecordsService.findByUserId(userId);
 
+    // Combine and sort both arrays by createdAt in descending order (newest first)
+    const combinedFeed = [
+      ...challenges.map((c) => ({ ...c, __typename: "Challenge" as const })),
+      ...userRecords.map((ur) => ({
+        ...ur,
+        __typename: "UserRecord" as const,
+      })),
+    ].sort(
+      (a, b) => (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
+
+    // If after cursor is provided, find the index and slice the array
+    let startIndex = 0;
+    if (after) {
+      startIndex = combinedFeed.findIndex((item) => item.id === after) + 1;
+    }
+
+    const nodes = combinedFeed.slice(startIndex, startIndex + first);
+
     return buildConnection({
-      nodes: [
-        ...(challenges.edges?.map((edge) => ({
-          ...edge.node,
-          __typename: "Challenge" as const,
-        })) ?? []),
-        ...userRecords.map((userRecord) => ({
-          ...userRecord,
-          __typename: "UserRecord" as const,
-        })),
-      ],
-      hasNextPage: challenges.pageInfo.hasNextPage,
-      hasPreviousPage: challenges.pageInfo.hasPreviousPage,
+      nodes,
+      hasNextPage: startIndex + first < combinedFeed.length,
+      hasPreviousPage: startIndex > 0,
       createCursor: (node) => node.id,
     });
   }
