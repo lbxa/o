@@ -40,16 +40,9 @@ type CreateChallengeActivityResultPayload {
 }
 
 extend type Query {
-  challengeActivityResults(
-    challengeId: ID!
-    first: Int
-    after: String
-  ): ChallengeActivityResultConnection!
-  challengeActivityTopResults(
-    challengeId: ID!
-    first: Int
-    after: String
-  ): ChallengeActivityResultConnection!
+  challengeActivityResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
+  challengeActivityTopResults(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
+  challengeActivityTopMovers(challengeId: ID!, first: Int, after: String): ChallengeActivityResultConnection!
 }
 
 extend type Mutation {

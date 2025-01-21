@@ -181,6 +181,14 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
      * Note: Values beyond 2^53 will start losing precision
      */
     result: doublePrecision().notNull(),
+    // Maybe this isn't the best idea... assumes consecutive results are
+    // very reliably, however users could input bad results and without
+    // a runtime solution to filter those out, the quality of the rankings
+    // could diminish. Need to think about this more carefully.
+    // relativeMomentum: numeric({
+    //   precision: 3,
+    //   scale: 2,
+    // }),
     ...withModificationDates,
   }
 );

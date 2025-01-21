@@ -537,6 +537,7 @@ export type Query = {
   __typename?: 'Query';
   challenge?: Maybe<Challenge>;
   challengeActivityResults: ChallengeActivityResultConnection;
+  challengeActivityTopMovers: ChallengeActivityResultConnection;
   challengeActivityTopResults: ChallengeActivityResultConnection;
   challengeInvitations?: Maybe<Array<ChallengeInvitation>>;
   /** Is the current user friends with this user? */
@@ -561,6 +562,13 @@ export type QueryChallengeArgs = {
 
 
 export type QueryChallengeActivityResultsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  challengeId: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryChallengeActivityTopMoversArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   challengeId: Scalars['ID']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;

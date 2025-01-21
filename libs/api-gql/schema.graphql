@@ -358,6 +358,7 @@ type PageInfo {
 type Query {
   challenge(id: ID!): Challenge
   challengeActivityResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
+  challengeActivityTopMovers(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeActivityTopResults(after: String, challengeId: ID!, first: Int): ChallengeActivityResultConnection!
   challengeInvitations(userId: ID!): [ChallengeInvitation!]
   """Is the current user friends with this user?"""

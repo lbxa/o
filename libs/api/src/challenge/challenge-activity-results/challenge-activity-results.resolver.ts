@@ -55,8 +55,10 @@ export class ChallengeActivityResultsResolver {
       {
         challengeId: decodedChallengeId,
       },
-      first,
-      after
+      {
+        first,
+        after,
+      }
     );
   }
 
@@ -74,8 +76,52 @@ export class ChallengeActivityResultsResolver {
       {
         challengeId: decodedChallengeId,
       },
-      first,
-      after
+      {
+        first,
+        after,
+      }
+    );
+  }
+
+  @Query("challengeActivityTopMovers")
+  async challengeActivityTopMovers(
+    @Args("challengeId") challengeId: string,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<ChallengeActivityResultConnection> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challengeId,
+      "Challenge"
+    );
+    return this.challengeActivityResultsService.fetchTopMovers(
+      {
+        challengeId: decodedChallengeId,
+      },
+      {
+        first,
+        after,
+      }
+    );
+  }
+
+  @ResolveField("activityTopMovers")
+  async activityTopMovers(
+    @Parent() challenge: Challenge,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<ChallengeActivityResultConnection> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challenge.id,
+      "Challenge"
+    );
+    return this.challengeActivityResultsService.fetchTopMovers(
+      {
+        challengeId: decodedChallengeId,
+      },
+      {
+        first,
+        after,
+      }
     );
   }
 

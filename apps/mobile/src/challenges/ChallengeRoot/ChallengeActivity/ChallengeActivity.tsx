@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, Text, View } from "react-native";
 
 import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery.graphql";
 import type { UserResultCard_challenge$key } from "@/__generated__/UserResultCard_challenge.graphql";
+import { useChallengeActivityTopMovers } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks/useChallengeActivityTopMovers";
 import { useChallengeActivityTopResults } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks/useChallengeActivityTopResults";
 import { useNoSuspenseRefetch } from "@/relay/hooks/useNoSuspenseRefetch";
 import { Caption, OText, OTouchable } from "@/universe/atoms";
@@ -22,7 +23,11 @@ export const ChallengeActivity = ({
   challengeId,
   challengeRoot,
 }: ChallengeActivityProps) => {
-  const { data } = useChallengeActivityTopResults(
+  const { data: topResultsData } = useChallengeActivityTopResults(
+    challengeRoot.viewer?.challenge
+  );
+
+  const { data: topMoversData } = useChallengeActivityTopMovers(
     challengeRoot.viewer?.challenge
   );
 
@@ -68,8 +73,8 @@ export const ChallengeActivity = ({
     const sections: Section[] = [];
 
     if (
-      data?.activityTopResults?.edges &&
-      data.activityTopResults.edges.length > 0
+      topResultsData?.activityTopResults?.edges &&
+      topResultsData.activityTopResults.edges.length > 0
     ) {
       sections.push({
         key: "HEADER" as const,
@@ -77,13 +82,13 @@ export const ChallengeActivity = ({
       });
 
       sections.push(
-        ...data.activityTopResults.edges.slice(0, 3).map((edge) => ({
+        ...topResultsData.activityTopResults.edges.slice(0, 3).map((edge) => ({
           key: "DATA" as const,
           data: edge.node,
         }))
       );
 
-      if (data.activityTopResults.edges.length > 3) {
+      if (topResultsData.activityTopResults.edges.length > 3) {
         sections.push({
           key: "FOOTER" as const,
           data: (
@@ -98,15 +103,52 @@ export const ChallengeActivity = ({
         });
       }
     }
+
+    if (
+      topMoversData?.activityTopMovers?.edges &&
+      topMoversData.activityTopMovers.edges.length > 0
+    ) {
+      sections.push({
+        key: "HEADER" as const,
+        data: "Top Movers",
+      });
+
+      sections.push(
+        ...topMoversData.activityTopMovers.edges.slice(0, 3).map((edge) => ({
+          key: "DATA" as const,
+          data: edge.node,
+        }))
+      );
+
+      if (topMoversData.activityTopMovers.edges.length > 3) {
+        sections.push({
+          key: "FOOTER" as const,
+          data: (
+            <OTouchable
+              onPress={() =>
+                sectionModalLookup["Top Movers"].current?.present()
+              }
+            >
+              <OText className="my-md underline">View all</OText>
+            </OTouchable>
+          ),
+        });
+      }
+    }
+
     return sections;
-  }, [data?.activityTopResults?.edges, sectionModalLookup]);
+  }, [
+    topResultsData?.activityTopResults?.edges,
+    topMoversData?.activityTopMovers?.edges,
+    sectionModalLookup,
+  ]);
 
   return (
     <View className="flex-1">
       <ChallengeActivityTopResultsList modalRef={topResultsModalRef} />
       <Suspense fallback={null}>
         <FlatList
-          className="min-h-full px-md"
+          className="px-md min-h-full"
           showsVerticalScrollIndicator={false}
           data={sectionList}
           keyExtractor={(item, index) => ["X", index].join("-")}
@@ -114,7 +156,7 @@ export const ChallengeActivity = ({
             switch (item.key) {
               case "HEADER":
                 return (
-                  <Text className="text-2xl font-bold text-black dark:text-ivory">
+                  <Text className="dark:text-ivory text-2xl font-bold text-black">
                     {item.data}
                   </Text>
                 );
@@ -139,7 +181,7 @@ export const ChallengeActivity = ({
             </View>
           }
           ListEmptyComponent={
-            <View className="flex flex-col items-center justify-center gap-md">
+            <View className="gap-md flex flex-col items-center justify-center">
               <Void width={150} height={150} />
               <Caption>
                 Where are the results? It's time to get to work!

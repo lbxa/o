@@ -19,7 +19,7 @@ export function buildConnection<T extends Node>(options: {
   nodes: T[];
   hasNextPage: boolean;
   hasPreviousPage: boolean;
-  createCursor: (node: T) => string;
+  createCursor?: (node: T) => string;
 }): Connection<T> {
   const {
     nodes,
@@ -27,6 +27,7 @@ export function buildConnection<T extends Node>(options: {
     hasPreviousPage,
     createCursor = (node) => node.id,
   } = options;
+
   const edges = nodes.map((node) => ({
     cursor: createCursor(node),
     node,
@@ -37,8 +38,8 @@ export function buildConnection<T extends Node>(options: {
     pageInfo: {
       hasNextPage,
       hasPreviousPage,
-      startCursor: edges[0]?.cursor,
-      endCursor: edges[edges.length - 1]?.cursor,
+      startCursor: edges[0]?.cursor ?? null,
+      endCursor: edges[edges.length - 1]?.cursor ?? null,
     },
   };
 }
