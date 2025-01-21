@@ -30,7 +30,7 @@ export const useChallengeActivityTopMovers = (
             cursor
             node {
               id
-              ...UserResultCard_challenge
+              ...TopMoverCard_challenge
             }
           }
           pageInfo {

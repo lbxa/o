@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3a3757e13c239abefce8318fd435bcfb>>
+ * @generated SignedSource<<df3466ab900eba8663ba9fd8c04534e8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -217,32 +217,6 @@ return {
                             "name": "result",
                             "storageKey": null
                           },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "ChallengeActivity",
-                            "kind": "LinkedField",
-                            "name": "activity",
-                            "plural": false,
-                            "selections": [
-                              (v3/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "goal",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "unit",
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          },
                           (v2/*: any*/)
                         ],
                         "storageKey": null
@@ -304,16 +278,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "60d7422f3f03ba45fca4161ec62fc25c",
+    "cacheID": "0b451e08a6b4117a38f069b48c6e0d0c",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopMoversPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "239ef3ce4d0a6fb30d18ee821eaa4da2";
+(node as any).hash = "03a86e3a0445f9e8a66c3744840a8efc";
 
 export default node;

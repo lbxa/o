@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bdaf9de6523c21c32a8490a2a4723c67>>
+ * @generated SignedSource<<cc4c61b1fc961a34af8a16091b4065a3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type useChallengeActivityTopResultsFragment_challenge$data = {
       readonly cursor: string;
       readonly node: {
         readonly id: string;
-        readonly " $fragmentSpreads": FragmentRefs<"UserResultCard_challenge">;
+        readonly " $fragmentSpreads": FragmentRefs<"TopResultCard_challenge">;
       };
     }> | null | undefined;
     readonly pageInfo: {
@@ -88,7 +88,6 @@ return {
   },
   "name": "useChallengeActivityTopResultsFragment_challenge",
   "selections": [
-    (v1/*: any*/),
     {
       "alias": "activityTopResults",
       "args": null,
@@ -124,7 +123,7 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "UserResultCard_challenge"
+                  "name": "TopResultCard_challenge"
                 },
                 {
                   "alias": null,
@@ -173,13 +172,14 @@ return {
         }
       ],
       "storageKey": null
-    }
+    },
+    (v1/*: any*/)
   ],
   "type": "Challenge",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "7cd206e5deb409ff999ff71c478fedee";
+(node as any).hash = "8ff80d0a152ffb72717377d4c301f7ef";
 
 export default node;

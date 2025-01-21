@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c27f734828daa5dd10ec1270a26c737f>>
+ * @generated SignedSource<<b9081e7a3d68f89fd8a5b2d8ba6b1955>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type useChallengeActivityTopMoversFragment_challenge$data = {
+export type useChallengeActivityTop3MoversFragment_challenge$data = {
   readonly activityTopMovers: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
@@ -19,81 +19,37 @@ export type useChallengeActivityTopMoversFragment_challenge$data = {
         readonly " $fragmentSpreads": FragmentRefs<"TopMoverCard_challenge">;
       };
     }> | null | undefined;
-    readonly pageInfo: {
-      readonly endCursor: string | null | undefined;
-      readonly hasNextPage: boolean;
-      readonly startCursor: string | null | undefined;
-    };
   } | null | undefined;
-  readonly id: string;
-  readonly " $fragmentType": "useChallengeActivityTopMoversFragment_challenge";
+  readonly " $fragmentType": "useChallengeActivityTop3MoversFragment_challenge";
 };
-export type useChallengeActivityTopMoversFragment_challenge$key = {
-  readonly " $data"?: useChallengeActivityTopMoversFragment_challenge$data;
-  readonly " $fragmentSpreads": FragmentRefs<"useChallengeActivityTopMoversFragment_challenge">;
+export type useChallengeActivityTop3MoversFragment_challenge$key = {
+  readonly " $data"?: useChallengeActivityTop3MoversFragment_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"useChallengeActivityTop3MoversFragment_challenge">;
 };
 
-const node: ReaderFragment = (function(){
-var v0 = [
-  "activityTopMovers"
-],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
-return {
-  "argumentDefinitions": [
-    {
-      "defaultValue": 4,
-      "kind": "LocalArgument",
-      "name": "count"
-    },
-    {
-      "defaultValue": null,
-      "kind": "LocalArgument",
-      "name": "cursor"
-    }
-  ],
+const node: ReaderFragment = {
+  "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": {
     "connection": [
       {
-        "count": "count",
-        "cursor": "cursor",
+        "count": null,
+        "cursor": null,
         "direction": "forward",
-        "path": (v0/*: any*/)
+        "path": [
+          "activityTopMovers"
+        ]
       }
-    ],
-    "refetch": {
-      "connection": {
-        "forward": {
-          "count": "count",
-          "cursor": "cursor"
-        },
-        "backward": null,
-        "path": (v0/*: any*/)
-      },
-      "fragmentPathInResult": [
-        "node"
-      ],
-      "operation": require('./useChallengeActivityTopMoversPaginationQuery.graphql'),
-      "identifierInfo": {
-        "identifierField": "id",
-        "identifierQueryVariableName": "id"
-      }
-    }
+    ]
   },
-  "name": "useChallengeActivityTopMoversFragment_challenge",
+  "name": "useChallengeActivityTop3MoversFragment_challenge",
   "selections": [
     {
       "alias": "activityTopMovers",
       "args": null,
       "concreteType": "ChallengeActivityResultConnection",
       "kind": "LinkedField",
-      "name": "__ChallengeActivityTopMoversFragment_activityTopMovers_connection",
+      "name": "__ChallengeActivityTop3MoversFragment_activityTopMovers_connection",
       "plural": false,
       "selections": [
         {
@@ -119,7 +75,13 @@ return {
               "name": "node",
               "plural": false,
               "selections": [
-                (v1/*: any*/),
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "id",
+                  "storageKey": null
+                },
                 {
                   "args": null,
                   "kind": "FragmentSpread",
@@ -150,21 +112,14 @@ return {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "hasNextPage",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "startCursor",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
               "name": "endCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasNextPage",
               "storageKey": null
             }
           ],
@@ -172,14 +127,12 @@ return {
         }
       ],
       "storageKey": null
-    },
-    (v1/*: any*/)
+    }
   ],
   "type": "Challenge",
   "abstractKey": null
 };
-})();
 
-(node as any).hash = "03a86e3a0445f9e8a66c3744840a8efc";
+(node as any).hash = "0655b3d3cb749e05365a615a3cd0b3fa";
 
 export default node;

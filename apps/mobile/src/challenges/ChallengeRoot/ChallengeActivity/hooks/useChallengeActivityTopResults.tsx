@@ -22,7 +22,6 @@ export const useChallengeActivityTopResults = (
         count: { type: "Int", defaultValue: 4 }
         cursor: { type: "String" }
       ) {
-        id
         activityTopResults(first: $count, after: $cursor)
           @connection(
             key: "ChallengeActivityTopResultsFragment_activityTopResults"
@@ -31,7 +30,7 @@ export const useChallengeActivityTopResults = (
             cursor
             node {
               id
-              ...UserResultCard_challenge
+              ...TopResultCard_challenge
             }
           }
           pageInfo {

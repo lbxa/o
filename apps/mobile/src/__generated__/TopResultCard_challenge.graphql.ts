@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<290f4c8ab09d6c71331aa997fd6338ed>>
+ * @generated SignedSource<<2d4dfcc478afb9b3443faf21c85e5d8d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import type { ReaderFragment } from 'relay-runtime';
 export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_DISTANCE" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_DISTANCE" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
 export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
-export type UserResultCard_challenge$data = {
+export type TopResultCard_challenge$data = {
   readonly activity: {
     readonly goal: ChallengeActivityGoal;
     readonly id: string;
@@ -21,19 +21,13 @@ export type UserResultCard_challenge$data = {
   readonly id: string;
   readonly result: number;
   readonly user: {
-    readonly firstName: string | null | undefined;
-    readonly id: string;
-    readonly lastName: string | null | undefined;
-    readonly streak: {
-      readonly currentStreak: number;
-      readonly id: string;
-    } | null | undefined;
+    readonly " $fragmentSpreads": FragmentRefs<"UserProfileRow_user">;
   };
-  readonly " $fragmentType": "UserResultCard_challenge";
+  readonly " $fragmentType": "TopResultCard_challenge";
 };
-export type UserResultCard_challenge$key = {
-  readonly " $data"?: UserResultCard_challenge$data;
-  readonly " $fragmentSpreads": FragmentRefs<"UserResultCard_challenge">;
+export type TopResultCard_challenge$key = {
+  readonly " $data"?: TopResultCard_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"TopResultCard_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -48,7 +42,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "UserResultCard_challenge",
+  "name": "TopResultCard_challenge",
   "selections": [
     (v0/*: any*/),
     {
@@ -59,39 +53,10 @@ return {
       "name": "user",
       "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
-          "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "firstName",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "lastName",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "UserStreak",
-          "kind": "LinkedField",
-          "name": "streak",
-          "plural": false,
-          "selections": [
-            (v0/*: any*/),
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "currentStreak",
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
+          "kind": "FragmentSpread",
+          "name": "UserProfileRow_user"
         }
       ],
       "storageKey": null
@@ -135,6 +100,6 @@ return {
 };
 })();
 
-(node as any).hash = "75035c2e3c906f800bff80b5fccd5156";
+(node as any).hash = "15759adbd70987cd2b5cb17c42a3e439";
 
 export default node;

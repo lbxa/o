@@ -1,13 +1,16 @@
 import { Stack } from "expo-router";
 import React from "react";
+import { RefreshControl, ScrollView } from "react-native";
 import type { PreloadedQuery } from "react-relay";
 import { graphql, useFragment, usePreloadedQuery } from "react-relay";
 
 import type { ChallengeRootName_challenge$key } from "@/__generated__/ChallengeRootName_challenge.graphql";
 import type { ChallengeRootQuery } from "@/__generated__/ChallengeRootQuery.graphql";
+import { ChallengeDetails } from "@/challenges/ChallengeRoot/ChallengeDetails";
+import { useNoSuspenseRefetch } from "@/relay";
 import { MiniNav, Ozone } from "@/universe/molecules";
 
-import { ChallengeActivity } from "./ChallengeActivity";
+import { ChallengeActivityResults } from "./ChallengeActivity";
 
 export const CHALLENGE_ROOT_QUERY = graphql`
   query ChallengeRootQuery($challengeId: ID!) {
@@ -16,8 +19,10 @@ export const CHALLENGE_ROOT_QUERY = graphql`
         ...ChallengeRootName_challenge
         ...ChallengeDetails_challenge
         ...ChallengeActivityPills_challenge
-        ...useChallengeActivityTopResultsFragment_challenge @arguments(count: 4)
-        ...useChallengeActivityTopMoversFragment_challenge @arguments(count: 4)
+        ...useChallengeActivityTop3MoversFragment_challenge
+        ...useChallengeActivityTop3ResultsFragment_challenge
+        # ...useChallengeActivityTop3ResultsFragment_challenge @arguments(count: 4)
+        # ...useChallengeActivityTopMoversFragment_challenge @arguments(count: 10)
       }
     }
   }
@@ -46,6 +51,14 @@ export const ChallengeRoot = ({
     challengeRoot.viewer?.challenge
   );
 
+  const {
+    refetch: refetchChallengeRoot,
+    isRefetching: isRefetchingTopResults,
+  } = useNoSuspenseRefetch({
+    ancestorQuery: CHALLENGE_ROOT_QUERY,
+    ancestorVariables: { challengeId },
+  });
+
   return (
     <Ozone>
       <Stack.Screen
@@ -63,10 +76,24 @@ export const ChallengeRoot = ({
           ),
         }}
       />
-      <ChallengeActivity
-        challengeId={challengeId}
-        challengeRoot={challengeRoot}
-      />
+      <ScrollView
+        className="flex-1 px-md"
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetchingTopResults}
+            onRefresh={refetchChallengeRoot}
+          />
+        }
+      >
+        {challengeRoot.viewer?.challenge && (
+          <ChallengeDetails
+            challengeFragmentRef={challengeRoot.viewer.challenge}
+            challengeActivityPillsFragmentRef={challengeRoot.viewer.challenge}
+          />
+        )}
+        <ChallengeActivityResults challengeRoot={challengeRoot} />
+      </ScrollView>
     </Ozone>
   );
 };

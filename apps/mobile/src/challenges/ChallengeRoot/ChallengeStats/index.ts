@@ -1,3 +1,3 @@
 export * from "./ChallengeActivityTopResultsList";
-export * from "./ChallengeTopMovers";
-export * from "./UserResultCard";
+export * from "./TopMoverCard";
+export * from "./TopResultCard";

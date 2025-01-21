@@ -308,6 +308,10 @@ export class ChallengeActivityResultsService
           maxResult: number;
         } => result.minResult !== null && result.maxResult !== null
       )
+      // TODO
+      // I should not be overriding the existing ChallengeActivityResult type as
+      // this will create global id collisions... must fix with new type ChallengeActivityTopMover
+      // ... this is actually terrible code and just lazy
       .map(({ activity, user, maxResult, minResult }) => ({
         ...this.pg2GqlMapper({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -315,7 +319,7 @@ export class ChallengeActivityResultsService
           activity,
           user,
         }),
-        result: (maxResult - minResult) / minResult,
+        result: Math.round(((maxResult - minResult) / minResult) * 100),
       }))
       .sort((a, b) => b.result - a.result)
       .slice(0, first);
@@ -403,19 +407,25 @@ export class ChallengeActivityResultsService
       return true;
     });
 
-    return {
-      __typename: "ChallengeActivityResultConnection",
-      edges: uniqueResults.slice(0, first).map((result) => ({
-        node: result,
-        cursor: result.id,
-      })),
-      pageInfo: {
-        startCursor: uniqueResults[0].id,
-        endCursor: uniqueResults[uniqueResults.length - 1].id,
-        hasNextPage: uniqueResults.length > first,
-        hasPreviousPage: startCursorId > 0,
-      },
-    };
+    return buildConnection({
+      nodes: uniqueResults.slice(0, first),
+      hasNextPage: uniqueResults.length > first,
+      hasPreviousPage: startCursorId > 0,
+      createCursor: (node) => node.id,
+    });
+
+    // return {
+    //   edges: uniqueResults.slice(0, first).map((result) => ({
+    //     node: result,
+    //     cursor: result.id,
+    //   })),
+    //   pageInfo: {
+    //     startCursor: uniqueResults[0].id,
+    //     endCursor: uniqueResults[uniqueResults.length - 1].id,
+    //     hasNextPage: uniqueResults.length > first,
+    //     hasPreviousPage: startCursorId > 0,
+    //   },
+    // };
   }
 
   public async getCount(userId: number): Promise<number> {

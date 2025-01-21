@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a5f4a645c5388d2ce442cee28e894287>>
+ * @generated SignedSource<<bc8c63f8f308f4b08410e74861f686ec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -304,16 +304,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b71d281fec4db305dab53f25f058b76e",
+    "cacheID": "fb359f36a064d8ef7b1caef140a7cdb4",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  id\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n"
+    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7cd206e5deb409ff999ff71c478fedee";
+(node as any).hash = "8ff80d0a152ffb72717377d4c301f7ef";
 
 export default node;

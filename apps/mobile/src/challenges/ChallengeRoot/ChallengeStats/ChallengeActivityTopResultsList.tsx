@@ -1,20 +1,18 @@
-import {
-  BottomSheetFlatList,
-  BottomSheetModal,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet";
+import React from "react";
 import { Suspense } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { ChallengeActivityTopResultsListQuery } from "@/__generated__/ChallengeActivityTopResultsListQuery.graphql";
 import { useChallengeActivityTopResults } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks";
-import { UserResultCardSkeleton } from "@/challenges/ChallengeRoot/ChallengeStats";
+import {
+  TopResultCard,
+  TopResultCardSkeleton,
+} from "@/challenges/ChallengeRoot/ChallengeStats";
 import { useSharedBottomSheetProps } from "@/shared/hooks/useSharedBottomSheetProps";
 import { useZustStore } from "@/state";
 import { Title } from "@/universe/atoms";
-
-import { UserResultCard } from "./UserResultCard/UserResultCard";
 
 interface ChallengeActivityTopResultsListProps {
   modalRef: React.RefObject<BottomSheetModal>;
@@ -30,6 +28,24 @@ export const ChallengeActivityTopResultsList = ({
   if (!selectedChallengeId) {
     throw new Error("No selected challenge id");
   }
+
+  // const query = useLazyLoadQuery<ChallengeActivityTopResultsListQuery>(
+  //   graphql`
+  //     query ChallengeActivityTopResultsListQuery(
+  //       $challengeId: ID!
+  //       $count: Int!
+  //     ) {
+  //       challengeActivityTopResults(challengeId: $challengeId, first: $count) {
+  //         edges {
+  //           node {
+  //             ...TopResultCard_challenge
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `,
+  //   { challengeId: selectedChallengeId, count: 20 }
+  // );
 
   const query = useLazyLoadQuery<ChallengeActivityTopResultsListQuery>(
     graphql`
@@ -48,38 +64,47 @@ export const ChallengeActivityTopResultsList = ({
     { challengeId: selectedChallengeId, count: 20 }
   );
 
-  const { data } = useChallengeActivityTopResults(query.viewer?.challenge);
+  const { data, loadNext, isLoadingNext, hasNext } =
+    useChallengeActivityTopResults(query.viewer?.challenge);
 
   return (
     <BottomSheetModal
       ref={modalRef}
       {...sharedBottomSheetProps}
       snapPoints={["30%"]}
-      maxDynamicContentSize={700}
+      maxDynamicContentSize={790}
       enableDynamicSizing
     >
-      <BottomSheetView>
+      <>
         <Suspense
           fallback={
-            <View className="flex flex-col gap-md pb-10">
+            <View className="gap-md flex flex-col pb-10">
               {Array.from({ length: 4 }, (_, i) => (
-                <UserResultCardSkeleton key={i} />
+                <TopResultCardSkeleton key={i} />
               ))}
             </View>
           }
         >
           <BottomSheetFlatList
-            data={data?.activityTopResults?.edges?.map((edge) => edge.node)}
+            data={
+              data?.activityTopResults?.edges?.map((edge) => edge.node) ?? []
+            }
             className="px-md"
-            showsVerticalScrollIndicator={false}
             keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => <UserResultCard result={item} />}
-            // onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
+            renderItem={({ item }) => <TopResultCard result={item} />}
+            onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
+            onEndReachedThreshold={0.8}
             ListHeaderComponent={<Title>View all</Title>}
-            ListFooterComponent={<View className="pb-10" />}
+            ListFooterComponent={
+              isLoadingNext ? (
+                <ActivityIndicator size="large" />
+              ) : (
+                <View className="pb-10" />
+              )
+            }
           />
         </Suspense>
-      </BottomSheetView>
+      </>
     </BottomSheetModal>
   );
 };

@@ -1,2 +1,2 @@
-export * from "./ChallengeActivity";
 export * from "./ChallengeActivity.skeleton";
+export * from "./ChallengeActivityResults";

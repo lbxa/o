@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<15f9a17af0a497f5270baddc8a4d78d0>>
+ * @generated SignedSource<<23a307cb508432add29c0c3371d22aec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -46,20 +46,20 @@ v1 = [
     "variableName": "challengeId"
   }
 ],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v3 = [
+v2 = [
   {
     "kind": "Variable",
     "name": "first",
     "variableName": "count"
   }
-];
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -126,10 +126,9 @@ return {
             "name": "challenge",
             "plural": false,
             "selections": [
-              (v2/*: any*/),
               {
                 "alias": null,
-                "args": (v3/*: any*/),
+                "args": (v2/*: any*/),
                 "concreteType": "ChallengeActivityResultConnection",
                 "kind": "LinkedField",
                 "name": "activityTopResults",
@@ -158,7 +157,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v2/*: any*/),
+                          (v3/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -167,7 +166,7 @@ return {
                             "name": "user",
                             "plural": false,
                             "selections": [
-                              (v2/*: any*/),
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -190,7 +189,7 @@ return {
                                 "name": "streak",
                                 "plural": false,
                                 "selections": [
-                                  (v2/*: any*/),
+                                  (v3/*: any*/),
                                   {
                                     "alias": null,
                                     "args": null,
@@ -219,7 +218,7 @@ return {
                             "name": "activity",
                             "plural": false,
                             "selections": [
-                              (v2/*: any*/),
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -287,29 +286,30 @@ return {
               },
               {
                 "alias": null,
-                "args": (v3/*: any*/),
+                "args": (v2/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "ChallengeActivityTopResultsFragment_activityTopResults",
                 "kind": "LinkedHandle",
                 "name": "activityTopResults"
-              }
+              },
+              (v3/*: any*/)
             ],
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "58102bd34b4275aa25f5fbb37a02cc97",
+    "cacheID": "ad89d147b41443c63e5bd5b30aa916e7",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsListQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsListQuery(\n  $challengeId: ID!\n  $count: Int!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...useChallengeActivityTopResultsFragment_challenge_yu5n1\n      id\n    }\n    id\n  }\n}\n\nfragment UserResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    streak {\n      id\n      currentStreak\n    }\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_yu5n1 on Challenge {\n  id\n  activityTopResults(first: $count) {\n    edges {\n      cursor\n      node {\n        id\n        ...UserResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsListQuery(\n  $challengeId: ID!\n  $count: Int!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...useChallengeActivityTopResultsFragment_challenge_yu5n1\n      id\n    }\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_yu5n1 on Challenge {\n  activityTopResults(first: $count) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

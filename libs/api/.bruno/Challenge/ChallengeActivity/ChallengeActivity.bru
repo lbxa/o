@@ -52,28 +52,46 @@ body:graphql {
     #     }
     #   }
     # }
-    viewer {
-      challenge(challengeId: "Q2hhbGxlbmdlOjc2Cg==") {
-        activityTopMovers(first: 20) {
-          edges {
-            cursor
-            node {
-              user {
-                firstName
-                lastName
-              }
-              createdAt
-              result
-              activity {
-                type
-                goal
-                challengeId
-              }
-            }
+    challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjc2Cg==", first: 25) {
+      edges {
+        cursor
+        node {
+          user {
+            firstName
+            lastName
+          }
+          createdAt
+          result
+          activity {
+            type
+            goal
+            challengeId
           }
         }
       }
     }
+    # viewer {
+    #   challenge(challengeId: "Q2hhbGxlbmdlOjc2Cg==") {
+    #     activityTopMovers(first: 4) {
+    #       edges {
+    #         cursor
+    #         node {
+    #           user {
+    #             firstName
+    #             lastName
+    #           }
+    #           createdAt
+    #           result
+    #           activity {
+    #             type
+    #             goal
+    #             challengeId
+    #           }
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
   }
   
   
