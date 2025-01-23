@@ -19,6 +19,8 @@ import { EntityService, EntityType } from "../../entity";
 import {
   ChallengeActivityResult as GqlChallengeActivityResult,
   ChallengeActivityResultConnection,
+  ChallengeActivityTopMover as GqlChallengeActivityTopMover,
+  ChallengeActivityTopMoverConnection,
 } from "../../types/graphql";
 import { UserService } from "../../user/user.service";
 import { UserStreaksService } from "../../user/user-streaks";
@@ -207,7 +209,7 @@ export class ChallengeActivityResultsService
       activityId?: number;
     },
     { first = 10, after }: ConnectionArgs
-  ): Promise<ChallengeActivityResultConnection> {
+  ): Promise<ChallengeActivityTopMoverConnection> {
     const { challengeId = undefined, activityId = undefined } = params;
 
     const startCursorId = after
@@ -299,7 +301,7 @@ export class ChallengeActivityResultsService
       ])
     );
 
-    const formattedResults: GqlChallengeActivityResult[] = aggregatedResults
+    const formattedResults: GqlChallengeActivityTopMover[] = aggregatedResults
       .filter(
         (
           result
@@ -308,10 +310,9 @@ export class ChallengeActivityResultsService
           maxResult: number;
         } => result.minResult !== null && result.maxResult !== null
       )
-      // TODO
-      // I should not be overriding the existing ChallengeActivityResult type as
-      // this will create global id collisions... must fix with new type ChallengeActivityTopMover
-      // ... this is actually terrible code and just lazy
+      // We're not overriding the existing ChallengeActivityResult
+      // type just piggybacking some of the existing logic this
+      // avoids global id collisions...
       .map(({ activity, user, maxResult, minResult }) => ({
         ...this.pg2GqlMapper({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -319,6 +320,12 @@ export class ChallengeActivityResultsService
           activity,
           user,
         }),
+        __typename: "ChallengeActivityTopMover" as const,
+        id: encodeGlobalId(
+          "ChallengeActivityTopMover",
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          challengeActivityResultLookup.get(`${user.id}-${activity.id}`)!.id
+        ),
         result: Math.round(((maxResult - minResult) / minResult) * 100),
       }))
       .sort((a, b) => b.result - a.result)

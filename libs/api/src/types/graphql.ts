@@ -217,6 +217,28 @@ export interface ChallengeActivityResultConnection {
     pageInfo: PageInfo;
 }
 
+export interface ChallengeActivityTopMover extends Node, Timestamps {
+    __typename?: 'ChallengeActivityTopMover';
+    id: string;
+    user: User;
+    activity: ChallengeActivity;
+    result: number;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
+export interface ChallengeActivityTopMoverEdge {
+    __typename?: 'ChallengeActivityTopMoverEdge';
+    node: ChallengeActivityTopMover;
+    cursor: string;
+}
+
+export interface ChallengeActivityTopMoverConnection {
+    __typename?: 'ChallengeActivityTopMoverConnection';
+    edges?: Nullable<ChallengeActivityTopMoverEdge[]>;
+    pageInfo: PageInfo;
+}
+
 export interface Challenge extends Node, Timestamps {
     __typename?: 'Challenge';
     activityTopResults?: Nullable<ChallengeActivityResultConnection>;

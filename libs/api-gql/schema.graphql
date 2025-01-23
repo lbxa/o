@@ -109,6 +109,30 @@ type ChallengeActivityResultEdge {
   node: ChallengeActivityResult!
 }
 
+"""
+Top movers are the users with the largest relative
+movement for a given activity.
+"""
+type ChallengeActivityTopMover implements Node & Timestamps {
+  activity: ChallengeActivity!
+  createdAt: DateTime
+  id: ID!
+  """A percentage - not a float"""
+  result: Int!
+  updatedAt: DateTime
+  user: User!
+}
+
+type ChallengeActivityTopMoverConnection {
+  edges: [ChallengeActivityTopMoverEdge!]
+  pageInfo: PageInfo!
+}
+
+type ChallengeActivityTopMoverEdge {
+  cursor: String!
+  node: ChallengeActivityTopMover!
+}
+
 enum ChallengeActivityType {
   DISTANCE
   REPETITIONS

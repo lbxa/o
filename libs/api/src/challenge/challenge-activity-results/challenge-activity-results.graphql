@@ -30,6 +30,30 @@ type ChallengeActivityResultConnection {
   pageInfo: PageInfo!
 }
 
+"""
+Top movers are the users with the largest relative
+movement for a given activity.
+"""
+type ChallengeActivityTopMover implements Node & Timestamps {
+  id: ID!
+  user: User!
+  activity: ChallengeActivity!
+  "A percentage - not a float"
+  result: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ChallengeActivityTopMoverEdge {
+  node: ChallengeActivityTopMover!
+  cursor: String!
+}
+
+type ChallengeActivityTopMoverConnection {
+  edges: [ChallengeActivityTopMoverEdge!]
+  pageInfo: PageInfo!
+}
+
 extend type Challenge {
   activityTopResults(first: Int, after: String): ChallengeActivityResultConnection
   activityTopMovers(first: Int, after: String): ChallengeActivityResultConnection

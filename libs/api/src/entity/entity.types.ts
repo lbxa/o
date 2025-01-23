@@ -3,7 +3,8 @@ type EntityIdentifiers =
   | "Community"
   | "User"
   | "Challenge"
-  | "ChallengeActivity";
+  | "ChallengeActivity"
+  | "ChallengeActivityTopMover";
 
 type EntitySecondaryIdentifiers =
   | "Invitation"

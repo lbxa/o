@@ -140,6 +140,33 @@ export type ChallengeActivityResultEdge = {
   node: ChallengeActivityResult;
 };
 
+/**
+ * Top movers are the users with the largest relative
+ * movement for a given activity.
+ */
+export type ChallengeActivityTopMover = Node & Timestamps & {
+  __typename?: 'ChallengeActivityTopMover';
+  activity: ChallengeActivity;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  /** A percentage - not a float */
+  result: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user: User;
+};
+
+export type ChallengeActivityTopMoverConnection = {
+  __typename?: 'ChallengeActivityTopMoverConnection';
+  edges?: Maybe<Array<ChallengeActivityTopMoverEdge>>;
+  pageInfo: PageInfo;
+};
+
+export type ChallengeActivityTopMoverEdge = {
+  __typename?: 'ChallengeActivityTopMoverEdge';
+  cursor: Scalars['String']['output'];
+  node: ChallengeActivityTopMover;
+};
+
 export enum ChallengeActivityType {
   Distance = 'DISTANCE',
   Repetitions = 'REPETITIONS',
