@@ -2,7 +2,7 @@
   "$schema": null,
   "src": "./src",
   "language": "typescript",
-  "schema": "../../libs/api-gql/schema.graphql",
+  "schema": "../../libs/onex-api/gql/schema.graphql",
   "artifactDirectory": "./src/__generated__",
   "useImportTypeSyntax": true,
   "customScalarTypes": {

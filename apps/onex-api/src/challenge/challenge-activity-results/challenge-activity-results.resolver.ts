@@ -13,6 +13,7 @@ import {
   ChallengeActivityResult,
   ChallengeActivityResultConnection,
   ChallengeActivityResultCreateInput,
+  ChallengeActivityTopMoverConnection,
   CreateChallengeActivityResultPayload,
 } from "../../types/graphql";
 import { validateAndDecodeGlobalId } from "../../utils";
@@ -88,7 +89,7 @@ export class ChallengeActivityResultsResolver {
     @Args("challengeId") challengeId: string,
     @Args("first") first: number,
     @Args("after") after?: string
-  ): Promise<ChallengeActivityResultConnection> {
+  ): Promise<ChallengeActivityTopMoverConnection> {
     const decodedChallengeId = validateAndDecodeGlobalId(
       challengeId,
       "Challenge"
@@ -109,7 +110,7 @@ export class ChallengeActivityResultsResolver {
     @Parent() challenge: Challenge,
     @Args("first") first: number,
     @Args("after") after?: string
-  ): Promise<ChallengeActivityResultConnection> {
+  ): Promise<ChallengeActivityTopMoverConnection> {
     const decodedChallengeId = validateAndDecodeGlobalId(
       challenge.id,
       "Challenge"
