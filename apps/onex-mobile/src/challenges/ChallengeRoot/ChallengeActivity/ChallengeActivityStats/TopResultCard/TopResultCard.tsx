@@ -8,7 +8,7 @@ import type {
 import { OText } from "@/universe/atoms";
 import { UserProfileRow } from "@/users";
 
-import { intToTimestamp } from "../../../ChallengeLogger/utils";
+import { intToTimestamp } from "../../../../ChallengeLogger/utils";
 
 export const TopResultCard = ({
   result,

@@ -7,16 +7,17 @@ import type { ChallengeRootQuery$data } from "@/__generated__/ChallengeRootQuery
 import type { TopMoverCard_challenge$key } from "@/__generated__/TopMoverCard_challenge.graphql";
 import type { TopResultCard_challenge$key } from "@/__generated__/TopResultCard_challenge.graphql";
 import {
+  ChallengeActivityTopMoversList,
+  TopMoverCard,
+  TopResultCard,
+} from "@/challenges/ChallengeRoot/ChallengeActivity";
+import {
   useChallengeActivityTop3Movers,
   useChallengeActivityTop3Results,
 } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks";
-import {
-  TopMoverCard,
-  TopResultCard,
-} from "@/challenges/ChallengeRoot/ChallengeStats";
 import { Caption, OText, OTouchable } from "@/universe/atoms";
 
-import { ChallengeActivityTopResultsList } from "../ChallengeStats/ChallengeActivityTopResultsList";
+import { ChallengeActivityTopResultsList } from "./ChallengeActivityStats/ChallengeActivityTopResultsList";
 
 const TopResultSection: React.FC<{
   data: TopResultCard_challenge$key[];
@@ -50,12 +51,12 @@ const TopMoverSection: React.FC<{
 
   return (
     <View>
-      <ChallengeActivityTopResultsList modalRef={topMoversModalRef} />
+      <ChallengeActivityTopMoversList modalRef={topMoversModalRef} />
       <Text className="text-2xl font-bold text-black dark:text-ivory">
         Top Movers
       </Text>
       {data.map((item, index) => (
-        <TopMoverCard key={index} result={item} />
+        <TopMoverCard key={index} mover={item} />
       ))}
       {footer && (
         <OTouchable onPress={() => topMoversModalRef.current?.present()}>
