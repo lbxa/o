@@ -28,14 +28,14 @@ export const UserProfileCard = ({ fragmentRef }: UserProfileCardProps) => {
 
   return (
     <OTouchable onPress={() => router.push(`/(modals)/${user.id}`)}>
-      <View className="mb-sm flex min-h-12 w-full flex-row items-center gap-sm">
+      <View className="mb-sm gap-sm flex min-h-12 w-full flex-row items-center">
         <UserAvatar size="sm" user={user} />
         <View className="flex flex-1 flex-col">
-          <Text className="text-black dark:text-ivory">
+          <Text className="dark:text-ivory text-black">
             {user.firstName} {user.lastName}
           </Text>
           {user.handle && (
-            <Text className="text-black dark:text-ivory">{user.handle}</Text>
+            <Text className="dark:text-ivory text-black">{user.handle}</Text>
           )}
         </View>
       </View>

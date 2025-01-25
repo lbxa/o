@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
@@ -10,6 +11,7 @@ interface ChallengeSocialsProps {
   fragmentRef: ChallengeSocials_challenge$key;
 }
 export const ChallengeSocials = ({ fragmentRef }: ChallengeSocialsProps) => {
+  const router = useRouter();
   const frag = useFragment(
     graphql`
       fragment ChallengeSocials_challenge on Challenge {
@@ -45,15 +47,29 @@ export const ChallengeSocials = ({ fragmentRef }: ChallengeSocialsProps) => {
       break;
   }
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-1 flex-col">
         <OText numberOfLines={1}>{memberLabel}</OText>
         <OText numberOfLines={1}>
-          Started by <OText className="font-bold">{firstMemberName}</OText>
+          Started by{" "}
+          <OText
+            onPress={() => router.push(`/(modals)/${frag.firstMember?.id}`)}
+            className="font-bold"
+          >
+            {firstMemberName}
+          </OText>
           {secondMemberName && (
             <OText className="font-bold">
-              <OText className="font-normal">,</OText> {secondMemberName}
+              <OText className="font-normal">,</OText>{" "}
+              <OText
+                onPress={() =>
+                  router.push(`/(modals)/${frag.secondMember?.id}`)
+                }
+                className="font-bold"
+              >
+                {secondMemberName}
+              </OText>
             </OText>
           )}
           {memberCount > 2 && (

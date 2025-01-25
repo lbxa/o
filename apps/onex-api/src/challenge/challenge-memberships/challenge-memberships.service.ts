@@ -10,7 +10,7 @@ import {
   UserFriendshipsTable,
   UsersTable,
 } from "@o/db";
-import { and, eq, getTableColumns, sql } from "drizzle-orm";
+import { and, count, eq, getTableColumns, sql } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
 import { InvitationStatus, UserConnection } from "@/types/graphql";
@@ -129,6 +129,17 @@ export class ChallengeMembershipsService {
           eq(ChallengeMembershipsTable.challengeId, challengeId)
         )
       );
+  }
+
+  async getMemberCount(challengeId: number): Promise<number> {
+    const [memberCount] = await this.dbService.db
+      .selectDistinct({
+        count: count(ChallengeMembershipsTable.userId),
+      })
+      .from(ChallengeMembershipsTable)
+      .where(eq(ChallengeMembershipsTable.challengeId, challengeId));
+
+    return memberCount.count;
   }
 
   async getMembers(

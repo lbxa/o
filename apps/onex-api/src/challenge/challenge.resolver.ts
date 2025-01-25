@@ -6,8 +6,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import { $DrizzleSchema, ChallengeActivityResultsTable } from "@o/db";
-import { count, eq } from "drizzle-orm";
+import { $DrizzleSchema } from "@o/db";
 
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
@@ -43,20 +42,8 @@ export class ChallengeResolver {
 
   @ResolveField("memberCount")
   async memberCount(@Parent() challenge: Challenge): Promise<number> {
-    /**
-     * For now this can be calculated by counting the unique users who have
-     * completed the challenge activity. Eventually, if communities/challenges
-     * get big enough, we can play around with allowing users to join challenges
-     */
     const challengeId = validateAndDecodeGlobalId(challenge.id, "Challenge");
-    const [challengeActivityUniqueUsers] = await this.dbService.db
-      .selectDistinct({
-        count: count(ChallengeActivityResultsTable.userId),
-      })
-      .from(ChallengeActivityResultsTable)
-      .where(eq(ChallengeActivityResultsTable.challengeId, challengeId));
-
-    return challengeActivityUniqueUsers.count;
+    return this.challengeMembershipsService.getMemberCount(challengeId);
   }
 
   @ResolveField("firstMember")

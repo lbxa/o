@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
@@ -11,6 +12,7 @@ interface CommunitySocialsProps {
 }
 
 export const CommunitySocials = ({ fragmentRef }: CommunitySocialsProps) => {
+  const router = useRouter();
   const frag = useFragment(
     graphql`
       fragment CommunitySocials_community on Community {
@@ -36,17 +38,31 @@ export const CommunitySocials = ({ fragmentRef }: CommunitySocialsProps) => {
   const memberCountLabel = memberCount === 1 ? "member" : "members";
 
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-col">
         <OText numberOfLines={1}>
           {memberCount} {memberCountLabel}
         </OText>
         <OText numberOfLines={1}>
-          Including <OText className="font-bold">{firstMemberName}</OText>
+          Including{" "}
+          <OText
+            onPress={() => router.push(`/(modals)/${frag.firstMember?.id}`)}
+            className="font-bold"
+          >
+            {firstMemberName}
+          </OText>
           {secondMemberName && (
             <OText className="font-bold">
-              <OText className="font-normal">,</OText> {secondMemberName}
+              <OText className="font-normal">,</OText>{" "}
+              <OText
+                onPress={() =>
+                  router.push(`/(modals)/${frag.secondMember?.id}`)
+                }
+                className="font-bold"
+              >
+                {secondMemberName}
+              </OText>
             </OText>
           )}
           {memberCount > 2 && (
