@@ -8,28 +8,34 @@ import { ChallengeResolver } from "./challenge.resolver";
 import { ChallengeService } from "./challenge.service";
 import { ChallengeActivitiesService } from "./challenge-activity";
 import {
+  ChallengeActivityResultsRepository,
   ChallengeActivityResultsResolver,
   ChallengeActivityResultsService,
 } from "./challenge-activity-results";
+import { RankingService } from "./challenge-activity-results/ranking-service";
 import { ChallengeInvitationsService } from "./challenge-invitations";
 import { ChallengeMembershipsService } from "./challenge-memberships";
 
 @Module({
   imports: [forwardRef(() => UserModule), forwardRef(() => CommunityModule)],
   providers: [
-    ChallengeResolver,
-    ChallengeActivityResultsResolver,
     ChallengeService,
+    ChallengeResolver,
+    ChallengeRepository,
     ChallengeActivitiesService,
+    ChallengeActivityResultsResolver,
     ChallengeActivityResultsService,
+    ChallengeActivityResultsRepository,
     ChallengeInvitationsService,
     ChallengeMembershipsService,
-    ChallengeRepository,
+    RankingService,
   ],
   exports: [
     ChallengeService,
     ChallengeActivitiesService,
     ChallengeActivityResultsService,
+    ChallengeActivityResultsRepository,
+    RankingService,
   ],
 })
 export class ChallengeModule {}

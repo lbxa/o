@@ -7,18 +7,16 @@ import {
   ChallengeActivityType,
   ChallengeActivityUnits,
 } from "../../../types/graphql";
+import { RankingService } from "../ranking-service";
 import {
-  getRankingStrategy,
-  HighestNumberStrategy,
-  LongestTimeStrategy,
-  LowestNumberStrategy,
-  MostImprovedStrategy,
-  ShortestTimeStrategy,
-  SpecificTargetStrategy,
+  AscendingRankingStrategy,
+  DescendingRankingStrategy,
+  EuclideanDistanceStrategy,
 } from "./ranking-strategies";
 
 describe("Ranking Strategies", () => {
   let sampleResults: ChallengeActivityResult[];
+  let rankingService: RankingService;
 
   beforeEach(() => {
     const fakeActivity: ChallengeActivity = {
@@ -62,98 +60,122 @@ describe("Ranking Strategies", () => {
         updatedAt: new Date("2023-01-04T10:00:00Z"),
       },
     ];
+
+    rankingService = new RankingService();
   });
 
-  describe("LowestNumberStrategy", () => {
+  describe("DescendingRankingStrategy (Lowest Number)", () => {
     it("should rank results in ascending order (lowest to highest)", () => {
-      const strategy = new LowestNumberStrategy();
+      const strategy = new DescendingRankingStrategy(
+        (r: ChallengeActivityResult) => r.result
+      );
       const rankedResults = strategy.rank(sampleResults);
 
       expect(rankedResults.map((r) => r.id)).toEqual(["3", "1", "2", "4"]);
     });
   });
 
-  describe("HighestNumberStrategy", () => {
+  describe("AscendingRankingStrategy (Highest Number)", () => {
     it("should rank results in descending order (highest to lowest)", () => {
-      const strategy = new HighestNumberStrategy();
+      const strategy = new AscendingRankingStrategy(
+        (r: ChallengeActivityResult) => r.result
+      );
       const rankedResults = strategy.rank(sampleResults);
 
       expect(rankedResults.map((r) => r.id)).toEqual(["2", "4", "1", "3"]);
     });
   });
 
-  describe("ShortestTimeStrategy", () => {
+  describe("DescendingRankingStrategy (Shortest Time)", () => {
     it("should rank results in ascending order (shortest to longest)", () => {
-      const strategy = new ShortestTimeStrategy();
+      const strategy = new DescendingRankingStrategy(
+        (r: ChallengeActivityResult) => r.result
+      );
       const rankedResults = strategy.rank(sampleResults);
 
       expect(rankedResults.map((r) => r.id)).toEqual(["3", "1", "2", "4"]);
     });
   });
 
-  describe("LongestTimeStrategy", () => {
+  describe("AscendingRankingStrategy (Longest Time)", () => {
     it("should rank results in descending order (longest to shortest)", () => {
-      const strategy = new LongestTimeStrategy();
+      const strategy = new AscendingRankingStrategy(
+        (r: ChallengeActivityResult) => r.result
+      );
       const rankedResults = strategy.rank(sampleResults);
 
       expect(rankedResults.map((r) => r.id)).toEqual(["2", "4", "1", "3"]);
     });
   });
 
-  // TODO implement this
-  // describe("MostImprovedStrategy", () => {
-  //   it("should rank results based on improvement", () => {
-  //     // Assuming we have a previousResult property to calculate improvement
-  //     const resultsWithImprovement = sampleResults.map((result, index) => ({
-  //       ...result,
-  //       previousResult: [70, 80, 50, 90][index], // Sample previous results
-  //     }));
-
-  //     const strategy = new MostImprovedStrategy();
-  //     const rankedResults = strategy.rank(resultsWithImprovement);
-
-  //     expect(rankedResults.map((r) => r.id)).toEqual(["3", "1", "2", "4"]);
-  //   });
-  // });
-
-  describe("SpecificTargetStrategy", () => {
+  describe("EuclideanDistanceStrategy (Specific Target)", () => {
     it("should rank results based on closeness to a specific target", () => {
-      // Assuming target is 60
       const target = 60;
-
-      const strategy = new SpecificTargetStrategy(target);
+      const strategy = new EuclideanDistanceStrategy(
+        target,
+        (r: ChallengeActivityResult) => r.result
+      );
       const rankedResults = strategy.rank(sampleResults);
 
       expect(rankedResults.map((r) => r.id)).toEqual(["1", "2", "4", "3"]);
     });
   });
 
-  describe("getRankingStrategy", () => {
+  describe("RankingService", () => {
     it("should return the correct strategy instance for each goal", () => {
-      expect(getRankingStrategy("LOWEST_NUMBER")).toBeInstanceOf(
-        LowestNumberStrategy
-      );
-      expect(getRankingStrategy("HIGHEST_NUMBER")).toBeInstanceOf(
-        HighestNumberStrategy
-      );
-      expect(getRankingStrategy("SHORTEST_TIME")).toBeInstanceOf(
-        ShortestTimeStrategy
-      );
-      expect(getRankingStrategy("LONGEST_TIME")).toBeInstanceOf(
-        LongestTimeStrategy
-      );
-      expect(getRankingStrategy("MOST_IMPROVED")).toBeInstanceOf(
-        MostImprovedStrategy
-      );
-      expect(getRankingStrategy("SPECIFIC_TARGET", 60)).toBeInstanceOf(
-        SpecificTargetStrategy
-      );
+      const accessor = (r: ChallengeActivityResult) => r.result;
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.LOWEST_NUMBER,
+          accessor,
+        })
+      ).toBeInstanceOf(DescendingRankingStrategy);
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.HIGHEST_NUMBER,
+          accessor,
+        })
+      ).toBeInstanceOf(AscendingRankingStrategy);
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.SHORTEST_TIME,
+          accessor,
+        })
+      ).toBeInstanceOf(DescendingRankingStrategy);
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.LONGEST_TIME,
+          accessor,
+        })
+      ).toBeInstanceOf(AscendingRankingStrategy);
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.MOST_IMPROVED,
+          accessor,
+        })
+      ).toBeInstanceOf(AscendingRankingStrategy);
+
+      expect(
+        rankingService.getRankingStrategy({
+          goal: ChallengeActivityGoal.SPECIFIC_TARGET,
+          accessor,
+          _target: 60,
+        })
+      ).toBeInstanceOf(AscendingRankingStrategy);
     });
 
     it("should throw an error for unknown goals", () => {
-      expect(() => getRankingStrategy("UNKNOWN_GOAL")).toThrow(
-        "Unknown goal: UNKNOWN_GOAL"
-      );
+      expect(() =>
+        rankingService.getRankingStrategy({
+          goal: "UNKNOWN_GOAL" as ChallengeActivityGoal,
+          accessor: (r: ChallengeActivityResult) => r.result,
+        })
+      ).toThrow("Unknown goal: UNKNOWN_GOAL");
     });
   });
 });

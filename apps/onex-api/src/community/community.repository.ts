@@ -77,6 +77,24 @@ export class CommunityRepository
     return !!deletedCommunity;
   }
 
+  async findBy(
+    fields: Partial<Pick<PgCommunity, "id" | "ownerId">>
+  ): Promise<PgCommunityComposite[]> {
+    const communities = await this.dbService.db.query.CommunitiesTable.findMany(
+      {
+        where: (communities, { and, eq }) =>
+          and(
+            ...Object.entries(fields).map(([k, v]) =>
+              eq(communities[k as keyof typeof communities], v)
+            )
+          ),
+        with: { owner: true },
+      }
+    );
+
+    return communities;
+  }
+
   async findById(id: number): Promise<PgCommunityComposite | undefined> {
     const community = await this.dbService.db.query.CommunitiesTable.findFirst({
       where: eq(CommunitiesTable.id, id),

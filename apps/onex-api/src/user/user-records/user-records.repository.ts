@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import type {
   $DrizzleSchema,
-  ChallengeActivity as PgChallengeActivity,
-  ChallengeActivityResult as PgChallengeActivityResult,
   NewUserRecord as PgNewUserRecord,
   User as PgUser,
   UserRecord as PgUserRecord,
@@ -11,16 +9,14 @@ import { UserRecordsTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { PgChallengeComposite } from "@/challenge/challenge.repository";
+import { PgChallengeActivityResultComposite } from "@/challenge/challenge-activity-results";
 import { DbService } from "@/db/db.service";
 import { EntityRepository } from "@/entity";
 
 export type PgUserRecordComposite = PgUserRecord & {
   user: PgUser;
   challenge: PgChallengeComposite;
-  activityResult: PgChallengeActivityResult & {
-    user: PgUser;
-    activity: PgChallengeActivity;
-  };
+  activityResult: PgChallengeActivityResultComposite;
 };
 
 @Injectable()
@@ -52,7 +48,6 @@ export class UserRecordsRepository
             },
           },
         },
-        activity: true,
         activityResult: {
           with: {
             user: true,
@@ -90,16 +85,22 @@ export class UserRecordsRepository
     return relations ? { ...updatedUserRecord, ...relations } : undefined;
   }
 
-  async findById(id: number): Promise<PgUserRecordComposite | undefined> {
-    return this.getRelations(id);
-  }
-
-  async findByUserId(
-    userId: number
-  ): Promise<PgUserRecordComposite[] | undefined> {
+  async findBy(
+    fields: Partial<
+      Pick<
+        PgUserRecord,
+        "id" | "userId" | "challengeId" | "activityId" | "activityResultId"
+      >
+    >
+  ): Promise<PgUserRecordComposite[]> {
     const userRecords = await this.dbService.db.query.UserRecordsTable.findMany(
       {
-        where: eq(UserRecordsTable.userId, userId),
+        where: (userRecords, { and, eq }) =>
+          and(
+            ...Object.entries(fields).map(([k, v]) =>
+              eq(userRecords[k as keyof typeof userRecords], v)
+            )
+          ),
         with: {
           user: true,
           challenge: {
@@ -112,7 +113,6 @@ export class UserRecordsRepository
               },
             },
           },
-          activity: true,
           activityResult: {
             with: {
               user: true,
@@ -123,11 +123,17 @@ export class UserRecordsRepository
       }
     );
 
-    if (userRecords.length === 0) {
+    return userRecords;
+  }
+
+  async findById(id: number): Promise<PgUserRecordComposite | undefined> {
+    const userRecords = await this.findBy({ id });
+
+    if (!userRecords || userRecords.length === 0) {
       return undefined;
     }
 
-    return userRecords;
+    return userRecords[0];
   }
 
   async delete(id: number): Promise<boolean> {

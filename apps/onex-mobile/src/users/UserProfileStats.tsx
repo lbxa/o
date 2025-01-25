@@ -20,24 +20,24 @@ export const UserProfileStats = ({
   );
 
   return (
-    <View className="flex flex-row gap-lg">
+    <View className="gap-lg flex flex-row">
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold text-black dark:text-ivory">
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
           {stats.buddyCount}
         </Text>
-        <Text className="text-lg text-black dark:text-ivory">Buddies</Text>
+        <Text className="dark:text-ivory text-lg text-black">Buddies</Text>
       </View>
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold text-black dark:text-ivory">
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
           {stats.followerCount}
         </Text>
-        <Text className="text-lg text-black dark:text-ivory">Followers</Text>
+        <Text className="dark:text-ivory text-lg text-black">Followers</Text>
       </View>
       <View className="flex flex-col items-center">
-        <Text className="text-5xl font-bold text-black dark:text-ivory">
+        <Text className="dark:text-ivory text-5xl font-bold text-black">
           {stats.challengeActivityResultsCount}
         </Text>
-        <Text className="text-lg text-black dark:text-ivory">Challenges</Text>
+        <Text className="dark:text-ivory text-lg text-black">Challenges</Text>
       </View>
     </View>
   );

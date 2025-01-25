@@ -21,8 +21,8 @@ describe("Pagination Utils", () => {
         pageInfo: {
           hasNextPage: false,
           hasPreviousPage: false,
-          startCursor: undefined,
-          endCursor: undefined,
+          startCursor: null,
+          endCursor: null,
         },
       });
     });

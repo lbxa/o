@@ -57,6 +57,24 @@ export class UserStreaksRepository
     return !!deletedUserStreak;
   }
 
+  async findBy(
+    fields: Partial<Pick<PgUserStreak, "id" | "userId">>
+  ): Promise<(PgUserStreak & { user: PgUser })[]> {
+    const userStreaks = await this.dbService.db.query.UserStreaksTable.findMany(
+      {
+        where: (userStreaks, { and, eq }) =>
+          and(
+            ...Object.entries(fields).map(([k, v]) =>
+              eq(userStreaks[k as keyof typeof userStreaks], v)
+            )
+          ),
+        with: { user: true },
+      }
+    );
+
+    return userStreaks;
+  }
+
   async findById(
     id: number
   ): Promise<(PgUserStreak & { user: PgUser }) | undefined> {

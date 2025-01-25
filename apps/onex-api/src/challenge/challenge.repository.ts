@@ -85,6 +85,29 @@ export class ChallengeRepository
     return !!deletedChallenge;
   }
 
+  async findBy(
+    fields: Partial<Pick<PgChallenge, "id" | "communityId">>
+  ): Promise<PgChallengeComposite[]> {
+    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
+      where: (challenges, { and, eq }) =>
+        and(
+          ...Object.entries(fields).map(([k, v]) =>
+            eq(challenges[k as keyof typeof challenges], v)
+          )
+        ),
+      with: {
+        activities: true,
+        community: {
+          with: {
+            owner: true,
+          },
+        },
+      },
+    });
+
+    return challenges;
+  }
+
   async findById(id: number): Promise<PgChallengeComposite | undefined> {
     const relations = await this.getRelations(id);
 

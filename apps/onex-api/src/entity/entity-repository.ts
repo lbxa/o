@@ -33,6 +33,7 @@ export interface EntityRepository<
     updateEntityInput: Partial<PgSelectType> & Node
   ): Promise<CompositePgType | undefined>;
   delete(id: number): Promise<boolean>;
+  findBy(fields: Partial<PgSelectType>): Promise<CompositePgType[]>;
   findById(id: number): Promise<CompositePgType | undefined>;
   // getRelations(id: number): Promise<CompositePgType | undefined>;
 }

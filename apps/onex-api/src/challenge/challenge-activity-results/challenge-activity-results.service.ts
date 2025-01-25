@@ -1,22 +1,27 @@
+/* eslint-disable @stylistic/js/max-len */
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import {
   $DrizzleSchema,
   ChallengeActivitiesTable,
-  ChallengeActivity as PgChallengeActivity,
   ChallengeActivityResult as PgChallengeActivityResult,
   ChallengeActivityResultsTable,
   ChallengeMembershipsTable,
   NewChallengeActivityResult,
-  User as PgUser,
   UsersTable,
 } from "@o/db";
 import { and, count, desc, eq, inArray, max, min, SQL, sql } from "drizzle-orm";
 
+import {
+  ChallengeActivityResultsRepository,
+  PgChallengeActivityResultComposite,
+} from "@/challenge/challenge-activity-results";
 import { ChallengeMembershipsService } from "@/challenge/challenge-memberships";
+import { UserRecordsRepository, UserRecordsService } from "@/user/user-records";
 
 import { DbService } from "../../db/db.service";
 import { EntityService, EntityType } from "../../entity";
 import {
+  ChallengeActivityGoal,
   ChallengeActivityResult as GqlChallengeActivityResult,
   ChallengeActivityResultConnection,
   ChallengeActivityTopMover as GqlChallengeActivityTopMover,
@@ -32,12 +37,8 @@ import {
 } from "../../utils";
 import { NotFoundError } from "../../utils/errors";
 import { ChallengeActivitiesService } from "../challenge-activity";
-import { getRankingStrategy } from "./ranking-strategies";
-
-type ChallengeActivityResultComposite = PgChallengeActivityResult & {
-  user: PgUser;
-  activity: PgChallengeActivity;
-};
+import { mapToEnum } from "./../../utils/map-to-enum";
+import { RankingService } from "./ranking-service";
 
 @Injectable()
 export class ChallengeActivityResultsService
@@ -46,15 +47,19 @@ export class ChallengeActivityResultsService
       typeof ChallengeActivityResultsTable,
       PgChallengeActivityResult,
       GqlChallengeActivityResult,
-      ChallengeActivityResultComposite
+      PgChallengeActivityResultComposite
     >
 {
   constructor(
     private userService: UserService,
     private challengeMembershipsService: ChallengeMembershipsService,
     private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityResultsRepository: ChallengeActivityResultsRepository,
     private userStreaksService: UserStreaksService,
-    private dbService: DbService<typeof $DrizzleSchema>
+    private userRecordsService: UserRecordsService,
+    private userRecordsRepository: UserRecordsRepository,
+    private dbService: DbService<typeof $DrizzleSchema>,
+    private rankingService: RankingService
   ) {}
 
   public getTypename(): EntityType {
@@ -62,7 +67,7 @@ export class ChallengeActivityResultsService
   }
 
   public pg2GqlMapper(
-    challengeActivityResult: ChallengeActivityResultComposite
+    challengeActivityResult: PgChallengeActivityResultComposite
   ): GqlChallengeActivityResult {
     return {
       ...challengeActivityResult,
@@ -78,136 +83,99 @@ export class ChallengeActivityResultsService
     id: number
   ): Promise<GqlChallengeActivityResult | undefined> {
     const challengeActivityResult =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findFirst({
-        where: eq(ChallengeActivityResultsTable.id, id),
-        with: {
-          user: true,
-          activity: true,
-        },
-      });
+      await this.challengeActivityResultsRepository.findById(id);
 
     return challengeActivityResult
       ? this.pg2GqlMapper(challengeActivityResult)
       : undefined;
   }
 
-  public async findOne(params: {
-    activityId?: number;
-    challengeId?: number;
-  }): Promise<GqlChallengeActivityResult | undefined> {
-    const { activityId = undefined, challengeId = undefined } = params;
-
-    const whereClause = challengeId
-      ? eq(ChallengeActivityResultsTable.challengeId, challengeId)
-      : activityId
-        ? eq(ChallengeActivityResultsTable.activityId, activityId)
-        : undefined;
-
-    if (!whereClause) {
-      throw new InternalServerErrorException(
-        "At least one search criterion must be provided."
-      );
-    }
-
-    const challengeActivityResult =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findFirst({
-        where: whereClause,
-        with: {
-          user: true,
-          activity: true,
-        },
-      });
-
-    return challengeActivityResult
-      ? this.pg2GqlMapper(challengeActivityResult)
-      : undefined;
-  }
-
-  public async findAll(params: {
-    activityId?: number;
-    challengeId?: number;
-  }): Promise<GqlChallengeActivityResult[]> {
-    const { activityId = undefined, challengeId = undefined } = params;
-
-    const whereClause = challengeId
-      ? eq(ChallengeActivityResultsTable.challengeId, challengeId)
-      : activityId
-        ? eq(ChallengeActivityResultsTable.activityId, activityId)
-        : undefined;
-
-    if (!whereClause) {
-      throw new InternalServerErrorException(
-        "At least one search criterion must be provided."
-      );
-    }
-
+  public async findOne(
+    params: Partial<{
+      activityId: number;
+      challengeId: number;
+    }>
+  ): Promise<GqlChallengeActivityResult | undefined> {
     const challengeActivityResults =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
-        where: whereClause,
-        with: {
-          user: true,
-          activity: true,
-        },
-      });
+      await this.challengeActivityResultsRepository.findBy(params);
 
-    return challengeActivityResults.map((result) => this.pg2GqlMapper(result));
+    return challengeActivityResults.length > 0
+      ? this.pg2GqlMapper(challengeActivityResults[0])
+      : undefined;
+  }
+
+  public async findAll(
+    params: Partial<{
+      activityId: number;
+      challengeId: number;
+    }>
+  ): Promise<GqlChallengeActivityResult[]> {
+    const challengeActivityResults =
+      await this.challengeActivityResultsRepository.findBy(params);
+
+    return challengeActivityResults.length > 0
+      ? challengeActivityResults.map((result) => this.pg2GqlMapper(result))
+      : [];
   }
 
   public async create(
     challengeActivityResultInput: NewChallengeActivityResult
   ): Promise<GqlChallengeActivityResult> {
-    const [challengeActivityResult] = await this.dbService.db
-      .insert(ChallengeActivityResultsTable)
-      .values(challengeActivityResultInput)
-      .returning();
+    const newResult = await this.challengeActivityResultsRepository.create(
+      challengeActivityResultInput
+    );
 
-    const challengeActivityResultWithRelations =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findFirst({
-        where: eq(ChallengeActivityResultsTable.id, challengeActivityResult.id),
-        with: {
-          user: true,
-          activity: true,
-        },
-      });
-
-    if (!challengeActivityResultWithRelations) {
-      throw new NotFoundError("Challenge activity result not found");
+    if (!newResult) {
+      throw new NotFoundError("Challenge activity could not be created");
     }
 
     /**
      * Each challenge activity result creates or updates a streak for the user,
      * but only if it was completed on the next consecutive day.
      */
-    await this.userStreaksService.incrementStreak(
-      challengeActivityResultWithRelations.userId
-    );
+    await this.userStreaksService.incrementStreak(newResult.userId);
+
+    /**
+     * Check if the user broke a new record for that challenge activity.
+     */
+    const isNewRecord = await this.userRecordsService.isNewRecord({
+      userId: newResult.userId,
+      challengeId: newResult.challengeId,
+      challengeActivityId: newResult.activityId,
+      challengeActivityResultId: newResult.id,
+    });
+
+    if (isNewRecord) {
+      await this.userRecordsRepository.create({
+        userId: newResult.userId,
+        challengeId: newResult.challengeId,
+        activityId: newResult.activityId,
+        activityResultId: newResult.id,
+      });
+    }
 
     /**
      * Users are automatically added to the challenge when they complete an
      * activity.
      */
     const isMember = await this.challengeMembershipsService.isMember(
-      challengeActivityResultWithRelations.userId,
-      challengeActivityResultWithRelations.challengeId
+      newResult.userId,
+      newResult.challengeId
     );
 
     if (!isMember) {
-      await this.challengeMembershipsService.join(
-        challengeActivityResultWithRelations.userId,
-        {
-          challengeId: challengeActivityResultWithRelations.challengeId,
-        }
-      );
+      await this.challengeMembershipsService.join(newResult.userId, {
+        challengeId: newResult.challengeId,
+      });
     }
 
-    return this.pg2GqlMapper(challengeActivityResultWithRelations);
+    return this.pg2GqlMapper(newResult);
   }
 
   public async fetchTopMovers(
-    params: {
-      challengeId?: number;
-      activityId?: number;
-    },
+    params: Partial<
+      Pick<PgChallengeActivityResult, "challengeId" | "activityId">
+    >,
     { first = 10, after }: ConnectionArgs
   ): Promise<ChallengeActivityTopMoverConnection> {
     const { challengeId = undefined, activityId = undefined } = params;
@@ -340,13 +308,12 @@ export class ChallengeActivityResultsService
   }
 
   public async fetchTopResults(
-    params: {
-      activityId?: number;
-      challengeId?: number;
-    },
+    fields: Partial<
+      Pick<PgChallengeActivityResult, "challengeId" | "activityId">
+    >,
     { first = 10, after }: ConnectionArgs
   ): Promise<ChallengeActivityResultConnection> {
-    const { activityId = undefined, challengeId = undefined } = params;
+    const { challengeId = undefined } = fields;
 
     const startCursorId = after
       ? validateAndDecodeGlobalId(
@@ -355,37 +322,10 @@ export class ChallengeActivityResultsService
         )
       : 0;
 
-    const whereConditions: SQL[] = [];
-
-    if (challengeId) {
-      whereConditions.push(
-        eq(ChallengeActivityResultsTable.challengeId, challengeId)
-      );
-    }
-
-    if (activityId) {
-      whereConditions.push(
-        eq(ChallengeActivityResultsTable.activityId, activityId)
-      );
-    }
-
-    if (whereConditions.length === 0) {
-      throw new InternalServerErrorException(
-        "At least one search criterion must be provided."
-      );
-    }
-
     const challengeActivityResults =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
-        where: and(...whereConditions),
-        with: {
-          user: true,
-          activity: true,
-        },
-      });
+      await this.challengeActivityResultsRepository.findBy(fields);
 
     if (challengeActivityResults.length === 0) {
-      // no activity results for this challenge
       return buildConnection({
         nodes: [],
         hasNextPage: false,
@@ -398,10 +338,15 @@ export class ChallengeActivityResultsService
     );
 
     // assuming all activities in a challenge are homogeneous
-    const strategy = getRankingStrategy(
-      challengeActivityResults[0].activity.goal,
-      challengeActivityResults[0].activity.target ?? undefined
-    );
+    const strategy =
+      this.rankingService.getRankingStrategy<GqlChallengeActivityResult>({
+        goal: mapToEnum(
+          ChallengeActivityGoal,
+          challengeActivityResults[0].activity.goal
+        ),
+        _target: challengeActivityResults[0].activity.target ?? undefined,
+        accessor: (result) => result.result,
+      });
     const rankedResults = strategy.rank(gqlFormattedResults);
 
     // remove duplicate user entries after first occurrence
@@ -420,26 +365,13 @@ export class ChallengeActivityResultsService
       hasPreviousPage: startCursorId > 0,
       createCursor: (node) => node.id,
     });
-
-    // return {
-    //   edges: uniqueResults.slice(0, first).map((result) => ({
-    //     node: result,
-    //     cursor: result.id,
-    //   })),
-    //   pageInfo: {
-    //     startCursor: uniqueResults[0].id,
-    //     endCursor: uniqueResults[uniqueResults.length - 1].id,
-    //     hasNextPage: uniqueResults.length > first,
-    //     hasPreviousPage: startCursorId > 0,
-    //   },
-    // };
   }
 
   public async getCount(userId: number): Promise<number> {
-    const results =
-      await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
-        where: eq(ChallengeActivityResultsTable.userId, userId),
-      });
-    return results.length;
+    const [row] = await this.dbService.db
+      .select({ count: count(ChallengeActivityResultsTable.id) })
+      .from(ChallengeActivityResultsTable)
+      .where(eq(ChallengeActivityResultsTable.userId, userId));
+    return row.count;
   }
 }

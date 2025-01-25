@@ -49,12 +49,14 @@ export const ChallengeActivityPills = ({
       }
       pill3={
         challenge?.activity?.target
-          ? [
-              challenge.activity.target,
-              challengeActivityUnitToLabel(
-                challenge.activity.unit as ChallengeActivityUnits
-              ),
-            ].join(" ")
+          ? `${challenge.activity.target}${
+              challenge.activity.unit
+                ? " " +
+                  challengeActivityUnitToLabel(
+                    challenge.activity.unit as ChallengeActivityUnits
+                  )
+                : ""
+            }`
           : undefined
       }
     />

@@ -22,6 +22,9 @@ import { ChallengeActivityResultsService } from "./challenge-activity-results.se
 /**
  * Extends the @type Challenge to include activity results. Still belongs
  * in its own code file to keep things clean.
+ *
+ * TODO | change of mind: this is terrible, move it back to the
+ * TODO | challenge.resolver.ts file
  */
 @Resolver("Challenge")
 export class ChallengeActivityResultsResolver {
