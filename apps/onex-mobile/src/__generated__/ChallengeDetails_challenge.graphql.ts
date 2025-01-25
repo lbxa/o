@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9f717133042abbd8a9288c3116a9493d>>
+ * @generated SignedSource<<30b032f5f561a52637d0c17f7bca680d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,7 @@ export type ChallengeDetails_challenge$data = {
   readonly id: string;
   readonly memberCount: number | null | undefined;
   readonly name: string;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeSocials_challenge">;
   readonly " $fragmentType": "ChallengeDetails_challenge";
 };
 export type ChallengeDetails_challenge$key = {
@@ -90,6 +91,11 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "ChallengeSocials_challenge"
     }
   ],
   "type": "Challenge",
@@ -97,6 +103,6 @@ return {
 };
 })();
 
-(node as any).hash = "209c87559ed917999bd549a329ba4240";
+(node as any).hash = "c977315d913afbceea1be49819f29fb2";
 
 export default node;

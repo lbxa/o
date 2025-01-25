@@ -254,7 +254,9 @@ export interface Challenge extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     activity: ChallengeActivity;
-    members?: Nullable<User[]>;
+    firstMember?: Nullable<User>;
+    secondMember?: Nullable<User>;
+    allMembers?: Nullable<UserConnection>;
     memberCount?: Nullable<number>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
@@ -342,7 +344,9 @@ export interface Community extends Node, Timestamps {
     users?: Nullable<User[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    members?: Nullable<UserConnection>;
+    firstMember?: Nullable<User>;
+    secondMember?: Nullable<User>;
+    allMembers?: Nullable<UserConnection>;
     memberCount?: Nullable<number>;
     challenges?: Nullable<ChallengeConnection>;
     memberships?: Nullable<CommunityMembership[]>;

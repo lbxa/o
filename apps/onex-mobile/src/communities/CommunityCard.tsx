@@ -26,7 +26,7 @@ const CommunityCardComponent = ({ community }: Props) => {
         id
         name
         isVerified
-        memberCount
+        ...CommunitySocials_community
       }
     `,
     community
@@ -56,7 +56,7 @@ const CommunityCardComponent = ({ community }: Props) => {
               />
             )}
           </Text>
-          <CommunitySocials memberCount={communityFragment.memberCount ?? 0} />
+          <CommunitySocials fragmentRef={communityFragment} />
         </View>
       </View>
     </OTouchable>

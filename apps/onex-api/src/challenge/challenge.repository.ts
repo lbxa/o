@@ -117,18 +117,6 @@ export class ChallengeRepository
   async findByCommunityId(
     communityId: number
   ): Promise<PgChallengeComposite[]> {
-    const relations = await this.dbService.db.query.ChallengesTable.findMany({
-      where: eq(ChallengesTable.communityId, communityId),
-      with: {
-        activities: true,
-        community: {
-          with: {
-            owner: true,
-          },
-        },
-      },
-    });
-
-    return relations;
+    return this.findBy({ communityId });
   }
 }

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<87ab03eab1b3b96d2427ac35feb7638b>>
+ * @generated SignedSource<<44124c30c9834c6a8d3d0337e3d6d1ee>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -54,6 +54,16 @@ v2 = [
     "kind": "Variable",
     "name": "first",
     "variableName": "count"
+  }
+],
+v3 = [
+  (v1/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "firstName",
+    "storageKey": null
   }
 ];
 return {
@@ -197,6 +207,26 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "firstMember",
+                        "plural": false,
+                        "selections": (v3/*: any*/),
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "secondMember",
+                        "plural": false,
+                        "selections": (v3/*: any*/),
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
@@ -225,12 +255,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "30f9a12d404b1f80d34a0d26fe9f4194",
+    "cacheID": "3370b9949ef173ed343d016b2345c92b",
     "id": null,
     "metadata": {},
     "name": "CommunityListPaginationQuery",
     "operationKind": "query",
-    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
   }
 };
 })();

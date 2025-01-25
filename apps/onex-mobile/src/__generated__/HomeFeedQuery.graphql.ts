@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4e7f88de3f7de36de677d0df2c06129a>>
+ * @generated SignedSource<<ad1ffa893bacbb35c10e601391bbe949>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -75,15 +75,16 @@ v3 = {
   "name": "id",
   "storageKey": null
 },
-v4 = [
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v5 = [
   (v3/*: any*/),
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "firstName",
-    "storageKey": null
-  },
+  (v4/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -92,14 +93,14 @@ v4 = [
     "storageKey": null
   }
 ],
-v5 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v6 = {
+v7 = {
   "alias": null,
   "args": null,
   "concreteType": "Community",
@@ -108,7 +109,7 @@ v6 = {
   "plural": false,
   "selections": [
     (v3/*: any*/),
-    (v5/*: any*/),
+    (v6/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -119,48 +120,52 @@ v6 = {
   ],
   "storageKey": null
 },
-v7 = {
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v8 = [
+v9 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 10
   }
 ],
-v9 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "type",
   "storageKey": null
 },
-v10 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "goal",
   "storageKey": null
 },
-v11 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "unit",
   "storageKey": null
 },
-v12 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "target",
   "storageKey": null
-};
+},
+v14 = [
+  (v3/*: any*/),
+  (v4/*: any*/)
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -253,11 +258,11 @@ return {
                         "kind": "LinkedField",
                         "name": "inviter",
                         "plural": false,
-                        "selections": (v4/*: any*/),
+                        "selections": (v5/*: any*/),
                         "storageKey": null
                       },
-                      (v6/*: any*/),
-                      (v7/*: any*/)
+                      (v7/*: any*/),
+                      (v8/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -279,7 +284,7 @@ return {
           (v3/*: any*/),
           {
             "alias": null,
-            "args": (v8/*: any*/),
+            "args": (v9/*: any*/),
             "concreteType": "HomeFeedConnection",
             "kind": "LinkedField",
             "name": "homeFeed",
@@ -303,7 +308,7 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v7/*: any*/),
+                      (v8/*: any*/),
                       {
                         "kind": "TypeDiscriminator",
                         "abstractKey": "__isHomeFeedItem"
@@ -312,7 +317,7 @@ return {
                         "kind": "InlineFragment",
                         "selections": [
                           (v3/*: any*/),
-                          (v5/*: any*/),
+                          (v6/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -350,11 +355,31 @@ return {
                             "plural": false,
                             "selections": [
                               (v3/*: any*/),
-                              (v9/*: any*/),
                               (v10/*: any*/),
                               (v11/*: any*/),
-                              (v12/*: any*/)
+                              (v12/*: any*/),
+                              (v13/*: any*/)
                             ],
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "firstMember",
+                            "plural": false,
+                            "selections": (v14/*: any*/),
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "secondMember",
+                            "plural": false,
+                            "selections": (v14/*: any*/),
                             "storageKey": null
                           }
                         ],
@@ -371,7 +396,7 @@ return {
                             "kind": "LinkedField",
                             "name": "user",
                             "plural": false,
-                            "selections": (v4/*: any*/),
+                            "selections": (v5/*: any*/),
                             "storageKey": null
                           },
                           {
@@ -383,7 +408,7 @@ return {
                             "plural": false,
                             "selections": [
                               (v3/*: any*/),
-                              (v5/*: any*/),
+                              (v6/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -393,14 +418,14 @@ return {
                                 "plural": false,
                                 "selections": [
                                   (v3/*: any*/),
+                                  (v12/*: any*/),
                                   (v11/*: any*/),
                                   (v10/*: any*/),
-                                  (v9/*: any*/),
-                                  (v12/*: any*/)
+                                  (v13/*: any*/)
                                 ],
                                 "storageKey": null
                               },
-                              (v6/*: any*/)
+                              (v7/*: any*/)
                             ],
                             "storageKey": null
                           },
@@ -446,7 +471,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v8/*: any*/),
+            "args": (v9/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "HomeFeed_viewer_homeFeed",
@@ -459,12 +484,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e42b2dfa5d1dde3a03364f358fe82e4c",
+    "cacheID": "29415ea9322091fba9e966fb45683441",
     "id": null,
     "metadata": {},
     "name": "HomeFeedQuery",
     "operationKind": "query",
-    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

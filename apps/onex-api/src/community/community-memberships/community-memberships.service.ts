@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/js/max-len */
 import { Injectable } from "@nestjs/common";
 import {
   $DrizzleSchema,
@@ -5,16 +6,22 @@ import {
   CommunityInvitationsTable,
   CommunityMembership,
   CommunityMembershipsTable,
+  UserFriendshipsTable,
   UsersTable,
 } from "@o/db";
-import { and, eq, getTableColumns, notInArray } from "drizzle-orm";
+import { and, count, eq, getTableColumns, notInArray, sql } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import type { User as GqlUser } from "@/types/graphql";
+import type { User as GqlUser, UserConnection } from "@/types/graphql";
 import { CommunityJoinPayload, InvitationStatus } from "@/types/graphql";
 import { UserService } from "@/user/user.service";
 import { fullTextSearch } from "@/user/utils";
-import { encodeGlobalId } from "@/utils";
+import {
+  buildConnection,
+  ConnectionArgs,
+  encodeGlobalId,
+  validateAndDecodeGlobalId,
+} from "@/utils";
 import { ForbiddenError, InternalServerError } from "@/utils/errors";
 
 import { CommunityService } from "../community.service";
@@ -162,5 +169,73 @@ export class CommunityMembershipsService {
           eq(CommunityMembershipsTable.communityId, communityId)
         )
       );
+  }
+
+  async memberCount(communityId: number): Promise<number> {
+    const [memberCount] = await this.dbService.db
+      .select({
+        count: count(CommunityMembershipsTable.userId),
+      })
+      .from(CommunityMembershipsTable)
+      .where(eq(CommunityMembershipsTable.communityId, communityId));
+
+    return memberCount.count;
+  }
+
+  async getMembers(
+    { communityId, viewerId }: { communityId: number; viewerId: number },
+    args?: ConnectionArgs
+  ): Promise<UserConnection> {
+    const limit = args?.first ?? 10;
+    const after = args?.after
+      ? validateAndDecodeGlobalId(args.after, "User")
+      : 0;
+
+    const isFriend = sql<boolean>`
+      CASE
+        WHEN EXISTS (
+          SELECT ${viewerId}
+          FROM ${UserFriendshipsTable}
+          WHERE (
+            (${UserFriendshipsTable.userId} = ${viewerId} AND 
+            ${UserFriendshipsTable.friendId} = ${CommunityMembershipsTable.userId} AND 
+            ${UserFriendshipsTable.status} = 'ACCEPTED')
+            OR
+            (${UserFriendshipsTable.userId} = ${CommunityMembershipsTable.userId} AND 
+            ${UserFriendshipsTable.friendId} = ${viewerId} AND 
+            ${UserFriendshipsTable.status} = 'ACCEPTED')
+          )
+        ) THEN TRUE
+        ELSE FALSE
+      END 
+    `.as("is_friend");
+
+    // show friends at the top of the list
+    const memberFriends = await this.dbService.db
+      .select({
+        ...getTableColumns(CommunityMembershipsTable),
+        user: UsersTable,
+        isFriend,
+      })
+      .from(CommunityMembershipsTable)
+      .innerJoin(
+        UsersTable,
+        eq(UsersTable.id, CommunityMembershipsTable.userId)
+      )
+      .where(eq(CommunityMembershipsTable.communityId, communityId))
+      .orderBy(sql`is_friend DESC`, CommunityMembershipsTable.joinedAt)
+      .offset(after)
+      .limit(limit + 1);
+
+    const nodes = memberFriends
+      .slice(0, limit)
+      .map((member) => this.userService.pg2GqlMapper(member.user));
+
+    return buildConnection({
+      nodes,
+      hasNextPage: memberFriends.length > limit,
+      hasPreviousPage: !!after,
+      createCursor: (node) => node.id,
+    });
   }
 }

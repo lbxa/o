@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7ed69e77ccfccffca0540410a847c973>>
+ * @generated SignedSource<<1dba269e3b2d3bfec94fab2682b4ff2e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,7 +67,24 @@ v5 = {
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
-};
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v7 = [
+  (v6/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "firstName",
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": [
@@ -175,13 +192,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "id",
-                    "storageKey": null
-                  },
+                  (v6/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -201,6 +212,26 @@ return {
                     "args": null,
                     "kind": "ScalarField",
                     "name": "memberCount",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "User",
+                    "kind": "LinkedField",
+                    "name": "firstMember",
+                    "plural": false,
+                    "selections": (v7/*: any*/),
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "User",
+                    "kind": "LinkedField",
+                    "name": "secondMember",
+                    "plural": false,
+                    "selections": (v7/*: any*/),
                     "storageKey": null
                   }
                 ],
@@ -231,12 +262,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2234a6368685b828db148111a8d48a84",
+    "cacheID": "3b0542509cc3ba471f4f5b61f9d9380b",
     "id": null,
     "metadata": {},
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  memberCount\n}\n"
+    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
   }
 };
 })();

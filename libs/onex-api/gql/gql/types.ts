@@ -47,18 +47,24 @@ export type Challenge = Node & Timestamps & {
   activity: ChallengeActivity;
   activityTopMovers?: Maybe<ChallengeActivityResultConnection>;
   activityTopResults?: Maybe<ChallengeActivityResultConnection>;
+  allMembers?: Maybe<UserConnection>;
   cadence?: Maybe<ChallengeCadence>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['DateTime']['output']>;
+  /**
+   * The UI displays a member summary as: x, y and n others. Hence
+   * the firstMember and secondMember fields
+   */
+  firstMember?: Maybe<User>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<ChallengeInvitation>>;
   memberCount?: Maybe<Scalars['Int']['output']>;
-  members?: Maybe<Array<User>>;
   memberships?: Maybe<Array<ChallengeMembership>>;
   mode?: Maybe<ChallengeMode>;
   name: Scalars['String']['output'];
+  secondMember?: Maybe<User>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -73,6 +79,12 @@ export type ChallengeActivityTopMoversArgs = {
 export type ChallengeActivityTopResultsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type ChallengeAllMembersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first: Scalars['Int']['input'];
 };
 
 export type ChallengeActivity = Node & Timestamps & {
@@ -262,19 +274,27 @@ export type ChallengeUpdateInput = {
 
 export type Community = Node & Timestamps & {
   __typename?: 'Community';
+  allMembers?: Maybe<UserConnection>;
   challenges?: Maybe<ChallengeConnection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  firstMember?: Maybe<User>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<CommunityInvitationConnection>;
   isPublic?: Maybe<Scalars['Boolean']['output']>;
   isVerified?: Maybe<Scalars['Boolean']['output']>;
   memberCount?: Maybe<Scalars['Int']['output']>;
-  members?: Maybe<UserConnection>;
   memberships?: Maybe<Array<CommunityMembership>>;
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
+  secondMember?: Maybe<User>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   users?: Maybe<Array<User>>;
+};
+
+
+export type CommunityAllMembersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first: Scalars['Int']['input'];
 };
 
 

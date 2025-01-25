@@ -16,7 +16,7 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
   const community = useFragment(
     graphql`
       fragment CommunityDetails_community on Community {
-        memberCount
+        ...CommunitySocials_community
       }
     `,
     fragmentRef
@@ -24,7 +24,7 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
 
   return (
     <View className="mb-md flex flex-col gap-md pt-sm">
-      <CommunitySocials memberCount={community.memberCount ?? 0} />
+      <CommunitySocials fragmentRef={community} />
       <View className="flex flex-row gap-md">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton

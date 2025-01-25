@@ -32,18 +32,24 @@ type Challenge implements Node & Timestamps {
   activity: ChallengeActivity!
   activityTopMovers(after: String, first: Int): ChallengeActivityResultConnection
   activityTopResults(after: String, first: Int): ChallengeActivityResultConnection
+  allMembers(after: String, first: Int!): UserConnection
   cadence: ChallengeCadence
   community: Community
   createdAt: DateTime
   description: String
   endDate: DateTime
+  """
+  The UI displays a member summary as: x, y and n others. Hence
+  the firstMember and secondMember fields
+  """
+  firstMember: User
   id: ID!
   invitations: [ChallengeInvitation!]
   memberCount: Int
-  members: [User!]
   memberships: [ChallengeMembership!]
   mode: ChallengeMode
   name: String!
+  secondMember: User
   startDate: DateTime
   updatedAt: DateTime
 }
@@ -222,17 +228,19 @@ input ChallengeUpdateInput {
 }
 
 type Community implements Node & Timestamps {
+  allMembers(after: String, first: Int!): UserConnection
   challenges(after: String, first: Int): ChallengeConnection
   createdAt: DateTime
+  firstMember: User
   id: ID!
   invitations(after: String, first: Int): CommunityInvitationConnection
   isPublic: Boolean
   isVerified: Boolean
   memberCount: Int
-  members: UserConnection
   memberships: [CommunityMembership!]
   name: String!
   owner: User
+  secondMember: User
   updatedAt: DateTime
   users: [User!]
 }

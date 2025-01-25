@@ -75,7 +75,7 @@ export const ChallengeRoot = ({
         }}
       />
       <ScrollView
-        className="flex-1 px-md"
+        className="px-md flex-1"
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl

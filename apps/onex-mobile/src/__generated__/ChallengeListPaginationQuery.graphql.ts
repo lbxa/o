@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4a8320a92041dc96e051eec48d4f6f02>>
+ * @generated SignedSource<<c228a4a717bcec3e8fbc9a2a05bf4017>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,7 +67,17 @@ v3 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-};
+},
+v4 = [
+  (v3/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "firstName",
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -231,6 +241,26 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "firstMember",
+                        "plural": false,
+                        "selections": (v4/*: any*/),
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "secondMember",
+                        "plural": false,
+                        "selections": (v4/*: any*/),
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
@@ -294,12 +324,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9430746fff595b998b3accf49d263869",
+    "cacheID": "3dd24f84a14959be0ed5b0cb380b507e",
     "id": null,
     "metadata": {},
     "name": "ChallengeListPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
   }
 };
 })();

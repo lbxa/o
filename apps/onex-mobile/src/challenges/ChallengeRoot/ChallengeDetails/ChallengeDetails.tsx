@@ -53,6 +53,7 @@ export const ChallengeDetails = ({
           type
           goal
         }
+        ...ChallengeSocials_challenge
       }
     `,
     challengeFragmentRef
@@ -93,9 +94,9 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-col">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm dark:bg-surface-dark">
+        <View className="gap-sm bg-ivory px-md py-sm dark:bg-surface-dark flex-row items-center rounded-xl">
           <View className="flex flex-1 flex-col">
             <OText className=" text-lg font-bold">{challenge.name}</OText>
             <OText className="text-lg">{challenge.description}</OText>
@@ -107,12 +108,12 @@ export const ChallengeDetails = ({
         </View>
       )}
       <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
-      <ChallengeSocials memberCount={challenge.memberCount ?? 0} />
+      <ChallengeSocials fragmentRef={challenge} />
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <DistanceLogger modalRef={distanceModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"

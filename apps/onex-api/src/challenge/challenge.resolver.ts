@@ -7,7 +7,7 @@ import {
   Resolver,
 } from "@nestjs/graphql";
 import { $DrizzleSchema, ChallengeActivityResultsTable } from "@o/db";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
@@ -18,6 +18,8 @@ import {
   ChallengeCreatePayload,
   ChallengeInvitation,
   ChallengeUpdateInput,
+  User,
+  UserConnection,
 } from "../types/graphql";
 import { validateAndDecodeGlobalId } from "../utils";
 import { ChallengeService } from "./challenge.service";
@@ -47,14 +49,67 @@ export class ChallengeResolver {
      * get big enough, we can play around with allowing users to join challenges
      */
     const challengeId = validateAndDecodeGlobalId(challenge.id, "Challenge");
-    const challengeActivityUniqueUsers = await this.dbService.db
+    const [challengeActivityUniqueUsers] = await this.dbService.db
       .selectDistinct({
-        userId: ChallengeActivityResultsTable.userId,
+        count: count(ChallengeActivityResultsTable.userId),
       })
       .from(ChallengeActivityResultsTable)
       .where(eq(ChallengeActivityResultsTable.challengeId, challengeId));
 
-    return challengeActivityUniqueUsers.length;
+    return challengeActivityUniqueUsers.count;
+  }
+
+  @ResolveField("firstMember")
+  async firstMember(
+    @Parent() challenge: Challenge,
+    @CurrentUser("userId") viewerId: number
+  ): Promise<User | undefined> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challenge.id,
+      "Challenge"
+    );
+
+    const members = await this.challengeMembershipsService.getMembers({
+      challengeId: decodedChallengeId,
+      viewerId,
+    });
+
+    return members.edges?.[0]?.node;
+  }
+
+  @ResolveField("secondMember")
+  async secondMember(
+    @Parent() challenge: Challenge,
+    @CurrentUser("userId") viewerId: number
+  ): Promise<User | undefined> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challenge.id,
+      "Challenge"
+    );
+
+    const members = await this.challengeMembershipsService.getMembers({
+      challengeId: decodedChallengeId,
+      viewerId,
+    });
+
+    return members.edges?.[1]?.node;
+  }
+
+  @ResolveField("allMembers")
+  async allMembers(
+    @Parent() challenge: Challenge,
+    @CurrentUser("userId") viewerId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<UserConnection> {
+    const decodedChallengeId = validateAndDecodeGlobalId(
+      challenge.id,
+      "Challenge"
+    );
+    return this.challengeMembershipsService.getMembers(
+      { challengeId: decodedChallengeId, viewerId },
+      { first, after }
+    );
   }
 
   @Mutation("challengeCreate")

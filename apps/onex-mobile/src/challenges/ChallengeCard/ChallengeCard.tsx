@@ -36,6 +36,7 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
           target
         }
         ...ChallengeActivityPills_challenge
+        ...ChallengeSocials_challenge
       }
     `,
     fragmentRef
@@ -67,12 +68,12 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md gap-sm bg-ivory p-sm dark:bg-surface-dark flex flex-col rounded-3xl px-3">
+      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm px-3 dark:bg-surface-dark">
         <OText className=" text-3xl font-bold ">{challenge.name}</OText>
         <Suspense fallback={<OText>Loading...</OText>}>
           <ChallengeActivityPills fragmentRef={challenge} />
         </Suspense>
-        <ChallengeSocials memberCount={challenge.memberCount ?? 0} />
+        <ChallengeSocials fragmentRef={challenge} />
         {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
           <Text className="text-xl font-bold text-indigo">
             {daysLeft + " days"}

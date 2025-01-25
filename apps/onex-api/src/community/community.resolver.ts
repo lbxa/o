@@ -26,6 +26,8 @@ import {
   CommunityInviteDeclinePayload,
   CommunityJoinPayload,
   CommunityUpdateInput,
+  User as GqlUser,
+  UserConnection,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { ConflictError, InternalServerError } from "../utils/errors";
@@ -108,9 +110,60 @@ export class CommunityResolver {
       community.id,
       "Community"
     );
-    const memberships =
-      await this.communityMembershipsService.findAll(decodedCommunityId);
-    return memberships.length;
+    return this.communityMembershipsService.memberCount(decodedCommunityId);
+  }
+
+  @ResolveField("firstMember")
+  async firstMember(
+    @Parent() community: GqlCommunity,
+    @CurrentUser("userId") viewerId: number
+  ): Promise<GqlUser | undefined> {
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+
+    const members = await this.communityMembershipsService.getMembers({
+      communityId: decodedCommunityId,
+      viewerId,
+    });
+
+    return members.edges?.[0]?.node;
+  }
+
+  @ResolveField("secondMember")
+  async secondMember(
+    @Parent() community: GqlCommunity,
+    @CurrentUser("userId") viewerId: number
+  ): Promise<GqlUser | undefined> {
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+
+    const members = await this.communityMembershipsService.getMembers({
+      communityId: decodedCommunityId,
+      viewerId,
+    });
+
+    return members.edges?.[1]?.node;
+  }
+
+  @ResolveField("allMembers")
+  async allMembers(
+    @Parent() community: GqlCommunity,
+    @CurrentUser("userId") viewerId: number,
+    @Args("first") first: number,
+    @Args("after") after?: string
+  ): Promise<UserConnection> {
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+    return this.communityMembershipsService.getMembers(
+      { communityId: decodedCommunityId, viewerId },
+      { first, after }
+    );
   }
 
   @Mutation("communityJoin")

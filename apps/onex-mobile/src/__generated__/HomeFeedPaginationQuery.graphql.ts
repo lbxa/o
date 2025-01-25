@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9d514cd60410730ecd92cab197871d76>>
+ * @generated SignedSource<<643cc8ea408811d086a226e1be41005c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -90,7 +90,18 @@ v7 = {
   "kind": "ScalarField",
   "name": "target",
   "storageKey": null
-};
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v9 = [
+  (v1/*: any*/),
+  (v8/*: any*/)
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -266,6 +277,26 @@ return {
                               (v7/*: any*/)
                             ],
                             "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "firstMember",
+                            "plural": false,
+                            "selections": (v9/*: any*/),
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "secondMember",
+                            "plural": false,
+                            "selections": (v9/*: any*/),
+                            "storageKey": null
                           }
                         ],
                         "type": "Challenge",
@@ -283,13 +314,7 @@ return {
                             "plural": false,
                             "selections": [
                               (v1/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "firstName",
-                                "storageKey": null
-                              },
+                              (v8/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -404,12 +429,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d92069811ff08c07b3c0ee795e29114c",
+    "cacheID": "a01c84ded187d4e609b8b7a6867f4512",
     "id": null,
     "metadata": {},
     "name": "HomeFeedPaginationQuery",
     "operationKind": "query",
-    "text": "query HomeFeedPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...HomeFeed_viewer_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1G22uz on Viewer {\n  id\n  homeFeed(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n"
+    "text": "query HomeFeedPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...HomeFeed_viewer_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1G22uz on Viewer {\n  id\n  homeFeed(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n"
   }
 };
 })();
