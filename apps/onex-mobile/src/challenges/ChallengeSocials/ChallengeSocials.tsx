@@ -40,7 +40,7 @@ export const ChallengeSocials = ({ fragmentRef }: ChallengeSocialsProps) => {
       memberLabel = memberCount + " member";
       break;
     case 0:
-      memberLabel = "No members";
+      memberLabel = "No members yet";
       break;
     default:
       memberLabel = memberCount + " members";
@@ -51,34 +51,36 @@ export const ChallengeSocials = ({ fragmentRef }: ChallengeSocialsProps) => {
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-1 flex-col">
         <OText numberOfLines={1}>{memberLabel}</OText>
-        <OText numberOfLines={1}>
-          Started by{" "}
-          <OText
-            onPress={() => router.push(`/(modals)/${frag.firstMember?.id}`)}
-            className="font-bold"
-          >
-            {firstMemberName}
-          </OText>
-          {secondMemberName && (
-            <OText className="font-bold">
-              <OText className="font-normal">,</OText>{" "}
-              <OText
-                onPress={() =>
-                  router.push(`/(modals)/${frag.secondMember?.id}`)
-                }
-                className="font-bold"
-              >
-                {secondMemberName}
+        {memberCount > 0 && (
+          <OText numberOfLines={1}>
+            Started by{" "}
+            <OText
+              onPress={() => router.push(`/(modals)/${frag.firstMember?.id}`)}
+              className="font-bold"
+            >
+              {firstMemberName}
+            </OText>
+            {secondMemberName && (
+              <OText className="font-bold">
+                <OText className="font-normal">,</OText>{" "}
+                <OText
+                  onPress={() =>
+                    router.push(`/(modals)/${frag.secondMember?.id}`)
+                  }
+                  className="font-bold"
+                >
+                  {secondMemberName}
+                </OText>
               </OText>
-            </OText>
-          )}
-          {memberCount > 2 && (
-            <OText className="font-bold">
-              <OText className="font-normal"> and </OText>
-              {memberCount - 2} others
-            </OText>
-          )}
-        </OText>
+            )}
+            {memberCount > 2 && (
+              <OText className="font-bold">
+                <OText className="font-normal"> and </OText>
+                {memberCount - 2} others
+              </OText>
+            )}
+          </OText>
+        )}
       </View>
     </View>
   );
