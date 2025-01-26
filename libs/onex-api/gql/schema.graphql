@@ -315,6 +315,12 @@ type CreateChallengeActivityResultPayload {
 """Date custom scalar type"""
 scalar DateTime
 
+type EndingSoonChallenge implements Node {
+  challenge: Challenge!
+  daysUntilEnd: Int!
+  id: ID!
+}
+
 type HomeFeedConnection {
   edges: [HomeFeedEdge!]!
   pageInfo: PageInfo!
@@ -325,7 +331,7 @@ type HomeFeedEdge {
   node: HomeFeedItem!
 }
 
-union HomeFeedItem = Challenge | UserRecord
+union HomeFeedItem = EndingSoonChallenge | StartingSoonChallenge | UserRecord
 
 enum InvitationStatus {
   ACCEPTED
@@ -406,6 +412,12 @@ type Query {
   """All users"""
   users: [User!]
   viewer: Viewer
+}
+
+type StartingSoonChallenge implements Node {
+  challenge: Challenge!
+  daysUntilStart: Int!
+  id: ID!
 }
 
 interface Timestamps {

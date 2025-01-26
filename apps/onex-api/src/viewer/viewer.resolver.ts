@@ -1,5 +1,6 @@
 import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { HomeFeedService } from "@/home-feed";
 import { UserRecordsService } from "@/user/user-records";
 
 import { ChallengeService } from "../challenge/challenge.service";
@@ -16,11 +17,7 @@ import {
   Viewer,
 } from "../types/graphql";
 import { UserService } from "../user/user.service";
-import {
-  buildConnection,
-  encodeGlobalId,
-  validateAndDecodeGlobalId,
-} from "../utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 
 @Resolver("Viewer")
 export class ViewerResolver {
@@ -29,6 +26,7 @@ export class ViewerResolver {
     private communityService: CommunityService,
     private communityInvitationsService: CommunityInvitationsService,
     private userRecordsService: UserRecordsService,
+    private homeFeedService: HomeFeedService,
     private challengeService: ChallengeService
   ) {}
 
@@ -118,33 +116,6 @@ export class ViewerResolver {
     @Args("first") first: number,
     @Args("after") after?: string
   ): Promise<HomeFeedConnection> {
-    const challenges = await this.challengeService.findUserChallenges(userId);
-    const userRecords = await this.userRecordsService.findByUserId(userId);
-
-    // Combine and sort both arrays by createdAt in descending order (newest first)
-    const combinedFeed = [
-      ...challenges.map((c) => ({ ...c, __typename: "Challenge" as const })),
-      ...userRecords.map((ur) => ({
-        ...ur,
-        __typename: "UserRecord" as const,
-      })),
-    ].sort(
-      (a, b) => (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
-    );
-
-    // If after cursor is provided, find the index and slice the array
-    let startIndex = 0;
-    if (after) {
-      startIndex = combinedFeed.findIndex((item) => item.id === after) + 1;
-    }
-
-    const nodes = combinedFeed.slice(startIndex, startIndex + first);
-
-    return buildConnection({
-      nodes,
-      hasNextPage: startIndex + first < combinedFeed.length,
-      hasPreviousPage: startIndex > 0,
-      createCursor: (node) => node.id,
-    });
+    return this.homeFeedService.getHomeFeed(userId, { first, after });
   }
 }

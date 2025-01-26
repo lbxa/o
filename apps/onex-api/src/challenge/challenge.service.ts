@@ -11,7 +11,7 @@ import {
   NewChallengeActivity,
   UsersTable,
 } from "@o/db";
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
 
 import { CommunityRepository } from "@/community/community.repository";
 import { CommunityService } from "@/community/community.service";
@@ -25,6 +25,8 @@ import {
   ChallengeConnection,
   ChallengeMode,
   ChallengeUpdateInput,
+  EndingSoonChallenge as GqlEndingSoonChallenge,
+  StartingSoonChallenge as GqlStartingSoonChallenge,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "../utils";
 import {
@@ -129,6 +131,117 @@ export class ChallengeService
         },
       })
     );
+  }
+
+  async findChallengesStartingSoon(
+    userId: number
+  ): Promise<GqlStartingSoonChallenge[]> {
+    const now = new Date();
+
+    const challenges = await this.dbService.db
+      .select({
+        challenge: ChallengesTable,
+        activity: ChallengeActivitiesTable,
+        community: CommunitiesTable,
+        owner: UsersTable,
+      })
+      .from(ChallengeMembershipsTable)
+      .innerJoin(
+        ChallengesTable,
+        eq(ChallengesTable.id, ChallengeMembershipsTable.challengeId)
+      )
+      .innerJoin(
+        ChallengeActivitiesTable,
+        eq(ChallengesTable.id, ChallengeActivitiesTable.challengeId)
+      )
+      .innerJoin(
+        CommunitiesTable,
+        eq(ChallengesTable.communityId, CommunitiesTable.id)
+      )
+      .innerJoin(UsersTable, eq(CommunitiesTable.ownerId, UsersTable.id))
+      .where(
+        and(
+          eq(ChallengeMembershipsTable.userId, userId),
+          gt(ChallengesTable.startDate, now)
+        )
+      )
+      .orderBy(asc(ChallengesTable.startDate));
+
+    return challenges.map((challenge) => ({
+      __typename: "StartingSoonChallenge" as const,
+      id: encodeGlobalId("StartingSoonChallenge", challenge.challenge.id),
+      challenge: this.pg2GqlMapper({
+        ...challenge.challenge,
+        activities: [challenge.activity],
+        community: {
+          ...challenge.community,
+          owner: challenge.owner,
+        },
+      }),
+      createdAt: challenge.challenge.startDate,
+      daysUntilStart: Math.ceil(
+        (challenge.challenge.startDate.getTime() - now.getTime()) /
+          (1000 * 60 * 60 * 24)
+      ),
+    }));
+  }
+
+  async findChallengesEndingSoon(
+    userId: number
+  ): Promise<GqlEndingSoonChallenge[]> {
+    const now = new Date();
+    const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    const challenges = await this.dbService.db
+      .select({
+        challenge: ChallengesTable,
+        activity: ChallengeActivitiesTable,
+        community: CommunitiesTable,
+        owner: UsersTable,
+      })
+      // TODO
+      // the home feed should also act as discovery for the user,
+      // it should also recommend challenges they are not a member of
+      .from(ChallengeMembershipsTable)
+      .innerJoin(
+        ChallengesTable,
+        eq(ChallengesTable.id, ChallengeMembershipsTable.challengeId)
+      )
+      .innerJoin(
+        ChallengeActivitiesTable,
+        eq(ChallengesTable.id, ChallengeActivitiesTable.challengeId)
+      )
+      .innerJoin(
+        CommunitiesTable,
+        eq(ChallengesTable.communityId, CommunitiesTable.id)
+      )
+      .innerJoin(UsersTable, eq(CommunitiesTable.ownerId, UsersTable.id))
+      .where(
+        and(
+          eq(ChallengeMembershipsTable.userId, userId),
+          gt(ChallengesTable.endDate, now),
+          lt(ChallengesTable.endDate, sevenDaysFromNow)
+        )
+      )
+      .orderBy(asc(ChallengesTable.endDate));
+
+    return challenges.map((challenge) => ({
+      __typename: "EndingSoonChallenge" as const,
+      id: encodeGlobalId("EndingSoonChallenge", challenge.challenge.id),
+      challenge: this.pg2GqlMapper({
+        ...challenge.challenge,
+        activities: [challenge.activity],
+        community: {
+          ...challenge.community,
+          owner: challenge.owner,
+        },
+      }),
+      createdAt: challenge.challenge.endDate,
+      daysUntilEnd: Math.ceil(
+        (challenge.challenge.endDate.getTime() - now.getTime()) /
+          (1000 * 60 * 60 * 24)
+      ),
+    }));
   }
 
   async findCommunityChallenges(

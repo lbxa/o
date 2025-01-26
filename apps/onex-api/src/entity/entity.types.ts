@@ -4,7 +4,9 @@ type EntityIdentifiers =
   | "User"
   | "Challenge"
   | "ChallengeActivity"
-  | "ChallengeActivityTopMover";
+  | "ChallengeActivityTopMover"
+  | "StartingSoonChallenge"
+  | "EndingSoonChallenge";
 
 type EntitySecondaryIdentifiers =
   | "Invitation"

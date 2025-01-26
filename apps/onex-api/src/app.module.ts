@@ -13,12 +13,12 @@ import { ChallengeModule } from "./challenge/challenge.module";
 import { CommunityModule } from "./community/community.module";
 import { DbModule } from "./db/db.module";
 import { JwtAuthGuard } from "./guards/jwt.guard";
+import { HomeFeedModule } from "./home-feed/home-feed.module";
 import { NodeResolver } from "./node.resolver";
 import { DateTimeScalar } from "./types/datetime";
 import { UserModule } from "./user/user.module";
 import { envFile } from "./utils";
 import { ViewerModule } from "./viewer/viewer.module";
-import { HomeFeedModule } from './home-feed/home-feed.module';
 
 @Module({
   imports: [

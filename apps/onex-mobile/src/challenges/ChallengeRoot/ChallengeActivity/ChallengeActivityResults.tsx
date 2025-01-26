@@ -98,7 +98,7 @@ export const ChallengeActivityResults = ({
     return (
       <View className="flex flex-col items-center justify-center gap-md">
         <Void width={150} height={150} />
-        <Caption>Where are the results? It's time to get to work!</Caption>
+        <Caption>Where are the results? Let's get to get to work!</Caption>
       </View>
     );
   }

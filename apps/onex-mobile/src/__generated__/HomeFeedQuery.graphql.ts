@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ad1ffa893bacbb35c10e601391bbe949>>
+ * @generated SignedSource<<b91a14cfc3ae6b1110dfa6c97ae77be1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -165,7 +165,63 @@ v13 = {
 v14 = [
   (v3/*: any*/),
   (v4/*: any*/)
-];
+],
+v15 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Challenge",
+  "kind": "LinkedField",
+  "name": "challenge",
+  "plural": false,
+  "selections": [
+    (v3/*: any*/),
+    (v6/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "memberCount",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "ChallengeActivity",
+      "kind": "LinkedField",
+      "name": "activity",
+      "plural": false,
+      "selections": [
+        (v3/*: any*/),
+        (v10/*: any*/),
+        (v11/*: any*/),
+        (v12/*: any*/),
+        (v13/*: any*/)
+      ],
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "User",
+      "kind": "LinkedField",
+      "name": "firstMember",
+      "plural": false,
+      "selections": (v14/*: any*/),
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "User",
+      "kind": "LinkedField",
+      "name": "secondMember",
+      "plural": false,
+      "selections": (v14/*: any*/),
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -317,73 +373,32 @@ return {
                         "kind": "InlineFragment",
                         "selections": [
                           (v3/*: any*/),
-                          (v6/*: any*/),
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
-                            "name": "description",
+                            "name": "daysUntilStart",
                             "storageKey": null
                           },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "startDate",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "endDate",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "memberCount",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "ChallengeActivity",
-                            "kind": "LinkedField",
-                            "name": "activity",
-                            "plural": false,
-                            "selections": [
-                              (v3/*: any*/),
-                              (v10/*: any*/),
-                              (v11/*: any*/),
-                              (v12/*: any*/),
-                              (v13/*: any*/)
-                            ],
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "User",
-                            "kind": "LinkedField",
-                            "name": "firstMember",
-                            "plural": false,
-                            "selections": (v14/*: any*/),
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "User",
-                            "kind": "LinkedField",
-                            "name": "secondMember",
-                            "plural": false,
-                            "selections": (v14/*: any*/),
-                            "storageKey": null
-                          }
+                          (v15/*: any*/)
                         ],
-                        "type": "Challenge",
+                        "type": "StartingSoonChallenge",
+                        "abstractKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": [
+                          (v3/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "daysUntilEnd",
+                            "storageKey": null
+                          },
+                          (v15/*: any*/)
+                        ],
+                        "type": "EndingSoonChallenge",
                         "abstractKey": null
                       },
                       {
@@ -484,12 +499,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "29415ea9322091fba9e966fb45683441",
+    "cacheID": "d51c2fb004f54f86c669edef45cd4834",
     "id": null,
     "metadata": {},
     "name": "HomeFeedQuery",
     "operationKind": "query",
-    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on Challenge {\n    __typename\n    ...ChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment EndingSoonChallengeCard_challenge on EndingSoonChallenge {\n  id\n  daysUntilEnd\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on StartingSoonChallenge {\n    __typename\n    ...StartingSoonChallengeCard_challenge\n  }\n  ... on EndingSoonChallenge {\n    __typename\n    ...EndingSoonChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment StartingSoonChallengeCard_challenge on StartingSoonChallenge {\n  id\n  daysUntilStart\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    result\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

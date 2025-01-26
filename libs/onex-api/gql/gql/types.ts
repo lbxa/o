@@ -386,6 +386,13 @@ export type CreateChallengeActivityResultPayload = {
   challengeActivityResultEdge: ChallengeActivityResultEdge;
 };
 
+export type EndingSoonChallenge = Node & {
+  __typename?: 'EndingSoonChallenge';
+  challenge: Challenge;
+  daysUntilEnd: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+};
+
 export type HomeFeedConnection = {
   __typename?: 'HomeFeedConnection';
   edges: Array<HomeFeedEdge>;
@@ -398,7 +405,7 @@ export type HomeFeedEdge = {
   node: HomeFeedItem;
 };
 
-export type HomeFeedItem = Challenge | UserRecord;
+export type HomeFeedItem = EndingSoonChallenge | StartingSoonChallenge | UserRecord;
 
 export enum InvitationStatus {
   Accepted = 'ACCEPTED',
@@ -657,6 +664,13 @@ export type QueryUserSearchArgs = {
 
 export type QueryUserValidateEmailArgs = {
   email: Scalars['String']['input'];
+};
+
+export type StartingSoonChallenge = Node & {
+  __typename?: 'StartingSoonChallenge';
+  challenge: Challenge;
+  daysUntilStart: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type Timestamps = {

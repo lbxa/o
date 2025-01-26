@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<eeb566db8d9300ce3401577902631e63>>
+ * @generated SignedSource<<e3166db28ceedb424b91bb187dc762b1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,8 +11,12 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type HomeFeedItem_item$data = {
-  readonly __typename: "Challenge";
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeCard_challenge">;
+  readonly __typename: "EndingSoonChallenge";
+  readonly " $fragmentSpreads": FragmentRefs<"EndingSoonChallengeCard_challenge">;
+  readonly " $fragmentType": "HomeFeedItem_item";
+} | {
+  readonly __typename: "StartingSoonChallenge";
+  readonly " $fragmentSpreads": FragmentRefs<"StartingSoonChallengeCard_challenge">;
   readonly " $fragmentType": "HomeFeedItem_item";
 } | {
   readonly __typename: "UserRecord";
@@ -50,10 +54,23 @@ return {
         {
           "args": null,
           "kind": "FragmentSpread",
-          "name": "ChallengeCard_challenge"
+          "name": "StartingSoonChallengeCard_challenge"
         }
       ],
-      "type": "Challenge",
+      "type": "StartingSoonChallenge",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v0/*: any*/),
+        {
+          "args": null,
+          "kind": "FragmentSpread",
+          "name": "EndingSoonChallengeCard_challenge"
+        }
+      ],
+      "type": "EndingSoonChallenge",
       "abstractKey": null
     },
     {
@@ -75,6 +92,6 @@ return {
 };
 })();
 
-(node as any).hash = "492eb2226ccbc4cf4c6c8e3e280475cb";
+(node as any).hash = "b670aa34177e0223e4baa57543cafcca";
 
 export default node;

@@ -414,6 +414,34 @@ export interface CommunityInviteDeclinePayload {
     invitationId: string;
 }
 
+export interface StartingSoonChallenge extends Node {
+    __typename?: 'StartingSoonChallenge';
+    id: string;
+    challenge: Challenge;
+    daysUntilStart: number;
+    createdAt: DateTime;
+}
+
+export interface EndingSoonChallenge extends Node {
+    __typename?: 'EndingSoonChallenge';
+    id: string;
+    challenge: Challenge;
+    daysUntilEnd: number;
+    createdAt: DateTime;
+}
+
+export interface HomeFeedEdge {
+    __typename?: 'HomeFeedEdge';
+    cursor: string;
+    node: HomeFeedItem;
+}
+
+export interface HomeFeedConnection {
+    __typename?: 'HomeFeedConnection';
+    edges: HomeFeedEdge[];
+    pageInfo: PageInfo;
+}
+
 export interface PageInfo {
     __typename?: 'PageInfo';
     hasNextPage: boolean;
@@ -525,18 +553,6 @@ export interface Viewer extends Node {
     homeFeed?: HomeFeedConnection;
 }
 
-export interface HomeFeedConnection {
-    __typename?: 'HomeFeedConnection';
-    edges: HomeFeedEdge[];
-    pageInfo: PageInfo;
-}
-
-export interface HomeFeedEdge {
-    __typename?: 'HomeFeedEdge';
-    cursor: string;
-    node: HomeFeedItem;
-}
-
 export type DateTime = Date;
-export type HomeFeedItem = Challenge | UserRecord;
+export type HomeFeedItem = StartingSoonChallenge | EndingSoonChallenge | UserRecord;
 type Nullable<T> = T | null;

@@ -42,16 +42,6 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
     fragmentRef
   );
 
-  // const endDate = dayjs(challenge.endDate);
-  // const today = dayjs();
-  // const endDate = dayjs(challenge.endDate);
-  // const today = dayjs();
-
-  // // Calculate the difference in days
-  // const daysLeft = endDate.diff(today, "day");
-  // // Calculate the difference in days
-  // const daysLeft = endDate.diff(today, "day");
-
   const handlePress = () => {
     setSelectedChallenge({
       ...challenge,
@@ -68,22 +58,12 @@ export const ChallengeCard = ({ fragmentRef }: ChallengeCardProps) => {
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm px-3 dark:bg-surface-dark">
+      <View className="mb-md gap-sm bg-ivory p-sm dark:bg-surface-dark flex flex-col rounded-3xl px-3">
         <OText className=" text-3xl font-bold ">{challenge.name}</OText>
         <Suspense fallback={<OText>Loading...</OText>}>
           <ChallengeActivityPills fragmentRef={challenge} />
         </Suspense>
         <ChallengeSocials fragmentRef={challenge} />
-        {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
-          <Text className="text-xl font-bold text-indigo">
-            {daysLeft + " days"}
-          </Text>
-        </View> */}
-        {/* <View className="inline-flex rounded-xl bg-indigo/30 px-sm">
-          <Text className="text-xl font-bold text-indigo">
-            {daysLeft + " days"}
-          </Text>
-        </View> */}
       </View>
     </OTouchable>
   );

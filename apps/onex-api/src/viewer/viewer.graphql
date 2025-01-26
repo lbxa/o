@@ -14,18 +14,6 @@ type Viewer implements Node {
   homeFeed(first: Int!, after: String): HomeFeedConnection!
 }
 
-type HomeFeedConnection {
-  edges: [HomeFeedEdge!]!
-  pageInfo: PageInfo!
-}
-
-union HomeFeedItem = Challenge | UserRecord
-
-type HomeFeedEdge {
-  cursor: String!
-  node: HomeFeedItem!
-}
-
 type Query {
   viewer: Viewer
 }
