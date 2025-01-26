@@ -28,7 +28,7 @@ const TopResultSection: React.FC<{
   return (
     <View>
       <ChallengeActivityTopResultsList modalRef={topResultsModalRef} />
-      <Text className="text-2xl font-bold text-black dark:text-ivory">
+      <Text className="dark:text-ivory text-2xl font-bold text-black">
         Top Results
       </Text>
       {data.map((item, index) => (
@@ -52,7 +52,7 @@ const TopMoverSection: React.FC<{
   return (
     <View>
       <ChallengeActivityTopMoversList modalRef={topMoversModalRef} />
-      <Text className="text-2xl font-bold text-black dark:text-ivory">
+      <Text className="dark:text-ivory text-2xl font-bold text-black">
         Top Movers
       </Text>
       {data.map((item, index) => (
@@ -96,7 +96,7 @@ export const ChallengeActivityResults = ({
 
   if (empty) {
     return (
-      <View className="flex flex-col items-center justify-center gap-md">
+      <View className="gap-md flex flex-col items-center justify-center">
         <Void width={150} height={150} />
         <Caption>Where are the results? Let's get to get to work!</Caption>
       </View>
@@ -104,7 +104,7 @@ export const ChallengeActivityResults = ({
   }
 
   return (
-    <View className="flex flex-1 flex-col gap-md pb-10">
+    <View className="gap-md flex flex-1 flex-col pb-10">
       {topResultsExist && (
         <TopResultSection
           data={topResultsData.activityTopResults.edges

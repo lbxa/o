@@ -260,6 +260,7 @@ export interface Challenge extends Node, Timestamps {
     memberCount?: Nullable<number>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
+    resultHistory?: Nullable<ChallengeActivityResultConnection>;
 }
 
 export interface CreateChallengeActivityResultPayload {
@@ -450,6 +451,48 @@ export interface PageInfo {
     endCursor?: Nullable<string>;
 }
 
+export interface UserFriendship extends Node, Timestamps {
+    __typename?: 'UserFriendship';
+    id: string;
+    user: User;
+    friend: User;
+    status: InvitationStatus;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
+export interface UserFriendshipStatus {
+    __typename?: 'UserFriendshipStatus';
+    outgoing?: Nullable<UserFriendship>;
+    incoming?: Nullable<UserFriendship>;
+    areMutualFriends: boolean;
+}
+
+export interface User extends Node, Timestamps {
+    __typename?: 'User';
+    followers?: Nullable<UserConnection>;
+    following?: Nullable<UserConnection>;
+    searchFriends?: Nullable<User[]>;
+    buddyCount?: Nullable<number>;
+    followerCount?: Nullable<number>;
+    followingCount?: Nullable<number>;
+    followerRequests?: Nullable<UserFriendshipConnection>;
+    followRequests?: Nullable<UserFriendshipConnection>;
+    id: string;
+    handle?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    bio?: Nullable<string>;
+    email?: Nullable<string>;
+    password?: Nullable<string>;
+    avatarUrl?: Nullable<string>;
+    refreshToken?: Nullable<string>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+    streak?: Nullable<UserStreak>;
+    challengeActivityResultsCount?: Nullable<number>;
+}
+
 export interface UserRecord extends Node, Timestamps {
     __typename?: 'UserRecord';
     id: string;
@@ -468,48 +511,6 @@ export interface UserStreak extends Node, Timestamps {
     longestStreak?: Nullable<number>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-}
-
-export interface User extends Node, Timestamps {
-    __typename?: 'User';
-    id: string;
-    handle?: Nullable<string>;
-    firstName?: Nullable<string>;
-    lastName?: Nullable<string>;
-    bio?: Nullable<string>;
-    email?: Nullable<string>;
-    password?: Nullable<string>;
-    avatarUrl?: Nullable<string>;
-    refreshToken?: Nullable<string>;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-    streak?: Nullable<UserStreak>;
-    followers?: Nullable<UserConnection>;
-    following?: Nullable<UserConnection>;
-    searchFriends?: Nullable<User[]>;
-    buddyCount?: Nullable<number>;
-    followerCount?: Nullable<number>;
-    followingCount?: Nullable<number>;
-    challengeActivityResultsCount?: Nullable<number>;
-    followerRequests?: Nullable<UserFriendshipConnection>;
-    followRequests?: Nullable<UserFriendshipConnection>;
-}
-
-export interface UserFriendship extends Node, Timestamps {
-    __typename?: 'UserFriendship';
-    id: string;
-    user: User;
-    friend: User;
-    status: InvitationStatus;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-}
-
-export interface UserFriendshipStatus {
-    __typename?: 'UserFriendshipStatus';
-    outgoing?: Nullable<UserFriendship>;
-    incoming?: Nullable<UserFriendship>;
-    areMutualFriends: boolean;
 }
 
 export interface ValidEmailResponse {

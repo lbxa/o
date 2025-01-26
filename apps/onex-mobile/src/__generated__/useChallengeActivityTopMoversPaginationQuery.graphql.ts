@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<df3466ab900eba8663ba9fd8c04534e8>>
+ * @generated SignedSource<<6c424d7a62682af0e568a0f13f68e878>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -191,6 +191,13 @@ return {
                               {
                                 "alias": null,
                                 "args": null,
+                                "kind": "ScalarField",
+                                "name": "handle",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
                                 "concreteType": "UserStreak",
                                 "kind": "LinkedField",
                                 "name": "streak",
@@ -278,12 +285,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "0b451e08a6b4117a38f069b48c6e0d0c",
+    "cacheID": "f3728d2b7e069c6475fe7edcedf06290",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopMoversPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fb865b88463652a4da245e192bd274dd>>
+ * @generated SignedSource<<195148cff9d4ee1dcd9cf7a89258f362>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -158,11 +158,6 @@ v14 = [
     "name": "first",
     "value": 5
   }
-],
-v15 = [
-  (v0/*: any*/),
-  (v2/*: any*/),
-  (v3/*: any*/)
 ];
 return {
   "fragment": {
@@ -354,7 +349,11 @@ return {
                         "kind": "LinkedField",
                         "name": "inviter",
                         "plural": false,
-                        "selections": (v15/*: any*/),
+                        "selections": [
+                          (v0/*: any*/),
+                          (v2/*: any*/),
+                          (v3/*: any*/)
+                        ],
                         "storageKey": null
                       },
                       {
@@ -478,7 +477,12 @@ return {
                             "kind": "LinkedField",
                             "name": "user",
                             "plural": false,
-                            "selections": (v15/*: any*/),
+                            "selections": [
+                              (v0/*: any*/),
+                              (v5/*: any*/),
+                              (v2/*: any*/),
+                              (v3/*: any*/)
+                            ],
                             "storageKey": null
                           },
                           (v13/*: any*/)
@@ -509,12 +513,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1bd0266d4a2d2ee62daaa1c02f41e4c9",
+    "cacheID": "eb43334b244793d8bd615237a82600d3",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n      ...UserProfileStats_user\n      ...UserNotificationList_user_1KmBw7\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n      ...UserProfileStats_user\n      ...UserNotificationList_user_1KmBw7\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

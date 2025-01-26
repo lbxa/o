@@ -78,11 +78,11 @@ export const UserNotificationList = ({
 
   return (
     <FlatList
-      className="min-h-full px-md"
+      className="px-md min-h-full"
       data={data?.followerRequests?.edges.map((edge) => edge.node)}
       renderItem={({ item }) => <UserNotificationCard fragmentRef={item} />}
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Mailbox width={150} height={150} />
           </View>

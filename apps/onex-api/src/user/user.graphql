@@ -17,53 +17,7 @@ type User implements Node & Timestamps {
   The streak of consecutive days that the user has completed a challenge.
   """
   streak: UserStreak
-  "If they have any followers..."
-  followers: UserConnection
-  "If they follow any users..."
-  following: UserConnection
-  searchFriends(searchTerm: String): [User!]
-  buddyCount: Int
-  followerCount: Int
-  followingCount: Int
   challengeActivityResultsCount: Int
-  "Requests to follow this user"
-  followerRequests(first: Int, after: String): UserFriendshipConnection
-  "Requests to be followed by this user"
-  followRequests(first: Int, after: String): UserFriendshipConnection
-}
-
-type UserFriendship implements Node & Timestamps {
-  id: ID!
-  user: User!
-  friend: User!
-  status: InvitationStatus!
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-"""
-Represents the bidirectional friendship status between two users.
-When building social graphs, it's important to track both directions
-of a relationship since friendships can be asymmetric (e.g. pending requests).
-"""
-type UserFriendshipStatus {
-  """
-  The outgoing friendship status from the viewer to the target user.
-  Will be null if no friendship request exists in this direction.
-  """
-  outgoing: UserFriendship
-
-  """
-  The incoming friendship status from the target user to the viewer.
-  Will be null if no friendship request exists in this direction.
-  """
-  incoming: UserFriendship
-
-  """
-  Whether these users are mutual friends (both have accepted the friendship).
-  True only if both outgoing and incoming friendships exist and are ACCEPTED.
-  """
-  areMutualFriends: Boolean!
 }
 
 input UserUpdateInput {

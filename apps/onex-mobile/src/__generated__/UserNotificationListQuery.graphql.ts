@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8929bb060dcfccb555b4cbf3a3ebff22>>
+ * @generated SignedSource<<8b3927ab279348145434533e474bf8ba>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -204,6 +204,13 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
+                                "name": "handle",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
                                 "name": "firstName",
                                 "storageKey": null
                               },
@@ -251,12 +258,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "416daf235433cdbf7b20d14c35b6fd0d",
+    "cacheID": "9977a11b9221f69543aa22116ed92eb8",
     "id": null,
     "metadata": {},
     "name": "UserNotificationListQuery",
     "operationKind": "query",
-    "text": "query UserNotificationListQuery {\n  viewer {\n    id\n    user {\n      ...UserNotificationList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query UserNotificationListQuery {\n  viewer {\n    id\n    user {\n      ...UserNotificationList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1fdcb970bea54415d67608ec39f7f54c>>
+ * @generated SignedSource<<f2ccf7ea046fa18a63c315bddd8bd58f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,102 +10,72 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserNotificationListPaginationQuery$variables = {
-  count?: number | null | undefined;
-  cursor?: string | null | undefined;
-  id: string;
-};
-export type UserNotificationListPaginationQuery$data = {
-  readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserNotificationList_user">;
+export type FollowersListQuery$variables = Record<PropertyKey, never>;
+export type FollowersListQuery$data = {
+  readonly viewer: {
+    readonly id: string;
+    readonly user: {
+      readonly " $fragmentSpreads": FragmentRefs<"FollowersList_user">;
+    } | null | undefined;
   } | null | undefined;
 };
-export type UserNotificationListPaginationQuery = {
-  response: UserNotificationListPaginationQuery$data;
-  variables: UserNotificationListPaginationQuery$variables;
+export type FollowersListQuery = {
+  response: FollowersListQuery$data;
+  variables: FollowersListQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": 10,
-    "kind": "LocalArgument",
-    "name": "count"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "cursor"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "id"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "id",
-    "variableName": "id"
-  }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
-v3 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v4 = [
+v1 = [
   {
-    "kind": "Variable",
-    "name": "after",
-    "variableName": "cursor"
-  },
-  {
-    "kind": "Variable",
+    "kind": "Literal",
     "name": "first",
-    "variableName": "count"
+    "value": 10
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": null,
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "viewer",
         "plural": false,
         "selections": [
+          (v0/*: any*/),
           {
-            "args": [
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
               {
-                "kind": "Variable",
-                "name": "count",
-                "variableName": "count"
-              },
-              {
-                "kind": "Variable",
-                "name": "cursor",
-                "variableName": "cursor"
+                "args": [
+                  {
+                    "kind": "Literal",
+                    "name": "count",
+                    "value": 10
+                  }
+                ],
+                "kind": "FragmentSpread",
+                "name": "FollowersList_user"
               }
             ],
-            "kind": "FragmentSpread",
-            "name": "UserNotificationList_user"
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -116,29 +86,34 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": null,
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "viewer",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          (v0/*: any*/),
           {
-            "kind": "InlineFragment",
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
             "selections": [
+              (v0/*: any*/),
               {
                 "alias": null,
-                "args": (v4/*: any*/),
-                "concreteType": "UserFriendshipConnection",
+                "args": (v1/*: any*/),
+                "concreteType": "UserConnection",
                 "kind": "LinkedField",
-                "name": "followerRequests",
+                "name": "followers",
                 "plural": false,
                 "selections": [
                   {
@@ -176,7 +151,7 @@ return {
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "UserFriendshipEdge",
+                    "concreteType": "UserEdge",
                     "kind": "LinkedField",
                     "name": "edges",
                     "plural": true,
@@ -191,65 +166,59 @@ return {
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "UserFriendship",
+                        "concreteType": "User",
                         "kind": "LinkedField",
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v3/*: any*/),
+                          (v0/*: any*/),
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
-                            "name": "createdAt",
+                            "name": "firstName",
                             "storageKey": null
                           },
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "User",
-                            "kind": "LinkedField",
-                            "name": "friend",
-                            "plural": false,
-                            "selections": [
-                              (v3/*: any*/)
-                            ],
+                            "kind": "ScalarField",
+                            "name": "lastName",
                             "storageKey": null
                           },
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "User",
+                            "kind": "ScalarField",
+                            "name": "handle",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "UserStreak",
                             "kind": "LinkedField",
-                            "name": "user",
+                            "name": "streak",
                             "plural": false,
                             "selections": [
-                              (v3/*: any*/),
+                              (v0/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "handle",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "firstName",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "lastName",
+                                "name": "currentStreak",
                                 "storageKey": null
                               }
                             ],
                             "storageKey": null
                           },
-                          (v2/*: any*/)
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "__typename",
+                            "storageKey": null
+                          }
                         ],
                         "storageKey": null
                       }
@@ -257,20 +226,19 @@ return {
                     "storageKey": null
                   }
                 ],
-                "storageKey": null
+                "storageKey": "followers(first:10)"
               },
               {
                 "alias": null,
-                "args": (v4/*: any*/),
+                "args": (v1/*: any*/),
                 "filters": null,
                 "handle": "connection",
-                "key": "UserNotificationList_viewer_followerRequests",
+                "key": "FollowersList_user_followers",
                 "kind": "LinkedHandle",
-                "name": "followerRequests"
+                "name": "followers"
               }
             ],
-            "type": "User",
-            "abstractKey": null
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -278,16 +246,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3e1f9685d8ffea6628851f364b5fcaa4",
+    "cacheID": "626186380692bb83442cd959530de9f6",
     "id": null,
     "metadata": {},
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListQuery",
     "operationKind": "query",
-    "text": "query UserNotificationListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserNotificationList_user_1G22uz\n    id\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1G22uz on User {\n  id\n  followerRequests(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query FollowersListQuery {\n  viewer {\n    id\n    user {\n      ...FollowersList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment FollowersList_user_1KmBw7 on User {\n  id\n  followers(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5cd22ee4fc4100f92a46180dcf506bcb";
+(node as any).hash = "8bae9e7ed9516972d37c87c7fb85011a";
 
 export default node;

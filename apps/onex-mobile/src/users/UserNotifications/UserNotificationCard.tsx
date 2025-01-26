@@ -1,19 +1,38 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+dayjs.locale("en", {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "1s",
+    m: "1m",
+    mm: "%dm",
+    h: "1h",
+    hh: "%dh",
+    d: "1d",
+    dd: "%dd",
+    M: "1m",
+    MM: "%dm",
+    y: "1y",
+    yy: "%dy",
+  },
+});
+
+import Cross from "@assets/icons/cross.svg";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
 import { useFragment } from "react-relay";
 
 import type { UserNotificationCard_notification$key } from "@/__generated__/UserNotificationCard_notification.graphql";
 import type { UserNotificationCardAcceptFriendMutation } from "@/__generated__/UserNotificationCardAcceptFriendMutation.graphql";
 import type { UserNotificationCardDeclineFriendMutation } from "@/__generated__/UserNotificationCardDeclineFriendMutation.graphql";
+import { useOTheme } from "@/utils";
 
 import { OButton, OText, OTouchable } from "../../universe/atoms";
 import { UserAvatar } from "../UserAvatar";
-import { UserMutuals } from "./UserMutuals";
 
 interface UserNotificationCardProps {
   fragmentRef: UserNotificationCard_notification$key;
@@ -23,6 +42,7 @@ export const UserNotificationCard = ({
   fragmentRef,
 }: UserNotificationCardProps) => {
   const router = useRouter();
+  const { builtInColors } = useOTheme();
   const [_, setNetworkRequestStatus] = useState<
     "pending" | "success" | "error" | undefined
   >(undefined);
@@ -62,6 +82,7 @@ export const UserNotificationCard = ({
         }
         user {
           id
+          handle
           firstName
           lastName
         }
@@ -99,44 +120,46 @@ export const UserNotificationCard = ({
     });
   };
 
+  const fullName = [
+    notification.user.firstName,
+    notification.user.lastName,
+  ].join(" ");
+
   return (
-    <View className="mb-lg flex w-full flex-col gap-md">
-      <OTouchable
-        className="flex flex-row items-center gap-sm"
-        onPress={() => router.push(`/(modals)/${notification.user.id}`)}
-      >
+    <OTouchable
+      className="mb-md gap-md flex w-full flex-col"
+      onPress={() => router.push(`/(modals)/${notification.user.id}`)}
+    >
+      <View className="gap-sm flex flex-row items-center">
         <UserAvatar user={notification.user} size="md" />
         <View className="flex flex-1 flex-col">
-          <View className="flex flex-row items-center justify-between">
-            <OText className="text-xl font-semibold">
-              {notification.user.firstName} {notification.user.lastName}
-            </OText>
+          <OText className="font-semibold" numberOfLines={2}>
+            {notification.user.handle ?? fullName}
+            <OText className="font-normal"> wants to follow you. </OText>
             {notification.createdAt && (
-              <OText className="ml-auto text-sm">
-                {dayjs(notification.createdAt).fromNow()}
+              <OText className="text-sm text-gray-500 dark:text-gray-300">
+                {dayjs(notification.createdAt).fromNow(true)}
               </OText>
             )}
-          </View>
-          <UserMutuals mutuals={3} />
+          </OText>
+          {/* <UserMutuals mutuals={3} /> */}
         </View>
-      </OTouchable>
-      <View className="flex w-full flex-row gap-md">
-        <OButton
-          title="Cancel"
-          loading={isDeclineMutationInFlight}
-          variant="gray"
-          type="secondary"
-          className="grow"
-          onPress={handleDeclineFriend}
-        />
-        <OButton
-          title="Confirm"
-          loading={isAddMutationInFlight}
-          type="primary"
-          className="grow"
-          onPress={handleAcceptFriend}
-        />
+        <View className="gap-sm flex flex-row items-center">
+          <OButton
+            title="Confirm"
+            loading={isAddMutationInFlight}
+            type="primary"
+            onPress={handleAcceptFriend}
+          />
+          <OTouchable onPress={handleDeclineFriend}>
+            {isDeclineMutationInFlight ? (
+              <ActivityIndicator size="small" color={builtInColors.gray[500]} />
+            ) : (
+              <Cross width={18} height={18} fill={builtInColors.gray[500]} />
+            )}
+          </OTouchable>
+        </View>
       </View>
-    </View>
+    </OTouchable>
   );
 };

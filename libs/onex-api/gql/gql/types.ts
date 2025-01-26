@@ -64,6 +64,7 @@ export type Challenge = Node & Timestamps & {
   memberships?: Maybe<Array<ChallengeMembership>>;
   mode?: Maybe<ChallengeMode>;
   name: Scalars['String']['output'];
+  resultHistory?: Maybe<ChallengeActivityResultConnection>;
   secondMember?: Maybe<User>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -85,6 +86,11 @@ export type ChallengeActivityTopResultsArgs = {
 export type ChallengeAllMembersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first: Scalars['Int']['input'];
+};
+
+
+export type ChallengeResultHistoryArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 export type ChallengeActivity = Node & Timestamps & {
@@ -389,6 +395,7 @@ export type CreateChallengeActivityResultPayload = {
 export type EndingSoonChallenge = Node & {
   __typename?: 'EndingSoonChallenge';
   challenge: Challenge;
+  createdAt: Scalars['DateTime']['output'];
   daysUntilEnd: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
 };
@@ -669,6 +676,7 @@ export type QueryUserValidateEmailArgs = {
 export type StartingSoonChallenge = Node & {
   __typename?: 'StartingSoonChallenge';
   challenge: Challenge;
+  createdAt: Scalars['DateTime']['output'];
   daysUntilStart: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
 };
@@ -728,6 +736,20 @@ export type UserFollowRequestsArgs = {
 
 /** A user of the app */
 export type UserFollowerRequestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** A user of the app */
+export type UserFollowersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** A user of the app */
+export type UserFollowingArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };

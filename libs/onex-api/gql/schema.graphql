@@ -49,6 +49,7 @@ type Challenge implements Node & Timestamps {
   memberships: [ChallengeMembership!]
   mode: ChallengeMode
   name: String!
+  resultHistory(userId: ID!): ChallengeActivityResultConnection
   secondMember: User
   startDate: DateTime
   updatedAt: DateTime
@@ -317,6 +318,7 @@ scalar DateTime
 
 type EndingSoonChallenge implements Node {
   challenge: Challenge!
+  createdAt: DateTime!
   daysUntilEnd: Int!
   id: ID!
 }
@@ -416,6 +418,7 @@ type Query {
 
 type StartingSoonChallenge implements Node {
   challenge: Challenge!
+  createdAt: DateTime!
   daysUntilStart: Int!
   id: ID!
 }
@@ -448,9 +451,9 @@ type User implements Node & Timestamps {
   """Requests to follow this user"""
   followerRequests(after: String, first: Int): UserFriendshipConnection
   """If they have any followers..."""
-  followers: UserConnection
+  followers(after: String, first: Int): UserConnection
   """If they follow any users..."""
-  following: UserConnection
+  following(after: String, first: Int): UserConnection
   followingCount: Int
   handle: String
   id: ID!

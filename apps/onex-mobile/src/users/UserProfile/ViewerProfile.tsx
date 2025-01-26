@@ -7,9 +7,9 @@ import type { ViewerProfileQuery } from "@/__generated__/ViewerProfileQuery.grap
 import { OText } from "@/universe/atoms";
 import { Ozone } from "@/universe/molecules";
 
-import { useNoSuspenseRefetch } from "../relay";
-import { APP_ROOT_QUERY } from "../root";
-import { UserAvatar } from "./UserAvatar";
+import { useNoSuspenseRefetch } from "../../relay";
+import { APP_ROOT_QUERY } from "../../root";
+import { UserAvatar } from "../UserAvatar";
 import { UserProfileStats } from "./UserProfileStats";
 
 export const VIEWER_PROFILE_QUERY = graphql`
@@ -58,12 +58,12 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
+        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
           {viewer?.user && (
             <UserAvatar user={viewer.user} className="mb-md" size="lg" />
           )}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
-          <View className="flex flex-col items-center gap-sm">
+          <View className="gap-sm flex flex-col items-center">
             <OText className="text-3xl font-bold">
               {viewer?.user?.firstName} {viewer?.user?.lastName}
             </OText>

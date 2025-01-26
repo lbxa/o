@@ -118,6 +118,32 @@ export class ChallengeActivityResultsService
       : [];
   }
 
+  public async fetchUserResultHistory(
+    userId: number,
+    challengeId: number,
+    args: ConnectionArgs
+  ): Promise<ChallengeActivityResultConnection> {
+    const { first = 10, after } = args;
+
+    const startCursorId = after
+      ? validateAndDecodeGlobalId("ChallengeActivityResult", after)
+      : 0;
+
+    const challengeActivityResults =
+      await this.challengeActivityResultsRepository.findBy({
+        challengeId,
+        userId,
+      });
+
+    return buildConnection({
+      nodes: challengeActivityResults.map((result) =>
+        this.pg2GqlMapper(result)
+      ),
+      hasNextPage: false,
+      hasPreviousPage: false,
+    });
+  }
+
   public async create(
     challengeActivityResultInput: NewChallengeActivityResult
   ): Promise<GqlChallengeActivityResult> {

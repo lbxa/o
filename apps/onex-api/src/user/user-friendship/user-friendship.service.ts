@@ -29,7 +29,7 @@ import { ForbiddenError, NotFoundError } from "@/utils/errors";
 import { UserService } from "../user.service";
 
 @Injectable()
-export class UserFriendshipsService
+export class UserFriendshipService
   implements
     EntityService<
       typeof UserFriendshipsTable,

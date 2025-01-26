@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1fdcb970bea54415d67608ec39f7f54c>>
+ * @generated SignedSource<<241406da1daeb0506b305548be4505d1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,19 +10,19 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type UserNotificationListPaginationQuery$variables = {
+export type FollowersListPaginationQuery$variables = {
   count?: number | null | undefined;
   cursor?: string | null | undefined;
   id: string;
 };
-export type UserNotificationListPaginationQuery$data = {
+export type FollowersListPaginationQuery$data = {
   readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserNotificationList_user">;
+    readonly " $fragmentSpreads": FragmentRefs<"FollowersList_user">;
   } | null | undefined;
 };
-export type UserNotificationListPaginationQuery = {
-  response: UserNotificationListPaginationQuery$data;
-  variables: UserNotificationListPaginationQuery$variables;
+export type FollowersListPaginationQuery = {
+  response: FollowersListPaginationQuery$data;
+  variables: FollowersListPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -81,7 +81,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -105,7 +105,7 @@ return {
               }
             ],
             "kind": "FragmentSpread",
-            "name": "UserNotificationList_user"
+            "name": "FollowersList_user"
           }
         ],
         "storageKey": null
@@ -118,7 +118,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -136,9 +136,9 @@ return {
               {
                 "alias": null,
                 "args": (v4/*: any*/),
-                "concreteType": "UserFriendshipConnection",
+                "concreteType": "UserConnection",
                 "kind": "LinkedField",
-                "name": "followerRequests",
+                "name": "followers",
                 "plural": false,
                 "selections": [
                   {
@@ -176,7 +176,7 @@ return {
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "UserFriendshipEdge",
+                    "concreteType": "UserEdge",
                     "kind": "LinkedField",
                     "name": "edges",
                     "plural": true,
@@ -191,7 +191,7 @@ return {
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "UserFriendship",
+                        "concreteType": "User",
                         "kind": "LinkedField",
                         "name": "node",
                         "plural": false,
@@ -201,27 +201,29 @@ return {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
-                            "name": "createdAt",
+                            "name": "firstName",
                             "storageKey": null
                           },
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "User",
-                            "kind": "LinkedField",
-                            "name": "friend",
-                            "plural": false,
-                            "selections": [
-                              (v3/*: any*/)
-                            ],
+                            "kind": "ScalarField",
+                            "name": "lastName",
                             "storageKey": null
                           },
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "User",
+                            "kind": "ScalarField",
+                            "name": "handle",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "UserStreak",
                             "kind": "LinkedField",
-                            "name": "user",
+                            "name": "streak",
                             "plural": false,
                             "selections": [
                               (v3/*: any*/),
@@ -229,21 +231,7 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "handle",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "firstName",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "lastName",
+                                "name": "currentStreak",
                                 "storageKey": null
                               }
                             ],
@@ -264,9 +252,9 @@ return {
                 "args": (v4/*: any*/),
                 "filters": null,
                 "handle": "connection",
-                "key": "UserNotificationList_viewer_followerRequests",
+                "key": "FollowersList_user_followers",
                 "kind": "LinkedHandle",
-                "name": "followerRequests"
+                "name": "followers"
               }
             ],
             "type": "User",
@@ -278,16 +266,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3e1f9685d8ffea6628851f364b5fcaa4",
+    "cacheID": "26a567aba11584f332ef3070bdd55820",
     "id": null,
     "metadata": {},
-    "name": "UserNotificationListPaginationQuery",
+    "name": "FollowersListPaginationQuery",
     "operationKind": "query",
-    "text": "query UserNotificationListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserNotificationList_user_1G22uz\n    id\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1G22uz on User {\n  id\n  followerRequests(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query FollowersListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...FollowersList_user_1G22uz\n    id\n  }\n}\n\nfragment FollowersList_user_1G22uz on User {\n  id\n  followers(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5cd22ee4fc4100f92a46180dcf506bcb";
+(node as any).hash = "0f5312de77e4fa53893ba2af1b3591ad";
 
 export default node;

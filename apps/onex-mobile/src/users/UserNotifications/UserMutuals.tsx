@@ -1,27 +1,22 @@
 import { Text, View } from "react-native";
 
-import { AvatarArray } from "@/universe/molecules";
+import { OText } from "@/universe/atoms";
+// import { AvatarArray } from "@/universe/molecules";
+import { AvatarMolecules } from "@/universe/molecules/AvatarMolecules";
 
 interface UserMutualsProps {
   mutuals: number;
 }
 
 export const UserMutuals = ({ mutuals }: UserMutualsProps) => {
-  const mutualsLabel = mutuals === 1 ? "mutual" : "mutuals";
-
   return (
     <View className="flex flex-row items-center gap-sm">
-      <AvatarArray arrayCount={mutuals} />
-      <View className="flex flex-col">
-        <Text className="text-black dark:text-ivory">
-          {mutuals} {mutualsLabel}
-        </Text>
-        <Text className="text-black dark:text-ivory">
-          Including <Text className="font-bold">x</Text>,{" "}
-          <Text className="font-bold">y</Text> and{" "}
-          <Text className="font-bold">z others</Text>
-        </Text>
-      </View>
+      {/* <AvatarArray arrayCount={mutuals} /> */}
+      <AvatarMolecules count={mutuals} />
+      <OText numberOfLines={2}>
+        Followed by <Text className="font-bold">x</Text> and{" "}
+        <OText className="font-bold">z others</OText>
+      </OText>
     </View>
   );
 };

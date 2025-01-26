@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9006d48ba802de5aeb331202a0debbec>>
+ * @generated SignedSource<<0c08bb0318058b54e4091852b5fbadf2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,6 +12,7 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type UserProfileRow_user$data = {
   readonly firstName: string | null | undefined;
+  readonly handle: string | null | undefined;
   readonly id: string;
   readonly lastName: string | null | undefined;
   readonly streak: {
@@ -57,6 +58,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "handle",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "UserStreak",
       "kind": "LinkedField",
       "name": "streak",
@@ -79,6 +87,6 @@ return {
 };
 })();
 
-(node as any).hash = "b4502eafa28cedb7186a61fd7d996cdd";
+(node as any).hash = "e0815f3bd744db8368eedd25d7d2fd14";
 
 export default node;

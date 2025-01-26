@@ -75,5 +75,11 @@ export const TopResultCard = ({
     </OText>
   );
 
-  return <UserProfileRow user={userResult.user} rightItems={rightItems} />;
+  return (
+    <UserProfileRow
+      user={userResult.user}
+      rightItems={rightItems}
+      onPress={() => {}}
+    />
+  );
 };

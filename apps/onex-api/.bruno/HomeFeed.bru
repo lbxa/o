@@ -13,6 +13,16 @@ post {
 body:graphql {
   query { 
     viewer {
+      user {
+        following {
+          edges {
+            node{
+              firstName
+              lastName
+            }
+          }
+        }
+    	}
       homeFeed(first: 10) {
         edges {
           node {

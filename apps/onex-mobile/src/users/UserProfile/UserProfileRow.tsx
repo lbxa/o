@@ -1,24 +1,29 @@
+import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { UserProfileRow_user$key } from "@/__generated__/UserProfileRow_user.graphql";
-import { OText } from "@/universe/atoms";
+import { OText, OTouchable } from "@/universe/atoms";
 import { UserAvatar } from "@/users/UserAvatar";
 import { UserStreak } from "@/users/UserStreak";
 
 export const UserProfileRow = ({
   user,
   rightItems,
+  onPress,
 }: {
   user: UserProfileRow_user$key;
-  rightItems: React.ReactNode;
+  rightItems?: React.ReactNode;
+  onPress?: () => void;
 }) => {
+  const router = useRouter();
   const userRow = useFragment(
     graphql`
       fragment UserProfileRow_user on User {
         id
         firstName
         lastName
+        handle
         streak {
           id
           currentStreak
@@ -28,14 +33,21 @@ export const UserProfileRow = ({
     user
   );
 
+  const fullName = [userRow.firstName, userRow.lastName].join(" ");
+
   return (
-    <View className="mt-sm flex-row items-center justify-between">
-      <View className="flex-1 flex-row items-center gap-sm">
+    <OTouchable
+      className="mt-sm flex-row items-center justify-between"
+      onPress={() => {
+        onPress ? onPress() : router.push(`/(modals)/${userRow.id}`);
+      }}
+    >
+      <View className="gap-sm flex-1 flex-row items-center">
         <UserAvatar size="sm" user={userRow} />
         <View className="min-w-0 flex-1 flex-col">
-          <View className="flex-row items-center gap-sm">
+          <View className="gap-sm flex-row items-center">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
-              {userRow.firstName + " " + userRow.lastName}
+              {userRow.handle ?? fullName}
             </OText>
             <UserStreak streak={userRow.streak?.currentStreak ?? 0} />
           </View>
@@ -47,6 +59,6 @@ export const UserProfileRow = ({
         </View>
         {rightItems}
       </View>
-    </View>
+    </OTouchable>
   );
 };

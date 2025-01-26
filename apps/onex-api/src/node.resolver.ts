@@ -7,7 +7,7 @@ import { CommunityService } from "./community/community.service";
 import { CommunityInvitationsService } from "./community/community-invitations";
 import type { Node } from "./types/graphql";
 import { UserService } from "./user/user.service";
-import { UserFriendshipsService } from "./user/user-friendships";
+import { UserFriendshipService } from "./user/user-friendship";
 import { UserStreaksService } from "./user/user-streaks/user-streaks.service";
 import { decodeGlobalId } from "./utils";
 
@@ -27,7 +27,7 @@ export class NodeResolver {
     private readonly communityService: CommunityService,
     private readonly challengeService: ChallengeService,
     private readonly challengesActivitiesService: ChallengeActivitiesService,
-    private readonly userFriendshipsService: UserFriendshipsService,
+    private readonly userFriendshipService: UserFriendshipService,
     private readonly userStreaksService: UserStreaksService,
     // eslint-disable-next-line @stylistic/js/max-len
     private readonly challengeActivityResultsService: ChallengeActivityResultsService,
@@ -53,7 +53,7 @@ export class NodeResolver {
       case "ChallengeActivityResult":
         return this.challengeActivityResultsService.getTypename();
       case "UserFriendship":
-        return this.userFriendshipsService.getTypename();
+        return this.userFriendshipService.getTypename();
       case "UserStreak":
         return this.userStreaksService.getTypename();
       default:
@@ -81,7 +81,7 @@ export class NodeResolver {
       case "ChallengeActivityResult":
         return this.challengeActivityResultsService.findById(decodedId);
       case "UserFriendship":
-        return this.userFriendshipsService.findById(decodedId);
+        return this.userFriendshipService.findById(decodedId);
       case "UserStreak":
         return this.userStreaksService.findById(decodedId);
       default:

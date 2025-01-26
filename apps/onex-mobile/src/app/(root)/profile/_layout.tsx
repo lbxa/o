@@ -42,6 +42,12 @@ export default function Root() {
         }}
       />
       <Stack.Screen
+        name="/profile-followers"
+        options={{
+          title: "Followers",
+        }}
+      />
+      <Stack.Screen
         name="(profile-manage)/profile-manage"
         options={{
           title: "Manage",

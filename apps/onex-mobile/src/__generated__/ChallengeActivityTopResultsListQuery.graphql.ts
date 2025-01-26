@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<23a307cb508432add29c0c3371d22aec>>
+ * @generated SignedSource<<f6737d90aafe6b913deb981e36e3be90>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -184,6 +184,13 @@ return {
                               {
                                 "alias": null,
                                 "args": null,
+                                "kind": "ScalarField",
+                                "name": "handle",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
                                 "concreteType": "UserStreak",
                                 "kind": "LinkedField",
                                 "name": "streak",
@@ -304,12 +311,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ad89d147b41443c63e5bd5b30aa916e7",
+    "cacheID": "70285042e9cb551c6b411f51fe8fc23f",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsListQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsListQuery(\n  $challengeId: ID!\n  $count: Int!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...useChallengeActivityTopResultsFragment_challenge_yu5n1\n      id\n    }\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_yu5n1 on Challenge {\n  activityTopResults(first: $count) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query ChallengeActivityTopResultsListQuery(\n  $challengeId: ID!\n  $count: Int!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...useChallengeActivityTopResultsFragment_challenge_yu5n1\n      id\n    }\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n  activity {\n    id\n    goal\n    unit\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_yu5n1 on Challenge {\n  activityTopResults(first: $count) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

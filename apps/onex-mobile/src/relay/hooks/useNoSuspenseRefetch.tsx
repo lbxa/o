@@ -94,7 +94,14 @@ export const useNoSuspenseRefetch = <
       subscription.unsubscribe();
       // retainedOperation.dispose();
     };
-  }, [ancestorQuery, ancestorVariables, environment, isRefetching]);
+  }, [
+    ancestorQuery,
+    ancestorVariables,
+    environment,
+    isRefetching,
+    refetchFunc,
+    refetchFuncVariables,
+  ]);
 
   return {
     refetch,

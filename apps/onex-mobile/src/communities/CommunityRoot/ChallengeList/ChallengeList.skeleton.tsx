@@ -4,9 +4,9 @@ import { Skeleton } from "@/universe/atoms";
 
 export const ChallengeListSkeleton = () => {
   return (
-    <View className="flex flex-col gap-md px-sm">
+    <View className="gap-md px-sm flex flex-col">
       {Array.from({ length: 5 }, (_, i) => (
-        <Skeleton key={i} className="h-32 w-full rounded-3xl" />
+        <Skeleton key={i} className="h-40 w-full rounded-3xl" />
       ))}
     </View>
   );

@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { useQueryLoader } from "react-relay";
 

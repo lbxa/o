@@ -6,7 +6,7 @@ import { CommunityModule } from "../community/community.module";
 import { CryptoService } from "../utils";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
-import { UserFriendshipsService } from "./user-friendships";
+import { UserFriendshipService } from "./user-friendship";
 import { UserRecordsRepository, UserRecordsService } from "./user-records";
 import { UserStreaksRepository } from "./user-streaks/user-streaks.repository";
 import { UserStreaksService } from "./user-streaks/user-streaks.service";
@@ -19,7 +19,7 @@ import { UserStreaksService } from "./user-streaks/user-streaks.service";
   providers: [
     UserResolver,
     UserService,
-    UserFriendshipsService,
+    UserFriendshipService,
     UserStreaksService,
     UserStreaksRepository,
     UserRecordsService,
@@ -29,7 +29,7 @@ import { UserStreaksService } from "./user-streaks/user-streaks.service";
   ],
   exports: [
     UserService,
-    UserFriendshipsService,
+    UserFriendshipService,
     UserStreaksService,
     UserRecordsService,
     UserRecordsRepository,

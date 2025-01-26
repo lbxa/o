@@ -1,4 +1,5 @@
 export * from "./AvatarArray";
+export * from "./AvatarMolecules";
 export * from "./LeaderboardCard";
 export * from "./MiniNav";
 export * from "./OBackdrop";
