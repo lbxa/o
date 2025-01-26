@@ -1,6 +1,5 @@
+import { Timestamp } from "@o/utils";
 import { useCallback, useMemo, useState } from "react";
-
-import { Timestamp } from "../utils";
 
 export const useStopwatch = (): {
   time: Timestamp;

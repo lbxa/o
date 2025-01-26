@@ -6,13 +6,14 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import { $DrizzleSchema } from "@o/db";
 
-import { DbService } from "../db/db.service";
+import { ChallengeActivityResultsService } from "@/challenge/challenge-activity-results";
+
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   Challenge,
   ChallengeActivityCreateInput,
+  ChallengeActivityResultConnection,
   ChallengeCreateInput,
   ChallengeCreatePayload,
   ChallengeInvitation,
@@ -20,7 +21,7 @@ import {
   User,
   UserConnection,
 } from "../types/graphql";
-import { validateAndDecodeGlobalId } from "../utils";
+import { ConnectionArgs, validateAndDecodeGlobalId } from "../utils";
 import { ChallengeService } from "./challenge.service";
 import { ChallengeInvitationsService } from "./challenge-invitations";
 import { ChallengeMembershipsService } from "./challenge-memberships";
@@ -30,8 +31,8 @@ export class ChallengeResolver {
   constructor(
     private challengeService: ChallengeService,
     private challengeInvitationsService: ChallengeInvitationsService,
-    private challengeMembershipsService: ChallengeMembershipsService,
-    private dbService: DbService<typeof $DrizzleSchema>
+    private challengeActivityResultsService: ChallengeActivityResultsService,
+    private challengeMembershipsService: ChallengeMembershipsService
   ) {}
 
   @Query("challenge")
@@ -44,6 +45,27 @@ export class ChallengeResolver {
   async memberCount(@Parent() challenge: Challenge): Promise<number> {
     const challengeId = validateAndDecodeGlobalId(challenge.id, "Challenge");
     return this.challengeMembershipsService.getMemberCount(challengeId);
+  }
+
+  @ResolveField("resultsHistory")
+  async resultsHistory(
+    @Parent() challenge: Challenge,
+    @Args("userId") userId: string,
+    @Args() args: ConnectionArgs
+  ): Promise<ChallengeActivityResultConnection> {
+    const challengeId = validateAndDecodeGlobalId(challenge.id, "Challenge");
+    const activityId = validateAndDecodeGlobalId(
+      challenge.activity.id,
+      "ChallengeActivity"
+    );
+
+    const decodedUserId = validateAndDecodeGlobalId(userId, "User");
+
+    // eslint-disable-next-line @stylistic/js/max-len
+    return this.challengeActivityResultsService.fetchUserChallengeActivityResultHistory(
+      { challengeId, userId: decodedUserId, activityId },
+      args
+    );
   }
 
   @ResolveField("firstMember")

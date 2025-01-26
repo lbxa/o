@@ -1,0 +1,1 @@
+ALTER TABLE "challenge"."activity_results" ADD COLUMN "formatted_result" varchar(255) DEFAULT '' NOT NULL;

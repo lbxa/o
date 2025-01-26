@@ -37,6 +37,7 @@ type Challenge implements Node & Timestamps {
   memberCount: Int
   memberships: [ChallengeMembership!]
   invitations: [ChallengeInvitation!]
+  resultsHistory(userId: ID!, first: Int!, after: String): ChallengeActivityResultConnection
 }
 
 type ChallengeMembership implements Node {

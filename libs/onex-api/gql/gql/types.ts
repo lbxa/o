@@ -64,7 +64,7 @@ export type Challenge = Node & Timestamps & {
   memberships?: Maybe<Array<ChallengeMembership>>;
   mode?: Maybe<ChallengeMode>;
   name: Scalars['String']['output'];
-  resultHistory?: Maybe<ChallengeActivityResultConnection>;
+  resultsHistory?: Maybe<ChallengeActivityResultConnection>;
   secondMember?: Maybe<User>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -89,7 +89,9 @@ export type ChallengeAllMembersArgs = {
 };
 
 
-export type ChallengeResultHistoryArgs = {
+export type ChallengeResultsHistoryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  first: Scalars['Int']['input'];
   userId: Scalars['ID']['input'];
 };
 
@@ -133,7 +135,10 @@ export type ChallengeActivityResult = Node & Timestamps & {
   __typename?: 'ChallengeActivityResult';
   activity: ChallengeActivity;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** Transformed result for display purposes */
+  formattedResult: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  /** Raw floating point value */
   result: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user: User;

@@ -6,23 +6,26 @@ import type { TopMoverCard_challenge$key } from "@/__generated__/TopMoverCard_ch
 import { UserProfileRow } from "@/users";
 import { useOTheme } from "@/utils";
 
-export const TopMoverCard = ({
-  mover,
+export const ChallengeActivityHistoryCard = ({
+  result,
 }: {
-  mover: TopMoverCard_challenge$key;
+  result: ChallengeActivityHistoryCard_challenge$key;
 }) => {
   const { builtInColors } = useOTheme();
   const userResult = useFragment(
     graphql`
-      fragment TopMoverCard_challenge on ChallengeActivityResult {
+      fragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {
         id
         user {
-          ...UserProfileRow_user
+          id
+          firstName
+          lastName
+          handle
         }
         result
       }
     `,
-    mover
+    result
   );
 
   const rightItems = (

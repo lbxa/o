@@ -52,46 +52,57 @@ body:graphql {
     #     }
     #   }
     # }
-    challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjc2Cg==", first: 25) {
-      edges {
-        cursor
-        node {
-          user {
-            firstName
-            lastName
-          }
-          createdAt
-          result
-          activity {
-            type
-            goal
-            challengeId
-          }
-        }
-      }
-    }
-    # viewer {
-    #   challenge(challengeId: "Q2hhbGxlbmdlOjc2Cg==") {
-    #     activityTopMovers(first: 4) {
-    #       edges {
-    #         cursor
-    #         node {
-    #           user {
-    #             firstName
-    #             lastName
-    #           }
-    #           createdAt
-    #           result
-    #           activity {
-    #             type
-    #             goal
-    #             challengeId
-    #           }
-    #         }
+    # challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjc2Cg==", first: 25) {
+    #   edges {
+    #     cursor
+    #     node {
+    #       user {
+    #         firstName
+    #         lastName
+    #       }
+    #       createdAt
+    #       result
+    #       activity {
+    #         type
+    #         goal
+    #         challengeId
     #       }
     #     }
     #   }
     # }
+    viewer {
+      challenge(challengeId: "Q2hhbGxlbmdlOjc2Cg==") {
+  			resultsHistory(userId: "VXNlcjoxCg==", first: 10) {
+          edges {
+            node {
+              user {
+                firstName
+                createdAt
+              }
+              result
+            }
+          }
+        }
+        activityTopMovers(first: 4) {
+          edges {
+            cursor
+            node {
+              user {
+                firstName
+                lastName
+              }
+              createdAt
+              result
+              activity {
+                type
+                goal
+                challengeId
+              }
+            }
+          }
+        }
+      }
+    }
   }
   
   

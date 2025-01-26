@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2d4dfcc478afb9b3443faf21c85e5d8d>>
+ * @generated SignedSource<<3dd51770eff6442b3c9ae7f594dd837a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,18 +9,12 @@
 // @ts-nocheck
 
 import type { ReaderFragment } from 'relay-runtime';
-export type ChallengeActivityGoal = "HIGHEST_NUMBER" | "LONGEST_DISTANCE" | "LONGEST_TIME" | "LOWEST_NUMBER" | "MOST_IMPROVED" | "SHORTEST_DISTANCE" | "SHORTEST_TIME" | "SPECIFIC_TARGET" | "%future added value";
-export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRES" | "METRES" | "MILES" | "MINUTES" | "NONE" | "PERCENT" | "POUNDS" | "SECONDS" | "%future added value";
 import type { FragmentRefs } from "relay-runtime";
 export type TopResultCard_challenge$data = {
-  readonly activity: {
-    readonly goal: ChallengeActivityGoal;
-    readonly id: string;
-    readonly unit: ChallengeActivityUnits;
-  };
+  readonly formattedResult: string;
   readonly id: string;
-  readonly result: number;
   readonly user: {
+    readonly id: string;
     readonly " $fragmentSpreads": FragmentRefs<"UserProfileRow_user">;
   };
   readonly " $fragmentType": "TopResultCard_challenge";
@@ -53,6 +47,7 @@ return {
       "name": "user",
       "plural": false,
       "selections": [
+        (v0/*: any*/),
         {
           "args": null,
           "kind": "FragmentSpread",
@@ -65,33 +60,7 @@ return {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "result",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "ChallengeActivity",
-      "kind": "LinkedField",
-      "name": "activity",
-      "plural": false,
-      "selections": [
-        (v0/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "goal",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "unit",
-          "storageKey": null
-        }
-      ],
+      "name": "formattedResult",
       "storageKey": null
     }
   ],
@@ -100,6 +69,6 @@ return {
 };
 })();
 
-(node as any).hash = "15759adbd70987cd2b5cb17c42a3e439";
+(node as any).hash = "7ce237ba884952fb2e854d3fd0c437dd";
 
 export default node;

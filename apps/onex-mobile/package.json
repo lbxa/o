@@ -38,6 +38,7 @@
     "@o/eslint": "workspace:*",
     "@o/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
+    "@o/utils": "workspace:*",
     "@react-native-community/datetimepicker": "8.2.0",
     "@react-native/assets-registry": "0.76.5",
     "@react-native/metro-config": "0.76.5",

@@ -8,7 +8,10 @@ type ChallengeActivityResult implements Node & Timestamps {
   id: ID!
   user: User!
   activity: ChallengeActivity!
+  "Raw floating point value"
   result: Float!
+  "Transformed result for display purposes"
+  formattedResult: String!
   createdAt: DateTime
   updatedAt: DateTime
 }

@@ -1,12 +1,9 @@
 packages:
   - "apps/*"
-  # - "libs/*"
   - "libs/**/*"
   - "tooling/*"
   - "functions/*"
   - "infra"
-  - "!scripts"
-  - "!out/**"
 
 catalogs:
   eslint9: 

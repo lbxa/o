@@ -9,6 +9,7 @@ import {
   NewChallengeActivityResult,
   UsersTable,
 } from "@o/db";
+import { intToTimestamp } from "@o/utils";
 import { and, count, desc, eq, inArray, max, min, SQL, sql } from "drizzle-orm";
 
 import {
@@ -26,6 +27,7 @@ import {
   ChallengeActivityResultConnection,
   ChallengeActivityTopMover as GqlChallengeActivityTopMover,
   ChallengeActivityTopMoverConnection,
+  ChallengeActivityUnits,
 } from "../../types/graphql";
 import { UserService } from "../../user/user.service";
 import { UserStreaksService } from "../../user/user-streaks";
@@ -118,38 +120,57 @@ export class ChallengeActivityResultsService
       : [];
   }
 
-  public async fetchUserResultHistory(
-    userId: number,
-    challengeId: number,
+  public async fetchUserChallengeActivityResultHistory(
+    params: Pick<
+      PgChallengeActivityResult,
+      "userId" | "challengeId" | "activityId"
+    >,
     args: ConnectionArgs
   ): Promise<ChallengeActivityResultConnection> {
     const { first = 10, after } = args;
 
     const startCursorId = after
-      ? validateAndDecodeGlobalId("ChallengeActivityResult", after)
+      ? validateAndDecodeGlobalId(after, "ChallengeActivityResult")
       : 0;
 
     const challengeActivityResults =
-      await this.challengeActivityResultsRepository.findBy({
-        challengeId,
-        userId,
+      await this.challengeActivityResultsRepository.findBy(params, {
+        first: first + 1,
+        after: startCursorId,
       });
 
     return buildConnection({
-      nodes: challengeActivityResults.map((result) =>
-        this.pg2GqlMapper(result)
-      ),
-      hasNextPage: false,
-      hasPreviousPage: false,
+      nodes: challengeActivityResults
+        .slice(0, first)
+        .map((result) => this.pg2GqlMapper(result)),
+      hasNextPage: challengeActivityResults.length > first,
+      hasPreviousPage: !!after,
+      createCursor: (node) => node.id,
     });
   }
 
   public async create(
-    challengeActivityResultInput: NewChallengeActivityResult
+    challengeActivityResultInput: Omit<
+      NewChallengeActivityResult,
+      "formattedResult" // we handle that here :D
+    >
   ): Promise<GqlChallengeActivityResult> {
-    const newResult = await this.challengeActivityResultsRepository.create(
-      challengeActivityResultInput
+    const activity = await this.challengeActivitiesService.findById(
+      challengeActivityResultInput.activityId
     );
+
+    if (!activity) {
+      throw new NotFoundError("Challenge activity could not be found");
+    }
+
+    const newResult = await this.challengeActivityResultsRepository.create({
+      ...challengeActivityResultInput,
+      formattedResult: this.formatActivityResult({
+        result: challengeActivityResultInput.result,
+        goal: activity.goal,
+        unit: activity.unit,
+      }),
+    });
 
     if (!newResult) {
       throw new NotFoundError("Challenge activity could not be created");
@@ -400,4 +421,50 @@ export class ChallengeActivityResultsService
       .where(eq(ChallengeActivityResultsTable.userId, userId));
     return row.count;
   }
+
+  private formatActivityResult = ({
+    result,
+    goal,
+    unit,
+  }: {
+    result: number;
+    goal: ChallengeActivityGoal;
+    unit: ChallengeActivityUnits;
+  }): string => {
+    switch (goal) {
+      case ChallengeActivityGoal.HIGHEST_NUMBER:
+      case ChallengeActivityGoal.LOWEST_NUMBER:
+      case ChallengeActivityGoal.SPECIFIC_TARGET:
+        switch (unit) {
+          case ChallengeActivityUnits.KILOGRAMS:
+          case ChallengeActivityUnits.POUNDS:
+            return `${result} kg`;
+          case ChallengeActivityUnits.SECONDS:
+          case ChallengeActivityUnits.MINUTES:
+          case ChallengeActivityUnits.HOURS:
+            return intToTimestamp(result).toString();
+          default:
+            return result.toString();
+        }
+      case ChallengeActivityGoal.SHORTEST_TIME:
+      case ChallengeActivityGoal.LONGEST_TIME:
+        return intToTimestamp(result).toString();
+      case ChallengeActivityGoal.MOST_IMPROVED:
+        return `${result}%`;
+      case ChallengeActivityGoal.SHORTEST_DISTANCE:
+      case ChallengeActivityGoal.LONGEST_DISTANCE:
+        switch (unit) {
+          case ChallengeActivityUnits.METRES:
+            return `${result} m`;
+          case ChallengeActivityUnits.KILOMETRES:
+            return `${result} km`;
+          case ChallengeActivityUnits.MILES:
+            return `${result} mi`;
+          case ChallengeActivityUnits.FEET:
+            return `${result} ft`;
+          default:
+            return result.toString();
+        }
+    }
+  };
 }

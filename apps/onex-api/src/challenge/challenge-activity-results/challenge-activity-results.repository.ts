@@ -88,7 +88,8 @@ export class ChallengeActivityResultsRepository
         PgChallengeActivityResult,
         "id" | "userId" | "challengeId" | "activityId"
       >
-    >
+    >,
+    args?: { first: number; after: number }
   ): Promise<PgChallengeActivityResultComposite[]> {
     const challengeActivityResults =
       await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
@@ -103,10 +104,15 @@ export class ChallengeActivityResultsRepository
               )
             )
           ),
+        offset: args?.after,
+        limit: args?.first,
         with: {
           user: true,
           activity: true,
         },
+        orderBy: (challengeActivityResults, { desc }) => [
+          desc(challengeActivityResults.createdAt),
+        ],
       });
 
     return challengeActivityResults;

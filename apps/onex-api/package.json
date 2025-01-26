@@ -33,6 +33,7 @@
     "@o/db": "workspace:*",
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
+    "@o/utils": "workspace:*",
     "argon2": "^0.41.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

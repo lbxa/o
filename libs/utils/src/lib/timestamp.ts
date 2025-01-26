@@ -1,3 +1,6 @@
+// Universal timestamping.
+// Proven to be quite useful
+
 export interface ITimestamp {
   minutes: number;
   seconds: number;

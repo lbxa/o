@@ -201,6 +201,7 @@ export interface ChallengeActivityResult extends Node, Timestamps {
     user: User;
     activity: ChallengeActivity;
     result: number;
+    formattedResult: string;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }
@@ -260,7 +261,7 @@ export interface Challenge extends Node, Timestamps {
     memberCount?: Nullable<number>;
     memberships?: Nullable<ChallengeMembership[]>;
     invitations?: Nullable<ChallengeInvitation[]>;
-    resultHistory?: Nullable<ChallengeActivityResultConnection>;
+    resultsHistory?: Nullable<ChallengeActivityResultConnection>;
 }
 
 export interface CreateChallengeActivityResultPayload {

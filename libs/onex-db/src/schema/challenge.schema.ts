@@ -181,6 +181,9 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
      * Note: Values beyond 2^53 will start losing precision
      */
     result: doublePrecision().notNull(),
+    // uses business logic to convert result to a string for
+    // display purposes
+    formattedResult: varchar({ length: 255 }).notNull(),
     // Maybe this isn't the best idea... assumes consecutive results are
     // very reliably, however users could input bad results and without
     // a runtime solution to filter those out, the quality of the rankings

@@ -67,7 +67,9 @@ export const ChallengeActivityTopResultsList = ({
           data={data?.activityTopResults?.edges?.map((edge) => edge.node) ?? []}
           className="px-md pb-10"
           keyExtractor={(_, index) => index.toString()}
-          renderItem={({ item }) => <TopResultCard result={item} />}
+          renderItem={({ item }) => (
+            <TopResultCard result={item} topResultModalRef={modalRef} />
+          )}
           // onEndReached={() => !isPending && hasNext && loadMore(10)}
           // onEndReachedThreshold={0.01}
           ListHeaderComponent={<Title>View all</Title>}
