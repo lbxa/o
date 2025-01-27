@@ -218,6 +218,20 @@
       "when": 1737899892515,
       "tag": "0030_chilly_lockjaw",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1737972375507,
+      "tag": "0031_naive_nighthawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1737972580508,
+      "tag": "0032_overrated_lady_vermin",
+      "breakpoints": true
     }
   ]
 }

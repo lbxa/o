@@ -45,8 +45,16 @@ export const ChallengesTable = ChallengeSchema.table(
       .references(() => CommunitiesTable.id, { onDelete: "cascade" }),
     mode: ChallengeMode().notNull().default("BLIND_TRUST"),
     cadence: ChallengeCadence().notNull().default("NONE"),
-    startDate: timestamp({ mode: "date" }).notNull(),
-    endDate: timestamp({ mode: "date" }).notNull(),
+    startDate: timestamp({
+      mode: "date",
+      withTimezone: true,
+      precision: 6,
+    }).notNull(),
+    endDate: timestamp({
+      mode: "date",
+      withTimezone: true,
+      precision: 6,
+    }).notNull(),
     ...withModificationDates,
   },
   (table) => ({
@@ -69,7 +77,13 @@ export const ChallengeMembershipsTable = ChallengeSchema.table(
     communityId: integer()
       .notNull()
       .references(() => CommunitiesTable.id),
-    joinedAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    joinedAt: timestamp({
+      mode: "date",
+      withTimezone: true,
+      precision: 6,
+    })
+      .notNull()
+      .defaultNow(),
   },
   (table) => ({
     uniqueMembership: index().on(table.userId, table.challengeId),
@@ -88,7 +102,11 @@ export const ChallengeInvitationsTable = ChallengeSchema.table("invitations", {
     .notNull()
     .references(() => UsersTable.id, { onDelete: "cascade" }),
   status: InvitationStatus().notNull().default("PENDING"),
-  expiresAt: timestamp({ mode: "date" }).notNull(),
+  expiresAt: timestamp({
+    mode: "date",
+    withTimezone: true,
+    precision: 6,
+  }).notNull(),
   ...withModificationDates,
 });
 
