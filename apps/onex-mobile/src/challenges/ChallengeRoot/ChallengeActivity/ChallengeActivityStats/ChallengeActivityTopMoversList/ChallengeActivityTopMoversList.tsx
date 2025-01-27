@@ -18,7 +18,7 @@ interface ChallengeActivityTopMoversListProps {
 export const ChallengeActivityTopMoversList = ({
   modalRef,
 }: ChallengeActivityTopMoversListProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, _] = useTransition();
   const selectedChallengeId = useZustStore(
     (state) => state.selectedChallenge?.id
   );
@@ -45,14 +45,12 @@ export const ChallengeActivityTopMoversList = ({
     { challengeId: selectedChallengeId, count: 20 }
   );
 
-  const { data, loadNext } = useChallengeActivityTopMovers(
-    query.viewer?.challenge
-  );
+  const { data } = useChallengeActivityTopMovers(query.viewer?.challenge);
 
-  const loadMore = (count: number) =>
-    startTransition(() => {
-      loadNext(count);
-    });
+  // const loadMore = (count: number) =>
+  //   startTransition(() => {
+  //     loadNext(count);
+  //   });
 
   return (
     <BottomSheetModal

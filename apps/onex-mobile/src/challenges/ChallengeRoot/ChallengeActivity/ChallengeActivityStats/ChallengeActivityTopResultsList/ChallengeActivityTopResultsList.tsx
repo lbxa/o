@@ -5,9 +5,11 @@ import { ActivityIndicator } from "react-native";
 import { graphql, useLazyLoadQuery } from "react-relay";
 
 import type { ChallengeActivityTopResultsListQuery } from "@/__generated__/ChallengeActivityTopResultsListQuery.graphql";
-import { TopResultCard } from "@/challenges/ChallengeRoot/ChallengeActivity/ChallengeActivityStats";
-import { ChallengeActivityTopResultsListSkeleton } from "@/challenges/ChallengeRoot/ChallengeActivity/ChallengeActivityStats/ChallengeActivityTopResultsList/ChallengeActivityTopResultsList.skeleton";
-import { useChallengeActivityTopResults } from "@/challenges/ChallengeRoot/ChallengeActivity/hooks";
+import {
+  ChallengeActivityTopResultsListSkeleton,
+  TopResultCard,
+  useChallengeActivityTopResults,
+} from "@/challenges/ChallengeRoot";
 import { useSharedBottomSheetProps } from "@/shared/hooks/useSharedBottomSheetProps";
 import { useZustStore } from "@/state";
 import { Title } from "@/universe/atoms";
@@ -18,7 +20,7 @@ interface ChallengeActivityTopResultsListProps {
 export const ChallengeActivityTopResultsList = ({
   modalRef,
 }: ChallengeActivityTopResultsListProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, _] = useTransition();
   const selectedChallengeId = useZustStore(
     (state) => state.selectedChallenge?.id
   );
@@ -45,14 +47,12 @@ export const ChallengeActivityTopResultsList = ({
     { challengeId: selectedChallengeId, count: 20 }
   );
 
-  const { data, loadNext, hasNext } = useChallengeActivityTopResults(
-    query.viewer?.challenge
-  );
+  const { data } = useChallengeActivityTopResults(query.viewer?.challenge);
 
-  const loadMore = (count: number) =>
-    startTransition(() => {
-      loadNext(count);
-    });
+  // const loadMore = (count: number) =>
+  //   startTransition(() => {
+  //     loadNext(count);
+  //   });
 
   return (
     <BottomSheetModal
