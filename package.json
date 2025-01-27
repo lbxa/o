@@ -6,6 +6,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
+    "build:mobile": "turbo build --filter=\"@o/mobile...\"",
     "dev": "turbo dev gql",
     "dev:api": "pnpm dev --filter=\"@o/api...\"",
     "dev:mobile": "pnpm watchman:reset && pnpm dev --filter=\"@o/mobile...\"",
