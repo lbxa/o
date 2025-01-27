@@ -20,6 +20,12 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       {
         type: "input",
+        name: "path",
+        message:
+          "Where should it live? (e.g. `libs/utils` or `apps/onex-mobile`)",
+      },
+      {
+        type: "input",
         name: "deps",
         message:
           "Enter a space separated list of dependencies you would like to install",
@@ -36,37 +42,37 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       {
         type: "add",
-        path: "libs/{{ name }}/eslint.config.mjs",
+        path: "{{ path }}/eslint.config.mjs",
         templateFile: "templates/eslint.config.mjs.hbs",
       },
       {
         type: "add",
-        path: "libs/{{ name }}/package.json",
+        path: "{{ path }}/package.json",
         templateFile: "templates/package.json.hbs",
       },
       {
         type: "add",
-        path: "libs/{{ name }}/tsconfig.json",
+        path: "{{ path }}/tsconfig.json",
         templateFile: "templates/tsconfig.json.hbs",
       },
       {
         type: "add",
-        path: "libs/{{ name }}/README.md",
+        path: "{{ path }}/README.md",
         templateFile: "templates/README.md.hbs",
       },
       {
         type: "add",
-        path: "libs/{{ name }}/src/index.ts",
+        path: "{{ path }}/src/index.ts",
         template: "export * from './lib';",
       },
       {
         type: "add",
-        path: "libs/{{ name }}/src/lib/index.ts",
+        path: "{{ path }}/src/lib/index.ts",
         template: "export const name = '{{ name }}';",
       },
       {
         type: "modify",
-        path: "libs/{{ name }}/package.json",
+        path: "{{ path }}/package.json",
         async transform(content, answers) {
           if ("deps" in answers && typeof answers.deps === "string") {
             const pkg = JSON.parse(content) as PackageJson;
@@ -89,11 +95,10 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
          * Install deps and format everything
          */
         if ("name" in answers && typeof answers.name === "string") {
-          // execSync("pnpm dlx sherif@latest --fix", {
-          //   stdio: "inherit",
-          // });
           execSync("pnpm i", { stdio: "inherit" });
-          execSync(`pnpm lint`, { stdio: "inherit" });
+          execSync(`pnpm turbo lint build --filter @o/${answers.name}`, {
+            stdio: "inherit",
+          });
           return "Package linted";
         }
         return "Package not linted";
