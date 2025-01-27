@@ -1,0 +1,32 @@
+"""
+Represents a record of a user's activity in a specific challenge.
+This tracks individual challenge activity results for the user.
+"""
+type UserRecord implements Node & Timestamps {
+  id: ID!
+  user: User!
+
+  """
+  The challenge this record is associated with
+  """
+  challenge: Challenge!
+
+  """
+  The result of the activity
+  """
+  activityResult: ChallengeActivityResult!
+
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserRecordCreateInput {
+  userId: ID!
+  challengeId: ID!
+  activityId: ID!
+  activityResultId: ID!
+}
+
+extend type Mutation {
+  createUserRecord(input: UserRecordCreateInput!): UserRecord!
+} 

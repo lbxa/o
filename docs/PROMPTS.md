@@ -12,7 +12,7 @@ I'm building a startup focused on building social fitness experiences.
 
 Tech stack: react native, react relay, graphql, nestjs, drizzle, mysql.
 
-My backend is structued as such:
+My backend is structured as such:
 
 DomainEntity has a Module which contains a gql resolver and services for handling business logic.
 
@@ -27,6 +27,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  $DrizzleSchema,
   Challenge as PgChallenge,
   ChallengeInvitationsTable,
   ChallengeMembershipsTable,
@@ -50,15 +51,15 @@ import {
   InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum } from "../utils";
-import { ChallengeActivitiesService } from "./challenge-activity";
+import { ChallengeActivityService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengeService
   implements EntityMapper<typeof ChallengesTable, PgChallenge, GqlChallenge>
 {
   constructor(
-    private challengeActivitiesService: ChallengeActivitiesService,
-    private dbService: DbService<typeof schema>
+    private challengeActivityService: ChallengeActivityService,
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   // TODO map Db types to GraphQL types
@@ -226,7 +227,7 @@ export class ChallengeService
       .values({ ...challengeInput })
       .returning();
 
-    const challengeActivity = await this.challengeActivitiesService.create({
+    const challengeActivity = await this.challengeActivityService.create({
       ...activityInput,
       challengeId: challenge.id,
     });

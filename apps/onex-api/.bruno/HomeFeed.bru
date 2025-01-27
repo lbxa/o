@@ -1,0 +1,51 @@
+meta {
+  name: HomeFeed
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: {{URL}}/graphql
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  query { 
+    viewer {
+      user {
+        following {
+          edges {
+            node{
+              firstName
+              lastName
+            }
+          }
+        }
+    	}
+      homeFeed(first: 10) {
+        edges {
+          node {
+            ... on UserRecord {
+              user {
+                firstName
+              }
+            }
+            ... on StartingSoonChallenge {
+              challenge {
+                name
+              }
+              daysUntilStart
+            }
+            ... on EndingSoonChallenge {
+              challenge {
+                name
+              }
+              daysUntilEnd
+            }
+          }
+        }
+      }
+    }
+  }
+}

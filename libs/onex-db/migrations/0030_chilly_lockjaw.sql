@@ -1,0 +1,1 @@
+ALTER TABLE "challenge"."activity_results" ALTER COLUMN "formatted_result" DROP DEFAULT;

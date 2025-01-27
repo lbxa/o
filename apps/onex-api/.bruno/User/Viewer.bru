@@ -1,0 +1,88 @@
+meta {
+  name: Viewer
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:graphql {
+  fragment UserFragment on User {
+    id
+    firstName
+    lastName
+    email
+    handle
+    createdAt
+    updatedAt
+  }
+  
+  fragment UserRecordCard_userRecord on UserRecord {
+    user {
+      id
+      firstName
+      lastName
+    }
+    challenge {
+      id
+      name
+      community {
+        id
+        name
+        isVerified
+      }
+      activity {
+        id
+        unit
+      }
+    }
+    activityResult {
+      id
+      result
+    }
+  }
+  
+  fragment ActiveUser on Viewer {
+    user {
+      ...UserFragment
+    }
+  }
+  
+  query {
+    viewer {
+      ...ActiveUser
+      homeFeed(first: 10) {
+        edges {
+          node {
+            ... on Challenge {
+              name
+              description
+            }
+            ... on UserRecord {
+              ...UserRecordCard_userRecord
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "intput": {
+      "firstName": "Marry",
+      "lastName": "Roberts",
+      "email": "MarryRobert@hotmail.com",
+      "password": "Marry"
+    }
+  }
+}

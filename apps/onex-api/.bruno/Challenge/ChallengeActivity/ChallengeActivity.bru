@@ -1,0 +1,122 @@
+meta {
+  name: ChallengeActivity
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{URL}}/
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  # mutation {
+  #   challengeActivityResultCreate(challengeActivityResultCreateInput: {
+  #     activityId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==",
+  #     userId: "VXNlcjox",
+  #     result: 1
+  #   }) {
+  #     user {
+  #       firstName
+  #       lastName
+  #     }
+  #     result
+  #     createdAt
+  #   }
+  # }
+  
+  fragment UserClip on User {
+    firstName
+    lastName
+    email
+  }
+  
+  query {
+    # challengeActivityResults(challengeId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==") {
+    #   user {
+    #     firstName
+    #     lastName
+    #   }
+    #   result
+    # }
+    # challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjI2", first: 5) {
+    #   edges {
+    #    	cursor
+    #     node {
+    #       user {
+    #         firstName
+    #         lastName
+    #       }
+    #       result
+    #       activity {
+    #         type
+    #         measurement
+    #         goal
+    #         challengeId
+    #       }
+    #     }
+    #   }
+    # }
+    # challengeActivityTopResults(challengeId: "Q2hhbGxlbmdlOjc2Cg==", first: 25) {
+    #   edges {
+    #     cursor
+    #     node {
+    #       user {
+    #         firstName
+    #         lastName
+    #       }
+    #       createdAt
+    #       result
+    #       activity {
+    #         type
+    #         goal
+    #         challengeId
+    #       }
+    #     }
+    #   }
+    # }
+    viewer {
+      challenge(challengeId: "Q2hhbGxlbmdlOjc2Cg==") {
+  			resultsHistory(userId: "VXNlcjoxCg==", first: 10) {
+          edges {
+            node {
+              user {
+                firstName
+                createdAt
+              }
+              result
+            }
+          }
+        }
+        activityTopMovers(first: 4) {
+          edges {
+            cursor
+            node {
+              user {
+                ...UserClip
+                firstMutualFriend {
+                  ...UserClip
+                }
+                secondMutualFriend {
+                  ...UserClip
+                }
+                mutualCount
+              }
+              createdAt
+              result
+              activity {
+                type
+                goal
+                challengeId
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  
+  
+}

@@ -1,0 +1,81 @@
+"""
+A user of the app
+"""
+type User implements Node & Timestamps {
+  id: ID!
+  handle: String
+  firstName: String
+  lastName: String
+  bio: String
+  email: String
+  password: String
+  avatarUrl: String
+  refreshToken: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  """
+  The streak of consecutive days that the user has completed a challenge.
+  """
+  streak: UserStreak
+  challengeActivityResultsCount: Int
+}
+
+input UserUpdateInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  handle: String
+  email: String
+  bio: String
+}
+
+type ValidEmailResponse {
+  alreadyTaken: Boolean!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection {
+  edges: [UserEdge!]
+  pageInfo: PageInfo!
+}
+
+type UserFriendshipEdge {
+  cursor: String!
+  node: UserFriendship!
+}
+
+type UserFriendshipConnection {
+  edges: [UserFriendshipEdge!]!
+  pageInfo: PageInfo!
+}
+
+type Query {
+  "All users"
+  users: [User!]
+  "Validate if an email is already taken"
+  userValidateEmail(email: String!): ValidEmailResponse!
+  "Search for users by name"
+  userSearch(searchTerm: String): [User!]
+  "Fetch the user profile of any user by ID"
+  userProfile(id: ID!): User
+  "Is the current user friends with this user?"
+  getFriendshipStatus(userId: ID!, friendId: ID!): UserFriendshipStatus
+}
+
+type Mutation {
+  "Update a user"
+  userUpdate(userUpdateInput: UserUpdateInput!): User!
+  "Request a friendship"
+  userRequestFriendship(friendId: ID!): UserFriendship!
+  "Accept a friendship"
+  userAcceptFriendship(friendId: ID!): UserFriendship!
+  "Decline a friendship"
+  userDeclineFriendship(friendId: ID!): UserFriendship!
+  "Remove a friendship"
+  userRemoveFriendship(friendId: ID!): UserFriendship!
+  # removeUser(id: ID!): User
+}

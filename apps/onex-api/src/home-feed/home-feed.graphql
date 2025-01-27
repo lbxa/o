@@ -1,0 +1,26 @@
+type StartingSoonChallenge implements Node {
+  id: ID!
+  challenge: Challenge!
+  daysUntilStart: Int!
+  createdAt: DateTime!
+}
+
+type EndingSoonChallenge implements Node {
+  id: ID!
+  challenge: Challenge!
+  daysUntilEnd: Int!
+  createdAt: DateTime!
+}
+
+union HomeFeedItem = StartingSoonChallenge | EndingSoonChallenge | UserRecord
+
+type HomeFeedEdge {
+  cursor: String!
+  node: HomeFeedItem!
+}
+
+type HomeFeedConnection {
+  edges: [HomeFeedEdge!]!
+  pageInfo: PageInfo!
+}
+

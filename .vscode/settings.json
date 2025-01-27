@@ -31,12 +31,12 @@
     "class:list",
     "contentContainerClassName"
   ],
-  "typescript.preferences.importModuleSpecifier": "project-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.parameterTypes.enabled": true,
-  "relay.rootDirectory": "apps/mobile",
-  "relay.pathToConfig": "apps/mobile/relay.config.json",
+  "relay.rootDirectory": "apps/onex-mobile",
+  "relay.pathToConfig": "apps/onex-mobile/relay.config.json",
   "relay.autoStartCompiler": true,
   "svg.preview.background": "transparent",
 }

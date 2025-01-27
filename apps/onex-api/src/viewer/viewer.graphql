@@ -1,0 +1,19 @@
+"""
+The currently logged in user
+""" 
+type Viewer implements Node {
+  "Alias for user id"
+  id: ID!
+  "Only one active user can be logged in at a time"
+  user: User
+  community(communityId: ID!): Community
+  communities(first: Int!, after: String): CommunityConnection!
+  communityInvitations(first: Int!, after: String): CommunityInvitationConnection!
+  challenges(communityId: ID!, first: Int!, after: String): ChallengeConnection!
+  challenge(challengeId: ID!): Challenge
+  homeFeed(first: Int!, after: String): HomeFeedConnection!
+}
+
+type Query {
+  viewer: Viewer
+}
