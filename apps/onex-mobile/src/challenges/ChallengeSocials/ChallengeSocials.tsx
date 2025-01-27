@@ -47,7 +47,7 @@ export const ChallengeSocials = ({ fragmentRef }: ChallengeSocialsProps) => {
       break;
   }
   return (
-    <View className="gap-sm flex flex-row items-center">
+    <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-1 flex-col">
         <OText numberOfLines={1}>{memberLabel}</OText>

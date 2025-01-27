@@ -14,4 +14,5 @@ export * from "./PrimaryTextInputControl";
 export * from "./Skeleton";
 export * from "./Subtitle";
 export * from "./TimerButton";
+export * from "./Timestamp";
 export * from "./Title";

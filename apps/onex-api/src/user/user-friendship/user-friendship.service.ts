@@ -13,6 +13,7 @@ import { DbService } from "@/db/db.service";
 import { EntityService, EntityType } from "@/entity";
 import {
   InvitationStatus,
+  User as GqlUser,
   UserConnection,
   UserFriendship as GqlUserFriendship,
   UserFriendshipConnection,
@@ -282,6 +283,59 @@ export class UserFriendshipService
       hasPreviousPage: !!after,
       createCursor: (node) => node.id,
     });
+  }
+
+  async getMutualFollowing(
+    userId: number,
+    friendId: number
+  ): Promise<GqlUser[]> {
+    const f1Alias = alias(UserFriendshipsTable, "f1");
+    const f2Alias = alias(UserFriendshipsTable, "f2");
+
+    const mutualFriends = await this.dbService.db
+      .select({
+        mutualFriend: UsersTable,
+      })
+      .from(f1Alias)
+      .innerJoin(f2Alias, eq(f1Alias.friendId, f2Alias.friendId))
+      .innerJoin(UsersTable, eq(f1Alias.friendId, UsersTable.id))
+      .where(
+        and(
+          eq(f1Alias.userId, userId),
+          eq(f2Alias.userId, friendId),
+          eq(f1Alias.status, InvitationStatus.ACCEPTED),
+          eq(f2Alias.status, InvitationStatus.ACCEPTED)
+        )
+      );
+
+    return mutualFriends.map((mutual) =>
+      this.userService.pg2GqlMapper(mutual.mutualFriend)
+    );
+  }
+
+  async getMutualFollowingCount(
+    userId: number,
+    friendId: number
+  ): Promise<number> {
+    const f1Alias = alias(UserFriendshipsTable, "f1");
+    const f2Alias = alias(UserFriendshipsTable, "f2");
+
+    const [mutuals] = await this.dbService.db
+      .select({
+        count: count(f1Alias.friendId),
+      })
+      .from(f1Alias)
+      .innerJoin(f2Alias, eq(f1Alias.friendId, f2Alias.friendId))
+      .where(
+        and(
+          eq(f1Alias.userId, userId),
+          eq(f2Alias.userId, friendId),
+          eq(f1Alias.status, InvitationStatus.ACCEPTED),
+          eq(f2Alias.status, InvitationStatus.ACCEPTED)
+        )
+      );
+
+    return mutuals.count;
   }
 
   async acceptFriendship(

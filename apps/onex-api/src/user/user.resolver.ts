@@ -201,4 +201,68 @@ export class UserResolver {
       args
     );
   }
+
+  @ResolveField("firstMutualFriend")
+  async firstMutualFriend(
+    @Parent() user: User,
+    @CurrentUser("userId") viewerId: number,
+    @Args("friendId") friendId?: string
+  ): Promise<User | undefined> {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    let decodedFriendId: number;
+    if (friendId) {
+      decodedFriendId = validateAndDecodeGlobalId(friendId, "User");
+    } else {
+      decodedFriendId = viewerId;
+    }
+
+    const mutuals = await this.userFriendshipService.getMutualFollowing(
+      decodedUserId,
+      decodedFriendId
+    );
+
+    return mutuals[0];
+  }
+
+  @ResolveField("secondMutualFriend")
+  async secondMutualFriend(
+    @Parent() user: User,
+    @CurrentUser("userId") viewerId: number,
+    @Args("friendId") friendId?: string
+  ): Promise<User | undefined> {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    let decodedFriendId: number;
+    if (friendId) {
+      decodedFriendId = validateAndDecodeGlobalId(friendId, "User");
+    } else {
+      decodedFriendId = viewerId;
+    }
+
+    const mutuals = await this.userFriendshipService.getMutualFollowing(
+      decodedUserId,
+      decodedFriendId
+    );
+
+    return mutuals[1];
+  }
+
+  @ResolveField("mutualCount")
+  async mutualCount(
+    @Parent() user: User,
+    @CurrentUser("userId") viewerId: number,
+    @Args("friendId") friendId?: string
+  ): Promise<number> {
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    let decodedFriendId: number;
+    if (friendId) {
+      decodedFriendId = validateAndDecodeGlobalId(friendId, "User");
+    } else {
+      decodedFriendId = viewerId;
+    }
+
+    return this.userFriendshipService.getMutualFollowingCount(
+      decodedUserId,
+      decodedFriendId
+    );
+  }
 }

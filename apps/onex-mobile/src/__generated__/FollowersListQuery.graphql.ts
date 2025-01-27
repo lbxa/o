@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f2ccf7ea046fa18a63c315bddd8bd58f>>
+ * @generated SignedSource<<7d4981c6b2d58ffdce28615518507e91>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -38,7 +38,28 @@ v1 = [
     "name": "first",
     "value": 10
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "lastName",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "handle",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -172,27 +193,9 @@ return {
                         "plural": false,
                         "selections": [
                           (v0/*: any*/),
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "firstName",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "lastName",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "handle",
-                            "storageKey": null
-                          },
+                          (v2/*: any*/),
+                          (v3/*: any*/),
+                          (v4/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -209,6 +212,28 @@ return {
                                 "name": "currentStreak",
                                 "storageKey": null
                               }
+                            ],
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "mutualCount",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "User",
+                            "kind": "LinkedField",
+                            "name": "firstMutualFriend",
+                            "plural": false,
+                            "selections": [
+                              (v0/*: any*/),
+                              (v2/*: any*/),
+                              (v3/*: any*/),
+                              (v4/*: any*/)
                             ],
                             "storageKey": null
                           },
@@ -246,12 +271,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "626186380692bb83442cd959530de9f6",
+    "cacheID": "d6b6a72b3f2aab4ce1940836caada0f4",
     "id": null,
     "metadata": {},
     "name": "FollowersListQuery",
     "operationKind": "query",
-    "text": "query FollowersListQuery {\n  viewer {\n    id\n    user {\n      ...FollowersList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment FollowersList_user_1KmBw7 on User {\n  id\n  followers(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n"
+    "text": "query FollowersListQuery {\n  viewer {\n    id\n    user {\n      ...FollowersList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment FollowersList_user_1KmBw7 on User {\n  id\n  followers(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n"
   }
 };
 })();

@@ -90,7 +90,7 @@ export const HomeFeed = ({
       className="px-sm"
       showsVerticalScrollIndicator={false}
       renderItem={({ item }) => <HomeFeedItem fragmentRef={item} />}
-      data={homeFeedData?.homeFeed.edges.map((edge) => edge.node)}
+      data={homeFeedData?.homeFeed.edges.map((edge) => edge.node) ?? []}
       refreshControl={
         <RefreshControl onRefresh={handleRefresh} refreshing={isPending} />
       }
@@ -107,7 +107,7 @@ export const HomeFeed = ({
       onEndReachedThreshold={0.5}
       onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Nature width={150} height={150} />
           </View>

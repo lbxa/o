@@ -1,24 +1,3 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
-dayjs.locale("en", {
-  relativeTime: {
-    future: "in %s",
-    past: "%s ago",
-    s: "1s",
-    m: "1m",
-    mm: "%dm",
-    h: "1h",
-    hh: "%dh",
-    d: "1d",
-    dd: "%dd",
-    M: "1m",
-    MM: "%dm",
-    y: "1y",
-    yy: "%dy",
-  },
-});
-
 import Cross from "@assets/icons/cross.svg";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -31,7 +10,7 @@ import type { UserNotificationCardAcceptFriendMutation } from "@/__generated__/U
 import type { UserNotificationCardDeclineFriendMutation } from "@/__generated__/UserNotificationCardDeclineFriendMutation.graphql";
 import { useOTheme } from "@/utils";
 
-import { OButton, OText, OTouchable } from "../../universe/atoms";
+import { OButton, OText, OTouchable, Timestamp } from "../../universe/atoms";
 import { UserAvatar } from "../UserAvatar";
 
 interface UserNotificationCardProps {
@@ -127,24 +106,22 @@ export const UserNotificationCard = ({
 
   return (
     <OTouchable
-      className="mb-md gap-md flex w-full flex-col"
+      className="mb-md flex w-full flex-col gap-md"
       onPress={() => router.push(`/(modals)/${notification.user.id}`)}
     >
-      <View className="gap-sm flex flex-row items-center">
+      <View className="flex flex-row items-center gap-sm">
         <UserAvatar user={notification.user} size="md" />
         <View className="flex flex-1 flex-col">
           <OText className="font-semibold" numberOfLines={2}>
             {notification.user.handle ?? fullName}
             <OText className="font-normal"> wants to follow you. </OText>
             {notification.createdAt && (
-              <OText className="text-sm text-gray-500 dark:text-gray-300">
-                {dayjs(notification.createdAt).fromNow(true)}
-              </OText>
+              <Timestamp timestamp={notification.createdAt} size="sm" />
             )}
           </OText>
           {/* <UserMutuals mutuals={3} /> */}
         </View>
-        <View className="gap-sm flex flex-row items-center">
+        <View className="flex flex-row items-center gap-sm">
           <OButton
             title="Confirm"
             loading={isAddMutationInFlight}

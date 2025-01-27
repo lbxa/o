@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6c4ffb87f07f205bebd5cd95b6776b50>>
+ * @generated SignedSource<<76d461fc1b299e79238282029adc8003>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -75,7 +75,28 @@ v4 = [
     "name": "first",
     "variableName": "count"
   }
-];
+],
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "lastName",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "handle",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -174,27 +195,9 @@ return {
                             "plural": false,
                             "selections": [
                               (v3/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "firstName",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "lastName",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "handle",
-                                "storageKey": null
-                              },
+                              (v5/*: any*/),
+                              (v6/*: any*/),
+                              (v7/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -211,6 +214,28 @@ return {
                                     "name": "currentStreak",
                                     "storageKey": null
                                   }
+                                ],
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "mutualCount",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "User",
+                                "kind": "LinkedField",
+                                "name": "firstMutualFriend",
+                                "plural": false,
+                                "selections": [
+                                  (v3/*: any*/),
+                                  (v5/*: any*/),
+                                  (v6/*: any*/),
+                                  (v7/*: any*/)
                                 ],
                                 "storageKey": null
                               }
@@ -285,12 +310,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "dd25296e3efa59866e467ddf5ee57fcd",
+    "cacheID": "8e9270c587712fe7f3791a88170b4c8e",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

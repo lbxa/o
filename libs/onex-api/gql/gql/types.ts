@@ -709,26 +709,36 @@ export type User = Node & Timestamps & {
   challengeActivityResultsCount?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  /**  If the userId is not passed than the viewerId is assumed to be the friendId  */
+  firstMutualFriend?: Maybe<User>;
   firstName?: Maybe<Scalars['String']['output']>;
-  /** Requests to be followed by this user */
+  /**  Requests to be followed by this user  */
   followRequests?: Maybe<UserFriendshipConnection>;
   followerCount?: Maybe<Scalars['Int']['output']>;
-  /** Requests to follow this user */
+  /**  Requests to follow this user  */
   followerRequests?: Maybe<UserFriendshipConnection>;
-  /** If they have any followers... */
+  /**  If they have any followers...  */
   followers?: Maybe<UserConnection>;
-  /** If they follow any users... */
+  /**  If they follow any users...  */
   following?: Maybe<UserConnection>;
   followingCount?: Maybe<Scalars['Int']['output']>;
   handle?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+  mutualCount?: Maybe<Scalars['Int']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   searchFriends?: Maybe<Array<User>>;
+  secondMutualFriend?: Maybe<User>;
   /** The streak of consecutive days that the user has completed a challenge. */
   streak?: Maybe<UserStreak>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** A user of the app */
+export type UserFirstMutualFriendArgs = {
+  friendId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -761,8 +771,20 @@ export type UserFollowingArgs = {
 
 
 /** A user of the app */
+export type UserMutualCountArgs = {
+  friendId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+/** A user of the app */
 export type UserSearchFriendsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** A user of the app */
+export type UserSecondMutualFriendArgs = {
+  friendId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UserConnection = {

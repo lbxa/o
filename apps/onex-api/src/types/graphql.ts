@@ -479,6 +479,9 @@ export interface User extends Node, Timestamps {
     followingCount?: Nullable<number>;
     followerRequests?: Nullable<UserFriendshipConnection>;
     followRequests?: Nullable<UserFriendshipConnection>;
+    firstMutualFriend?: Nullable<User>;
+    secondMutualFriend?: Nullable<User>;
+    mutualCount?: Nullable<number>;
     id: string;
     handle?: Nullable<string>;
     firstName?: Nullable<string>;

@@ -118,7 +118,7 @@ export const UserLogin = () => {
           rules={{
             required: { value: true, message: "Required field" },
             pattern: {
-              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/,
               message: "Invalid email",
             },
           }}
@@ -182,7 +182,7 @@ export const UserLogin = () => {
         />
         <Link
           href="/auth/sign-up"
-          className="mt-md text-blue-700 underline dark:text-ivory"
+          className="mt-md dark:text-ivory text-blue-700 underline"
         >
           Create an account
         </Link>

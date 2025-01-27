@@ -2,9 +2,9 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { useQueryLoader } from "react-relay";
 
-import type { ChallengeActivityHistoryListQuery } from "@/__generated__/ChallengeActivityHistoryListQuery.graphql";
-import { CHALLENGE_ACTIVITY_HISTORY_LIST_QUERY } from "@/challenges/ChallengeRoot/ChallengeActivity";
-import { ChallengeActivityHistoryList } from "@/challenges/ChallengeRoot/ChallengeActivity/ChallengeActivityHistory";
+import type { ChallengeActivityTopResultsHistoryQuery } from "@/__generated__/ChallengeActivityTopResultsHistoryQuery.graphql";
+import { CHALLENGE_ACTIVITY_TOP_RESULTS_HISTORY_QUERY } from "@/challenges/ChallengeRoot/ChallengeActivity";
+import { ChallengeActivityTopResultsHistory } from "@/challenges/ChallengeRoot/ChallengeActivity/ChallengeActivityStats/ChallengeActivityTopResultsHistory";
 import { useZustStore } from "@/state";
 import { Ozone } from "@/universe/molecules/Ozone";
 
@@ -14,8 +14,8 @@ export default function ChallengeHistory() {
   }>();
 
   const [queryRef, loadQuery, disposeQuery] =
-    useQueryLoader<ChallengeActivityHistoryListQuery>(
-      CHALLENGE_ACTIVITY_HISTORY_LIST_QUERY
+    useQueryLoader<ChallengeActivityTopResultsHistoryQuery>(
+      CHALLENGE_ACTIVITY_TOP_RESULTS_HISTORY_QUERY
     );
 
   const { selectedChallenge } = useZustStore();
@@ -34,7 +34,7 @@ export default function ChallengeHistory() {
 
   return (
     <Ozone>
-      {queryRef && <ChallengeActivityHistoryList queryRef={queryRef} />}
+      {queryRef && <ChallengeActivityTopResultsHistory queryRef={queryRef} />}
     </Ozone>
   );
 }

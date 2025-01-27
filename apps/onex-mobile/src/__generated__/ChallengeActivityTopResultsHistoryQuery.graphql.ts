@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a6e61d229866366978c2166c902a675b>>
+ * @generated SignedSource<<aa1ff3e2ee8d27183e95df7fbf678f11>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,24 +10,24 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityHistoryListQuery$variables = {
+export type ChallengeActivityTopResultsHistoryQuery$variables = {
   challengeId: string;
   userId: string;
 };
-export type ChallengeActivityHistoryListQuery$data = {
+export type ChallengeActivityTopResultsHistoryQuery$data = {
   readonly viewer: {
     readonly challenge: {
       readonly id: string;
-      readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityHistoryList_challenge">;
+      readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsHistory_challenge">;
     } | null | undefined;
     readonly user: {
       readonly id: string;
     } | null | undefined;
   } | null | undefined;
 };
-export type ChallengeActivityHistoryListQuery = {
-  response: ChallengeActivityHistoryListQuery$data;
-  variables: ChallengeActivityHistoryListQuery$variables;
+export type ChallengeActivityTopResultsHistoryQuery = {
+  response: ChallengeActivityTopResultsHistoryQuery$data;
+  variables: ChallengeActivityTopResultsHistoryQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -87,7 +87,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ChallengeActivityHistoryListQuery",
+    "name": "ChallengeActivityTopResultsHistoryQuery",
     "selections": [
       {
         "alias": null,
@@ -112,7 +112,7 @@ return {
                   (v4/*: any*/)
                 ],
                 "kind": "FragmentSpread",
-                "name": "ChallengeActivityHistoryList_challenge"
+                "name": "ChallengeActivityTopResultsHistory_challenge"
               }
             ],
             "storageKey": null
@@ -128,7 +128,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ChallengeActivityHistoryListQuery",
+    "name": "ChallengeActivityTopResultsHistoryQuery",
     "selections": [
       {
         "alias": null,
@@ -268,6 +268,13 @@ return {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
+                            "name": "createdAt",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
                             "name": "formattedResult",
                             "storageKey": null
                           },
@@ -294,7 +301,7 @@ return {
                   "userId"
                 ],
                 "handle": "connection",
-                "key": "ChallengeActivityHistoryList_challenge_resultsHistory",
+                "key": "ChallengeActivityTopResultsHistory_challenge_resultsHistory",
                 "kind": "LinkedHandle",
                 "name": "resultsHistory"
               }
@@ -308,16 +315,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ed86afc24dd37e1a3245051f7aee509c",
+    "cacheID": "e9c2d91cacee0159bedf5a6e4ba54f7a",
     "id": null,
     "metadata": {},
-    "name": "ChallengeActivityHistoryListQuery",
+    "name": "ChallengeActivityTopResultsHistoryQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityHistoryListQuery(\n  $challengeId: ID!\n  $userId: ID!\n) {\n  viewer {\n    user {\n      id\n    }\n    challenge(challengeId: $challengeId) {\n      id\n      ...ChallengeActivityHistoryList_challenge_1xxw8p\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryList_challenge_1xxw8p on Challenge {\n  resultsHistory(userId: $userId, first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...TopResultCard_challenge\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsHistoryQuery(\n  $challengeId: ID!\n  $userId: ID!\n) {\n  viewer {\n    user {\n      id\n    }\n    challenge(challengeId: $challengeId) {\n      id\n      ...ChallengeActivityTopResultsHistory_challenge_1xxw8p\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n  }\n  createdAt\n  formattedResult\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_1xxw8p on Challenge {\n  resultsHistory(userId: $userId, first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7b499ff323d605470626c13cdef39b3d";
+(node as any).hash = "4ff222147eb1091403fd1af0def9b6ad";
 
 export default node;

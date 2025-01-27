@@ -15,13 +15,13 @@ export const UserAvatar = ({
 }) => {
   const sizeClasses = {
     sm: "size-10",
-    md: "size-[40px]",
+    md: "size-[60px]",
     lg: "size-[200px]",
   };
 
   const textSizeClasses = {
     sm: "text-lg leading-10",
-    md: "text-xl leading-[40px]",
+    md: "text-3xl leading-[60px]",
     lg: "text-6xl leading-[200px]",
   };
 

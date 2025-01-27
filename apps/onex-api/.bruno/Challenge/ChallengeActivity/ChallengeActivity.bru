@@ -26,6 +26,12 @@ body:graphql {
   #   }
   # }
   
+  fragment UserClip on User {
+    firstName
+    lastName
+    email
+  }
+  
   query {
     # challengeActivityResults(challengeId: "Q2hhbGxlbmdlQWN0aXZpdHk6MQ==") {
     #   user {
@@ -88,8 +94,14 @@ body:graphql {
             cursor
             node {
               user {
-                firstName
-                lastName
+                ...UserClip
+                firstMutualFriend {
+                  ...UserClip
+                }
+                secondMutualFriend {
+                  ...UserClip
+                }
+                mutualCount
               }
               createdAt
               result

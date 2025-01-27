@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e1f4fe70206fe2487b785ea7443c194e>>
+ * @generated SignedSource<<a2e5a3b215136e9a2ad6425a78b58eb7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,21 +10,22 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityHistoryCard_challenge$data = {
-  readonly createdAt: Date | null | undefined;
-  readonly formattedResult: string;
-  readonly id: string;
+export type ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$data = {
   readonly user: {
     readonly firstName: string | null | undefined;
     readonly handle: string | null | undefined;
     readonly id: string;
     readonly lastName: string | null | undefined;
+    readonly streak: {
+      readonly currentStreak: number;
+      readonly id: string;
+    } | null | undefined;
   };
-  readonly " $fragmentType": "ChallengeActivityHistoryCard_challenge";
+  readonly " $fragmentType": "ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult";
 };
-export type ChallengeActivityHistoryCard_challenge$key = {
-  readonly " $data"?: ChallengeActivityHistoryCard_challenge$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityHistoryCard_challenge">;
+export type ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$key = {
+  readonly " $data"?: ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult">;
 };
 
 const node: ReaderFragment = (function(){
@@ -39,9 +40,8 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ChallengeActivityHistoryCard_challenge",
+  "name": "ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult",
   "selections": [
-    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -71,22 +71,27 @@ return {
           "kind": "ScalarField",
           "name": "handle",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "UserStreak",
+          "kind": "LinkedField",
+          "name": "streak",
+          "plural": false,
+          "selections": [
+            (v0/*: any*/),
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "currentStreak",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
         }
       ],
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "createdAt",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "formattedResult",
       "storageKey": null
     }
   ],
@@ -95,6 +100,6 @@ return {
 };
 })();
 
-(node as any).hash = "2cca28ea4c60f782b4919c2be492c308";
+(node as any).hash = "05a235950bf6d525fd9b3c3dec6860e5";
 
 export default node;

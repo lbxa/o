@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0c08bb0318058b54e4091852b5fbadf2>>
+ * @generated SignedSource<<c328e61762ceed81ca967b8f8064efbd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,17 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type UserProfileRow_user$data = {
+  readonly firstMutualFriend: {
+    readonly firstName: string | null | undefined;
+    readonly handle: string | null | undefined;
+    readonly id: string;
+    readonly lastName: string | null | undefined;
+  } | null | undefined;
   readonly firstName: string | null | undefined;
   readonly handle: string | null | undefined;
   readonly id: string;
   readonly lastName: string | null | undefined;
+  readonly mutualCount: number | null | undefined;
   readonly streak: {
     readonly currentStreak: number;
     readonly id: string;
@@ -33,6 +40,27 @@ var v0 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "lastName",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "handle",
+  "storageKey": null
 };
 return {
   "argumentDefinitions": [],
@@ -41,27 +69,9 @@ return {
   "name": "UserProfileRow_user",
   "selections": [
     (v0/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "firstName",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "lastName",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "handle",
-      "storageKey": null
-    },
+    (v1/*: any*/),
+    (v2/*: any*/),
+    (v3/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -80,6 +90,28 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "mutualCount",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "User",
+      "kind": "LinkedField",
+      "name": "firstMutualFriend",
+      "plural": false,
+      "selections": [
+        (v0/*: any*/),
+        (v1/*: any*/),
+        (v2/*: any*/),
+        (v3/*: any*/)
+      ],
+      "storageKey": null
     }
   ],
   "type": "User",
@@ -87,6 +119,6 @@ return {
 };
 })();
 
-(node as any).hash = "e0815f3bd744db8368eedd25d7d2fd14";
+(node as any).hash = "8ffed78b2138d73f48ba0f8941c95b87";
 
 export default node;

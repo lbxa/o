@@ -33,16 +33,20 @@ type UserFriendshipStatus {
 }
 
 extend type User {
-  "If they have any followers..."
+  " If they have any followers... "
   followers(first: Int, after: String): UserConnection
-  "If they follow any users..."
+  " If they follow any users... "
   following(first: Int, after: String): UserConnection
   searchFriends(searchTerm: String): [User!]
   buddyCount: Int
   followerCount: Int
   followingCount: Int
-  "Requests to follow this user"
+  " Requests to follow this user "
   followerRequests(first: Int, after: String): UserFriendshipConnection
-  "Requests to be followed by this user"
+  " Requests to be followed by this user "
   followRequests(first: Int, after: String): UserFriendshipConnection
+  " If the userId is not passed than the viewerId is assumed to be the friendId "
+  firstMutualFriend(friendId: ID): User
+  secondMutualFriend(friendId: ID): User
+  mutualCount(friendId: ID): Int
 }

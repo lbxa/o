@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e71fda65e5bd9d5f65ee0ce7083a9904>>
+ * @generated SignedSource<<b5580ecd029ff1c6997abf34b4266f41>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,20 +10,20 @@
 
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityHistoryListPaginationQuery$variables = {
+export type ChallengeActivityTopResultsHistoryPaginationQuery$variables = {
   count?: number | null | undefined;
   cursor?: string | null | undefined;
   id: string;
   userId: string;
 };
-export type ChallengeActivityHistoryListPaginationQuery$data = {
+export type ChallengeActivityTopResultsHistoryPaginationQuery$data = {
   readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityHistoryList_challenge">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsHistory_challenge">;
   } | null | undefined;
 };
-export type ChallengeActivityHistoryListPaginationQuery = {
-  response: ChallengeActivityHistoryListPaginationQuery$data;
-  variables: ChallengeActivityHistoryListPaginationQuery$variables;
+export type ChallengeActivityTopResultsHistoryPaginationQuery = {
+  response: ChallengeActivityTopResultsHistoryPaginationQuery$data;
+  variables: ChallengeActivityTopResultsHistoryPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -96,7 +96,7 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "ChallengeActivityHistoryListPaginationQuery",
+    "name": "ChallengeActivityTopResultsHistoryPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -121,7 +121,7 @@ return {
               (v5/*: any*/)
             ],
             "kind": "FragmentSpread",
-            "name": "ChallengeActivityHistoryList_challenge"
+            "name": "ChallengeActivityTopResultsHistory_challenge"
           }
         ],
         "storageKey": null
@@ -139,7 +139,7 @@ return {
       (v2/*: any*/)
     ],
     "kind": "Operation",
-    "name": "ChallengeActivityHistoryListPaginationQuery",
+    "name": "ChallengeActivityTopResultsHistoryPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -274,6 +274,13 @@ return {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
+                            "name": "createdAt",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
                             "name": "formattedResult",
                             "storageKey": null
                           },
@@ -294,7 +301,7 @@ return {
                   "userId"
                 ],
                 "handle": "connection",
-                "key": "ChallengeActivityHistoryList_challenge_resultsHistory",
+                "key": "ChallengeActivityTopResultsHistory_challenge_resultsHistory",
                 "kind": "LinkedHandle",
                 "name": "resultsHistory"
               }
@@ -308,16 +315,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "fa15b7cc58ccc9cb549c0f948d5a3ac5",
+    "cacheID": "ca50f18ff4dffafad93a13e32e8bf4cc",
     "id": null,
     "metadata": {},
-    "name": "ChallengeActivityHistoryListPaginationQuery",
+    "name": "ChallengeActivityTopResultsHistoryPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityHistoryListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $userId: ID!\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityHistoryList_challenge_2PpJm0\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryList_challenge_2PpJm0 on Challenge {\n  resultsHistory(userId: $userId, first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...TopResultCard_challenge\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n}\n"
+    "text": "query ChallengeActivityTopResultsHistoryPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $userId: ID!\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsHistory_challenge_2PpJm0\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n  }\n  createdAt\n  formattedResult\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_2PpJm0 on Challenge {\n  resultsHistory(userId: $userId, first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "24c9724b5caac4aa56b529651ac2f8e1";
+(node as any).hash = "5851782cad4b6d27905f188cc114158c";
 
 export default node;

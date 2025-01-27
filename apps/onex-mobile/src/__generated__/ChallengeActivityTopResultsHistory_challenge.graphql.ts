@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1c8e7b32cbae423e2f91be85ea8ec774>>
+ * @generated SignedSource<<7b458c8603e31d19eb5453278464d231>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,13 +10,13 @@
 
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
-export type ChallengeActivityHistoryList_challenge$data = {
+export type ChallengeActivityTopResultsHistory_challenge$data = {
   readonly id: string;
   readonly resultsHistory: {
     readonly edges: ReadonlyArray<{
       readonly cursor: string;
       readonly node: {
-        readonly " $fragmentSpreads": FragmentRefs<"TopResultCard_challenge">;
+        readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityHistoryCard_challenge" | "ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult">;
       };
     }> | null | undefined;
     readonly pageInfo: {
@@ -25,11 +25,11 @@ export type ChallengeActivityHistoryList_challenge$data = {
       readonly startCursor: string | null | undefined;
     };
   } | null | undefined;
-  readonly " $fragmentType": "ChallengeActivityHistoryList_challenge";
+  readonly " $fragmentType": "ChallengeActivityTopResultsHistory_challenge";
 };
-export type ChallengeActivityHistoryList_challenge$key = {
-  readonly " $data"?: ChallengeActivityHistoryList_challenge$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityHistoryList_challenge">;
+export type ChallengeActivityTopResultsHistory_challenge$key = {
+  readonly " $data"?: ChallengeActivityTopResultsHistory_challenge$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityTopResultsHistory_challenge">;
 };
 
 const node: ReaderFragment = (function(){
@@ -76,14 +76,14 @@ return {
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./ChallengeActivityHistoryListPaginationQuery.graphql'),
+      "operation": require('./ChallengeActivityTopResultsHistoryPaginationQuery.graphql'),
       "identifierInfo": {
         "identifierField": "id",
         "identifierQueryVariableName": "id"
       }
     }
   },
-  "name": "ChallengeActivityHistoryList_challenge",
+  "name": "ChallengeActivityTopResultsHistory_challenge",
   "selections": [
     {
       "alias": "resultsHistory",
@@ -96,7 +96,7 @@ return {
       ],
       "concreteType": "ChallengeActivityResultConnection",
       "kind": "LinkedField",
-      "name": "__ChallengeActivityHistoryList_challenge_resultsHistory_connection",
+      "name": "__ChallengeActivityTopResultsHistory_challenge_resultsHistory_connection",
       "plural": false,
       "selections": [
         {
@@ -157,7 +157,12 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "TopResultCard_challenge"
+                  "name": "ChallengeActivityHistoryCard_challenge"
+                },
+                {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult"
                 },
                 {
                   "alias": null,
@@ -188,6 +193,6 @@ return {
 };
 })();
 
-(node as any).hash = "24c9724b5caac4aa56b529651ac2f8e1";
+(node as any).hash = "5851782cad4b6d27905f188cc114158c";
 
 export default node;
