@@ -8,7 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { withIdPk, withModificationDates } from "../helpers";
+import { $C, withIdPk, withModificationDates } from "../helpers";
 import { InvitationStatus } from "./shared/invitation-status-enum";
 import { UsersTable } from "./user.schema";
 
@@ -45,7 +45,7 @@ export const CommunityMembershipsTable = CommunitySchema.table(
     joinedAt: timestamp({
       mode: "date",
       withTimezone: true,
-      precision: 6,
+      precision: $C.TIMEZONE_PRECISION,
     }).defaultNow(),
   },
   (table) => ({
@@ -71,7 +71,7 @@ export const CommunityInvitationsTable = CommunitySchema.table(
     expiresAt: timestamp({
       mode: "date",
       withTimezone: true,
-      precision: 6,
+      precision: $C.TIMEZONE_PRECISION,
     }).notNull(),
     ...withModificationDates,
   },

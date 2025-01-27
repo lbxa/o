@@ -2,22 +2,15 @@ import { Injectable } from "@nestjs/common";
 import type {
   $DrizzleSchema,
   NewUserRecord as PgNewUserRecord,
-  User as PgUser,
   UserRecord as PgUserRecord,
 } from "@o/db";
 import { UserRecordsTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
-import { PgChallengeComposite } from "@/challenge/challenge.repository";
-import { PgChallengeActivityResultComposite } from "@/challenge/challenge-activity-results";
 import { DbService } from "@/db/db.service";
 import { EntityRepository } from "@/entity";
 
-export type PgUserRecordComposite = PgUserRecord & {
-  user: PgUser;
-  challenge: PgChallengeComposite;
-  activityResult: PgChallengeActivityResultComposite;
-};
+import type { PgUserRecordComposite } from "./user-records.types";
 
 @Injectable()
 export class UserRecordsRepository
@@ -40,7 +33,11 @@ export class UserRecordsRepository
         user: true,
         challenge: {
           with: {
-            activities: true,
+            activities: {
+              with: {
+                challenge: true,
+              },
+            },
             community: {
               with: {
                 owner: true,
@@ -51,7 +48,11 @@ export class UserRecordsRepository
         activityResult: {
           with: {
             user: true,
-            activity: true,
+            activity: {
+              with: {
+                challenge: true,
+              },
+            },
           },
         },
       },
@@ -105,7 +106,11 @@ export class UserRecordsRepository
           user: true,
           challenge: {
             with: {
-              activities: true,
+              activities: {
+                with: {
+                  challenge: true,
+                },
+              },
               community: {
                 with: {
                   owner: true,
@@ -116,7 +121,11 @@ export class UserRecordsRepository
           activityResult: {
             with: {
               user: true,
-              activity: true,
+              activity: {
+                with: {
+                  challenge: true,
+                },
+              },
             },
           },
         },

@@ -3,17 +3,14 @@ import type {
   $DrizzleSchema,
   Community as PgCommunity,
   NewCommunity as PgNewCommunity,
-  User as PgUser,
 } from "@o/db";
 import { CommunitiesTable, CommunityMembershipsTable, UsersTable } from "@o/db";
 import { desc, eq } from "drizzle-orm";
 
+import { PgCommunityComposite } from "@/community/community.types";
+
 import { DbService } from "../db/db.service";
 import { EntityRepository } from "../entity";
-
-export type PgCommunityComposite = PgCommunity & {
-  owner: PgUser;
-};
 
 @Injectable()
 export class CommunityRepository

@@ -9,7 +9,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { withIdPk, withModificationDates } from "../helpers";
+import { $C, withIdPk, withModificationDates } from "../helpers";
 import { CommunitiesTable } from "./community.schema";
 import { InvitationStatus } from "./shared/invitation-status-enum";
 import { UsersTable } from "./user.schema";
@@ -48,12 +48,12 @@ export const ChallengesTable = ChallengeSchema.table(
     startDate: timestamp({
       mode: "date",
       withTimezone: true,
-      precision: 6,
+      precision: $C.TIMEZONE_PRECISION,
     }).notNull(),
     endDate: timestamp({
       mode: "date",
       withTimezone: true,
-      precision: 6,
+      precision: $C.TIMEZONE_PRECISION,
     }).notNull(),
     ...withModificationDates,
   },
@@ -80,7 +80,7 @@ export const ChallengeMembershipsTable = ChallengeSchema.table(
     joinedAt: timestamp({
       mode: "date",
       withTimezone: true,
-      precision: 6,
+      precision: $C.TIMEZONE_PRECISION,
     })
       .notNull()
       .defaultNow(),
@@ -105,7 +105,7 @@ export const ChallengeInvitationsTable = ChallengeSchema.table("invitations", {
   expiresAt: timestamp({
     mode: "date",
     withTimezone: true,
-    precision: 6,
+    precision: $C.TIMEZONE_PRECISION,
   }).notNull(),
   ...withModificationDates,
 });
@@ -151,7 +151,6 @@ export const ChallengeActivitiesTable = ChallengeSchema.table(
       .notNull()
       .references(() => ChallengesTable.id, { onDelete: "cascade" }),
     type: ChallengeActivityType().notNull(),
-    // measurement: ChallengeActivityMeasurement().notNull(),
     goal: ChallengeActivityGoal().notNull(),
     target: integer(),
     unit: ChallengeActivityUnits().notNull(),

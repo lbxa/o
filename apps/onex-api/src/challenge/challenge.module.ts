@@ -6,7 +6,7 @@ import { UserModule } from "../user/user.module";
 import { ChallengeRepository } from "./challenge.repository";
 import { ChallengeResolver } from "./challenge.resolver";
 import { ChallengeService } from "./challenge.service";
-import { ChallengeActivitiesService } from "./challenge-activity";
+import { ChallengeActivityService } from "./challenge-activity";
 import {
   ChallengeActivityResultsRepository,
   ChallengeActivityResultsResolver,
@@ -22,7 +22,7 @@ import { ChallengeMembershipsService } from "./challenge-memberships";
     ChallengeService,
     ChallengeResolver,
     ChallengeRepository,
-    ChallengeActivitiesService,
+    ChallengeActivityService,
     ChallengeActivityResultsResolver,
     ChallengeActivityResultsService,
     ChallengeActivityResultsRepository,
@@ -32,7 +32,7 @@ import { ChallengeMembershipsService } from "./challenge-memberships";
   ],
   exports: [
     ChallengeService,
-    ChallengeActivitiesService,
+    ChallengeActivityService,
     ChallengeActivityResultsService,
     ChallengeActivityResultsRepository,
     RankingService,

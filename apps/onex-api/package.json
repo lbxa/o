@@ -30,6 +30,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.4.4",
+    "@nestjs/schedule": "^5.0.1",
     "@o/db": "workspace:*",
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",

@@ -40,11 +40,11 @@ export const CommunitySocials = ({ fragmentRef }: CommunitySocialsProps) => {
   return (
     <View className="gap-sm flex flex-row items-center">
       <AvatarArray arrayCount={memberCount} />
-      <View className="flex flex-col">
+      <View className="flex flex-1 flex-col">
         <OText numberOfLines={1}>
           {memberCount} {memberCountLabel}
         </OText>
-        <OText numberOfLines={1}>
+        <OText numberOfLines={2} className="shrink">
           Including{" "}
           <OText
             onPress={() => router.push(`/(modals)/${frag.firstMember?.id}`)}
@@ -54,7 +54,9 @@ export const CommunitySocials = ({ fragmentRef }: CommunitySocialsProps) => {
           </OText>
           {secondMemberName && (
             <OText className="font-bold">
-              <OText className="font-normal">,</OText>{" "}
+              <OText className="font-normal">
+                {memberCount === 2 ? " and" : ","}
+              </OText>{" "}
               <OText
                 onPress={() =>
                   router.push(`/(modals)/${frag.secondMember?.id}`)

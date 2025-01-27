@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import type {
   $DrizzleSchema,
   NewUserStreak,
-  User as PgUser,
   UserStreak as PgUserStreak,
 } from "@o/db";
 import { UserStreaksTable } from "@o/db";
 import dayjs from "dayjs";
-import { eq } from "drizzle-orm";
+import { eq, isNull, lte, or, SQL, sql } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
 import { EntityService, EntityType, EntityUtils } from "@/entity";
@@ -16,6 +16,7 @@ import {
   UserStreakUpdateInput,
 } from "@/types/graphql";
 import { UserService } from "@/user/user.service";
+import { PgUserStreakComposite } from "@/user/user-streaks/user-streaks.types";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "@/utils";
 import { InternalServerError, NotFoundError } from "@/utils/errors";
 
@@ -23,9 +24,17 @@ import { UserStreaksRepository } from "./user-streaks.repository";
 
 @Injectable()
 export class UserStreaksService
-  implements EntityService<typeof UserStreaksTable, PgUserStreak, GqlUserStreak>
+  implements
+    EntityService<
+      typeof UserStreaksTable,
+      PgUserStreak,
+      GqlUserStreak,
+      PgUserStreakComposite
+    >
 {
   private static readonly INITIAL_STREAK = 1;
+  private static readonly ZERO_STREAK = 0;
+  private readonly logger = new Logger(UserStreaksService.name);
 
   constructor(
     private dbService: DbService<typeof $DrizzleSchema>,
@@ -37,9 +46,7 @@ export class UserStreaksService
     return "UserStreak";
   }
 
-  public pg2GqlMapper(
-    pgUserStreak: PgUserStreak & { user: PgUser }
-  ): GqlUserStreak {
+  public pg2GqlMapper(pgUserStreak: PgUserStreakComposite): GqlUserStreak {
     return {
       ...pgUserStreak,
       id: encodeGlobalId(this.getTypename(), pgUserStreak.id),
@@ -112,7 +119,7 @@ export class UserStreaksService
     currentStreak: number,
     longestStreak: number,
     dayDifference: number
-  ) {
+  ): Pick<PgUserStreak, "currentStreak" | "longestStreak"> | null {
     if (dayDifference === 1) {
       const newCurrentStreak = currentStreak + 1;
       return {
@@ -174,6 +181,45 @@ export class UserStreaksService
       } else {
         throw error;
       }
+    }
+  }
+
+  /**
+   * At the strike of midnight, reset the streak for users who have not
+   * completed an activity in the last 24 hours.
+   *
+   * Cinderella needs her slippers
+   *
+   * TODO add distributed locking mechanism to this function
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async handleCinderella() {
+    const yesterday = dayjs().subtract(1, "day").endOf("day").toDate();
+    const longestStreakSQL: SQL<number> = sql<number>`
+      GREATEST(
+        COALESCE(${UserStreaksTable.longestStreak}, 0),
+        ${UserStreaksTable.currentStreak}
+      )
+    `;
+
+    try {
+      const updatedStreaks = await this.dbService.db
+        .update(UserStreaksTable)
+        .set({
+          currentStreak: UserStreaksService.ZERO_STREAK,
+          longestStreak: longestStreakSQL,
+        })
+        .where(
+          or(
+            lte(UserStreaksTable.updatedAt, yesterday),
+            isNull(UserStreaksTable.updatedAt)
+          )
+        )
+        .returning();
+
+      this.logger.log(`Reset streaks for ${updatedStreaks.length} users`);
+    } catch (error) {
+      this.logger.error("Failed to reset streaks", error);
     }
   }
 }

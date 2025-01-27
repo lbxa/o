@@ -11,8 +11,9 @@ import {
   NewChallengeActivity,
   UsersTable,
 } from "@o/db";
-import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
+import { and, asc, eq, gt, lt } from "drizzle-orm";
 
+import { PgChallengeComposite } from "@/challenge/challenge.types";
 import { CommunityRepository } from "@/community/community.repository";
 import { CommunityService } from "@/community/community.service";
 
@@ -34,11 +35,8 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../utils/errors";
-import {
-  ChallengeRepository,
-  PgChallengeComposite,
-} from "./challenge.repository";
-import { ChallengeActivitiesService } from "./challenge-activity";
+import { ChallengeRepository } from "./challenge.repository";
+import { ChallengeActivityService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengeService
@@ -51,7 +49,7 @@ export class ChallengeService
     >
 {
   constructor(
-    private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityService: ChallengeActivityService,
     private challengeRepository: ChallengeRepository,
     private communityService: CommunityService,
     private communityRepository: CommunityRepository,
@@ -67,7 +65,7 @@ export class ChallengeService
       ...challenge,
       mode: mapToEnum(ChallengeMode, challenge.mode),
       cadence: mapToEnum(ChallengeCadence, challenge.cadence),
-      activity: this.challengeActivitiesService.pg2GqlMapper(
+      activity: this.challengeActivityService.pg2GqlMapper(
         challenge.activities[0]
       ),
       community: this.communityService.pg2GqlMapper(challenge.community),
@@ -89,7 +87,11 @@ export class ChallengeService
     const allChallenges =
       await this.dbService.db.query.ChallengesTable.findMany({
         with: {
-          activities: true,
+          activities: {
+            with: {
+              challenge: true,
+            },
+          },
           community: { with: { owner: true } },
         },
       });
@@ -124,7 +126,12 @@ export class ChallengeService
     return challenges.map((challenge) =>
       this.pg2GqlMapper({
         ...challenge.challenge,
-        activities: [challenge.activities],
+        activities: [
+          {
+            ...challenge.activities, // For now there will only be one activity per challenge
+            challenge: challenge.challenge,
+          },
+        ],
         community: {
           ...challenge.community,
           owner: challenge.owner,
@@ -172,7 +179,12 @@ export class ChallengeService
       id: encodeGlobalId("StartingSoonChallenge", challenge.challenge.id),
       challenge: this.pg2GqlMapper({
         ...challenge.challenge,
-        activities: [challenge.activity],
+        activities: [
+          {
+            ...challenge.activity,
+            challenge: challenge.challenge,
+          },
+        ],
         community: {
           ...challenge.community,
           owner: challenge.owner,
@@ -230,7 +242,12 @@ export class ChallengeService
       id: encodeGlobalId("EndingSoonChallenge", challenge.challenge.id),
       challenge: this.pg2GqlMapper({
         ...challenge.challenge,
-        activities: [challenge.activity],
+        activities: [
+          {
+            ...challenge.activity,
+            challenge: challenge.challenge,
+          },
+        ],
         community: {
           ...challenge.community,
           owner: challenge.owner,
@@ -253,20 +270,15 @@ export class ChallengeService
       ? validateAndDecodeGlobalId(after, this.getTypename())
       : 0;
 
-    const challenges = await this.dbService.db.query.ChallengesTable.findMany({
-      where: eq(ChallengesTable.communityId, communityId),
-      limit: first + 1,
-      offset: startCursorId,
-      orderBy: desc(ChallengesTable.createdAt),
-      with: {
-        activities: true,
-        community: {
-          with: {
-            owner: true,
-          },
-        },
+    const challenges = await this.challengeRepository.findBy(
+      {
+        communityId,
       },
-    });
+      {
+        first,
+        after: startCursorId,
+      }
+    );
 
     const edges = challenges.slice(0, first).map((challenge) => ({
       node: this.pg2GqlMapper(challenge),
@@ -314,7 +326,7 @@ export class ChallengeService
       .values({ ...challengeInput })
       .returning();
 
-    const challengeActivity = await this.challengeActivitiesService.create({
+    const challengeActivity = await this.challengeActivityService.create({
       ...activityInput,
       challengeId: challenge.id,
     });
@@ -335,7 +347,12 @@ export class ChallengeService
 
     return this.pg2GqlMapper({
       ...challenge,
-      activities: [challengeActivity],
+      activities: [
+        {
+          ...challengeActivity,
+          challenge,
+        },
+      ],
       community,
     });
   }

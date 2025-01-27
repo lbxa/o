@@ -10,6 +10,7 @@ import { eq } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
 import { EntityRepository } from "@/entity";
+import { PgUserStreakComposite } from "@/user/user-streaks/user-streaks.types";
 
 @Injectable()
 export class UserStreaksRepository
@@ -58,16 +59,18 @@ export class UserStreaksRepository
   }
 
   async findBy(
-    fields: Partial<Pick<PgUserStreak, "id" | "userId">>
-  ): Promise<(PgUserStreak & { user: PgUser })[]> {
+    fields?: Partial<Pick<PgUserStreak, "id" | "userId">>
+  ): Promise<PgUserStreakComposite[]> {
     const userStreaks = await this.dbService.db.query.UserStreaksTable.findMany(
       {
-        where: (userStreaks, { and, eq }) =>
-          and(
-            ...Object.entries(fields).map(([k, v]) =>
-              eq(userStreaks[k as keyof typeof userStreaks], v)
-            )
-          ),
+        where: fields
+          ? (userStreaks, { and, eq }) =>
+              and(
+                ...Object.entries(fields).map(([k, v]) =>
+                  eq(userStreaks[k as keyof typeof userStreaks], v)
+                )
+              )
+          : undefined,
         with: { user: true },
       }
     );
@@ -75,26 +78,20 @@ export class UserStreaksRepository
     return userStreaks;
   }
 
-  async findById(
-    id: number
-  ): Promise<(PgUserStreak & { user: PgUser }) | undefined> {
-    const userStreak = await this.dbService.db.query.UserStreaksTable.findFirst(
-      {
-        where: eq(UserStreaksTable.id, id),
-        with: { user: true },
-      }
-    );
+  async findAll(): Promise<PgUserStreakComposite[]> {
+    return await this.findBy();
+  }
+
+  async findById(id: number): Promise<PgUserStreakComposite | undefined> {
+    const [userStreak] = await this.findBy({ id });
 
     return userStreak;
   }
 
-  async findByUserId(userId: number): Promise<PgUserStreak | undefined> {
-    const userStreak = await this.dbService.db.query.UserStreaksTable.findFirst(
-      {
-        where: eq(UserStreaksTable.userId, userId),
-        with: { user: true },
-      }
-    );
+  async findByUserId(
+    userId: number
+  ): Promise<PgUserStreakComposite | undefined> {
+    const [userStreak] = await this.findBy({ userId });
 
     return userStreak;
   }

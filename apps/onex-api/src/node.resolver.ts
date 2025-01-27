@@ -1,7 +1,7 @@
 import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { ChallengeService } from "./challenge/challenge.service";
-import { ChallengeActivitiesService } from "./challenge/challenge-activity";
+import { ChallengeActivityService } from "./challenge/challenge-activity";
 import { ChallengeActivityResultsService } from "./challenge/challenge-activity-results";
 import { CommunityService } from "./community/community.service";
 import { CommunityInvitationsService } from "./community/community-invitations";
@@ -26,7 +26,7 @@ export class NodeResolver {
     private readonly userService: UserService,
     private readonly communityService: CommunityService,
     private readonly challengeService: ChallengeService,
-    private readonly challengesActivitiesService: ChallengeActivitiesService,
+    private readonly challengesActivitiesService: ChallengeActivityService,
     private readonly userFriendshipService: UserFriendshipService,
     private readonly userStreaksService: UserStreaksService,
     // eslint-disable-next-line @stylistic/js/max-len

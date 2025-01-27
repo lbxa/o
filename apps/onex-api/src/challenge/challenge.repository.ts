@@ -1,21 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import type {
   Challenge as PgChallenge,
-  ChallengeActivity as PgChallengeActivity,
   NewChallenge as PgNewChallenge,
 } from "@o/db";
 import { $DrizzleSchema, ChallengesTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
-import { PgCommunityComposite } from "@/community/community.repository";
-
 import { DbService } from "../db/db.service";
 import { EntityRepository } from "../entity";
-
-export type PgChallengeComposite = PgChallenge & {
-  activities: PgChallengeActivity[];
-  community: PgCommunityComposite;
-};
+import { PgChallengeComposite } from "./challenge.types";
 
 @Injectable()
 export class ChallengeRepository
@@ -35,7 +28,25 @@ export class ChallengeRepository
     return await this.dbService.db.query.ChallengesTable.findFirst({
       where: eq(ChallengesTable.id, id),
       with: {
-        activities: true,
+        activities: {
+          with: {
+            challenge: {
+              with: {
+                // TODO need to fix as this is not intended
+                activities: {
+                  with: {
+                    challenge: true,
+                  },
+                },
+                community: {
+                  with: {
+                    owner: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         community: {
           with: {
             owner: true,
@@ -86,7 +97,8 @@ export class ChallengeRepository
   }
 
   async findBy(
-    fields: Partial<Pick<PgChallenge, "id" | "communityId">>
+    fields: Partial<Pick<PgChallenge, "id" | "communityId">>,
+    args?: { first: number; after: number }
   ): Promise<PgChallengeComposite[]> {
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
       where: (challenges, { and, eq }) =>
@@ -95,14 +107,21 @@ export class ChallengeRepository
             eq(challenges[k as keyof typeof challenges], v)
           )
         ),
+      offset: args?.after,
+      limit: args?.first,
       with: {
-        activities: true,
+        activities: {
+          with: {
+            challenge: true,
+          },
+        },
         community: {
           with: {
             owner: true,
           },
         },
       },
+      orderBy: (challenges, { desc }) => [desc(challenges.createdAt)],
     });
 
     return challenges;

@@ -1,12 +1,13 @@
 import type {
   ChallengeActivity,
   ChallengeActivityResult,
-} from "../../../types/graphql";
+} from "@/types/graphql";
 import {
   ChallengeActivityGoal,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "../../../types/graphql";
+} from "@/types/graphql";
+
 import { RankingService } from "../ranking-service";
 import {
   AscendingRankingStrategy,
@@ -32,6 +33,7 @@ describe("Ranking Strategies", () => {
         user: { id: "u1" },
         activity: fakeActivity,
         result: 50,
+        formattedResult: "50",
         createdAt: new Date("2023-01-01T10:00:00Z"),
         updatedAt: new Date("2023-01-01T10:00:00Z"),
       },
@@ -40,6 +42,7 @@ describe("Ranking Strategies", () => {
         user: { id: "u2" },
         activity: fakeActivity,
         result: 75,
+        formattedResult: "75",
         createdAt: new Date("2023-01-02T10:00:00Z"),
         updatedAt: new Date("2023-01-02T10:00:00Z"),
       },
@@ -48,6 +51,7 @@ describe("Ranking Strategies", () => {
         user: { id: "u3" },
         activity: fakeActivity,
         result: 25,
+        formattedResult: "25",
         createdAt: new Date("2023-01-03T10:00:00Z"),
         updatedAt: new Date("2023-01-03T10:00:00Z"),
       },
@@ -56,6 +60,7 @@ describe("Ranking Strategies", () => {
         user: { id: "u4" },
         activity: fakeActivity,
         result: 75,
+        formattedResult: "75",
         createdAt: new Date("2023-01-04T10:00:00Z"),
         updatedAt: new Date("2023-01-04T10:00:00Z"),
       },

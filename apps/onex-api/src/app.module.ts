@@ -5,6 +5,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { GraphQLModule } from "@nestjs/graphql";
+import { ScheduleModule } from "@nestjs/schedule";
 import { $DrizzleSchema } from "@o/db";
 
 import { AppResolver } from "./app.resolver";
@@ -24,6 +25,7 @@ import { ViewerModule } from "./viewer/viewer.module";
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: envFile() }),
     DbModule.forRoot(() => ({ schema: $DrizzleSchema })),
+    ScheduleModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],

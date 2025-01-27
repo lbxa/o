@@ -4,15 +4,11 @@ import {
   CommunitiesTable,
   CommunityInvitation as PgCommunityInvitation,
   CommunityInvitationsTable,
-  User as PgUser,
   UsersTable,
 } from "@o/db";
 import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
-import {
-  CommunityRepository,
-  PgCommunityComposite,
-} from "@/community/community.repository";
+import { CommunityRepository } from "@/community/community.repository";
 import { DbService } from "@/db/db.service";
 import { EntityType } from "@/entity";
 import { EntityService } from "@/entity/entity-service";
@@ -31,12 +27,7 @@ import {
 } from "@/utils/errors";
 
 import { CommunityService } from "../community.service";
-
-type PgCommunityInvitationComposite = PgCommunityInvitation & {
-  community: PgCommunityComposite;
-  inviter: PgUser;
-  invitee: PgUser;
-};
+import { PgCommunityInvitationComposite } from "./community-invitations.types";
 
 @Injectable()
 export class CommunityInvitationsService
@@ -44,7 +35,8 @@ export class CommunityInvitationsService
     EntityService<
       typeof CommunityInvitationsTable,
       PgCommunityInvitation,
-      GqlCommunityInvitation
+      GqlCommunityInvitation,
+      PgCommunityInvitationComposite
     >
 {
   constructor(

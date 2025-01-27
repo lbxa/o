@@ -51,14 +51,14 @@ import {
   InvitationStatus,
 } from "../types/graphql";
 import { encodeGlobalId, mapToEnum } from "../utils";
-import { ChallengeActivitiesService } from "./challenge-activity";
+import { ChallengeActivityService } from "./challenge-activity";
 
 @Injectable()
 export class ChallengeService
   implements EntityMapper<typeof ChallengesTable, PgChallenge, GqlChallenge>
 {
   constructor(
-    private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityService: ChallengeActivityService,
     private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
@@ -227,7 +227,7 @@ export class ChallengeService
       .values({ ...challengeInput })
       .returning();
 
-    const challengeActivity = await this.challengeActivitiesService.create({
+    const challengeActivity = await this.challengeActivityService.create({
       ...activityInput,
       challengeId: challenge.id,
     });

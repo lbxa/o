@@ -4,7 +4,7 @@ import type { UserRecord as PgUserRecord } from "@o/db";
 import { UserRecordsTable } from "@o/db";
 
 import { ChallengeService } from "@/challenge/challenge.service";
-import { ChallengeActivitiesService } from "@/challenge/challenge-activity";
+import { ChallengeActivityService } from "@/challenge/challenge-activity";
 import { ChallengeActivityResultsRepository } from "@/challenge/challenge-activity-results";
 import { RankingService } from "@/challenge/challenge-activity-results/ranking-service";
 import { EntityService, EntityType } from "@/entity";
@@ -13,14 +13,12 @@ import {
   UserRecord as GqlUserRecord,
   UserRecordCreateInput,
 } from "@/types/graphql";
+import { PgUserRecordComposite } from "@/user/user-records/user-records.types";
 import { encodeGlobalId, mapToEnum, validateAndDecodeGlobalId } from "@/utils";
 import { InternalServerError, NotFoundError } from "@/utils/errors";
 
 import { UserService } from "../user.service";
-import {
-  PgUserRecordComposite,
-  UserRecordsRepository,
-} from "./user-records.repository";
+import { UserRecordsRepository } from "./user-records.repository";
 
 @Injectable()
 export class UserRecordsService
@@ -36,7 +34,7 @@ export class UserRecordsService
     private userService: UserService,
     private challengeService: ChallengeService,
     private challengeActivityResultsRepository: ChallengeActivityResultsRepository,
-    private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityService: ChallengeActivityService,
     private userRecordsRepository: UserRecordsRepository,
     private rankingService: RankingService
   ) {}
@@ -62,7 +60,7 @@ export class UserRecordsService
           userRecord.activityResult.id
         ),
         user: this.userService.pg2GqlMapper(userRecord.activityResult.user),
-        activity: this.challengeActivitiesService.pg2GqlMapper(
+        activity: this.challengeActivityService.pg2GqlMapper(
           userRecord.activityResult.activity
         ),
       },

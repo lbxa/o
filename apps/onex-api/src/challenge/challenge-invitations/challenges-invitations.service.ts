@@ -2,21 +2,16 @@ import { Injectable } from "@nestjs/common";
 import {
   $DrizzleSchema,
   ChallengeActivitiesTable,
-  ChallengeInvitation as PgChallengeInvitation,
   ChallengeInvitationsTable,
   ChallengesTable,
   CommunitiesTable,
   CommunityMembershipsTable,
-  User as PgUser,
   UsersTable,
 } from "@o/db";
 import { aliasedTable, and, eq } from "drizzle-orm";
 import { ForbiddenError, NotFoundError } from "src/utils/errors";
 
-import {
-  ChallengeRepository,
-  PgChallengeComposite,
-} from "@/challenge/challenge.repository";
+import { ChallengeRepository } from "@/challenge/challenge.repository";
 import { DbService } from "@/db/db.service";
 import { EntityType } from "@/entity";
 import { EntityService } from "@/entity/entity-service";
@@ -28,20 +23,16 @@ import { UserService } from "@/user/user.service";
 import { encodeGlobalId, mapToEnum } from "@/utils";
 
 import { ChallengeService } from "../challenge.service";
-
-type ChallengeInvitationComposite = PgChallengeInvitation & {
-  challenge: PgChallengeComposite;
-  inviter: PgUser;
-  invitee: PgUser;
-};
+import { PgChallengeInvitationComposite } from "./challenge-invitations.types";
 
 @Injectable()
 export class ChallengeInvitationsService
   implements
     EntityService<
       typeof ChallengeInvitationsTable,
-      PgChallengeInvitation,
-      GqlChallengeInvitation
+      PgChallengeInvitationComposite,
+      GqlChallengeInvitation,
+      PgChallengeInvitationComposite
     >
 {
   constructor(
@@ -56,7 +47,7 @@ export class ChallengeInvitationsService
   }
 
   public pg2GqlMapper(
-    invitation: ChallengeInvitationComposite
+    invitation: PgChallengeInvitationComposite
   ): GqlChallengeInvitation {
     return {
       ...invitation,
@@ -147,7 +138,12 @@ export class ChallengeInvitationsService
       id: encodeGlobalId("ChallengeInvitation", row.invitation.id),
       challenge: this.challengeService.pg2GqlMapper({
         ...row.challenge,
-        activities: [row.challengeActivities],
+        activities: [
+          {
+            ...row.challengeActivities,
+            challenge: row.challenge,
+          },
+        ],
         community: {
           ...row.community,
           owner: row.communityOwner,

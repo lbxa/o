@@ -9,26 +9,18 @@ import {
   View,
 } from "react-native";
 import type { PreloadedQuery } from "react-relay";
-import {
-  useFragment,
-  usePaginationFragment,
-  usePreloadedQuery,
-} from "react-relay";
+import { usePaginationFragment, usePreloadedQuery } from "react-relay";
 import { graphql } from "relay-runtime";
 
-import type {
-  ChallengeActivityTopResultsHistory_challenge$data,
-  ChallengeActivityTopResultsHistory_challenge$key,
-} from "@/__generated__/ChallengeActivityTopResultsHistory_challenge.graphql";
+import type { ChallengeActivityTopResultsHistory_challenge$key } from "@/__generated__/ChallengeActivityTopResultsHistory_challenge.graphql";
 import type { ChallengeActivityTopResultsHistoryPaginationQuery } from "@/__generated__/ChallengeActivityTopResultsHistoryPaginationQuery.graphql";
 import type { ChallengeActivityTopResultsHistoryQuery } from "@/__generated__/ChallengeActivityTopResultsHistoryQuery.graphql";
-import type { ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$key } from "@/__generated__/ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult.graphql";
-import { ChallengeActivityHistoryCard } from "@/challenges/ChallengeRoot/ChallengeActivity/ChallengeActivityStats";
+import {
+  ChallengeActivityHistoryCard,
+  ChallengeActivityTopResultsHistoryUserDetails,
+} from "@/challenges/ChallengeRoot";
 import { useNoSuspenseRefetch } from "@/relay";
-import { OText } from "@/universe/atoms";
-import { Caption } from "@/universe/atoms/Caption";
-import { UserAvatar } from "@/users/UserAvatar";
-import { UserStreak } from "@/users/UserStreak";
+import { Caption } from "@/universe/atoms";
 
 export const CHALLENGE_ACTIVITY_TOP_RESULTS_HISTORY_QUERY = graphql`
   query ChallengeActivityTopResultsHistoryQuery(
@@ -47,47 +39,6 @@ export const CHALLENGE_ACTIVITY_TOP_RESULTS_HISTORY_QUERY = graphql`
     }
   }
 `;
-
-const ChallengeActivityTopResultsHistoryUserDetails = ({
-  userHistory,
-}: {
-  userHistory: ChallengeActivityTopResultsHistory_challenge$data["resultsHistory"];
-}) => {
-  const frag =
-    useFragment<ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$key>(
-      graphql`
-        fragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {
-          user {
-            id
-            firstName
-            lastName
-            handle
-            streak {
-              id
-              currentStreak
-            }
-          }
-        }
-      `,
-      userHistory?.edges?.[0]?.node
-    );
-
-  const fullName = [frag?.user?.firstName, frag?.user?.lastName].join(" ");
-
-  return (
-    <View className="flex-row items-center gap-sm">
-      {frag?.user && <UserAvatar size="md" user={frag?.user} />}
-      <View className="flex-1 flex-col">
-        <OText size="2xl" className="font-bold" numberOfLines={1}>
-          {frag?.user?.handle ?? fullName} Challenge History
-        </OText>
-        <View className="flex-row">
-          <UserStreak streak={frag?.user?.streak?.currentStreak ?? 0} />
-        </View>
-      </View>
-    </View>
-  );
-};
 
 interface ChallengeActivityTopResultsHistoryProps {
   queryRef: PreloadedQuery<ChallengeActivityTopResultsHistoryQuery>;
@@ -148,7 +99,7 @@ export const ChallengeActivityTopResultsHistory = ({
 
   return (
     <FlatList
-      className="min-h-full px-md"
+      className="px-md min-h-full"
       data={data?.resultsHistory?.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <ChallengeActivityHistoryCard result={item} />}
       ListHeaderComponent={
@@ -159,7 +110,7 @@ export const ChallengeActivityTopResultsHistory = ({
         ) : null
       }
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Void width={150} height={150} />
           </View>

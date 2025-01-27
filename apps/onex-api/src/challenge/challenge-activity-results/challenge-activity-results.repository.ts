@@ -1,10 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import type {
   $DrizzleSchema,
-  ChallengeActivity as PgChallengeActivity,
   ChallengeActivityResult as PgChallengeActivityResult,
   NewChallengeActivityResult,
-  User as PgUser,
 } from "@o/db";
 import { ChallengeActivityResultsTable } from "@o/db";
 import { eq } from "drizzle-orm";
@@ -12,10 +10,7 @@ import { eq } from "drizzle-orm";
 import { DbService } from "@/db/db.service";
 import { EntityRepository } from "@/entity";
 
-export type PgChallengeActivityResultComposite = PgChallengeActivityResult & {
-  user: PgUser;
-  activity: PgChallengeActivity;
-};
+import { PgChallengeActivityResultComposite } from "./challenge-activity-results.types";
 
 @Injectable()
 export class ChallengeActivityResultsRepository
@@ -38,7 +33,19 @@ export class ChallengeActivityResultsRepository
         where: eq(ChallengeActivityResultsTable.id, id),
         with: {
           user: true,
-          activity: true,
+          activity: {
+            with: {
+              challenge: {
+                with: {
+                  community: {
+                    with: {
+                      owner: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       }
     );
@@ -108,7 +115,15 @@ export class ChallengeActivityResultsRepository
         limit: args?.first,
         with: {
           user: true,
-          activity: true,
+          activity: {
+            with: {
+              challenge: {
+                with: {
+                  community: true,
+                },
+              },
+            },
+          },
         },
         orderBy: (challengeActivityResults, { desc }) => [
           desc(challengeActivityResults.createdAt),

@@ -6,6 +6,7 @@ import {
   ChallengeActivityResult as PgChallengeActivityResult,
   ChallengeActivityResultsTable,
   ChallengeMembershipsTable,
+  ChallengesTable,
   NewChallengeActivityResult,
   UsersTable,
 } from "@o/db";
@@ -38,7 +39,7 @@ import {
   validateAndDecodeGlobalId,
 } from "../../utils";
 import { NotFoundError } from "../../utils/errors";
-import { ChallengeActivitiesService } from "../challenge-activity";
+import { ChallengeActivityService } from "../challenge-activity";
 import { mapToEnum } from "./../../utils/map-to-enum";
 import { RankingService } from "./ranking-service";
 
@@ -55,7 +56,7 @@ export class ChallengeActivityResultsService
   constructor(
     private userService: UserService,
     private challengeMembershipsService: ChallengeMembershipsService,
-    private challengeActivitiesService: ChallengeActivitiesService,
+    private challengeActivityService: ChallengeActivityService,
     private challengeActivityResultsRepository: ChallengeActivityResultsRepository,
     private userStreaksService: UserStreaksService,
     private userRecordsService: UserRecordsService,
@@ -74,7 +75,7 @@ export class ChallengeActivityResultsService
     return {
       ...challengeActivityResult,
       user: this.userService.pg2GqlMapper(challengeActivityResult.user),
-      activity: this.challengeActivitiesService.pg2GqlMapper(
+      activity: this.challengeActivityService.pg2GqlMapper(
         challengeActivityResult.activity
       ),
       id: encodeGlobalId(this.getTypename(), challengeActivityResult.id),
@@ -155,7 +156,7 @@ export class ChallengeActivityResultsService
       "formattedResult" // we handle that here :D
     >
   ): Promise<GqlChallengeActivityResult> {
-    const activity = await this.challengeActivitiesService.findById(
+    const activity = await this.challengeActivityService.findById(
       challengeActivityResultInput.activityId
     );
 
@@ -258,6 +259,7 @@ export class ChallengeActivityResultsService
       .select({
         user: UsersTable,
         activity: ChallengeActivitiesTable,
+        challenge: ChallengesTable,
         minResult: min(ChallengeActivityResultsTable.result),
         maxResult: max(ChallengeActivityResultsTable.result),
         totalResults: count(ChallengeActivityResultsTable.id),
@@ -280,6 +282,10 @@ export class ChallengeActivityResultsService
           ChallengeActivitiesTable.id,
           ChallengeActivityResultsTable.activityId
         )
+      )
+      .innerJoin(
+        ChallengesTable,
+        eq(ChallengesTable.id, ChallengeActivityResultsTable.challengeId)
       )
       .groupBy(UsersTable.id, ChallengeActivitiesTable.id)
       .having(sql<boolean>`count(${ChallengeActivityResultsTable.id}) > 1`)
@@ -328,11 +334,14 @@ export class ChallengeActivityResultsService
       // We're not overriding the existing ChallengeActivityResult
       // type just piggybacking some of the existing logic this
       // avoids global id collisions...
-      .map(({ activity, user, maxResult, minResult }) => ({
+      .map(({ activity, user, maxResult, minResult, challenge }) => ({
         ...this.pg2GqlMapper({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           ...challengeActivityResultLookup.get(`${user.id}-${activity.id}`)!,
-          activity,
+          activity: {
+            ...activity,
+            challenge,
+          },
           user,
         }),
         __typename: "ChallengeActivityTopMover" as const,

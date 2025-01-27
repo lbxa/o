@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CommunitiesTable, Community as PgCommunity } from "@o/db";
 
+import { PgCommunityComposite } from "@/community/community.types";
 import { EntityType } from "@/entity";
 import { UserService } from "@/user/user.service";
 
@@ -12,10 +13,7 @@ import {
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
 import { NotFoundError } from "../utils/errors";
-import {
-  CommunityRepository,
-  PgCommunityComposite,
-} from "./community.repository";
+import { CommunityRepository } from "./community.repository";
 
 @Injectable()
 export class CommunityService

@@ -18,7 +18,7 @@ import {
 import { encodeGlobalId, mapToEnum } from "../../utils";
 
 @Injectable()
-export class ChallengeActivitiesService
+export class ChallengeActivityService
   implements
     EntityService<
       typeof ChallengeActivitiesTable,
