@@ -4,7 +4,7 @@ import { UsersTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityService, EntityType } from "@/entity";
+import { EntityService, EntityType, SearchableNumericFields } from "@/entity";
 import { User as GqlUser, UserUpdateInput } from "@/types/graphql";
 import {
   CryptoService,
@@ -33,6 +33,10 @@ export class UserService
       ...pgUser,
       id: encodeGlobalId(this.getTypename(), pgUser.id),
     };
+  }
+
+  findBy(_fields: SearchableNumericFields<PgUser, "id">): Promise<GqlUser[]> {
+    throw new Error("Method not implemented.");
   }
 
   async create(newUser: NewUser): Promise<PgUser> {

@@ -10,7 +10,7 @@ import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
 import { CommunityRepository } from "@/community/community.repository";
 import { DbService } from "@/db/db.service";
-import { EntityType } from "@/entity";
+import { EntityType, SearchableNumericFields } from "@/entity";
 import { EntityService } from "@/entity/entity-service";
 import {
   CommunityInvitation as GqlCommunityInvitation,
@@ -61,6 +61,15 @@ export class CommunityInvitationsService
       invitee: this.userService.pg2GqlMapper(invitation.invitee),
       id: encodeGlobalId("CommunityInvitation", invitation.id),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<
+      PgCommunityInvitationComposite,
+      "id" | "communityId" | "inviterId" | "inviteeId"
+    >
+  ): Promise<GqlCommunityInvitation[]> {
+    throw new Error("Method not implemented.");
   }
 
   async findById(id: number): Promise<GqlCommunityInvitation> {

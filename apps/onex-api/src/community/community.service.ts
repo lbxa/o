@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { CommunitiesTable, Community as PgCommunity } from "@o/db";
 
 import { PgCommunityComposite } from "@/community/community.types";
-import { EntityType } from "@/entity";
+import { EntityType, SearchableNumericFields } from "@/entity";
 import { UserService } from "@/user/user.service";
 
 import { EntityService } from "../entity/entity-service";
@@ -40,6 +40,12 @@ export class CommunityService
       id: encodeGlobalId(this.getTypename(), community.id),
       owner: this.userService.pg2GqlMapper(community.owner),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<PgCommunityComposite, "id">
+  ): Promise<GqlCommunity[]> {
+    throw new Error("Method not implemented.");
   }
 
   async findById(id: number): Promise<GqlCommunity | undefined> {

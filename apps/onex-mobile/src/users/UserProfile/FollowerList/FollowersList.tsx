@@ -78,11 +78,11 @@ export const FollowersList = ({ queryRef }: FollowersListProps) => {
 
   return (
     <FlatList
-      className="px-md min-h-full"
+      className="min-h-full px-md"
       data={data?.followers?.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <UserProfileRow user={item} />}
       ListEmptyComponent={
-        <View className="gap-md pt-md flex flex-col">
+        <View className="flex flex-col gap-md pt-md">
           <View className="mx-auto">
             <Void width={150} height={150} />
           </View>

@@ -6,10 +6,10 @@ import type {
   UserStreak as PgUserStreak,
 } from "@o/db";
 import { UsersTable, UserStreaksTable } from "@o/db";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityRepository } from "@/entity";
+import { EntityRepository, FindByArgs } from "@/entity";
 import { PgUserStreakComposite } from "@/user/user-streaks/user-streaks.types";
 
 @Injectable()
@@ -59,18 +59,25 @@ export class UserStreaksRepository
   }
 
   async findBy(
-    fields?: Partial<Pick<PgUserStreak, "id" | "userId">>
+    fields: Partial<
+      Record<keyof Pick<PgUserStreak, "id" | "userId">, number | number[]>
+    > = {},
+    args?: FindByArgs
   ): Promise<PgUserStreakComposite[]> {
     const userStreaks = await this.dbService.db.query.UserStreaksTable.findMany(
       {
-        where: fields
+        where: Object.keys(fields).length
           ? (userStreaks, { and, eq }) =>
               and(
                 ...Object.entries(fields).map(([k, v]) =>
-                  eq(userStreaks[k as keyof typeof userStreaks], v)
+                  Array.isArray(v)
+                    ? inArray(userStreaks[k as keyof typeof userStreaks], v)
+                    : eq(userStreaks[k as keyof typeof userStreaks], v)
                 )
               )
           : undefined,
+        limit: args?.limit,
+        offset: args?.offset,
         with: { user: true },
       }
     );

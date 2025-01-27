@@ -26,7 +26,7 @@ export const TopMoverCard = ({
   );
 
   const rightItems = (
-    <View className="ml-sm gap-sm shrink-0 flex-row items-center">
+    <View className="ml-sm shrink-0 flex-row items-center gap-sm">
       <TickUp width={25} height={25} fill={builtInColors.green[500]} />
       <Text
         className="text-3xl font-bold text-green-500 dark:text-green-500"

@@ -182,7 +182,7 @@ export const UserLogin = () => {
         />
         <Link
           href="/auth/sign-up"
-          className="mt-md dark:text-ivory text-blue-700 underline"
+          className="mt-md text-blue-700 underline dark:text-ivory"
         >
           Create an account
         </Link>

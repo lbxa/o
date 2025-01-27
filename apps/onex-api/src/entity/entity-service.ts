@@ -29,6 +29,9 @@ export interface EntityService<
 > {
   getTypename(): EntityType;
   pg2GqlMapper(pgEntity: CompositePgType): GqlType;
+  findBy(
+    fields: Partial<Record<keyof PgType, number | number[]>>
+  ): Promise<GqlType[]>;
   findById(id: number): Promise<GqlType | undefined>;
   // buildEdge(pgEntity: PgType): EdgeType;
 }

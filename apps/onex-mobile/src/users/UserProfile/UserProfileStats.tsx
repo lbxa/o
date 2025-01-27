@@ -23,27 +23,27 @@ export const UserProfileStats = ({
   );
 
   return (
-    <View className="gap-lg flex flex-row">
+    <View className="flex flex-row gap-lg">
       <View className="flex flex-col items-center">
-        <Text className="dark:text-ivory text-5xl font-bold text-black">
+        <Text className="text-5xl font-bold text-black dark:text-ivory">
           {stats.buddyCount}
         </Text>
-        <Text className="dark:text-ivory text-lg text-black">Buddies</Text>
+        <Text className="text-lg text-black dark:text-ivory">Buddies</Text>
       </View>
       <OTouchable
         className="flex flex-col items-center"
         onPress={() => router.push("/(root)/profile/profile-followers")}
       >
-        <Text className="dark:text-ivory text-5xl font-bold text-black">
+        <Text className="text-5xl font-bold text-black dark:text-ivory">
           {stats.followerCount}
         </Text>
-        <Text className="dark:text-ivory text-lg text-black">Followers</Text>
+        <Text className="text-lg text-black dark:text-ivory">Followers</Text>
       </OTouchable>
       <View className="flex flex-col items-center">
-        <Text className="dark:text-ivory text-5xl font-bold text-black">
+        <Text className="text-5xl font-bold text-black dark:text-ivory">
           {stats.challengeActivityResultsCount}
         </Text>
-        <Text className="dark:text-ivory text-lg text-black">Challenges</Text>
+        <Text className="text-lg text-black dark:text-ivory">Challenges</Text>
       </View>
     </View>
   );

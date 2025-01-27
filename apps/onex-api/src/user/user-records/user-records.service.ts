@@ -7,7 +7,12 @@ import { ChallengeService } from "@/challenge/challenge.service";
 import { ChallengeActivityService } from "@/challenge/challenge-activity";
 import { ChallengeActivityResultsRepository } from "@/challenge/challenge-activity-results";
 import { RankingService } from "@/challenge/challenge-activity-results/ranking-service";
-import { EntityService, EntityType } from "@/entity";
+import {
+  EntityService,
+  EntityType,
+  FindByArgs,
+  SearchableNumericFields,
+} from "@/entity";
 import {
   ChallengeActivityGoal,
   UserRecord as GqlUserRecord,
@@ -104,6 +109,18 @@ export class UserRecordsService
     }
 
     return this.pg2GqlMapper(userRecord);
+  }
+
+  async findBy(
+    fields: SearchableNumericFields<
+      PgUserRecordComposite,
+      "id" | "userId" | "challengeId" | "activityId" | "activityResultId"
+    > = {},
+    args?: FindByArgs
+  ): Promise<GqlUserRecord[]> {
+    const userRecords = await this.userRecordsRepository.findBy(fields, args);
+
+    return userRecords.map((userRecord) => this.pg2GqlMapper(userRecord));
   }
 
   async findByUserId(userId: number): Promise<GqlUserRecord[]> {

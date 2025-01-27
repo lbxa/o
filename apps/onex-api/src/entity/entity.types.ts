@@ -19,3 +19,12 @@ type EntitySecondaryIdentifiers =
 export type EntityType =
   | EntityIdentifiers
   | `${EntityIdentifiers}${EntitySecondaryIdentifiers}`;
+
+export type SearchableNumericFields<T, K extends keyof T> = Partial<
+  Record<K, number | number[]>
+>;
+
+export interface FindByArgs {
+  limit?: number;
+  offset?: number;
+}

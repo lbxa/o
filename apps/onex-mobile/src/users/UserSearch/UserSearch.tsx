@@ -79,7 +79,7 @@ const UserSearchResults = ({ searchTerm }: UserSearchResultsProps) => {
       data={data?.user?.searchFriends}
       renderItem={({ item }) => <UserProfileCard fragmentRef={item} />}
       ListEmptyComponent={
-        <Text className="pt-md dark:text-ivory text-center text-black">
+        <Text className="pt-md text-center text-black dark:text-ivory">
           No users found
         </Text>
       }
@@ -94,7 +94,7 @@ export const UserSearch = () => {
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   return (
-    <View className="px-md h-full flex-1">
+    <View className="h-full flex-1 px-md">
       <Stack.Screen
         options={{
           ...builtInTitleOptions,

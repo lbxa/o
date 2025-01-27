@@ -1,12 +1,10 @@
 import { Args, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { ChallengeService } from "@/challenge/challenge.service";
+import { CommunityService } from "@/community/community.service";
+import { CommunityInvitationsService } from "@/community/community-invitations";
+import { CurrentUser } from "@/decorators/current-user.decorator";
 import { HomeFeedService } from "@/home-feed";
-import { UserRecordsService } from "@/user/user-records";
-
-import { ChallengeService } from "../challenge/challenge.service";
-import { CommunityService } from "../community/community.service";
-import { CommunityInvitationsService } from "../community/community-invitations";
-import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   ChallengeConnection,
   Community,
@@ -15,9 +13,9 @@ import {
   HomeFeedConnection,
   User,
   Viewer,
-} from "../types/graphql";
-import { UserService } from "../user/user.service";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
+} from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "@/utils";
 
 @Resolver("Viewer")
 export class ViewerResolver {
@@ -25,7 +23,6 @@ export class ViewerResolver {
     private userService: UserService,
     private communityService: CommunityService,
     private communityInvitationsService: CommunityInvitationsService,
-    private userRecordsService: UserRecordsService,
     private homeFeedService: HomeFeedService,
     private challengeService: ChallengeService
   ) {}

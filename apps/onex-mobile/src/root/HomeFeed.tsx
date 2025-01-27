@@ -107,7 +107,7 @@ export const HomeFeed = ({
       onEndReachedThreshold={0.5}
       onEndReached={() => !isLoadingNext && hasNext && loadNext(10)}
       ListEmptyComponent={
-        <View className="gap-md pt-md flex flex-col">
+        <View className="flex flex-col gap-md pt-md">
           <View className="mx-auto">
             <Nature width={150} height={150} />
           </View>

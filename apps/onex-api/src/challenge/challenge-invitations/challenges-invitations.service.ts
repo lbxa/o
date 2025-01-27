@@ -13,7 +13,7 @@ import { ForbiddenError, NotFoundError } from "src/utils/errors";
 
 import { ChallengeRepository } from "@/challenge/challenge.repository";
 import { DbService } from "@/db/db.service";
-import { EntityType } from "@/entity";
+import { EntityType, SearchableNumericFields } from "@/entity";
 import { EntityService } from "@/entity/entity-service";
 import {
   ChallengeInvitation as GqlChallengeInvitation,
@@ -57,6 +57,15 @@ export class ChallengeInvitationsService
       invitee: this.userService.pg2GqlMapper(invitation.invitee),
       id: encodeGlobalId("ChallengeInvitation", invitation.id),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<
+      PgChallengeInvitationComposite,
+      "id" | "challengeId" | "inviterId" | "inviteeId"
+    >
+  ): Promise<GqlChallengeInvitation[]> {
+    throw new Error("Method not implemented.");
   }
 
   async findById(id: number): Promise<GqlChallengeInvitation> {

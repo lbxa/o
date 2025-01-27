@@ -1,5 +1,10 @@
 import type { AnyPgTable } from "drizzle-orm/pg-core";
 
+import type {
+  FindByArgs,
+  SearchableNumericFields,
+} from "@/entity/entity.types";
+
 import type { Node } from "../types/graphql";
 
 /**
@@ -27,13 +32,24 @@ export interface EntityRepository<
   PgSelectType extends T["$inferSelect"] = T["$inferSelect"],
   PgInsertType extends T["$inferInsert"] = T["$inferInsert"],
   CompositePgType extends PgSelectType = PgSelectType,
+  PgSearchableFields extends keyof PgSelectType = keyof PgSelectType,
 > {
   create(newEntity: PgInsertType): Promise<CompositePgType | undefined>;
   update(
     updateEntityInput: Partial<PgSelectType> & Node
   ): Promise<CompositePgType | undefined>;
   delete(id: number): Promise<boolean>;
-  findBy(fields: Partial<PgSelectType>): Promise<CompositePgType[]>;
+  /**
+   * Find entities by a set of fields.
+   *
+   * @param fields - The fields to search for. Supports arrays.
+   * @param args - Extra arguments for filtering/sorting
+   * @returns The entities that match the search criteria.
+   */
+  findBy(
+    fields: SearchableNumericFields<PgSelectType, PgSearchableFields>,
+    args?: FindByArgs
+  ): Promise<CompositePgType[]>;
   findById(id: number): Promise<CompositePgType | undefined>;
   // getRelations(id: number): Promise<CompositePgType | undefined>;
 }

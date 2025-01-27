@@ -10,7 +10,7 @@ import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
 import { DbService } from "@/db/db.service";
-import { EntityService, EntityType } from "@/entity";
+import { EntityService, EntityType, SearchableNumericFields } from "@/entity";
 import {
   InvitationStatus,
   User as GqlUser,
@@ -60,6 +60,15 @@ export class UserFriendshipService
       user: this.userService.pg2GqlMapper(pgUserFriendship.user),
       friend: this.userService.pg2GqlMapper(pgUserFriendship.friend),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<
+      PgUserFriendship,
+      "id" | "userId" | "friendId"
+    >
+  ): Promise<GqlUserFriendship[]> {
+    throw new Error("Method not implemented.");
   }
 
   // maybe add this to the general API

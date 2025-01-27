@@ -4,10 +4,10 @@ import type {
   NewChallenge as PgNewChallenge,
 } from "@o/db";
 import { $DrizzleSchema, ChallengesTable } from "@o/db";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
-import { EntityRepository } from "../entity";
+import { EntityRepository, FindByArgs } from "../entity";
 import { PgChallengeComposite } from "./challenge.types";
 
 @Injectable()
@@ -97,18 +97,28 @@ export class ChallengeRepository
   }
 
   async findBy(
-    fields: Partial<Pick<PgChallenge, "id" | "communityId">>,
-    args?: { first: number; after: number }
+    fields: Partial<
+      Record<
+        keyof Pick<PgChallenge, "id" | "communityId" | "ownerId">,
+        number | number[]
+      >
+    > = {},
+    args?: FindByArgs
   ): Promise<PgChallengeComposite[]> {
     const challenges = await this.dbService.db.query.ChallengesTable.findMany({
-      where: (challenges, { and, eq }) =>
-        and(
-          ...Object.entries(fields).map(([k, v]) =>
-            eq(challenges[k as keyof typeof challenges], v)
-          )
-        ),
-      offset: args?.after,
-      limit: args?.first,
+      where: Object.keys(fields).length
+        ? (challenges, { and, eq }) =>
+            and(
+              ...Object.entries(fields).map(([k, v]) =>
+                Array.isArray(v)
+                  ? inArray(challenges[k as keyof typeof challenges], v)
+                  : eq(challenges[k as keyof typeof challenges], v)
+              )
+            )
+        : undefined,
+      offset: args?.offset,
+      limit: args?.limit,
+      orderBy: (challenges, { desc }) => [desc(challenges.createdAt)],
       with: {
         activities: {
           with: {
@@ -121,7 +131,6 @@ export class ChallengeRepository
           },
         },
       },
-      orderBy: (challenges, { desc }) => [desc(challenges.createdAt)],
     });
 
     return challenges;

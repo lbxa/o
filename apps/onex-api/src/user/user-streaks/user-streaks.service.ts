@@ -10,7 +10,12 @@ import dayjs from "dayjs";
 import { eq, isNull, lte, or, SQL, sql } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityService, EntityType, EntityUtils } from "@/entity";
+import {
+  EntityService,
+  EntityType,
+  EntityUtils,
+  SearchableNumericFields,
+} from "@/entity";
 import {
   UserStreak as GqlUserStreak,
   UserStreakUpdateInput,
@@ -52,6 +57,12 @@ export class UserStreaksService
       id: encodeGlobalId(this.getTypename(), pgUserStreak.id),
       user: this.userService.pg2GqlMapper(pgUserStreak.user),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<PgUserStreakComposite, "id" | "userId">
+  ): Promise<GqlUserStreak[]> {
+    throw new Error("Method not implemented.");
   }
 
   async create(newUserStreak: NewUserStreak): Promise<GqlUserStreak> {

@@ -68,7 +68,7 @@ export const StartingSoonChallengeCard = ({
 
   return (
     <OTouchable onPress={handlePress}>
-      <View className="mb-md gap-sm bg-ivory p-sm dark:bg-surface-dark flex flex-col rounded-3xl px-3">
+      <View className="mb-md flex flex-col gap-sm rounded-3xl bg-ivory p-sm px-3 dark:bg-surface-dark">
         <OText className=" text-3xl font-bold ">
           Challenge starting in {daysUntilStartLabel}
         </OText>

@@ -5,10 +5,10 @@ import type {
   UserRecord as PgUserRecord,
 } from "@o/db";
 import { UserRecordsTable } from "@o/db";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityRepository } from "@/entity";
+import { EntityRepository, FindByArgs } from "@/entity";
 
 import type { PgUserRecordComposite } from "./user-records.types";
 
@@ -19,7 +19,8 @@ export class UserRecordsRepository
       typeof UserRecordsTable,
       PgUserRecord,
       PgNewUserRecord,
-      PgUserRecordComposite
+      PgUserRecordComposite,
+      "id" | "userId" | "challengeId" | "activityId" | "activityResultId"
     >
 {
   constructor(private dbService: DbService<typeof $DrizzleSchema>) {}
@@ -88,20 +89,30 @@ export class UserRecordsRepository
 
   async findBy(
     fields: Partial<
-      Pick<
-        PgUserRecord,
-        "id" | "userId" | "challengeId" | "activityId" | "activityResultId"
+      Record<
+        keyof Pick<
+          PgUserRecord,
+          "id" | "userId" | "challengeId" | "activityId" | "activityResultId"
+        >,
+        number | number[]
       >
-    >
+    > = {},
+    args?: FindByArgs
   ): Promise<PgUserRecordComposite[]> {
     const userRecords = await this.dbService.db.query.UserRecordsTable.findMany(
       {
-        where: (userRecords, { and, eq }) =>
-          and(
-            ...Object.entries(fields).map(([k, v]) =>
-              eq(userRecords[k as keyof typeof userRecords], v)
-            )
-          ),
+        where: Object.keys(fields).length
+          ? (userRecords, { and, eq }) =>
+              and(
+                ...Object.entries(fields).map(([k, v]) =>
+                  Array.isArray(v)
+                    ? inArray(userRecords[k as keyof typeof userRecords], v)
+                    : eq(userRecords[k as keyof typeof userRecords], v)
+                )
+              )
+          : undefined,
+        limit: args?.limit,
+        offset: args?.offset,
         with: {
           user: true,
           challenge: {

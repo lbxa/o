@@ -18,7 +18,7 @@ import { CommunityRepository } from "@/community/community.repository";
 import { CommunityService } from "@/community/community.service";
 
 import { DbService } from "../db/db.service";
-import { EntityType, EntityUtils } from "../entity";
+import { EntityType, EntityUtils, SearchableNumericFields } from "../entity";
 import { EntityService } from "../entity/entity-service";
 import {
   Challenge as GqlChallenge,
@@ -71,6 +71,12 @@ export class ChallengeService
       community: this.communityService.pg2GqlMapper(challenge.community),
       id: encodeGlobalId(this.getTypename(), challenge.id),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<PgChallengeComposite, "id" | "communityId">
+  ): Promise<GqlChallenge[]> {
+    throw new Error("Method not implemented.");
   }
 
   async findById(id: number): Promise<GqlChallenge> {
@@ -275,8 +281,8 @@ export class ChallengeService
         communityId,
       },
       {
-        first,
-        after: startCursorId,
+        limit: first,
+        offset: startCursorId,
       }
     );
 

@@ -4,13 +4,13 @@ import { Skeleton } from "@/universe/atoms";
 
 export const TopResultCardSkeleton = () => {
   return (
-    <View className="px-md flex-row items-center justify-between">
-      <View className="gap-sm flex-row items-center">
+    <View className="flex-row items-center justify-between px-md">
+      <View className="flex-row items-center gap-sm">
         {/* Avatar skeleton */}
         <Skeleton className="size-12 rounded-full" />
 
-        <View className="gap-sm flex flex-col">
-          <View className="gap-sm flex-row items-center">
+        <View className="flex flex-col gap-sm">
+          <View className="flex-row items-center gap-sm">
             {/* Name skeleton */}
             <Skeleton className="h-6 w-32 rounded" />
           </View>

@@ -5,12 +5,12 @@ import type {
   NewCommunity as PgNewCommunity,
 } from "@o/db";
 import { CommunitiesTable, CommunityMembershipsTable, UsersTable } from "@o/db";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, inArray } from "drizzle-orm";
 
 import { PgCommunityComposite } from "@/community/community.types";
 
 import { DbService } from "../db/db.service";
-import { EntityRepository } from "../entity";
+import { EntityRepository, FindByArgs } from "../entity";
 
 @Injectable()
 export class CommunityRepository
@@ -75,16 +75,25 @@ export class CommunityRepository
   }
 
   async findBy(
-    fields: Partial<Pick<PgCommunity, "id" | "ownerId">>
+    fields: Partial<
+      Record<keyof Pick<PgCommunity, "id" | "ownerId">, number | number[]>
+    > = {},
+    args?: FindByArgs
   ): Promise<PgCommunityComposite[]> {
     const communities = await this.dbService.db.query.CommunitiesTable.findMany(
       {
-        where: (communities, { and, eq }) =>
-          and(
-            ...Object.entries(fields).map(([k, v]) =>
-              eq(communities[k as keyof typeof communities], v)
-            )
-          ),
+        where: Object.keys(fields).length
+          ? (communities, { and, eq }) =>
+              and(
+                ...Object.entries(fields).map(([k, v]) =>
+                  Array.isArray(v)
+                    ? inArray(communities[k as keyof typeof communities], v)
+                    : eq(communities[k as keyof typeof communities], v)
+                )
+              )
+          : undefined,
+        limit: args?.limit,
+        offset: args?.offset,
         with: { owner: true },
       }
     );

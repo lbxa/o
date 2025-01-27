@@ -82,6 +82,15 @@ export class ChallengeActivityResultsService
     };
   }
 
+  public async findBy(
+    fields: Partial<Record<keyof PgChallengeActivityResult, number | number[]>>
+  ): Promise<GqlChallengeActivityResult[]> {
+    const challengeActivityResults =
+      await this.challengeActivityResultsRepository.findBy(fields);
+
+    return challengeActivityResults.map((result) => this.pg2GqlMapper(result));
+  }
+
   public async findById(
     id: number
   ): Promise<GqlChallengeActivityResult | undefined> {
@@ -136,8 +145,8 @@ export class ChallengeActivityResultsService
 
     const challengeActivityResults =
       await this.challengeActivityResultsRepository.findBy(params, {
-        first: first + 1,
-        after: startCursorId,
+        limit: first + 1,
+        offset: startCursorId,
       });
 
     return buildConnection({

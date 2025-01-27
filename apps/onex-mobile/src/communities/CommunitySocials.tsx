@@ -38,7 +38,7 @@ export const CommunitySocials = ({ fragmentRef }: CommunitySocialsProps) => {
   const memberCountLabel = memberCount === 1 ? "member" : "members";
 
   return (
-    <View className="gap-sm flex flex-row items-center">
+    <View className="flex flex-row items-center gap-sm">
       <AvatarArray arrayCount={memberCount} />
       <View className="flex flex-1 flex-col">
         <OText numberOfLines={1}>

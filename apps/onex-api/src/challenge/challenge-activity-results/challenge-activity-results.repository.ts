@@ -5,10 +5,14 @@ import type {
   NewChallengeActivityResult,
 } from "@o/db";
 import { ChallengeActivityResultsTable } from "@o/db";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityRepository } from "@/entity";
+import {
+  EntityRepository,
+  FindByArgs,
+  SearchableNumericFields,
+} from "@/entity";
 
 import { PgChallengeActivityResultComposite } from "./challenge-activity-results.types";
 
@@ -90,29 +94,36 @@ export class ChallengeActivityResultsRepository
   }
 
   async findBy(
-    fields: Partial<
-      Pick<
-        PgChallengeActivityResult,
-        "id" | "userId" | "challengeId" | "activityId"
-      >
-    >,
-    args?: { first: number; after: number }
+    fields: SearchableNumericFields<
+      PgChallengeActivityResult,
+      "id" | "activityId" | "challengeId" | "userId"
+    > = {},
+    args?: FindByArgs
   ): Promise<PgChallengeActivityResultComposite[]> {
     const challengeActivityResults =
       await this.dbService.db.query.ChallengeActivityResultsTable.findMany({
-        where: (challengeActivityResults, { and, eq }) =>
-          and(
-            ...Object.entries(fields).map(([k, v]) =>
-              eq(
-                challengeActivityResults[
-                  k as keyof typeof challengeActivityResults
-                ],
-                v
+        where: Object.keys(fields).length
+          ? (challengeActivityResults, { and, eq }) =>
+              and(
+                ...Object.entries(fields).map(([k, v]) =>
+                  Array.isArray(v)
+                    ? inArray(
+                        challengeActivityResults[
+                          k as keyof typeof challengeActivityResults
+                        ],
+                        v
+                      )
+                    : eq(
+                        challengeActivityResults[
+                          k as keyof typeof challengeActivityResults
+                        ],
+                        v
+                      )
+                )
               )
-            )
-          ),
-        offset: args?.after,
-        limit: args?.first,
+          : undefined,
+        offset: args?.offset,
+        limit: args?.limit,
         with: {
           user: true,
           activity: {

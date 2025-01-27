@@ -189,10 +189,10 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
 
   return (
     <Ozone>
-      <View className="gap-lg px-md pb-md mx-auto flex flex-col items-center justify-center">
+      <View className="mx-auto flex flex-col items-center justify-center gap-lg px-md pb-md">
         {user && <UserAvatar user={user} className="mb-md" size="lg" />}
         {user && <UserProfileStats user={user} />}
-        <View className="gap-sm flex flex-col items-center">
+        <View className="flex flex-col items-center gap-sm">
           <OText className="text-3xl font-bold">
             {user?.firstName} {user?.lastName}
           </OText>

@@ -8,7 +8,11 @@ import {
 import { eq } from "drizzle-orm";
 
 import { DbService } from "../../db/db.service";
-import { EntityService, EntityType } from "../../entity";
+import {
+  EntityService,
+  EntityType,
+  SearchableNumericFields,
+} from "../../entity";
 import {
   ChallengeActivity as GqlChallengeActivity,
   ChallengeActivityGoal,
@@ -43,6 +47,12 @@ export class ChallengeActivityService
       challengeId: encodeGlobalId("Challenge", challengeActivity.challengeId),
       id: encodeGlobalId("ChallengeActivity", challengeActivity.id),
     };
+  }
+
+  findBy(
+    _fields: SearchableNumericFields<PgChallengeActivity, "id" | "challengeId">
+  ): Promise<GqlChallengeActivity[]> {
+    throw new Error("Method not implemented.");
   }
 
   public async findById(id: number): Promise<GqlChallengeActivity | undefined> {

@@ -1,16 +1,52 @@
 import { Injectable } from "@nestjs/common";
+import { $DrizzleSchema } from "@o/db";
+import { UserFriendshipsTable } from "@o/db";
+import { and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 
 import { ChallengeService } from "@/challenge";
-import type { HomeFeedConnection } from "@/types/graphql";
-import { UserRecordsService } from "@/user/user-records";
-import { buildConnection, ConnectionArgs } from "@/utils/pagination";
+import { DbService } from "@/db/db.service";
+import {
+  HomeFeedConnection,
+  InvitationStatus,
+  UserRecord as GqlUserRecord,
+} from "@/types/graphql";
+import { UserFriendshipService, UserRecordsService } from "@/user";
+import { buildConnection, ConnectionArgs } from "@/utils";
 
 @Injectable()
 export class HomeFeedService {
   constructor(
     private readonly challengeService: ChallengeService,
-    private readonly userRecordsService: UserRecordsService
+    private readonly userRecordsService: UserRecordsService,
+    private readonly userFriendshipService: UserFriendshipService,
+    private readonly dbService: DbService<typeof $DrizzleSchema>
   ) {}
+
+  async getFriendRecords(viewerId: number): Promise<GqlUserRecord[]> {
+    const followingIds =
+      await this.dbService.db.query.UserFriendshipsTable.findMany({
+        where: and(
+          eq(UserFriendshipsTable.userId, viewerId),
+          eq(UserFriendshipsTable.status, InvitationStatus.ACCEPTED)
+        ),
+        columns: {
+          friendId: true,
+        },
+        // limit: limit + 1, // Get one extra to check if there are more results
+        // offset: after,
+        orderBy: desc(UserFriendshipsTable.createdAt),
+      });
+
+    const uniqueIds = new Set(followingIds.map((f) => f.friendId));
+
+    const records = await this.userRecordsService.findBy({
+      userId: [...uniqueIds],
+    });
+
+    return records;
+  }
 
   async getHomeFeed(
     viewerId: number,
@@ -24,8 +60,6 @@ export class HomeFeedService {
     const startingSoonChallenges =
       await this.challengeService.findChallengesStartingSoon(viewerId);
 
-    const userRecords = await this.userRecordsService.findByUserId(viewerId);
-
     const seenChallengeIds = new Set<string>();
     const combinedChallenges = [
       ...endingSoonChallenges,
@@ -36,11 +70,13 @@ export class HomeFeedService {
       return true;
     });
 
+    const friendRecords = await this.getFriendRecords(viewerId);
+
     // Combine and sort both arrays by createdAt in descending order (newest first)
     const combinedFeed = [
       // ...challenges.map((c) => ({ ...c, __typename: "Challenge" as const })),
       ...combinedChallenges,
-      ...userRecords.map((ur) => ({
+      ...friendRecords.map((ur) => ({
         ...ur,
         __typename: "UserRecord" as const,
       })),

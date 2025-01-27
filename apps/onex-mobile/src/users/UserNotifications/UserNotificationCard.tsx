@@ -106,10 +106,10 @@ export const UserNotificationCard = ({
 
   return (
     <OTouchable
-      className="mb-md gap-md flex w-full flex-col"
+      className="mb-md flex w-full flex-col gap-md"
       onPress={() => router.push(`/(modals)/${notification.user.id}`)}
     >
-      <View className="gap-sm flex flex-row items-center">
+      <View className="flex flex-row items-center gap-sm">
         <UserAvatar user={notification.user} size="md" />
         <View className="flex flex-1 flex-col">
           <OText className="font-semibold" numberOfLines={2}>
@@ -121,7 +121,7 @@ export const UserNotificationCard = ({
           </OText>
           {/* <UserMutuals mutuals={3} /> */}
         </View>
-        <View className="gap-sm flex flex-row items-center">
+        <View className="flex flex-row items-center gap-sm">
           <OButton
             title="Confirm"
             loading={isAddMutationInFlight}
