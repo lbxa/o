@@ -36,7 +36,7 @@ Follow [these instructions](https://docs.expo.dev/submit/ios/).
 3. Build, tag and push the image to the ECR repository:
 
     ```bash
-    docker build -t onex-backend:latest -f libs/api/api.Dockerfile .
+    docker build -t onex-backend:latest -f apps/onex-api/api.Dockerfile .
     docker tag onex-backend:latest 038462772119.dkr.ecr.ap-southeast-2.amazonaws.com/onex/backend
     docker push 038462772119.dkr.ecr.ap-southeast-2.amazonaws.com/onex/backend 
     ```
