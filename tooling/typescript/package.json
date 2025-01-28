@@ -1,8 +1,8 @@
 {
   "name": "@o/tsconfig",
-  "private": true,
   "version": "0.0.0",
   "files": [
     "*.json"
-  ]
+  ],
+  "private": true
 }
