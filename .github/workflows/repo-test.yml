@@ -43,3 +43,6 @@ jobs:
 
       - name: 🧪 Test packages
         run: pnpm run test
+
+      - name: 🩺 Doctor packages
+        run: pnpm run doctor
