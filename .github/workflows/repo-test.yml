@@ -19,6 +19,7 @@ concurrency:
 
 env:
   EXPO_USE_FAST_RESOLVER: true # Use the faster Metro resolver in SDK 51
+  DO_NOT_TRACK: 1
 
 jobs:
   packages:
@@ -32,17 +33,5 @@ jobs:
       - name: 🏗 Setup monorepo
         uses: ./.github/actions/setup-repo
 
-      - name: 👷 Build packages
-        run: pnpm run build
-
-      - name: ✅ Lint packages
-        run: pnpm run lint
-
-      - name: 🔍 Typecheck packages
-        run: pnpm run typecheck
-
-      - name: 🧪 Test packages
-        run: pnpm run test
-
-      - name: 🩺 Doctor packages
-        run: pnpm run doctor
+      - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test 🩺 Doctor packages
+        run: pnpm turbo build lint typecheck test doctor
