@@ -32,6 +32,7 @@ jobs:
       - name: 🏗 Setup monorepo
         uses: ./.github/actions/setup-repo
 
+<<<<<<< Updated upstream
       - name: 👷 Build packages
         run: pnpm run build
 
@@ -43,3 +44,7 @@ jobs:
 
       - name: 🧪 Test packages
         run: pnpm run test
+=======
+      - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test 🩺 Doctor packages
+        run: pnpm turbo build lint typecheck test doctor --affected
+>>>>>>> Stashed changes
