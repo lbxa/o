@@ -29,6 +29,7 @@
     "lint": "turbo lint",
     "preinstall": "npx only-allow pnpm",
     "release": "pnpm publish -r --access public",
+    "sync": "syncpack list",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "watchman:reset": "sh ./scripts/watchman_reset.sh"

@@ -61,13 +61,13 @@
     "@types/react-relay": "18.2.0",
     "@types/relay-runtime": "^18.2.5",
     "babel-plugin-relay": "18.2.0",
-    "eslint": "^9.15.0",
+    "eslint": "^9.19.0",
     "graphql": "^16.10.0",
     "nativewind": "4.1.23",
     "react-native-svg-transformer": "1.5.0",
     "relay-compiler": "^18.2.0",
     "tailwindcss": "3.4.16",
-    "typescript": "~5.3.3"
+    "typescript": "^5.7.3"
   },
   "expo": {
     "doctor": {

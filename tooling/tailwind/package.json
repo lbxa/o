@@ -10,8 +10,8 @@
   "devDependencies": {
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
-    "eslint": "^9.15.0",
-    "typescript": "~5.4.5"
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
   },
   "exports": {
     "./native": "./native.ts",
