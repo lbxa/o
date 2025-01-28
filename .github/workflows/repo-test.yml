@@ -19,7 +19,6 @@ concurrency:
 
 env:
   EXPO_USE_FAST_RESOLVER: true # Use the faster Metro resolver in SDK 51
-  TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
   DO_NOT_TRACK: 1
 
 jobs:
@@ -35,4 +34,4 @@ jobs:
         uses: ./.github/actions/setup-repo
 
       - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test 🩺 Doctor packages
-        run: pnpm turbo build lint typecheck test doctor --affected
+        run: pnpm turbo build lint typecheck test doctor
