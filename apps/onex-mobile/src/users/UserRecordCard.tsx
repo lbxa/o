@@ -10,7 +10,6 @@ import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { UserRecordCard_userRecord$key } from "@/__generated__/UserRecordCard_userRecord.graphql";
-import { challengeActivityUnitToLabel } from "@/challenges/ChallengeActivity";
 import { useZustStore } from "@/state/zust-store";
 import { OText, OTouchable } from "@/universe/atoms";
 import { UserAvatar } from "@/users/UserAvatar";
@@ -50,7 +49,7 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
         }
         activityResult {
           id
-          result
+          formattedResult
         }
       }
     `,
@@ -77,15 +76,15 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
   return (
     <OTouchable
       onPress={handlePress}
-      className="mb-md rounded-3xl bg-ivory p-sm px-3 dark:bg-surface-dark"
+      className="mb-md bg-ivory p-sm dark:bg-surface-dark rounded-3xl px-3"
     >
-      <View className="flex flex-col gap-sm">
+      <View className="gap-sm flex flex-col">
         <View className="flex flex-row items-start justify-between">
-          <View className="flex flex-1 flex-col gap-sm">
+          <View className="gap-sm flex flex-1 flex-col">
             <OText className="text-3xl font-bold">
               {userRecord.challenge.name} Record
             </OText>
-            <View className="flex flex-row items-center gap-sm">
+            <View className="gap-sm flex flex-row items-center">
               <OText className="text-2xl">
                 {userRecord.challenge.community?.name}{" "}
                 {userRecord.challenge.community?.isVerified && (
@@ -98,18 +97,14 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
               </OText>
             </View>
           </View>
-          <View className="shrink-0 rounded-full bg-indigo/30 p-sm">
+          <View className="bg-indigo/30 p-sm shrink-0 rounded-full">
             <TrophyIcon width={24} height={24} fill={colors.indigo.DEFAULT} />
           </View>
         </View>
         <OText className="py-md text-6xl">
-          {userRecord.activityResult.result +
-            " " +
-            challengeActivityUnitToLabel(
-              userRecord.challenge.activity.unit as ChallengeActivityUnits
-            )}
+          {userRecord.activityResult.formattedResult}
         </OText>
-        <View className="flex flex-row items-center gap-sm">
+        <View className="gap-sm flex flex-row items-center">
           <UserAvatar user={userRecord.user} size="sm" />
           <OText className="text-lg">
             {userRecord.user.firstName + " " + userRecord.user.lastName}
