@@ -4,6 +4,11 @@
   "globalDependencies": ["**/.env.*"],
   "ui": "tui",
   "tasks": {
+    "doctor": {
+      "cache": true,
+      "dependsOn": ["^doctor"],
+      "inputs": ["$TURBO_DEFAULT$", ".env.*", "package.json"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
