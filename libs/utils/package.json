@@ -1,22 +1,6 @@
 {
   "name": "@o/utils",
   "version": "1.0.0",
-  "license": "UNLICENSED",
-  "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "lint": "eslint . --fix",
-    "typecheck": "tsc --noEmit",
-    "build": "tsc",
-    "dev": "tsc --watch"
-  },
   "dependencies": {
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*"
@@ -27,5 +11,21 @@
     "@types/node": "^22.7.5",
     "eslint": "^9.19.0",
     "typescript": "^5.7.3"
-  }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "license": "UNLICENSED",
+  "main": "./dist/index.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "types": "./dist/index.d.ts"
 }

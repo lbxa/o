@@ -38,7 +38,7 @@ FROM base AS runner
   USER nestjs 
   
   COPY --from=installer --chown=nestjs:nodejs /app ./
-  WORKDIR /app/libs/api
+  WORKDIR /app/apps/onex-api
 
   HEALTHCHECK CMD curl --fail http://localhost:6969/ || exit 1
 

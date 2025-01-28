@@ -1,36 +1,37 @@
 {
   "name": "o",
-  "engines": {
-    "node": ">=20.14"
-  },
-  "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "build": "turbo build",
-    "dev": "turbo dev gql",
-    "test": "turbo test",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "doctor": "turbo doctor",
-    "every": "turbo build lint typecheck test doctor",
-    "dev:api": "pnpm dev --filter=\"@o/api...\"",
-    "dev:mobile": "pnpm watchman:reset && pnpm dev --filter=\"@o/mobile...\"",
-    "build:mobile": "turbo build --filter=\"@o/mobile...\"",
-    "graph": "turbo build --graph=turbo-graph.svg",
-    "circular": "pnpx madge --circular --extensions ts ./",
-    "changeset": "changeset",
-    "bump": "changeset version",
-    "release": "pnpm publish -r --access public",
-    "watchman:reset": "sh ./scripts/watchman_reset.sh"
-  },
   "devDependencies": {
     "@changesets/cli": "^2.27.10",
     "@turbo/gen": "^2.3.4",
     "turbo": "^2.3.4"
+  },
+  "engines": {
+    "node": ">=20.14"
   },
   "packageManager": "pnpm@9.15.4",
   "pnpm": {
     "overrides": {
       "react-native-reanimated": "3.16.1"
     }
+  },
+  "scripts": {
+    "build": "turbo build",
+    "build:mobile": "turbo build --filter=\"@o/mobile...\"",
+    "bump": "changeset version",
+    "changeset": "changeset",
+    "circular": "pnpx madge --circular --extensions ts ./",
+    "dev": "turbo dev gql",
+    "dev:api": "pnpm dev --filter=\"@o/api...\"",
+    "dev:mobile": "pnpm watchman:reset && pnpm dev --filter=\"@o/mobile...\"",
+    "doctor": "turbo doctor",
+    "every": "turbo build lint typecheck test doctor",
+    "graph": "turbo build --graph=turbo-graph.svg",
+    "lint": "turbo lint",
+    "preinstall": "npx only-allow pnpm",
+    "release": "pnpm publish -r --access public",
+    "sync": "syncpack list",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "watchman:reset": "sh ./scripts/watchman_reset.sh"
   }
 }
