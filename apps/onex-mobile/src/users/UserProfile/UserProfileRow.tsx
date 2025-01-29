@@ -12,10 +12,12 @@ const And = () => <OText className="font-normal">and</OText>;
 export const UserProfileRow = ({
   user,
   rightItems,
+  profileOutline,
   onPress,
 }: {
   user: UserProfileRow_user$key;
   rightItems?: React.ReactNode;
+  profileOutline?: "green";
   onPress?: () => void;
 }) => {
   const router = useRouter();
@@ -54,10 +56,10 @@ export const UserProfileRow = ({
         onPress ? onPress() : router.push(`/(modals)/${userRow.id}`);
       }}
     >
-      <View className="flex-1 flex-row items-center gap-sm">
-        <UserAvatar size="sm" user={userRow} />
+      <View className="gap-sm flex-1 flex-row items-center">
+        <UserAvatar size="sm" user={userRow} outline={profileOutline} />
         <View className="min-w-0 flex-1 flex-col">
-          <View className="flex-row items-center gap-sm">
+          <View className="gap-sm flex-row items-center">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
               {userRow.handle ?? fullName}
             </OText>
@@ -66,7 +68,12 @@ export const UserProfileRow = ({
           {mutualCount > 0 && (
             <OText className="text-sm" numberOfLines={1}>
               Friends with{" "}
-              <OText className="font-bold">
+              <OText
+                className="font-bold"
+                onPress={() =>
+                  router.push(`/(modals)/${userRow.firstMutualFriend?.id}`)
+                }
+              >
                 {userRow.firstMutualFriend?.firstName}
               </OText>
               <OText className="font-bold">

@@ -9,9 +9,7 @@ import {
   ChallengesTable,
   NewChallengeActivityResult,
   UsersTable,
-  UserStreaksTable,
 } from "@o/db";
-import { intToTimestamp } from "@o/utils";
 import { and, count, desc, eq, inArray, max, min, SQL, sql } from "drizzle-orm";
 
 import {
@@ -19,33 +17,30 @@ import {
   PgChallengeActivityResultComposite,
 } from "@/challenge/challenge-activity-results";
 import { ChallengeMembershipsService } from "@/challenge/challenge-memberships";
-import { UserRecordsRepository, UserRecordsService } from "@/user/user-records";
-
-import { DbService } from "../../db/db.service";
-import {
-  EntityService,
-  EntityType,
-  SearchableNumericFields,
-} from "../../entity";
+import { DbService } from "@/db/db.service";
+import { EntityService, EntityType, SearchableNumericFields } from "@/entity";
 import {
   ChallengeActivityGoal,
   ChallengeActivityResult as GqlChallengeActivityResult,
   ChallengeActivityResultConnection,
   ChallengeActivityTopMover as GqlChallengeActivityTopMover,
   ChallengeActivityTopMoverConnection,
-  ChallengeActivityUnits,
-} from "../../types/graphql";
-import { UserService } from "../../user/user.service";
-import { UserStreaksService } from "../../user/user-streaks";
+} from "@/types/graphql";
+import { UserService } from "@/user/user.service";
+import { UserRecordsRepository, UserRecordsService } from "@/user/user-records";
+import { UserStreaksService } from "@/user/user-streaks";
 import {
   buildConnection,
   ConnectionArgs,
   encodeGlobalId,
   validateAndDecodeGlobalId,
-} from "../../utils";
-import { NotFoundError } from "../../utils/errors";
-import { ChallengeActivityService } from "../challenge-activity";
-import { mapToEnum } from "./../../utils/map-to-enum";
+} from "@/utils";
+import { mapToEnum, NotFoundError } from "@/utils";
+
+import {
+  ChallengeActivityFormatterService,
+  ChallengeActivityService,
+} from "../challenge-activity";
 import { RankingService } from "./ranking-service";
 
 @Injectable()
@@ -63,6 +58,7 @@ export class ChallengeActivityResultsService
     private challengeMembershipsService: ChallengeMembershipsService,
     private challengeActivityService: ChallengeActivityService,
     private challengeActivityResultsRepository: ChallengeActivityResultsRepository,
+    private challengeActivityFormatterService: ChallengeActivityFormatterService,
     private userStreaksService: UserStreaksService,
     private userRecordsService: UserRecordsService,
     private userRecordsRepository: UserRecordsRepository,
@@ -180,11 +176,15 @@ export class ChallengeActivityResultsService
 
     const newResult = await this.challengeActivityResultsRepository.create({
       ...challengeActivityResultInput,
-      formattedResult: this.formatActivityResult({
-        result: challengeActivityResultInput.result,
-        goal: activity.goal,
-        unit: activity.unit,
-      }),
+      targetReached: activity.target
+        ? challengeActivityResultInput.result >= activity.target
+        : null,
+      formattedResult:
+        this.challengeActivityFormatterService.formatActivityResult({
+          result: challengeActivityResultInput.result,
+          goal: activity.goal,
+          unit: activity.unit,
+        }),
     });
 
     if (!newResult) {
@@ -460,50 +460,4 @@ export class ChallengeActivityResultsService
       .where(eq(ChallengeActivityResultsTable.userId, userId));
     return row.count;
   }
-
-  private formatActivityResult = ({
-    result,
-    goal,
-    unit,
-  }: {
-    result: number;
-    goal: ChallengeActivityGoal;
-    unit: ChallengeActivityUnits;
-  }): string => {
-    switch (goal) {
-      case ChallengeActivityGoal.HIGHEST_NUMBER:
-      case ChallengeActivityGoal.LOWEST_NUMBER:
-      case ChallengeActivityGoal.SPECIFIC_TARGET:
-        switch (unit) {
-          case ChallengeActivityUnits.KILOGRAMS:
-          case ChallengeActivityUnits.POUNDS:
-            return `${result} kg`;
-          case ChallengeActivityUnits.SECONDS:
-          case ChallengeActivityUnits.MINUTES:
-          case ChallengeActivityUnits.HOURS:
-            return intToTimestamp(result).toString();
-          default:
-            return result.toString();
-        }
-      case ChallengeActivityGoal.SHORTEST_TIME:
-      case ChallengeActivityGoal.LONGEST_TIME:
-        return intToTimestamp(result).toString();
-      case ChallengeActivityGoal.MOST_IMPROVED:
-        return `${result}%`;
-      case ChallengeActivityGoal.SHORTEST_DISTANCE:
-      case ChallengeActivityGoal.LONGEST_DISTANCE:
-        switch (unit) {
-          case ChallengeActivityUnits.METRES:
-            return `${result} m`;
-          case ChallengeActivityUnits.KILOMETRES:
-            return `${result} km`;
-          case ChallengeActivityUnits.MILES:
-            return `${result} mi`;
-          case ChallengeActivityUnits.FEET:
-            return `${result} ft`;
-          default:
-            return result.toString();
-        }
-    }
-  };
 }

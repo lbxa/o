@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3dd51770eff6442b3c9ae7f594dd837a>>
+ * @generated SignedSource<<a84faecc21c5755b2dfd42fdc69f1258>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ import type { FragmentRefs } from "relay-runtime";
 export type TopResultCard_challenge$data = {
   readonly formattedResult: string;
   readonly id: string;
+  readonly targetReached: boolean | null | undefined;
   readonly user: {
     readonly id: string;
     readonly " $fragmentSpreads": FragmentRefs<"UserProfileRow_user">;
@@ -62,6 +63,13 @@ return {
       "kind": "ScalarField",
       "name": "formattedResult",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "targetReached",
+      "storageKey": null
     }
   ],
   "type": "ChallengeActivityResult",
@@ -69,6 +77,6 @@ return {
 };
 })();
 
-(node as any).hash = "7ce237ba884952fb2e854d3fd0c437dd";
+(node as any).hash = "f9ab2b7cc3e162a6bec3fd6c56e9a94f";
 
 export default node;

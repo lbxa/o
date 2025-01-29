@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<76d461fc1b299e79238282029adc8003>>
+ * @generated SignedSource<<e90ca3bbbc1b2a8e9ea7054475d459f9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -249,6 +249,13 @@ return {
                             "name": "formattedResult",
                             "storageKey": null
                           },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "targetReached",
+                            "storageKey": null
+                          },
                           (v2/*: any*/)
                         ],
                         "storageKey": null
@@ -310,12 +317,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8e9270c587712fe7f3791a88170b4c8e",
+    "cacheID": "112eb90cfaee30beb4b2dca4849cbc18",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query useChallengeActivityTopResultsPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopResultsFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n  targetReached\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTopResultsFragment_challenge_1G22uz on Challenge {\n  activityTopResults(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

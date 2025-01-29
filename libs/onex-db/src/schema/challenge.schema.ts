@@ -1,4 +1,5 @@
 import {
+  boolean,
   doublePrecision,
   index,
   integer,
@@ -201,6 +202,8 @@ export const ChallengeActivityResultsTable = ChallengeSchema.table(
     // uses business logic to convert result to a string for
     // display purposes
     formattedResult: varchar({ length: 255 }).notNull(),
+    // if NULL then activity didn't have a target
+    targetReached: boolean(),
     // Maybe this isn't the best idea... assumes consecutive results are
     // very reliably, however users could input bad results and without
     // a runtime solution to filter those out, the quality of the rankings

@@ -140,6 +140,7 @@ export type ChallengeActivityResult = Node & Timestamps & {
   id: Scalars['ID']['output'];
   /** Raw floating point value */
   result: Scalars['Float']['output'];
+  targetReached?: Maybe<Scalars['Boolean']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user: User;
 };
