@@ -202,6 +202,7 @@ export interface ChallengeActivityResult extends Node, Timestamps {
     activity: ChallengeActivity;
     result: number;
     formattedResult: string;
+    targetReached?: Nullable<boolean>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }

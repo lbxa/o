@@ -12,6 +12,7 @@ type ChallengeActivityResult implements Node & Timestamps {
   result: Float!
   "Transformed result for display purposes"
   formattedResult: String!
+  targetReached: Boolean
   createdAt: DateTime
   updatedAt: DateTime
 }

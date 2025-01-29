@@ -2,6 +2,7 @@ import ChevronRightIcon from "@assets/icons/chevron-right.svg";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef } from "react";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { OTouchable, Subtitle, Title } from "@/universe/atoms";
 
@@ -12,6 +13,7 @@ import { ChallengeCreateActivitySummary } from "./ChallengeCreateActivitySummary
 
 export const ChallengeCreateActivity = () => {
   const modalRef = useRef<BottomSheetModal>(null);
+  const insets = useSafeAreaInsets();
   const svgFill = useSvgFill();
   const sharedBottomSheetProps = useSharedBottomSheetProps();
 
@@ -35,9 +37,10 @@ export const ChallengeCreateActivity = () => {
       <BottomSheetModal
         ref={modalRef}
         {...sharedBottomSheetProps}
+        topInset={insets.top}
         enablePanDownToClose
         enableDynamicSizing
-        maxDynamicContentSize={600}
+        // maxDynamicContentSize={600}
         keyboardBlurBehavior="restore"
         keyboardBehavior="interactive"
       >

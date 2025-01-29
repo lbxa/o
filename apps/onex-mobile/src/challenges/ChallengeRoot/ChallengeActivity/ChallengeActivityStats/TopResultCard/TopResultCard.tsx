@@ -23,6 +23,7 @@ export const TopResultCard = ({
           ...UserProfileRow_user
         }
         formattedResult
+        targetReached
       }
     `,
     result
@@ -41,6 +42,7 @@ export const TopResultCard = ({
     <UserProfileRow
       user={userResult.user}
       rightItems={rightItems}
+      profileOutline={userResult.targetReached ? "green" : undefined}
       onPress={() => {
         topResultModalRef?.current?.close();
         router.push(

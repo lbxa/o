@@ -10,7 +10,6 @@ import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { UserRecordCard_userRecord$key } from "@/__generated__/UserRecordCard_userRecord.graphql";
-import { challengeActivityUnitToLabel } from "@/challenges/ChallengeActivity";
 import { useZustStore } from "@/state/zust-store";
 import { OText, OTouchable } from "@/universe/atoms";
 import { UserAvatar } from "@/users/UserAvatar";
@@ -50,7 +49,7 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
         }
         activityResult {
           id
-          result
+          formattedResult
         }
       }
     `,
@@ -103,11 +102,7 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
           </View>
         </View>
         <OText className="py-md text-6xl">
-          {userRecord.activityResult.result +
-            " " +
-            challengeActivityUnitToLabel(
-              userRecord.challenge.activity.unit as ChallengeActivityUnits
-            )}
+          {userRecord.activityResult.formattedResult}
         </OText>
         <View className="flex flex-row items-center gap-sm">
           <UserAvatar user={userRecord.user} size="sm" />

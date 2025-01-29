@@ -118,6 +118,7 @@ export class ChallengeActivityResultsResolver {
       challenge.id,
       "Challenge"
     );
+
     return this.challengeActivityResultsService.fetchTopMovers(
       {
         challengeId: decodedChallengeId,

@@ -1,0 +1,1 @@
+ALTER TABLE "challenge"."activity_results" ADD COLUMN "target_reached" boolean;

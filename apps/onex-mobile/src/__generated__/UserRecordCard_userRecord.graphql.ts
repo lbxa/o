@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c681e097717cffd91a5787a31d08eda0>>
+ * @generated SignedSource<<22c7261a65f79a60c935a713f3e89f49>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,8 +15,8 @@ export type ChallengeActivityUnits = "FEET" | "HOURS" | "KILOGRAMS" | "KILOMETRE
 import type { FragmentRefs } from "relay-runtime";
 export type UserRecordCard_userRecord$data = {
   readonly activityResult: {
+    readonly formattedResult: string;
     readonly id: string;
-    readonly result: number;
   };
   readonly challenge: {
     readonly activity: {
@@ -179,7 +179,7 @@ return {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "result",
+          "name": "formattedResult",
           "storageKey": null
         }
       ],
@@ -191,6 +191,6 @@ return {
 };
 })();
 
-(node as any).hash = "f2d25b244f502058d5e57cd8e27ca8bf";
+(node as any).hash = "8d52591ea9059fccffd9f26eea1a6b74";
 
 export default node;

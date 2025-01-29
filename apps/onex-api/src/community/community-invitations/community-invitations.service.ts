@@ -4,9 +4,10 @@ import {
   CommunitiesTable,
   CommunityInvitation as PgCommunityInvitation,
   CommunityInvitationsTable,
+  CommunityMembershipsTable,
   UsersTable,
 } from "@o/db";
-import { aliasedTable, and, desc, eq } from "drizzle-orm";
+import { aliasedTable, and, desc, eq, gt } from "drizzle-orm";
 
 import { CommunityRepository } from "@/community/community.repository";
 import { DbService } from "@/db/db.service";
@@ -198,29 +199,73 @@ export class CommunityInvitationsService
       throw new ForbiddenError("Cannot invite self to a community");
     }
 
-    const [result] = await this.dbService.db
-      .insert(CommunityInvitationsTable)
-      .values({
-        communityId,
-        inviterId,
-        inviteeId: inviteeId,
-        status: InvitationStatus.PENDING,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-      })
-      .returning({ insertedId: CommunityInvitationsTable.id });
-
-    const invitation =
-      await this.dbService.db.query.CommunityInvitationsTable.findFirst({
-        where: eq(CommunityInvitationsTable.id, result.insertedId),
+    const isInviterMember =
+      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
+        where: and(
+          eq(CommunityMembershipsTable.userId, inviterId),
+          eq(CommunityMembershipsTable.communityId, communityId)
+        ),
       });
 
-    if (!invitation) {
-      throw new NotFoundError(
-        `Invitation with ID ${result.insertedId} not found`
+    if (!isInviterMember) {
+      throw new ForbiddenError(
+        "You must be a member of the community to invite others to it"
       );
     }
 
-    return true;
+    const isInviteeMember =
+      await this.dbService.db.query.CommunityMembershipsTable.findFirst({
+        where: and(
+          eq(CommunityMembershipsTable.userId, inviteeId),
+          eq(CommunityMembershipsTable.communityId, communityId)
+        ),
+      });
+
+    if (isInviteeMember) {
+      throw new ForbiddenError("User is already a member of the community");
+    }
+
+    // Check for existing non-expired pending invitation
+    const existingInvitation =
+      await this.dbService.db.query.CommunityInvitationsTable.findFirst({
+        where: and(
+          eq(CommunityInvitationsTable.inviteeId, inviteeId),
+          eq(CommunityInvitationsTable.communityId, communityId),
+          eq(CommunityInvitationsTable.status, InvitationStatus.PENDING),
+          gt(CommunityInvitationsTable.expiresAt, new Date())
+        ),
+      });
+
+    if (existingInvitation) {
+      throw new ForbiddenError(
+        "User already has a pending invitation to this community"
+      );
+    }
+
+    return await this.dbService.db.transaction(async (tx) => {
+      const [result] = await tx
+        .insert(CommunityInvitationsTable)
+        .values({
+          communityId,
+          inviterId,
+          inviteeId: inviteeId,
+          status: InvitationStatus.PENDING,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+        })
+        .returning({ insertedId: CommunityInvitationsTable.id });
+
+      const invitation = await tx.query.CommunityInvitationsTable.findFirst({
+        where: eq(CommunityInvitationsTable.id, result.insertedId),
+      });
+
+      if (!invitation) {
+        throw new NotFoundError(
+          `Invitation with ID ${result.insertedId} not found`
+        );
+      }
+
+      return true;
+    });
   }
 
   async declineInvitation(

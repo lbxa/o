@@ -1,11 +1,9 @@
 /* eslint-disable @stylistic/js/max-len */
-import { router } from "expo-router";
 import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeActivityHistoryCard_challenge$key } from "@/__generated__/ChallengeActivityHistoryCard_challenge.graphql";
 import { OText, Timestamp } from "@/universe/atoms";
-import { OTouchable } from "@/universe/atoms";
 import { UserAvatar } from "@/users/UserAvatar";
 
 export const ChallengeActivityHistoryCard = ({
@@ -25,6 +23,7 @@ export const ChallengeActivityHistoryCard = ({
         }
         createdAt
         formattedResult
+        targetReached
       }
     `,
     result
@@ -44,16 +43,13 @@ export const ChallengeActivityHistoryCard = ({
   );
 
   return (
-    <OTouchable
-      className="mt-sm flex-row items-center justify-between"
-      onPress={() => {
-        router.push(
-          `/community/challenge/(challenge-history)/${userResult.user.id}`
-        );
-      }}
-    >
+    <View className="mt-sm flex-row items-center justify-between">
       <View className="flex-1 flex-row items-center gap-sm">
-        <UserAvatar size="sm" user={userResult.user} />
+        <UserAvatar
+          size="sm"
+          user={userResult.user}
+          outline={userResult.targetReached ? "green" : undefined}
+        />
         <View className="min-w-0 flex-1 flex-col">
           <View className="flex-row items-center gap-sm">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
@@ -66,7 +62,7 @@ export const ChallengeActivityHistoryCard = ({
         </View>
         {rightItems}
       </View>
-    </OTouchable>
+    </View>
   );
   // return <UserProfileRow user={userResult.user} rightItems={rightItems} />;
 };
