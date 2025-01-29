@@ -9,6 +9,7 @@ import {
   ChallengesTable,
   NewChallengeActivityResult,
   UsersTable,
+  UserStreaksTable,
 } from "@o/db";
 import { intToTimestamp } from "@o/utils";
 import { and, count, desc, eq, inArray, max, min, SQL, sql } from "drizzle-orm";
@@ -21,7 +22,11 @@ import { ChallengeMembershipsService } from "@/challenge/challenge-memberships";
 import { UserRecordsRepository, UserRecordsService } from "@/user/user-records";
 
 import { DbService } from "../../db/db.service";
-import { EntityService, EntityType } from "../../entity";
+import {
+  EntityService,
+  EntityType,
+  SearchableNumericFields,
+} from "../../entity";
 import {
   ChallengeActivityGoal,
   ChallengeActivityResult as GqlChallengeActivityResult,
@@ -264,6 +269,20 @@ export class ChallengeActivityResultsService
       );
     }
 
+    const usersWithMultipleResults = this.dbService.db
+      .select({
+        userId: ChallengeActivityResultsTable.userId,
+        activityId: ChallengeActivityResultsTable.activityId,
+      })
+      .from(ChallengeActivityResultsTable)
+      .where(and(...whereConditions))
+      .groupBy(
+        ChallengeActivityResultsTable.userId,
+        ChallengeActivityResultsTable.activityId
+      )
+      .having(sql<boolean>`count(${ChallengeActivityResultsTable.id}) > 1`)
+      .as("subquery");
+
     const aggregatedResults = await this.dbService.db
       .select({
         user: UsersTable,
@@ -275,12 +294,16 @@ export class ChallengeActivityResultsService
       })
       .from(ChallengeMembershipsTable)
       .innerJoin(
-        UsersTable,
-        eq(ChallengeMembershipsTable.userId, UsersTable.id)
+        usersWithMultipleResults,
+        eq(usersWithMultipleResults.userId, ChallengeMembershipsTable.userId)
       )
+      .innerJoin(UsersTable, eq(UsersTable.id, usersWithMultipleResults.userId))
       .innerJoin(
         ChallengeActivityResultsTable,
-        eq(ChallengeActivityResultsTable.userId, UsersTable.id)
+        eq(
+          ChallengeActivityResultsTable.userId,
+          usersWithMultipleResults.userId
+        )
       )
       .innerJoin(
         ChallengeActivitiesTable,
@@ -295,7 +318,6 @@ export class ChallengeActivityResultsService
       )
       .where(and(...whereConditions))
       .groupBy(UsersTable.id, ChallengeActivitiesTable.id, ChallengesTable.id)
-      .having(sql<boolean>`count(${ChallengeActivityResultsTable.id}) > 1`)
       .orderBy(desc(max(ChallengeActivityResultsTable.result)))
       .offset(startCursorId);
 
@@ -371,8 +393,9 @@ export class ChallengeActivityResultsService
   }
 
   public async fetchTopResults(
-    fields: Partial<
-      Pick<PgChallengeActivityResult, "challengeId" | "activityId">
+    fields: SearchableNumericFields<
+      PgChallengeActivityResult,
+      "challengeId" | "activityId"
     >,
     { first = 10, after }: ConnectionArgs
   ): Promise<ChallengeActivityResultConnection> {
