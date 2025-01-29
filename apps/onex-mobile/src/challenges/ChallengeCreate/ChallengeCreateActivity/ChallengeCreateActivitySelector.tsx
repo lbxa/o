@@ -123,12 +123,12 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
   });
 
   return (
-    <View className="px-md flex h-full flex-col pb-10">
+    <View className="flex h-full flex-col px-md pb-10">
       <Title>Select an activity</Title>
       <Subtitle>
         An activity is a trackable event that participants can complete
       </Subtitle>
-      <View className="mb-lg gap-md flex flex-row flex-wrap">
+      <View className="mb-lg flex flex-row flex-wrap gap-md">
         {activities.map((c) => (
           <Pill
             key={c}
@@ -148,7 +148,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
           <Subtitle>
             The goal should be a measure of progress for the challenge
           </Subtitle>
-          <View className="mb-lg gap-md flex flex-row flex-wrap">
+          <View className="mb-lg flex flex-row flex-wrap gap-md">
             {allowedGoals.map((c) => (
               <Pill
                 key={c}
@@ -169,8 +169,8 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
             <Subtitle>
               A common unit can help convert from different inputs
             </Subtitle>
-            <View className="gap-md flex flex-row items-center">
-              <View className="gap-md flex flex-row">
+            <View className="flex flex-row items-center gap-md">
+              <View className="flex flex-row gap-md">
                 {unitsByActivity[selectedActivity].map((u) => (
                   <Pill
                     label={challengeActivityUnitToLabel(u)}
@@ -206,8 +206,8 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
           <Subtitle>
             What is the target participants should aim to achieve?
           </Subtitle>
-          <View className="gap-md flex flex-row items-center">
-            <View className="gap-md flex flex-row">
+          <View className="flex flex-row items-center gap-md">
+            <View className="flex flex-row gap-md">
               <Controller
                 name="target"
                 control={control}

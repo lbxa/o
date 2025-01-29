@@ -56,10 +56,10 @@ export const UserProfileRow = ({
         onPress ? onPress() : router.push(`/(modals)/${userRow.id}`);
       }}
     >
-      <View className="gap-sm flex-1 flex-row items-center">
+      <View className="flex-1 flex-row items-center gap-sm">
         <UserAvatar size="sm" user={userRow} outline={profileOutline} />
         <View className="min-w-0 flex-1 flex-col">
-          <View className="gap-sm flex-row items-center">
+          <View className="flex-row items-center gap-sm">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
               {userRow.handle ?? fullName}
             </OText>
