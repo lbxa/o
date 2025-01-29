@@ -1,5 +1,5 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { ChallengeActivityUnits } from "@o/api-gql";
+import type { ChallengeActivityUnits } from "@o/api-gql";
 import { ChallengeActivityGoal } from "@o/api-gql";
 import { ChallengeActivityType } from "@o/api-gql";
 import { useMemo } from "react";
@@ -179,7 +179,8 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                     onPress={() => setChallengeFormField("unit", u)}
                   />
                 ))}
-                {selectedGoal === ChallengeActivityGoal.SpecificTarget && (
+                {/* TODO Add back in when we we figure out what exactly we want to do with this */}
+                {/* {selectedGoal === ChallengeActivityGoal.SpecificTarget && (
                   <Pill
                     label={challengeActivityUnitToLabel(
                       ChallengeActivityUnits.Percent
@@ -193,7 +194,7 @@ export const ChallengeCreateActivitySelector = ({ modalRef }: Props) => {
                       )
                     }
                   />
-                )}
+                )} */}
               </View>
             </View>
           </View>
