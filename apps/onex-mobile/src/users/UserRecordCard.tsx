@@ -76,15 +76,15 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
   return (
     <OTouchable
       onPress={handlePress}
-      className="mb-md bg-ivory p-sm dark:bg-surface-dark rounded-3xl px-3"
+      className="mb-md rounded-3xl bg-ivory p-sm px-3 dark:bg-surface-dark"
     >
-      <View className="gap-sm flex flex-col">
+      <View className="flex flex-col gap-sm">
         <View className="flex flex-row items-start justify-between">
-          <View className="gap-sm flex flex-1 flex-col">
+          <View className="flex flex-1 flex-col gap-sm">
             <OText className="text-3xl font-bold">
               {userRecord.challenge.name} Record
             </OText>
-            <View className="gap-sm flex flex-row items-center">
+            <View className="flex flex-row items-center gap-sm">
               <OText className="text-2xl">
                 {userRecord.challenge.community?.name}{" "}
                 {userRecord.challenge.community?.isVerified && (
@@ -97,14 +97,14 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
               </OText>
             </View>
           </View>
-          <View className="bg-indigo/30 p-sm shrink-0 rounded-full">
+          <View className="shrink-0 rounded-full bg-indigo/30 p-sm">
             <TrophyIcon width={24} height={24} fill={colors.indigo.DEFAULT} />
           </View>
         </View>
         <OText className="py-md text-6xl">
           {userRecord.activityResult.formattedResult}
         </OText>
-        <View className="gap-sm flex flex-row items-center">
+        <View className="flex flex-row items-center gap-sm">
           <UserAvatar user={userRecord.user} size="sm" />
           <OText className="text-lg">
             {userRecord.user.firstName + " " + userRecord.user.lastName}

@@ -280,10 +280,7 @@ export class ChallengeActivityResultsService
       )
       .innerJoin(
         ChallengeActivityResultsTable,
-        and(
-          eq(ChallengeActivityResultsTable.userId, UsersTable.id),
-          ...whereConditions
-        )
+        eq(ChallengeActivityResultsTable.userId, UsersTable.id)
       )
       .innerJoin(
         ChallengeActivitiesTable,
@@ -296,7 +293,8 @@ export class ChallengeActivityResultsService
         ChallengesTable,
         eq(ChallengesTable.id, ChallengeActivityResultsTable.challengeId)
       )
-      .groupBy(UsersTable.id, ChallengeActivitiesTable.id)
+      .where(and(...whereConditions))
+      .groupBy(UsersTable.id, ChallengeActivitiesTable.id, ChallengesTable.id)
       .having(sql<boolean>`count(${ChallengeActivityResultsTable.id}) > 1`)
       .orderBy(desc(max(ChallengeActivityResultsTable.result)))
       .offset(startCursorId);

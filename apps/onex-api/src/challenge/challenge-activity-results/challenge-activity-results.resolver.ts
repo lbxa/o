@@ -118,6 +118,7 @@ export class ChallengeActivityResultsResolver {
       challenge.id,
       "Challenge"
     );
+    console.log("Resolvers is being called");
     return this.challengeActivityResultsService.fetchTopMovers(
       {
         challengeId: decodedChallengeId,
