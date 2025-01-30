@@ -11,7 +11,7 @@ export const App = () => {
       <Blur />
       <div class="relative z-10 w-full">
         <Mission />
-        <div class="gap-6xl flex flex-col">
+        <div class="flex flex-col gap-6xl">
           <Why />
           <Switch />
           {/* <FaQ /> */}
