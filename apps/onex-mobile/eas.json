@@ -29,7 +29,7 @@
       "distribution": "internal",
       "env": {
         "NODE_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://www.onex.social/graphql"
+        "EXPO_PUBLIC_API_URL": "https://api.onex.social/graphql"
       }
     },
     "production": {
@@ -39,7 +39,7 @@
       "autoIncrement": true,
       "env": {
         "NODE_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://www.onex.social/graphql"
+        "EXPO_PUBLIC_API_URL": "https://api.onex.social/graphql"
       }
     }
   },

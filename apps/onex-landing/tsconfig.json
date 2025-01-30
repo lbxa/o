@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@universe/*": ["src/universe/*"],
       "@icons/*": ["src/icons/*"],
     },

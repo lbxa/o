@@ -1,23 +1,12 @@
-import AppIconsSvg from "../assets/icons/app-icons.svg";
-import BoltSvg from "../assets/icons/bolt.svg";
-import ChartSvg from "../assets/icons/chart.svg";
-import CheckSvg from "../assets/icons/check.svg";
-import DumbbellSvg from "../assets/icons/dumbbell.svg";
-import GroupSvg from "../assets/icons/group.svg";
-import MinusSvg from "../assets/icons/minus.svg";
-import PlusSvg from "../assets/icons/plus.svg";
-import RankingsSvg from "../assets/icons/rankings.svg";
-
-export {
-  AppIconsSvg,
-  BoltSvg,
-  ChartSvg,
-  CheckSvg,
-  DumbbellSvg,
-  GroupSvg,
-  MinusSvg,
-  PlusSvg,
-  RankingsSvg,
-};
-
+export { default as AppIconsSvg } from "../assets/icons/app-icons.svg";
+export { default as AppStoreSvg } from "../assets/icons/app-store.svg";
+export { default as BoltSvg } from "../assets/icons/bolt.svg";
+export { default as ChartSvg } from "../assets/icons/chart.svg";
+export { default as CheckSvg } from "../assets/icons/check.svg";
+export { default as DumbbellSvg } from "../assets/icons/dumbbell.svg";
+export { default as GroupSvg } from "../assets/icons/group.svg";
+export { default as MinusSvg } from "../assets/icons/minus.svg";
+export { default as OnexSvg } from "../assets/icons/onex.svg";
+export { default as PlusSvg } from "../assets/icons/plus.svg";
+export { default as RankingsSvg } from "../assets/icons/rankings.svg";
 export * from "./svg";

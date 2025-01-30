@@ -54,8 +54,7 @@ export const Pilot = () => {
     <div class="mb-xl">
       <p class="mb-md text-3xl">
         Join our community of early adopters in the{" "}
-        <Highlight color="black">limited release</Highlight> and be among the
-        first to experience oNex!
+        <Highlight color="black">limited release.</Highlight>
       </p>
       <p class="mb-md">
         Enjoy free access to the platform and help shape its future by sharing

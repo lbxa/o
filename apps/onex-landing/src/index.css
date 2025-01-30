@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Helvetica Neue', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   z-index: 2; /* Ensure this is above the canvas */
+  @apply selection:bg-black selection:text-white text-ivory;
 }
 
 html, body {
@@ -26,7 +26,7 @@ body {
   padding-left: env(safe-area-inset-left);
 }
 
-/* WebGL Styles */
+/* WebGL Styles for threejs rendering */
 canvas#webgl {
   position: fixed;
   top: 0;
@@ -37,4 +37,84 @@ canvas#webgl {
   z-index: -1;
   pointer-events: none; /* This is crucial */
   mix-blend-mode: exclusion;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-LightItalic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src:
+    local("Neue Montreal"),
+    url("/fonts/NeueMontreal/NeueMontreal-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
 }

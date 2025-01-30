@@ -10,7 +10,7 @@ export const TextAreaInput = (
   return (
     <textarea
       rows={5}
-      class="mb-md w-full rounded-lg border-2 border-solid border-black bg-gray-100 p-sm"
+      class="mb-md w-full rounded-lg border-2 border-solid border-black bg-gray-100 p-sm text-black"
       placeholder="Write us a message :)"
       {...props}
     ></textarea>
