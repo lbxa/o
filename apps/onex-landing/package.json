@@ -1,5 +1,5 @@
 {
-  "name": "@o/home",
+  "name": "@o/onex-landing",
   "version": "0.0.0",
   "dependencies": {
     "@modular-forms/solid": "^0.22.1",
