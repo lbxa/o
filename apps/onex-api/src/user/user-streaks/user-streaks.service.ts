@@ -139,7 +139,7 @@ export class UserStreaksService
       };
     }
 
-    if (dayDifference > 1) {
+    if (dayDifference > 1 || dayDifference === 0) {
       return {
         currentStreak: UserStreaksService.INITIAL_STREAK,
         longestStreak,
