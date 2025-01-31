@@ -6,12 +6,22 @@ export const Mission: Component = () => {
       <div class="relative">
         <div class="hidden sm:block">
           <span class="block origin-bottom text-[clamp(7.5rem,15vw,22rem)] font-bold leading-none tracking-tight">
-            <span class="relative inline-block bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent transition-all duration-700 hover:scale-105 hover:from-white hover:to-white/40">
+            <span
+              class="relative inline-block bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent 
+              transition-[transform,background] duration-700 ease-in-out [background-size:200%_auto] 
+              hover:scale-105 hover:bg-gradient-to-r hover:from-white 
+              hover:to-white/40 hover:[background-position:100%_50%]"
+            >
               DOPAMINE
             </span>
           </span>
           <span class="block origin-bottom text-[clamp(6.5rem,13vw,20rem)] font-bold leading-none tracking-tight">
-            <span class="relative inline-block bg-gradient-to-l from-white to-white/70 bg-clip-text text-transparent transition-all duration-700 hover:scale-105 hover:from-white hover:to-white/40">
+            <span
+              class="relative inline-block bg-gradient-to-l from-white to-white/70 bg-clip-text text-transparent 
+              transition-[transform,background] duration-700 ease-in-out [background-size:200%_auto] 
+              hover:scale-105 hover:bg-gradient-to-l hover:from-white
+              hover:to-white/40 hover:[background-position:0%_50%]"
+            >
               GATEWAY
             </span>
           </span>
