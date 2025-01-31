@@ -19,6 +19,7 @@ body:graphql {
         id
         user {
           firstName
+          lastName
         }
       }
     }
@@ -35,12 +36,29 @@ body:graphql {
         name
       }
     }
+    node(id: "VXNlclJlY29yZDoxCg==") {
+      id
+      ... on UserRecord {
+        id
+        activityResult {
+          formattedResult
+        }
+      }
+    }
+    node(id: "VXNlclN0cmVhazoxCg==") {
+      id
+      ... on UserStreak {
+        id
+        currentStreak
+      }
+    }
     # User:1 === VXNlcjox   
   	user: node(id: "VXNlcjox") {
       id
       ... on User {
         firstName
         lastName
+        email
       }
     }
   }
