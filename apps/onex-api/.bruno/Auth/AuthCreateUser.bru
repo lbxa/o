@@ -17,9 +17,9 @@ auth:bearer {
 body:graphql {
   mutation {
     authCreateUser(authCreateUserInput: {
-      firstName: "XXX",
-      lastName: "YYY",
-      email: "xxx@yyy.com.au",
+      firstName: "Lucas",
+      lastName: "Barbosa",
+      email: "lucasbrsa@hotmail.com",
       password: "Password1",
     }) {
       tokens {
@@ -62,4 +62,9 @@ body:graphql:vars {
       "password": "Marry"
     }
   }
+}
+
+vars:post-response {
+  TOKEN: res.body.data.authLogin.tokens.accessToken
+  REFRESH_TOKEN: res.body.data.authLogin.tokens.refreshToken
 }

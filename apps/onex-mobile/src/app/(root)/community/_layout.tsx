@@ -83,7 +83,7 @@ export default function CommunityRootLayout() {
         }}
       />
       <Stack.Screen
-        name="challenge/challenge-history"
+        name="challenge/(challenge-history)/[user]"
         options={{
           title: "Challenge History",
         }}

@@ -18,7 +18,7 @@ import { HomeFeedModule } from "./home-feed/home-feed.module";
 import { NodeResolver } from "./node.resolver";
 import { DateTimeScalar } from "./types/datetime";
 import { UserModule } from "./user/user.module";
-import { envFile } from "./utils";
+import { envFile, HealthCheckController } from "./utils";
 import { ViewerModule } from "./viewer/viewer.module";
 
 @Module({
@@ -60,5 +60,6 @@ import { ViewerModule } from "./viewer/viewer.module";
     AppResolver,
     NodeResolver,
   ],
+  controllers: [HealthCheckController],
 })
 export class AppModule {}

@@ -21,9 +21,9 @@ import type { EntityType } from "./entity.types";
  * @see https://github.com/drizzle-team/drizzle-orm/discussions/1767#discussioncomment-8041562
  */
 export interface EntityService<
-  T extends AnyPgTable,
-  PgType extends T["$inferSelect"],
-  GqlType extends Node,
+  T extends AnyPgTable = AnyPgTable,
+  PgType extends T["$inferSelect"] = T["$inferSelect"],
+  GqlType extends Node = Node,
   CompositePgType extends PgType = PgType,
   // EdgeType extends Edge<GqlType> = Edge<GqlType>,
 > {
