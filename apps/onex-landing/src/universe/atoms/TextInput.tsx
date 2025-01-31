@@ -16,7 +16,7 @@ export const TextInput = (
   return (
     <div class="mb-md">
       <input
-        class="mb-sm p-sm w-full rounded-lg border-2 border-solid border-black bg-gray-100 text-black"
+        class="mb-sm w-full rounded-lg border-2 border-solid border-black bg-gray-100 p-sm text-black"
         classList={classes()}
         {...inputProps}
         id={props.name}

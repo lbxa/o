@@ -16,9 +16,9 @@ export const Switch = () => {
   });
   return (
     <div>
-      <div class="mb-lg gap-lg mx-auto flex w-fit">
+      <div class="mx-auto mb-lg flex w-fit gap-lg">
         <Button
-          class={`p-lg text-ivory rounded-full bg-black text-2xl font-bold hover:bg-black/80 ${store.host ? "ring-ivory ring-2" : ""}`}
+          class={`rounded-full bg-black p-lg text-2xl font-bold text-ivory hover:bg-black/80 ${store.host ? "ring-2 ring-ivory" : ""}`}
           onClick={() => {
             setStore("host", (prev) => !prev);
             setStore("user", false);
@@ -27,7 +27,7 @@ export const Switch = () => {
           For Hosts
         </Button>
         <Button
-          class={`p-lg text-ivory rounded-full bg-black text-2xl font-bold hover:bg-black/80 ${store.user ? "ring-ivory ring-2" : ""}`}
+          class={`rounded-full bg-black p-lg text-2xl font-bold text-ivory hover:bg-black/80 ${store.user ? "ring-2 ring-ivory" : ""}`}
           onClick={() => {
             setStore("user", (prev) => !prev);
             setStore("host", false);
@@ -36,7 +36,7 @@ export const Switch = () => {
           For Users
         </Button>
       </div>
-      <div class="px-lg mx-auto max-w-screen-sm">
+      <div class="mx-auto max-w-screen-sm px-lg">
         {store.host && <Pilot />}
         {store.user && <Waitlist />}
       </div>

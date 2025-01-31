@@ -37,6 +37,8 @@ FROM base AS runner
   RUN adduser --system --uid 1001 nestjs 
   USER nestjs 
   
+  ENV NODE_ENV=production
+  
   COPY --from=installer --chown=nestjs:nodejs /app ./
   WORKDIR /app/apps/onex-api
 

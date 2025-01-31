@@ -4,6 +4,7 @@ packages:
   - "tooling/*"
   - "functions/*"
   - "infra"
+  - "!out/**"
 
 catalogs:
   eslint9: 
