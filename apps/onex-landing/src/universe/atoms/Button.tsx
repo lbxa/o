@@ -34,7 +34,7 @@ export const Button = (props: ParentProps<ButtonProps>) => {
   return (
     <button
       type="submit"
-      class="w-full rounded-lg bg-black p-sm px-md font-bold text-white"
+      class="w-full rounded-xl bg-black p-sm px-md font-bold text-white"
       {...buttonProps}
       classList={{
         "bg-green-500": props.checked,
