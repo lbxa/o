@@ -14,16 +14,16 @@ export interface AccordionItem {
 
 const AccordionItem = (props: AccordionItem) => {
   return (
-    <div class="border-b-2 border-black last:border-none">
+    <div class="border-b-2 border-black text-black last:border-none">
       <div
-        class="flex cursor-pointer bg-gray-100 p-sm  hover:bg-gray-200"
+        class="flex cursor-pointer bg-gray-100 p-sm hover:bg-gray-200"
         classList={{
           "rounded-t-lg": props.isFirst,
           "rounded-b-lg": props.isLast && !props.active,
         }}
         onClick={props.onClick}
       >
-        <h1 class="grow">{props.title}</h1>
+        <h1 class="grow pr-xs">{props.title}</h1>
         {props.active ? (
           <Svg src={MinusSvg} class="w-md" />
         ) : (
@@ -31,7 +31,14 @@ const AccordionItem = (props: AccordionItem) => {
         )}
       </div>
       {props.active && (
-        <div class="border-t-2 border-t-black p-sm">{props.body}</div>
+        <div
+          class="border-t-2 border-t-black bg-gray-300 p-sm"
+          classList={{
+            "rounded-b-lg": props.isLast,
+          }}
+        >
+          {props.body}
+        </div>
       )}
     </div>
   );
