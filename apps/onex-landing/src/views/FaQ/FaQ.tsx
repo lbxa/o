@@ -46,10 +46,10 @@ const howItWorks = (): AccordionItem => {
 const challengeInfo = (): AccordionItem => {
   const descriptions: { body: string }[] = [
     {
-      body: "Create a team-based running challenge, e.g. 'The team that runs the most by the end of the week wins.'",
+      body: "Create a team-based push-up challenge, e.g. 'The team that does the most push-ups by the end of the week wins.'",
     },
     {
-      body: "Set metrics like random teams, one-week duration, and distance-based competition.",
+      body: "Set random teams, duration periods, and metric-based competition.",
     },
     {
       body: "As a user you can check your team, track the leaderboard in real-time, and motivate teammates to run more.",
