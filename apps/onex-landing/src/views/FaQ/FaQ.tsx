@@ -81,9 +81,6 @@ const howAreWeDifferent = (): AccordionItem => {
     {
       body: "oNex takes a different approach by making fitness fun, social, and connected. We use challenges, gamification, and community features to turn exercise into an exciting experience. You can join diverse communities, make new friends, plan events, enter friendly competitions, and celebrate progress together.",
     },
-    {
-      body: "oNex is about finding your community, wherever you are. It's a place to connect with others, be part of something bigger, and share your journey. With oNex, fitness is no longer isolating, it's about building friendships, accountability, and living a lifestyle you’ll love.",
-    },
   ];
 
   return {
