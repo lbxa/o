@@ -59,3 +59,4 @@ runs:
           node_modules/.cache/turbo
           apps/*/.turbo
           libs/*/.turbo
+          functions/*/.turbo

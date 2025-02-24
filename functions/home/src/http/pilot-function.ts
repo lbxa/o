@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import admin from "firebase-admin";
-import type { Request } from "firebase-functions";
+import type { Request } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import { onRequest } from "firebase-functions/v2/https";
 import { HTTP_OPTS } from "./options";

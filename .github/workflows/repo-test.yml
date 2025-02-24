@@ -29,9 +29,11 @@ jobs:
     steps:
       - name: 🏗 Setup repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: 🏗 Setup monorepo
         uses: ./.github/actions/setup-repo
 
       - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test 🩺 Doctor packages
-        run: pnpm turbo build lint typecheck test doctor
+        run: pnpm turbo build lint typecheck test doctor --affected
