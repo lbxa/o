@@ -37,4 +37,4 @@ jobs:
         uses: ./.github/actions/setup-repo
 
       - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test 🩺 Doctor packages
-        run: pnpm turbo build lint typecheck test doctor --affected
+        run: pnpm turbo build lint typecheck test doctor --filter=\[HEAD^1\]
