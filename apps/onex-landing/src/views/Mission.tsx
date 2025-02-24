@@ -12,7 +12,7 @@ const Tag: Component<{
         class={`
           shrink-0 whitespace-nowrap
           bg-gradient-to-r from-white to-white/70
-          bg-clip-text text-[10.0rem] font-bold
+          bg-clip-text text-[5rem] font-bold
           leading-none tracking-tight text-transparent
           ${props.direction === "left" ? "animate-marquee-left" : "animate-marquee-right"}
         `}
@@ -27,7 +27,7 @@ const Tag: Component<{
         class={`
           shrink-0 whitespace-nowrap
           bg-gradient-to-r from-white to-white/70
-          bg-clip-text text-[10.0rem] font-bold
+          bg-clip-text text-[5rem] font-bold
           leading-none tracking-tight text-transparent
           ${props.direction === "left" ? "animate-marquee-left" : "animate-marquee-right"}
         `}

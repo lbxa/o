@@ -19,7 +19,7 @@ export const Switch = () => {
   const [activeTab, setActiveTab] = createSignal<Tab>(null);
 
   return (
-    <div>
+    <div class="px-md">
       <div class="mx-auto mb-lg flex w-fit flex-wrap justify-center gap-lg">
         {TABS.map(({ id, label }) => (
           <Button
@@ -32,7 +32,7 @@ export const Switch = () => {
           </Button>
         ))}
       </div>
-      <div class="mx-auto max-w-screen-sm px-lg">
+      <div class="mx-auto max-w-screen-sm">
         {TABS.map(
           ({ id, component: Component }) => activeTab() === id && <Component />
         )}
