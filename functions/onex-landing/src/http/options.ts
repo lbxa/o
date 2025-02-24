@@ -2,6 +2,7 @@ import type { HttpsOptions } from "firebase-functions/v2/https";
 
 const origins = [
   "https://onex.social",
+  "https://www.onex.social",
   // "http://localhost:5173" REMOVED FOR SECURITY
 ];
 

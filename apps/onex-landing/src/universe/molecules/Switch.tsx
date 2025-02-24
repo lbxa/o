@@ -1,59 +1,41 @@
-import { createStore } from "solid-js/store";
+import { createSignal } from "solid-js";
 
 import { Button } from "@/universe/atoms";
 import { Beta } from "@/views/Beta";
+import { Contact } from "@/views/Contact";
 import { FaQ } from "@/views/FaQ";
+import { Pilot } from "@/views/Pilot";
 
-interface PilotStore {
-  // host: boolean;
-  // user: boolean;
-  beta: boolean;
-  faq: boolean;
-}
+type Tab = "beta" | "gym" | "faq" | "contact" | null;
+
+const TABS = [
+  { id: "beta" as const, label: "Beta Users", component: Beta },
+  { id: "gym" as const, label: "For Gyms", component: Pilot },
+  { id: "faq" as const, label: "FAQ", component: FaQ },
+  { id: "contact" as const, label: "Contact", component: Contact },
+] as const;
 
 export const Switch = () => {
-  const [store, setStore] = createStore<PilotStore>({
-    // host: false,
-    // user: false,
-    beta: false,
-    faq: false,
-  });
+  const [activeTab, setActiveTab] = createSignal<Tab>(null);
+
   return (
-    <div>
-      <div class="mx-auto mb-lg flex w-fit gap-lg">
-        <Button
-          class={`rounded-full bg-black p-lg text-2xl font-bold text-ivory hover:bg-black/80 ${store.beta ? "ring-2 ring-ivory" : ""}`}
-          onClick={() => {
-            setStore("beta", (prev) => !prev);
-            setStore("faq", false);
-          }}
-        >
-          Beta
-        </Button>
-        <Button
-          class={`rounded-full bg-black p-lg text-2xl font-bold text-ivory hover:bg-black/80 ${store.faq ? "ring-2 ring-ivory" : ""}`}
-          onClick={() => {
-            setStore("faq", (prev) => !prev);
-            setStore("beta", false);
-          }}
-        >
-          FAQ
-        </Button>
-        {/* <Button
-          class={`rounded-full bg-black p-lg text-2xl font-bold text-ivory hover:bg-black/80 ${store.user ? "ring-2 ring-ivory" : ""}`}
-          onClick={() => {
-            setStore("user", (prev) => !prev);
-            setStore("host", false);
-          }}
-        >
-          FaQ
-        </Button> */}
+    <div class="px-md">
+      <div class="mx-auto mb-lg flex w-fit flex-wrap justify-center gap-lg">
+        {TABS.map(({ id, label }) => (
+          <Button
+            class={`rounded-full bg-black p-lg text-2xl font-bold 
+                  text-ivory hover:bg-black/80 
+               ${activeTab() === id ? "ring-2 ring-ivory" : ""}`}
+            onClick={() => setActiveTab(activeTab() === id ? null : id)}
+          >
+            {label}
+          </Button>
+        ))}
       </div>
-      <div class="mx-auto max-w-screen-sm px-lg">
-        {/* {store.host && <Pilot />}
-        {store.user && <Waitlist />} */}
-        {store.beta && <Beta />}
-        {store.faq && <FaQ />}
+      <div class="mx-auto max-w-screen-sm">
+        {TABS.map(
+          ({ id, component: Component }) => activeTab() === id && <Component />
+        )}
       </div>
     </div>
   );

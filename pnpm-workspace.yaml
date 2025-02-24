@@ -2,7 +2,7 @@ packages:
   - "apps/*"
   - "libs/**/*"
   - "tooling/*"
-  - "functions/*"
+  - "functions/**/*"
   - "infra"
   - "!out/**"
 

@@ -7,8 +7,9 @@ export const Beta = () => {
         Keen to <Highlight color="black">level up</Highlight> your fitness
         journey alongside our friends?
       </p>
-      <p class="mb-md">
-        Join our beta and you can get early access to the platform!
+      <p class="mb-md text-3xl">
+        Join our beta and you can get{" "}
+        <Highlight color="black">early access</Highlight> to the platform!
       </p>
 
       <a

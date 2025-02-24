@@ -46,10 +46,10 @@ const howItWorks = (): AccordionItem => {
 const challengeInfo = (): AccordionItem => {
   const descriptions: { body: string }[] = [
     {
-      body: "Create a team-based running challenge, e.g. 'The team that runs the most by the end of the week wins.'",
+      body: "Create a team-based push-up challenge, e.g. 'The team that does the most push-ups by the end of the week wins.'",
     },
     {
-      body: "Set metrics like random teams, one-week duration, and distance-based competition.",
+      body: "Set random teams, duration periods, and metric-based competition.",
     },
     {
       body: "As a user you can check your team, track the leaderboard in real-time, and motivate teammates to run more.",
@@ -80,9 +80,6 @@ const howAreWeDifferent = (): AccordionItem => {
     },
     {
       body: "oNex takes a different approach by making fitness fun, social, and connected. We use challenges, gamification, and community features to turn exercise into an exciting experience. You can join diverse communities, make new friends, plan events, enter friendly competitions, and celebrate progress together.",
-    },
-    {
-      body: "oNex is about finding your community, wherever you are. It's a place to connect with others, be part of something bigger, and share your journey. With oNex, fitness is no longer isolating, it's about building friendships, accountability, and living a lifestyle you’ll love.",
     },
   ];
 

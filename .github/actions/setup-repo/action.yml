@@ -19,6 +19,8 @@ runs:
   steps:
     - name: 🏗 Setup repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Extract pnpm version
       id: extract_pnpm_version
@@ -59,3 +61,4 @@ runs:
           node_modules/.cache/turbo
           apps/*/.turbo
           libs/*/.turbo
+          functions/*/.turbo

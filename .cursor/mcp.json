@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "server": {
+    "host": "localhost",
+    "port": 9999,
+    "timeout": 30000,
+    "maxConnections": 10
+  },
+  "client": {
+    "autoReconnect": true,
+    "reconnectDelay": 5000,
+    "maxRetries": 3
+  },
+  "editor": {
+    "syncDelay": 500,
+    "debounceInterval": 250,
+    "maxFileSize": 5242880,
+    "excludePatterns": ["node_modules/**", "dist/**", ".git/**", "*.log"]
+  },
+  "collaboration": {
+    "enableCursorSync": true,
+    "enableSelectionSync": true,
+    "enableClipboardSync": false,
+    "cursorBroadcastInterval": 100
+  },
+  "performance": {
+    "enableCompression": true,
+    "compressionLevel": "high",
+    "batchUpdates": true,
+    "batchInterval": 200
+  },
+  "security": {
+    "enableSSL": true,
+    "validateConnections": true,
+    "allowedOrigins": ["*"]
+  },
+  "logging": {
+    "level": "info",
+    "enableFileLogging": true,
+    "logPath": "./logs/cursor-mcp.log",
+    "maxLogSize": 10485760
+  }
+}

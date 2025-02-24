@@ -4,7 +4,7 @@ import { Button, Highlight, TextAreaInput, TextInput } from "@universe/atoms";
 import { createSignal } from "solid-js";
 import { z } from "zod";
 
-export const pilotFormSchema = z.object({
+export const contactFormSchema = z.object({
   fullName: z
     .string()
     .min(1, "What should we call you?")
@@ -16,17 +16,17 @@ export const pilotFormSchema = z.object({
   message: z.string().max(500, "Message must be less than 500 characters"),
 });
 
-export type PilotForm = z.infer<typeof pilotFormSchema>;
+export type ContactForm = z.infer<typeof contactFormSchema>;
 
-export const Pilot = () => {
-  const [loginForm, { Form, Field }] = createForm<PilotForm>({
+export const Contact = () => {
+  const [contactForm, { Form, Field }] = createForm<ContactForm>({
     initialValues: { fullName: "", email: "", message: "" },
-    validate: zodForm(pilotFormSchema),
+    validate: zodForm(contactFormSchema),
   });
 
   const [complete, setComplete] = createSignal(false);
 
-  const handleSubmit: SubmitHandler<PilotForm> = async (values, _) => {
+  const handleSubmit: SubmitHandler<ContactForm> = async (values, _) => {
     try {
       const response = await fetch(import.meta.env.VITE_PILOT_URL, {
         method: "POST",
@@ -44,40 +44,19 @@ export const Pilot = () => {
       return response.text();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new FormError<PilotForm>(error.message);
+        throw new FormError<ContactForm>(error.message);
       }
-      throw new FormError<PilotForm>("An error has occurred.");
+      throw new FormError<ContactForm>("An error has occurred.");
     }
   };
 
   return (
     <div class="mb-xl">
       <p class="mb-md text-3xl">
-        We're tackling a common issue in the fitness industry,{" "}
-        <Highlight color="black">high churn rates</Highlight>.
+        Help us shape the{" "}
+        <Highlight color="black">future of fitness.</Highlight>
       </p>
-      <p class="mb-md">
-        Research shows that approximately 50% of gym members quit within the
-        first six months, often due to a lack of community and motivation. oNex
-        helps overcome this by creating a platform that builds engagement and
-        connection.
-      </p>
-      <p class="mb-md">
-        We keep members motivated with fitness challenges, social channels,
-        gamification, and accountability tools like leaderboards and progress
-        tracking. It simplifies organizing community events, fostering
-        interaction and friendly competition to strengthen relationships.
-      </p>
-
-      <p class="mb-md text-3xl">
-        Join our community of early adopters in the{" "}
-        <Highlight color="black">limited release.</Highlight>
-      </p>
-      <p class="mb-md">
-        Enjoy free access to the platform and help shape its future by sharing
-        your feedback. Your insights will directly influence the features we
-        develop, making sure they work for you. We're building this together!
-      </p>
+      <p class="mb-md">Get in touch with us and share your feedback!</p>
       <Form onSubmit={handleSubmit}>
         <Field name="fullName">
           {(field, props) => (
@@ -102,16 +81,16 @@ export const Pilot = () => {
           )}
         </Field>
         <Field name="message">
-          {(_, props) => <TextAreaInput rows={4} {...props} />}
+          {(_, props) => <TextAreaInput rows={4} {...props} required />}
         </Field>
         <Button
           type="submit"
           checked={complete()}
           disabled={complete()}
           checkedText="THANK YOU"
-          loading={loginForm.submitting}
+          loading={contactForm.submitting}
         >
-          JOIN THE LIMITED RELEASE
+          SEND
         </Button>
       </Form>
     </div>

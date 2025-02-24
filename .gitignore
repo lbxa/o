@@ -36,3 +36,6 @@ yarn-error.log*
 
 **/tsconfig.tsbuildinfo
 .watchman-cookie*
+
+.cursorignore
+logs
