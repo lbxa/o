@@ -1,7 +1,7 @@
 {
   "functions": [
     {
-      "source": "home",
+      "source": "landing",
       "codebase": "default",
       "runtime": "nodejs20",
       "ignore": [
