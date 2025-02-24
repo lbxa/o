@@ -1,0 +1,40 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+    paths-ignore:
+      - '**.md'
+      - '**.mdx'
+      - 'docs/**'
+      - '**.txt'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.env.example'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EXPO_USE_FAST_RESOLVER: true # Use the faster Metro resolver in SDK 51
+  DO_NOT_TRACK: 1
+  TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+
+jobs:
+  ci-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏗 Setup monorepo
+        uses: ./.github/actions/setup-repo
+
+      - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test
+        run: pnpm turbo build lint typecheck test --filter=\[HEAD^1\]
