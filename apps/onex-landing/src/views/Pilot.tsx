@@ -59,14 +59,14 @@ export const Pilot = () => {
       <p class="mb-md">
         Research shows that approximately 50% of gym members quit within the
         first six months, often due to a lack of community and motivation. oNex
-        helps overcome this by creating a platform that builds engagement and
-        connection.
+        helps overcome this be by creating a community platform that builds
+        engagement and connection.
       </p>
       <p class="mb-md">
-        We keep members motivated with fitness challenges, social channels,
-        gamification, and accountability tools like leaderboards and progress
-        tracking. It simplifies organizing community events, fostering
-        interaction and friendly competition to strengthen relationships.
+        With tailored fitness challenges, social channels, gamification, and
+        accountability tools like leaderboards, events, and progress tracking,
+        we're keeping members motivated and committed to their fitness goal,
+        creating a nexus your members never want to leave.
       </p>
 
       <p class="mb-md text-3xl">
@@ -75,8 +75,7 @@ export const Pilot = () => {
       </p>
       <p class="mb-md">
         Enjoy free access to the platform and help shape its future by sharing
-        your feedback. Your insights will directly influence the features we
-        develop, making sure they work for you. We're building this together!
+        your feedback. Let's build the future of fitness together!
       </p>
       <Form onSubmit={handleSubmit}>
         <Field name="fullName">
