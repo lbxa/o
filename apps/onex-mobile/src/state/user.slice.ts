@@ -1,4 +1,4 @@
-import type { User } from "@o/api-gql";
+import type { User } from "@o/onex-api-gql";
 import type { StateCreator } from "zustand";
 
 import type { ChallengeSlice } from "./challenge.slice";

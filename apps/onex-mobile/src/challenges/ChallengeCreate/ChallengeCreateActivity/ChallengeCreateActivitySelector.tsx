@@ -1,7 +1,7 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import type { ChallengeActivityUnits } from "@o/api-gql";
-import { ChallengeActivityGoal } from "@o/api-gql";
-import { ChallengeActivityType } from "@o/api-gql";
+import type { ChallengeActivityUnits } from "@o/onex-api-gql";
+import { ChallengeActivityGoal } from "@o/onex-api-gql";
+import { ChallengeActivityType } from "@o/onex-api-gql";
 import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";

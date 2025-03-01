@@ -10,7 +10,7 @@
   "devDependencies": {
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
-    "eslint": "^9.19.0",
+    "eslint": "^9.21.0",
     "typescript": "^5.7.3"
   },
   "exports": {

@@ -4,7 +4,7 @@ import type {
   ChallengeActivityGoal,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@o/api-gql";
+} from "@o/onex-api-gql";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";

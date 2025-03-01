@@ -1,4 +1,4 @@
-import type { Tokens } from "@o/api-gql";
+import type { Tokens } from "@o/onex-api-gql";
 import { useNavigationContainerRef, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import type {

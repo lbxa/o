@@ -1,4 +1,4 @@
-import { ChallengeCadence } from "@o/api-gql";
+import { ChallengeCadence } from "@o/onex-api-gql";
 
 import type { ChallengeCadenceLabel } from "./challenge-cadence.types";
 

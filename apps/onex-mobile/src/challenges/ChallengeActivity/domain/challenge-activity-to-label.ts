@@ -2,7 +2,7 @@ import {
   ChallengeActivityGoal,
   ChallengeActivityType,
   ChallengeActivityUnits,
-} from "@o/api-gql";
+} from "@o/onex-api-gql";
 
 import type {
   ChallengeActivityGoalLabel,

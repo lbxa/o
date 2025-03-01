@@ -1,4 +1,4 @@
-import type { Challenge, ChallengeActivity } from "@o/api-gql";
+import type { Challenge, ChallengeActivity } from "@o/onex-api-gql";
 import type { Draft } from "immer";
 import { produce } from "immer";
 import type { StateCreator } from "zustand";

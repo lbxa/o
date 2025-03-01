@@ -1,17 +1,29 @@
 packages:
-  - "apps/*"
-  - "libs/**/*"
-  - "tooling/*"
-  - "functions/**/*"
-  - "infra"
-  - "!out/**"
-
+  - apps/*
+  - libs/**/*
+  - tooling/*
+  - functions/**/*
+  - infra
+  - '!out/**'
 catalogs:
-  eslint9: 
+  eslint9:
     eslint: ^9.15.0
-
   typescript5:
     typescript: ^5.7.2
-
   graphql:
     graphql: ^16.10.0
+onlyBuiltDependencies:
+  - '@apollo/protobufjs'
+  - '@firebase/util'
+  - '@nestjs/core'
+  - '@parcel/watcher'
+  - '@pulumi/awsx'
+  - '@pulumi/docker'
+  - '@pulumi/docker-build'
+  - '@swc/core'
+  - argon2
+  - core-js
+  - core-js-pure
+  - esbuild
+  - protobufjs
+  - re2

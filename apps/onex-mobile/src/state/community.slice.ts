@@ -1,4 +1,4 @@
-import type { Community } from "@o/api-gql";
+import type { Community } from "@o/onex-api-gql";
 import type { PreloadedQuery } from "react-relay";
 import type { StateCreator } from "zustand";
 

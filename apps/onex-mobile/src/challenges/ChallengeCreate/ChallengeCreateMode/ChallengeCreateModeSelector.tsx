@@ -1,5 +1,5 @@
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { ChallengeMode } from "@o/api-gql";
+import { ChallengeMode } from "@o/onex-api-gql";
 import classNames from "classnames";
 import CheckBox from "expo-checkbox";
 import React from "react";

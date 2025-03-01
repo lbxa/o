@@ -1,0 +1,39 @@
+{
+  "name": "@o/onex-graphile-api",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@dataplan/json": "0.0.1-beta.28",
+    "@dataplan/pg": "0.0.1-beta.31",
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*",
+    "grafast": "0.1.1-beta.20",
+    "graphile-build": "5.0.0-beta.32",
+    "graphile-build-pg": "5.0.0-beta.37",
+    "pg": "^8.13.3",
+    "postgraphile": "5.0.0-beta.32"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.10.9",
+    "@types/node": "^22.7.5",
+    "eslint": "^9.21.0",
+    "typescript": "^5.7.3"
+  }
+}

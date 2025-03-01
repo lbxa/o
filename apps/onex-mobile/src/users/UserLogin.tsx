@@ -1,4 +1,4 @@
-import type { AuthLoginInput } from "@o/api-gql";
+import type { AuthLoginInput } from "@o/onex-api-gql";
 import { Link, useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

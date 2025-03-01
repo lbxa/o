@@ -1,7 +1,7 @@
 import CrossIcon from "@assets/icons/cross.svg";
 import RecordIcon from "@assets/icons/record.svg";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
+import { ChallengeActivityGoal, ChallengeActivityType } from "@o/onex-api-gql";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { View } from "react-native";
