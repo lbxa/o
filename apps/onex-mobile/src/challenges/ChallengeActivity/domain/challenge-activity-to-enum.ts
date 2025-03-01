@@ -1,4 +1,4 @@
-import { ChallengeActivityGoal } from "@o/api-gql";
+import { ChallengeActivityGoal } from "@o/onex-api-gql";
 
 import type { ChallengeActivityGoalLabel } from "../challenge-activity.types";
 

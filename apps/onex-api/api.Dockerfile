@@ -9,7 +9,7 @@ FROM base AS builder
   COPY . .
   
   # Generate a partial monorepo with a pruned lockfile for a target workspace.
-  RUN turbo prune @o/api --docker
+  RUN turbo prune @o/onex-api --docker
  
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -26,7 +26,7 @@ FROM base AS installer
   
   # Build the project
   COPY --from=builder /app/out/full/ .
-  RUN pnpm turbo build --filter=@o/api
+  RUN pnpm turbo build --filter=@o/onex-api
   # RUN pnpm prune --prod --no-optional
  
 FROM base AS runner

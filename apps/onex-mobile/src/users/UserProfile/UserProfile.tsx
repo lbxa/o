@@ -1,4 +1,4 @@
-import { InvitationStatus } from "@o/api-gql";
+import { InvitationStatus } from "@o/onex-api-gql";
 import { useMemo, useState } from "react";
 import { View } from "react-native";
 import type { PreloadedQuery } from "react-relay";

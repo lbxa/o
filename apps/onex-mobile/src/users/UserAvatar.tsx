@@ -1,4 +1,4 @@
-import type { User } from "@o/api-gql";
+import type { User } from "@o/onex-api-gql";
 import classNames from "classnames";
 import { View } from "react-native";
 

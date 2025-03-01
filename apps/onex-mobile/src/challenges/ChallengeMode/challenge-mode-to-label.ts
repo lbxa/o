@@ -1,4 +1,4 @@
-import { ChallengeMode } from "@o/api-gql";
+import { ChallengeMode } from "@o/onex-api-gql";
 
 import type { ChallengeModeLabel } from "./challenge-mode.types";
 

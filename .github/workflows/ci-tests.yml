@@ -37,4 +37,5 @@ jobs:
         uses: ./.github/actions/setup-repo
 
       - name: 👷 Build ✅ Lint 🔍 Typecheck 🧪 Test
-        run: pnpm turbo build lint typecheck test --filter=\[HEAD^1\]
+        # TODO speed things up with --filter=\[HEAD^1\]
+        run: pnpm turbo build lint typecheck test

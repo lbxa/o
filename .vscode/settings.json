@@ -39,4 +39,8 @@
   "relay.pathToConfig": "apps/onex-mobile/relay.config.json",
   "relay.autoStartCompiler": true,
   "svg.preview.background": "transparent",
+  "cSpell.words": [
+    "Grafast",
+    "postgraphile"
+  ],
 }

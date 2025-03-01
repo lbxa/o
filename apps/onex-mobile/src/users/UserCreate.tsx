@@ -1,4 +1,4 @@
-import type { AuthCreateUserInput } from "@o/api-gql";
+import type { AuthCreateUserInput } from "@o/onex-api-gql";
 import { Link, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

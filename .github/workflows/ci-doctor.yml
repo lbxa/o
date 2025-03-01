@@ -37,4 +37,5 @@ jobs:
         uses: ./.github/actions/setup-repo
 
       - name: 👷 Doctor packages
-        run: pnpm turbo doctor --filter=\[HEAD^1\]
+        # TODO speed things up with --filter=\[HEAD^1\]
+        run: pnpm turbo doctor 

@@ -1,5 +1,8 @@
-import type { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
-import type { ChallengeActivityUnits } from "@o/api-gql";
+import type {
+  ChallengeActivityGoal,
+  ChallengeActivityType,
+} from "@o/onex-api-gql";
+import type { ChallengeActivityUnits } from "@o/onex-api-gql";
 import { useRouter } from "expo-router";
 import { Suspense } from "react";
 import { View } from "react-native";

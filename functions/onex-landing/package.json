@@ -1,5 +1,5 @@
 {
-  "name": "@o/landing-functions",
+  "name": "@o/onex-landing-functions",
   "dependencies": {
     "firebase": "^11.3.1",
     "firebase-admin": "^13.1.0",

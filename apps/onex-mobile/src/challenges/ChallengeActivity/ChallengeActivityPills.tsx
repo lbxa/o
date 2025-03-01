@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import type { ChallengeActivityGoal, ChallengeActivityType } from "@o/api-gql";
-import type { ChallengeActivityUnits } from "@o/api-gql";
+import type {
+  ChallengeActivityGoal,
+  ChallengeActivityType,
+} from "@o/onex-api-gql";
+import type { ChallengeActivityUnits } from "@o/onex-api-gql";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeActivityPills_challenge$key } from "@/__generated__/ChallengeActivityPills_challenge.graphql";
