@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<69ee8bcde9f1beea7c8aa2d00edf5827>>
+ * @generated SignedSource<<5ccf4c984112d445e82524b0176fd5fd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -201,6 +201,13 @@ return {
                               {
                                 "alias": null,
                                 "args": null,
+                                "kind": "ScalarField",
+                                "name": "avatarUrl",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
                                 "concreteType": "UserStreak",
                                 "kind": "LinkedField",
                                 "name": "streak",
@@ -310,12 +317,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e41a69c5ab8cbdd674f8caec333d7fc9",
+    "cacheID": "f7bba66618e7645b0c4c4cd5b2197c40",
     "id": null,
     "metadata": {},
     "name": "useChallengeActivityTopMoversPaginationQuery",
     "operationKind": "query",
-    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query useChallengeActivityTopMoversPaginationQuery(\n  $count: Int = 4\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...useChallengeActivityTopMoversFragment_challenge_1G22uz\n    id\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTopMoversFragment_challenge_1G22uz on Challenge {\n  activityTopMovers(first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      startCursor\n      endCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

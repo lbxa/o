@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<22c7261a65f79a60c935a713f3e89f49>>
+ * @generated SignedSource<<24f738eee1c7d852ad84163288385488>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,6 +35,7 @@ export type UserRecordCard_userRecord$data = {
     readonly name: string;
   };
   readonly user: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly id: string;
     readonly lastName: string | null | undefined;
@@ -88,6 +89,13 @@ return {
           "args": null,
           "kind": "ScalarField",
           "name": "lastName",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "avatarUrl",
           "storageKey": null
         }
       ],
@@ -191,6 +199,6 @@ return {
 };
 })();
 
-(node as any).hash = "8d52591ea9059fccffd9f26eea1a6b74";
+(node as any).hash = "b425a1cc287711f28c602d0e336d95ab";
 
 export default node;

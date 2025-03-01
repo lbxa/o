@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<faa3401bca183bb5e519943936131bdc>>
+ * @generated SignedSource<<45de9404e0e954b69e88672513c91aaa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -68,6 +68,13 @@ v4 = [
     "args": null,
     "kind": "ScalarField",
     "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
     "storageKey": null
   }
 ];
@@ -169,6 +176,19 @@ return {
                   },
                   {
                     "alias": null,
+                    "args": [
+                      {
+                        "kind": "Literal",
+                        "name": "quality",
+                        "value": "HIGH"
+                      }
+                    ],
+                    "kind": "ScalarField",
+                    "name": "imageUrl",
+                    "storageKey": "imageUrl(quality:\"HIGH\")"
+                  },
+                  {
+                    "alias": null,
                     "args": null,
                     "kind": "ScalarField",
                     "name": "memberCount",
@@ -206,12 +226,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "43403d3f328858d24f07ab01ad19f1c6",
+    "cacheID": "6857dd097baeedd281b62fd7be8783da",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n"
   }
 };
 })();

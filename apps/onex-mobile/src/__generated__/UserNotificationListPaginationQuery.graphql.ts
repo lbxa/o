@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1fdcb970bea54415d67608ec39f7f54c>>
+ * @generated SignedSource<<9c06e2d56c12fe15bf8e23d45e427b21>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -245,6 +245,13 @@ return {
                                 "kind": "ScalarField",
                                 "name": "lastName",
                                 "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "avatarUrl",
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -278,12 +285,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3e1f9685d8ffea6628851f364b5fcaa4",
+    "cacheID": "1465c65ac6c668d8cb54ce89e7f8e8aa",
     "id": null,
     "metadata": {},
     "name": "UserNotificationListPaginationQuery",
     "operationKind": "query",
-    "text": "query UserNotificationListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserNotificationList_user_1G22uz\n    id\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n  }\n}\n\nfragment UserNotificationList_user_1G22uz on User {\n  id\n  followerRequests(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query UserNotificationListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserNotificationList_user_1G22uz\n    id\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n    avatarUrl\n  }\n}\n\nfragment UserNotificationList_user_1G22uz on User {\n  id\n  followerRequests(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

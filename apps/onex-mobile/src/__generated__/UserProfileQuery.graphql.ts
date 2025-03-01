@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<647f1b9c41558c87755e3462a68376d9>>
+ * @generated SignedSource<<660787fef0b8c3a6fa5ce74e25190fff>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -156,6 +156,13 @@ return {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "avatarUrl",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "buddyCount",
             "storageKey": null
           },
@@ -216,12 +223,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e01e6e5e2278b0f22587b6477af2dac9",
+    "cacheID": "ea9eecbab75dfee3cf8087021bacc5e4",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
+    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  avatarUrl\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a2e5a3b215136e9a2ad6425a78b58eb7>>
+ * @generated SignedSource<<171ea5a2edbcccd4bb259e9c0e9701bc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,6 +12,7 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult$data = {
   readonly user: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly handle: string | null | undefined;
     readonly id: string;
@@ -75,6 +76,13 @@ return {
         {
           "alias": null,
           "args": null,
+          "kind": "ScalarField",
+          "name": "avatarUrl",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
           "concreteType": "UserStreak",
           "kind": "LinkedField",
           "name": "streak",
@@ -100,6 +108,6 @@ return {
 };
 })();
 
-(node as any).hash = "05a235950bf6d525fd9b3c3dec6860e5";
+(node as any).hash = "fed7a6b8f1298641fa9f31fbb91f1ef5";
 
 export default node;

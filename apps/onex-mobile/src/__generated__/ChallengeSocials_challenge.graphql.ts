@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d998cd52943316c8272bc7a940007025>>
+ * @generated SignedSource<<0c879d57eb289ce40798fedaf5edefdd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,12 +12,14 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type ChallengeSocials_challenge$data = {
   readonly firstMember: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly id: string;
   } | null | undefined;
   readonly id: string;
   readonly memberCount: number | null | undefined;
   readonly secondMember: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly id: string;
   } | null | undefined;
@@ -43,6 +45,13 @@ v1 = [
     "args": null,
     "kind": "ScalarField",
     "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
     "storageKey": null
   }
 ];
@@ -86,6 +95,6 @@ return {
 };
 })();
 
-(node as any).hash = "7e57d1d8ee7991983aa94ea679fc762b";
+(node as any).hash = "9771d03dbc7bb0bd46bfdc9b67013518";
 
 export default node;

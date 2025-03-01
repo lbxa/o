@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1dba269e3b2d3bfec94fab2682b4ff2e>>
+ * @generated SignedSource<<c6b09233a4c746a012064a0804ef1433>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -82,6 +82,13 @@ v7 = [
     "args": null,
     "kind": "ScalarField",
     "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
     "storageKey": null
   }
 ];
@@ -209,6 +216,19 @@ return {
                   },
                   {
                     "alias": null,
+                    "args": [
+                      {
+                        "kind": "Literal",
+                        "name": "quality",
+                        "value": "HIGH"
+                      }
+                    ],
+                    "kind": "ScalarField",
+                    "name": "imageUrl",
+                    "storageKey": "imageUrl(quality:\"HIGH\")"
+                  },
+                  {
+                    "alias": null,
                     "args": null,
                     "kind": "ScalarField",
                     "name": "memberCount",
@@ -262,12 +282,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3b0542509cc3ba471f4f5b61f9d9380b",
+    "cacheID": "063c92d753ba38d3d9437df874da4c81",
     "id": null,
     "metadata": {},
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n"
   }
 };
 })();

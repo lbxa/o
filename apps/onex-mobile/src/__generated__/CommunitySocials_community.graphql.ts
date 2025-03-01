@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f76e5eac05482ceb684cac9f99d7ec83>>
+ * @generated SignedSource<<bde89d5e46aa46926f1f21dd12da35b8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,12 +12,14 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunitySocials_community$data = {
   readonly firstMember: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly id: string;
   } | null | undefined;
   readonly id: string;
   readonly memberCount: number | null | undefined;
   readonly secondMember: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly id: string;
   } | null | undefined;
@@ -43,6 +45,13 @@ v1 = [
     "args": null,
     "kind": "ScalarField",
     "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
     "storageKey": null
   }
 ];
@@ -86,6 +95,6 @@ return {
 };
 })();
 
-(node as any).hash = "5a9461a2fb755891c2779b04d2c86147";
+(node as any).hash = "96055ae22ad184e3457e743ae5cc304f";
 
 export default node;

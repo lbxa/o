@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c228a4a717bcec3e8fbc9a2a05bf4017>>
+ * @generated SignedSource<<7bc48182f10b9d40ea57c2bd68dd295f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -75,6 +75,13 @@ v4 = [
     "args": null,
     "kind": "ScalarField",
     "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
     "storageKey": null
   }
 ];
@@ -324,12 +331,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3dd24f84a14959be0ed5b0cb380b507e",
+    "cacheID": "ea2317c50c1616eba01f134c196ee856",
     "id": null,
     "metadata": {},
     "name": "ChallengeListPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n"
   }
 };
 })();
