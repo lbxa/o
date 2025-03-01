@@ -1,5 +1,5 @@
 {
-  "name": "@o/mobile",
+  "name": "@o/onex-mobile",
   "version": "1.0.4",
   "dependencies": {
     "@gorhom/bottom-sheet": "5.1.1",

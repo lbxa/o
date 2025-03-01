@@ -1,5 +1,5 @@
 {
-  "name": "@o/api",
+  "name": "@o/onex-api",
   "version": "1.0.2",
   "dependencies": {
     "@apollo/server": "^4.11.3",
