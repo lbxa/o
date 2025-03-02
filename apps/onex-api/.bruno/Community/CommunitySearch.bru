@@ -16,14 +16,27 @@ auth:bearer {
 
 body:graphql {
   query {
-    community(id: "Q29tbXVuaXR5OjI=") {
-      name
-      isPublic
-    }
     viewer {
-      community(communityId: "Q29tbXVuaXR5OjI=") {
+      user {
+        firstName
+        avatarUrl
+      }
+      community(communityId: "Q29tbXVuaXR5OjEK") {
         name
         isPublic
+        imageUrl(quality: MED)
+        firstThreeMembers {
+          firstName
+        }
+        challenges {
+          edges {
+            node {
+              firstThreeMembers {
+                firstName
+              }
+            }
+          }
+        }
       }
     }
   }

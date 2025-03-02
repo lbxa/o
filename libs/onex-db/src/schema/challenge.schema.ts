@@ -58,11 +58,11 @@ export const ChallengesTable = ChallengeSchema.table(
     }).notNull(),
     ...withModificationDates,
   },
-  (table) => ({
-    nameIdx: index().on(table.name),
-    communityIdx: index().on(table.communityId),
-    dateIdx: index().on(table.startDate, table.endDate),
-  })
+  (table) => [
+    index().on(table.name),
+    index().on(table.communityId),
+    index().on(table.startDate, table.endDate),
+  ]
 );
 
 export const ChallengeMembershipsTable = ChallengeSchema.table(
@@ -86,9 +86,7 @@ export const ChallengeMembershipsTable = ChallengeSchema.table(
       .notNull()
       .defaultNow(),
   },
-  (table) => ({
-    uniqueMembership: index().on(table.userId, table.challengeId),
-  })
+  (table) => [index().on(table.userId, table.challengeId)]
 );
 
 export const ChallengeInvitationsTable = ChallengeSchema.table("invitations", {
@@ -226,9 +224,7 @@ export const ActivityUnitTable = ChallengeSchema.table(
     activity: ChallengeActivityType().notNull(),
     unit: ChallengeActivityUnits().notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.activity, table.unit] }),
-  })
+  (table) => [primaryKey({ columns: [table.activity, table.unit] })]
 );
 
 export const ActivityTypeGoalTable = ChallengeSchema.table(
@@ -237,9 +233,7 @@ export const ActivityTypeGoalTable = ChallengeSchema.table(
     type: ChallengeActivityType().notNull(),
     goal: ChallengeActivityGoal().notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.type, table.goal] }),
-  })
+  (table) => [primaryKey({ columns: [table.type, table.goal] })]
 );
 
 export type Challenge = typeof ChallengesTable.$inferSelect;

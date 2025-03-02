@@ -10,7 +10,7 @@ import { graphql, useFragment } from "react-relay";
 
 import type { StartingSoonChallengeCard_challenge$key } from "@/__generated__/StartingSoonChallengeCard_challenge.graphql";
 import { ChallengeActivityPills } from "@/challenges/ChallengeActivity";
-import { ChallengeSocials } from "@/challenges/ChallengeSocials";
+import { SocialGallery } from "@/shared";
 import { useZustStore } from "@/state";
 import { OText, OTouchable } from "@/universe/atoms";
 
@@ -40,8 +40,8 @@ export const StartingSoonChallengeCard = ({
             unit
             target
           }
+          ...SocialGallery
           ...ChallengeActivityPills_challenge
-          ...ChallengeSocials_challenge
         }
       }
     `,
@@ -81,7 +81,7 @@ export const StartingSoonChallengeCard = ({
             <ChallengeActivityPills fragmentRef={frag.challenge} />
           </Suspense>
         </View>
-        <ChallengeSocials fragmentRef={frag.challenge} />
+        <SocialGallery fragmentRef={frag.challenge} type="challenge" />
       </View>
     </OTouchable>
   );

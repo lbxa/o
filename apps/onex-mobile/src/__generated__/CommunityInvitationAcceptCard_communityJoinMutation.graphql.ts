@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c6b09233a4c746a012064a0804ef1433>>
+ * @generated SignedSource<<09943b46073827a558e2a8a185629a65>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -76,19 +76,44 @@ v6 = {
   "storageKey": null
 },
 v7 = [
-  (v6/*: any*/),
   {
     "alias": null,
     "args": null,
     "kind": "ScalarField",
-    "name": "firstName",
+    "name": "memberCount",
     "storageKey": null
   },
   {
     "alias": null,
     "args": null,
-    "kind": "ScalarField",
-    "name": "avatarUrl",
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v6/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
     "storageKey": null
   }
 ];
@@ -228,31 +253,23 @@ return {
                     "storageKey": "imageUrl(quality:\"HIGH\")"
                   },
                   {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "memberCount",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "firstMember",
-                    "plural": false,
-                    "selections": (v7/*: any*/),
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "secondMember",
-                    "plural": false,
-                    "selections": (v7/*: any*/),
-                    "storageKey": null
+                    "kind": "InlineFragment",
+                    "selections": [
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v7/*: any*/),
+                        "type": "Community",
+                        "abstractKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v7/*: any*/),
+                        "type": "Challenge",
+                        "abstractKey": null
+                      }
+                    ],
+                    "type": "Node",
+                    "abstractKey": "__isNode"
                   }
                 ],
                 "storageKey": null
@@ -282,12 +299,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "063c92d753ba38d3d9437df874da4c81",
+    "cacheID": "28c36131718fea124ad865c3107016ab",
     "id": null,
     "metadata": {},
     "name": "CommunityInvitationAcceptCard_communityJoinMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n"
+    "text": "mutation CommunityInvitationAcceptCard_communityJoinMutation(\n  $inviteId: ID!\n) {\n  communityJoin(inviteId: $inviteId) {\n    invitationId\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

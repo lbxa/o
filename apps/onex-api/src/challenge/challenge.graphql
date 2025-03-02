@@ -31,8 +31,7 @@ type Challenge implements Node & Timestamps {
   The UI displays a member summary as: x, y and n others. Hence
   the firstMember and secondMember fields
   """
-  firstMember: User
-  secondMember: User
+  firstThreeMembers: [User!]
   allMembers(first: Int!, after: String): UserConnection
   memberCount: Int
   memberships: [ChallengeMembership!]

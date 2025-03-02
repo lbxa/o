@@ -39,6 +39,8 @@ export class CommunityService
       ...community,
       id: encodeGlobalId(this.getTypename(), community.id),
       owner: this.userService.pg2GqlMapper(community.owner),
+      // by default fetch medium quality image
+      imageUrl: community.imageUrl?.med,
     };
   }
 

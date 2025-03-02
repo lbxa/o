@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<29f9191e7a388e3c22876a5801e054a1>>
+ * @generated SignedSource<<d7311ce0b072f301e8e6158f36e5cd3f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -145,21 +145,40 @@ v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "avatarUrl",
-  "storageKey": null
-},
-v13 = [
-  (v0/*: any*/),
-  (v2/*: any*/),
-  (v12/*: any*/)
-],
-v14 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "avatarUrl",
+  "storageKey": null
+},
+v14 = [
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "memberCount",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v0/*: any*/),
+      (v2/*: any*/),
+      (v3/*: any*/),
+      (v13/*: any*/)
+    ],
+    "storageKey": null
+  }
+],
 v15 = [
   {
     "kind": "Literal",
@@ -290,34 +309,26 @@ return {
                         "name": "imageUrl",
                         "storageKey": "imageUrl(quality:\"HIGH\")"
                       },
+                      (v12/*: any*/),
                       {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "memberCount",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "firstMember",
-                        "plural": false,
-                        "selections": (v13/*: any*/),
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "secondMember",
-                        "plural": false,
-                        "selections": (v13/*: any*/),
-                        "storageKey": null
-                      },
-                      (v14/*: any*/)
+                        "kind": "InlineFragment",
+                        "selections": [
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v14/*: any*/),
+                            "type": "Community",
+                            "abstractKey": null
+                          },
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v14/*: any*/),
+                            "type": "Challenge",
+                            "abstractKey": null
+                          }
+                        ],
+                        "type": "Node",
+                        "abstractKey": "__isNode"
+                      }
                     ],
                     "storageKey": null
                   }
@@ -391,7 +402,7 @@ return {
                         ],
                         "storageKey": null
                       },
-                      (v14/*: any*/)
+                      (v12/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -503,11 +514,11 @@ return {
                               (v5/*: any*/),
                               (v2/*: any*/),
                               (v3/*: any*/),
-                              (v12/*: any*/)
+                              (v13/*: any*/)
                             ],
                             "storageKey": null
                           },
-                          (v14/*: any*/)
+                          (v12/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -535,12 +546,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "0b897e8f55e3d5c2d4e2e9a78107cdfc",
+    "cacheID": "09e171b20c72ba016552b3e85444e8d0",
     "id": null,
     "metadata": {},
     "name": "AppRootQuery",
     "operationKind": "query",
-    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n      ...UserProfileStats_user\n      ...UserNotificationList_user_1KmBw7\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...CommunitySocials_community\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n    avatarUrl\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query AppRootQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    user {\n      id\n      firstName\n      lastName\n      email\n      handle\n      bio\n      ...UserProfileStats_user\n      ...UserNotificationList_user_1KmBw7\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment UserNotificationCard_notification on UserFriendship {\n  id\n  createdAt\n  friend {\n    id\n  }\n  user {\n    id\n    handle\n    firstName\n    lastName\n    avatarUrl\n  }\n}\n\nfragment UserNotificationList_user_1KmBw7 on User {\n  id\n  followerRequests(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserNotificationCard_notification\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f96e3e35ee22b4bf8ed2c0277362422e>>
+ * @generated SignedSource<<b75ddc4d34b3d87de8da7b3fc311653e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -158,17 +158,29 @@ v13 = {
   "name": "target",
   "storageKey": null
 },
-v14 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "avatarUrl",
-  "storageKey": null
-},
-v15 = [
+v14 = [
   (v3/*: any*/),
   (v4/*: any*/),
-  (v14/*: any*/)
+  (v5/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
+    "storageKey": null
+  }
+],
+v15 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": (v14/*: any*/),
+    "storageKey": null
+  }
 ],
 v16 = {
   "alias": null,
@@ -204,24 +216,23 @@ v16 = {
       "storageKey": null
     },
     {
-      "alias": null,
-      "args": null,
-      "concreteType": "User",
-      "kind": "LinkedField",
-      "name": "firstMember",
-      "plural": false,
-      "selections": (v15/*: any*/),
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "User",
-      "kind": "LinkedField",
-      "name": "secondMember",
-      "plural": false,
-      "selections": (v15/*: any*/),
-      "storageKey": null
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "kind": "InlineFragment",
+          "selections": (v15/*: any*/),
+          "type": "Community",
+          "abstractKey": null
+        },
+        {
+          "kind": "InlineFragment",
+          "selections": (v15/*: any*/),
+          "type": "Challenge",
+          "abstractKey": null
+        }
+      ],
+      "type": "Node",
+      "abstractKey": "__isNode"
     }
   ],
   "storageKey": null
@@ -419,12 +430,7 @@ return {
                             "kind": "LinkedField",
                             "name": "user",
                             "plural": false,
-                            "selections": [
-                              (v3/*: any*/),
-                              (v4/*: any*/),
-                              (v5/*: any*/),
-                              (v14/*: any*/)
-                            ],
+                            "selections": (v14/*: any*/),
                             "storageKey": null
                           },
                           {
@@ -512,12 +518,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2386195aaa418956a1ebb7a3209db76b",
+    "cacheID": "2958514f55a2def69c107cd67b6e4013",
     "id": null,
     "metadata": {},
     "name": "HomeFeedQuery",
     "operationKind": "query",
-    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment EndingSoonChallengeCard_challenge on EndingSoonChallenge {\n  id\n  daysUntilEnd\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on StartingSoonChallenge {\n    __typename\n    ...StartingSoonChallengeCard_challenge\n  }\n  ... on EndingSoonChallenge {\n    __typename\n    ...EndingSoonChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment StartingSoonChallengeCard_challenge on StartingSoonChallenge {\n  id\n  daysUntilStart\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n    avatarUrl\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    formattedResult\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query HomeFeedQuery {\n  viewer {\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n    ...HomeFeed_viewer_1KmBw7\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment EndingSoonChallengeCard_challenge on EndingSoonChallenge {\n  id\n  daysUntilEnd\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...SocialGallery\n    ...ChallengeActivityPills_challenge\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on StartingSoonChallenge {\n    __typename\n    ...StartingSoonChallengeCard_challenge\n  }\n  ... on EndingSoonChallenge {\n    __typename\n    ...EndingSoonChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1KmBw7 on Viewer {\n  id\n  homeFeed(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment StartingSoonChallengeCard_challenge on StartingSoonChallenge {\n  id\n  daysUntilStart\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...SocialGallery\n    ...ChallengeActivityPills_challenge\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n    avatarUrl\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    formattedResult\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

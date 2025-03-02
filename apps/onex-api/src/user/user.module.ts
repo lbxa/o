@@ -1,6 +1,8 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
+import { UserRepository } from "@/user/user.repository";
+
 import { ChallengeModule } from "../challenge/challenge.module";
 import { CommunityModule } from "../community/community.module";
 import { CryptoService } from "../utils";
@@ -24,6 +26,7 @@ import { UserStreaksService } from "./user-streaks/user-streaks.service";
     UserStreaksRepository,
     UserRecordsService,
     UserRecordsRepository,
+    UserRepository,
     CryptoService,
     JwtService,
   ],

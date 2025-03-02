@@ -57,7 +57,7 @@ export type Challenge = Node & Timestamps & {
    * The UI displays a member summary as: x, y and n others. Hence
    * the firstMember and secondMember fields
    */
-  firstMember?: Maybe<User>;
+  firstThreeMembers?: Maybe<Array<User>>;
   id: Scalars['ID']['output'];
   invitations?: Maybe<Array<ChallengeInvitation>>;
   memberCount?: Maybe<Scalars['Int']['output']>;
@@ -65,7 +65,6 @@ export type Challenge = Node & Timestamps & {
   mode?: Maybe<ChallengeMode>;
   name: Scalars['String']['output'];
   resultsHistory?: Maybe<ChallengeActivityResultConnection>;
-  secondMember?: Maybe<User>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -289,8 +288,9 @@ export type Community = Node & Timestamps & {
   allMembers?: Maybe<UserConnection>;
   challenges?: Maybe<ChallengeConnection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  firstMember?: Maybe<User>;
+  firstThreeMembers?: Maybe<Array<User>>;
   id: Scalars['ID']['output'];
+  imageUrl?: Maybe<Scalars['String']['output']>;
   invitations?: Maybe<CommunityInvitationConnection>;
   isPublic?: Maybe<Scalars['Boolean']['output']>;
   isVerified?: Maybe<Scalars['Boolean']['output']>;
@@ -298,7 +298,6 @@ export type Community = Node & Timestamps & {
   memberships?: Maybe<Array<CommunityMembership>>;
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
-  secondMember?: Maybe<User>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   users?: Maybe<Array<User>>;
 };
@@ -313,6 +312,11 @@ export type CommunityAllMembersArgs = {
 export type CommunityChallengesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type CommunityImageUrlArgs = {
+  quality?: InputMaybe<ImageQuality>;
 };
 
 
@@ -419,6 +423,12 @@ export type HomeFeedEdge = {
 };
 
 export type HomeFeedItem = EndingSoonChallenge | StartingSoonChallenge | UserRecord;
+
+export enum ImageQuality {
+  High = 'HIGH',
+  Low = 'LOW',
+  Med = 'MED'
+}
 
 export enum InvitationStatus {
   Accepted = 'ACCEPTED',
@@ -734,6 +744,12 @@ export type User = Node & Timestamps & {
   /** The streak of consecutive days that the user has completed a challenge. */
   streak?: Maybe<UserStreak>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** A user of the app */
+export type UserAvatarUrlArgs = {
+  quality?: InputMaybe<ImageQuality>;
 };
 
 

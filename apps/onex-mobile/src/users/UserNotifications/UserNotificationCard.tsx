@@ -64,6 +64,7 @@ export const UserNotificationCard = ({
           handle
           firstName
           lastName
+          avatarUrl
         }
       }
     `,

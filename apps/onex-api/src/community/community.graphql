@@ -4,11 +4,11 @@ type Community implements Node & Timestamps {
   owner: User
   isPublic: Boolean
   isVerified: Boolean
+  imageUrl(quality: ImageQuality = MED): String 
   users: [User!]
   createdAt: DateTime
   updatedAt: DateTime
-  firstMember: User
-  secondMember: User
+  firstThreeMembers: [User!]
   allMembers(first: Int!, after: String): UserConnection
   memberCount: Int
   # searchUsers(searchTerm: String!, first: Int!, after: String): CommunityUserSearchConnection

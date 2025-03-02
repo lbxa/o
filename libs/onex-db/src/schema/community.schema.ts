@@ -2,6 +2,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgSchema,
   timestamp,
   unique,
@@ -9,6 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { $C, withIdPk, withModificationDates } from "../helpers";
+import type { ImageUrl } from "./shared/image-url";
 import { InvitationStatus } from "./shared/invitation-status-enum";
 import { UsersTable } from "./user.schema";
 
@@ -21,14 +23,13 @@ export const CommunitiesTable = CommunitySchema.table(
     name: varchar({ length: 255 }).unique().notNull(),
     isPublic: boolean().notNull().default(true),
     isVerified: boolean().notNull().default(false),
+    imageUrl: jsonb().$type<ImageUrl>(),
     ownerId: integer()
       .notNull()
       .references(() => UsersTable.id),
     ...withModificationDates,
   },
-  (table) => ({
-    nameIdx: index().on(table.name),
-  })
+  (table) => [index().on(table.name)]
 );
 
 export const CommunityMembershipsTable = CommunitySchema.table(
@@ -48,10 +49,10 @@ export const CommunityMembershipsTable = CommunitySchema.table(
       precision: $C.TIMEZONE_PRECISION,
     }).defaultNow(),
   },
-  (table) => ({
-    userCommunityMembershipIdx: index().on(table.userId, table.communityId),
-    idempotentJoin: unique().on(table.userId, table.communityId),
-  })
+  (table) => [
+    index().on(table.userId, table.communityId),
+    unique().on(table.userId, table.communityId),
+  ]
 );
 
 export const CommunityInvitationsTable = CommunitySchema.table(
@@ -75,13 +76,7 @@ export const CommunityInvitationsTable = CommunitySchema.table(
     }).notNull(),
     ...withModificationDates,
   },
-  (table) => ({
-    idempotentInvite: unique().on(
-      table.inviterId,
-      table.inviteeId,
-      table.communityId
-    ),
-  })
+  (table) => [unique().on(table.inviterId, table.inviteeId, table.communityId)]
 );
 
 export type Community = typeof CommunitiesTable.$inferSelect;

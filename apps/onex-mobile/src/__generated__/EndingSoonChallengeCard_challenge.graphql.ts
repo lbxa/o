@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ec6a808c2374e77df07de56f6ef7b527>>
+ * @generated SignedSource<<77d0598b35e0ff56f0ea06b61601c862>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,7 +25,7 @@ export type EndingSoonChallengeCard_challenge$data = {
     readonly id: string;
     readonly memberCount: number | null | undefined;
     readonly name: string;
-    readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge" | "ChallengeSocials_challenge">;
+    readonly " $fragmentSpreads": FragmentRefs<"ChallengeActivityPills_challenge" | "SocialGallery">;
   };
   readonly daysUntilEnd: number;
   readonly id: string;
@@ -124,12 +124,12 @@ return {
         {
           "args": null,
           "kind": "FragmentSpread",
-          "name": "ChallengeActivityPills_challenge"
+          "name": "SocialGallery"
         },
         {
           "args": null,
           "kind": "FragmentSpread",
-          "name": "ChallengeSocials_challenge"
+          "name": "ChallengeActivityPills_challenge"
         }
       ],
       "storageKey": null
@@ -140,6 +140,6 @@ return {
 };
 })();
 
-(node as any).hash = "1e21314b5bc9979ad08ba6883c04ecd6";
+(node as any).hash = "fd2ef5a67b7222a316a851490052fdd9";
 
 export default node;

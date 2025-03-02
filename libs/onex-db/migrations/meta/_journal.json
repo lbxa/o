@@ -239,6 +239,13 @@
       "when": 1738147091571,
       "tag": "0033_violet_thanos",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1740867462164,
+      "tag": "0034_majestic_beyonder",
+      "breakpoints": true
     }
   ]
 }

@@ -26,6 +26,7 @@ import {
   CommunityInviteDeclinePayload,
   CommunityJoinPayload,
   CommunityUpdateInput,
+  ImageQuality,
   User as GqlUser,
   UserConnection,
 } from "../types/graphql";
@@ -45,6 +46,37 @@ export class CommunityResolver {
     private communityRepository: CommunityRepository,
     private challengeService: ChallengeService
   ) {}
+
+  @ResolveField("imageUrl")
+  async imageUrl(
+    @Parent() community: GqlCommunity,
+    @Args("quality") quality: ImageQuality = ImageQuality.MED
+  ): Promise<string | null> {
+    if (!community.imageUrl) {
+      return null;
+    }
+
+    const decodedCommunityId = validateAndDecodeGlobalId(
+      community.id,
+      "Community"
+    );
+    const communityData =
+      await this.communityRepository.findById(decodedCommunityId);
+
+    if (!communityData?.imageUrl) {
+      return null;
+    }
+
+    switch (quality) {
+      case ImageQuality.LOW:
+        return communityData.imageUrl.low;
+      case ImageQuality.HIGH:
+        return communityData.imageUrl.high;
+      case ImageQuality.MED:
+      default:
+        return communityData.imageUrl.med;
+    }
+  }
 
   @ResolveField()
   async challenges(
@@ -113,11 +145,11 @@ export class CommunityResolver {
     return this.communityMembershipsService.memberCount(decodedCommunityId);
   }
 
-  @ResolveField("firstMember")
-  async firstMember(
+  @ResolveField("firstThreeMembers")
+  async firstThreeMembers(
     @Parent() community: GqlCommunity,
     @CurrentUser("userId") viewerId: number
-  ): Promise<GqlUser | undefined> {
+  ): Promise<GqlUser[]> {
     const decodedCommunityId = validateAndDecodeGlobalId(
       community.id,
       "Community"
@@ -128,25 +160,7 @@ export class CommunityResolver {
       viewerId,
     });
 
-    return members.edges?.[0]?.node;
-  }
-
-  @ResolveField("secondMember")
-  async secondMember(
-    @Parent() community: GqlCommunity,
-    @CurrentUser("userId") viewerId: number
-  ): Promise<GqlUser | undefined> {
-    const decodedCommunityId = validateAndDecodeGlobalId(
-      community.id,
-      "Community"
-    );
-
-    const members = await this.communityMembershipsService.getMembers({
-      communityId: decodedCommunityId,
-      viewerId,
-    });
-
-    return members.edges?.[1]?.node;
+    return members.edges?.slice(0, 3).map((edge) => edge.node) ?? [];
   }
 
   @ResolveField("allMembers")

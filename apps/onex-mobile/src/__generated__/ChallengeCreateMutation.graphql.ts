@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1ac4695257610aa4a43e9c6b5d7ce1e3>>
+ * @generated SignedSource<<778940cfc3e721fd71674419f6031d76>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -93,19 +93,37 @@ v5 = {
   "storageKey": null
 },
 v6 = [
-  (v5/*: any*/),
   {
     "alias": null,
     "args": null,
-    "kind": "ScalarField",
-    "name": "firstName",
-    "storageKey": null
-  },
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "avatarUrl",
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v5/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
     "storageKey": null
   }
 ];
@@ -275,24 +293,23 @@ return {
                     "storageKey": null
                   },
                   {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "firstMember",
-                    "plural": false,
-                    "selections": (v6/*: any*/),
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "secondMember",
-                    "plural": false,
-                    "selections": (v6/*: any*/),
-                    "storageKey": null
+                    "kind": "InlineFragment",
+                    "selections": [
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v6/*: any*/),
+                        "type": "Community",
+                        "abstractKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v6/*: any*/),
+                        "type": "Challenge",
+                        "abstractKey": null
+                      }
+                    ],
+                    "type": "Node",
+                    "abstractKey": "__isNode"
                   }
                 ],
                 "storageKey": null
@@ -322,12 +339,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6a622ad0a6f80867adff3a52cc579411",
+    "cacheID": "9eef6d5e5e238f57feee9f0b10866cd6",
     "id": null,
     "metadata": {},
     "name": "ChallengeCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n      }\n    }\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n"
+    "text": "mutation ChallengeCreateMutation(\n  $challengeCreateInput: ChallengeCreateInput!\n  $challengeActivityCreateInput: ChallengeActivityCreateInput!\n) {\n  challengeCreate(challengeCreateInput: $challengeCreateInput, challengeActivityCreateInput: $challengeActivityCreateInput) {\n    challengeEdge {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n      }\n    }\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...SocialGallery\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

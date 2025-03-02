@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0a59eb4eab586585f351430db5e51350>>
+ * @generated SignedSource<<2ef3781847a002e8f817f8c7deec04f7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -94,28 +94,54 @@ v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "firstName",
   "storageKey": null
 },
-v7 = [
-  (v0/*: any*/),
-  (v6/*: any*/),
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "avatarUrl",
-    "storageKey": null
-  }
-],
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "__typename",
+  "name": "lastName",
   "storageKey": null
 },
 v9 = [
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "memberCount",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v0/*: any*/),
+      (v7/*: any*/),
+      (v8/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+],
+v10 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -224,34 +250,26 @@ return {
                         "name": "imageUrl",
                         "storageKey": "imageUrl(quality:\"HIGH\")"
                       },
+                      (v6/*: any*/),
                       {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "memberCount",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "firstMember",
-                        "plural": false,
-                        "selections": (v7/*: any*/),
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "secondMember",
-                        "plural": false,
-                        "selections": (v7/*: any*/),
-                        "storageKey": null
-                      },
-                      (v8/*: any*/)
+                        "kind": "InlineFragment",
+                        "selections": [
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v9/*: any*/),
+                            "type": "Community",
+                            "abstractKey": null
+                          },
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v9/*: any*/),
+                            "type": "Challenge",
+                            "abstractKey": null
+                          }
+                        ],
+                        "type": "Node",
+                        "abstractKey": "__isNode"
+                      }
                     ],
                     "storageKey": null
                   }
@@ -272,7 +290,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v9/*: any*/),
+            "args": (v10/*: any*/),
             "concreteType": "CommunityInvitationConnection",
             "kind": "LinkedField",
             "name": "communityInvitations",
@@ -306,14 +324,8 @@ return {
                         "plural": false,
                         "selections": [
                           (v0/*: any*/),
-                          (v6/*: any*/),
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "lastName",
-                            "storageKey": null
-                          }
+                          (v7/*: any*/),
+                          (v8/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -331,7 +343,7 @@ return {
                         ],
                         "storageKey": null
                       },
-                      (v8/*: any*/)
+                      (v6/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -343,7 +355,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v9/*: any*/),
+            "args": (v10/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "CommunityInvitationList_communityInvitations",
@@ -356,12 +368,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5a7283d171620c2f98f62da905bd2e14",
+    "cacheID": "92b1f18075c120749426b990dcead03d",
     "id": null,
     "metadata": {},
     "name": "CommunityListQuery",
     "operationKind": "query",
-    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...CommunitySocials_community\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n    avatarUrl\n  }\n  secondMember {\n    id\n    firstName\n    avatarUrl\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
+    "text": "query CommunityListQuery {\n  viewer {\n    id\n    ...CommunityList_viewer_1KmBw7\n    ...useCommunityInvitationsPagination_viewer_VbLdN\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment CommunityInvitationCard_communityInvitation on CommunityInvitation {\n  id\n  inviter {\n    id\n    firstName\n    lastName\n  }\n  community {\n    id\n    name\n    isVerified\n  }\n}\n\nfragment CommunityList_viewer_1KmBw7 on Viewer {\n  id\n  communities(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment useCommunityInvitationsPagination_viewer_VbLdN on Viewer {\n  communityInvitations(first: 5) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationCard_communityInvitation\n        id\n        __typename\n      }\n    }\n  }\n}\n"
   }
 };
 })();

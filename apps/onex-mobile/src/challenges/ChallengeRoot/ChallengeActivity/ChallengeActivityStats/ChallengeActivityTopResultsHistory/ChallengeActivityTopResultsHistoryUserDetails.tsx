@@ -23,6 +23,7 @@ export const ChallengeActivityTopResultsHistoryUserDetails = ({
             firstName
             lastName
             handle
+            avatarUrl(quality: MED)
             streak {
               id
               currentStreak

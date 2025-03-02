@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c0a4e1c982a9056c40d7cee5577b5b94>>
+ * @generated SignedSource<<232f48418784444ce3de5f2df2b73358>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type CommunityCard_community$data = {
   readonly imageUrl: string | null | undefined;
   readonly isVerified: boolean | null | undefined;
   readonly name: string;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunitySocials_community">;
+  readonly " $fragmentSpreads": FragmentRefs<"SocialGallery">;
   readonly " $fragmentType": "CommunityCard_community";
 };
 export type CommunityCard_community$key = {
@@ -66,13 +66,13 @@ const node: ReaderFragment = {
     {
       "args": null,
       "kind": "FragmentSpread",
-      "name": "CommunitySocials_community"
+      "name": "SocialGallery"
     }
   ],
   "type": "Community",
   "abstractKey": null
 };
 
-(node as any).hash = "631541e478bdb25de98de1020dfa8115";
+(node as any).hash = "85a42689439c0dfa40f6c76b2b63c33c";
 
 export default node;
