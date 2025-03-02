@@ -608,6 +608,9 @@ importers:
       drizzle-kit:
         specifier: ^0.30.5
         version: 0.30.5
+      drizzle-seed:
+        specifier: ^0.3.1
+        version: 0.3.1(drizzle-orm@0.40.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/pg@8.11.11)(gel@2.0.0)(mysql2@3.12.0)(pg@8.13.3))
       eslint:
         specifier: ^9.21.0
         version: 9.21.0(jiti@2.4.2)
@@ -6394,6 +6397,14 @@ packages:
       sql.js:
         optional: true
       sqlite3:
+        optional: true
+
+  drizzle-seed@0.3.1:
+    resolution: {integrity: sha512-F/0lgvfOAsqlYoHM/QAGut4xXIOXoE5VoAdv2FIl7DpGYVXlAzKuJO+IphkKUFK3Dz+rFlOsQLnMNrvoQ0cx7g==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.4'
+    peerDependenciesMeta:
+      drizzle-orm:
         optional: true
 
   dset@3.1.4:
@@ -19562,6 +19573,12 @@ snapshots:
       gel: 2.0.0
       mysql2: 3.12.0
       pg: 8.13.3
+
+  drizzle-seed@0.3.1(drizzle-orm@0.40.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/pg@8.11.11)(gel@2.0.0)(mysql2@3.12.0)(pg@8.13.3)):
+    dependencies:
+      pure-rand: 6.1.0
+    optionalDependencies:
+      drizzle-orm: 0.40.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/pg@8.11.11)(gel@2.0.0)(mysql2@3.12.0)(pg@8.13.3)
 
   dset@3.1.4: {}
 
