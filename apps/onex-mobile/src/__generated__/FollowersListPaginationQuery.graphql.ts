@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<509af3a9e60fc17b8e5d5160cc69cbf9>>
+ * @generated SignedSource<<3ad7e1d89fa8e02d296c1c94ce96553f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -224,6 +224,13 @@ return {
                           {
                             "alias": null,
                             "args": null,
+                            "kind": "ScalarField",
+                            "name": "avatarUrl",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
                             "concreteType": "UserStreak",
                             "kind": "LinkedField",
                             "name": "streak",
@@ -291,12 +298,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "19ba022fab08c801ff332fb7125d0690",
+    "cacheID": "e1dcd25d95e92ace8b3a1fe03aa54560",
     "id": null,
     "metadata": {},
     "name": "FollowersListPaginationQuery",
     "operationKind": "query",
-    "text": "query FollowersListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...FollowersList_user_1G22uz\n    id\n  }\n}\n\nfragment FollowersList_user_1G22uz on User {\n  id\n  followers(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n"
+    "text": "query FollowersListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...FollowersList_user_1G22uz\n    id\n  }\n}\n\nfragment FollowersList_user_1G22uz on User {\n  id\n  followers(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n"
   }
 };
 })();

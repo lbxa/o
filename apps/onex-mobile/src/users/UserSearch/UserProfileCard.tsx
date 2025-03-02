@@ -21,6 +21,7 @@ export const UserProfileCard = ({ fragmentRef }: UserProfileCardProps) => {
         firstName
         lastName
         handle
+        avatarUrl
       }
     `,
     fragmentRef

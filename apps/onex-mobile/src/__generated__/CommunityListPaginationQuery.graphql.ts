@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<44124c30c9834c6a8d3d0337e3d6d1ee>>
+ * @generated SignedSource<<f90188776784618fa15b9ac1a4c8ac6b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -57,12 +57,44 @@ v2 = [
   }
 ],
 v3 = [
-  (v1/*: any*/),
   {
     "alias": null,
     "args": null,
     "kind": "ScalarField",
-    "name": "firstName",
+    "name": "memberCount",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
     "storageKey": null
   }
 ];
@@ -199,30 +231,16 @@ return {
                       },
                       {
                         "alias": null,
-                        "args": null,
+                        "args": [
+                          {
+                            "kind": "Literal",
+                            "name": "quality",
+                            "value": "HIGH"
+                          }
+                        ],
                         "kind": "ScalarField",
-                        "name": "memberCount",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "firstMember",
-                        "plural": false,
-                        "selections": (v3/*: any*/),
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "secondMember",
-                        "plural": false,
-                        "selections": (v3/*: any*/),
-                        "storageKey": null
+                        "name": "imageUrl",
+                        "storageKey": "imageUrl(quality:\"HIGH\")"
                       },
                       {
                         "alias": null,
@@ -230,6 +248,25 @@ return {
                         "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": [
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v3/*: any*/),
+                            "type": "Community",
+                            "abstractKey": null
+                          },
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v3/*: any*/),
+                            "type": "Challenge",
+                            "abstractKey": null
+                          }
+                        ],
+                        "type": "Node",
+                        "abstractKey": "__isNode"
                       }
                     ],
                     "storageKey": null
@@ -255,12 +292,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3370b9949ef173ed343d016b2345c92b",
+    "cacheID": "755ed08160826426e3ab004fb43c9d9e",
     "id": null,
     "metadata": {},
     "name": "CommunityListPaginationQuery",
     "operationKind": "query",
-    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "query CommunityListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...CommunityList_viewer_1G22uz\n    id\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment CommunityList_viewer_1G22uz on Viewer {\n  id\n  communities(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

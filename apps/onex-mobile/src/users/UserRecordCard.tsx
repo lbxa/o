@@ -29,6 +29,7 @@ export const UserRecordCard = ({ fragmentRef }: UserRecordCardProps) => {
           id
           firstName
           lastName
+          avatarUrl
         }
         challenge {
           id

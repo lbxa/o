@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c228a4a717bcec3e8fbc9a2a05bf4017>>
+ * @generated SignedSource<<02247e9470f0b69b82e7356073024974>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -69,12 +69,37 @@ v3 = {
   "storageKey": null
 },
 v4 = [
-  (v3/*: any*/),
   {
     "alias": null,
     "args": null,
-    "kind": "ScalarField",
-    "name": "firstName",
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
     "storageKey": null
   }
 ];
@@ -241,29 +266,28 @@ return {
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "firstMember",
-                        "plural": false,
-                        "selections": (v4/*: any*/),
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "secondMember",
-                        "plural": false,
-                        "selections": (v4/*: any*/),
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
                         "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": [
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v4/*: any*/),
+                            "type": "Community",
+                            "abstractKey": null
+                          },
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v4/*: any*/),
+                            "type": "Challenge",
+                            "abstractKey": null
+                          }
+                        ],
+                        "type": "Node",
+                        "abstractKey": "__isNode"
                       }
                     ],
                     "storageKey": null
@@ -324,12 +348,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3dd24f84a14959be0ed5b0cb380b507e",
+    "cacheID": "71eb9b2c5576b80e2e0022dd65d714c5",
     "id": null,
     "metadata": {},
     "name": "ChallengeListPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "query ChallengeListPaginationQuery(\n  $communityId: ID!\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...ChallengeList_viewer_441M1w\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...SocialGallery\n}\n\nfragment ChallengeList_viewer_441M1w on Viewer {\n  challenges(communityId: $communityId, first: $count, after: $cursor) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

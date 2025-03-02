@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7d4981c6b2d58ffdce28615518507e91>>
+ * @generated SignedSource<<8330b0ad7c83d546f2644ab504e2554c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -199,6 +199,13 @@ return {
                           {
                             "alias": null,
                             "args": null,
+                            "kind": "ScalarField",
+                            "name": "avatarUrl",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
                             "concreteType": "UserStreak",
                             "kind": "LinkedField",
                             "name": "streak",
@@ -271,12 +278,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d6b6a72b3f2aab4ce1940836caada0f4",
+    "cacheID": "f24e8196f2d175c528c7c86a2e42e700",
     "id": null,
     "metadata": {},
     "name": "FollowersListQuery",
     "operationKind": "query",
-    "text": "query FollowersListQuery {\n  viewer {\n    id\n    user {\n      ...FollowersList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment FollowersList_user_1KmBw7 on User {\n  id\n  followers(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n"
+    "text": "query FollowersListQuery {\n  viewer {\n    id\n    user {\n      ...FollowersList_user_1KmBw7\n      id\n    }\n  }\n}\n\nfragment FollowersList_user_1KmBw7 on User {\n  id\n  followers(first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...UserProfileRow_user\n        id\n        __typename\n      }\n    }\n  }\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n"
   }
 };
 })();

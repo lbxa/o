@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a87b0de8bc8c614374397eee4e2d333b>>
+ * @generated SignedSource<<db4a3c7f77db54c780aea1a6a166b427>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -91,16 +91,41 @@ v7 = {
   "name": "target",
   "storageKey": null
 },
-v8 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v9 = [
+v8 = [
   (v1/*: any*/),
-  (v8/*: any*/)
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "firstName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "lastName",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "avatarUrl",
+    "storageKey": null
+  }
+],
+v9 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": (v8/*: any*/),
+    "storageKey": null
+  }
 ],
 v10 = {
   "alias": null,
@@ -136,24 +161,23 @@ v10 = {
       "storageKey": null
     },
     {
-      "alias": null,
-      "args": null,
-      "concreteType": "User",
-      "kind": "LinkedField",
-      "name": "firstMember",
-      "plural": false,
-      "selections": (v9/*: any*/),
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "User",
-      "kind": "LinkedField",
-      "name": "secondMember",
-      "plural": false,
-      "selections": (v9/*: any*/),
-      "storageKey": null
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "kind": "InlineFragment",
+          "selections": (v9/*: any*/),
+          "type": "Community",
+          "abstractKey": null
+        },
+        {
+          "kind": "InlineFragment",
+          "selections": (v9/*: any*/),
+          "type": "Challenge",
+          "abstractKey": null
+        }
+      ],
+      "type": "Node",
+      "abstractKey": "__isNode"
     }
   ],
   "storageKey": null
@@ -327,17 +351,7 @@ return {
                             "kind": "LinkedField",
                             "name": "user",
                             "plural": false,
-                            "selections": [
-                              (v1/*: any*/),
-                              (v8/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "lastName",
-                                "storageKey": null
-                              }
-                            ],
+                            "selections": (v8/*: any*/),
                             "storageKey": null
                           },
                           {
@@ -444,12 +458,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e338798d75f8fee608d9fe16384bf8ca",
+    "cacheID": "1733f6828a15928158e7344da0dcbb5c",
     "id": null,
     "metadata": {},
     "name": "HomeFeedPaginationQuery",
     "operationKind": "query",
-    "text": "query HomeFeedPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...HomeFeed_viewer_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment EndingSoonChallengeCard_challenge on EndingSoonChallenge {\n  id\n  daysUntilEnd\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on StartingSoonChallenge {\n    __typename\n    ...StartingSoonChallengeCard_challenge\n  }\n  ... on EndingSoonChallenge {\n    __typename\n    ...EndingSoonChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1G22uz on Viewer {\n  id\n  homeFeed(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment StartingSoonChallengeCard_challenge on StartingSoonChallenge {\n  id\n  daysUntilStart\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...ChallengeActivityPills_challenge\n    ...ChallengeSocials_challenge\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    formattedResult\n  }\n}\n"
+    "text": "query HomeFeedPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n) {\n  viewer {\n    ...HomeFeed_viewer_1G22uz\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment EndingSoonChallengeCard_challenge on EndingSoonChallenge {\n  id\n  daysUntilEnd\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...SocialGallery\n    ...ChallengeActivityPills_challenge\n  }\n}\n\nfragment HomeFeedItem_item on HomeFeedItem {\n  __isHomeFeedItem: __typename\n  ... on StartingSoonChallenge {\n    __typename\n    ...StartingSoonChallengeCard_challenge\n  }\n  ... on EndingSoonChallenge {\n    __typename\n    ...EndingSoonChallengeCard_challenge\n  }\n  ... on UserRecord {\n    __typename\n    ...UserRecordCard_userRecord\n  }\n}\n\nfragment HomeFeed_viewer_1G22uz on Viewer {\n  id\n  homeFeed(first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        __typename\n        ...HomeFeedItem_item\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n    }\n  }\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment StartingSoonChallengeCard_challenge on StartingSoonChallenge {\n  id\n  daysUntilStart\n  challenge {\n    id\n    name\n    memberCount\n    activity {\n      id\n      type\n      goal\n      unit\n      target\n    }\n    ...SocialGallery\n    ...ChallengeActivityPills_challenge\n  }\n}\n\nfragment UserRecordCard_userRecord on UserRecord {\n  user {\n    id\n    firstName\n    lastName\n    avatarUrl\n  }\n  challenge {\n    id\n    name\n    activity {\n      id\n      unit\n      goal\n      type\n      target\n    }\n    community {\n      id\n      name\n      isVerified\n    }\n  }\n  activityResult {\n    id\n    formattedResult\n  }\n}\n"
   }
 };
 })();

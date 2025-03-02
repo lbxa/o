@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 import { Skeleton } from "@/universe/atoms";
 
-export const ChallengeSocialsSkeleton = () => {
+export const SocialGallerySkeleton = () => {
   return (
     <View className="flex flex-row items-center">
       <Skeleton className="z-30 size-12 rounded-full border border-white" />

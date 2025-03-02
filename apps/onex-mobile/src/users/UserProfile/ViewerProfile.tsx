@@ -39,6 +39,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           lastName
           handle
           bio
+          avatarUrl(quality: HIGH)
           ...UserProfileStats_user
         }
       }

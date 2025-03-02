@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<faa3401bca183bb5e519943936131bdc>>
+ * @generated SignedSource<<686a38805d1481ffebe4851086a1a4fa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -62,12 +62,44 @@ v3 = {
   "storageKey": null
 },
 v4 = [
-  (v3/*: any*/),
   {
     "alias": null,
     "args": null,
     "kind": "ScalarField",
-    "name": "firstName",
+    "name": "memberCount",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": null
+      }
+    ],
     "storageKey": null
   }
 ];
@@ -169,30 +201,35 @@ return {
                   },
                   {
                     "alias": null,
-                    "args": null,
+                    "args": [
+                      {
+                        "kind": "Literal",
+                        "name": "quality",
+                        "value": "HIGH"
+                      }
+                    ],
                     "kind": "ScalarField",
-                    "name": "memberCount",
-                    "storageKey": null
+                    "name": "imageUrl",
+                    "storageKey": "imageUrl(quality:\"HIGH\")"
                   },
                   {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "firstMember",
-                    "plural": false,
-                    "selections": (v4/*: any*/),
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "secondMember",
-                    "plural": false,
-                    "selections": (v4/*: any*/),
-                    "storageKey": null
+                    "kind": "InlineFragment",
+                    "selections": [
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v4/*: any*/),
+                        "type": "Community",
+                        "abstractKey": null
+                      },
+                      {
+                        "kind": "InlineFragment",
+                        "selections": (v4/*: any*/),
+                        "type": "Challenge",
+                        "abstractKey": null
+                      }
+                    ],
+                    "type": "Node",
+                    "abstractKey": "__isNode"
                   }
                 ],
                 "storageKey": null
@@ -206,12 +243,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "43403d3f328858d24f07ab01ad19f1c6",
+    "cacheID": "82a9fe9c82738d2a0b813370f9917297",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  ...CommunitySocials_community\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

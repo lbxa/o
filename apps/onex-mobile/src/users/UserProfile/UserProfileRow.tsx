@@ -28,6 +28,7 @@ export const UserProfileRow = ({
         firstName
         lastName
         handle
+        avatarUrl
         streak {
           id
           currentStreak

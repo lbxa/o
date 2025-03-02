@@ -99,7 +99,7 @@ export const ChallengeActivityTopResultsHistory = ({
 
   return (
     <FlatList
-      className="min-h-full px-md"
+      className="px-md min-h-full"
       data={data?.resultsHistory?.edges?.map((edge) => edge.node)}
       renderItem={({ item }) => <ChallengeActivityHistoryCard result={item} />}
       ListHeaderComponent={
@@ -110,7 +110,7 @@ export const ChallengeActivityTopResultsHistory = ({
         ) : null
       }
       ListEmptyComponent={
-        <View className="flex flex-col gap-md pt-md">
+        <View className="gap-md pt-md flex flex-col">
           <View className="mx-auto">
             <Void width={150} height={150} />
           </View>

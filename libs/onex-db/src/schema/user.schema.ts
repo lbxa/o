@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   index,
   integer,
+  jsonb,
   pgSchema,
   text,
   unique,
@@ -16,6 +17,7 @@ import {
   ChallengesTable,
 } from "./challenge.schema";
 import { InvitationStatus } from "./shared";
+import type { ImageUrl } from "./shared/image-url";
 
 export const UserSchema = pgSchema("user");
 
@@ -30,14 +32,12 @@ export const UsersTable = UserSchema.table(
     bio: varchar({ length: 160 }),
     password: varchar({ length: 255 }).notNull(),
     refreshToken: varchar({ length: 1000 }),
-    avatarUrl: varchar({ length: 1000 }),
+    avatarUrl: jsonb().$type<ImageUrl>(),
     ...withModificationDates,
   },
-  (table) => ({
-    emailUniqueIndex: uniqueIndex("email_unique_index").on(
-      sql`lower(${table.email})`
-    ),
-    searchIndex: index("search_index").using(
+  (table) => [
+    uniqueIndex("email_unique_index").on(sql`lower(${table.email})`),
+    index("search_index").using(
       "gin",
       sql`(
         setweight(to_tsvector('english', ${table.handle}), 'A') ||
@@ -46,7 +46,7 @@ export const UsersTable = UserSchema.table(
         setweight(to_tsvector('english', ${table.lastName}), 'D')
       )`
     ),
-  })
+  ]
 );
 
 export const UserFriendshipsTable = UserSchema.table(
@@ -62,10 +62,10 @@ export const UserFriendshipsTable = UserSchema.table(
     status: InvitationStatus().notNull().default("PENDING"),
     ...withModificationDates,
   },
-  (table) => ({
-    uniqueFriendship: unique().on(table.userId, table.friendId),
-    reverseFriendship: index().on(table.friendId, table.userId),
-  })
+  (table) => [
+    unique().on(table.userId, table.friendId),
+    index().on(table.friendId, table.userId),
+  ]
 );
 
 export const UserStreaksTable = UserSchema.table("streaks", {
@@ -98,9 +98,7 @@ export const UserRecordsTable = UserSchema.table(
       }),
     ...withModificationDates,
   },
-  (table) => ({
-    userRecordsIndex: index().on(table.userId, table.createdAt),
-  })
+  (table) => [index().on(table.userId, table.createdAt)]
 );
 
 export type User = typeof UsersTable.$inferSelect;

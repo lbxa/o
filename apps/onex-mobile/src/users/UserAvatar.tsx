@@ -1,10 +1,11 @@
 import type { User } from "@o/onex-api-gql";
 import classNames from "classnames";
-import { View } from "react-native";
+import { useMemo } from "react";
+import { Image, View } from "react-native";
 
 import { OText } from "../universe/atoms";
 
-export type AvatarOutline = "green";
+export type AvatarOutline = "green" | "gray" | "ivory";
 
 export const UserAvatar = ({
   user,
@@ -29,15 +30,54 @@ export const UserAvatar = ({
     lg: "text-6xl leading-[200px]",
   };
 
+  const borders = useMemo(
+    () => ({
+      "border border-green-500": outline === "green",
+      "border border-gray-500": outline === "gray",
+      "border border-ivory": outline === "ivory",
+    }),
+    [outline]
+  );
+
+  // const userAvatarFragment = useFragment<UserAvatar_user$key>(
+  //   graphql`
+  //     fragment UserAvatar_user on User
+  //     @argumentDefinitions(
+  //       quality: { type: "ImageQuality", defaultValue: MED }
+  //     ) {
+  //       avatarUrl(quality: $quality)
+  //     }
+  //   `,
+  //   userAvatarFragmentRef
+  // );
+
+  // If user has an avatar URL, display the image
+  if (user.avatarUrl) {
+    return (
+      <View
+        className={classNames(
+          "flex items-center justify-center rounded-full overflow-hidden",
+          sizeClasses[size],
+          className,
+          borders
+        )}
+      >
+        <Image
+          className={classNames("w-full h-full")}
+          source={{ uri: user.avatarUrl }}
+        />
+      </View>
+    );
+  }
+
+  // If no avatar URL is available, display initials
   return (
     <View
       className={classNames(
         "flex items-center justify-center rounded-full bg-gray-300 dark:bg-white/20 box-content",
         sizeClasses[size],
         className,
-        {
-          "border-2 border-green-500": outline === "green",
-        }
+        borders
       )}
     >
       <OText

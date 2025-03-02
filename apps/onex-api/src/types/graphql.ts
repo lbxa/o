@@ -62,6 +62,12 @@ export enum InvitationStatus {
     DECLINED = "DECLINED"
 }
 
+export enum ImageQuality {
+    LOW = "LOW",
+    MED = "MED",
+    HIGH = "HIGH"
+}
+
 export interface AuthLoginInput {
     email: string;
     password: string;
@@ -256,8 +262,7 @@ export interface Challenge extends Node, Timestamps {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     activity: ChallengeActivity;
-    firstMember?: Nullable<User>;
-    secondMember?: Nullable<User>;
+    firstThreeMembers?: Nullable<User[]>;
     allMembers?: Nullable<UserConnection>;
     memberCount?: Nullable<number>;
     memberships?: Nullable<ChallengeMembership[]>;
@@ -344,11 +349,11 @@ export interface Community extends Node, Timestamps {
     owner?: Nullable<User>;
     isPublic?: Nullable<boolean>;
     isVerified?: Nullable<boolean>;
+    imageUrl?: Nullable<string>;
     users?: Nullable<User[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    firstMember?: Nullable<User>;
-    secondMember?: Nullable<User>;
+    firstThreeMembers?: Nullable<User[]>;
     allMembers?: Nullable<UserConnection>;
     memberCount?: Nullable<number>;
     challenges?: Nullable<ChallengeConnection>;

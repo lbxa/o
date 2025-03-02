@@ -20,6 +20,7 @@ export const ChallengeActivityHistoryCard = ({
           firstName
           lastName
           handle
+          avatarUrl(quality: MED)
         }
         createdAt
         formattedResult

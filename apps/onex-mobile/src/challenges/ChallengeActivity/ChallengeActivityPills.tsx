@@ -3,7 +3,7 @@ import type {
   ChallengeActivityGoal,
   ChallengeActivityType,
 } from "@o/onex-api-gql";
-import type { ChallengeActivityUnits } from "@o/onex-api-gql";
+import { ChallengeActivityUnits } from "@o/onex-api-gql";
 import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeActivityPills_challenge$key } from "@/__generated__/ChallengeActivityPills_challenge.graphql";
@@ -53,7 +53,8 @@ export const ChallengeActivityPills = ({
       pill3={
         challenge?.activity?.target
           ? `${challenge.activity.target}${
-              challenge.activity.unit
+              challenge.activity.unit &&
+              challenge.activity.unit !== ChallengeActivityUnits.None
                 ? " " +
                   challengeActivityUnitToLabel(
                     challenge.activity.unit as ChallengeActivityUnits

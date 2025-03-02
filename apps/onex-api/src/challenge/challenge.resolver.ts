@@ -68,11 +68,11 @@ export class ChallengeResolver {
     );
   }
 
-  @ResolveField("firstMember")
-  async firstMember(
+  @ResolveField("firstThreeMembers")
+  async firstThreeMembers(
     @Parent() challenge: Challenge,
     @CurrentUser("userId") viewerId: number
-  ): Promise<User | undefined> {
+  ): Promise<User[]> {
     const decodedChallengeId = validateAndDecodeGlobalId(
       challenge.id,
       "Challenge"
@@ -83,25 +83,7 @@ export class ChallengeResolver {
       viewerId,
     });
 
-    return members.edges?.[0]?.node;
-  }
-
-  @ResolveField("secondMember")
-  async secondMember(
-    @Parent() challenge: Challenge,
-    @CurrentUser("userId") viewerId: number
-  ): Promise<User | undefined> {
-    const decodedChallengeId = validateAndDecodeGlobalId(
-      challenge.id,
-      "Challenge"
-    );
-
-    const members = await this.challengeMembershipsService.getMembers({
-      challengeId: decodedChallengeId,
-      viewerId,
-    });
-
-    return members.edges?.[1]?.node;
+    return members.edges?.slice(0, 3).map((edge) => edge.node) ?? [];
   }
 
   @ResolveField("allMembers")

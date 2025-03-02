@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<69c11a4768a22b9bd47dbe7c1ace6900>>
+ * @generated SignedSource<<4efa48ee856e82474e2c729932544e40>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -78,24 +78,18 @@ v7 = {
   "name": "memberCount",
   "storageKey": null
 },
-v8 = [
-  (v5/*: any*/),
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "firstName",
-    "storageKey": null
-  }
-],
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
 v9 = {
   "alias": null,
   "args": null,
-  "concreteType": "User",
-  "kind": "LinkedField",
-  "name": "firstMember",
-  "plural": false,
-  "selections": (v8/*: any*/),
+  "kind": "ScalarField",
+  "name": "firstName",
   "storageKey": null
 },
 v10 = {
@@ -103,18 +97,31 @@ v10 = {
   "args": null,
   "concreteType": "User",
   "kind": "LinkedField",
-  "name": "secondMember",
-  "plural": false,
-  "selections": (v8/*: any*/),
+  "name": "firstThreeMembers",
+  "plural": true,
+  "selections": [
+    (v5/*: any*/),
+    (v9/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "lastName",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "avatarUrl",
+      "storageKey": null
+    }
+  ],
   "storageKey": null
 },
-v11 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
+v11 = [
+  (v10/*: any*/)
+],
 v12 = {
   "alias": null,
   "args": null,
@@ -153,6 +160,10 @@ v13 = [
     "name": "first",
     "value": 1
   }
+],
+v14 = [
+  (v7/*: any*/),
+  (v10/*: any*/)
 ];
 return {
   "fragment": {
@@ -323,9 +334,26 @@ return {
                         ],
                         "storageKey": null
                       },
-                      (v9/*: any*/),
-                      (v10/*: any*/),
-                      (v11/*: any*/)
+                      (v8/*: any*/),
+                      {
+                        "kind": "InlineFragment",
+                        "selections": [
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v11/*: any*/),
+                            "type": "Community",
+                            "abstractKey": null
+                          },
+                          {
+                            "kind": "InlineFragment",
+                            "selections": (v11/*: any*/),
+                            "type": "Challenge",
+                            "abstractKey": null
+                          }
+                        ],
+                        "type": "Node",
+                        "abstractKey": "__isNode"
+                      }
                     ],
                     "storageKey": null
                   }
@@ -357,9 +385,6 @@ return {
             "selections": [
               (v5/*: any*/),
               (v6/*: any*/),
-              (v7/*: any*/),
-              (v9/*: any*/),
-              (v10/*: any*/),
               {
                 "alias": null,
                 "args": (v13/*: any*/),
@@ -394,7 +419,10 @@ return {
                             "kind": "LinkedField",
                             "name": "invitee",
                             "plural": false,
-                            "selections": (v8/*: any*/),
+                            "selections": [
+                              (v5/*: any*/),
+                              (v9/*: any*/)
+                            ],
                             "storageKey": null
                           },
                           {
@@ -410,7 +438,7 @@ return {
                             ],
                             "storageKey": null
                           },
-                          (v11/*: any*/)
+                          (v8/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -428,6 +456,25 @@ return {
                 "key": "CommunityInvitationsAcceptList_invitations",
                 "kind": "LinkedHandle",
                 "name": "invitations"
+              },
+              {
+                "kind": "InlineFragment",
+                "selections": [
+                  {
+                    "kind": "InlineFragment",
+                    "selections": (v14/*: any*/),
+                    "type": "Community",
+                    "abstractKey": null
+                  },
+                  {
+                    "kind": "InlineFragment",
+                    "selections": (v14/*: any*/),
+                    "type": "Challenge",
+                    "abstractKey": null
+                  }
+                ],
+                "type": "Node",
+                "abstractKey": "__isNode"
               }
             ],
             "storageKey": null
@@ -439,12 +486,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "da7de9946911cdd314e5a3f832a4b38e",
+    "cacheID": "0a6f541c5ae5cea2a1c84ea4badbcb7e",
     "id": null,
     "metadata": {},
     "name": "CommunityRootQuery",
     "operationKind": "query",
-    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    community(communityId: $communityId) {\n      ...CommunityRootTitle_community\n      ...CommunityDetails_community\n      ...CommunityInvitationAcceptList_community_35kO5h\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment CommunityDetails_community on Community {\n  ...CommunitySocials_community\n}\n\nfragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_35kO5h on Community {\n  invitations(first: 1) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_invitations\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment CommunityRootTitle_community on Community {\n  id\n  name\n}\n\nfragment CommunitySocials_community on Community {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n"
+    "text": "query CommunityRootQuery(\n  $communityId: ID!\n) {\n  viewer {\n    ...ChallengeList_viewer_4okw96\n    community(communityId: $communityId) {\n      ...CommunityRootTitle_community\n      ...CommunityDetails_community\n      ...CommunityInvitationAcceptList_community_35kO5h\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeCard_challenge on Challenge {\n  id\n  name\n  description\n  startDate\n  endDate\n  memberCount\n  activity {\n    id\n    type\n    goal\n    unit\n    target\n  }\n  ...ChallengeActivityPills_challenge\n  ...SocialGallery\n}\n\nfragment ChallengeList_viewer_4okw96 on Viewer {\n  challenges(communityId: $communityId, first: 10) {\n    edges {\n      cursor\n      node {\n        ...ChallengeCard_challenge\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment CommunityDetails_community on Community {\n  ...SocialGallery\n}\n\nfragment CommunityInvitationAcceptCard_invitations on CommunityInvitation {\n  id\n  invitee {\n    id\n    firstName\n  }\n  community {\n    id\n    name\n  }\n}\n\nfragment CommunityInvitationAcceptList_community_35kO5h on Community {\n  invitations(first: 1) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...CommunityInvitationAcceptCard_invitations\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n\nfragment CommunityRootTitle_community on Community {\n  id\n  name\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();

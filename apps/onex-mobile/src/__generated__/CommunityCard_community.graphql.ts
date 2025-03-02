@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e60bbfc3b7d634315a50ba6c915025c0>>
+ * @generated SignedSource<<232f48418784444ce3de5f2df2b73358>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,9 +12,10 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityCard_community$data = {
   readonly id: string;
+  readonly imageUrl: string | null | undefined;
   readonly isVerified: boolean | null | undefined;
   readonly name: string;
-  readonly " $fragmentSpreads": FragmentRefs<"CommunitySocials_community">;
+  readonly " $fragmentSpreads": FragmentRefs<"SocialGallery">;
   readonly " $fragmentType": "CommunityCard_community";
 };
 export type CommunityCard_community$key = {
@@ -50,15 +51,28 @@ const node: ReaderFragment = {
       "storageKey": null
     },
     {
+      "alias": null,
+      "args": [
+        {
+          "kind": "Literal",
+          "name": "quality",
+          "value": "HIGH"
+        }
+      ],
+      "kind": "ScalarField",
+      "name": "imageUrl",
+      "storageKey": "imageUrl(quality:\"HIGH\")"
+    },
+    {
       "args": null,
       "kind": "FragmentSpread",
-      "name": "CommunitySocials_community"
+      "name": "SocialGallery"
     }
   ],
   "type": "Community",
   "abstractKey": null
 };
 
-(node as any).hash = "95811b33194b90e0c3d9a6b420d3ccca";
+(node as any).hash = "85a42689439c0dfa40f6c76b2b63c33c";
 
 export default node;

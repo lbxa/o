@@ -25,31 +25,6 @@ body:graphql {
     updatedAt
   }
   
-  fragment UserRecordCard_userRecord on UserRecord {
-    user {
-      id
-      firstName
-      lastName
-    }
-    challenge {
-      id
-      name
-      community {
-        id
-        name
-        isVerified
-      }
-      activity {
-        id
-        unit
-      }
-    }
-    activityResult {
-      id
-      result
-    }
-  }
-  
   fragment ActiveUser on Viewer {
     user {
       ...UserFragment
@@ -59,19 +34,19 @@ body:graphql {
   query {
     viewer {
       ...ActiveUser
-      homeFeed(first: 10) {
-        edges {
-          node {
-            ... on Challenge {
-              name
-              description
-            }
-            ... on UserRecord {
-              ...UserRecordCard_userRecord
-            }
-          }
-        }
-      }
+    #   homeFeed(first: 10) {
+    #     edges {
+    #       node {
+    #         ... on Challenge {
+    #           name
+    #           description
+    #         }
+    #         ... on UserRecord {
+    #           ...UserRecordCard_userRecord
+    #         }
+    #       }
+    #     }
+    #   }
     }
   }
 }

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<87ad08b1961cb3c180c05ef3ef0c328a>>
+ * @generated SignedSource<<2ac84b77f619f79882a935dcee67d38d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -123,6 +123,13 @@ return {
                     "kind": "ScalarField",
                     "name": "handle",
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "avatarUrl",
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -138,12 +145,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "40fa74376099a9ab5d456686397b9ffc",
+    "cacheID": "c3104af77631c204696e8e28694c68f4",
     "id": null,
     "metadata": {},
     "name": "UserSearchFriendsListQuery",
     "operationKind": "query",
-    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserProfileCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserProfileCard_user\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query UserSearchFriendsListQuery(\n  $searchTerm: String\n) {\n  viewer {\n    ...UserSearchFriends_viewer_1CW4ID\n    id\n  }\n}\n\nfragment UserProfileCard_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n}\n\nfragment UserSearchFriends_viewer_1CW4ID on Viewer {\n  user {\n    searchFriends(searchTerm: $searchTerm) {\n      ...UserProfileCard_user\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();

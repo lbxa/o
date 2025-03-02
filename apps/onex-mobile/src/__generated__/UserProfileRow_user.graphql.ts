@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c328e61762ceed81ca967b8f8064efbd>>
+ * @generated SignedSource<<1ebe2759668d540b1cf7b15d34bc3eb8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type UserProfileRow_user$data = {
+  readonly avatarUrl: string | null | undefined;
   readonly firstMutualFriend: {
     readonly firstName: string | null | undefined;
     readonly handle: string | null | undefined;
@@ -75,6 +76,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "avatarUrl",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "UserStreak",
       "kind": "LinkedField",
       "name": "streak",
@@ -119,6 +127,6 @@ return {
 };
 })();
 
-(node as any).hash = "8ffed78b2138d73f48ba0f8941c95b87";
+(node as any).hash = "300a4a172e561356c3ad4ce2b5c3bc31";
 
 export default node;

@@ -9,6 +9,7 @@ import { graphql, useFragment } from "react-relay";
 
 import type { ChallengeActivityPills_challenge$key } from "@/__generated__/ChallengeActivityPills_challenge.graphql";
 import type { ChallengeDetails_challenge$key } from "@/__generated__/ChallengeDetails_challenge.graphql";
+import { SocialGallery } from "@/shared";
 import { useZustStore } from "@/state";
 import { OButton, OText, OTouchable } from "@/universe/atoms";
 import { useSvgFill } from "@/utils";
@@ -20,7 +21,6 @@ import {
   StopwatchLogger,
   WeightLogger,
 } from "../../ChallengeLogger";
-import { ChallengeSocials } from "../../ChallengeSocials";
 
 interface Props {
   challengeFragmentRef: ChallengeDetails_challenge$key;
@@ -53,7 +53,7 @@ export const ChallengeDetails = ({
           type
           goal
         }
-        ...ChallengeSocials_challenge
+        ...SocialGallery
       }
     `,
     challengeFragmentRef
@@ -108,7 +108,7 @@ export const ChallengeDetails = ({
         </View>
       )}
       <ChallengeActivityPills fragmentRef={challengeActivityPillsFragmentRef} />
-      <ChallengeSocials fragmentRef={challenge} />
+      <SocialGallery fragmentRef={challenge} type="challenge" />
       <StopwatchLogger modalRef={stopwatchModalRef} />
       <DistanceLogger modalRef={distanceModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />

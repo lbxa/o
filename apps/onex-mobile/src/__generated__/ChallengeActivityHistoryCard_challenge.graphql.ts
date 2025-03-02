@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d8da995960876b607c942a94f763cac9>>
+ * @generated SignedSource<<d4f937f6adb70c2894abddd01c11508d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type ChallengeActivityHistoryCard_challenge$data = {
   readonly id: string;
   readonly targetReached: boolean | null | undefined;
   readonly user: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly handle: string | null | undefined;
     readonly id: string;
@@ -72,6 +73,19 @@ return {
           "kind": "ScalarField",
           "name": "handle",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": [
+            {
+              "kind": "Literal",
+              "name": "quality",
+              "value": "MED"
+            }
+          ],
+          "kind": "ScalarField",
+          "name": "avatarUrl",
+          "storageKey": "avatarUrl(quality:\"MED\")"
         }
       ],
       "storageKey": null
@@ -103,6 +117,6 @@ return {
 };
 })();
 
-(node as any).hash = "f80ea55c0f0592e2bf0a41a1782823c8";
+(node as any).hash = "c2b90faeef43b5b9270ca2349d9b4dc9";
 
 export default node;

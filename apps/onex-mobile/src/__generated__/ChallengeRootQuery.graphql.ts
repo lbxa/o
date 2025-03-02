@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6ce09538c94e3112be537e89f41b954f>>
+ * @generated SignedSource<<7a99147194d9f773ac7bdf854b00c016>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -47,43 +47,46 @@ v2 = {
   "name": "id",
   "storageKey": null
 },
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "firstName",
-  "storageKey": null
-},
-v4 = [
-  (v2/*: any*/),
-  (v3/*: any*/)
-],
-v5 = [
+v3 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 4
   }
 ],
-v6 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v7 = {
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "firstName",
+  "storageKey": null
+},
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "lastName",
   "storageKey": null
 },
-v8 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "handle",
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "avatarUrl",
   "storageKey": null
 },
 v9 = {
@@ -95,7 +98,8 @@ v9 = {
   "plural": false,
   "selections": [
     (v2/*: any*/),
-    (v3/*: any*/),
+    (v5/*: any*/),
+    (v6/*: any*/),
     (v7/*: any*/),
     (v8/*: any*/),
     {
@@ -133,9 +137,9 @@ v9 = {
       "plural": false,
       "selections": [
         (v2/*: any*/),
-        (v3/*: any*/),
-        (v7/*: any*/),
-        (v8/*: any*/)
+        (v5/*: any*/),
+        (v6/*: any*/),
+        (v7/*: any*/)
       ],
       "storageKey": null
     }
@@ -173,7 +177,24 @@ v11 = {
     }
   ],
   "storageKey": null
-};
+},
+v12 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "firstThreeMembers",
+    "plural": true,
+    "selections": [
+      (v2/*: any*/),
+      (v5/*: any*/),
+      (v6/*: any*/),
+      (v8/*: any*/)
+    ],
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -318,27 +339,7 @@ return {
               },
               {
                 "alias": null,
-                "args": null,
-                "concreteType": "User",
-                "kind": "LinkedField",
-                "name": "firstMember",
-                "plural": false,
-                "selections": (v4/*: any*/),
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "User",
-                "kind": "LinkedField",
-                "name": "secondMember",
-                "plural": false,
-                "selections": (v4/*: any*/),
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v3/*: any*/),
                 "concreteType": "ChallengeActivityResultConnection",
                 "kind": "LinkedField",
                 "name": "activityTopMovers",
@@ -352,7 +353,7 @@ return {
                     "name": "edges",
                     "plural": true,
                     "selections": [
-                      (v6/*: any*/),
+                      (v4/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -383,7 +384,7 @@ return {
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v3/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "ChallengeActivityTop3MoversFragment_activityTopMovers",
@@ -392,7 +393,7 @@ return {
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v3/*: any*/),
                 "concreteType": "ChallengeActivityResultConnection",
                 "kind": "LinkedField",
                 "name": "activityTopResults",
@@ -406,7 +407,7 @@ return {
                     "name": "edges",
                     "plural": true,
                     "selections": [
-                      (v6/*: any*/),
+                      (v4/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -444,12 +445,31 @@ return {
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v3/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "ChallengeActivityTop3ResultsFragment_activityTopResults",
                 "kind": "LinkedHandle",
                 "name": "activityTopResults"
+              },
+              {
+                "kind": "InlineFragment",
+                "selections": [
+                  {
+                    "kind": "InlineFragment",
+                    "selections": (v12/*: any*/),
+                    "type": "Community",
+                    "abstractKey": null
+                  },
+                  {
+                    "kind": "InlineFragment",
+                    "selections": (v12/*: any*/),
+                    "type": "Challenge",
+                    "abstractKey": null
+                  }
+                ],
+                "type": "Node",
+                "abstractKey": "__isNode"
               }
             ],
             "storageKey": null
@@ -461,12 +481,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "265905871c8b8281a357baedbd2bbafc",
+    "cacheID": "44d7505f2bd2799f55208f303be07a80",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeRootName_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...useChallengeActivityTop3MoversFragment_challenge\n      ...useChallengeActivityTop3ResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n  ...ChallengeSocials_challenge\n}\n\nfragment ChallengeRootName_challenge on Challenge {\n  id\n  name\n}\n\nfragment ChallengeSocials_challenge on Challenge {\n  id\n  memberCount\n  firstMember {\n    id\n    firstName\n  }\n  secondMember {\n    id\n    firstName\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n  targetReached\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTop3MoversFragment_challenge on Challenge {\n  activityTopMovers(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment useChallengeActivityTop3ResultsFragment_challenge on Challenge {\n  activityTopResults(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeRootName_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...useChallengeActivityTop3MoversFragment_challenge\n      ...useChallengeActivityTop3ResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n  ...SocialGallery\n}\n\nfragment ChallengeRootName_challenge on Challenge {\n  id\n  name\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n  targetReached\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTop3MoversFragment_challenge on Challenge {\n  activityTopMovers(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment useChallengeActivityTop3ResultsFragment_challenge on Challenge {\n  activityTopResults(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4731a030ead73a2470ad739eda0f0f16>>
+ * @generated SignedSource<<18c09079d7b97a30b31a6f2905f99c6e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityDetails_community$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"CommunitySocials_community">;
+  readonly " $fragmentSpreads": FragmentRefs<"SocialGallery">;
   readonly " $fragmentType": "CommunityDetails_community";
 };
 export type CommunityDetails_community$key = {
@@ -28,13 +28,13 @@ const node: ReaderFragment = {
     {
       "args": null,
       "kind": "FragmentSpread",
-      "name": "CommunitySocials_community"
+      "name": "SocialGallery"
     }
   ],
   "type": "Community",
   "abstractKey": null
 };
 
-(node as any).hash = "0406dfafdcd2fc52de82ef3e3eed2827";
+(node as any).hash = "e4b7aa6566e362dd1fbe1977ce743db3";
 
 export default node;

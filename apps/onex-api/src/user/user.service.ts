@@ -4,8 +4,14 @@ import { UsersTable } from "@o/db";
 import { eq } from "drizzle-orm";
 
 import { DbService } from "@/db/db.service";
-import { EntityService, EntityType, SearchableNumericFields } from "@/entity";
+import {
+  EntityService,
+  EntityType,
+  FindByArgs,
+  SearchableNumericFields,
+} from "@/entity";
 import { User as GqlUser, UserUpdateInput } from "@/types/graphql";
+import { UserRepository } from "@/user/user.repository";
 import {
   CryptoService,
   encodeGlobalId,
@@ -21,6 +27,7 @@ export class UserService
 {
   constructor(
     private dbService: DbService<typeof $DrizzleSchema>,
+    private userRepository: UserRepository,
     private cryptoService: CryptoService
   ) {}
 
@@ -32,11 +39,16 @@ export class UserService
     return {
       ...pgUser,
       id: encodeGlobalId(this.getTypename(), pgUser.id),
+      avatarUrl: pgUser.avatarUrl?.med,
     };
   }
 
-  findBy(_fields: SearchableNumericFields<PgUser, "id">): Promise<GqlUser[]> {
-    throw new Error("Method not implemented.");
+  public async findBy(
+    fields: SearchableNumericFields<PgUser, "id">,
+    args?: FindByArgs
+  ): Promise<GqlUser[]> {
+    const users = await this.userRepository.findBy(fields, args);
+    return users.map((user) => this.pg2GqlMapper(user));
   }
 
   async create(newUser: NewUser): Promise<PgUser> {

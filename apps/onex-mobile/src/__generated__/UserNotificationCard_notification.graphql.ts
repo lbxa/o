@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bb5dacca9ee5aedbca5ae56ac6d169b0>>
+ * @generated SignedSource<<d31dd92142fa6fb8006df8e606033260>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type UserNotificationCard_notification$data = {
   };
   readonly id: string;
   readonly user: {
+    readonly avatarUrl: string | null | undefined;
     readonly firstName: string | null | undefined;
     readonly handle: string | null | undefined;
     readonly id: string;
@@ -92,6 +93,13 @@ return {
           "kind": "ScalarField",
           "name": "lastName",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "avatarUrl",
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -102,6 +110,6 @@ return {
 };
 })();
 
-(node as any).hash = "a47a58f405a76979a6c1bcfcd30f8e7b";
+(node as any).hash = "cec8e8122ce7344a808e00470e622c9c";
 
 export default node;

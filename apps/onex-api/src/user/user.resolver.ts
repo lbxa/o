@@ -12,6 +12,7 @@ import { ChallengeActivityResultsService } from "../challenge/challenge-activity
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
+  ImageQuality,
   InvitationStatus,
   User,
   UserConnection,
@@ -20,18 +21,46 @@ import {
 } from "../types/graphql";
 import { ConnectionArgs, validateAndDecodeGlobalId } from "../utils";
 import { decodeGlobalId } from "../utils";
+import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
 import { UserFriendshipService } from "./user-friendship/user-friendship.service";
 import { UserStreaksService } from "./user-streaks";
-
 @Resolver("User")
 export class UserResolver {
   constructor(
+    private readonly userRepository: UserRepository,
     private readonly userService: UserService,
     private readonly userFriendshipService: UserFriendshipService,
     private readonly userStreaksService: UserStreaksService,
     private readonly challengeActivityResultsService: ChallengeActivityResultsService
   ) {}
+
+  @ResolveField("avatarUrl")
+  async avatarUrl(
+    @Parent() user: User,
+    @Args("quality") quality: ImageQuality = ImageQuality.MED
+  ): Promise<string | null> {
+    if (!user.avatarUrl) {
+      return null;
+    }
+
+    const decodedUserId = validateAndDecodeGlobalId(user.id, "User");
+    const userData = await this.userRepository.findById(decodedUserId);
+
+    if (!userData?.avatarUrl) {
+      return null;
+    }
+
+    switch (quality) {
+      case ImageQuality.LOW:
+        return userData.avatarUrl.low;
+      case ImageQuality.HIGH:
+        return userData.avatarUrl.high;
+      case ImageQuality.MED:
+      default:
+        return userData.avatarUrl.med;
+    }
+  }
 
   @Query("users")
   getUsers() {

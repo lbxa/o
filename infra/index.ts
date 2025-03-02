@@ -3,6 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 
 // import { ClusterComponent } from "./components/cluster";
+import { BucketComponent } from "./components/bucket";
 import { Db } from "./components/db";
 import { devTeam } from "./components/teams";
 // import { Repo } from "./components/repo";
@@ -22,6 +23,17 @@ const vpc = new awsx.ec2.Vpc(
   },
   { protect: true }
 );
+
+const imageBucket = new BucketComponent(
+  "onex-image-bucket",
+  {
+    bucketName: "onex-image-bucket",
+    environment: "Dev",
+  },
+  { protect: true }
+);
+
+export const imageBucketName = imageBucket.bucket.bucket;
 
 let dbPassword = config.getSecret("dbPassword");
 if (!dbPassword) {

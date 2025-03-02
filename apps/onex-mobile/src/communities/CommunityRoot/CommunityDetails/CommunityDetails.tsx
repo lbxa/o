@@ -3,9 +3,8 @@ import { View } from "react-native";
 import { graphql, useFragment } from "react-relay";
 
 import type { CommunityDetails_community$key } from "@/__generated__/CommunityDetails_community.graphql";
+import { SocialGallery } from "@/shared";
 import { OButton } from "@/universe/atoms";
-
-import { CommunitySocials } from "../../CommunitySocials";
 
 interface CommunityDetailsProps {
   fragmentRef: CommunityDetails_community$key;
@@ -16,7 +15,7 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
   const community = useFragment(
     graphql`
       fragment CommunityDetails_community on Community {
-        ...CommunitySocials_community
+        ...SocialGallery
       }
     `,
     fragmentRef
@@ -24,7 +23,7 @@ export const CommunityDetails = ({ fragmentRef }: CommunityDetailsProps) => {
 
   return (
     <View className="mb-md flex flex-col gap-md pt-sm">
-      <CommunitySocials fragmentRef={community} />
+      <SocialGallery fragmentRef={community} type="community" />
       <View className="flex flex-row gap-md">
         <OButton title="Share" variant="indigo" className="rounded-xl" />
         <OButton

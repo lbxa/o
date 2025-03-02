@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2eae86e517b9d580fd98bb1a91cc865e>>
+ * @generated SignedSource<<3de387489f7e278df42b3dc6939c8c85>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -244,6 +244,19 @@ return {
                               },
                               {
                                 "alias": null,
+                                "args": [
+                                  {
+                                    "kind": "Literal",
+                                    "name": "quality",
+                                    "value": "MED"
+                                  }
+                                ],
+                                "kind": "ScalarField",
+                                "name": "avatarUrl",
+                                "storageKey": "avatarUrl(quality:\"MED\")"
+                              },
+                              {
+                                "alias": null,
                                 "args": null,
                                 "concreteType": "UserStreak",
                                 "kind": "LinkedField",
@@ -322,12 +335,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7fe3e72a649f6e600bdf659b2b2da518",
+    "cacheID": "cbb89e20b2a73aad917acf7c75a7beaf",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsHistoryQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsHistoryQuery(\n  $challengeId: ID!\n  $userId: ID!\n) {\n  viewer {\n    user {\n      id\n    }\n    challenge(challengeId: $challengeId) {\n      id\n      ...ChallengeActivityTopResultsHistory_challenge_1xxw8p\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n  }\n  createdAt\n  formattedResult\n  targetReached\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_1xxw8p on Challenge {\n  resultsHistory(userId: $userId, first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
+    "text": "query ChallengeActivityTopResultsHistoryQuery(\n  $challengeId: ID!\n  $userId: ID!\n) {\n  viewer {\n    user {\n      id\n    }\n    challenge(challengeId: $challengeId) {\n      id\n      ...ChallengeActivityTopResultsHistory_challenge_1xxw8p\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(quality: MED)\n  }\n  createdAt\n  formattedResult\n  targetReached\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(quality: MED)\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_1xxw8p on Challenge {\n  resultsHistory(userId: $userId, first: 10) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
   }
 };
 })();
