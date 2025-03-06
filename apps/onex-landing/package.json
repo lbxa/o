@@ -2,6 +2,7 @@
   "name": "@o/onex-landing",
   "version": "0.0.0",
   "dependencies": {
+    "@builder.io/partytown": "^0.10.3",
     "@modular-forms/solid": "^0.22.1",
     "solid-js": "^1.8.17",
     "three": "^0.166.1",

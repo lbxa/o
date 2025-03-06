@@ -1,8 +1,8 @@
-FROM node:20-alpine AS base
+FROM node:20.14.0-alpine AS base
  
 FROM base AS builder
   RUN apk update
-  RUN apk add --no-cache libc6-compat
+  RUN apk add --no-cache libc6-compat 
   WORKDIR /app
 
   RUN yarn global add turbo@latest
@@ -14,13 +14,14 @@ FROM base AS builder
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
   RUN apk update
-  RUN apk add --no-cache libc6-compat
+  RUN apk add --no-cache libc6-compat 
   WORKDIR /app
 
   # Copy isolate subworkspace configuration files
   COPY --from=builder /app/out/json/ .
   
   # First install the dependencies (as they change less often)
+  RUN npm install -g corepack@latest 
   RUN corepack enable
   RUN pnpm install --frozen-lockfile
   
