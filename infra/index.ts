@@ -14,6 +14,8 @@ const dbName = config.require("dbName");
 const dbUser = config.require("dbUser");
 const dbPort = config.require("dbPort");
 // const backendPort = config.require("backendPort");
+const pulumiStack = pulumi.getStack();
+export const stackName = pulumiStack;
 
 const vpc = new awsx.ec2.Vpc(
   "onex-vpc",
@@ -24,16 +26,26 @@ const vpc = new awsx.ec2.Vpc(
   { protect: true }
 );
 
-const imageBucket = new BucketComponent(
-  "onex-image-bucket",
+const avatarImageBucket = new BucketComponent(
+  "onex-avatar-images",
   {
-    bucketName: "onex-image-bucket",
-    environment: "Dev",
+    bucketName: "onex-avatar-images",
+    environment: stackName,
   },
   { protect: true }
 );
 
-export const imageBucketName = imageBucket.bucket.bucket;
+const communityImageBucket = new BucketComponent(
+  "onex-community-images",
+  {
+    bucketName: "onex-community-images",
+    environment: stackName,
+  },
+  { protect: true }
+);
+
+export const avatarImageBucketName = avatarImageBucket.bucket.bucket;
+export const communityImageBucketName = communityImageBucket.bucket.bucket;
 
 let dbPassword = config.getSecret("dbPassword");
 if (!dbPassword) {
