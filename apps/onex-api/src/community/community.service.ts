@@ -119,7 +119,7 @@ export class CommunityService
     input: CommunityCreateInput,
     userId: number
   ): Promise<GqlCommunity> {
-    const { withImage, ...communityObj } = input;
+    const { image, ...communityObj } = input;
     const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
       where: eq(CommunitiesTable.name, communityObj.name),
     });
@@ -137,9 +137,10 @@ export class CommunityService
       throw new InternalServerError("Failed to create community");
     }
 
-    if (withImage) {
-      await this.communityImageService.refreshCommunityImageUrl(
-        newCommunity.id
+    if (image) {
+      await this.communityImageService.setCommunityImageUrl(
+        newCommunity.id,
+        image
       );
     }
 

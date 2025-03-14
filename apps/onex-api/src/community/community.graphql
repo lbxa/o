@@ -36,10 +36,17 @@ type CommunityInvitation implements Node & Timestamps {
   expiresAt: DateTime!
 }
 
+input ImageInput {
+  thumbnail: String!
+  small: String!
+  medium: String!
+  large: String!
+}
+
 input CommunityCreateInput {
   name: String!
   isPublic: Boolean!
-  withImage: Boolean!
+  image: ImageInput
 }
 
 input CommunityUpdateInput {

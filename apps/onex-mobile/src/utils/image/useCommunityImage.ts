@@ -24,6 +24,15 @@ export interface CommunityImageOperations {
   ) => Promise<MultiResolutionImageUploadResult>;
 
   /**
+   * Uploads a new community image
+   * @param uri - The image URI
+   * @returns Promise with the upload result
+   */
+  uploadNewCommunityImage: (
+    uri: string
+  ) => Promise<MultiResolutionImageUploadResult>;
+
+  /**
    * Deletes a community image
    * @param communityId - The ID of the community (in relay ObjectId format)
    * @returns Promise indicating success or failure
@@ -106,6 +115,24 @@ export const useCommunityImage = (): CommunityImageOperations => {
   );
 
   /**
+   * Uploads a community image and updates the Relay store
+   * @param uri - The image URI
+   * @param communityId - The ID of the community (in relay ObjectId format)
+   * @returns Promise with the upload result
+   */
+  const uploadNewCommunityImage = useCallback(
+    async (uri: string): Promise<MultiResolutionImageUploadResult> => {
+      const responseData = await uploadImage(
+        uri,
+        `/api/image/community/upload`
+      );
+
+      return responseData;
+    },
+    [uploadImage]
+  );
+
+  /**
    * Deletes a community image and updates the Relay store
    * @param communityId - The ID of the community (in relay ObjectId format)
    * @returns Promise indicating success or failure
@@ -144,6 +171,7 @@ export const useCommunityImage = (): CommunityImageOperations => {
 
   return {
     uploadCommunityImage,
+    uploadNewCommunityImage,
     deleteCommunityImage,
   };
 };

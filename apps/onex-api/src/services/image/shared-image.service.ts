@@ -20,22 +20,27 @@ export class SharedImageService {
    * Generate and upload resized versions of an image
    * @param file - The original image buffer
    * @param mimeType - The MIME type of the image
-   * @param entityId - The ID of the entity (user, community, etc.)
+   * @param entityKey - The key of the entity (user, community, etc.)
    * @param uploader - The service that will handle the actual upload
    * @returns Promise with the uploaded resized images URLs
    */
-  async uploadResizedImages(
-    file: Buffer,
-    mimeType: string,
-    entityId: number,
-    uploader: ImageUploader
-  ): Promise<MultiSizedImageResult> {
-    if (!file || file.length === 0) {
+  async uploadResizedImages({
+    file,
+    mimeType,
+    entityKey,
+    uploader,
+  }: {
+    file: Buffer;
+    mimeType: string;
+    entityKey: string;
+    uploader: ImageUploader;
+  }): Promise<MultiSizedImageResult> {
+    if (file.length === 0) {
       throw new BadRequestException("File is required");
     }
 
     try {
-      const entityFolder = `${entityId}`;
+      const entityFolder = `${entityKey}`;
       const results: Record<string, string> = {};
 
       // Upload original image

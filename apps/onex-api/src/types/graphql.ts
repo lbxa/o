@@ -113,10 +113,17 @@ export interface ChallengeUpdateInput {
     endDate?: Nullable<DateTime>;
 }
 
+export interface ImageInput {
+    thumbnail: string;
+    small: string;
+    medium: string;
+    large: string;
+}
+
 export interface CommunityCreateInput {
     name: string;
     isPublic: boolean;
-    withImage: boolean;
+    image?: Nullable<ImageInput>;
 }
 
 export interface CommunityUpdateInput {

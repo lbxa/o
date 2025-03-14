@@ -1,6 +1,6 @@
 import SearchIcon from "@assets/icons/search.svg";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
 import { ConnectionHandler, graphql, useMutation } from "react-relay";
@@ -8,6 +8,7 @@ import { ConnectionHandler, graphql, useMutation } from "react-relay";
 import type {
   CommunityCreateInput,
   CommunityCreateMutation,
+  ImageInput,
 } from "@/__generated__/CommunityCreateMutation.graphql";
 import { useZustStore } from "@/state";
 import {
@@ -25,8 +26,9 @@ export const CommunityCreate = () => {
   const [error, setError] = useState<string | null>(null);
   const svgFill = useSvgFill();
   const { activeUser } = useZustStore();
-  const { uploadCommunityImage } = useCommunityImage();
-  const [image, setImage] = useState<string | null>(null);
+  const { uploadNewCommunityImage } = useCommunityImage();
+  const [image, setImage] = useState<ImageInput | null>(null);
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const [commitMutation, isMutationInFlight] =
     useMutation<CommunityCreateMutation>(graphql`
       mutation CommunityCreateMutation(
@@ -52,9 +54,34 @@ export const CommunityCreate = () => {
     defaultValues: {
       name: "",
       isPublic: false,
-      withImage: false,
+      image: null,
     },
   });
+
+  const onUploadImage = useCallback(
+    async (uri: string) => {
+      try {
+        setIsImageUploading(true);
+        const result = await uploadNewCommunityImage(uri);
+        if (!result) {
+          throw new Error("Failed to upload image");
+        }
+        setImage({
+          thumbnail: result.thumbnail,
+          small: result.small,
+          medium: result.medium,
+          large: result.large,
+        });
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : "Failed to upload image"
+        );
+      } finally {
+        setIsImageUploading(false);
+      }
+    },
+    [uploadNewCommunityImage]
+  );
 
   const onSubmit = (data: CommunityCreateInput) => {
     if (!activeUser) {
@@ -68,7 +95,7 @@ export const CommunityCreate = () => {
         communityCreateInput: {
           name,
           isPublic,
-          withImage: image ? true : false,
+          image,
         },
       },
       updater: (proxyStore, data) => {
@@ -103,14 +130,8 @@ export const CommunityCreate = () => {
       onError: (error) => {
         setError(error.message.split("\n")[1]);
       },
-      onCompleted(community) {
+      onCompleted() {
         setError(null);
-        if (image) {
-          void uploadCommunityImage(
-            image,
-            community.communityCreate.communityEdge.node.id
-          );
-        }
         router.replace("/(root)/community");
       },
     });
@@ -123,11 +144,11 @@ export const CommunityCreate = () => {
         iconColor={svgFill}
         className="mb-md w-full"
         footerDisclaimer="Your community image is visible to all users and communities both on and off oNex."
-        onUpload={(uri) => {
+        onUpload={async (uri) => {
           if (!activeUser) {
             throw new Error("Active user not found");
           }
-          setImage(uri);
+          await onUploadImage(uri);
         }}
       />
       <View className="gap-md px-md flex flex-col">
@@ -192,8 +213,8 @@ export const CommunityCreate = () => {
 
         <OButton
           title="Create"
-          disabled={isMutationInFlight}
-          loading={isMutationInFlight}
+          disabled={isMutationInFlight || isImageUploading}
+          loading={isMutationInFlight || isImageUploading}
           className="mb-[200px]"
           onPress={async (e) => {
             // Read more about event pooling

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f1116117dddaf4e5ad653263cd3d7aa7>>
+ * @generated SignedSource<<aca2836518fb851225524a2233d09e39>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,9 +11,15 @@
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityCreateInput = {
+  image?: ImageInput | null | undefined;
   isPublic: boolean;
   name: string;
-  withImage: boolean;
+};
+export type ImageInput = {
+  large: string;
+  medium: string;
+  small: string;
+  thumbnail: string;
 };
 export type CommunityCreateMutation$variables = {
   communityCreateInput: CommunityCreateInput;

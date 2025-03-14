@@ -332,9 +332,9 @@ export type CommunityConnection = {
 };
 
 export type CommunityCreateInput = {
+  image?: InputMaybe<ImageInput>;
   isPublic: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
-  withImage: Scalars['Boolean']['input'];
 };
 
 export type CommunityCreatePayload = {
@@ -424,6 +424,13 @@ export type HomeFeedEdge = {
 };
 
 export type HomeFeedItem = EndingSoonChallenge | StartingSoonChallenge | UserRecord;
+
+export type ImageInput = {
+  large: Scalars['String']['input'];
+  medium: Scalars['String']['input'];
+  small: Scalars['String']['input'];
+  thumbnail: Scalars['String']['input'];
+};
 
 export enum ImageSize {
   Large = 'LARGE',

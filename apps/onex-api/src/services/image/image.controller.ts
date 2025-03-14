@@ -63,7 +63,7 @@ export class ImageController {
   }
 
   /**
-   * Upload a community image
+   * Upload a community image to a specific id
    * @param file - The image file
    * @param communityId - The community ID
    * @returns The uploaded image details
@@ -95,6 +95,35 @@ export class ImageController {
       file.buffer,
       file.mimetype,
       decodedCommunityId
+    );
+  }
+
+  /**
+   * Upload a community image to a specific id
+   * @param file - The image file
+   * @param communityId - The community ID
+   * @returns The uploaded image details
+   */
+  @Post("community/upload")
+  @UseInterceptors(FileInterceptor("file"))
+  async uploadNewCommunityImage(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: "image/jpeg" }),
+          // new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }),
+        ],
+      })
+    )
+    file: Express.Multer.File
+  ): Promise<MultiSizedImageResult> {
+    if (!file) {
+      throw new BadRequestException("File is required");
+    }
+
+    return this.communityImageService.uploadCommunityImage(
+      file.buffer,
+      file.mimetype
     );
   }
 
