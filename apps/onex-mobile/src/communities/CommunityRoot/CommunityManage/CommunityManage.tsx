@@ -59,7 +59,7 @@ export const CommunityManage = ({ queryRef }: CommunityManageProps) => {
 
   return (
     <Ozone>
-      <View className="gap-md p-md flex flex-col">
+      <View className="flex flex-col gap-md p-md">
         <OImageUpload
           className="mb-md"
           style="rounded"

@@ -80,12 +80,12 @@ export function OImageUpload({
         enablePanDownToClose
       >
         <BottomSheetView>
-          <View className="gap-md px-md flex flex-col pb-12">
-            <View className="gap-md flex flex-col">
+          <View className="flex flex-col gap-md px-md pb-12">
+            <View className="flex flex-col gap-md">
               {onUpload && (
                 <OTouchable
                   onPress={onAddImage}
-                  className="gap-md flex flex-row items-center"
+                  className="flex flex-row items-center gap-md"
                 >
                   <ImageIcon
                     width={20}
@@ -101,7 +101,7 @@ export function OImageUpload({
               {onDelete && (
                 <OTouchable
                   onPress={onDeleteImage}
-                  className="mb-sm gap-md flex flex-row items-center"
+                  className="mb-sm flex flex-row items-center gap-md"
                 >
                   <TrashIcon
                     width={20}

@@ -68,7 +68,7 @@ export const SocialGallery = ({
   }
 
   return (
-    <View className="gap-sm flex flex-row items-center">
+    <View className="flex flex-row items-center gap-sm">
       <View className="flex-row items-center">
         {firstThreeMembers.map((member, index) => (
           <View

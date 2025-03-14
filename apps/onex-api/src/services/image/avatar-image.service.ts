@@ -54,12 +54,12 @@ export class AvatarImageService {
 
     try {
       // Use the shared image service to handle resizing and uploading
-      const result = await this.sharedImageService.uploadResizedImages(
+      const result = await this.sharedImageService.uploadResizedImages({
         file,
         mimeType,
-        userId,
-        this.s3Service
-      );
+        entityKey: userId.toString(),
+        uploader: this.s3Service,
+      });
 
       const refreshed = await this.refreshAvatarUrl(userId);
       if (!refreshed) {

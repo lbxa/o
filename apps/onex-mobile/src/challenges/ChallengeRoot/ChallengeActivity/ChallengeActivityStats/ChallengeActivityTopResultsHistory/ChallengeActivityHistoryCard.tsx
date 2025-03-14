@@ -45,14 +45,14 @@ export const ChallengeActivityHistoryCard = ({
 
   return (
     <View className="mt-sm flex-row items-center justify-between">
-      <View className="gap-sm flex-1 flex-row items-center">
+      <View className="flex-1 flex-row items-center gap-sm">
         <UserAvatar
           size="sm"
           user={userResult.user}
           outline={userResult.targetReached ? "green" : undefined}
         />
         <View className="min-w-0 flex-1 flex-col">
-          <View className="gap-sm flex-row items-center">
+          <View className="flex-row items-center gap-sm">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
               {userResult.user.handle ?? fullName}
             </OText>

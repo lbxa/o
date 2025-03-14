@@ -76,7 +76,7 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
 
   return (
     <Ozone>
-      <View className="gap-md p-md flex flex-col">
+      <View className="flex flex-col gap-md p-md">
         <OImageUpload
           className="mb-md"
           footerDisclaimer="Your profile picture is visible to all users and communities both on and off oNex."
