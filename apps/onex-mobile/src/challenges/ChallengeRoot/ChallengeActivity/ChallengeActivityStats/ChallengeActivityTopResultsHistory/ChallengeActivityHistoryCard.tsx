@@ -20,7 +20,7 @@ export const ChallengeActivityHistoryCard = ({
           firstName
           lastName
           handle
-          avatarUrl(quality: MED)
+          avatarUrl(size: MEDIUM)
         }
         createdAt
         formattedResult
@@ -45,14 +45,14 @@ export const ChallengeActivityHistoryCard = ({
 
   return (
     <View className="mt-sm flex-row items-center justify-between">
-      <View className="flex-1 flex-row items-center gap-sm">
+      <View className="gap-sm flex-1 flex-row items-center">
         <UserAvatar
           size="sm"
           user={userResult.user}
           outline={userResult.targetReached ? "green" : undefined}
         />
         <View className="min-w-0 flex-1 flex-col">
-          <View className="flex-row items-center gap-sm">
+          <View className="gap-sm flex-row items-center">
             <OText className="shrink-1 text-xl" numberOfLines={1}>
               {userResult.user.handle ?? fullName}
             </OText>

@@ -9,7 +9,7 @@ type User implements Node & Timestamps {
   bio: String
   email: String
   password: String
-  avatarUrl(quality: ImageQuality = MED): String
+  avatarUrl(size: ImageSize = MEDIUM): String
   refreshToken: String
   createdAt: DateTime
   updatedAt: DateTime

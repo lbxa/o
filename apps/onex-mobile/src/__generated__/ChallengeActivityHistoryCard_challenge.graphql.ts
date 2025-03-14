@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d4f937f6adb70c2894abddd01c11508d>>
+ * @generated SignedSource<<7f178062d5952aa854491ee7915358ef>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -79,13 +79,13 @@ return {
           "args": [
             {
               "kind": "Literal",
-              "name": "quality",
-              "value": "MED"
+              "name": "size",
+              "value": "MEDIUM"
             }
           ],
           "kind": "ScalarField",
           "name": "avatarUrl",
-          "storageKey": "avatarUrl(quality:\"MED\")"
+          "storageKey": "avatarUrl(size:\"MEDIUM\")"
         }
       ],
       "storageKey": null
@@ -117,6 +117,6 @@ return {
 };
 })();
 
-(node as any).hash = "c2b90faeef43b5b9270ca2349d9b4dc9";
+(node as any).hash = "f335a4d4f98b95f3877574c8bc3f0f16";
 
 export default node;

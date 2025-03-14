@@ -11,7 +11,7 @@ export default function Profile() {
   useEffect(() => {
     loadQuery({});
     return () => disposeQuery();
-  }, [loadQuery, disposeQuery]);
+  }, [disposeQuery, loadQuery]);
 
   return queryRef && <ViewerProfile queryRef={queryRef} />;
 }

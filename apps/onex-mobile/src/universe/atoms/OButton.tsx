@@ -30,8 +30,8 @@ const primaryVariantMatrix: VariantMatrix = {
     front: "text-ivory dark:text-ivory",
   },
   red: {
-    back: "bg-red-600 dark:bg-red-800",
-    front: "text-ivory dark:text-red-100",
+    back: "bg-red-600 dark:bg-red-500",
+    front: "text-ivory dark:text-ivory",
   },
   gray: {
     back: "bg-gray-200",
@@ -85,7 +85,7 @@ export const OButton = ({
     type === "primary" ? primaryVariantMatrix : secondaryVariantMatrix;
 
   const buttonContent = (
-    <View className="my-auto flex flex-row items-center gap-sm">
+    <View className="gap-sm my-auto flex flex-row items-center">
       {icon}
       <Text
         className={classNames("m-auto text-center font-bold", {

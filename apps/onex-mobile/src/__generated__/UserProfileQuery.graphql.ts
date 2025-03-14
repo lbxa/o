@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6d23be0341528da6ba509bc965b65331>>
+ * @generated SignedSource<<924fd4aea61948596acdb9584688b601>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -157,13 +157,13 @@ return {
             "args": [
               {
                 "kind": "Literal",
-                "name": "quality",
-                "value": "HIGH"
+                "name": "size",
+                "value": "LARGE"
               }
             ],
             "kind": "ScalarField",
             "name": "avatarUrl",
-            "storageKey": "avatarUrl(quality:\"HIGH\")"
+            "storageKey": "avatarUrl(size:\"LARGE\")"
           },
           {
             "alias": null,
@@ -229,12 +229,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "673105dca8fb0107e0993848c1a9c272",
+    "cacheID": "6004b9b938d7b7fa1d9aa80503901350",
     "id": null,
     "metadata": {},
     "name": "UserProfileQuery",
     "operationKind": "query",
-    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  avatarUrl(quality: HIGH)\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
+    "text": "query UserProfileQuery(\n  $userId: ID!\n  $viewerId: ID!\n) {\n  userProfile(id: $userId) {\n    ...UserProfile_user\n    id\n  }\n  getFriendshipStatus(userId: $viewerId, friendId: $userId) {\n    ...UserProfile_userFriendshipStatus\n  }\n}\n\nfragment UserProfileStats_user on User {\n  buddyCount\n  followerCount\n  challengeActivityResultsCount\n}\n\nfragment UserProfile_user on User {\n  id\n  firstName\n  lastName\n  handle\n  bio\n  avatarUrl(size: LARGE)\n  ...UserProfileStats_user\n}\n\nfragment UserProfile_userFriendshipStatus on UserFriendshipStatus {\n  outgoing {\n    id\n    status\n  }\n  areMutualFriends\n}\n"
   }
 };
 })();

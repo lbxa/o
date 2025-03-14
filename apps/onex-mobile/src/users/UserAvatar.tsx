@@ -64,7 +64,7 @@ export const UserAvatar = ({
       >
         <Image
           className={classNames("w-full h-full")}
-          source={{ uri: user.avatarUrl }}
+          source={{ uri: user.avatarUrl, cache: "reload" }}
         />
       </View>
     );
@@ -74,7 +74,7 @@ export const UserAvatar = ({
   return (
     <View
       className={classNames(
-        "flex items-center justify-center rounded-full bg-gray-300 dark:bg-white/20 box-content",
+        "flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-700 box-content",
         sizeClasses[size],
         className,
         borders

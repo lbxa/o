@@ -260,8 +260,6 @@ const _devsS3Policy = new aws.iam.GroupPolicy("devs-s3Policy", {
           "s3:DescribeJob",
         ],
         Resource: [
-          "arn:aws:s3:::onex-image-bucket",
-          "arn:aws:s3:::onex-image-bucket/*",
           "*", // Required for ListAllMyBuckets and some global actions
         ],
       },

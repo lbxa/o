@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4d817247e166980d932ce88983f2ff3f>>
+ * @generated SignedSource<<1080f45bffdf823f917e2933ebed4d16>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,8 @@ import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityManage_community$data = {
   readonly id: string;
-  readonly isPublic: boolean;
+  readonly imageUrl: string | null | undefined;
+  readonly isPublic: boolean | null | undefined;
   readonly name: string;
   readonly " $fragmentType": "CommunityManage_community";
 };
@@ -35,32 +36,37 @@ const node: ReaderFragment = {
       "storageKey": null
     },
     {
-      "kind": "RequiredField",
-      "field": {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
-      "action": "THROW"
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
     },
     {
-      "kind": "RequiredField",
-      "field": {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "isPublic",
-        "storageKey": null
-      },
-      "action": "THROW"
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "isPublic",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": [
+        {
+          "kind": "Literal",
+          "name": "size",
+          "value": "LARGE"
+        }
+      ],
+      "kind": "ScalarField",
+      "name": "imageUrl",
+      "storageKey": "imageUrl(size:\"LARGE\")"
     }
   ],
   "type": "Community",
   "abstractKey": null
 };
 
-(node as any).hash = "ec07102e32a68efef30273e6196b576f";
+(node as any).hash = "72f55b7491da22e789ae7cf9ef9bc590";
 
 export default node;

@@ -76,7 +76,7 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
         lastName
         handle
         bio
-        avatarUrl(quality: HIGH)
+        avatarUrl(size: LARGE)
         ...UserProfileStats_user
       }
     `,
@@ -190,10 +190,10 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
 
   return (
     <Ozone>
-      <View className="mx-auto flex flex-col items-center justify-center gap-lg px-md pb-md">
+      <View className="gap-lg px-md pb-md mx-auto flex flex-col items-center justify-center">
         {user && <UserAvatar user={user} className="mb-md" size="lg" />}
         {user && <UserProfileStats user={user} />}
-        <View className="flex flex-col items-center gap-sm">
+        <View className="gap-sm flex flex-col items-center">
           <OText className="text-3xl font-bold">
             {user?.firstName} {user?.lastName}
           </OText>

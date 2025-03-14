@@ -5,13 +5,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import {
-  $DrizzleSchema,
-  CommunitiesTable,
-  CommunityMembershipsTable,
-  NewCommunity,
-} from "@o/db";
-import { eq } from "drizzle-orm";
+import { $DrizzleSchema } from "@o/db";
 
 import { CommunityRepository } from "@/community/community.repository";
 
@@ -21,17 +15,17 @@ import { CurrentUser } from "../decorators/current-user.decorator";
 import {
   ChallengeConnection,
   Community as GqlCommunity,
+  CommunityCreateInput,
   CommunityCreatePayload,
   CommunityInvitationConnection,
   CommunityInviteDeclinePayload,
   CommunityJoinPayload,
   CommunityUpdateInput,
-  ImageQuality,
+  ImageSize,
   User as GqlUser,
   UserConnection,
 } from "../types/graphql";
-import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
-import { ConflictError, InternalServerError } from "../utils/errors";
+import { validateAndDecodeGlobalId } from "../utils";
 import { CommunityService } from "./community.service";
 import { CommunityInvitationsService } from "./community-invitations";
 import { CommunityMembershipsService } from "./community-memberships";
@@ -50,7 +44,7 @@ export class CommunityResolver {
   @ResolveField("imageUrl")
   async imageUrl(
     @Parent() community: GqlCommunity,
-    @Args("quality") quality: ImageQuality = ImageQuality.MED
+    @Args("size") size: ImageSize = ImageSize.MEDIUM
   ): Promise<string | null> {
     if (!community.imageUrl) {
       return null;
@@ -67,14 +61,17 @@ export class CommunityResolver {
       return null;
     }
 
-    switch (quality) {
-      case ImageQuality.LOW:
-        return communityData.imageUrl.low;
-      case ImageQuality.HIGH:
-        return communityData.imageUrl.high;
-      case ImageQuality.MED:
+    switch (size) {
+      case ImageSize.SMALL:
+        return communityData.imageUrl.small;
+      case ImageSize.MEDIUM:
+        return communityData.imageUrl.medium;
+      case ImageSize.LARGE:
+        return communityData.imageUrl.large;
+      case ImageSize.THUMBNAIL:
+        return communityData.imageUrl.thumbnail;
       default:
-        return communityData.imageUrl.med;
+        return communityData.imageUrl.medium;
     }
   }
 
@@ -218,39 +215,16 @@ export class CommunityResolver {
 
   @Mutation("communityCreate")
   async communityCreate(
-    @Args("communityCreateInput") input: NewCommunity,
+    @Args("communityCreateInput") input: CommunityCreateInput,
     @CurrentUser("userId") userId: number
   ): Promise<CommunityCreatePayload | undefined> {
-    const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
-      where: eq(CommunitiesTable.name, input.name),
-    });
-
-    if (existing) {
-      throw new ConflictError("Community name already taken");
-    }
-
-    const [newCommunity] = await this.dbService.db
-      .insert(CommunitiesTable)
-      .values({ ...input, ownerId: userId })
-      .returning();
-
-    const communityWithRelations = await this.communityRepository.findById(
-      newCommunity.id
-    );
-
-    if (!newCommunity || !communityWithRelations) {
-      throw new InternalServerError("Failed to create community membership");
-    }
-
-    await this.dbService.db
-      .insert(CommunityMembershipsTable)
-      .values({ userId, communityId: newCommunity.id, isAdmin: true });
+    const community = await this.communityService.create(input, userId);
 
     return {
       communityEdge: {
         __typename: "CommunityEdge",
-        cursor: encodeGlobalId("Community", newCommunity.id),
-        node: this.communityService.pg2GqlMapper(communityWithRelations),
+        cursor: community.id,
+        node: community,
       },
     };
   }

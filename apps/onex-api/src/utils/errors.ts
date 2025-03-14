@@ -1,5 +1,10 @@
 import { GraphQLError } from "graphql";
 
+export interface ErrorWithMessage {
+  message: string;
+  stack?: string;
+}
+
 /**
  * BUILT-IN HTTP EXCEPTIONS to be used for reference
  * @see https://docs.nestjs.com/exception-filters#built-in-http-exceptions

@@ -94,9 +94,9 @@ export const ChallengeDetails = ({
   };
 
   return (
-    <View className="mb-md flex flex-col gap-md pt-sm">
+    <View className="mb-md gap-md pt-sm flex flex-col">
       {showDescription && (
-        <View className="flex-row items-center gap-sm rounded-xl bg-ivory px-md py-sm dark:bg-surface-dark">
+        <View className="gap-sm bg-ivory px-md py-sm dark:bg-surface-dark flex-row items-center rounded-xl">
           <View className="flex flex-1 flex-col">
             <OText className=" text-lg font-bold">{challenge.name}</OText>
             <OText className="text-lg">{challenge.description}</OText>
@@ -113,7 +113,7 @@ export const ChallengeDetails = ({
       <DistanceLogger modalRef={distanceModalRef} />
       <RepetitionLogger modalRef={repetitionModalRef} />
       <WeightLogger modalRef={weightModalRef} />
-      <View className="flex flex-row gap-md">
+      <View className="gap-md flex flex-row">
         <OButton title="Share" variant="indigo" />
         <OButton
           title="Invite"
@@ -123,8 +123,8 @@ export const ChallengeDetails = ({
         <OButton
           title="Record"
           type="primary"
-          variant="navy"
-          icon={<RecordIcon width={20} fill="ivory" />}
+          variant="red"
+          icon={<RecordIcon width={18} height={18} fill="ivory" />}
           className="ml-auto"
           onPress={handleRecord}
         />

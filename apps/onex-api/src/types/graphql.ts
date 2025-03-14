@@ -62,10 +62,11 @@ export enum InvitationStatus {
     DECLINED = "DECLINED"
 }
 
-export enum ImageQuality {
-    LOW = "LOW",
-    MED = "MED",
-    HIGH = "HIGH"
+export enum ImageSize {
+    THUMBNAIL = "THUMBNAIL",
+    SMALL = "SMALL",
+    MEDIUM = "MEDIUM",
+    LARGE = "LARGE"
 }
 
 export interface AuthLoginInput {
@@ -115,6 +116,7 @@ export interface ChallengeUpdateInput {
 export interface CommunityCreateInput {
     name: string;
     isPublic: boolean;
+    withImage: boolean;
 }
 
 export interface CommunityUpdateInput {

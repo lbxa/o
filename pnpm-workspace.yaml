@@ -27,3 +27,4 @@ onlyBuiltDependencies:
   - esbuild
   - protobufjs
   - re2
+  - sharp

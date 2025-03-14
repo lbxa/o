@@ -17,7 +17,7 @@ import {
   ChallengesTable,
 } from "./challenge.schema";
 import { InvitationStatus } from "./shared";
-import type { ImageUrl } from "./shared/image-url";
+import type { ImageType } from "./shared/image-type";
 
 export const UserSchema = pgSchema("user");
 
@@ -32,7 +32,7 @@ export const UsersTable = UserSchema.table(
     bio: varchar({ length: 160 }),
     password: varchar({ length: 255 }).notNull(),
     refreshToken: varchar({ length: 1000 }),
-    avatarUrl: jsonb().$type<ImageUrl>(),
+    avatarUrl: jsonb().$type<ImageType>(),
     ...withModificationDates,
   },
   (table) => [

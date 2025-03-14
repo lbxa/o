@@ -12,7 +12,7 @@ import { ChallengeActivityResultsService } from "../challenge/challenge-activity
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import {
-  ImageQuality,
+  ImageSize,
   InvitationStatus,
   User,
   UserConnection,
@@ -38,7 +38,7 @@ export class UserResolver {
   @ResolveField("avatarUrl")
   async avatarUrl(
     @Parent() user: User,
-    @Args("quality") quality: ImageQuality = ImageQuality.MED
+    @Args("size") size: ImageSize = ImageSize.MEDIUM
   ): Promise<string | null> {
     if (!user.avatarUrl) {
       return null;
@@ -51,14 +51,17 @@ export class UserResolver {
       return null;
     }
 
-    switch (quality) {
-      case ImageQuality.LOW:
-        return userData.avatarUrl.low;
-      case ImageQuality.HIGH:
-        return userData.avatarUrl.high;
-      case ImageQuality.MED:
+    switch (size) {
+      case ImageSize.SMALL:
+        return userData.avatarUrl.small;
+      case ImageSize.MEDIUM:
+        return userData.avatarUrl.medium;
+      case ImageSize.LARGE:
+        return userData.avatarUrl.large;
+      case ImageSize.THUMBNAIL:
+        return userData.avatarUrl.thumbnail;
       default:
-        return userData.avatarUrl.med;
+        return userData.avatarUrl.medium;
     }
   }
 

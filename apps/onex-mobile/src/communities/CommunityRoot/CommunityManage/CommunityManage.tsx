@@ -8,6 +8,7 @@ import type { CommunityManageQuery } from "@/__generated__/CommunityManageQuery.
 import { OImageUpload } from "@/universe/atoms";
 import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
+import { useCommunityImage } from "@/utils";
 
 export const COMMUNITY_MANAGE_QUERY = graphql`
   query CommunityManageQuery($communityId: ID!) {
@@ -29,12 +30,15 @@ export const CommunityManage = ({ queryRef }: CommunityManageProps) => {
     queryRef
   );
 
+  const { uploadCommunityImage, deleteCommunityImage } = useCommunityImage();
+
   const community = useFragment<CommunityManage_community$key>(
     graphql`
       fragment CommunityManage_community on Community {
         id
-        name @required(action: THROW)
-        isPublic @required(action: THROW)
+        name
+        isPublic
+        imageUrl(size: LARGE)
       }
     `,
     data.viewer?.community
@@ -55,8 +59,24 @@ export const CommunityManage = ({ queryRef }: CommunityManageProps) => {
 
   return (
     <Ozone>
-      <View className="flex flex-col gap-md p-md">
-        <OImageUpload className="mb-md" />
+      <View className="gap-md p-md flex flex-col">
+        <OImageUpload
+          className="mb-md"
+          style="rounded"
+          footerDisclaimer="Your community image is visible to all users and communities both on and off oNex."
+          onUpload={async (uri) => {
+            if (!community?.id) {
+              throw new Error("Community ID is required");
+            }
+            await uploadCommunityImage(uri, community.id);
+          }}
+          onDelete={async () => {
+            if (!community?.id) {
+              throw new Error("Community ID is required");
+            }
+            await deleteCommunityImage(community.id);
+          }}
+        />
         <OMenu items={menuItems} className="mb-lg" />
       </View>
     </Ozone>

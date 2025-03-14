@@ -25,7 +25,7 @@ const CommunityCardComponent = ({ community }: Props) => {
         id
         name
         isVerified
-        imageUrl(quality: HIGH)
+        imageUrl(size: LARGE)
         ...SocialGallery
       }
     `,
@@ -39,20 +39,20 @@ const CommunityCardComponent = ({ community }: Props) => {
 
   return (
     <OTouchable onPress={onPress}>
-      <View className="mb-md rounded-3xl bg-ivory pb-sm dark:bg-surface-dark">
-        <View className="mb-sm flex h-[200px] w-full rounded-t-3xl bg-gray-300 dark:bg-white/20">
-          {communityFragment.imageUrl && (
+      <View className="mb-md bg-ivory pb-sm dark:bg-surface-dark rounded-3xl">
+        {communityFragment.imageUrl && (
+          <View className="flex h-[200px] w-full rounded-t-3xl bg-gray-300 dark:bg-white/20">
             <Image
               source={{ uri: communityFragment.imageUrl }}
               className="size-full rounded-t-3xl"
             />
-          )}
-          {/* <View className="m-auto"> */}
-          {/* <CameraIcon width={40} height={40} fill="gray" /> */}
-          {/* </View> */}
-        </View>
+            {/* <View className="m-auto"> */}
+            {/* <CameraIcon width={40} height={40} fill="gray" /> */}
+            {/* </View> */}
+          </View>
+        )}
         <View className="px-3">
-          <Text className="mb-sm text-3xl font-bold text-black dark:text-ivory">
+          <Text className="my-sm dark:text-ivory text-3xl font-bold text-black">
             {communityFragment.name}{" "}
             {communityFragment.isVerified && (
               <VerifiedBadgeIcon

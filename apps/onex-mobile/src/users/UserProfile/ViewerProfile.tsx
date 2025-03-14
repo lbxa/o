@@ -39,7 +39,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           lastName
           handle
           bio
-          avatarUrl(quality: HIGH)
+          avatarUrl(size: LARGE)
           ...UserProfileStats_user
         }
       }
@@ -59,12 +59,12 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
+        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
           {viewer?.user && (
             <UserAvatar user={viewer.user} className="mb-md" size="lg" />
           )}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
-          <View className="flex flex-col items-center gap-sm">
+          <View className="gap-sm flex flex-col items-center">
             <OText className="text-3xl font-bold">
               {viewer?.user?.firstName} {viewer?.user?.lastName}
             </OText>

@@ -41,6 +41,7 @@
   "svg.preview.background": "transparent",
   "cSpell.words": [
     "Grafast",
-    "postgraphile"
+    "postgraphile",
+    "uploadables"
   ],
 }

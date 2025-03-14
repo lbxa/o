@@ -4,7 +4,7 @@ type Community implements Node & Timestamps {
   owner: User
   isPublic: Boolean
   isVerified: Boolean
-  imageUrl(quality: ImageQuality = MED): String 
+  imageUrl(size: ImageSize = MEDIUM): String 
   users: [User!]
   createdAt: DateTime
   updatedAt: DateTime
@@ -39,6 +39,7 @@ type CommunityInvitation implements Node & Timestamps {
 input CommunityCreateInput {
   name: String!
   isPublic: Boolean!
+  withImage: Boolean!
 }
 
 input CommunityUpdateInput {

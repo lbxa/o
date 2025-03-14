@@ -34,7 +34,7 @@ export const SocialGallery = ({
             id
             firstName
             lastName
-            avatarUrl
+            avatarUrl(size: LARGE)
           }
         }
         ... on Challenge {
@@ -44,7 +44,7 @@ export const SocialGallery = ({
             id
             firstName
             lastName
-            avatarUrl
+            avatarUrl(size: LARGE)
           }
         }
       }
@@ -68,7 +68,7 @@ export const SocialGallery = ({
   }
 
   return (
-    <View className="flex flex-row items-center gap-sm">
+    <View className="gap-sm flex flex-row items-center">
       <View className="flex-row items-center">
         {firstThreeMembers.map((member, index) => (
           <View

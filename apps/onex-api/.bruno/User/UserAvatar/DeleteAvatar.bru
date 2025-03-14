@@ -1,0 +1,26 @@
+meta {
+  name: DeleteAvatar
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{REST_URL}}/image/avatar
+  body: multipartForm
+  auth: bearer
+}
+
+headers {
+  x-apollo-operation-name: fileUpload
+  Content-Type: multipart/form-data
+  Accept: application/json
+  apollo-require-preflight: true
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:multipart-form {
+  file: @file(/Users/lchubarbos001/Downloads/profile.jpg)
+}

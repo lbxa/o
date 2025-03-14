@@ -5,7 +5,7 @@ import { UserRepository } from "@/user/user.repository";
 
 import { ChallengeModule } from "../challenge/challenge.module";
 import { CommunityModule } from "../community/community.module";
-import { CryptoService } from "../utils";
+import { CryptoService } from "../services";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
 import { UserFriendshipService } from "./user-friendship";

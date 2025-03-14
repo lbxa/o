@@ -5,9 +5,9 @@ import { $DrizzleSchema, UsersTable } from "@o/db";
 import { and, eq, isNotNull } from "drizzle-orm";
 
 import { DbService } from "../db/db.service";
+import { CryptoService } from "../services";
 import { AuthCreateUserInput, AuthCreateUserPayload } from "../types/graphql";
 import { UserService } from "../user/user.service";
-import { CryptoService } from "../utils";
 import { ConflictError, InternalServerError } from "../utils/errors";
 
 @Injectable()

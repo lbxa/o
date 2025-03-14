@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7a99147194d9f773ac7bdf854b00c016>>
+ * @generated SignedSource<<25a897a35762f0ed84ee9abd8dced552>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -85,13 +85,6 @@ v7 = {
 v8 = {
   "alias": null,
   "args": null,
-  "kind": "ScalarField",
-  "name": "avatarUrl",
-  "storageKey": null
-},
-v9 = {
-  "alias": null,
-  "args": null,
   "concreteType": "User",
   "kind": "LinkedField",
   "name": "user",
@@ -101,7 +94,13 @@ v9 = {
     (v5/*: any*/),
     (v6/*: any*/),
     (v7/*: any*/),
-    (v8/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "avatarUrl",
+      "storageKey": null
+    },
     {
       "alias": null,
       "args": null,
@@ -146,14 +145,14 @@ v9 = {
   ],
   "storageKey": null
 },
-v10 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v11 = {
+v10 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -178,7 +177,7 @@ v11 = {
   ],
   "storageKey": null
 },
-v12 = [
+v11 = [
   {
     "alias": null,
     "args": null,
@@ -190,7 +189,19 @@ v12 = [
       (v2/*: any*/),
       (v5/*: any*/),
       (v6/*: any*/),
-      (v8/*: any*/)
+      {
+        "alias": null,
+        "args": [
+          {
+            "kind": "Literal",
+            "name": "size",
+            "value": "LARGE"
+          }
+        ],
+        "kind": "ScalarField",
+        "name": "avatarUrl",
+        "storageKey": "avatarUrl(size:\"LARGE\")"
+      }
     ],
     "storageKey": null
   }
@@ -363,7 +374,7 @@ return {
                         "plural": false,
                         "selections": [
                           (v2/*: any*/),
-                          (v9/*: any*/),
+                          (v8/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -371,14 +382,14 @@ return {
                             "name": "result",
                             "storageKey": null
                           },
-                          (v10/*: any*/)
+                          (v9/*: any*/)
                         ],
                         "storageKey": null
                       }
                     ],
                     "storageKey": null
                   },
-                  (v11/*: any*/)
+                  (v10/*: any*/)
                 ],
                 "storageKey": "activityTopMovers(first:4)"
               },
@@ -417,7 +428,7 @@ return {
                         "plural": false,
                         "selections": [
                           (v2/*: any*/),
-                          (v9/*: any*/),
+                          (v8/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -432,14 +443,14 @@ return {
                             "name": "targetReached",
                             "storageKey": null
                           },
-                          (v10/*: any*/)
+                          (v9/*: any*/)
                         ],
                         "storageKey": null
                       }
                     ],
                     "storageKey": null
                   },
-                  (v11/*: any*/)
+                  (v10/*: any*/)
                 ],
                 "storageKey": "activityTopResults(first:4)"
               },
@@ -457,13 +468,13 @@ return {
                 "selections": [
                   {
                     "kind": "InlineFragment",
-                    "selections": (v12/*: any*/),
+                    "selections": (v11/*: any*/),
                     "type": "Community",
                     "abstractKey": null
                   },
                   {
                     "kind": "InlineFragment",
-                    "selections": (v12/*: any*/),
+                    "selections": (v11/*: any*/),
                     "type": "Challenge",
                     "abstractKey": null
                   }
@@ -481,12 +492,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "44d7505f2bd2799f55208f303be07a80",
+    "cacheID": "ac59f81d46ba4a9aaa761a6b6cc9251f",
     "id": null,
     "metadata": {},
     "name": "ChallengeRootQuery",
     "operationKind": "query",
-    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeRootName_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...useChallengeActivityTop3MoversFragment_challenge\n      ...useChallengeActivityTop3ResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n  ...SocialGallery\n}\n\nfragment ChallengeRootName_challenge on Challenge {\n  id\n  name\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n  targetReached\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTop3MoversFragment_challenge on Challenge {\n  activityTopMovers(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment useChallengeActivityTop3ResultsFragment_challenge on Challenge {\n  activityTopResults(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ChallengeRootQuery(\n  $challengeId: ID!\n) {\n  viewer {\n    challenge(challengeId: $challengeId) {\n      ...ChallengeRootName_challenge\n      ...ChallengeDetails_challenge\n      ...ChallengeActivityPills_challenge\n      ...useChallengeActivityTop3MoversFragment_challenge\n      ...useChallengeActivityTop3ResultsFragment_challenge\n      id\n    }\n    id\n  }\n}\n\nfragment ChallengeActivityPills_challenge on Challenge {\n  id\n  activity {\n    id\n    type\n    goal\n    target\n    unit\n  }\n}\n\nfragment ChallengeDetails_challenge on Challenge {\n  id\n  name\n  description\n  memberCount\n  activity {\n    id\n    type\n    goal\n  }\n  ...SocialGallery\n}\n\nfragment ChallengeRootName_challenge on Challenge {\n  id\n  name\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl(size: LARGE)\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl(size: LARGE)\n    }\n  }\n}\n\nfragment TopMoverCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    ...UserProfileRow_user\n    id\n  }\n  result\n}\n\nfragment TopResultCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    ...UserProfileRow_user\n  }\n  formattedResult\n  targetReached\n}\n\nfragment UserProfileRow_user on User {\n  id\n  firstName\n  lastName\n  handle\n  avatarUrl\n  streak {\n    id\n    currentStreak\n  }\n  mutualCount\n  firstMutualFriend {\n    id\n    firstName\n    lastName\n    handle\n  }\n}\n\nfragment useChallengeActivityTop3MoversFragment_challenge on Challenge {\n  activityTopMovers(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopMoverCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment useChallengeActivityTop3ResultsFragment_challenge on Challenge {\n  activityTopResults(first: 4) {\n    edges {\n      cursor\n      node {\n        id\n        ...TopResultCard_challenge\n        __typename\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

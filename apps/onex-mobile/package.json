@@ -4,8 +4,8 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "5.1.1",
     "@hookform/resolvers": "^4.1.2",
-    "@o/onex-api-gql": "workspace:*",
     "@o/eslint": "workspace:*",
+    "@o/onex-api-gql": "workspace:*",
     "@o/tailwind": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@o/utils": "workspace:*",
@@ -28,6 +28,7 @@
     "expo-constants": "17.0.7",
     "expo-dev-client": "5.0.12",
     "expo-haptics": "14.0.1",
+    "expo-image-picker": "~16.0.6",
     "expo-linking": "7.0.5",
     "expo-router": "4.0.17",
     "expo-secure-store": "14.0.1",
