@@ -4,6 +4,7 @@
   "dependencies": {
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
+    "@o/utils": "workspace:*",
     "drizzle-orm": "^0.40.0",
     "pg": "^8.13.3"
   },

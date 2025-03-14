@@ -5,12 +5,13 @@ import {
   Logger,
 } from "@nestjs/common";
 import { $DrizzleSchema, CommunitiesTable } from "@o/db";
+import type { CommonImageResolution } from "@o/utils";
 import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 import { $C } from "@/constants";
 import { DbService } from "@/db/db.service";
-import { ImageType, MultiSizedImageResult } from "@/services/image/image.types";
+import { MultiSizedImageResult } from "@/services/image/image.types";
 import { SharedImageService } from "@/services/image/shared-image.service";
 import { ImageInput } from "@/types/graphql";
 import { ErrorWithMessage } from "@/utils";
@@ -110,7 +111,10 @@ export class CommunityImageService {
    * @param communityId - The community ID
    * @returns The public URL
    */
-  getCommunityImageUrl(communityId: number, resolution: ImageType): string {
+  getCommunityImageUrl(
+    communityId: number,
+    resolution: CommonImageResolution
+  ): string {
     if (!communityId) {
       throw new BadRequestException("Community ID is required");
     }

@@ -1,3 +1,4 @@
+import type { MultiSizedImage } from "@o/utils";
 import {
   boolean,
   index,
@@ -10,7 +11,6 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { $C, withIdPk, withModificationDates } from "../helpers";
-import type { ImageType } from "./shared/image-type";
 import { InvitationStatus } from "./shared/invitation-status-enum";
 import { UsersTable } from "./user.schema";
 
@@ -23,7 +23,7 @@ export const CommunitiesTable = CommunitySchema.table(
     name: varchar({ length: 255 }).unique().notNull(),
     isPublic: boolean().notNull().default(true),
     isVerified: boolean().notNull().default(false),
-    imageUrl: jsonb().$type<ImageType>(),
+    imageUrl: jsonb().$type<MultiSizedImage>(),
     ownerId: integer()
       .notNull()
       .references(() => UsersTable.id),

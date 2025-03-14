@@ -5,6 +5,7 @@ import {
   Logger,
 } from "@nestjs/common";
 import { $DrizzleSchema, UsersTable } from "@o/db";
+import { CommonImageResolution } from "@o/utils";
 import { eq } from "drizzle-orm";
 
 import { $C } from "@/constants";
@@ -12,7 +13,7 @@ import { DbService } from "@/db/db.service";
 import { ErrorWithMessage } from "@/utils";
 
 import { S3Service } from "../s3";
-import { ImageType, MultiSizedImageResult } from "./image.types";
+import { MultiSizedImageResult } from "./image.types";
 import { SharedImageService } from "./shared-image.service";
 
 export interface ImageUploadResult {
@@ -127,7 +128,10 @@ export class AvatarImageService {
    * @param resolution - The resolution to get (low, med, high, or original)
    * @returns The public URL for the requested resolution
    */
-  getAvatarResolutionUrl(userId: number, resolution: ImageType): string {
+  getAvatarResolutionUrl(
+    userId: number,
+    resolution: CommonImageResolution
+  ): string {
     if (!userId) {
       throw new BadRequestException("User ID is required");
     }

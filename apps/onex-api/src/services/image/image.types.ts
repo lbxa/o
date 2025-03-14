@@ -1,14 +1,4 @@
-export type ImageType = "thumbnail" | "small" | "medium" | "large" | "original";
-
-export const COMMON_IMAGE_RESOLUTIONS: Record<
-  Exclude<ImageType, "original">,
-  [number, number]
-> = {
-  thumbnail: [150, 150],
-  small: [320, 320],
-  medium: [1024, 1024],
-  large: [1920, 1920],
-} as const;
+import type { MultiSizedImage } from "@o/utils";
 
 export interface ImageUploader {
   uploadFile(params: {
@@ -19,11 +9,7 @@ export interface ImageUploader {
   }): Promise<{ key: string; url: string }>;
 }
 
-export interface MultiSizedImageResult {
+export interface MultiSizedImageResult extends MultiSizedImage {
   key: string;
   original: string;
-  thumbnail: string;
-  small: string;
-  medium: string;
-  large: string;
 }

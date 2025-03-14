@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Text } from "react-native";
 import { useQueryLoader } from "react-relay";
 
@@ -7,7 +7,11 @@ import { Ozone } from "@/universe/molecules";
 
 import type { UserProfileQuery } from "../../__generated__/UserProfileQuery.graphql";
 import { ModalCloseButton } from "../../universe/atoms";
-import { USER_PROFILE_QUERY, UserProfile } from "../../users";
+import {
+  USER_PROFILE_QUERY,
+  UserProfile,
+  ViewerProfileSkeleton,
+} from "../../users";
 import { useActiveUserId } from "../../users/hooks";
 
 export default function UserPage() {
@@ -33,18 +37,20 @@ export default function UserPage() {
   }, []);
 
   return (
-    <Ozone>
+    <>
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Text className="text-xl font-bold text-black dark:text-ivory">
+            <Text className="dark:text-ivory text-xl font-bold text-black">
               Profile
             </Text>
           ),
           headerRight: () => <ModalCloseButton />,
         }}
       />
-      {queryRef && <UserProfile queryRef={queryRef} />}
-    </Ozone>
+      <Suspense fallback={<ViewerProfileSkeleton />}>
+        <Ozone>{queryRef && <UserProfile queryRef={queryRef} />}</Ozone>
+      </Suspense>
+    </>
   );
 }

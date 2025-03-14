@@ -1,15 +1,11 @@
 /* eslint-disable @stylistic/js/max-len */
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
+import { COMMON_IMAGE_RESOLUTIONS, CommonImageResolution } from "@o/utils";
 import sharp from "sharp";
 
 import { ErrorWithMessage } from "@/utils";
 
-import {
-  COMMON_IMAGE_RESOLUTIONS,
-  ImageType,
-  ImageUploader,
-  MultiSizedImageResult,
-} from "./image.types";
+import { ImageUploader, MultiSizedImageResult } from "./image.types";
 
 @Injectable()
 export class SharedImageService {
@@ -148,7 +144,7 @@ export class SharedImageService {
    */
   getImageResolutionUrl(
     entityId: number,
-    resolution: ImageType,
+    resolution: CommonImageResolution,
     baseUrl: string
   ): string {
     if (!entityId) {

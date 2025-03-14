@@ -1,3 +1,4 @@
+import type { MultiSizedImage } from "@o/utils";
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -17,7 +18,6 @@ import {
   ChallengesTable,
 } from "./challenge.schema";
 import { InvitationStatus } from "./shared";
-import type { ImageType } from "./shared/image-type";
 
 export const UserSchema = pgSchema("user");
 
@@ -32,7 +32,7 @@ export const UsersTable = UserSchema.table(
     bio: varchar({ length: 160 }),
     password: varchar({ length: 255 }).notNull(),
     refreshToken: varchar({ length: 1000 }),
-    avatarUrl: jsonb().$type<ImageType>(),
+    avatarUrl: jsonb().$type<MultiSizedImage>(),
     ...withModificationDates,
   },
   (table) => [

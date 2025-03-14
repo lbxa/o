@@ -13,13 +13,10 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { CommonImageResolution, isCommonImageResolution } from "@o/utils";
 
 import { CurrentUserHttp } from "@/decorators";
-import {
-  COMMON_IMAGE_RESOLUTIONS,
-  ImageType,
-  MultiSizedImageResult,
-} from "@/services/image/image.types";
+import { MultiSizedImageResult } from "@/services/image/image.types";
 import { validateAndDecodeGlobalId } from "@/utils";
 
 import { AvatarImageService } from "./avatar-image.service";
@@ -164,12 +161,10 @@ export class ImageController {
   @Get("avatar/resolution/:res")
   getAvatarResolutionUrl(
     @CurrentUserHttp("userId") userId: number,
-    @Param("res") resolution: ImageType
+    @Param("res") resolution: CommonImageResolution
   ): { url: string } {
-    if (!Object.keys(COMMON_IMAGE_RESOLUTIONS).includes(resolution)) {
-      throw new BadRequestException(
-        "Invalid resolution. Valid resolutions are: low, med, high, or original"
-      );
+    if (!isCommonImageResolution(resolution)) {
+      throw new BadRequestException("Invalid resolution.");
     }
 
     const url = this.avatarImageService.getAvatarResolutionUrl(
@@ -187,8 +182,12 @@ export class ImageController {
   @Get("community/:communityId/:res")
   getCommunityImageUrl(
     @Param("communityId") communityId: number,
-    @Param("res") resolution: ImageType
+    @Param("res") resolution: CommonImageResolution
   ): { url: string } {
+    if (!isCommonImageResolution(resolution)) {
+      throw new BadRequestException("Invalid resolution.");
+    }
+
     const url = this.communityImageService.getCommunityImageUrl(
       communityId,
       resolution
