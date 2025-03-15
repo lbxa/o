@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<686a38805d1481ffebe4851086a1a4fa>>
+ * @generated SignedSource<<aca2836518fb851225524a2233d09e39>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,8 +11,15 @@
 import type { ConcreteRequest } from 'relay-runtime';
 import type { FragmentRefs } from "relay-runtime";
 export type CommunityCreateInput = {
+  image?: ImageInput | null | undefined;
   isPublic: boolean;
   name: string;
+};
+export type ImageInput = {
+  large: string;
+  medium: string;
+  small: string;
+  thumbnail: string;
 };
 export type CommunityCreateMutation$variables = {
   communityCreateInput: CommunityCreateInput;
@@ -22,6 +29,7 @@ export type CommunityCreateMutation$data = {
     readonly communityEdge: {
       readonly cursor: string;
       readonly node: {
+        readonly id: string;
         readonly " $fragmentSpreads": FragmentRefs<"CommunityCard_community">;
       };
     };
@@ -63,6 +71,13 @@ v3 = {
 },
 v4 = [
   {
+    "kind": "Literal",
+    "name": "size",
+    "value": "LARGE"
+  }
+],
+v5 = [
+  {
     "alias": null,
     "args": null,
     "kind": "ScalarField",
@@ -94,10 +109,10 @@ v4 = [
       },
       {
         "alias": null,
-        "args": null,
+        "args": (v4/*: any*/),
         "kind": "ScalarField",
         "name": "avatarUrl",
-        "storageKey": null
+        "storageKey": "avatarUrl(size:\"LARGE\")"
       }
     ],
     "storageKey": null
@@ -135,6 +150,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v3/*: any*/),
                   {
                     "args": null,
                     "kind": "FragmentSpread",
@@ -201,29 +217,23 @@ return {
                   },
                   {
                     "alias": null,
-                    "args": [
-                      {
-                        "kind": "Literal",
-                        "name": "quality",
-                        "value": "HIGH"
-                      }
-                    ],
+                    "args": (v4/*: any*/),
                     "kind": "ScalarField",
                     "name": "imageUrl",
-                    "storageKey": "imageUrl(quality:\"HIGH\")"
+                    "storageKey": "imageUrl(size:\"LARGE\")"
                   },
                   {
                     "kind": "InlineFragment",
                     "selections": [
                       {
                         "kind": "InlineFragment",
-                        "selections": (v4/*: any*/),
+                        "selections": (v5/*: any*/),
                         "type": "Community",
                         "abstractKey": null
                       },
                       {
                         "kind": "InlineFragment",
-                        "selections": (v4/*: any*/),
+                        "selections": (v5/*: any*/),
                         "type": "Challenge",
                         "abstractKey": null
                       }
@@ -243,16 +253,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "82a9fe9c82738d2a0b813370f9917297",
+    "cacheID": "f157359197652f37c107966c5b6f410c",
     "id": null,
     "metadata": {},
     "name": "CommunityCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        ...CommunityCard_community\n        id\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(quality: HIGH)\n  ...SocialGallery\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl\n    }\n  }\n}\n"
+    "text": "mutation CommunityCreateMutation(\n  $communityCreateInput: CommunityCreateInput!\n) {\n  communityCreate(communityCreateInput: $communityCreateInput) {\n    communityEdge {\n      cursor\n      node {\n        id\n        ...CommunityCard_community\n      }\n    }\n  }\n}\n\nfragment CommunityCard_community on Community {\n  id\n  name\n  isVerified\n  imageUrl(size: LARGE)\n  ...SocialGallery\n}\n\nfragment SocialGallery on Node {\n  __isNode: __typename\n  ... on Community {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl(size: LARGE)\n    }\n  }\n  ... on Challenge {\n    id\n    memberCount\n    firstThreeMembers {\n      id\n      firstName\n      lastName\n      avatarUrl(size: LARGE)\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "bcbd75ca1e407f43d369753b33afd33b";
+(node as any).hash = "08f736341a5b81519c2c4bf09998baa2";
 
 export default node;

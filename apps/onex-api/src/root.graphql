@@ -18,10 +18,11 @@ enum InvitationStatus {
   DECLINED
 }
 
-enum ImageQuality {
-  LOW
-  MED
-  HIGH
+enum ImageSize {
+  THUMBNAIL
+  SMALL
+  MEDIUM
+  LARGE
 }
 
 """

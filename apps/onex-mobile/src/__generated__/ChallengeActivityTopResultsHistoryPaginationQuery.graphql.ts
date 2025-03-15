@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4cea6a5312f5b80cb2c343944b90fc85>>
+ * @generated SignedSource<<e449ac448a7e15071c1a9cd6547c7ea4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -253,13 +253,13 @@ return {
                                 "args": [
                                   {
                                     "kind": "Literal",
-                                    "name": "quality",
-                                    "value": "MED"
+                                    "name": "size",
+                                    "value": "MEDIUM"
                                   }
                                 ],
                                 "kind": "ScalarField",
                                 "name": "avatarUrl",
-                                "storageKey": "avatarUrl(quality:\"MED\")"
+                                "storageKey": "avatarUrl(size:\"MEDIUM\")"
                               },
                               {
                                 "alias": null,
@@ -335,12 +335,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "647afeae8fea1eba9c75aa5b2a9f3904",
+    "cacheID": "d56d010208bc0de15c0913df0ede4f66",
     "id": null,
     "metadata": {},
     "name": "ChallengeActivityTopResultsHistoryPaginationQuery",
     "operationKind": "query",
-    "text": "query ChallengeActivityTopResultsHistoryPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $userId: ID!\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsHistory_challenge_2PpJm0\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(quality: MED)\n  }\n  createdAt\n  formattedResult\n  targetReached\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(quality: MED)\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_2PpJm0 on Challenge {\n  resultsHistory(userId: $userId, first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
+    "text": "query ChallengeActivityTopResultsHistoryPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $userId: ID!\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ChallengeActivityTopResultsHistory_challenge_2PpJm0\n    id\n  }\n}\n\nfragment ChallengeActivityHistoryCard_challenge on ChallengeActivityResult {\n  id\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(size: MEDIUM)\n  }\n  createdAt\n  formattedResult\n  targetReached\n}\n\nfragment ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult on ChallengeActivityResult {\n  user {\n    id\n    firstName\n    lastName\n    handle\n    avatarUrl(size: MEDIUM)\n    streak {\n      id\n      currentStreak\n    }\n  }\n}\n\nfragment ChallengeActivityTopResultsHistory_challenge_2PpJm0 on Challenge {\n  resultsHistory(userId: $userId, first: $count, after: $cursor) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n    }\n    edges {\n      cursor\n      node {\n        ...ChallengeActivityHistoryCard_challenge\n        ...ChallengeActivityTopResultsHistoryUserDetails_challengeActivityResult\n        id\n        __typename\n      }\n    }\n  }\n  id\n}\n"
   }
 };
 })();

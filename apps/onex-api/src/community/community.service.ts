@@ -1,18 +1,30 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CommunitiesTable, Community as PgCommunity } from "@o/db";
+import {
+  $DrizzleSchema,
+  CommunitiesTable,
+  Community as PgCommunity,
+} from "@o/db";
+import { eq } from "drizzle-orm";
 
 import { PgCommunityComposite } from "@/community/community.types";
+import { DbService } from "@/db/db.service";
 import { EntityType, SearchableNumericFields } from "@/entity";
+import { CommunityImageService } from "@/services/image";
 import { UserService } from "@/user/user.service";
 
 import { EntityService } from "../entity/entity-service";
 import {
   Community as GqlCommunity,
   CommunityConnection,
+  CommunityCreateInput,
   CommunityUpdateInput,
 } from "../types/graphql";
 import { encodeGlobalId, validateAndDecodeGlobalId } from "../utils";
-import { NotFoundError } from "../utils/errors";
+import {
+  ConflictError,
+  InternalServerError,
+  NotFoundError,
+} from "../utils/errors";
 import { CommunityRepository } from "./community.repository";
 
 @Injectable()
@@ -27,7 +39,9 @@ export class CommunityService
 {
   constructor(
     private communityRepository: CommunityRepository,
-    private userService: UserService
+    private communityImageService: CommunityImageService,
+    private userService: UserService,
+    private dbService: DbService<typeof $DrizzleSchema>
   ) {}
 
   public getTypename(): EntityType {
@@ -40,7 +54,7 @@ export class CommunityService
       id: encodeGlobalId(this.getTypename(), community.id),
       owner: this.userService.pg2GqlMapper(community.owner),
       // by default fetch medium quality image
-      imageUrl: community.imageUrl?.med,
+      imageUrl: community.imageUrl?.medium,
     };
   }
 
@@ -101,17 +115,44 @@ export class CommunityService
     };
   }
 
-  async create(input: PgCommunity, userId: number): Promise<GqlCommunity> {
-    const community = await this.communityRepository.create({
+  async create(
+    input: CommunityCreateInput,
+    userId: number
+  ): Promise<GqlCommunity> {
+    const { image, ...communityObj } = input;
+    const existing = await this.dbService.db.query.CommunitiesTable.findFirst({
+      where: eq(CommunitiesTable.name, communityObj.name),
+    });
+
+    if (existing) {
+      throw new ConflictError("Community name already taken");
+    }
+
+    const newCommunity = await this.communityRepository.create({
       ...input,
       ownerId: userId,
     });
 
-    if (!community) {
-      throw new NotFoundError(`User with id ${userId} not found`);
+    if (!newCommunity) {
+      throw new InternalServerError("Failed to create community");
     }
 
-    return this.pg2GqlMapper(community);
+    if (image) {
+      await this.communityImageService.setCommunityImageUrl(
+        newCommunity.id,
+        image
+      );
+    }
+
+    const communityWithRelations = await this.communityRepository.findById(
+      newCommunity.id
+    );
+
+    if (!communityWithRelations) {
+      throw new InternalServerError("Failed to create community membership");
+    }
+
+    return this.pg2GqlMapper(communityWithRelations);
   }
 
   async update(input: CommunityUpdateInput): Promise<GqlCommunity> {

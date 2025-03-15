@@ -1,6 +1,7 @@
 import "../global.css";
 import "expo-dev-client";
 
+import OnexIcon from "@assets/images/onex-ivory.svg";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   DarkTheme,
@@ -11,13 +12,14 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { verifyInstallation } from "nativewind";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { loadQuery, RelayEnvironmentProvider } from "react-relay";
 
 import { ErrorBoundary, useRelayEnvironment } from "@/relay";
 import { APP_ROOT_QUERY } from "@/root";
+import { OText } from "@/universe/atoms/OText";
 
 import { useOTheme } from "../utils/useOTheme";
 
@@ -63,6 +65,8 @@ function AppContent() {
 }
 
 export default function RootLayout() {
+  const { colors } = useOTheme();
+
   if (__DEV__) {
     verifyInstallation();
   }
@@ -71,11 +75,16 @@ export default function RootLayout() {
   return (
     <ErrorBoundary
       fallback={
-        <View className="text-ivory bg-indigo flex-1 items-center justify-center">
-          <Text className="text-ivory text-6xl font-bold">Uh oh!</Text>
-          <Text className="text-ivory">
-            We've encountered an error. Please try again later.
-          </Text>
+        <View className="flex-1 items-center justify-center bg-indigo text-ivory">
+          <OnexIcon width={100} height={100} fill={colors.ivory.DEFAULT} />
+          <View className="mt-lg flex flex-col items-center gap-sm">
+            <OText className="text-6xl font-bold text-ivory dark:text-black">
+              Uh oh!
+            </OText>
+            <OText className="text-ivory dark:text-black">
+              There's been a critical problem. We're working on it!
+            </OText>
+          </View>
         </View>
       }
     >

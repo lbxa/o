@@ -10,13 +10,10 @@ import {
   FindByArgs,
   SearchableNumericFields,
 } from "@/entity";
+import { CryptoService } from "@/services";
 import { User as GqlUser, UserUpdateInput } from "@/types/graphql";
 import { UserRepository } from "@/user/user.repository";
-import {
-  CryptoService,
-  encodeGlobalId,
-  validateAndDecodeGlobalId,
-} from "@/utils";
+import { encodeGlobalId, validateAndDecodeGlobalId } from "@/utils";
 import { NotFoundError } from "@/utils/errors";
 
 import { fullTextSearch } from "./utils/full-text-search.pg";
@@ -39,7 +36,7 @@ export class UserService
     return {
       ...pgUser,
       id: encodeGlobalId(this.getTypename(), pgUser.id),
-      avatarUrl: pgUser.avatarUrl?.med,
+      avatarUrl: pgUser.avatarUrl?.medium,
     };
   }
 

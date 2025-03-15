@@ -76,7 +76,7 @@ export const UserProfile = ({ queryRef }: UserProfileProps) => {
         lastName
         handle
         bio
-        avatarUrl(quality: HIGH)
+        avatarUrl(size: LARGE)
         ...UserProfileStats_user
       }
     `,

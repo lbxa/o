@@ -30,8 +30,8 @@ const primaryVariantMatrix: VariantMatrix = {
     front: "text-ivory dark:text-ivory",
   },
   red: {
-    back: "bg-red-600 dark:bg-red-800",
-    front: "text-ivory dark:text-red-100",
+    back: "bg-red-600 dark:bg-red-500",
+    front: "text-ivory dark:text-ivory",
   },
   gray: {
     back: "bg-gray-200",

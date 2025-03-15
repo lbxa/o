@@ -1,17 +1,14 @@
-name: Doctor packages
+name: Expo health check
 
 on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
-    paths-ignore:
-      - '**.md'
-      - '**.mdx'
-      - 'docs/**'
-      - '**.txt'
-      - '.gitignore'
-      - 'LICENSE'
-      - '**.env.example'
+    paths:
+      - 'apps/onex-mobile/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
@@ -20,10 +17,9 @@ concurrency:
 env:
   EXPO_USE_FAST_RESOLVER: true # Use the faster Metro resolver in SDK 51
   DO_NOT_TRACK: 1
-  TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
 
 jobs:
-  ci-doctor:
+  expo-doctor:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -36,6 +32,6 @@ jobs:
       - name: 🏗 Setup monorepo
         uses: ./.github/actions/setup-repo
 
-      - name: 👷 Doctor packages
-        # TODO speed things up with --filter=\[HEAD^1\]
-        run: pnpm turbo doctor 
+      - name: 👷 Run Expo Doctor
+        working-directory: apps/onex-mobile
+        run: pnpm run doctor 

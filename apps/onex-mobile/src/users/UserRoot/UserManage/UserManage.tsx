@@ -6,11 +6,12 @@ import { graphql } from "relay-runtime";
 
 import type { UserManage_user$key } from "@/__generated__/UserManage_user.graphql";
 import type { UserManageQuery } from "@/__generated__/UserManageQuery.graphql";
+import { OImageUpload } from "@/universe/atoms";
 import { OButton } from "@/universe/atoms/OButton";
 import { OMenu } from "@/universe/molecules";
 import { Ozone } from "@/universe/molecules/Ozone";
+import { useAvatarImage } from "@/utils";
 
-import { OImageUpload } from "../../../universe/atoms";
 import { useLogout } from "../../mutations/useLogout";
 
 export const USER_MANAGE_QUERY = graphql`
@@ -31,15 +32,16 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
   const { logout, isMutationInFlight } = useLogout();
 
   const data = usePreloadedQuery<UserManageQuery>(USER_MANAGE_QUERY, queryRef);
+  const { uploadAvatarImage, deleteAvatarImage } = useAvatarImage();
 
   const user = useFragment<UserManage_user$key>(
     graphql`
       fragment UserManage_user on User {
         id
-        firstName @required(action: THROW)
-        lastName @required(action: THROW)
+        firstName
+        lastName
         handle
-        email @required(action: THROW)
+        email
         bio
       }
     `,
@@ -49,7 +51,10 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
   const menuItems = [
     {
       label: "Name",
-      value: `${user?.firstName} ${user?.lastName}`,
+      value:
+        Boolean(user?.firstName) && Boolean(user?.lastName)
+          ? `${user?.firstName} ${user?.lastName}`
+          : "Add a name",
       route: "/profile/profile-manage-name",
     },
     {
@@ -59,7 +64,7 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
     },
     {
       label: "Email",
-      value: user?.email,
+      value: user?.email ?? "Add an email",
       route: "/profile/profile-manage-email",
     },
     {
@@ -72,7 +77,16 @@ export const UserManage = ({ queryRef }: UserManageProps) => {
   return (
     <Ozone>
       <View className="flex flex-col gap-md p-md">
-        <OImageUpload className="mb-md" />
+        <OImageUpload
+          className="mb-md"
+          footerDisclaimer="Your profile picture is visible to all users and communities both on and off oNex."
+          onUpload={async (uri) => {
+            await uploadAvatarImage(uri);
+          }}
+          onDelete={async () => {
+            await deleteAvatarImage();
+          }}
+        />
         <OMenu items={menuItems} className="mb-lg" />
         <OButton
           title="Logout"

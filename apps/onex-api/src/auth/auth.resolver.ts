@@ -4,9 +4,9 @@ import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { Public } from "../decorators";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { RefreshTokenGuard } from "../guards/refresh-token.guard";
+import { CryptoService } from "../services";
 import { AuthCreateUserInput, AuthLoginInput, Tokens } from "../types/graphql";
 import { UserService } from "../user/user.service";
-import { CryptoService } from "../utils";
 import {
   InternalServerError,
   NotFoundError,

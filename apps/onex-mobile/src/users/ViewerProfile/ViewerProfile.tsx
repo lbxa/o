@@ -10,7 +10,7 @@ import { Ozone } from "@/universe/molecules";
 import { useNoSuspenseRefetch } from "../../relay";
 import { APP_ROOT_QUERY } from "../../root";
 import { UserAvatar } from "../UserAvatar";
-import { UserProfileStats } from "./UserProfileStats";
+import { UserProfileStats } from "../UserProfile/UserProfileStats";
 
 export const VIEWER_PROFILE_QUERY = graphql`
   query ViewerProfileQuery {
@@ -39,7 +39,7 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           lastName
           handle
           bio
-          avatarUrl(quality: HIGH)
+          avatarUrl(size: LARGE)
           ...UserProfileStats_user
         }
       }

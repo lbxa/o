@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4aa7fc29f9a77413d6d1ba8930a156f6>>
+ * @generated SignedSource<<e42330c40da14789138ea04d2222973b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -121,6 +121,19 @@ return {
                 "kind": "ScalarField",
                 "name": "isPublic",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": [
+                  {
+                    "kind": "Literal",
+                    "name": "size",
+                    "value": "LARGE"
+                  }
+                ],
+                "kind": "ScalarField",
+                "name": "imageUrl",
+                "storageKey": "imageUrl(size:\"LARGE\")"
               }
             ],
             "storageKey": null
@@ -132,12 +145,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ba5d2c2f6f54668e465c03fe77e4d27b",
+    "cacheID": "9616da5d25853be2c70acda66b843359",
     "id": null,
     "metadata": {},
     "name": "CommunityManageQuery",
     "operationKind": "query",
-    "text": "query CommunityManageQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      ...CommunityManage_community\n      id\n    }\n    id\n  }\n}\n\nfragment CommunityManage_community on Community {\n  id\n  name\n  isPublic\n}\n"
+    "text": "query CommunityManageQuery(\n  $communityId: ID!\n) {\n  viewer {\n    community(communityId: $communityId) {\n      ...CommunityManage_community\n      id\n    }\n    id\n  }\n}\n\nfragment CommunityManage_community on Community {\n  id\n  name\n  isPublic\n  imageUrl(size: LARGE)\n}\n"
   }
 };
 })();

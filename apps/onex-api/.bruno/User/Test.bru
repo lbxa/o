@@ -1,0 +1,26 @@
+meta {
+  name: Test
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{URL}}/image/test
+  body: multipartForm
+  auth: bearer
+}
+
+headers {
+  x-apollo-operation-name: fileUpload
+  Content-Type: multipart/form-data
+  Accept: application/json
+  apollo-require-preflight: true
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:multipart-form {
+  file: @file(/Users/lchubarbos001/Downloads/profile.jpg)
+}

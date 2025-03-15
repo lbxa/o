@@ -123,8 +123,8 @@ export const ChallengeDetails = ({
         <OButton
           title="Record"
           type="primary"
-          variant="navy"
-          icon={<RecordIcon width={20} fill="ivory" />}
+          variant="red"
+          icon={<RecordIcon width={18} height={18} fill="ivory" />}
           className="ml-auto"
           onPress={handleRecord}
         />

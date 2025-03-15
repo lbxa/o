@@ -1,0 +1,26 @@
+meta {
+  name: UploadAvatar
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{REST_URL}}/image/avatar/upload
+  body: multipartForm
+  auth: bearer
+}
+
+headers {
+  x-apollo-operation-name: fileUpload
+  Content-Type: multipart/form-data
+  Accept: application/json
+  apollo-require-preflight: true
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:multipart-form {
+  file: @file(/Users/lchubarbos001/Downloads/2024 film/Lost/000011340020.jpg)
+}

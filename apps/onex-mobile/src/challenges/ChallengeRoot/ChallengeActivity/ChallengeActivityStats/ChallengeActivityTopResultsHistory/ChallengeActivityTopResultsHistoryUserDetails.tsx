@@ -23,7 +23,7 @@ export const ChallengeActivityTopResultsHistoryUserDetails = ({
             firstName
             lastName
             handle
-            avatarUrl(quality: MED)
+            avatarUrl(size: MEDIUM)
             streak {
               id
               currentStreak
@@ -37,7 +37,7 @@ export const ChallengeActivityTopResultsHistoryUserDetails = ({
   const fullName = [frag?.user.firstName, frag?.user.lastName].join(" ");
 
   return (
-    <View className="my-md gap-sm flex-row items-center">
+    <View className="my-md flex-row items-center gap-sm">
       {frag?.user && <UserAvatar size="md" user={frag.user} />}
       <View className="flex-1 flex-col">
         <OText size="2xl" className="font-bold" numberOfLines={1}>

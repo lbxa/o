@@ -19,6 +19,7 @@ export const APP_ROOT_QUERY = graphql`
         email
         handle
         bio
+        avatarUrl(size: LARGE)
         ...UserProfileStats_user
         ...UserNotificationList_user @arguments(count: 10)
       }

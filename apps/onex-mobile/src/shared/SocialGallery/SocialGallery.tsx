@@ -34,7 +34,7 @@ export const SocialGallery = ({
             id
             firstName
             lastName
-            avatarUrl
+            avatarUrl(size: LARGE)
           }
         }
         ... on Challenge {
@@ -44,7 +44,7 @@ export const SocialGallery = ({
             id
             firstName
             lastName
-            avatarUrl
+            avatarUrl(size: LARGE)
           }
         }
       }

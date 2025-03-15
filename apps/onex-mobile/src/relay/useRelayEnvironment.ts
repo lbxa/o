@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { Tokens } from "@o/onex-api-gql";
 import { useNavigationContainerRef, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
@@ -43,7 +44,7 @@ export const useRelayEnvironment = (): {
     [rootNavigationRef]
   );
 
-  const formatRequestHeader = useCallback((token: string | null) => {
+  const formatAuthRequestHeader = useCallback((token: string | null) => {
     return {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -52,24 +53,50 @@ export const useRelayEnvironment = (): {
   }, []);
 
   const fetchFn: FetchFunction = useCallback(
-    async (request, variables) => {
+    async (operation, variables, _, uploadables) => {
       const accessToken = getStoreItem("ACCESS_TOKEN");
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL as string;
       if (!apiUrl) {
         throw new Error("API URL is not configured");
       }
 
+      const graphqlUrl = `${apiUrl}/graphql`;
+
       const makeRequest = async (
         token: string | null
       ): Promise<GraphQLResponseWithData> => {
-        const response = await fetch(apiUrl, {
-          method: "POST",
-          headers: formatRequestHeader(token),
-          body: JSON.stringify({
-            query: request.text,
-            variables,
-          }),
-        });
+        let request: RequestInit;
+        if (uploadables) {
+          const formData = new FormData();
+          formData.append("query", operation.text!);
+          formData.append("variables", JSON.stringify(variables));
+
+          Object.keys(uploadables).forEach((key) => {
+            if (Object.prototype.hasOwnProperty.call(uploadables, key)) {
+              formData.append(key, uploadables[key]);
+            }
+          });
+
+          request = {
+            method: "POST",
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          };
+        } else {
+          request = {
+            method: "POST",
+            headers: formatAuthRequestHeader(token),
+            body: JSON.stringify({
+              query: operation.text,
+              variables,
+            }),
+          };
+        }
+
+        const response = await fetch(graphqlUrl, request);
 
         if (!response.ok) {
           throw new Error(
@@ -90,18 +117,18 @@ export const useRelayEnvironment = (): {
         const refreshToken = getStoreItem("REFRESH_TOKEN");
 
         if (refreshToken) {
-          const refreshResponse = await fetch(apiUrl, {
+          const refreshResponse = await fetch(graphqlUrl, {
             method: "POST",
-            headers: formatRequestHeader(refreshToken),
+            headers: formatAuthRequestHeader(refreshToken),
             body: JSON.stringify({
               query: `
-              mutation RefreshTokens {
-                authRefreshTokens {
-                  accessToken
-                  refreshToken
+                mutation RefreshTokens {
+                  authRefreshTokens {
+                    accessToken
+                    refreshToken
+                  }
                 }
-              }
-            `,
+              `,
               variables: {},
             }),
           });
@@ -150,7 +177,7 @@ export const useRelayEnvironment = (): {
     },
     [
       deleteStoreItem,
-      formatRequestHeader,
+      formatAuthRequestHeader,
       getStoreItem,
       rootNavigationKey,
       router,

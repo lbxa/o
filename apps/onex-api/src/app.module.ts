@@ -16,6 +16,8 @@ import { DbModule } from "./db/db.module";
 import { JwtAuthGuard } from "./guards/jwt.guard";
 import { HomeFeedModule } from "./home-feed/home-feed.module";
 import { NodeResolver } from "./node.resolver";
+import { ImageModule } from "./services/image/image.module";
+import { S3Module } from "./services/s3/s3.module";
 import { DateTimeScalar } from "./types/datetime";
 import { UserModule } from "./user/user.module";
 import { envFile, HealthCheckController } from "./utils";
@@ -53,6 +55,8 @@ import { ViewerModule } from "./viewer/viewer.module";
     ChallengeModule,
     ViewerModule,
     HomeFeedModule,
+    ImageModule,
+    S3Module,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

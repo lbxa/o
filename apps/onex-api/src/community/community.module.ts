@@ -1,6 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 
 import { CommunityRepository } from "@/community/community.repository";
+import { ImageModule } from "@/services/image/image.module";
 
 import { AuthModule } from "../auth/auth.module";
 import { ChallengeModule } from "../challenge/challenge.module";
@@ -15,6 +16,7 @@ import { CommunityMembershipsService } from "./community-memberships/community-m
     forwardRef(() => UserModule),
     forwardRef(() => ChallengeModule),
     forwardRef(() => AuthModule),
+    ImageModule,
   ],
   providers: [
     CommunityService,

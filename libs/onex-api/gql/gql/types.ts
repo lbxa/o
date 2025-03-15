@@ -316,7 +316,7 @@ export type CommunityChallengesArgs = {
 
 
 export type CommunityImageUrlArgs = {
-  quality?: InputMaybe<ImageQuality>;
+  size?: InputMaybe<ImageSize>;
 };
 
 
@@ -332,6 +332,7 @@ export type CommunityConnection = {
 };
 
 export type CommunityCreateInput = {
+  image?: InputMaybe<ImageInput>;
   isPublic: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
 };
@@ -424,10 +425,18 @@ export type HomeFeedEdge = {
 
 export type HomeFeedItem = EndingSoonChallenge | StartingSoonChallenge | UserRecord;
 
-export enum ImageQuality {
-  High = 'HIGH',
-  Low = 'LOW',
-  Med = 'MED'
+export type ImageInput = {
+  large: Scalars['String']['input'];
+  medium: Scalars['String']['input'];
+  small: Scalars['String']['input'];
+  thumbnail: Scalars['String']['input'];
+};
+
+export enum ImageSize {
+  Large = 'LARGE',
+  Medium = 'MEDIUM',
+  Small = 'SMALL',
+  Thumbnail = 'THUMBNAIL'
 }
 
 export enum InvitationStatus {
@@ -749,7 +758,7 @@ export type User = Node & Timestamps & {
 
 /** A user of the app */
 export type UserAvatarUrlArgs = {
-  quality?: InputMaybe<ImageQuality>;
+  size?: InputMaybe<ImageSize>;
 };
 
 
