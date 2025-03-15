@@ -7,7 +7,7 @@ export const ViewerProfileSkeleton = () => {
   return (
     <Ozone>
       <ScrollView>
-        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
+        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
           {/* Avatar skeleton */}
           <Skeleton className="mb-md size-[200px] rounded-full" />
 
@@ -28,7 +28,7 @@ export const ViewerProfileSkeleton = () => {
           </View>
 
           {/* Name and handle skeleton */}
-          <View className="gap-sm flex flex-col items-center">
+          <View className="flex flex-col items-center gap-sm">
             <Skeleton className="h-8 w-48 rounded-lg" />
             <Skeleton className="h-5 w-32 rounded-lg" />
           </View>

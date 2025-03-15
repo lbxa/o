@@ -59,12 +59,12 @@ export const ViewerProfile = ({ queryRef }: ViewerProfileProps) => {
           <RefreshControl refreshing={isRefetching} onRefresh={refetchViewer} />
         }
       >
-        <View className="mb-md gap-lg p-md flex grow flex-col items-center">
+        <View className="mb-md flex grow flex-col items-center gap-lg p-md">
           {viewer?.user && (
             <UserAvatar user={viewer.user} className="mb-md" size="lg" />
           )}
           {viewer?.user && <UserProfileStats user={viewer.user} />}
-          <View className="gap-sm flex flex-col items-center">
+          <View className="flex flex-col items-center gap-sm">
             <OText className="text-3xl font-bold">
               {viewer?.user?.firstName} {viewer?.user?.lastName}
             </OText>
