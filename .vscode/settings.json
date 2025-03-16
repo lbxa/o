@@ -37,7 +37,7 @@
   "typescript.inlayHints.parameterTypes.enabled": true,
   "relay.rootDirectory": "apps/onex-mobile",
   "relay.pathToConfig": "apps/onex-mobile/relay.config.json",
-  "relay.autoStartCompiler": true,
+  "relay.autoStartCompiler": false,
   "svg.preview.background": "transparent",
   "cSpell.words": [
     "Grafast",

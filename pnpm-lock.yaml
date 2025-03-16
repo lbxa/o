@@ -172,9 +172,6 @@ importers:
       '@types/pg':
         specifier: ^8.11.11
         version: 8.11.11
-      '@types/sharp':
-        specifier: ^0.32.0
-        version: 0.32.0
       '@types/supertest':
         specifier: ^6.0.0
         version: 6.0.2
@@ -580,6 +577,31 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
+  libs/onex-api/chat:
+    dependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../../tooling/eslint
+      '@o/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/typescript
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.3.12
+        version: 0.3.14(@swc/core@1.11.4)(chokidar@3.6.0)
+      '@swc/core':
+        specifier: ^1.10.9
+        version: 1.11.4
+      '@types/node':
+        specifier: ^22.7.5
+        version: 22.13.5
+      eslint:
+        specifier: ^9.19.0
+        version: 9.21.0(jiti@2.4.2)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
+
   libs/onex-api/gql:
     dependencies:
       '@o/eslint':
@@ -598,6 +620,31 @@ importers:
       '@parcel/watcher':
         specifier: ^2.4.1
         version: 2.5.1
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
+
+  libs/onex-chat:
+    dependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@o/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.3.12
+        version: 0.3.14(@swc/core@1.11.4)(chokidar@3.6.0)
+      '@swc/core':
+        specifier: ^1.10.9
+        version: 1.11.4
+      '@types/node':
+        specifier: ^22.7.5
+        version: 22.13.5
+      eslint:
+        specifier: ^9.19.0
+        version: 9.21.0(jiti@2.4.2)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -4945,10 +4992,6 @@ packages:
 
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
-
-  '@types/sharp@0.32.0':
-    resolution: {integrity: sha512-OOi3kL+FZDnPhVzsfD37J88FNeZh6gQsGcLc95NbeURRGvmSjeXiDcyWzF2o3yh/gQAUn2uhh/e+CPCa5nwAxw==}
-    deprecated: This is a stub types definition. sharp provides its own type definitions, so you do not need this installed.
 
   '@types/shimmer@1.2.0':
     resolution: {integrity: sha512-UE7oxhQLLd9gub6JKIAhDq06T0F6FnztwMNRvYgjeQSBeMc1ZG/tA47EwfduvkuQS8apbkM/lpLpWsaCeYsXVg==}
@@ -18242,10 +18285,6 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/node': 22.13.5
       '@types/send': 0.17.4
-
-  '@types/sharp@0.32.0':
-    dependencies:
-      sharp: 0.33.5
 
   '@types/shimmer@1.2.0': {}
 

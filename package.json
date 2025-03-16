@@ -9,7 +9,7 @@
   "engines": {
     "node": ">=20.14.0"
   },
-  "packageManager": "pnpm@10.6.1",
+  "packageManager": "pnpm@10.6.3",
   "pnpm": {
     "overrides": {
       "react-native-reanimated": "3.16.1",
@@ -22,9 +22,10 @@
     "bump": "changeset version",
     "changeset": "changeset",
     "circular": "pnpx madge --circular --extensions ts ./",
-    "dev": "turbo dev gql",
+    "dev": "turbo dev gql relay",
     "dev:api": "pnpm dev --filter=\"@o/onex-api...\"",
     "dev:mobile": "pnpm watchman:reset && pnpm dev --filter=\"@o/onex-mobile...\"",
+    "dev:onex": "pnpm watchman:reset && pnpm dev --filter=\"@o/onex-api...\" --filter=\"@o/onex-mobile...\"",
     "doctor": "turbo doctor",
     "every": "turbo build lint typecheck test doctor",
     "graph": "turbo build --graph=turbo-graph.svg",
