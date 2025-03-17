@@ -83,7 +83,7 @@ export const useCommunityImage = (): CommunityImageOperations => {
 
       const responseData = await uploadImage(
         uri,
-        `/api/image/community/${communityId}/upload`
+        `/image/community/${communityId}/upload`
       );
 
       // Update the Relay store with the new community image URL
@@ -122,10 +122,7 @@ export const useCommunityImage = (): CommunityImageOperations => {
    */
   const uploadNewCommunityImage = useCallback(
     async (uri: string): Promise<MultiResolutionImageUploadResult> => {
-      const responseData = await uploadImage(
-        uri,
-        `/api/image/community/upload`
-      );
+      const responseData = await uploadImage(uri, `/image/community/upload`);
 
       return responseData;
     },
@@ -144,7 +141,7 @@ export const useCommunityImage = (): CommunityImageOperations => {
       }
 
       // Use the shared deleteImage function
-      await deleteImage(`/api/image/community/${communityId}`);
+      await deleteImage(`/image/community/${communityId}`);
 
       // Update the Relay store to remove the community image URL
       commitLocalUpdate(environment, (store) => {

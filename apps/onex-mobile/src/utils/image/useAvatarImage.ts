@@ -51,7 +51,7 @@ export const useAvatarImage = (): AvatarImageOperations => {
    */
   const uploadAvatarImage = useCallback(
     async (uri: string): Promise<MultiResolutionImageUploadResult> => {
-      const responseData = await uploadImage(uri, "/api/image/avatar/upload");
+      const responseData = await uploadImage(uri, "/image/avatar/upload");
       commitLocalUpdate(environment, (store) => {
         const { updatableData } = store.readUpdatableQuery<useAvatarImageQuery>(
           AVATAR_IMAGE_FRAGMENT,
@@ -77,7 +77,7 @@ export const useAvatarImage = (): AvatarImageOperations => {
    */
   const deleteAvatarImage = useCallback(async (): Promise<boolean> => {
     // Use the shared deleteImage function
-    await deleteImage("/api/image/avatar");
+    await deleteImage("/image/avatar");
 
     // Update the Relay store to remove the avatar URL
     commitLocalUpdate(environment, (store) => {

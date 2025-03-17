@@ -82,6 +82,9 @@ export class ImageController {
     if (!file) {
       throw new BadRequestException("File is required");
     }
+    if (!communityId) {
+      throw new BadRequestException("Community ID is required");
+    }
 
     const decodedCommunityId = validateAndDecodeGlobalId(
       communityId,
@@ -96,10 +99,9 @@ export class ImageController {
   }
 
   /**
-   * Upload a community image to a specific id
+   * Upload a community image
    * @param file - The image file
-   * @param communityId - The community ID
-   * @returns The uploaded image details
+   * @returns The uploaded image URI
    */
   @Post("community/upload")
   @UseInterceptors(FileInterceptor("file"))

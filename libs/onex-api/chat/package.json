@@ -1,0 +1,31 @@
+{
+  "name": "@o/onex-chat",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@o/eslint": "workspace:*",
+    "@o/tsconfig": "workspace:*"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.10.9",
+    "@types/node": "^22.7.5",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
+  }
+}

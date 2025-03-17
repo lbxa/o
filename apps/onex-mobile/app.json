@@ -15,9 +15,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#5955eb"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.oCorp.oNex",

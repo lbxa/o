@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { useSecureStore } from "@/utils";
+import { useApiEndpoint, useSecureStore } from "@/utils";
 
 export interface MultiResolutionImageUploadResult {
   key: string;
@@ -28,6 +28,7 @@ export type ImageDeleteFunction = (endpoint: string) => Promise<boolean>;
  */
 export const useImage = () => {
   const { getStoreItem } = useSecureStore();
+  const { REST_API_URL } = useApiEndpoint();
 
   /**
    * Creates form data for image upload
@@ -108,13 +109,7 @@ export const useImage = () => {
         const formData = createImageFormData(uri);
         const options = createRequestOptions(formData);
 
-        // API base URL should be defined in your environment or constants
-        const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
-        if (!API_URL) {
-          throw new Error("API_URL is not defined");
-        }
-
-        const response = await fetch(`${API_URL}${endpoint}`, options);
+        const response = await fetch(`${REST_API_URL}${endpoint}`, options);
         const responseData = (await response.json()) as unknown;
 
         // Handle error responses
@@ -136,7 +131,7 @@ export const useImage = () => {
           : new Error("Unknown error occurred during image upload");
       }
     },
-    [createImageFormData, createRequestOptions]
+    [REST_API_URL, createImageFormData, createRequestOptions]
   );
 
   /**
@@ -159,15 +154,9 @@ export const useImage = () => {
   const deleteImage = useCallback(
     async (endpoint: string): Promise<boolean> => {
       try {
-        // API base URL should be defined in your environment or constants
-        const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
-        if (!API_URL) {
-          throw new Error("API_URL is not defined");
-        }
-
         const token = getStoreItem("ACCESS_TOKEN");
 
-        const response = await fetch(`${API_URL}${endpoint}`, {
+        const response = await fetch(`${REST_API_URL}${endpoint}`, {
           method: "DELETE",
           headers: {
             Accept: "application/json",
@@ -209,7 +198,7 @@ export const useImage = () => {
           : new Error("Unknown error occurred during image deletion");
       }
     },
-    [getStoreItem]
+    [REST_API_URL, getStoreItem]
   );
 
   return {
