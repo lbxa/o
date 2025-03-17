@@ -1,5 +1,5 @@
-import { ChatRepository } from "./chat.repository";
+import type { ChatRepository } from "./chat.repository";
 
-interface ChatPostgresRepository extends ChatRepository {
-
+interface _ChatPostgresRepository extends ChatRepository {
+  _: never;
 }
