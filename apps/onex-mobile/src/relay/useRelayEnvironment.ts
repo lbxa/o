@@ -9,6 +9,8 @@ import type {
 } from "relay-runtime";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
+import { useApiEndpoint } from "@/utils";
+
 import { useSecureStore } from "../utils/useSecureStore";
 
 const createEnvironment = (fetchFn: FetchFunction): IEnvironment => {
@@ -32,6 +34,7 @@ export const useRelayEnvironment = (): {
 } => {
   const router = useRouter();
   const { getStoreItem, deleteStoreItem, setStoreItem } = useSecureStore();
+  const { GQL_API_URL } = useApiEndpoint();
   /**
    * There is an edge case when the user's token has expired
    * however the root navigation is not mounted yet. Avoid
@@ -55,12 +58,6 @@ export const useRelayEnvironment = (): {
   const fetchFn: FetchFunction = useCallback(
     async (operation, variables, _, uploadables) => {
       const accessToken = getStoreItem("ACCESS_TOKEN");
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL as string;
-      if (!apiUrl) {
-        throw new Error("API URL is not configured");
-      }
-
-      const graphqlUrl = `${apiUrl}/graphql`;
 
       const makeRequest = async (
         token: string | null
@@ -96,7 +93,7 @@ export const useRelayEnvironment = (): {
           };
         }
 
-        const response = await fetch(graphqlUrl, request);
+        const response = await fetch(GQL_API_URL, request);
 
         if (!response.ok) {
           throw new Error(
@@ -117,7 +114,7 @@ export const useRelayEnvironment = (): {
         const refreshToken = getStoreItem("REFRESH_TOKEN");
 
         if (refreshToken) {
-          const refreshResponse = await fetch(graphqlUrl, {
+          const refreshResponse = await fetch(GQL_API_URL, {
             method: "POST",
             headers: formatAuthRequestHeader(refreshToken),
             body: JSON.stringify({
@@ -176,6 +173,7 @@ export const useRelayEnvironment = (): {
       return data;
     },
     [
+      GQL_API_URL,
       deleteStoreItem,
       formatAuthRequestHeader,
       getStoreItem,

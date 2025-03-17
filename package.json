@@ -22,7 +22,7 @@
     "bump": "changeset version",
     "changeset": "changeset",
     "circular": "pnpx madge --circular --extensions ts ./",
-    "dev": "turbo dev gql relay",
+    "dev": "turbo dev gql",
     "dev:api": "pnpm dev --filter=\"@o/onex-api...\"",
     "dev:mobile": "pnpm watchman:reset && pnpm dev --filter=\"@o/onex-mobile...\"",
     "dev:onex": "pnpm watchman:reset && pnpm dev --filter=\"@o/onex-api...\" --filter=\"@o/onex-mobile...\"",

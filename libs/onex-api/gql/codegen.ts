@@ -9,7 +9,10 @@ const config = {
   watch: true,
   // only execute codegen on specific subset of files
   // to avoid unnecessary re-generation
-  documents: ["../../../apps/onex-api/src/**/*.graphql"],
+  documents: [
+    "../../../apps/onex-api/src/**/*.graphql",
+    "../../../apps/onex-mobile/src/**/*.{tsx, ts}",
+  ],
   generates: {
     "./gql/types.ts": {
       plugins: ["typescript"],
