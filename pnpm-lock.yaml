@@ -577,8 +577,42 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
+  libs/ddd:
+    dependencies:
+      '@o/eslint':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@o/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.3.12
+        version: 0.3.14(@swc/core@1.11.4)(chokidar@3.6.0)
+      '@swc/core':
+        specifier: ^1.10.9
+        version: 1.11.4
+      '@types/node':
+        specifier: ^22.7.5
+        version: 22.13.5
+      eslint:
+        specifier: ^9.19.0
+        version: 9.21.0(jiti@2.4.2)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
+
   libs/onex-api/chat:
     dependencies:
+      '@o/db':
+        specifier: workspace:*
+        version: link:../../onex-db
+      '@o/ddd':
+        specifier: workspace:*
+        version: link:../../ddd
       '@o/eslint':
         specifier: workspace:*
         version: link:../../../tooling/eslint
@@ -624,33 +658,11 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
-  libs/onex-chat:
-    dependencies:
-      '@o/eslint':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@o/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
-    devDependencies:
-      '@swc/cli':
-        specifier: ^0.3.12
-        version: 0.3.14(@swc/core@1.11.4)(chokidar@3.6.0)
-      '@swc/core':
-        specifier: ^1.10.9
-        version: 1.11.4
-      '@types/node':
-        specifier: ^22.7.5
-        version: 22.13.5
-      eslint:
-        specifier: ^9.19.0
-        version: 9.21.0(jiti@2.4.2)
-      typescript:
-        specifier: ^5.7.3
-        version: 5.7.3
-
   libs/onex-db:
     dependencies:
+      '@o/ddd':
+        specifier: workspace:*
+        version: link:../ddd
       '@o/eslint':
         specifier: workspace:*
         version: link:../../tooling/eslint

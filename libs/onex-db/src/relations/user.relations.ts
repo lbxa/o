@@ -8,6 +8,11 @@ import {
   ChallengesTable,
 } from "../schema/challenge.schema";
 import {
+  ChatMembersTable,
+  ChatMessagesTable,
+  ChatReadReceiptsTable,
+} from "../schema/chat.schema";
+import {
   CommunitiesTable,
   CommunityInvitationsTable,
   CommunityMembershipsTable,
@@ -48,6 +53,9 @@ export const UsersRelations = relations(UsersTable, ({ many, one }) => ({
     references: [UserStreaksTable.userId],
   }),
   records: many(UserRecordsTable),
+  chats: many(ChatMembersTable),
+  chatMessages: many(ChatMessagesTable),
+  chatReadReceipts: many(ChatReadReceiptsTable),
 }));
 
 export const UserFriendshipsRelations = relations(

@@ -1,5 +1,14 @@
 # oChat
 
+## Requirements
+
+- Direct messaging
+- Group chat (load requirements: $0 < x \le 50$)
+- Messages are persisted in the database
+- Only text
+- Real-time
+
+## Architecture
 
 ```mermaid
 graph TD

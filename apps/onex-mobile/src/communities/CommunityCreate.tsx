@@ -93,7 +93,7 @@ export const CommunityCreate = () => {
     commitMutation({
       variables: {
         communityCreateInput: {
-          name,
+          name: name.trim(),
           isPublic,
           image,
         },
@@ -151,7 +151,7 @@ export const CommunityCreate = () => {
           await onUploadImage(uri);
         }}
       />
-      <View className="flex flex-col gap-md px-md">
+      <View className="gap-md px-md flex flex-col">
         <View>
           <Title>Name</Title>
           <Controller
@@ -204,10 +204,10 @@ export const CommunityCreate = () => {
           <Title>Invite Members</Title>
           <OTouchable
             onPress={() => router.push("/(root)/community/community-invite")}
-            className="mb-md flex w-full flex-row items-center rounded-lg bg-ivory px-sm py-3 dark:bg-white/20"
+            className="mb-md bg-ivory px-sm flex w-full flex-row items-center rounded-lg py-3 dark:bg-white/20"
           >
             <SearchIcon width={25} fill={svgFill} />
-            <Text className="pl-sm text-black dark:text-ivory">Search</Text>
+            <Text className="pl-sm dark:text-ivory text-black">Search</Text>
           </OTouchable>
         </View>
 

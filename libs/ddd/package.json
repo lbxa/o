@@ -1,5 +1,5 @@
 {
-  "name": "@o/onex-chat",
+  "name": "@o/ddd",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
@@ -20,8 +20,7 @@
   "dependencies": {
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
-    "@o/db": "workspace:*",
-    "@o/ddd": "workspace:*"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@swc/cli": "^0.3.12",

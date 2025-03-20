@@ -5,6 +5,7 @@
     "@o/eslint": "workspace:*",
     "@o/tsconfig": "workspace:*",
     "@o/utils": "workspace:*",
+    "@o/ddd": "workspace:*",
     "drizzle-orm": "^0.40.0",
     "pg": "^8.13.3"
   },

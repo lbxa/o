@@ -104,8 +104,8 @@ export const ChallengeCreate = () => {
     commitMutation({
       variables: {
         challengeCreateInput: {
-          name,
-          description,
+          name: name.trim(),
+          description: description.trim(),
           communityId: selectedCommunity.id,
           cadence: challengeForm.cadence ?? ChallengeCadence.None,
           mode: challengeForm.mode ?? ChallengeMode.BlindTrust,

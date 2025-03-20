@@ -180,6 +180,60 @@ export {
 };
 
 /**
+ * CHAT
+ */
+export type {
+  Chat,
+  NewChat,
+  ChatMember,
+  NewChatMember,
+  ChatMessage,
+  NewChatMessage,
+  ChatReadReceipt,
+  NewChatReadReceipt,
+} from "./schema/chat.schema";
+
+import {
+  ChatMembersRelations,
+  ChatMessagesRelations,
+  ChatReadReceiptsRelations,
+  ChatsRelations,
+} from "./relations/chat.relations";
+import {
+  ChatMembersTable,
+  ChatMessagesTable,
+  ChatReadReceiptsTable,
+  ChatRoomType,
+  ChatSchema,
+  ChatsTable,
+} from "./schema/chat.schema";
+
+const $ChatRelations = {
+  ChatMembersRelations,
+  ChatMessagesRelations,
+  ChatReadReceiptsRelations,
+  ChatsRelations,
+};
+
+const $ChatSchema = {
+  ChatSchema,
+  ChatsTable,
+  ChatMembersTable,
+  ChatMessagesTable,
+  ChatReadReceiptsTable,
+  ChatRoomType,
+};
+
+export {
+  ChatSchema,
+  ChatsTable,
+  ChatMembersTable,
+  ChatMessagesTable,
+  ChatReadReceiptsTable,
+  ChatRoomType,
+};
+
+/**
  * SHARED/MISC
  */
 import { InvitationStatus } from "./schema/shared";
@@ -191,5 +245,7 @@ export const $DrizzleSchema = {
   ...$CommunityRelations,
   ...$ChallengeSchema,
   ...$ChallengeRelations,
+  ...$ChatSchema,
+  ...$ChatRelations,
   InvitationStatus,
 } as const;
