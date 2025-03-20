@@ -17,7 +17,7 @@ export const Beta = () => {
         target="_blank"
         class="block w-full rounded-xl bg-black p-sm px-md text-center font-bold text-white"
       >
-        JOIN THE BETA
+        BECOME AN EARLY ADOPTER
       </a>
     </div>
   );

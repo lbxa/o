@@ -9,7 +9,7 @@ import { Pilot } from "@/views/Pilot";
 type Tab = "beta" | "gym" | "faq" | "contact" | null;
 
 const TABS = [
-  { id: "beta" as const, label: "Beta Users", component: Beta },
+  { id: "beta" as const, label: "Early Access", component: Beta },
   { id: "gym" as const, label: "For Gyms", component: Pilot },
   { id: "faq" as const, label: "FAQ", component: FaQ },
   { id: "contact" as const, label: "Contact", component: Contact },
